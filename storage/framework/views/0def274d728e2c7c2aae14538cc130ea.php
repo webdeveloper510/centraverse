@@ -1,19 +1,21 @@
-@extends('layouts.admin')
-@section('breadcrumb')
-@endsection
-@section('page-title')
-{{ __('Home') }}
-@endsection
-@section('title')
-{{ __('Dashboard') }}
 
-@endsection
+<?php $__env->startSection('breadcrumb'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('page-title'); ?>
+<?php echo e(__('Home')); ?>
 
-@section('action-btn')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('title'); ?>
+<?php echo e(__('Dashboard')); ?>
 
-@endsection
 
-@section('content')
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('action-btn'); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
 <style>
     #optionsContainer {
         display: none;
@@ -190,7 +192,7 @@
     <!-- [ sample-page ] start -->
     <div class="col-sm-12">
         <div class="row">
-            @if (\Auth::user()->type == 'owner')
+            <?php if(\Auth::user()->type == 'owner'): ?>
             <div class="col-xxl-12">
                 <div class="row">
 
@@ -201,8 +203,8 @@
                                     <i class="fas fa-address-card"></i>
                                 </div>
                                 <p class="text-muted text-sm mt-4 mb-2"></p>
-                                <h6 class="mb-3">{{ __('Total Lead') }}</h6>
-                                <h3 class="mb-0">{{ $data['totalLead'] }}</h3>
+                                <h6 class="mb-3"><?php echo e(__('Total Lead')); ?></h6>
+                                <h3 class="mb-0"><?php echo e($data['totalLead']); ?></h3>
                             </div>
                         </div>
                     </div>
@@ -214,8 +216,8 @@
                                     <i class="ti ti-user"></i>
                                 </div>
                                 <p class="text-muted text-sm mt-4 mb-2"></p>
-                                <h6 class="mb-3">{{ __('Total Events') }}</h6>
-                                <h3 class="mb-0">{{ @$totalevent }} </h3>
+                                <h6 class="mb-3"><?php echo e(__('Total Events')); ?></h6>
+                                <h3 class="mb-0"><?php echo e(@$totalevent); ?> </h3>
                             </div>
                         </div>
                     </div>
@@ -228,8 +230,8 @@
                                         <i class="fas fa-address-card"></i>
                                     </div>
                                     <p class="text-muted text-sm mt-4 mb-2"></p>
-                                    <h6 class="mb-3">{{ __('Upcoming Events') }}</h6>
-                                    <h4 class="mb-0">{{ @$upcoming }}</h4>
+                                    <h6 class="mb-3"><?php echo e(__('Upcoming Events')); ?></h6>
+                                    <h4 class="mb-0"><?php echo e(@$upcoming); ?></h4>
                                 </div>
                             </div>
                         </div>
@@ -241,19 +243,19 @@
                                         <i class="fas fa-address-card"></i>
                                     </div>
                                     <p class="text-muted text-sm mt-4 mb-2"></p>
-                                    <h6 class="mb-3">{{ __('Completed Events') }}</h6>
-                                    <h4 class="mb-0">{{ @$completed }}</h4>
+                                    <h6 class="mb-3"><?php echo e(__('Completed Events')); ?></h6>
+                                    <h4 class="mb-0"><?php echo e(@$completed); ?></h4>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            @endif
+            <?php endif; ?>
 
-            @php
+            <?php
             $setting = App\Models\Utility::settings();
-            @endphp
+            ?>
         </div>
         <!-- [ sample-page ] end -->
     </div>
@@ -261,11 +263,11 @@
 </div>
 
 <div class="blockd_dates">
-    @foreach($blockeddate as $key=> $value)
-    <input type="hidden" name="strt{{$key}}" value="{{$value->start_date}}">
-    <input type="hidden" name="end{{$key}}" value="{{$value->end_date}}">
-    <!-- <input type="hidden" name="title{{$key}}" value="{{$value->title}}"> -->
-    @endforeach
+    <?php $__currentLoopData = $blockeddate; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+    <input type="hidden" name="strt<?php echo e($key); ?>" value="<?php echo e($value->start_date); ?>">
+    <input type="hidden" name="end<?php echo e($key); ?>" value="<?php echo e($value->end_date); ?>">
+    <!-- <input type="hidden" name="title<?php echo e($key); ?>" value="<?php echo e($value->title); ?>"> -->
+    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 </div>
 
 <div class="row checkbox-new">
@@ -283,8 +285,8 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
-                <h5 style="width: 150px;">{{ __('Calendar') }}</h5>
-                <input type="hidden" id="path_admin" value="{{url('/')}}">
+                <h5 style="width: 150px;"><?php echo e(__('Calendar')); ?></h5>
+                <input type="hidden" id="path_admin" value="<?php echo e(url('/')); ?>">
             </div>
             <div class="card-body">
                 <div id='calendar' class='calendar'></div>
@@ -299,11 +301,12 @@
     <div class="row step1 blocked" data-popdate="">
         <div class="card">
             <div class="col-md-12">
-                {{ Form::open(['route' => 'meeting.blockdate', 'method' => 'post', 'enctype' => 'multipart/form-data']) }}
+                <?php echo e(Form::open(['route' => 'meeting.blockdate', 'method' => 'post', 'enctype' => 'multipart/form-data'])); ?>
+
                 <div class="card-header">
                     <div class="row">
                         <div class="col-12">
-                            <h5>{{ __('Block Date') }}</h5>
+                            <h5><?php echo e(__('Block Date')); ?></h5>
                         </div>
                     </div>
                 </div>
@@ -313,76 +316,88 @@
                             <div class="form-group">
                                 <label class="form-label">Venue</label>
                                 <div class="checkbox-container d-flex flex-wrap">
-                                    @foreach ($venue_dropdown as $value => $label)
+                                    <?php $__currentLoopData = $venue_dropdown; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value => $label): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <div class="form-check mx-2">
-                                        <input class="form-check-input venue-checkbox" type="checkbox" id="{{ $value }}" name="venue[]" value="{{ $label }}">
-                                        <label class="form-check-label" for="{{ $value }}">{{ $label }}</label>
+                                        <input class="form-check-input venue-checkbox" type="checkbox" id="<?php echo e($value); ?>" name="venue[]" value="<?php echo e($label); ?>">
+                                        <label class="form-check-label" for="<?php echo e($value); ?>"><?php echo e($label); ?></label>
                                     </div>
-                                    @endforeach
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                {{ Form::label('start_date', __('Start Date'), ['class' => 'form-label']) }}
-                                {!! Form::date('start_date', date('Y-m-d'), ['class' => 'form-control', 'required' => 'required']) !!}
+                                <?php echo e(Form::label('start_date', __('Start Date'), ['class' => 'form-label'])); ?>
+
+                                <?php echo Form::date('start_date', date('Y-m-d'), ['class' => 'form-control', 'required' => 'required']); ?>
+
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                {{ Form::label('start_time', __('Start Time'), ['class' => 'form-label']) }}
-                                {!! Form::time('start_time', '00:00', ['class' => 'form-control']) !!}
+                                <?php echo e(Form::label('start_time', __('Start Time'), ['class' => 'form-label'])); ?>
+
+                                <?php echo Form::time('start_time', '00:00', ['class' => 'form-control']); ?>
+
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                {{ Form::label('end_date', __('End Date'), ['class' => 'form-label']) }}
-                                {!! Form::date('end_date', date('Y-m-d'), ['class' => 'form-control', 'required' => 'required','required' => 'required']) !!}
+                                <?php echo e(Form::label('end_date', __('End Date'), ['class' => 'form-label'])); ?>
+
+                                <?php echo Form::date('end_date', date('Y-m-d'), ['class' => 'form-control', 'required' => 'required','required' => 'required']); ?>
+
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                {{ Form::label('end_time', __('End Time'), ['class' => 'form-label']) }}
-                                {!! Form::time('end_time', '00:00', ['class' => 'form-control', 'required' => 'required']) !!}
+                                <?php echo e(Form::label('end_time', __('End Time'), ['class' => 'form-label'])); ?>
+
+                                <?php echo Form::time('end_time', '00:00', ['class' => 'form-control', 'required' => 'required']); ?>
+
                             </div>
                         </div>                         
                         <div class="col-12">
                             <div class="form-group">
-                                {{Form::label('purpose',__('Purpose'),['class'=>'form-label']) }}
-                                {{Form::textarea('purpose',null,['class'=>'form-control','rows'=>2])}}
+                                <?php echo e(Form::label('purpose',__('Purpose'),['class'=>'form-label'])); ?>
+
+                                <?php echo e(Form::textarea('purpose',null,['class'=>'form-control','rows'=>2])); ?>
+
                             </div>
                         </div>                       
                     </div>
                 </div>
                 <div class="card-footer text-end">
-                    {{ Form::submit(__('Block'), ['id'=>'block','class' => 'btn  btn-primary ']) }}
-                    <button class="btn btn-primary" id="unblock" data-bs-toggle="tooltip" title="{{__('Close')}}" style="display:none">Unblock</button>
-                    <p class="btn  btn-primary close-popup" data-bs-toggle="tooltip" title="{{__('Close')}}">Close</p>
+                    <?php echo e(Form::submit(__('Block'), ['id'=>'block','class' => 'btn  btn-primary '])); ?>
+
+                    <button class="btn btn-primary" id="unblock" data-bs-toggle="tooltip" title="<?php echo e(__('Close')); ?>" style="display:none">Unblock</button>
+                    <p class="btn  btn-primary close-popup" data-bs-toggle="tooltip" title="<?php echo e(__('Close')); ?>">Close</p>
                 </div>
-                {{Form::close()}}
+                <?php echo e(Form::close()); ?>
+
             </div>
         </div>
     </div>
 
 </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@push('script-page')
+<?php $__env->startPush('script-page'); ?>
 <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "dc4641f860664c6e824b093274f50291"}'></script>
-<script src="{{ asset('assets/js/plugins/main.min.js') }}"></script>
+<script src="<?php echo e(asset('assets/js/plugins/main.min.js')); ?>"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
 <script type="text/javascript">
-    @php
+    <?php
     $segment = Request::segment(2);
-    @endphp
+    ?>
     $(document).ready(function() {
         get_data();
     });
 
     function get_data() {
-        var segment = "{{$segment}}";
+        var segment = "<?php echo e($segment); ?>";
         if (segment == 'call') {
             var urls = $("#path_admin").val() + "/call/get_call_data";
         } else if (segment == 'meeting') {
@@ -403,7 +418,7 @@
             url: urls,
             method: "POST",
             data: {
-                "_token": "{{ csrf_token() }}",
+                "_token": "<?php echo e(csrf_token()); ?>",
                 'calender_type': calender_type
             },
             success: function(data) {
@@ -418,9 +433,9 @@
                             right: 'dayGridMonth,timeGridWeek,timeGridDay'
                         },
                         buttonText: {
-                            timeGridDay: "{{ __('Day') }}",
-                            timeGridWeek: "{{ __('Week') }}",
-                            dayGridMonth: "{{ __('Month') }}",
+                            timeGridDay: "<?php echo e(__('Day')); ?>",
+                            timeGridWeek: "<?php echo e(__('Week')); ?>",
+                            dayGridMonth: "<?php echo e(__('Month')); ?>",
                         },
                         slotLabelFormat: {
                             hour: '2-digit',
@@ -490,13 +505,13 @@
         });
 
         function ff(startdate, enddate, venue) {
-            var url = "{{url('/buffer-time')}}";
+            var url = "<?php echo e(url('/buffer-time')); ?>";
 
             $.ajax({
                 url: url,
                 method: "POST",
                 data: {
-                    "_token": "{{ csrf_token() }}",
+                    "_token": "<?php echo e(csrf_token()); ?>",
                     startdate: startdate,
                     enddate: enddate,
                     venue: venue,
@@ -551,15 +566,16 @@
     }
 
     function showUpcoming() {
-        window.location.href = "{{ url('/meeting-upcoming') }}";
+        window.location.href = "<?php echo e(url('/meeting-upcoming')); ?>";
     }
 
     function showCompleted() {
-        window.location.href = "{{ url('/meeting-completed') }}";
+        window.location.href = "<?php echo e(url('/meeting-completed')); ?>";
     }
 
     function leads() {
-        window.location.href = "{{ url('/lead') }}";
+        window.location.href = "<?php echo e(url('/lead')); ?>";
     }
 </script>
-@endpush
+<?php $__env->stopPush(); ?>
+<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/home.blade.php ENDPATH**/ ?>

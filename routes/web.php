@@ -1222,8 +1222,12 @@ Route::group(['middleware' => ['verified']], function () {
     Route::get('email_template_lang/{id}/{lang?}', [EmailTemplateController::class, 'manageEmailLang'])->name('manage.email.language')->middleware(['auth', 'XSS']);
     Route::post('email_template_store/{pid}', [EmailTemplateController::class, 'storeEmailLang'])->name('store.email.language')->middleware(['auth']);
     Route::post('email_template_status', [EmailTemplateController::class, 'updateStatus'])->name('status.email.language')->middleware(['auth']);
-    Route::get('email_template_view', [EmailTemplateController::class, 'email_templates'])->name('email.templates.view')->middleware(['auth']);
-
+    Route::get('email_template_view', [EmailTemplateController::class, 'email_templates'])->name('email.template.view')->middleware(['auth']);
+    Route::get('email_template_create', [EmailTemplateController::class, 'email_template_create'])->name('email.template.create')->middleware(['auth']);
+    Route::post('email_template_store', [EmailTemplateController::class, 'storeEmailtemplate'])->name('store.email.template')->middleware(['auth']);
+    Route::get('email_template_edit/{id}', [EmailTemplateController::class, 'editEmailtemplate'])->name('edit.email.template')->middleware(['auth']);
+    Route::put('email_template_update/{id}', [EmailTemplateController::class, 'updateEmailtemplate'])->name('update.email.template')->middleware(['auth']);
+    Route::delete('email_template_delete/{id}', [EmailTemplateController::class, 'deleteEmailtemplate'])->name('delete.email.template')->middleware(['auth']);
 
     Route::resource('email_template', EmailTemplateController::class)->middleware(
         [

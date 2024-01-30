@@ -1,18 +1,18 @@
 @extends('layouts.admin')
-
 @section('page-title')
-    {{ __('Email Templates') }}
+    {{ __('Email Template Edit') }}
 @endsection
 
 @section('title')
-    {{ __('Email Templates') }}
+    <div class="page-header-title">
+        {{ __('Edit Email Template') }}
+    </div>
 @endsection
-
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Home') }}</a></li>
-    <li class="breadcrumb-item">{{ __('Email Templates') }}</li>
+    <li class="breadcrumb-item"><a href="{{ route('lead.index') }}">{{ __('Email Template') }}</a></li>
+    <li class="breadcrumb-item">{{ __('Details') }}</li>
 @endsection
-
 @push('css-page')
     <link rel="stylesheet" href="{{ asset('css/summernote/summernote-bs4.css') }}">
 @endpush
@@ -50,7 +50,7 @@
                     <div class="language-wrap">
                         <div class="row">
                             <div class="col-lg-12 col-md-9 col-sm-12 language-form-wrap">
-                                {{Form::open(array('route'=>'store.email.template','method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))}}
+                            {{ Form::model($EmailTemplate, ['route' => ['update.email.template', $EmailTemplate->id], 'method' => 'POST' ,'id'=> 'formdata']) }}
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         {{ Form::label('subject', __('Subject'), ['class' => 'form-control-label text-dark']) }}

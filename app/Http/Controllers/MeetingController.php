@@ -870,27 +870,43 @@ class MeetingController extends Controller
         }
         return redirect()->back()->with('success', __('Event  Updated.'));
     }
-    public function buffer_time(Request $request){
-        $startDate = $request->startDate;
-        $endDate = date('Y-m-d', strtotime($request->endDate . ' -1 day'));
+    public function buffer_time(Request $request)
+    {
+        // echo "<pre>";
+        // print_r($request->all());
         
-        $blockdate = Blockdate::whereBetween('start_date', [$startDate, $endDate])
-        ->orWhereBetween('end_date', [$startDate, $endDate])
-        ->orderBy('id', 'desc')
-        ->limit(1)
-        ->get()->toArray();
-        $meetings = Meeting::whereBetween('start_date', [$startDate, $endDate])
-        ->orWhereBetween('end_date', [$startDate, $endDate])
-        ->orderBy('id', 'desc')
-        ->limit(1)
-        ->get()->toArray();
-        $data = array_merge($blockdate,$meetings);
-        
-        $settings=Utility::settings();
-        $settings = explode(":",$settings['buffer_time']);
-        // print_r($settings);
-        $data[0]['input_time'] = date('H:i:s',strtotime("+{$settings[0]} hour +{$settings[1]} minutes",strtotime($data[0]['end_time'])));
+        $startDate = $request->startdate;
+        $endDate = date('Y-m-d', strtotime($request->enddate . ' -1 day'));
+        $venue = $request->venue;
+        $blockdate = Blockdate::where(function ($query) use ($startDate, $endDate, $venue) {
+            $query->whereBetween('start_date', [$startDate, $endDate])
+                ->orWhereBetween('end_date', [$startDate, $endDate]);
+        })
+            ->where('venue', 'like', '%' . $venue . '%')
+            ->orderBy('id', 'desc')
+            ->get()
+            ->toArray();
+
+        $meetings = Meeting::where(function ($query) use ($startDate, $endDate, $venue) {
+            $query->whereBetween('start_date', [$startDate, $endDate])
+                ->orWhereBetween('end_date', [$startDate, $endDate]);
+        })
+            ->where('venue_selection', 'like', '%' . $venue . '%')
+            ->orderBy('id', 'desc')
+            ->get()
+            ->toArray();
+
+        $data = array_merge($blockdate, $meetings);
+       
+        if (!empty($data)) {
+            $settings = Utility::settings();
+            $settings = explode(":", $settings['buffer_time']);
     
-        return $data;
+            $bufferedTime = date('H:i:s', strtotime("+{$settings[0]} hour +{$settings[1]} minutes", strtotime($data[0]['end_time'])));
+    
+            return response()->json(['data' => $data, 'bufferedTime' => $bufferedTime]);
+        }
+    
+        return response()->json(['data' => []]);     
     }
 }

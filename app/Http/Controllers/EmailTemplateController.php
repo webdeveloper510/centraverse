@@ -7,6 +7,7 @@ use App\Models\EmailTemplateLang;
 use App\Models\Languages;
 use App\Models\UserEmailTemplate;
 use App\Models\Utility;
+use App\Models\Emailcontent;
 use Illuminate\Http\Request;
 
 class EmailTemplateController extends Controller
@@ -145,24 +146,23 @@ class EmailTemplateController extends Controller
     // Used For View Email Template Language Wise
     public function manageEmailLang($id, $lang = 'en')
     {
-        if(\Auth::user()->type == 'owner')
-        {
+        // if(\Auth::user()->type == 'owner')
+        // {
             $languages         = Utility::languages();
             $emailTemplate     = EmailTemplate::getemailtemplate();
             $currEmailTempLang = EmailTemplateLang::where('parent_id', '=', $id)->where('lang', $lang)->first();
-        //     // echo"<pre>";print_r($currEmailTempLang);die;
-        //     if(empty($currEmailTempLang))
+        // //     if(empty($currEmailTempLang))
+        // //     {
+        // //         return redirect()->back()->with('error', __('Not exists in email template.'));
+        // //     }
+        //     if(!isset($currEmailTempLang) || empty($currEmailTempLang))
         //     {
-        //         return redirect()->back()->with('error', __('Not exists in email template.'));
+        //         $currEmailTempLang       = EmailTemplateLang::where('parent_id', '=', $id)->where('lang', 'en')->first();
+        //         $currEmailTempLang->lang = $lang;
         //     }
-            if(!isset($currEmailTempLang) || empty($currEmailTempLang))
-            {
-                $currEmailTempLang       = EmailTemplateLang::where('parent_id', '=', $id)->where('lang', 'en')->first();
-                $currEmailTempLang->lang = $lang;
-            }
 
-        //     if(\Auth::user()->type == 'owner')
-		// 	{
+            if(\Auth::user()->type == 'owner')
+			{
 				$emailTemplate     = EmailTemplate::where('id', '=', $id)->first();
 			}
 			else {
@@ -228,7 +228,6 @@ class EmailTemplateController extends Controller
     }
 
     // Used For Update Status owner Wise.
-
     public function updateStatus(Request $request)
     {
         $post = $request->all();
@@ -253,6 +252,66 @@ class EmailTemplateController extends Controller
         }
     }
     public function email_templates(){
-        return view('email_templates.template_index');
+        if(\Auth::user()->type == 'owner')
+        {
+            $EmailTemplate = Emailcontent::all();
+            return view('email_templates.template_index',compact('EmailTemplate'));
+        }
+    }
+    public function email_template_create(){
+        return view('email_templates.template');
+    }
+    public function storeEmailtemplate(Request $request){
+        if(\Auth::user()->type == 'owner')
+        {
+            $validator = \Validator::make(
+                $request->all(), [
+                                   'subject' => 'required',
+                                   'content' => 'required',
+                               ]
+            );
+            if($validator->fails())
+            {
+                $messages = $validator->getMessageBag();
+
+                return redirect()->back()->with('error', $messages->first());
+            }
+
+            $emailTemplate            = new Emailcontent();
+            $emailTemplate->subject   = $request['subject'];
+            $emailTemplate->from   = $request['from'];
+            $emailTemplate->content   = $request['content'];
+            $emailTemplate->save();
+            return redirect()->back()->with('success', __('Email Template successfully added.'));
+        }
+    }
+    public function editEmailtemplate($id){
+        $EmailTemplate = Emailcontent::where('id',$id)->first();
+        return view('email_templates.edittemplate',compact('EmailTemplate'));
+    }
+    public function updateEmailtemplate(Request $request , $id){
+        $validator = \Validator::make(
+            $request->all(), [
+                               'from' => 'required',
+                               'subject' => 'required',
+                               'content' => 'required',
+                           ]
+        );
+        if($validator->fails())
+        {
+            $messages = $validator->getMessageBag();
+            return redirect()->back()->with('error', $messages->first());
+        }
+
+        $emailTemplate       = Emailcontent::where('id',$id)->first();
+        $emailTemplate->subject   = $request['subject'];
+        $emailTemplate->from   = $request['from'];
+        $emailTemplate->content   = $request['content'];
+        $emailTemplate->save();
+        return redirect()->back()->with('success', __('Email Template successfully updated!'));
+    }
+    public function deleteEmailtemplate($id){
+        Emailcontent::find($id)->delete();
+        return redirect()->back()->with('success', 'Email Template Deleted!');
     }
 }

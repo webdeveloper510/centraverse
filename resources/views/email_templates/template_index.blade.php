@@ -12,11 +12,9 @@
     <li class="breadcrumb-item">{{__('Email Templates')}}</li>
 @endsection
 @section('action-btn')
-    @can('Create Lead')
-        <a href="#" data-url="" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('Create New Lead')}}"title="{{__('Create')}}" class="btn btn-sm btn-primary btn-icon m-1">
+        <a href="{{route('email.template.create')}}"  data-size="lg" data-bs-toggle="tooltip" title="{{__('Create')}}" class="btn btn-sm btn-primary btn-icon m-1">
             <i class="ti ti-plus"></i>
         </a>
-    @endcan
 @endsection
 
 @section('content')
@@ -28,30 +26,30 @@
                     <table class="table datatable" id="datatable">
                         <thead>
                             <tr>
-                                <th scope="col" class="sort" data-sort="name">{{__('Email Template')}}</th>
-                                <th scope="col" class="sort" data-sort="name">{{__('Title')}}</th>
-                                <th scope="col" class="text-end">{{__('Action')}}</th>
+                                <th>{{__('Email Templates')}}</th>
+                                <th class="text-end">{{__('Action')}}</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach($EmailTemplate as $key=>$template)
                                 <tr>
                                     <td>
-                                        <span class="budget"><b>aa</b></span>
+                                      {{ucfirst($template->subject)}}
                                     </td>
                                     <td>
-                                       aa
-                                    </td>
+                                        <div class="action-btn bg-info ms-2">
+                                                <a href="{{ route('edit.email.template',$template->id) }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " data-bs-toggle="tooltip"title="{{__('Details')}}" data-title="{{__('Edit Lead')}}"><i class="ti ti-edit"></i></a>
+                                            </div>
                                         <div class="action-btn bg-danger ms-2">
-                                            {!! Form::open(['method' => 'DELETE', 'route' => ['lead.destroy', $lead->id]]) !!}
+                                        {!! Form::open(['method' => 'DELETE', 'route' => ['delete.email.template', $template->id]]) !!}
                                             <a href="#!" class="mx-3 btn btn-sm  align-items-center text-white show_confirm" data-bs-toggle="tooltip" title='Delete'>
                                                 <i class="ti ti-trash"></i>
                                             </a>
-                                            {!! Form::close() !!}
+                                        {!! Form::close() !!}
                                         </div>
-                                        </td>
-                                    @endif
+                                    </td>
                                 </tr>
-                        @endforeach
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

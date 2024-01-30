@@ -288,7 +288,7 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                 @endif  -->
                 @if (\Auth::user()->type == 'owner') 
                      <li class="dash-item">
-                        <a href="{{ route('') }}" class="dash-link"><span
+                        <a href="{{ route('email.template.view') }}" class="dash-link"><span
                         class="dash-micon"><i class="ti ti-template"></i></span><span
                         class="dash-mtext">{{ __('Email Template') }}</span></a>
                     </li>
