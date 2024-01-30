@@ -103,17 +103,17 @@
     } */
 
     .blocked-by-tooltip {
-    position: absolute;
-    background-color: #145388; 
-    color: #fff;
-    padding: 10px; 
-    border-radius: 8px; 
-    z-index: 2000;
-    margin-top: -28px;
-    margin-left: -94px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    background: linear-gradient(45deg, #145388, #145388);
+        position: absolute;
+        background-color: #145388;
+        color: #fff;
+        padding: 10px;
+        border-radius: 8px;
+        z-index: 2000;
+        margin-top: -28px;
+        margin-left: -94px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        background: linear-gradient(45deg, #145388, #145388);
     }
 
     .blocked-by-tooltip:hover {
@@ -181,6 +181,7 @@
         top: 0px;
         left: -22px;
     }
+
     p.close-popup {
         margin-bottom: 0 !important;
     }
@@ -295,65 +296,10 @@
 </div>
 <div id="overlay"></div>
 <div id="popup-form" style="border:solid 1px black;">
-    <!-- <div class="row step1 blocked" data-popdate="">
-        <div class="card">
-            <div class="col-md-12">
-                <div class="card-header">
-                    {{ Form::open(['route' => 'meeting.blockdate', 'method' => 'post', 'enctype' => 'multipart/form-data']) }}
-                    <div class="row">
-                        <div class="col-lg-8 col-md-8 col-sm-8">
-                            <h5>{{ __('Block Date') }}</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="form-group">
-                                {{ Form::label('start_date', __('Start Date'), ['class' => 'form-label']) }}
-                                {!! Form::date('start_date', date('Y-m-d'), ['class' => 'form-control', 'required' => 'required']) !!}
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-group">
-                                {{ Form::label('end_date', __('End Date'), ['class' => 'form-label']) }}
-                                {!! Form::date('end_date', date('Y-m-d'), ['class' => 'form-control', 'required' => 'required']) !!}
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-group">
-                                {{Form::label('purpose',__('Purpose'),['class'=>'form-label']) }}
-                                {{Form::textarea('purpose',null,array('class'=>'form-control','rows'=>2))}}
-                            </div>
-                        </div>
-
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="venue" class="form-label">Venue</label>
-                                <select name="venue[]" id="venue" class="form-control" required multiple="multiple">
-                                    @foreach ($venue_dropdown as $value => $label)
-                                    <option value="{{ $label }}">{{ $label }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-
-                    </div>
-                </div>
-                <div class="card-footer text-end">
-                    {{ Form::submit(__('Block'), ['id'=>'block','class' => 'btn  btn-primary ']) }}
-                    {{Form::close()}}
-                    <button class="btn btn-primary" id="unblock" data-bs-toggle="tooltip" title="{{__('Close')}}" style="display:none">Unblock</button>
-                    <button class="btn  btn-primary close-popup" data-bs-toggle="tooltip" title="{{__('Close')}}">Close</button>
-                </div>
-            </div>
-        </div>
-    </div> -->
     <div class="row step1 blocked" data-popdate="">
         <div class="card">
             <div class="col-md-12">
-            {{ Form::open(['route' => 'meeting.blockdate', 'method' => 'post', 'enctype' => 'multipart/form-data']) }}
+                {{ Form::open(['route' => 'meeting.blockdate', 'method' => 'post', 'enctype' => 'multipart/form-data']) }}
                 <div class="card-header">
                     <div class="row">
                         <div class="col-12">
@@ -363,6 +309,19 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
+                    <div class="col-12">
+                            <div class="form-group">
+                                <label class="form-label">Venue</label>
+                                <div class="checkbox-container d-flex flex-wrap">
+                                    @foreach ($venue_dropdown as $value => $label)
+                                    <div class="form-check mx-2">
+                                        <input class="form-check-input venue-checkbox" type="checkbox" id="{{ $value }}" name="venue[]" value="{{ $label }}">
+                                        <label class="form-check-label" for="{{ $value }}">{{ $label }}</label>
+                                    </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 {{ Form::label('start_date', __('Start Date'), ['class' => 'form-label']) }}
@@ -372,13 +331,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 {{ Form::label('start_time', __('Start Time'), ['class' => 'form-label']) }}
-                                {!! Form::time('start_time', '00:00', ['class' => 'form-control', 'required' => 'required']) !!}
+                                {!! Form::time('start_time', '00:00', ['class' => 'form-control']) !!}
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 {{ Form::label('end_date', __('End Date'), ['class' => 'form-label']) }}
-                                {!! Form::date('end_date', date('Y-m-d'), ['class' => 'form-control', 'required' => 'required']) !!}
+                                {!! Form::date('end_date', date('Y-m-d'), ['class' => 'form-control', 'required' => 'required','required' => 'required']) !!}
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -386,26 +345,13 @@
                                 {{ Form::label('end_time', __('End Time'), ['class' => 'form-label']) }}
                                 {!! Form::time('end_time', '00:00', ['class' => 'form-control', 'required' => 'required']) !!}
                             </div>
-                        </div>
+                        </div>                         
                         <div class="col-12">
                             <div class="form-group">
                                 {{Form::label('purpose',__('Purpose'),['class'=>'form-label']) }}
                                 {{Form::textarea('purpose',null,['class'=>'form-control','rows'=>2])}}
                             </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label class="form-label">Venue</label>
-                                <div class="checkbox-container d-flex flex-wrap">
-                                    @foreach ($venue_dropdown as $value => $label)
-                                    <div class="form-check mx-2">
-                                        <input class="form-check-input" type="checkbox" id="{{ $value }}" name="venue[]" value="{{ $label }}">
-                                        <label class="form-check-label" for="{{ $value }}">{{ $label }}</label>
-                                    </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
+                        </div>                       
                     </div>
                 </div>
                 <div class="card-footer text-end">
@@ -413,7 +359,7 @@
                     <button class="btn btn-primary" id="unblock" data-bs-toggle="tooltip" title="{{__('Close')}}" style="display:none">Unblock</button>
                     <p class="btn  btn-primary close-popup" data-bs-toggle="tooltip" title="{{__('Close')}}">Close</p>
                 </div>
-            {{Form::close()}}
+                {{Form::close()}}
             </div>
         </div>
     </div>
@@ -484,7 +430,7 @@
                         themeSystem: 'bootstrap',
                         navLinks: true,
                         droppable: false,
-                        eventLimit: true,                        
+                        eventLimit: true,
                         selectable: true,
                         selectMirror: true,
                         editable: false,
@@ -492,13 +438,13 @@
                         handleWindowResize: true,
                         height: 'auto',
                         timeFormat: 'H(:mm)',
-                        events: data,                        
+                        events: data,
                         select: function(info) {
                             var startDate = info.startStr;
                             var endDate = info.endStr;
-                            ff(info);
+                            localStorage.setItem('startDate', JSON.stringify(info));
                             openPopupForm(startDate, endDate);
-                        },           
+                        },
                         eventContent: function(arg) {
                             return {
                                 html: arg.event.title,
@@ -515,7 +461,7 @@
                             if (tooltip) {
                                 tooltip.remove();
                             }
-                        },                                     
+                        },
                     });
                     calendar.render();
                 })();
@@ -525,40 +471,57 @@
         $('.close-popup').on('click', function() {
             closePopupForm();
         });
-
-        function ff(data) {
-            var url = "{{url('/buffer-time')}}";
-            let startDate = data.startStr;
-            let endDate = data.endStr;
-            let venue = data.venue;
-            
-            $.ajax({
-            url: url,
-            method: "POST",
-            data: {
-                "_token": "{{ csrf_token() }}",
-                startDate : startDate,
-                endDate : endDate,
-                venue : venue,
-            },
-            error: function(data) {
-                console.log('error');
-            },
-            success: function(data){
-                // console.log(data);
-                var endTime = data[0].end_time;
-                var endDate = data[0].end_date;
-                var venue = data[0].venue;
-                // var finalDate =`${endDate} ${endTime}`;
-                // console.log(finalDate);
-                // var finalTime = moment(finalDate,'Y-mm-D').add(119, 'minutes').format('HH:MM XM');
-                 var finalTime = data[0].input_time;
-                // console.log(finalTime);
-                $('input[name="start_time"]').attr('min',finalTime);
-                $('input[name="start_time"]').attr('value',finalTime);
+        $('input[name="venue[]"]').on('change', function() {
+            if ($(this).is(':checked')) {
+                const valueDataString = localStorage.getItem('startDate');
+                const valueDataArg = JSON.parse(valueDataString);
+                var startdate = valueDataArg.startStr;
+                var enddate = valueDataArg.endStr;
+                let venue = $(this).val();
+                ff(startdate, enddate, venue);
+            } else {
+                // console.log("deselect")
+                $('.venue-checkbox').prop('checked', false);
+                $('input[name="start_time"]').attr('min', '00:00');
+                $('input[name="start_time"]').val('00:00');
+                $('input[name="start_time"]').attr('value', '00:00');
+                $('input[name="end_time"]').attr('min', '00:00');
             }
-        })
+        });
+
+        function ff(startdate, enddate, venue) {
+            var url = "{{url('/buffer-time')}}";
+
+            $.ajax({
+                url: url,
+                method: "POST",
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    startdate: startdate,
+                    enddate: enddate,
+                    venue: venue,
+                },
+                success: function(data, bufferedTime) {
+                    if (data.bufferedTime) {
+                        // console.log('Buffered Time:', data.bufferedTime);
+                        $('input[name="start_time"]').attr('min', data.bufferedTime);
+                        $('input[name="start_time"]').val(data.bufferedTime);
+                        $('input[name="start_time"]').attr('value', data.bufferedTime);
+                        $('input[name="end_time"]').attr('min', data.bufferedTime);
+                    } else {
+                        // console.log('No data found');
+                        $('input[name="start_time"]').attr('min', '00:00');
+                        $('input[name="start_time"]').val('00:00');
+                        $('input[name="start_time"]').attr('value', '00:00');
+                        $('input[name="end_time"]').attr('min', '00:00');
+                    }
+                },
+                error: function(data) {
+                    console.log('error');
+                },
+            });
         }
+
 
         function openPopupForm(start, end) {
             var enddate = moment(end).subtract(1, 'days').format('yyyy-MM-DD');
@@ -570,6 +533,12 @@
         function closePopupForm() {
             $('#popup-form').hide();
             $('#overlay').hide();
+   
+            document.getElementById('purpose').value = '';
+            $('.venue-checkbox').prop('checked', false);
+            $('input[name="start_time"]').attr('min', '00:00');
+            $('input[name="start_time"]').val('00:00');
+            $('input[name="start_time"]').attr('value', '00:00');
         }
 
     }
