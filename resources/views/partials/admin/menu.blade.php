@@ -286,6 +286,13 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                         class="dash-mtext">{{ __('Email Template') }}</span></a>
                     </li>
                 @endif  -->
+                @if (\Auth::user()->type == 'owner') 
+                     <li class="dash-item">
+                        <a href="{{ route('') }}" class="dash-link"><span
+                        class="dash-micon"><i class="ti ti-template"></i></span><span
+                        class="dash-mtext">{{ __('Email Template') }}</span></a>
+                    </li>
+                @endif 
                  <!-- @if (Gate::check('Manage Report'))
                     <li class="dash-item dash-hasmenu  {{ \Request::route()->getName() == 'report.index' || \Request::route()->getName() == 'report.show' || \Request::route()->getName() == 'report.edit' ? ' active dash-trigger' : '' }}">
                         <a class="dash-link collapsed">

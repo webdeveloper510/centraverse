@@ -252,5 +252,7 @@ class EmailTemplateController extends Controller
 
         }
     }
-
+    public function email_templates(){
+        return view('email_templates.template_index');
+    }
 }
