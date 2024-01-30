@@ -1222,6 +1222,7 @@ Route::group(['middleware' => ['verified']], function () {
     Route::get('email_template_lang/{id}/{lang?}', [EmailTemplateController::class, 'manageEmailLang'])->name('manage.email.language')->middleware(['auth', 'XSS']);
     Route::post('email_template_store/{pid}', [EmailTemplateController::class, 'storeEmailLang'])->name('store.email.language')->middleware(['auth']);
     Route::post('email_template_status', [EmailTemplateController::class, 'updateStatus'])->name('status.email.language')->middleware(['auth']);
+    Route::get('email_template_view', [EmailTemplateController::class, 'emailtemplate'])->name('email.template.view')->middleware(['auth', 'XSS']);
 
 
     Route::resource('email_template', EmailTemplateController::class)->middleware(
