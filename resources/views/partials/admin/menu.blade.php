@@ -279,13 +279,20 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                     </li>
                 @endif -->
 
-                <!-- @if (\Auth::user()->type == 'owner') 
+                @if (\Auth::user()->type == 'owner') 
                      <li class="dash-item {{ (Request::route()->getName() == 'email_template.index' || Request::segment(1) == 'email_template_lang' || Request::route()->getName() == 'manageemail.lang') ? 'active' : '' }}">
                         <a href="{{ route('manage.email.language',[$emailTemplate ->id,\Auth::user()->lang]) }}" class="dash-link"><span
                         class="dash-micon"><i class="ti ti-template"></i></span><span
                         class="dash-mtext">{{ __('Email Template') }}</span></a>
                     </li>
-                @endif  -->
+                @endif 
+                @if (\Auth::user()->type == 'owner') 
+                     <li class="dash-item">
+                        <a href="{{ route('email.template.view') }}" class="dash-link"><span
+                        class="dash-micon"><i class="ti ti-template"></i></span><span
+                        class="dash-mtext">{{ __('Email Template') }}</span></a>
+                    </li>
+                @endif 
                  <!-- @if (Gate::check('Manage Report'))
                     <li class="dash-item dash-hasmenu  {{ \Request::route()->getName() == 'report.index' || \Request::route()->getName() == 'report.show' || \Request::route()->getName() == 'report.edit' ? ' active dash-trigger' : '' }}">
                         <a class="dash-link collapsed">

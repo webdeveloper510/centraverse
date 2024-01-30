@@ -145,24 +145,24 @@ class EmailTemplateController extends Controller
     // Used For View Email Template Language Wise
     public function manageEmailLang($id, $lang = 'en')
     {
-        if(\Auth::user()->type == 'owner')
-        {
+        // if(\Auth::user()->type == 'owner')
+        // {
             $languages         = Utility::languages();
             $emailTemplate     = EmailTemplate::getemailtemplate();
             $currEmailTempLang = EmailTemplateLang::where('parent_id', '=', $id)->where('lang', $lang)->first();
-        //     // echo"<pre>";print_r($currEmailTempLang);die;
-        //     if(empty($currEmailTempLang))
+            echo"<pre>";print_r($currEmailTempLang);die;
+        // //     if(empty($currEmailTempLang))
+        // //     {
+        // //         return redirect()->back()->with('error', __('Not exists in email template.'));
+        // //     }
+        //     if(!isset($currEmailTempLang) || empty($currEmailTempLang))
         //     {
-        //         return redirect()->back()->with('error', __('Not exists in email template.'));
+        //         $currEmailTempLang       = EmailTemplateLang::where('parent_id', '=', $id)->where('lang', 'en')->first();
+        //         $currEmailTempLang->lang = $lang;
         //     }
-            if(!isset($currEmailTempLang) || empty($currEmailTempLang))
-            {
-                $currEmailTempLang       = EmailTemplateLang::where('parent_id', '=', $id)->where('lang', 'en')->first();
-                $currEmailTempLang->lang = $lang;
-            }
 
-        //     if(\Auth::user()->type == 'owner')
-		// 	{
+            if(\Auth::user()->type == 'owner')
+			{
 				$emailTemplate     = EmailTemplate::where('id', '=', $id)->first();
 			}
 			else {
@@ -253,4 +253,7 @@ class EmailTemplateController extends Controller
         }
     }
 
+    public function emailtemplate(){
+        return view('email_templates.template');
+    }
 }
