@@ -14,10 +14,8 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use App\Models\Webhook;
 use App\Models\Billing;
-use Google\Service\ServiceControl\Auth;
+// use Google\Service\ServiceControl\Auth;
 use DB;
-
-
 class SettingController extends Controller
 {
 
@@ -1700,7 +1698,30 @@ class SettingController extends Controller
         ]);
         return redirect()->back()->with('success', __('Billing Cost Successfully added'));;
     } 
-    
+    public function signature(Request $request){
+        // if(\File::exists(public_path('upload/signature/autorised_signature.png'))){
+        //     \File::delete(public_path('upload/signature/autorised_signature.png'));
+        //     }else{
+        //         if(!empty($request->imageData)){
+        //              $this->uploadSignature($request->imageData);
+        //         }else{
+        //             return redirect()->back()->with('error',('The signature field is required'));
+        //         }
+        //     }
+        return redirect()->back()->with('success',('Signature added Successfully'));
+        // echo "<pre>";print_r($request->imageData);
+    }
+    public function uploadSignature($signed)
+    {
+        $folderPath = public_path('upload/signature/');
+        $image_parts = explode(";base64,", $signed);
+        $image_type_aux = explode("image/", $image_parts[0]);
+        $image_type = $image_type_aux[1];
+        $image_base64 = base64_decode($image_parts[1]);
+        $file = 'autorised_signature.png';
+        file_put_contents($folderPath.$file, $image_base64);
+        return $file;
+    }
 }
 function get_device_type($user_agent)
 {

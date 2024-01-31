@@ -34,9 +34,9 @@
                             @foreach($EmailTemplate as $key=>$template)
                                 <tr>
                                     <td>
-                                      {{ucfirst($template->subject)}}
+                                      <b>{{ucfirst($template->subject)}}</b>
                                     </td>
-                                    <td>
+                                    <td class="text-end">
                                         <div class="action-btn bg-info ms-2">
                                                 <a href="{{ route('edit.email.template',$template->id) }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " data-bs-toggle="tooltip"title="{{__('Details')}}" data-title="{{__('Edit Lead')}}"><i class="ti ti-edit"></i></a>
                                             </div>
