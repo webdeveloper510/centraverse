@@ -31,7 +31,7 @@ if($agreement && ($agreement['signature'] != null)){
             <span style="text-align:left;font-size:14px;margin-bottom:10px;color:black;">Venue Rental Agreement & Banquet Event Order</span>
         </div>
     </div>
-    <div class="row" style="display:flex; border:1px solid black;padding:2px 0px 10px; 10px;">
+    <div class="row" style="display:flex; border:1px solid black;padding:2px 0px 10px;">
         <div class="col-md-6" style="text-align:left; margin-left:10px;">
             <dl>
                 <span style="font-size:14px;margin-bottom:10px;color:black;">{{__('Name')}}: {{ $meeting['name'] }}</span><br>
@@ -42,14 +42,14 @@ if($agreement && ($agreement['signature'] != null)){
         </div>
         <div class="col-md-6" style="text-align:right; margin-top:-9rem;margin-right:20px;">
             <dl class="text-align:left;">
-                <span  style="font-size:14px:color:black;margin-bottom:10px;padding-right:15px;padding:5px 10px;">{{__('Primary Contact')}}: {{ $meeting['name'] }}</span><br>
+                <span  style="font-size:14px;color:black;margin-bottom:10px;padding-right:15px;padding:5px 10px;">{{__('Primary Contact')}}: {{ $meeting['name'] }}</span><br>
                 <span  style="font-size:14px;color:black;margin-bottom:10px;padding-right:15px;padding:5px 5px;">{{__('Phone')}}: {{ $meeting['phone'] }}</span><br>
                 <span  style="font-size:14px;color:black;margin-bottom:10px;padding-right:15px;padding:5px 5px;">{{__('Email')}}: {{ $meeting['email'] }}</span><br>
                </dl>
         </div>
     </div>
     <div class="row" style="display:flex;margin-bottom:10px;margin-bottom:10px;margin-bottom:20px; ">
-        <div class="col-md-6" style="margin-left:10px;padding:2px 0px 20px; 20px;">
+        <div class="col-md-6" style="margin-left:10px;padding:2px 0px 20px;">
             <dl>
                 <span style="font-size:14px;margin-bottom:10px;color:black;">{{__('Deposit')}}:</span><br>
                 <span style="font-size:14px;margin-bottom:10px;margin-bottom:20px;margin-bottom:20px;padding-top:10px;color:black;padding-bottom:0px;">{{__('Billing Method')}}:</span>
@@ -160,21 +160,21 @@ if($agreement && ($agreement['signature'] != null)){
                         1786 will be provided for each.
                     </p>
                 <h6>Billing Summary -Estimate</h6>
-                <table border="1">
+                <table>
                             <thead>
                                 <tr>
                                     <th style="text-align:left; font-size:13px;text-align:left; padding:5px 5px; margin-left:5px;">Name : {{$meeting['name']}}</th>
-                                    <th colspan = "2" style="padding:5px 0px;margin-left 5px;font-size:13px"></th>
+                                    <th colspan = "2" style="padding:5px 0px;margin-left :5px;font-size:13px"></th>
                                     <th colspan = "3"  style="text-align:left;text-align:left; padding:5px 5px; margin-left:5px;">Date:<?php echo date("d/m/Y"); ?> </th>
                                     <th  style="text-align:left; font-size:13px;padding:5px 5px; margin-left:5px;">Event: {{$meeting['type']}}</th>
                                 </tr>
                                 <tr style="background-color:#063806;">
                                     <th style="color:#ffffff; font-size:13px;text-align:left; padding:5px 5px; margin-left:5px;">Description</th>
                                     <th colspan = "2" style="color:#ffffff; font-size:13px;padding:5px 5px; margin-left:5px;">Additional</th>
-                                    <th  style="color:#ffffff; font-size:13px;padding:5px 5px;margin-left 5px;font-size:13px">Cost</th>
-                                    <th  style="color:#ffffff; font-size:13px;padding:5px 5px;margin-left 5px;font-size:13px">Quantity</th>
-                                    <th  style="color:#ffffff; font-size:13px;padding:5px 5px;margin-left 5px;font-size:13px">Total Price</th>
-                                    <th style="color:#ffffff; font-size:13px;padding:5px 5px;margin-left 5px;font-size:13px">Notes</th>
+                                    <th  style="color:#ffffff; font-size:13px;padding:5px 5px;margin-left: 5px;font-size:13px">Cost</th>
+                                    <th  style="color:#ffffff; font-size:13px;padding:5px 5px;margin-left: 5px;font-size:13px">Quantity</th>
+                                    <th  style="color:#ffffff; font-size:13px;padding:5px 5px;margin-left :5px;font-size:13px">Total Price</th>
+                                    <th style="color:#ffffff; font-size:13px;padding:5px 5px;margin-left :5px;font-size:13px">Notes</th>
                                 </tr>
                             </thead>
                             <tbody>    

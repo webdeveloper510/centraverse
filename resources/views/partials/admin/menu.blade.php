@@ -21,9 +21,6 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                     <img src="{{ asset(Storage::url('logo/'.$logo)) }}" alt="{{ env('APP_NAME') }}" class="logo logo-sm" /> --}}
                     {{--<img src="{{ $logo . '/' . (isset($company_logo) && !empty($company_logo) ? $company_logo : 'logo.png') .'?'.time()}}"
                     alt="{{ config('app.name', 'Centraverse') }}" class="logo logo-lg nav-sidebar-logo" />--}}
-
-                    <img src="{{$logo.'/logo.png' }}"
-
                     <img src="{{$logo.'logo.png'}}"
                     alt="{{ config('app.name', 'Centraverse') }}" class="logo logo-lg nav-sidebar-logo" />
             </a>
@@ -213,15 +210,15 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                             <span class="dash-micon"><i class="ti ti-phone-call"></i></span><span class="dash-mtext">{{ __('Call') }}</span>
                         </a>
                     </li>
-                @endcan 
-                @can('Manage Contract')
+                @endcan -->
+                <!-- @can('Manage Contract')
                     @can('Manage Contract')
                         <li class="dash-item  {{ (Request::route()->getName() == 'contract.index' || Request::route()->getName() == 'contract.show') ? 'active' : '' }}">
                             <a href="{{route('contract.index')}}" class="dash-link"><span class="dash-micon"><i class="ti ti-device-floppy"></i></span><span class="dash-mtext">{{__('Contracts')}}</span></a>
                         </li>
                     @endcan
-                @endcan
-                 @can('Manage Document')
+                @endcan -->
+                 <!--@can('Manage Document')
                     <li class="dash-item {{ \Request::route()->getName() == 'document' || \Request::route()->getName() == 'document.show' || \Request::route()->getName() == 'document.edit' ? ' active' : '' }}">
                         {{-- <a href="{{ !empty(\Auth::user()->getDefualtViewRouteByModule('document')) ? route(\Auth::user()->getDefualtViewRouteByModule('document')) : route('document.index') }}" class="dash-link">
                             <span class="dash-micon"><i class="ti ti-file-analytics"></i></span><span class="dash-mtext">{{ __('Document') }}</span>
@@ -230,8 +227,8 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                             <span class="dash-micon"><i class="ti ti-file-analytics"></i></span><span class="dash-mtext">{{ __('Proposal') }}</span>
                         </a>
                     </li>
-                @endcan 
-                @can('Manage Campaign')
+                @endcan -->
+                <!-- @can('Manage Campaign')
                     <li class="dash-item {{ \Request::route()->getName() == 'campaign' || \Request::route()->getName() == 'campaign.show' || \Request::route()->getName() == 'campaign.edit' ? ' active' : '' }}">
                         {{-- <a href="{{ !empty(\Auth::user()->getDefualtViewRouteByModule('campaign')) ? route(\Auth::user()->getDefualtViewRouteByModule('campaign')) : route('campaign.index') }}" class="dash-link">
                             <span class="dash-micon"><i class="ti ti-chart-line"></i></span><span class="dash-mtext">{{ __('Campaigns') }}</span>
@@ -240,8 +237,8 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                             <span class="dash-micon"><i class="ti ti-chart-line"></i></span><span class="dash-mtext">{{ __('Campaigns') }}</span>
                         </a>
                     </li>
-                @endcan
-                @if (\Auth::user()->type != 'super admin')
+                @endcan -->
+                <!--@if (\Auth::user()->type != 'super admin')
                     <li class="dash-item {{ \Request::route()->getName() == 'stream' ? ' active' : '' }}">
                         <a href="{{ route('stream.index') }}" class="dash-link">
                             <span class="dash-micon"><i class="ti ti-rss"></i></span>
@@ -291,6 +288,13 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                         <a href="{{ route('email.template.view') }}" class="dash-link"><span
                         class="dash-micon"><i class="ti ti-template"></i></span><span
                         class="dash-mtext">{{ __('Email Template') }}</span></a>
+                    </li>
+                @endif 
+                @if (\Auth::user()->type == 'owner') 
+                     <li class="dash-item">
+                        <a href="{{ route('customer.index') }}" class="dash-link"><span
+                        class="dash-micon"><i class="ti ti-template"></i></span><span
+                        class="dash-mtext">{{ __('Campaign') }}</span></a>
                     </li>
                 @endif 
                  <!-- @if (Gate::check('Manage Report'))

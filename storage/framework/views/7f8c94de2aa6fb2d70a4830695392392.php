@@ -1,4 +1,4 @@
-@php 
+<?php 
 $imagePath = public_path('upload/signature/autorised_signature.png');
 $imageData = base64_encode(file_get_contents($imagePath));
 $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base64,' . $imageData;
@@ -6,7 +6,7 @@ if($proposal && ($proposal['image'] != null)){
     $signed =  base64_encode(file_get_contents($proposal['image']));
     $sign = 'data:image/' . pathinfo($proposal['image'], PATHINFO_EXTENSION) . ';base64,' . $signed;
 }
-@endphp
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,30 +53,30 @@ border:1px solid black;
     <div class="row" style="display:flex; border:1px solid black;padding:2px 0px 10px;">
         <div class="col-md-6" style="text-align:left; margin-left:10px;">
             <dl>
-                <span style="font-size:14px;margin-bottom:10px;color:black;">{{__('Name')}}: {{ $lead['name'] }}</span><br>
-                <span style="font-size:14px;margin-bottom:10px;color:black;">{{__('Phone & Email')}}: {{ $lead['phone'] }} , {{ $lead['email'] }}</span><br>
-                <span style="font-size:14px;margin-bottom:10px;color:black;">{{__('Address')}}: {{ $lead['lead_address'] }}</span><br>
-                <span style="font-size:14px;margin-bottom:10px;color:black;padding:10px 0px;">{{__('Event Date')}}: {{ \Auth::user()->dateFormat($lead['start_date']) }}</span>
+                <span style="font-size:14px;margin-bottom:10px;color:black;"><?php echo e(__('Name')); ?>: <?php echo e($lead['name']); ?></span><br>
+                <span style="font-size:14px;margin-bottom:10px;color:black;"><?php echo e(__('Phone & Email')); ?>: <?php echo e($lead['phone']); ?> , <?php echo e($lead['email']); ?></span><br>
+                <span style="font-size:14px;margin-bottom:10px;color:black;"><?php echo e(__('Address')); ?>: <?php echo e($lead['lead_address']); ?></span><br>
+                <span style="font-size:14px;margin-bottom:10px;color:black;padding:10px 0px;"><?php echo e(__('Event Date')); ?>: <?php echo e(\Auth::user()->dateFormat($lead['start_date'])); ?></span>
             </dl>
         </div>
         <div class="col-md-6" style="text-align:right; margin-top:-9rem;margin-right:20px;">
             <dl class="text-align:left;">
-                <span  style="font-size:14px;color:black;margin-bottom:10px;padding-right:15px;padding:5px 10px;">{{__('Primary Contact')}}: {{ $lead['name'] }}</span><br>
-                <span  style="font-size:14px;color:black;margin-bottom:10px;padding-right:15px;padding:5px 5px;">{{__('Phone')}}: {{ $lead['phone'] }}</span><br>
-                <span  style="font-size:14px;color:black;margin-bottom:10px;padding-right:15px;padding:5px 5px;">{{__('Email')}}: {{ $lead['email'] }}</span><br>
+                <span  style="font-size:14px;color:black;margin-bottom:10px;padding-right:15px;padding:5px 10px;"><?php echo e(__('Primary Contact')); ?>: <?php echo e($lead['name']); ?></span><br>
+                <span  style="font-size:14px;color:black;margin-bottom:10px;padding-right:15px;padding:5px 5px;"><?php echo e(__('Phone')); ?>: <?php echo e($lead['phone']); ?></span><br>
+                <span  style="font-size:14px;color:black;margin-bottom:10px;padding-right:15px;padding:5px 5px;"><?php echo e(__('Email')); ?>: <?php echo e($lead['email']); ?></span><br>
                </dl>
         </div>
     </div>
     <div class="row" style="display:flex;margin-bottom:10px;margin-bottom:10px;margin-bottom:20px; ">
         <div class="col-md-6" style="margin-left:10px;padding:2px 0px 20px;">
             <dl>
-                <span style="font-size:14px;margin-bottom:10px;color:black;">{{__('Deposit')}}:</span><br>
-                <span style="font-size:14px;margin-bottom:10px;margin-bottom:20px;margin-bottom:20px;padding-top:10px;color:black;padding-bottom:0px;">{{__('Billing Method')}}:</span>
+                <span style="font-size:14px;margin-bottom:10px;color:black;"><?php echo e(__('Deposit')); ?>:</span><br>
+                <span style="font-size:14px;margin-bottom:10px;margin-bottom:20px;margin-bottom:20px;padding-top:10px;color:black;padding-bottom:0px;"><?php echo e(__('Billing Method')); ?>:</span>
             </dl>
         </div>
         <div class="col-md-6" style="text-align:right;margin-top:-5rem;margin-right:10px;">
             <dl>
-                <span style="font-size:14px;margin-bottom:10px;padding-right:15px;color:black;">{{__('Catering Service')}}: NA</span><br>
+                <span style="font-size:14px;margin-bottom:10px;padding-right:15px;color:black;"><?php echo e(__('Catering Service')); ?>: NA</span><br>
             </dl>
         </div>
     </div>
@@ -97,14 +97,14 @@ border:1px solid black;
         </thead>
         <tbody>    
             <tr>
-                <td style="font-size:13px;font-weight:300;padding:8px 10px;">Start Date: {{\Auth::user()->dateFormat($lead['start_date'])}} <br>
-                End Date: {{\Auth::user()->dateFormat($lead['end_date'])}}</td>
-                <td style="font-size:13px;font-weight:300;padding:8px 10px;" >Start Time:{{date('h:i A', strtotime($lead['start_time']))}} <br>
-                End time:{{date('h:i A', strtotime($lead['end_time']))}}</td>
-                <td style="font-size:13px;font-weight:300;padding:8px 10px;">{{$lead['venue_selection']}}</td>
-                <td style="font-size:13px;font-weight:300;padding:8px 10px;">{{$lead['type']}}</td>
-                <td style="font-size:13px;font-weight:300;padding:8px 10px;">{{$lead['function']}}</td>
-                <td style="font-size:13px;font-weight:300;padding:8px 10px;">{{$lead['rooms']}}</td>
+                <td style="font-size:13px;font-weight:300;padding:8px 10px;">Start Date: <?php echo e(\Auth::user()->dateFormat($lead['start_date'])); ?> <br>
+                End Date: <?php echo e(\Auth::user()->dateFormat($lead['end_date'])); ?></td>
+                <td style="font-size:13px;font-weight:300;padding:8px 10px;" >Start Time:<?php echo e(date('h:i A', strtotime($lead['start_time']))); ?> <br>
+                End time:<?php echo e(date('h:i A', strtotime($lead['end_time']))); ?></td>
+                <td style="font-size:13px;font-weight:300;padding:8px 10px;"><?php echo e($lead['venue_selection']); ?></td>
+                <td style="font-size:13px;font-weight:300;padding:8px 10px;"><?php echo e($lead['type']); ?></td>
+                <td style="font-size:13px;font-weight:300;padding:8px 10px;"><?php echo e($lead['function']); ?></td>
+                <td style="font-size:13px;font-weight:300;padding:8px 10px;"><?php echo e($lead['rooms']); ?></td>
                 <td style="font-size:13px;font-weight:300;padding:8px 10px;">Exp</td>
                 <td style="font-size:13px;font-weight:300;padding:8px 10px;">GTD</td>
                 <td style="font-size:13px;font-weight:300;padding:8px 10px;">Set</td> 
@@ -119,9 +119,9 @@ border:1px solid black;
             <table border="1">
                 <thead>
                     <tr>
-                        <th style="font-size:13px;font-weight:300;padding:10px 25px;">Start:{{date('h:i A', strtotime($lead['start_time']))}}</th>
-                        <th style="font-size:13px;font-weight:300;padding:0px 25px;">End: {{date('h:i A', strtotime($lead['end_time']))}} </th>
-                        <th style="font-size:13px;font-weight:300;padding:10px 25px;">Function : {{$lead['function']}}</th>
+                        <th style="font-size:13px;font-weight:300;padding:10px 25px;">Start:<?php echo e(date('h:i A', strtotime($lead['start_time']))); ?></th>
+                        <th style="font-size:13px;font-weight:300;padding:0px 25px;">End: <?php echo e(date('h:i A', strtotime($lead['end_time']))); ?> </th>
+                        <th style="font-size:13px;font-weight:300;padding:10px 25px;">Function : <?php echo e($lead['function']); ?></th>
                     </tr>
                 </thead>
                 </tbody>  
@@ -154,7 +154,7 @@ border:1px solid black;
     <div class="row" style="margin-top:20px;padding-top:10px;">
          <div class="col-md-12">
             <p>This contract defines the terms and conditions under which Lotus Estate, LLC dba The Bond 1786, (hereinafter referred to as The Bond or The
-                Bond 1786), and <b>{{$lead['name']}}</b>(hereafter referred to as the Customer) agree to the Customer’s use of The Bond 1786 facilities on <b>{{\Auth::user()->dateFormat($lead['start_date'])}}</b>
+                Bond 1786), and <b><?php echo e($lead['name']); ?></b>(hereafter referred to as the Customer) agree to the Customer’s use of The Bond 1786 facilities on <b><?php echo e(\Auth::user()->dateFormat($lead['start_date'])); ?></b>
                 (reception/event date). This contract constitutes the entire agreement between the parties and becomes binding upon the signature of
                 both parties. The contract may not be amended or changed unless executed in writing and signed by The Bond 1786 and the Customer.
             </p>
@@ -163,7 +163,7 @@ border:1px solid black;
     <div class="row">
          <div class="col-md-12">
                 <h6>Venue Selection</h6>
-                <p>{{$lead['venue_selection']}}</p><br><br>
+                <p><?php echo e($lead['venue_selection']); ?></p><br><br>
                 <p>
                     The venue/s described above has been reserved for you for the date and time stipulated. Please note that the hours assigned to your event include all set-up and
                     all clean-up, including the set-up and clean-up of all subcontractors that you may utilize. It is understood you will adhere to and follow the terms of this Agreement,
@@ -182,10 +182,10 @@ border:1px solid black;
                     <table >
                         <thead>
                             <tr>
-                                <th style="text-align:left; font-size:13px;text-align:left; padding:5px 5px; margin-left:5px;">Name : {{$lead['name']}}</th>
+                                <th style="text-align:left; font-size:13px;text-align:left; padding:5px 5px; margin-left:5px;">Name : <?php echo e($lead['name']); ?></th>
                                 <th colspan = "2" style="padding:5px 0px;margin-left :5px;font-size:13px"></th>
                                 <th colspan = "3"  style="text-align:left;text-align:left; padding:5px 5px; margin-left:5px;">Date:<?php echo date("d/m/Y"); ?> </th>
-                                <th  style="text-align:left; font-size:13px;padding:5px 5px; margin-left:5px;">Event: {{$lead['type']}}</th>
+                                <th  style="text-align:left; font-size:13px;padding:5px 5px; margin-left:5px;">Event: <?php echo e($lead['type']); ?></th>
                             </tr>
                             <tr style="background-color:#063806;">
                                 <th style="color:#ffffff; font-size:13px;text-align:left; padding:5px 5px; margin-left:5px;">Description</th>
@@ -201,58 +201,58 @@ border:1px solid black;
                                 <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Venue Rental</td>
                                 <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                 
-                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$billing['venue_rental']}}</td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($billing['venue_rental']); ?></td>
                                 <td style="padding:5px 5px; margin-left:5px;font-size:13px;">1</td>
-                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$total[] = $billing['venue_rental'] * 1}}</td>
-                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$lead['venue_selection']}}</td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($total[] = $billing['venue_rental'] * 1); ?></td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($lead['venue_selection']); ?></td>
                             </tr>
                             
                             <tr>
                                 <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Brunch / Lunch / Dinner Package</td>
                                 <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$billing['classic_brunch']}}</td>
-                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$lead['guest_count']}}</td>
-                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$total[] = $billing['classic_brunch'] * $lead['guest_count']}}</td>
-                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$lead['function']}}</td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($billing['classic_brunch']); ?></td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($lead['guest_count']); ?></td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($total[] = $billing['classic_brunch'] * $lead['guest_count']); ?></td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($lead['function']); ?></td>
                             </tr>
                             <tr>
                                 <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Bar Package</td>
                                 <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$billing['platinum_3hrs']}}</td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($billing['platinum_3hrs']); ?></td>
                                 <td style="padding:5px 5px; margin-left:5px;font-size:13px;">10</td>
-                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$total[] = $billing['platinum_3hrs'] * 10}}</td>
-                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$lead['bar']}}</td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($total[] = $billing['platinum_3hrs'] * 10); ?></td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($lead['bar']); ?></td>
                             </tr>
                             <tr>
                                 <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Hotel Rooms</td>
                                 <td colspan = "2" style="padding:5px 5px; margin-left:5px;"></td>
-                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$billing['hotel_rooms']}}</td>
-                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$lead['rooms']}}</td>
-                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$total[] = $billing['hotel_rooms'] * $lead['rooms']}}</td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($billing['hotel_rooms']); ?></td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($lead['rooms']); ?></td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($total[] = $billing['hotel_rooms'] * $lead['rooms']); ?></td>
                                 <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                             </tr>
                             <tr>
                                 <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Tent, Tables, Chairs, AV Equipment</td>
                                 <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$billing['equipment']}}</td>
-                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$lead['guest_count']}}</td>
-                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$total[] = $billing['equipment'] * $lead['guest_count']}}</td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($billing['equipment']); ?></td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($lead['guest_count']); ?></td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($total[] = $billing['equipment'] * $lead['guest_count']); ?></td>
                                 <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Chairs</td>
                             </tr>
                             <tr>
                                 <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Welcome / Rehearsal / Special Setup</td>
                                 <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px"></td>
-                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$billing['setup']}}</td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($billing['setup']); ?></td>
                                 <td style="padding:5px 5px; margin-left:5px;font-size:13px;">1</td>
-                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$total[] = $billing['setup'] * 1}}</td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($total[] = $billing['setup'] * 1); ?></td>
                                 <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                             </tr>
                             <tr>
                                 <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Special Requests / Others</td>
                                 <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$billing['special_req']}}</td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($billing['special_req']); ?></td>
                                 <td style="padding:5px 5px; margin-left:5px;font-size:13px;">1</td>
-                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$total[] = $billing['special_req'] * 1}}</td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($total[] = $billing['special_req'] * 1); ?></td>
                                 <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Bartender Fee</td>
                                 
                             </tr>
@@ -266,19 +266,19 @@ border:1px solid black;
                             <tr>
                                 <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Total</td>
                                 <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                <td colspan = "3" style="padding:5px 5px; margin-left:5px;font-size:13px;">${{ array_sum($total) }}</td>
+                                <td colspan = "3" style="padding:5px 5px; margin-left:5px;font-size:13px;">$<?php echo e(array_sum($total)); ?></td>
                                 <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                             </tr>
                             <tr>
                                 <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Sales, Occupancy Tax</td>
                                 <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                <td colspan = "3" style="padding:5px 5px; margin-left:5px;font-size:13px;"> ${{ 7* array_sum($total)/100 }}</td>
+                                <td colspan = "3" style="padding:5px 5px; margin-left:5px;font-size:13px;"> $<?php echo e(7* array_sum($total)/100); ?></td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td style="text-align:left;text-align:left; padding:5px 5px; margin-left:5px;font-size:13px;">Service Charges & Gratuity</td>
                                 <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                <td colspan = "3" style="padding:5px 5px; margin-left:5px;font-size:13px;">${{ 20* array_sum($total)/100 }}</td>
+                                <td colspan = "3" style="padding:5px 5px; margin-left:5px;font-size:13px;">$<?php echo e(20* array_sum($total)/100); ?></td>
                                 <td></td>
                             </tr>
                             <tr>
@@ -290,7 +290,7 @@ border:1px solid black;
                             <tr>
                                 <td style="background-color:#ffff00; padding:5px 5px; margin-left:5px;font-size:13px;">Grand Total / Estimated Total</td>
                                 <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                <td colspan = "3" style="padding:5px 5px; margin-left:5px;font-size:13px;">$ {{$grandtotal=  array_sum($total) + 20* array_sum($total)/100 + 7* array_sum($total)/100}}</td>
+                                <td colspan = "3" style="padding:5px 5px; margin-left:5px;font-size:13px;">$ <?php echo e($grandtotal=  array_sum($total) + 20* array_sum($total)/100 + 7* array_sum($total)/100); ?></td>
                                 <td></td>
                             </tr>
                             <tr>
@@ -301,7 +301,7 @@ border:1px solid black;
                             </tr> <tr>
                                 <td style="background-color:#ffff00;text-align:left; padding:5px 5px; margin-left:5px;font-size:13px;">balance due</td>
                                 <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                <td colspan = "3" style="padding:5px 5px; margin-left:5px;font-size:13px;background-color:#9fdb9f;">${{$grandtotal}}</td>
+                                <td colspan = "3" style="padding:5px 5px; margin-left:5px;font-size:13px;background-color:#9fdb9f;">$<?php echo e($grandtotal); ?></td>
                                 <td></td>
                             </tr>
                         </tbody>
@@ -525,7 +525,7 @@ border:1px solid black;
                 No Personal Checks are accepted for final payment. <br><br>
                 The Rules and Conditions for Usage are incorporated herein and are made a part hereof. <br><br>
 
-                Please return signed contract with deposit no later than <b>{{ \Auth::user()->dateFormat($lead['start_date']) }}</b> or this contract is no longer valid.<br>
+                Please return signed contract with deposit no later than <b><?php echo e(\Auth::user()->dateFormat($lead['start_date'])); ?></b> or this contract is no longer valid.<br>
                 </p>
 
 
@@ -533,14 +533,14 @@ border:1px solid black;
             <div class="row">
                 <div class="col-md-6" style="float:left;width:50%;">
                     <strong>Authorized Signature:</strong> <br>
-                    <img src="{{$base64Image}}" style="width:30%; border-bottom:1px solid black;">
+                    <img src="<?php echo e($base64Image); ?>" style="width:30%; border-bottom:1px solid black;">
                 </div>
                 <div class="col-md-6" style="margin-top:15px;float:right;width:60%;margin-top:-7px;">
                     <strong style="margin-top:10px;">Signature:</strong><br> 
-                    <img src="{{@$sign}}" style="width:20%; border-bottom:1px solid black;">
+                    <img src="<?php echo e(@$sign); ?>" style="width:20%; border-bottom:1px solid black;">
                 </div>
             
             </div>
         </div>
 </body>
-</html>
+</html><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/lead/signed_proposal.blade.php ENDPATH**/ ?>

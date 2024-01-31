@@ -19,9 +19,6 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
             <a href="<?php echo e(route('dashboard')); ?>" class="b-brand">
                 
                     
-
-                    <img src="<?php echo e($logo.'/logo.png'); ?>"
-
                     <img src="<?php echo e($logo.'logo.png'); ?>"
                     alt="<?php echo e(config('app.name', 'Centraverse')); ?>" class="logo logo-lg nav-sidebar-logo" />
             </a>
@@ -190,31 +187,31 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                             <span class="dash-micon"><i class="ti ti-phone-call"></i></span><span class="dash-mtext"><?php echo e(__('Call')); ?></span>
                         </a>
                     </li>
-                <?php endif; ?> 
-                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Contract')): ?>
+                <?php endif; ?> -->
+                <!-- <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Contract')): ?>
                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Contract')): ?>
                         <li class="dash-item  <?php echo e((Request::route()->getName() == 'contract.index' || Request::route()->getName() == 'contract.show') ? 'active' : ''); ?>">
                             <a href="<?php echo e(route('contract.index')); ?>" class="dash-link"><span class="dash-micon"><i class="ti ti-device-floppy"></i></span><span class="dash-mtext"><?php echo e(__('Contracts')); ?></span></a>
                         </li>
                     <?php endif; ?>
-                <?php endif; ?>
-                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Document')): ?>
+                <?php endif; ?> -->
+                 <!--<?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Document')): ?>
                     <li class="dash-item <?php echo e(\Request::route()->getName() == 'document' || \Request::route()->getName() == 'document.show' || \Request::route()->getName() == 'document.edit' ? ' active' : ''); ?>">
                         
                         <a href="<?php echo e(array_key_exists('document',$defaultView) ? route($defaultView['document']) : route('document.index')); ?>" class="dash-link">
                             <span class="dash-micon"><i class="ti ti-file-analytics"></i></span><span class="dash-mtext"><?php echo e(__('Proposal')); ?></span>
                         </a>
                     </li>
-                <?php endif; ?> 
-                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Campaign')): ?>
+                <?php endif; ?> -->
+                <!-- <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Campaign')): ?>
                     <li class="dash-item <?php echo e(\Request::route()->getName() == 'campaign' || \Request::route()->getName() == 'campaign.show' || \Request::route()->getName() == 'campaign.edit' ? ' active' : ''); ?>">
                         
                         <a href="<?php echo e(array_key_exists('campaign',$defaultView) ? route($defaultView['campaign']) : route('campaign.index')); ?>" class="dash-link">
                             <span class="dash-micon"><i class="ti ti-chart-line"></i></span><span class="dash-mtext"><?php echo e(__('Campaigns')); ?></span>
                         </a>
                     </li>
-                <?php endif; ?>
-                <?php if(\Auth::user()->type != 'super admin'): ?>
+                <?php endif; ?> -->
+                <!--<?php if(\Auth::user()->type != 'super admin'): ?>
                     <li class="dash-item <?php echo e(\Request::route()->getName() == 'stream' ? ' active' : ''); ?>">
                         <a href="<?php echo e(route('stream.index')); ?>" class="dash-link">
                             <span class="dash-micon"><i class="ti ti-rss"></i></span>
@@ -264,6 +261,13 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                         <a href="<?php echo e(route('email.template.view')); ?>" class="dash-link"><span
                         class="dash-micon"><i class="ti ti-template"></i></span><span
                         class="dash-mtext"><?php echo e(__('Email Template')); ?></span></a>
+                    </li>
+                <?php endif; ?> 
+                <?php if(\Auth::user()->type == 'owner'): ?> 
+                     <li class="dash-item">
+                        <a href="<?php echo e(route('customer.index')); ?>" class="dash-link"><span
+                        class="dash-micon"><i class="ti ti-template"></i></span><span
+                        class="dash-mtext"><?php echo e(__('Campaign')); ?></span></a>
                     </li>
                 <?php endif; ?> 
                  <!-- <?php if(Gate::check('Manage Report')): ?>

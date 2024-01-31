@@ -16,6 +16,7 @@ use App\Http\Controllers\AccountIndustryController;
 use App\Http\Controllers\AiTemplateController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\CustomerInformation;
 use App\Http\Controllers\LeadController;
 use App\Http\Controllers\LeadSourceController;
 use App\Http\Controllers\OpportunitiesStageController;
@@ -934,7 +935,19 @@ Route::group(['middleware' => ['verified']], function () {
             'XSS',
         ]
     );
+    Route::group(
+        [
+            'middleware' => [
+                'auth',
+                'XSS',
+            ],
+        ],
+        function(){
+            Route::get('customer', [CustomerInformation::class, 'index'])->name('customer.index')->middleware(['auth', 'XSS']);
+            Route::post('customer', [CustomerInformation::class, 'sendmail'])->name('customer.sendmail')->middleware(['auth', 'XSS']);
 
+        }
+    );
     Route::group(
         [
             'middleware' => [
@@ -1208,6 +1221,7 @@ Route::group(['middleware' => ['verified']], function () {
     Route::post('/setting/billing',[SettingController::class,'billing_cost'])->name('billing.setting');
 
     Route::post('setting/buffer', [SettingController::class, 'buffertime'])->name('buffer.setting');
+    Route::post('setting/signature',[SettingController::class,'signature'])->name('authorised.signature');
 
 
     //========================================================================================//

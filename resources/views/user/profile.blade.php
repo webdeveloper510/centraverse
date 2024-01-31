@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @php
-$profile = asset(Storage::url('upload/profile/'));
+$profile = Storage::url('upload/profile/');
 @endphp
 @section('page-title')
     {{ __('Profile') }}

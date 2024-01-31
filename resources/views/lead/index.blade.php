@@ -52,7 +52,7 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <span class="budget">{{ $lead->email }}</a></span>
+                                        <span class="budget">{{ $lead->email }}</span>
                                     </td>
                                     <!-- <td>
                                         <span class="budget">

@@ -15,12 +15,12 @@
     <div class="container">
         <div class = "row">
             <div class= "col-md-12">
-                <form method= "POST" action = "{{route('meeting.signedagreementresp',urlencode(encrypt($meeting->id)))}}" id = 'formdata'>
-                    @csrf
+                <form method= "POST" action = "<?php echo e(route('meeting.signedagreementresp',urlencode(encrypt($meeting->id)))); ?>" id = 'formdata'>
+                    <?php echo csrf_field(); ?>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="img-section" style="width:20%; margin: 0 auto;display:flex;">
-                                <img class="logo-img" src="{{ URL::asset('storage/uploads/logo/logo.png') }}" style="width:60%; margin:30px auto;">
+                                <img class="logo-img" src="<?php echo e(URL::asset('storage/uploads/logo/logo.png')); ?>" style="width:60%; margin:30px auto;">
                             </div>
                         </div>
                     </div>
@@ -33,18 +33,18 @@
                     <div class="row" >
                         <div class="col-md-6">
                             <dl>
-                                <span >{{__('Name')}}: {{ $meeting->name }}</span><br>
-                                <span >{{__('Phone & Email')}}: {{ $meeting->phone }} , {{ $meeting->email }}</span><br>
-                                <span >{{__('Address')}}: {{ $meeting->lead_address }}</span><br>
-                                <span>{{__('Event Start Date')}}:{{ \Carbon\Carbon::parse($meeting->start_date)->format('d M, Y') }}</span>
+                                <span ><?php echo e(__('Name')); ?>: <?php echo e($meeting->name); ?></span><br>
+                                <span ><?php echo e(__('Phone & Email')); ?>: <?php echo e($meeting->phone); ?> , <?php echo e($meeting->email); ?></span><br>
+                                <span ><?php echo e(__('Address')); ?>: <?php echo e($meeting->lead_address); ?></span><br>
+                                <span><?php echo e(__('Event Start Date')); ?>:<?php echo e(\Carbon\Carbon::parse($meeting->start_date)->format('d M, Y')); ?></span>
                             </dl>
                         </div>
                         
                         <div class="col-md-6" style = "text-align: end;">
                             <dl>
-                                <span  >{{__('Primary Contact')}}: {{ $meeting->name }}</span><br>
-                                <span  >{{__('Phone')}}: {{ $meeting->phone }}</span><br>
-                                <span  >{{__('Email')}}: {{ $meeting->email }}</span><br>
+                                <span  ><?php echo e(__('Primary Contact')); ?>: <?php echo e($meeting->name); ?></span><br>
+                                <span  ><?php echo e(__('Phone')); ?>: <?php echo e($meeting->phone); ?></span><br>
+                                <span  ><?php echo e(__('Email')); ?>: <?php echo e($meeting->email); ?></span><br>
                             </dl>
                         </div>   
                     </div>
@@ -52,13 +52,13 @@
                     <div class="row" style="display:flex;margin:10px;">
                         <div class="col-md-6" style="margin-left:10px;">
                             <dl>
-                                <span >{{__('Deposit')}}:</span><br>
-                                <span>{{__('Billing Method')}}:</span>
+                                <span ><?php echo e(__('Deposit')); ?>:</span><br>
+                                <span><?php echo e(__('Billing Method')); ?>:</span>
                             </dl>
                         </div>
                         <div class="col-md-6" style="text-align:right;">
                             <dl>
-                                <span >{{__('Catering Service')}}: NA</span><br>
+                                <span ><?php echo e(__('Catering Service')); ?>: NA</span><br>
                             </dl>
                         </div>
                     </div>
@@ -81,14 +81,14 @@
                                 </thead>
                                 <tbody>    
                                     <tr>
-                                        <td style="font-size:13px;font-weight:300;padding:8px 0px;">Start Date: {{\Auth::user()->dateFormat($meeting->start_date)}} <br>
-                                        End Date: {{\Auth::user()->dateFormat($meeting->end_date)}}</td>
-                                        <td style="font-size:13px;font-weight:300;padding:8px 0px;" >Start Time:{{date('h:i A', strtotime($meeting->start_time))}} <br>
-                                        End time:{{date('h:i A', strtotime($meeting->end_time))}}</td>
-                                        <td style="font-size:13px;font-weight:300;padding:8px 0px;">{{$meeting->venue_selection}}</td>
-                                        <td style="font-size:13px;font-weight:300;padding:8px 0px;">{{$meeting->type}}</td>
-                                        <td style="font-size:13px;font-weight:300;padding:8px 0px;">{{$meeting->function}}</td>
-                                        <td style="font-size:13px;font-weight:300;padding:8px 0px;">{{$meeting->rooms}}</td>
+                                        <td style="font-size:13px;font-weight:300;padding:8px 0px;">Start Date: <?php echo e(\Auth::user()->dateFormat($meeting->start_date)); ?> <br>
+                                        End Date: <?php echo e(\Auth::user()->dateFormat($meeting->end_date)); ?></td>
+                                        <td style="font-size:13px;font-weight:300;padding:8px 0px;" >Start Time:<?php echo e(date('h:i A', strtotime($meeting->start_time))); ?> <br>
+                                        End time:<?php echo e(date('h:i A', strtotime($meeting->end_time))); ?></td>
+                                        <td style="font-size:13px;font-weight:300;padding:8px 0px;"><?php echo e($meeting->venue_selection); ?></td>
+                                        <td style="font-size:13px;font-weight:300;padding:8px 0px;"><?php echo e($meeting->type); ?></td>
+                                        <td style="font-size:13px;font-weight:300;padding:8px 0px;"><?php echo e($meeting->function); ?></td>
+                                        <td style="font-size:13px;font-weight:300;padding:8px 0px;"><?php echo e($meeting->rooms); ?></td>
                                         <td style="font-size:13px;font-weight:300;padding:8px 0px;">Exp</td>
                                         <td style="font-size:13px;font-weight:300;padding:8px 0px;">GTD</td>
                                         <td style="font-size:13px;font-weight:300;padding:8px 0px;">Set</td> 
@@ -105,9 +105,9 @@
                             <table border ="1">
                                 <thead>
                                     <tr>
-                                        <th >Start:{{date('h:i A', strtotime($meeting->start_time))}}</th>
-                                        <th>End: {{date('h:i A', strtotime($meeting->end_time))}} </th>
-                                        <th>Function : {{$meeting->function}}</th>
+                                        <th >Start:<?php echo e(date('h:i A', strtotime($meeting->start_time))); ?></th>
+                                        <th>End: <?php echo e(date('h:i A', strtotime($meeting->end_time))); ?> </th>
+                                        <th>Function : <?php echo e($meeting->function); ?></th>
                                     </tr>
                                 </thead>
                                 </tbody>  
@@ -137,7 +137,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <p class="text">This contract defines the terms and conditions under which Lotus Estate, LLC dba The Bond 1786, (hereinafter referred to as The Bond or The
-                                Bond 1786), and <b>{{$meeting->name}}</b>(hereafter referred to as the Customer) agree to the Customer’s use of The Bond 1786 facilities on <b>{{ \Carbon\Carbon::parse($meeting->start_date)->format('d M, Y') }}</b>
+                                Bond 1786), and <b><?php echo e($meeting->name); ?></b>(hereafter referred to as the Customer) agree to the Customer’s use of The Bond 1786 facilities on <b><?php echo e(\Carbon\Carbon::parse($meeting->start_date)->format('d M, Y')); ?></b>
                                 (reception/event date). This contract constitutes the entire agreement between the parties and becomes binding upon the signature of
                                 both parties. The contract may not be amended or changed unless executed in writing and signed by The Bond 1786 and the Customer.
                             </p>
@@ -147,10 +147,10 @@
                         <div class="col-md-12">
                                 <h6 class="headings">Venue Selected</h6>
                                 <!-- <h6>Venue Selected</h6> -->
-                                <p>{{$meeting->venue_selection}}</p><br>
+                                <p><?php echo e($meeting->venue_selection); ?></p><br>
                                 <h6 class="headings"> No. of Hotel Rooms (Booked)</h6>
-                                <p>{{$meeting->room}}</p><br>
-                                <!-- <input type= "number" name ="rooms"min = "0" value = "{{$meeting->room}}" disabled> -->
+                                <p><?php echo e($meeting->room); ?></p><br>
+                                <!-- <input type= "number" name ="rooms"min = "0" value = "<?php echo e($meeting->room); ?>" disabled> -->
                                 <p class="text">
                                         The venue/s described above has been reserved for you for the date and time stipulated. Please note that the hours assigned to your event include all set-up and
                                         all clean-up, including the set-up and clean-up of all subcontractors that you may utilize. It is understood you will adhere to and follow the terms of this Agreement,
@@ -169,18 +169,18 @@
                                 <table border="1" style = "width:100%">
                                     <thead>
                                         <tr>
-                                            <th style="text-align:left; font-size:13px;text-align:left; padding:5px 5px; margin-left:5px;">Name : {{$meeting->name}}</th>
-                                            <th colspan = "2" style="padding:5px 0px;margin-left: 5px;font-size:13px"></th>
+                                            <th style="text-align:left; font-size:13px;text-align:left; padding:5px 5px; margin-left:5px;">Name : <?php echo e($meeting->name); ?></th>
+                                            <th colspan = "2" style="padding:5px 0px;margin-left 5px;font-size:13px"></th>
                                             <th colspan = "3"  style="text-align:left;text-align:left; padding:5px 5px; margin-left:5px;">Date:<?php echo date("d/m/Y"); ?> </th>
-                                            <th  style="text-align:left; font-size:13px;padding:5px 5px; margin-left:5px;">Event: {{$meeting->type}}</th>
+                                            <th  style="text-align:left; font-size:13px;padding:5px 5px; margin-left:5px;">Event: <?php echo e($meeting->type); ?></th>
                                         </tr>
                                         <tr style="background-color:#063806;">
                                             <th style="color:#ffffff; font-size:13px;text-align:left; padding:5px 5px; margin-left:5px;">Description</th>
                                             <th colspan = "2" style="color:#ffffff; font-size:13px;padding:5px 5px; margin-left:5px;">Additional</th>
-                                            <th  style="color:#ffffff; font-size:13px;padding:5px 5px;margin-left :5px;font-size:13px">Cost</th>
-                                            <th  style="color:#ffffff; font-size:13px;padding:5px 5px;margin-left: 5px;font-size:13px">Quantity</th>
-                                            <th  style="color:#ffffff; font-size:13px;padding:5px 5px;margin-left :5px;font-size:13px">Total Price</th>
-                                            <th style="color:#ffffff; font-size:13px;padding:5px 5px;margin-left :5px;font-size:13px">Notes</th>
+                                            <th  style="color:#ffffff; font-size:13px;padding:5px 5px;margin-left 5px;font-size:13px">Cost</th>
+                                            <th  style="color:#ffffff; font-size:13px;padding:5px 5px;margin-left 5px;font-size:13px">Quantity</th>
+                                            <th  style="color:#ffffff; font-size:13px;padding:5px 5px;margin-left 5px;font-size:13px">Total Price</th>
+                                            <th style="color:#ffffff; font-size:13px;padding:5px 5px;margin-left 5px;font-size:13px">Notes</th>
                                         </tr>
                                     </thead>
                                     <tbody>    
@@ -188,59 +188,59 @@
                                             <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Venue Rental</td>
                                             <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                             
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$fixed_cost->venue_rental}}</td>
+                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($fixed_cost->venue_rental); ?></td>
                                             <td style="padding:5px 5px; margin-left:5px;font-size:13px;">1</td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$total[] =$fixed_cost->venue_rental * 1}}</td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$meeting->venue_selection}}</td>
+                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($total[] =$fixed_cost->venue_rental * 1); ?></td>
+                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($meeting->venue_selection); ?></td>
                                         </tr>
                                         
                                         <tr>
                                             <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Brunch / Lunch / Dinner Package</td>
                                             <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$fixed_cost->classic_brunch}}</td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$meeting->guest_count}}</td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$total[] = $fixed_cost->classic_brunch * $meeting->guest_count}}</td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$meeting->function}}</td>
+                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($fixed_cost->classic_brunch); ?></td>
+                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($meeting->guest_count); ?></td>
+                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($total[] = $fixed_cost->classic_brunch * $meeting->guest_count); ?></td>
+                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($meeting->function); ?></td>
                                         </tr>
                                         <tr>
                                             <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Bar Package</td>
                                             <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$fixed_cost->platinum_3hrs}}</td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$meeting->guest_count/2}}</td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$total[] = $fixed_cost->platinum_3hrs * ($meeting->guest_count/2)}}</td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$meeting->bar}}</td>
+                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($fixed_cost->platinum_3hrs); ?></td>
+                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($meeting->guest_count/2); ?></td>
+                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($total[] = $fixed_cost->platinum_3hrs * ($meeting->guest_count/2)); ?></td>
+                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($meeting->bar); ?></td>
                                         </tr>
                                         <tr>
                                             <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Hotel Rooms</td>
                                             <td colspan = "2" style="padding:5px 5px; margin-left:5px;"></td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$fixed_cost->hotel_rooms}}</td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$meeting->room}}</td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$total[] = $fixed_cost->hotel_rooms * $meeting->rooms}}</td>
+                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($fixed_cost->hotel_rooms); ?></td>
+                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($meeting->room); ?></td>
+                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($total[] = $fixed_cost->hotel_rooms * $meeting->rooms); ?></td>
                                             <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                         </tr>
                                         <tr>
                                             <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Tent, Tables, Chairs, AV Equipment</td>
                                             <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$fixed_cost->equipment}}</td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$meeting->guest_count}}</td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$total[] = $fixed_cost->equipment * $meeting->guest_count}}</td>
+                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($fixed_cost->equipment); ?></td>
+                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($meeting->guest_count); ?></td>
+                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($total[] = $fixed_cost->equipment * $meeting->guest_count); ?></td>
                                             <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Chairs</td>
                                         </tr>
                                         <tr>
                                             <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Welcome / Rehearsal / Special Setup</td>
                                             <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px"></td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$fixed_cost->setup}}</td>
+                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($fixed_cost->setup); ?></td>
                                             <td style="padding:5px 5px; margin-left:5px;font-size:13px;">1</td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$total[] = $fixed_cost->setup * 1}}</td>
+                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($total[] = $fixed_cost->setup * 1); ?></td>
                                             <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                         </tr>
                                         <tr>
                                             <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Special Requests / Others</td>
                                             <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$fixed_cost->special_req}}</td>
+                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($fixed_cost->special_req); ?></td>
                                             <td style="padding:5px 5px; margin-left:5px;font-size:13px;">1</td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$total[] = $fixed_cost->special_req * 1}}</td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Bartender Fee ,@if($meeting->spcl_request){{$meeting->spcl_request}}@endif</td>
+                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($total[] = $fixed_cost->special_req * 1); ?></td>
+                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Bartender Fee ,<?php if($meeting->spcl_request): ?><?php echo e($meeting->spcl_request); ?><?php endif; ?></td>
                                             
                                         </tr>
                                         <tr>
@@ -253,19 +253,19 @@
                                         <tr>
                                             <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Total</td>
                                             <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                            <td colspan = "3" style="padding:5px 5px; margin-left:5px;font-size:13px;">${{ array_sum($total) }}</td>
+                                            <td colspan = "3" style="padding:5px 5px; margin-left:5px;font-size:13px;">$<?php echo e(array_sum($total)); ?></td>
                                             <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                         </tr>
                                         <tr>
                                             <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Sales, Occupancy Tax</td>
                                             <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                            <td colspan = "3" style="padding:5px 5px; margin-left:5px;font-size:13px;"> ${{ 7* array_sum($total)/100 }}</td>
+                                            <td colspan = "3" style="padding:5px 5px; margin-left:5px;font-size:13px;"> $<?php echo e(7* array_sum($total)/100); ?></td>
                                             <td></td>
                                         </tr>
                                         <tr>
                                             <td style="text-align:left;text-align:left; padding:5px 5px; margin-left:5px;font-size:13px;">Service Charges & Gratuity</td>
                                             <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                            <td colspan = "3" style="padding:5px 5px; margin-left:5px;font-size:13px;">${{ 20* array_sum($total)/100 }}</td>
+                                            <td colspan = "3" style="padding:5px 5px; margin-left:5px;font-size:13px;">$<?php echo e(20* array_sum($total)/100); ?></td>
                                             <td></td>
                                         </tr>
                                         <tr>
@@ -277,7 +277,7 @@
                                         <tr>
                                             <td style="background-color:#ffff00; padding:5px 5px; margin-left:5px;font-size:13px;">Grand Total / Estimated Total</td>
                                             <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                            <td colspan = "3" style="padding:5px 5px; margin-left:5px;font-size:13px;">$ {{$grandtotal=  array_sum($total) + 20* array_sum($total)/100 + 7* array_sum($total)/100}}</td>
+                                            <td colspan = "3" style="padding:5px 5px; margin-left:5px;font-size:13px;">$ <?php echo e($grandtotal=  array_sum($total) + 20* array_sum($total)/100 + 7* array_sum($total)/100); ?></td>
                                             <td></td>
                                         </tr>
                                         <tr>
@@ -288,12 +288,12 @@
                                         </tr> <tr>
                                             <td style="background-color:#ffff00;text-align:left; padding:5px 5px; margin-left:5px;font-size:13px;">balance due</td>
                                             <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                            <td colspan = "3" style="padding:5px 5px; margin-left:5px;font-size:13px;background-color:#9fdb9f;">${{$grandtotal}}</td>
+                                            <td colspan = "3" style="padding:5px 5px; margin-left:5px;font-size:13px;background-color:#9fdb9f;">$<?php echo e($grandtotal); ?></td>
                                             <td></td>
                                         </tr>
                                     </tbody>
                                 </table>
-                                <input type= "hidden" value = "{{$grandtotal}}" name= "grandtotal">
+                                <input type= "hidden" value = "<?php echo e($grandtotal); ?>" name= "grandtotal">
                                 <h3 style = "text-align:center">TERMS AND CONDITIONS</h3>
                                 <h6  class="headings">FOOD AND ALCOHOLIC BEVERAGES and 3RD PARTY / ON-SITE VENDORS</h6>
                                 <p class="text">
@@ -513,7 +513,7 @@
                                 No Personal Checks are accepted for final payment. <br><br>
                                 The Rules and Conditions for Usage are incorporated herein and are made a part hereof. <br><br>
                 
-                                Please return signed contract with deposit no later than <b>{{ \Carbon\Carbon::parse($meeting->start_date)->format('d M, Y') }}</b> or this contract is no longer valid.<br>
+                                Please return signed contract with deposit no later than <b><?php echo e(\Carbon\Carbon::parse($meeting->start_date)->format('d M, Y')); ?></b> or this contract is no longer valid.<br>
                                 </p>
                              
                             </div>
@@ -542,7 +542,7 @@
 </body>
 </html>
         <div id = "loader" style = "display:none">
-            <img src = "{{asset('assets/loader/loader.webp')}}"  >
+            <img src = "<?php echo e(asset('assets/loader/loader.webp')); ?>"  >
         </div>
         <style>
   
@@ -566,8 +566,8 @@
       border-radius: 8px;
   }
 </style>
-@include('partials.admin.head')
-@include('partials.admin.footer')
+<?php echo $__env->make('partials.admin.head', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('partials.admin.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
  <script>
     document.addEventListener('DOMContentLoaded', function() {
         var canvas = document.getElementById('signatureCanvas');
@@ -594,4 +594,4 @@
             $("#loader").show(); 
         });
     });
-</script>
+</script><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/meeting/agreement/signedagreement.blade.php ENDPATH**/ ?>
