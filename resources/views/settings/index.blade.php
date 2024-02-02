@@ -535,7 +535,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
             </div>
             <div class="col-xl-9">
                 @if (\Auth::user()->type == 'super admin')
-                 <div id="brand-settings" class="card">
+                 <!-- <div id="brand-settings" class="card">
                     <div class="card-header">
                         <h5>{{ __('Brand Settings') }}</h5>
                         <small class="text-muted">{{ __('Edit your brand details') }}</small>
@@ -886,7 +886,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                         {{ Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary']) }}
                     </div>
                     {{ Form::close() }}
-                </div> 
+                </div>  -->
 
                 <!-- <div id="email-settings" class="card">
                             <div class="card-header">
@@ -2681,7 +2681,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
     </div>
     @endif
     @if (\Auth::user()->type == 'owner')
-    <div id="site-settings" class="card">
+    <!-- <div id="site-settings" class="card">
         <div class="card-header">
             <h5>{{ __('Site Settings') }}</h5>
             <small class="text-muted">{{ __('Edit your site details') }}</small>
@@ -2974,7 +2974,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
 
             {{ Form::close() }}
         </div>
-    </div> 
+    </div>  -->
 
     <!-- <div id="company-settings" class="card">
             <div class="card-header">

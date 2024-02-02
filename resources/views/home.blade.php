@@ -11,7 +11,7 @@
 
 @section('action-btn')
 
-@endsection
+@endsection 
 @section('content')
 <style>
     #optionsContainer {
