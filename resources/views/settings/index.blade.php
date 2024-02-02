@@ -535,346 +535,344 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
             </div>
             <div class="col-xl-9">
                 @if (\Auth::user()->type == 'super admin')
-                <!-- <div id="brand-settings" class="card">
-                            <div class="card-header">
-                                <h5>{{ __('Brand Settings') }}</h5>
-                                <small class="text-muted">{{ __('Edit your brand details') }}</small>
-                            </div>
-                            {{ Form::model($settings, ['route' => 'business.setting', 'method' => 'POST', 'enctype' => 'multipart/form-data']) }}
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h5 class="small-title">{{ __('Dark Logo') }}</h5>
-                                            </div>
-                                            <div class="card-body setting-card setting-logo-box p-3">
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <div class="logo-content logo-set-bg py-2" style="height:65px">
-                                                            {{-- <a href="{{ asset(Storage::url('uploads/logo/logo-dark.png')) }}" target="_blank">
-                                                                    <img id="blah4" alt="your image" src="{{ asset(Storage::url('uploads/logo/logo-dark.png')) }}" width="170px" class="">
-                                                                </a> --}}
-                                                            <a href="{{ $logo . 'logo-dark.png' . '?' . time() }}"
-                                                                target="_blank" style="height: 50px; width:150px;">
-                                                                <img id="blah4" alt="your image"
-                                                                    src="{{ $logo . 'logo-dark.png' . '?' . time() }}"
-                                                                    style="height: 50px; width:150px;" class="big-logo">
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-12">
-
-                                                        <div class="choose-files mt-5">
-                                                            <label for="logo_dark">
-                                                                <div class=" bg-primary"> <i
-                                                                        class="ti ti-upload px-1"></i>{{ __('Choose file here') }}
-                                                                </div>
-                                                                <input type="file"name="logo_dark" id="logo_dark"
-                                                                    class="form-control file"
-                                                                    data-filename="company_logo_update"
-                                                                    onchange="document.getElementById('blah4').src = window.URL.createObjectURL(this.files[0])">
-
-                                                                {{-- <input type="file" name="logo_dark" id="logo_dark" class="form-control file" data-filename="company_logo_update"> --}}
-                                                            </label>
-                                                        </div>
-                                                    </div>
+                 <div id="brand-settings" class="card">
+                    <div class="card-header">
+                        <h5>{{ __('Brand Settings') }}</h5>
+                        <small class="text-muted">{{ __('Edit your brand details') }}</small>
+                    </div>
+                    {{ Form::model($settings, ['route' => 'business.setting', 'method' => 'POST', 'enctype' => 'multipart/form-data']) }}
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="small-title">{{ __('Dark Logo') }}</h5>
+                                    </div>
+                                    <div class="card-body setting-card setting-logo-box p-3">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="logo-content logo-set-bg py-2" style="height:65px">
+                                                    {{-- <a href="{{ asset(Storage::url('uploads/logo/logo-dark.png')) }}" target="_blank">
+                                                            <img id="blah4" alt="your image" src="{{ asset(Storage::url('uploads/logo/logo-dark.png')) }}" width="170px" class="">
+                                                        </a> --}}
+                                                    <a href="{{ $logo . 'logo-dark.png' . '?' . time() }}"
+                                                        target="_blank" style="height: 50px; width:150px;">
+                                                        <img id="blah4" alt="your image"
+                                                            src="{{ $logo . 'logo-dark.png' . '?' . time() }}"
+                                                            style="height: 50px; width:150px;" class="big-logo">
+                                                    </a>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h5 class="small-title">{{ __('Light Logo') }}</h5>
-                                            </div>
-                                            <div class="card-body setting-card setting-logo-box p-3">
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <div class="logo-content logo-set-bg py-2" style="height:65px">
-                                                            {{-- <a href="{{ asset(Storage::url('uploads/logo/logo-light.png')) }}" target="_blank">
-                                                                    <img id="blah5" alt="your image" src="{{ asset(Storage::url('uploads/logo/logo-light.png')) }}" width="170px" class="img_setting">
-                                                                </a> --}}
-                                                            <a href="{{ $logo . 'logo-light.png' . '?' . time() }}"
-                                                                target="_blank" style="height: 50px; width:150px;">
-                                                                <img id="blah5" alt="your image"
-                                                                    src="{{ $logo . 'logo-light.png' . '?' . time() }}"
-                                                                    style="height: 50px; width:150px;" class="img_setting">
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-12">
+                                            <div class="col-12">
 
-                                                        <div class="choose-files mt-5">
-                                                            <label for="logo_light">
-                                                                <div class=" bg-primary"> <i
-                                                                        class="ti ti-upload px-1"></i>{{ __('Choose file here') }}
-                                                                </div>
-                                                                <input type="file"name="logo_light" id="logo_light"
-                                                                    class="form-control file"
-                                                                    data-filename="company_logo_update"
-                                                                    onchange="document.getElementById('blah5').src = window.URL.createObjectURL(this.files[0])">
+                                                <div class="choose-files mt-5">
+                                                    <label for="logo_dark">
+                                                        <div class=" bg-primary"> <i
+                                                                class="ti ti-upload px-1"></i>{{ __('Choose file here') }}
+                                                        </div>
+                                                        <input type="file"name="logo_dark" id="logo_dark"
+                                                            class="form-control file"
+                                                            data-filename="company_logo_update"
+                                                            onchange="document.getElementById('blah4').src = window.URL.createObjectURL(this.files[0])">
 
-                                                                {{-- <input type="file" name="logo_light" id="logo_light" class="form-control file" data-filename="company_logo_update"> --}}
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h5 class="small-title">{{ __('Favicon') }}</h5>
-                                            </div>
-                                            <div class="card-body setting-card setting-logo-box p-3">
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <div class="logo-content logo-set-bg py-2" style="height:65px">
-                                                            {{-- <a href="{{ asset(Storage::url('uploads/logo/favicon.png')) }}" target="_blank">
-                                                                    <img id="blah6" alt="your image" src="{{ $logo . '/' . (isset($favicon) && !empty($favicon) ? $favicon : 'favicon.png') }}"  width="50px" class="img_setting">
-                                                                </a> --}}
-                                                            <a href="{{ $logo . 'favicon.png' . '?' . time() }}"
-                                                                target="_blank">
-                                                                <img id="blah6" alt="your image"
-                                                                    src="{{ $logo . 'favicon.png' . '?' . time() }}"
-                                                                    width="50px" class="img_setting">
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <div class="choose-files mt-5">
-                                                            <label for="favicon">
-                                                                <div class=" bg-primary"> <i
-                                                                        class="ti ti-upload px-1"></i>{{ __('Choose file here') }}
-                                                                </div>
-                                                                <input type="file"name="favicon" id="favicon"
-                                                                    class="form-control file"
-                                                                    data-filename="company_logo_update"
-                                                                    onchange="document.getElementById('blah6').src = window.URL.createObjectURL(this.files[0])">
-                                                                {{-- <input type="file" name="favicon" id="favicon" class="form-control file" data-filename="company_logo_update"> --}}
-                                                            </label>
-                                                        </div>
-                                                    </div>
+                                                        {{-- <input type="file" name="logo_dark" id="logo_dark" class="form-control file" data-filename="company_logo_update"> --}}
+                                                    </label>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row mt-3">
-                                    <div class="row">
-                                        <div class="form-group col-md-4">
-                                            {{ Form::label('title_text', __('Title Text'), ['class' => 'form-label']) }}
-                                            {{ Form::text('title_text', null, ['class' => 'form-control', 'placeholder' => __('Title Text')]) }}
-                                            @error('title_text')
-                                                <span class="invalid-title_text" role="alert">
-                                                    <strong class="text-danger">{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
-                                        @if (\Auth::user()->type == 'super admin')
-                                            <div class="form-group col-md-4">
-                                                {{ Form::label('footer_text', __('Footer Text'), ['class' => 'form-label']) }}
-                                                {{ Form::text('footer_text', null, ['class' => 'form-control', 'placeholder' => __('Footer Text')]) }}
-                                                @error('footer_text')
-                                                    <span class="invalid-footer_text" role="alert">
-                                                        <strong class="text-danger">{{ $message }}</strong>
-                                                    </span>
-                                                @enderror
-                                            </div>
-                                            <div class="form-group col-md-4">
-                                                {{ Form::label('default_language', __('Default Language'), ['class' => 'form-label']) }}
-                                                <div class="changeLanguage">
-                                                    <select name="default_language" id="default_language"
-                                                        class="form-control custom-select">
-                                                        @foreach (\App\Models\Utility::languages() as $code => $language)
-                                                            <option @if ($lang == $code) selected @endif
-                                                                value="{{ $code }}">{{ ucfirst($language) }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="col switch-width">
-                                                    <div class="form-group ml-2 mr-3">
-                                                        <label
-                                                            class="form-label mb-1">{{ __('Enable Landing Page') }}</label>
-                                                        <div class="custom-control custom-switch">
-                                                            <input type="checkbox" data-toggle="switchbutton"
-                                                                data-onstyle="primary" class=""
-                                                                name="display_landing_page" id="display_landing_page"
-                                                                {{ $settings['display_landing_page'] == 'on' ? 'checked="checked"' : '' }}>
-                                                            <label class="custom-control-label mb-1"
-                                                                for="display_landing_page"></label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-4">
-                                                <div class="col switch-width">
-                                                    <div class="form-group ml-2 mr-3 ">
-
-                                                        {{ Form::label('verified_button', __('Email Verification'), ['class' => 'form-label']) }}
-                                                        <div class="custom-control custom-switch">
-                                                            <input type="checkbox" data-toggle="switchbutton"
-                                                                data-onstyle="primary" class=""
-                                                                name="verified_button" id="verified_button"
-                                                                {{ Utility::getValByName('verified_button') == 'on' ? 'checked="checked"' : '' }}>
-                                                            <label class="custom-control-label"
-                                                                for="verified_button"></label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-4">
-                                                <div class="col switch-width">
-                                                    <div class="form-group ml-2 mr-3 ">
-                                                        {{ Form::label('SITE_RTL', __('Enable RTL'), ['class' => 'form-label']) }}
-                                                        <div class="custom-control custom-switch">
-                                                            <input type="checkbox" data-toggle="switchbutton"
-                                                                data-onstyle="primary" class="" name="SITE_RTL"
-                                                                id="SITE_RTL"{{ $settings['SITE_RTL'] == 'on' ? 'checked="checked"' : '' }}>
-                                                            <label class="custom-control-label" for="SITE_RTL"></label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-
-                                            <div class="col-4">
-                                                <div class="col switch-width">
-                                                    <div class="form-group ml-2 mr-3 ">
-                                                        {{ Form::label('signup_button', __('Enable Sign-Up Page'), ['class' => 'form-label']) }}
-                                                        <div class="custom-control custom-switch">
-                                                            <input type="checkbox" data-toggle="switchbutton"
-                                                                data-onstyle="primary" class=""
-                                                                name="signup_button" id="signup_button"
-                                                                {{ Utility::getValByName('signup_button') == 'on' ? 'checked="checked"' : '' }}>
-                                                            <label class="custom-control-label"
-                                                                for="signup_button"></label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endif
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="small-title">{{ __('Light Logo') }}</h5>
                                     </div>
+                                    <div class="card-body setting-card setting-logo-box p-3">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="logo-content logo-set-bg py-2" style="height:65px">
+                                                    {{-- <a href="{{ asset(Storage::url('uploads/logo/logo-light.png')) }}" target="_blank">
+                                                            <img id="blah5" alt="your image" src="{{ asset(Storage::url('uploads/logo/logo-light.png')) }}" width="170px" class="img_setting">
+                                                        </a> --}}
+                                                    <a href="{{ $logo . 'logo-light.png' . '?' . time() }}"
+                                                        target="_blank" style="height: 50px; width:150px;">
+                                                        <img id="blah5" alt="your image"
+                                                            src="{{ $logo . 'logo-light.png' . '?' . time() }}"
+                                                            style="height: 50px; width:150px;" class="img_setting">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+
+                                                <div class="choose-files mt-5">
+                                                    <label for="logo_light">
+                                                        <div class=" bg-primary"> <i
+                                                                class="ti ti-upload px-1"></i>{{ __('Choose file here') }}
+                                                        </div>
+                                                        <input type="file"name="logo_light" id="logo_light"
+                                                            class="form-control file"
+                                                            data-filename="company_logo_update"
+                                                            onchange="document.getElementById('blah5').src = window.URL.createObjectURL(this.files[0])">
+
+                                                        {{-- <input type="file" name="logo_light" id="logo_light" class="form-control file" data-filename="company_logo_update"> --}}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="small-title">{{ __('Favicon') }}</h5>
+                                    </div>
+                                    <div class="card-body setting-card setting-logo-box p-3">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="logo-content logo-set-bg py-2" style="height:65px">
+                                                    {{-- <a href="{{ asset(Storage::url('uploads/logo/favicon.png')) }}" target="_blank">
+                                                            <img id="blah6" alt="your image" src="{{ $logo . '/' . (isset($favicon) && !empty($favicon) ? $favicon : 'favicon.png') }}"  width="50px" class="img_setting">
+                                                        </a> --}}
+                                                    <a href="{{ $logo . 'favicon.png' . '?' . time() }}"
+                                                        target="_blank">
+                                                        <img id="blah6" alt="your image"
+                                                            src="{{ $logo . 'favicon.png' . '?' . time() }}"
+                                                            width="50px" class="img_setting">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="choose-files mt-5">
+                                                    <label for="favicon">
+                                                        <div class=" bg-primary"> <i
+                                                                class="ti ti-upload px-1"></i>{{ __('Choose file here') }}
+                                                        </div>
+                                                        <input type="file"name="favicon" id="favicon"
+                                                            class="form-control file"
+                                                            data-filename="company_logo_update"
+                                                            onchange="document.getElementById('blah6').src = window.URL.createObjectURL(this.files[0])">
+                                                        {{-- <input type="file" name="favicon" id="favicon" class="form-control file" data-filename="company_logo_update"> --}}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    {{ Form::label('title_text', __('Title Text'), ['class' => 'form-label']) }}
+                                    {{ Form::text('title_text', null, ['class' => 'form-control', 'placeholder' => __('Title Text')]) }}
+                                    @error('title_text')
+                                        <span class="invalid-title_text" role="alert">
+                                            <strong class="text-danger">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                                @if (\Auth::user()->type == 'super admin')
+                                    <div class="form-group col-md-4">
+                                        {{ Form::label('footer_text', __('Footer Text'), ['class' => 'form-label']) }}
+                                        {{ Form::text('footer_text', null, ['class' => 'form-control', 'placeholder' => __('Footer Text')]) }}
+                                        @error('footer_text')
+                                            <span class="invalid-footer_text" role="alert">
+                                                <strong class="text-danger">{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        {{ Form::label('default_language', __('Default Language'), ['class' => 'form-label']) }}
+                                        <div class="changeLanguage">
+                                            <select name="default_language" id="default_language"
+                                                class="form-control custom-select">
+                                                @foreach (\App\Models\Utility::languages() as $code => $language)
+                                                    <option @if ($lang == $code) selected @endif
+                                                        value="{{ $code }}">{{ ucfirst($language) }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="col switch-width">
+                                            <div class="form-group ml-2 mr-3">
+                                                <label
+                                                    class="form-label mb-1">{{ __('Enable Landing Page') }}</label>
+                                                <div class="custom-control custom-switch">
+                                                    <input type="checkbox" data-toggle="switchbutton"
+                                                        data-onstyle="primary" class=""
+                                                        name="display_landing_page" id="display_landing_page"
+                                                        {{ $settings['display_landing_page'] == 'on' ? 'checked="checked"' : '' }}>
+                                                    <label class="custom-control-label mb-1"
+                                                        for="display_landing_page"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <div class="col switch-width">
+                                            <div class="form-group ml-2 mr-3 ">
+
+                                                {{ Form::label('verified_button', __('Email Verification'), ['class' => 'form-label']) }}
+                                                <div class="custom-control custom-switch">
+                                                    <input type="checkbox" data-toggle="switchbutton"
+                                                        data-onstyle="primary" class=""
+                                                        name="verified_button" id="verified_button"
+                                                        {{ Utility::getValByName('verified_button') == 'on' ? 'checked="checked"' : '' }}>
+                                                    <label class="custom-control-label"
+                                                        for="verified_button"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <div class="col switch-width">
+                                            <div class="form-group ml-2 mr-3 ">
+                                                {{ Form::label('SITE_RTL', __('Enable RTL'), ['class' => 'form-label']) }}
+                                                <div class="custom-control custom-switch">
+                                                    <input type="checkbox" data-toggle="switchbutton"
+                                                        data-onstyle="primary" class="" name="SITE_RTL"
+                                                        id="SITE_RTL"{{ $settings['SITE_RTL'] == 'on' ? 'checked="checked"' : '' }}>
+                                                    <label class="custom-control-label" for="SITE_RTL"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="col-4">
+                                        <div class="col switch-width">
+                                            <div class="form-group ml-2 mr-3 ">
+                                                {{ Form::label('signup_button', __('Enable Sign-Up Page'), ['class' => 'form-label']) }}
+                                                <div class="custom-control custom-switch">
+                                                    <input type="checkbox" data-toggle="switchbutton"
+                                                        data-onstyle="primary" class=""
+                                                        name="signup_button" id="signup_button"
+                                                        {{ Utility::getValByName('signup_button') == 'on' ? 'checked="checked"' : '' }}>
+                                                    <label class="custom-control-label"
+                                                        for="signup_button"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="row">
+                                <h4 class="small-title">{{ __('Theme Customizer') }}</h4>
+                                <div class="setting-card setting-logo-box p-3">
                                     <div class="row">
-                                        <h4 class="small-title">{{ __('Theme Customizer') }}</h4>
-                                        <div class="setting-card setting-logo-box p-3">
+                                        <div class="pct-body">
                                             <div class="row">
-                                                <div class="pct-body">
-                                                    <div class="row">
-                                                        <div class="col-lg-4 col-xl-4 col-md-4">
-                                                            <h6>
-                                                                <i data-feather="credit-card"
-                                                                    class="me-2"></i>{{ __('Primary color settings') }}
-                                                            </h6>
-                                                            <hr class="my-2" />
-                                                            <div class="theme-color themes-color">
-                                                                <a href="#!"
-                                                                    class="{{ $settings['color'] == 'theme-1' ? 'active_color' : '' }}"
-                                                                    data-value="theme-1"
-                                                                    onclick="check_theme('theme-1')"></a>
-                                                                <input type="radio" class="theme_color" name="color"
-                                                                    value="theme-1" style="display: none;">
-                                                                <a href="#!"
-                                                                    class="{{ $settings['color'] == 'theme-2' ? 'active_color' : '' }} "
-                                                                    data-value="theme-2"
-                                                                    onclick="check_theme('theme-2')"></a>
-                                                                <input type="radio" class="theme_color" name="color"
-                                                                    value="theme-2" style="display: none;">
-                                                                <a href="#!"
-                                                                    class="{{ $settings['color'] == 'theme-3' ? 'active_color' : '' }}"
-                                                                    data-value="theme-3"
-                                                                    onclick="check_theme('theme-3')"></a>
-                                                                <input type="radio" class="theme_color" name="color"
-                                                                    value="theme-3" style="display: none;">
-                                                                <a href="#!"
-                                                                    class="{{ $settings['color'] == 'theme-4' ? 'active_color' : '' }}"
-                                                                    data-value="theme-4"
-                                                                    onclick="check_theme('theme-4')"></a>
-                                                                <input type="radio" class="theme_color" name="color"
-                                                                    value="theme-4" style="display: none;">
-                                                                <a href="#!"
-                                                                    class="{{ $settings['color'] == 'theme-5' ? 'active_color' : '' }}"
-                                                                    data-value="theme-5"
-                                                                    onclick="check_theme('theme-5')"></a>
-                                                                <input type="radio" class="theme_color" name="color"
-                                                                    value="theme-5" style="display: none;">
-                                                                <br>
-                                                                <a href="#!"
-                                                                    class="{{ $settings['color'] == 'theme-6' ? 'active_color' : '' }}"
-                                                                    data-value="theme-6"
-                                                                    onclick="check_theme('theme-6')"></a>
-                                                                <input type="radio" class="theme_color" name="color"
-                                                                    value="theme-6" style="display: none;">
-                                                                <a href="#!"
-                                                                    class="{{ $settings['color'] == 'theme-7' ? 'active_color' : '' }}"
-                                                                    data-value="theme-7"
-                                                                    onclick="check_theme('theme-7')"></a>
-                                                                <input type="radio" class="theme_color" name="color"
-                                                                    value="theme-7" style="display: none;">
-                                                                <a href="#!"
-                                                                    class="{{ $settings['color'] == 'theme-8' ? 'active_color' : '' }}"
-                                                                    data-value="theme-8"
-                                                                    onclick="check_theme('theme-8')"></a>
-                                                                <input type="radio" class="theme_color" name="color"
-                                                                    value="theme-8" style="display: none;">
-                                                                <a href="#!"
-                                                                    class="{{ $settings['color'] == 'theme-9' ? 'active_color' : '' }}"
-                                                                    data-value="theme-9"
-                                                                    onclick="check_theme('theme-9')"></a>
-                                                                <input type="radio" class="theme_color" name="color"
-                                                                    value="theme-9" style="display: none;">
-                                                                <a href="#!"
-                                                                    class="{{ $settings['color'] == 'theme-10' ? 'active_color' : '' }}"
-                                                                    data-value="theme-10"
-                                                                    onclick="check_theme('theme-10')"></a>
-                                                                <input type="radio" class="theme_color" name="color"
-                                                                    value="theme-10" style="display: none;">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-4">
-                                                            <h6>
-                                                                <i data-feather="layout"
-                                                                    class="me-2"></i>{{ __('Sidebar Settings') }}
-                                                            </h6>
-                                                            <hr class="my-2" />
-                                                            <div class="form-check form-switch">
-                                                                <input type="checkbox" class="form-check-input"
-                                                                    id="cust-theme-bg" name="cust_theme_bg"
-                                                                    {{ Utility::getValByName('cust_theme_bg') == 'on' ? 'checked' : '' }} />
-                                                                <label class="form-check-label f-w-600 pl-1"
-                                                                    for="cust-theme-bg">{{ __('Transparent layout') }}</label>
+                                                <div class="col-lg-4 col-xl-4 col-md-4">
+                                                    <h6>
+                                                        <i data-feather="credit-card"
+                                                            class="me-2"></i>{{ __('Primary color settings') }}
+                                                    </h6>
+                                                    <hr class="my-2" />
+                                                    <div class="theme-color themes-color">
+                                                        <a href="#!"
+                                                            class="{{ $settings['color'] == 'theme-1' ? 'active_color' : '' }}"
+                                                            data-value="theme-1"
+                                                            onclick="check_theme('theme-1')"></a>
+                                                        <input type="radio" class="theme_color" name="color"
+                                                            value="theme-1" style="display: none;">
+                                                        <a href="#!"
+                                                            class="{{ $settings['color'] == 'theme-2' ? 'active_color' : '' }} "
+                                                            data-value="theme-2"
+                                                            onclick="check_theme('theme-2')"></a>
+                                                        <input type="radio" class="theme_color" name="color"
+                                                            value="theme-2" style="display: none;">
+                                                        <a href="#!"
+                                                            class="{{ $settings['color'] == 'theme-3' ? 'active_color' : '' }}"
+                                                            data-value="theme-3"
+                                                            onclick="check_theme('theme-3')"></a>
+                                                        <input type="radio" class="theme_color" name="color"
+                                                            value="theme-3" style="display: none;">
+                                                        <a href="#!"
+                                                            class="{{ $settings['color'] == 'theme-4' ? 'active_color' : '' }}"
+                                                            data-value="theme-4"
+                                                            onclick="check_theme('theme-4')"></a>
+                                                        <input type="radio" class="theme_color" name="color"
+                                                            value="theme-4" style="display: none;">
+                                                        <a href="#!"
+                                                            class="{{ $settings['color'] == 'theme-5' ? 'active_color' : '' }}"
+                                                            data-value="theme-5"
+                                                            onclick="check_theme('theme-5')"></a>
+                                                        <input type="radio" class="theme_color" name="color"
+                                                            value="theme-5" style="display: none;">
+                                                        <br>
+                                                        <a href="#!"
+                                                            class="{{ $settings['color'] == 'theme-6' ? 'active_color' : '' }}"
+                                                            data-value="theme-6"
+                                                            onclick="check_theme('theme-6')"></a>
+                                                        <input type="radio" class="theme_color" name="color"
+                                                            value="theme-6" style="display: none;">
+                                                        <a href="#!"
+                                                            class="{{ $settings['color'] == 'theme-7' ? 'active_color' : '' }}"
+                                                            data-value="theme-7"
+                                                            onclick="check_theme('theme-7')"></a>
+                                                        <input type="radio" class="theme_color" name="color"
+                                                            value="theme-7" style="display: none;">
+                                                        <a href="#!"
+                                                            class="{{ $settings['color'] == 'theme-8' ? 'active_color' : '' }}"
+                                                            data-value="theme-8"
+                                                            onclick="check_theme('theme-8')"></a>
+                                                        <input type="radio" class="theme_color" name="color"
+                                                            value="theme-8" style="display: none;">
+                                                        <a href="#!"
+                                                            class="{{ $settings['color'] == 'theme-9' ? 'active_color' : '' }}"
+                                                            data-value="theme-9"
+                                                            onclick="check_theme('theme-9')"></a>
+                                                        <input type="radio" class="theme_color" name="color"
+                                                            value="theme-9" style="display: none;">
+                                                        <a href="#!"
+                                                            class="{{ $settings['color'] == 'theme-10' ? 'active_color' : '' }}"
+                                                            data-value="theme-10"
+                                                            onclick="check_theme('theme-10')"></a>
+                                                        <input type="radio" class="theme_color" name="color"
+                                                            value="theme-10" style="display: none;">
+                                                    </div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <h6>
+                                                        <i data-feather="layout"
+                                                            class="me-2"></i>{{ __('Sidebar Settings') }}
+                                                    </h6>
+                                                    <hr class="my-2" />
+                                                    <div class="form-check form-switch">
+                                                        <input type="checkbox" class="form-check-input"
+                                                            id="cust-theme-bg" name="cust_theme_bg"
+                                                            {{ Utility::getValByName('cust_theme_bg') == 'on' ? 'checked' : '' }} />
+                                                        <label class="form-check-label f-w-600 pl-1"
+                                                            for="cust-theme-bg">{{ __('Transparent layout') }}</label>
 
-                                                                {{-- <input type="checkbox" class="form-check-input" id="cust-theme-bg" name="cust_theme_bg"  @if ($settings['cust_theme_bg'] == 'on') checked @endif/>
+                                                        {{-- <input type="checkbox" class="form-check-input" id="cust-theme-bg" name="cust_theme_bg"  @if ($settings['cust_theme_bg'] == 'on') checked @endif/>
 
-                                                            <label class="form-check-label f-w-600 pl-1" for="cust-theme-bg">Transparent layout</label> --}}
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-4">
-                                                            <h6>
-                                                                <i data-feather="sun"
-                                                                    class=""></i>{{ __('Layout settings') }}
-                                                            </h6>
-                                                            <hr class=" my-2" />
-                                                            <div class="form-check form-switch">
-                                                                <input type="checkbox" class="form-check-input"
-                                                                    id="cust-darklayout" name="cust_darklayout"
-                                                                    {{ Utility::getValByName('cust_darklayout') == 'on' ? 'checked' : '' }} />
-                                                                <label class="form-check-label f-w-600 pl-1"
-                                                                    for="cust-darklayout">{{ __('Dark Layout') }}</label>
+                                                    <label class="form-check-label f-w-600 pl-1" for="cust-theme-bg">Transparent layout</label> --}}
+                                                    </div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <h6>
+                                                        <i data-feather="sun"
+                                                            class=""></i>{{ __('Layout settings') }}
+                                                    </h6>
+                                                    <hr class=" my-2" />
+                                                    <div class="form-check form-switch">
+                                                        <input type="checkbox" class="form-check-input"
+                                                            id="cust-darklayout" name="cust_darklayout"
+                                                            {{ Utility::getValByName('cust_darklayout') == 'on' ? 'checked' : '' }} />
+                                                        <label class="form-check-label f-w-600 pl-1"
+                                                            for="cust-darklayout">{{ __('Dark Layout') }}</label>
 
-                                                                {{-- <input type="checkbox" class="form-check-input" id="cust-darklayout" name="cust_darklayout"@if ($settings['cust_darklayout'] == 'on') checked @endif/>
+                                                        {{-- <input type="checkbox" class="form-check-input" id="cust-darklayout" name="cust_darklayout"@if ($settings['cust_darklayout'] == 'on') checked @endif/>
 
-                                                                <label class="form-check-label f-w-600 pl-1" for="cust-darklayout" >Dark Layout</label> --}}
-                                                            </div>
-                                                        </div>
+                                                        <label class="form-check-label f-w-600 pl-1" for="cust-darklayout" >Dark Layout</label> --}}
                                                     </div>
                                                 </div>
                                             </div>
@@ -882,11 +880,13 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                     </div>
                                 </div>
                             </div>
-                            <div class="card-footer text-end">
-                                {{ Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary']) }}
-                            </div>
-                            {{ Form::close() }}
-                        </div> -->
+                        </div>
+                    </div>
+                    <div class="card-footer text-end">
+                        {{ Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary']) }}
+                    </div>
+                    {{ Form::close() }}
+                </div> 
 
                 <!-- <div id="email-settings" class="card">
                             <div class="card-header">
@@ -2681,7 +2681,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
     </div>
     @endif
     @if (\Auth::user()->type == 'owner')
-    <!-- <div id="site-settings" class="card">
+    <div id="site-settings" class="card">
         <div class="card-header">
             <h5>{{ __('Site Settings') }}</h5>
             <small class="text-muted">{{ __('Edit your site details') }}</small>
@@ -2974,7 +2974,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
 
             {{ Form::close() }}
         </div>
-    </div>  -->
+    </div> 
 
     <!-- <div id="company-settings" class="card">
             <div class="card-header">

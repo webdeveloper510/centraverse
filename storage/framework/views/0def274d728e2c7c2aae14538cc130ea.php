@@ -14,10 +14,6 @@
 <?php $__env->startSection('action-btn'); ?>
 
 <?php $__env->stopSection(); ?>
-<?php 
-echo date("Y-m-d H:i:s");
-?>
-
 <?php $__env->startSection('content'); ?>
 <style>
     #optionsContainer {
