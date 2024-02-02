@@ -54,7 +54,7 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <span class="budget"><?php echo e($lead->email); ?></a></span>
+                                        <span class="budget"><?php echo e($lead->email); ?></span>
                                     </td>
                                     <!-- <td>
                                         <span class="budget">

@@ -35,10 +35,9 @@
                             <?php $__currentLoopData = $EmailTemplate; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$template): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
                                     <td>
-                                      <?php echo e(ucfirst($template->subject)); ?>
-
+                                      <b><?php echo e(ucfirst($template->subject)); ?></b>
                                     </td>
-                                    <td>
+                                    <td class="text-end">
                                         <div class="action-btn bg-info ms-2">
                                                 <a href="<?php echo e(route('edit.email.template',$template->id)); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " data-bs-toggle="tooltip"title="<?php echo e(__('Details')); ?>" data-title="<?php echo e(__('Edit Lead')); ?>"><i class="ti ti-edit"></i></a>
                                             </div>
