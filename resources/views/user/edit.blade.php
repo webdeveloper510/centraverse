@@ -52,27 +52,8 @@
         <!-- [ sample-page ] start -->
         <div class="col-sm-12">
             <div class="row">
-                <div class="col-xl-3">
-                    <div class="card sticky-top" style="top:30px">
-                        <div class="list-group list-group-flush" id="useradd-sidenav">
-                            <a href="#useradd-1"
-                                class="list-group-item list-group-item-action border-0">{{ __('Overview') }} <div
-                                    class="float-end"><i class="ti ti-chevron-right"></i></div></a>
-
-                            <!-- @if (\Auth::user()->type != 'super admin')
-                                <a href="#useradd-2"
-                                    class="list-group-item list-group-item-action border-0">{{ __('Stream') }} <div
-                                        class="float-end"><i class="ti ti-chevron-right"></i></div></a>
-                            @endif
-                            @if (\Auth::user()->type != 'super admin')
-                                <a href="#useradd-3"
-                                    class="list-group-item list-group-item-action border-0">{{ __('Tasks') }} <div
-                                        class="float-end"><i class="ti ti-chevron-right"></i></div></a>
-                            @endif -->
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-9">
+              
+                <div class="col-xl-12">
                     <div id="useradd-1" class="card">
                         {{ Form::model($user, ['route' => ['user.update', $user->id], 'method' => 'PUT']) }}
                         <div class="card-header">
@@ -408,7 +389,7 @@
         function getparent(bid) {
             console.log(bid);
             $.ajax({
-                url: '{{ route('task.getparent') }}',
+                url: '{{ route("task.getparent") }}',
                 type: 'POST',
                 data: {
                     "parent": bid,
@@ -417,7 +398,7 @@
                 success: function(data) {
                     console.log(data);
                     $('#parent_id').empty();
-                    {{-- $('#parent_id').append('<option value="">{{__('Select Parent')}}</option>'); --}}
+                    {{-- $('#parent_id').append('<option value="">{{__("Select Parent")}}</option>'); --}}
 
                     $.each(data, function(key, value) {
                         $('#parent_id').append('<option value="' + key + '">' + value + '</option>');

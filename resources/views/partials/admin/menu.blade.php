@@ -31,19 +31,19 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                     <a href="{{ route('dashboard') }}" class="dash-link">
                         <span class="dash-micon"><i class="ti ti-home-2"></i></span><span class="dash-mtext">{{ __('Dashboard') }}</span></a>
                 </li>
-                @can('Manage User')
+                <!-- @can('Manage User')
                     <li class="dash-item {{ \Request::route()->getName() == 'user' || \Request::route()->getName() == 'user.edit' ? ' active' : '' }}">
                         {{-- <a class="dash-link" href="{{ !empty(\Auth::user()->getDefualtViewRouteByModule('user')) ? route(\Auth::user()->getDefualtViewRouteByModule('user')) : route('user.index') }}"> --}}
                             <a class="dash-link" href="{{ array_key_exists('user',$defaultView) ? route($defaultView['user']) : route('user.index') }}">
                             <span class="dash-micon"><i class="ti ti-user"></i></span><span class="dash-mtext">{{ __('Staff') }}</span></a>
                     </li>
-                @endcan
-                @can('Manage Role')
+                @endcan -->
+                <!-- @can('Manage Role')
                     <li class="dash-item {{ \Request::route()->getName() == 'role' ? ' active' : '' }}">
                         <a href="{{ route('role.index') }}" class="dash-link"><span class="dash-micon">
                             <i class="ti ti-license"></i></span><span class="dash-mtext">{{ __('Role') }}</span></a>
                     </li>
-                @endcan
+                @endcan -->
 
                <!--@if (\Auth::user()->type != 'super admin')
                     <li class="dash-item {{ \Request::route()->getName() == 'messages' ? ' active' : '' }}">
@@ -128,15 +128,15 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                             <span class="dash-micon"><i class="ti ti-blockquote"></i></span><span class="dash-mtext">{{ __('Quotes') }}</span>
                         </a>
                     </li>
-                @endcan
-                @can('Manage SalesOrder')
+                @endcan-->
+                <!-- @can('Manage SalesOrder')
                     <li class="dash-item {{ \Request::route()->getName() == 'salesorder' || \Request::route()->getName() == 'salesorder.show' || \Request::route()->getName() == 'salesorder.edit' ? ' active' : '' }}">
                         <a href="{{ route('salesorder.index') }}" class="dash-link">
                             <span class="dash-micon"><i class="ti ti-file-invoice"></i></span><span class="dash-mtext">{{ __('Sales Orders') }}</span>
                         </a>
                     </li>
-                @endcan
-                @can('Manage Invoice')
+                @endcan -->
+               <!-- @can('Manage Invoice')
                     <li class="dash-item {{ \Request::route()->getName() == 'invoice' || \Request::route()->getName() == 'invoice.show' || \Request::route()->getName() == 'invoice.edit' ? ' active' : '' }}">
                         <a href="{{ route('invoice.index') }}" class="dash-link">
                             <span class="dash-micon"><i class="ti ti-receipt"></i></span><span class="dash-mtext">{{ __('Invoices') }}</span>

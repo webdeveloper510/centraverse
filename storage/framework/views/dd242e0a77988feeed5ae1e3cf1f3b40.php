@@ -1,5 +1,8 @@
 <?php 
   $selectedvenue= explode(',',$meeting->venue_selection);
+  $imagePath = public_path('upload/signature/autorised_signature.png');
+  $imageData = base64_encode(file_get_contents($imagePath));
+  $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base64,' . $imageData;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -81,8 +84,8 @@
                                 </thead>
                                 <tbody>    
                                     <tr>
-                                        <td style="font-size:13px;font-weight:300;padding:8px 0px;">Start Date: <?php echo e(\Auth::user()->dateFormat($meeting->start_date)); ?> <br>
-                                        End Date: <?php echo e(\Auth::user()->dateFormat($meeting->end_date)); ?></td>
+                                        <td style="font-size:13px;font-weight:300;padding:8px 0px;">Start Date: <?php echo e(\Carbon\Carbon::parse($meeting->start_date)->format('d M, Y')); ?> <br>
+                                        End Date: <?php echo e(\Carbon\Carbon::parse($meeting->start_date)->format('d M, Y')); ?></td>
                                         <td style="font-size:13px;font-weight:300;padding:8px 0px;" >Start Time:<?php echo e(date('h:i A', strtotime($meeting->start_time))); ?> <br>
                                         End time:<?php echo e(date('h:i A', strtotime($meeting->end_time))); ?></td>
                                         <td style="font-size:13px;font-weight:300;padding:8px 0px;"><?php echo e($meeting->venue_selection); ?></td>
@@ -170,17 +173,17 @@
                                     <thead>
                                         <tr>
                                             <th style="text-align:left; font-size:13px;text-align:left; padding:5px 5px; margin-left:5px;">Name : <?php echo e($meeting->name); ?></th>
-                                            <th colspan = "2" style="padding:5px 0px;margin-left 5px;font-size:13px"></th>
+                                            <th colspan = "2" style="padding:5px 0px;margin-left: 5px;font-size:13px"></th>
                                             <th colspan = "3"  style="text-align:left;text-align:left; padding:5px 5px; margin-left:5px;">Date:<?php echo date("d/m/Y"); ?> </th>
                                             <th  style="text-align:left; font-size:13px;padding:5px 5px; margin-left:5px;">Event: <?php echo e($meeting->type); ?></th>
                                         </tr>
                                         <tr style="background-color:#063806;">
                                             <th style="color:#ffffff; font-size:13px;text-align:left; padding:5px 5px; margin-left:5px;">Description</th>
                                             <th colspan = "2" style="color:#ffffff; font-size:13px;padding:5px 5px; margin-left:5px;">Additional</th>
-                                            <th  style="color:#ffffff; font-size:13px;padding:5px 5px;margin-left 5px;font-size:13px">Cost</th>
-                                            <th  style="color:#ffffff; font-size:13px;padding:5px 5px;margin-left 5px;font-size:13px">Quantity</th>
-                                            <th  style="color:#ffffff; font-size:13px;padding:5px 5px;margin-left 5px;font-size:13px">Total Price</th>
-                                            <th style="color:#ffffff; font-size:13px;padding:5px 5px;margin-left 5px;font-size:13px">Notes</th>
+                                            <th  style="color:#ffffff; font-size:13px;padding:5px 5px;margin-left :5px;font-size:13px">Cost</th>
+                                            <th  style="color:#ffffff; font-size:13px;padding:5px 5px;margin-left: 5px;font-size:13px">Quantity</th>
+                                            <th  style="color:#ffffff; font-size:13px;padding:5px 5px;margin-left :5px;font-size:13px">Total Price</th>
+                                            <th style="color:#ffffff; font-size:13px;padding:5px 5px;margin-left :5px;font-size:13px">Notes</th>
                                         </tr>
                                     </thead>
                                     <tbody>    
@@ -520,6 +523,10 @@
                         </div>
                     </div>
                     <div class="row">
+                    <div class="col-md-6" >
+                    <strong>Authorized Signature:</strong> <br>
+                    <img src="<?php echo e($base64Image); ?>" style="width:30%; border-bottom:1px solid black;">
+                </div>
                         <div class="col-md-6">
                             <strong> Signature:</strong>
                             <br>

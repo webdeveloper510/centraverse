@@ -60,7 +60,7 @@
                                     <td>
                                         <span class="budget">{{ $customer->email }}</span>
                                     </td>
-                                    <td>.
+                                    <td>
                                         <span class="budget">{{$customer->phone}}</span>
                                     </td>
                                     <td>

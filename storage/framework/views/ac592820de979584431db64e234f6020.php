@@ -13,11 +13,11 @@
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('action-btn'); ?>
     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Role')): ?>
-        <!-- <div class="action-btn bg-warning ms-2">
+        <div class="action-btn bg-warning ms-2">
             <a href="#" data-url="<?php echo e(route('role.create')); ?>" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip"title="<?php echo e(__(' Create')); ?>"data-title="<?php echo e(__('Create New Role')); ?>" class="btn btn-sm btn-primary btn-icon m-1">
                 <i class="ti ti-plus"></i>
             </a>
-        </div> -->
+        </div>
     <?php endif; ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('filter'); ?>

@@ -28,16 +28,7 @@
 <div class="row">
         <div class="col-sm-12">
             <div class="row">
-                <div class="col-xl-3">
-                    <div class="card sticky-top" style="top:30px">
-                        <div class="list-group list-group-flush" id="useradd-sidenav">
-                            <a href="#useradd-1"
-                                class="list-group-item list-group-item-action border-0">{{ __('Overview') }} <div
-                                    class="float-end"><i class="ti ti-chevron-right"></i></div></a>
-                          </div>
-                    </div>
-                </div>
-                <div class="col-xl-9">
+                <div class="col-xl-12">
                     <div id="useradd-1" class="card">
                         {{ Form::model($lead, ['route' => ['lead.update', $lead->id], 'method' => 'PUT', 'id' => "formdata"]) }}
                         <div class="card-header">
@@ -46,7 +37,16 @@
                         </div>
                         <div class="card-body"> 
                                 <div class="row">
-                                <div class="col-12">
+                                <div class="col-6">
+                                <div class="form-group">
+            {{Form::label('lead_name',__('Lead Name'),['class'=>'form-label']) }}
+            {{Form::text('lead_name',$lead->leadname,array('class'=>'form-control','placeholder'=>__('Enter Lead Name')))}}
+            @error('lead_name')
+                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+            @enderror
+        </div>
+                                </div>
+                                <div class="col-6">
                                     <div class="form-group">
                                         {{Form::label('company_name',__('Company Name'),['class'=>'form-label']) }}
                                         {{Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Company Name'),'required'=>'required'))}}
@@ -110,13 +110,13 @@
                                 <div class="col-6">
                                     <div class="form-group">
                                         {{ Form::label('start_date', __('Start Date'), ['class' => 'form-label']) }}
-                                        {!! Form::date('start_date', null, ['class' => 'form-control', 'required' => 'required']) !!}
+                                        {!! Form::date('start_date', null, ['class' => 'form-control', 'required' => 'required','min' => date('Y-m-d')]) !!}
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
                                         {{ Form::label('end_date', __('End Date'), ['class' => 'form-label']) }}
-                                        {!! Form::date('end_date', null, ['class' => 'form-control', 'required' => 'required']) !!}
+                                        {!! Form::date('end_date', null, ['class' => 'form-control', 'required' => 'required','min' => date('Y-m-d')]) !!}
                                     </div>
                                 </div>
                                 
@@ -139,12 +139,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-6">
+                                <!-- <div class="col-6">
                                     <div class="form-group">
                                         {{Form::label('status',__('Status'),['class'=>'form-label']) }}
                                         {!! Form::select('status',$status, null,array('class' => 'form-control','required'=>'required')) !!}
                                     </div>
-                                </div> 
+                                </div>  -->
                                 <div class="col-6">
                                     <div class="form-group">
                                         {{Form::label('Assign Staff',__('Assign Staff'),['class'=>'form-label']) }}

@@ -1,5 +1,8 @@
 <?php 
   $selectedvenue= explode(',',$meeting->venue_selection);
+  $imagePath = public_path('upload/signature/autorised_signature.png');
+  $imageData = base64_encode(file_get_contents($imagePath));
+  $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base64,' . $imageData;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -81,8 +84,8 @@
                                 </thead>
                                 <tbody>    
                                     <tr>
-                                        <td style="font-size:13px;font-weight:300;padding:8px 0px;">Start Date: {{\Auth::user()->dateFormat($meeting->start_date)}} <br>
-                                        End Date: {{\Auth::user()->dateFormat($meeting->end_date)}}</td>
+                                        <td style="font-size:13px;font-weight:300;padding:8px 0px;">Start Date: {{\Carbon\Carbon::parse($meeting->start_date)->format('d M, Y')}} <br>
+                                        End Date: {{\Carbon\Carbon::parse($meeting->start_date)->format('d M, Y')}}</td>
                                         <td style="font-size:13px;font-weight:300;padding:8px 0px;" >Start Time:{{date('h:i A', strtotime($meeting->start_time))}} <br>
                                         End time:{{date('h:i A', strtotime($meeting->end_time))}}</td>
                                         <td style="font-size:13px;font-weight:300;padding:8px 0px;">{{$meeting->venue_selection}}</td>
@@ -520,6 +523,10 @@
                         </div>
                     </div>
                     <div class="row">
+                    <div class="col-md-6" >
+                    <strong>Authorized Signature:</strong> <br>
+                    <img src="{{$base64Image}}" style="width:30%; border-bottom:1px solid black;">
+                </div>
                         <div class="col-md-6">
                             <strong> Signature:</strong>
                             <br>

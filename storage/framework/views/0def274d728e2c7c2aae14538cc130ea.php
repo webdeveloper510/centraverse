@@ -14,6 +14,9 @@
 <?php $__env->startSection('action-btn'); ?>
 
 <?php $__env->stopSection(); ?>
+<?php 
+echo date("Y-m-d H:i:s");
+?>
 
 <?php $__env->startSection('content'); ?>
 <style>
@@ -329,7 +332,7 @@
                             <div class="form-group">
                                 <?php echo e(Form::label('start_date', __('Start Date'), ['class' => 'form-label'])); ?>
 
-                                <?php echo Form::date('start_date', date('Y-m-d'), ['class' => 'form-control', 'required' => 'required']); ?>
+                                <?php echo Form::date('start_date', date('Y-m-d'), ['class' => 'form-control', 'required' => 'required','min' => date('Y-m-d')]); ?>
 
                             </div>
                         </div>
@@ -345,7 +348,7 @@
                             <div class="form-group">
                                 <?php echo e(Form::label('end_date', __('End Date'), ['class' => 'form-label'])); ?>
 
-                                <?php echo Form::date('end_date', date('Y-m-d'), ['class' => 'form-control', 'required' => 'required','required' => 'required']); ?>
+                                <?php echo Form::date('end_date', date('Y-m-d'), ['class' => 'form-control', 'required' => 'required','required' => 'required','min' => date('Y-m-d')]); ?>
 
                             </div>
                         </div>

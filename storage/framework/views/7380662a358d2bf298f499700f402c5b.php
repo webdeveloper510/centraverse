@@ -14,7 +14,7 @@
                                 $profile=\App\Models\Utility::get_file('upload/profile/');
 
                             ?>
-                        <img src="<?php echo e((!empty($user->avatar))? asset($profile.$user->avatar): ($profile.'avatar.png')); ?>" width="50px;">
+                        <img src="<?php echo e((!empty($user->avatar))? ($profile.$user->avatar): ($profile.'avatar.png')); ?>" width="50px;">
 
                         </div>
                         <div class="col-md-4">
@@ -24,12 +24,7 @@
                             <span class="text-md"><?php echo e($user->name); ?></span>
                         </div>
 
-                        <div class="col-sm-4">
-                            <small class="h6 text-md mb-3 mb-md-0"><?php echo e(__('Title')); ?></small>
-                        </div>
-                        <div class="col-md-5">
-                            <span class="text-md"><?php echo e($user->title); ?></span>
-                        </div>
+                        
                         <div class="col-md-4">
                             <small class="h6 text-md mb-3 mb-md-0"><?php echo e(__('Email')); ?></small>
                         </div>
@@ -49,15 +44,32 @@
                             <span class="text-md"><?php echo e($user->gender); ?></span>
                         </div>
                         <div class="col-md-4">
+                                    <small class="h6 text-md mb-3 mb-md-0"><?php echo e(__('Role')); ?></small>
+                                </div>
+                                <div class="col-md-5">
+                                    <span class="text-md"><?php echo e($user->type); ?></span>
+                                </div>
+                        <div class="col-md-4">
                             <small class="h6 text-md mb-3 mb-md-0"><?php echo e(__('Created At :')); ?> </small>
                         </div>
                         <div class="col-md-5">
                             <span class="text-md"><?php echo e(\Auth::user()->dateFormat($user->created_at )); ?></span>
                         </div>
-
+                        <div class="col-sm-4">
+                            <small class="h6 text-md mb-3 mb-md-0"><?php echo e(__('Status')); ?></small>
+                        </div>
+                        <div class="col-md-5">
+                            <?php if($user->is_active == 1): ?>
+                                <span
+                                    class="badge bg-success p-2 px-3 rounded"><?php echo e(__('Active')); ?></span>
+                            <?php else: ?>
+                                <span
+                                    class="badge bg-danger p-2 px-3 rounded"><?php echo e(__('In Active')); ?></span>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </li>
-                <li class="list-group-item">
+                <!-- <li class="list-group-item">
                     <div class="row">
                         <div class="col-md-12">
                             <small class="h6 text-md mb-3 mb-md-0"><?php echo e(__('Teams and Access Control')); ?></small>
@@ -70,12 +82,12 @@
                                 <div class="col-md-5">
                                     <span class="text-md"><?php echo e($user->type); ?></span>
                                 </div>
-                                <!-- <div class="col-md-4">
+                                <div class="col-md-4">
                                     <small class="h6 text-md mb-3 mb-md-0"><?php echo e(__('Is Active')); ?></small>
                                 </div>
                                 <div class="col-md-5">
                                     <input type="checkbox" class="form-check-input" disabled name="is_active" <?php echo e(($user->is_active == 1)? 'checked': ''); ?>>
-                                </div> -->
+                                </div> 
                                 <div class="col-md-4">
                                     <small class="h6 text-md mb-3 mb-md-0"><?php echo e(__('Roles')); ?></small>
                                 </div>
@@ -86,7 +98,7 @@
                             </div>
                         </div>
                     </div>
-                </li>
+                </li> -->
             </ul>
 
     <div class=" text-end ">

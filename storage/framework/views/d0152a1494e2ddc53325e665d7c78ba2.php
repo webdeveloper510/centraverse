@@ -18,12 +18,12 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
     <div class="container">
         <div class = "row">
             <div class= "col-md-12">
-                <form method= "POST" action = "{{route('lead.proposalresponse',urlencode(encrypt($lead->id)))}}" id = 'formdata'>
-                    @csrf
+                <form method= "POST" action = "<?php echo e(route('lead.proposalresponse',urlencode(encrypt($lead->id)))); ?>" id = 'formdata'>
+                    <?php echo csrf_field(); ?>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="img-section">
-                                    <img class="logo-img" src="{{ URL::asset('storage/uploads/logo/logo.png')}}" style="width:12%; margin:30px auto;display:flex;">
+                                    <img class="logo-img" src="<?php echo e(URL::asset('storage/uploads/logo/logo.png')); ?>" style="width:12%; margin:30px auto;display:flex;">
                             </div>
                         </div>
                     </div>
@@ -37,18 +37,18 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                         <div class="row mt-3">
                             <div class="col-md-6">
                                 <dl>
-                                    <span>{{__('Name')}}: {{ $lead->name }}</span><br>
-                                    <span>{{__('Phone & Email')}}: {{ $lead->phone }} , {{ $lead->email }}</span><br>
-                                    <span>{{__('Address')}}: {{ $lead->lead_address }}</span><br>
-                                    <span>{{__('Event Date')}}:{{ \Carbon\Carbon::parse($lead->start_date)->format('d M, Y') }}</span>
+                                    <span><?php echo e(__('Name')); ?>: <?php echo e($lead->name); ?></span><br>
+                                    <span><?php echo e(__('Phone & Email')); ?>: <?php echo e($lead->phone); ?> , <?php echo e($lead->email); ?></span><br>
+                                    <span><?php echo e(__('Address')); ?>: <?php echo e($lead->lead_address); ?></span><br>
+                                    <span><?php echo e(__('Event Date')); ?>:<?php echo e(\Carbon\Carbon::parse($lead->start_date)->format('d M, Y')); ?></span>
                                 </dl>
                             </div>
                             
                             <div class="col-md-6" style = "text-align: end;">
                                 <dl>
-                                    <span >{{__('Primary Contact')}}: {{ $lead->name }}</span><br>
-                                    <span >{{__('Phone')}}: {{ $lead->phone }}</span><br>
-                                    <span >{{__('Email')}}: {{ $lead->email }}</span><br>
+                                    <span ><?php echo e(__('Primary Contact')); ?>: <?php echo e($lead->name); ?></span><br>
+                                    <span ><?php echo e(__('Phone')); ?>: <?php echo e($lead->phone); ?></span><br>
+                                    <span ><?php echo e(__('Email')); ?>: <?php echo e($lead->email); ?></span><br>
                                 </dl>
                             </div>     
                         </div>
@@ -56,13 +56,13 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                         <div class="row" >
                             <div class="col-md-6" >
                                 <dl>
-                                    <span>{{__('Deposit')}}:</span><br>
-                                    <span>{{__('Billing Method')}}:</span>
+                                    <span><?php echo e(__('Deposit')); ?>:</span><br>
+                                    <span><?php echo e(__('Billing Method')); ?>:</span>
                                 </dl>
                             </div>
                             <div class="col-md-6" style="text-align:end;">
                                 <dl>
-                                    <span>{{__('Catering Service')}}: NA</span><br>
+                                    <span><?php echo e(__('Catering Service')); ?>: NA</span><br>
                                 </dl>
                             </div>
                         </div> 
@@ -85,14 +85,14 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                     </thead>
                                     <tbody>    
                                         <tr style="text-align:center">
-                                            <td >Start Date:{{ \Carbon\Carbon::parse($lead->start_date)->format('d M, Y')}} <br>
-                                            End Date: {{ \Carbon\Carbon::parse($lead->end_date)->format('d M, Y')}}</td>
-                                            <td  >Start Time:{{date('h:i A', strtotime($lead->start_time))}} <br>
-                                            End time:{{date('h:i A', strtotime($lead->end_time))}}</td>
-                                            <td >{{$lead->venue_selection}}</td>
-                                            <td >{{$lead->type}}</td>
-                                            <td >{{$lead->function}}</td>
-                                            <td >{{$lead->rooms}}</td>
+                                            <td >Start Date:<?php echo e(\Carbon\Carbon::parse($lead->start_date)->format('d M, Y')); ?> <br>
+                                            End Date: <?php echo e(\Carbon\Carbon::parse($lead->end_date)->format('d M, Y')); ?></td>
+                                            <td  >Start Time:<?php echo e(date('h:i A', strtotime($lead->start_time))); ?> <br>
+                                            End time:<?php echo e(date('h:i A', strtotime($lead->end_time))); ?></td>
+                                            <td ><?php echo e($lead->venue_selection); ?></td>
+                                            <td ><?php echo e($lead->type); ?></td>
+                                            <td ><?php echo e($lead->function); ?></td>
+                                            <td ><?php echo e($lead->rooms); ?></td>
                                             <td >Exp</td>
                                             <td >GTD</td>
                                             <td >Set</td> 
@@ -108,9 +108,9 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                 <table border ="1">
                                     <thead>
                                         <tr>
-                                            <th style="font-size:13px;font-weight:300;padding:10px 25px;">Start:{{date('h:i A', strtotime($lead->start_time))}}</th>
-                                            <th style="font-size:13px;font-weight:300;padding:0px 25px;">End: {{date('h:i A', strtotime($lead->end_time))}} </th>
-                                            <th style="font-size:13px;font-weight:300;padding:10px 25px;">Function : {{$lead->function}}</th>
+                                            <th style="font-size:13px;font-weight:300;padding:10px 25px;">Start:<?php echo e(date('h:i A', strtotime($lead->start_time))); ?></th>
+                                            <th style="font-size:13px;font-weight:300;padding:0px 25px;">End: <?php echo e(date('h:i A', strtotime($lead->end_time))); ?> </th>
+                                            <th style="font-size:13px;font-weight:300;padding:10px 25px;">Function : <?php echo e($lead->function); ?></th>
                                         </tr>
                                     </thead>
                                     </tbody>  
@@ -140,7 +140,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                         <div class="row">
                             <div class="col-md-12">
                                 <p class="text">This contract defines the terms and conditions under which Lotus Estate, LLC dba The Bond 1786, (hereinafter referred to as The Bond or The
-                                    Bond 1786), and <b>{{$lead->name}}</b>(hereafter referred to as the Customer) agree to the Customer’s use of The Bond 1786 facilities on <b>{{ \Carbon\Carbon::parse($lead->start_date)->format('d M, Y') }}</b>
+                                    Bond 1786), and <b><?php echo e($lead->name); ?></b>(hereafter referred to as the Customer) agree to the Customer’s use of The Bond 1786 facilities on <b><?php echo e(\Carbon\Carbon::parse($lead->start_date)->format('d M, Y')); ?></b>
                                     (reception/event date). This contract constitutes the entire agreement between the parties and becomes binding upon the signature of
                                     both parties. The contract may not be amended or changed unless executed in writing and signed by The Bond 1786 and the Customer.
                                 </p>
@@ -149,8 +149,9 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                         <div class="row">
                             <div class="col-md-12">
                                     <h6 >Venue Selected</h6>
-                                    <p>{{$lead->venue_selection}}</p><br><br>
-                                    <h6 > Hotel Rooms Required: </h6> {{$lead->rooms}}
+                                    <p><?php echo e($lead->venue_selection); ?></p><br><br>
+                                    <h6 > Hotel Rooms Required: </h6> <?php echo e($lead->rooms); ?>
+
                                     <p class="text">
                                             The venue/s described above has been reserved for you for the date and time stipulated. Please note that the hours assigned to your event include all set-up and
                                             all clean-up, including the set-up and clean-up of all subcontractors that you may utilize. It is understood you will adhere to and follow the terms of this Agreement,
@@ -387,7 +388,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                     No Personal Checks are accepted for final payment. <br><br>
                                     The Rules and Conditions for Usage are incorporated herein and are made a part hereof. <br><br>
                     
-                                    Please return signed contract with deposit no later than <b>{{ \Carbon\Carbon::parse($lead->start_date)->format('d M, Y') }}</b> or this contract is no longer valid.<br>
+                                    Please return signed contract with deposit no later than <b><?php echo e(\Carbon\Carbon::parse($lead->start_date)->format('d M, Y')); ?></b> or this contract is no longer valid.<br>
                                     </p>
                                 
                             </div>
@@ -395,7 +396,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                         <div class="row">
                         <div class="col-md-6" >
                     <strong>Authorized Signature:</strong> <br>
-                    <img src="{{$base64Image}}" style="width:30%; border-bottom:1px solid black;">
+                    <img src="<?php echo e($base64Image); ?>" style="width:30%; border-bottom:1px solid black;">
                 </div>
                             <div class="col-md-6">
                                 <strong> Signature:</strong>
@@ -420,7 +421,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
 </body>
 </html>
         <div id = "loader" style = "display:none">
-            <img src = "{{asset('assets/loader/loader.webp')}}"  >
+            <img src = "<?php echo e(asset('assets/loader/loader.webp')); ?>"  >
         </div>
 <style>
   
@@ -444,8 +445,8 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
         border-radius: 8px;
     }
 </style>
-@include('partials.admin.head')
-@include('partials.admin.footer')
+<?php echo $__env->make('partials.admin.head', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('partials.admin.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var canvas = document.getElementById('signatureCanvas');
@@ -472,4 +473,4 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
             $("#loader").show(); 
         });
     });
-</script>
+</script><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/lead/proposal.blade.php ENDPATH**/ ?>

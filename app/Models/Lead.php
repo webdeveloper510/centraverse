@@ -29,6 +29,7 @@ class Lead extends Model
         'status',
         'rooms',
         'proposal_status',
+        'leadname'
     ];
     protected $appends = [
         'status_name',
