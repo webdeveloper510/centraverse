@@ -563,366 +563,364 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
             </div>
             <div class="col-xl-9">
                 <?php if(\Auth::user()->type == 'super admin'): ?>
-                <!-- <div id="brand-settings" class="card">
-                            <div class="card-header">
-                                <h5><?php echo e(__('Brand Settings')); ?></h5>
-                                <small class="text-muted"><?php echo e(__('Edit your brand details')); ?></small>
-                            </div>
-                            <?php echo e(Form::model($settings, ['route' => 'business.setting', 'method' => 'POST', 'enctype' => 'multipart/form-data'])); ?>
+                 <div id="brand-settings" class="card">
+                    <div class="card-header">
+                        <h5><?php echo e(__('Brand Settings')); ?></h5>
+                        <small class="text-muted"><?php echo e(__('Edit your brand details')); ?></small>
+                    </div>
+                    <?php echo e(Form::model($settings, ['route' => 'business.setting', 'method' => 'POST', 'enctype' => 'multipart/form-data'])); ?>
 
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h5 class="small-title"><?php echo e(__('Dark Logo')); ?></h5>
-                                            </div>
-                                            <div class="card-body setting-card setting-logo-box p-3">
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <div class="logo-content logo-set-bg py-2" style="height:65px">
-                                                            
-                                                            <a href="<?php echo e($logo . 'logo-dark.png' . '?' . time()); ?>"
-                                                                target="_blank" style="height: 50px; width:150px;">
-                                                                <img id="blah4" alt="your image"
-                                                                    src="<?php echo e($logo . 'logo-dark.png' . '?' . time()); ?>"
-                                                                    style="height: 50px; width:150px;" class="big-logo">
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-12">
-
-                                                        <div class="choose-files mt-5">
-                                                            <label for="logo_dark">
-                                                                <div class=" bg-primary"> <i
-                                                                        class="ti ti-upload px-1"></i><?php echo e(__('Choose file here')); ?>
-
-                                                                </div>
-                                                                <input type="file"name="logo_dark" id="logo_dark"
-                                                                    class="form-control file"
-                                                                    data-filename="company_logo_update"
-                                                                    onchange="document.getElementById('blah4').src = window.URL.createObjectURL(this.files[0])">
-
-                                                                
-                                                            </label>
-                                                        </div>
-                                                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="small-title"><?php echo e(__('Dark Logo')); ?></h5>
+                                    </div>
+                                    <div class="card-body setting-card setting-logo-box p-3">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="logo-content logo-set-bg py-2" style="height:65px">
+                                                    
+                                                    <a href="<?php echo e($logo . 'logo-dark.png' . '?' . time()); ?>"
+                                                        target="_blank" style="height: 50px; width:150px;">
+                                                        <img id="blah4" alt="your image"
+                                                            src="<?php echo e($logo . 'logo-dark.png' . '?' . time()); ?>"
+                                                            style="height: 50px; width:150px;" class="big-logo">
+                                                    </a>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h5 class="small-title"><?php echo e(__('Light Logo')); ?></h5>
-                                            </div>
-                                            <div class="card-body setting-card setting-logo-box p-3">
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <div class="logo-content logo-set-bg py-2" style="height:65px">
-                                                            
-                                                            <a href="<?php echo e($logo . 'logo-light.png' . '?' . time()); ?>"
-                                                                target="_blank" style="height: 50px; width:150px;">
-                                                                <img id="blah5" alt="your image"
-                                                                    src="<?php echo e($logo . 'logo-light.png' . '?' . time()); ?>"
-                                                                    style="height: 50px; width:150px;" class="img_setting">
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-12">
+                                            <div class="col-12">
 
-                                                        <div class="choose-files mt-5">
-                                                            <label for="logo_light">
-                                                                <div class=" bg-primary"> <i
-                                                                        class="ti ti-upload px-1"></i><?php echo e(__('Choose file here')); ?>
+                                                <div class="choose-files mt-5">
+                                                    <label for="logo_dark">
+                                                        <div class=" bg-primary"> <i
+                                                                class="ti ti-upload px-1"></i><?php echo e(__('Choose file here')); ?>
 
-                                                                </div>
-                                                                <input type="file"name="logo_light" id="logo_light"
-                                                                    class="form-control file"
-                                                                    data-filename="company_logo_update"
-                                                                    onchange="document.getElementById('blah5').src = window.URL.createObjectURL(this.files[0])">
+                                                        </div>
+                                                        <input type="file"name="logo_dark" id="logo_dark"
+                                                            class="form-control file"
+                                                            data-filename="company_logo_update"
+                                                            onchange="document.getElementById('blah4').src = window.URL.createObjectURL(this.files[0])">
 
-                                                                
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h5 class="small-title"><?php echo e(__('Favicon')); ?></h5>
-                                            </div>
-                                            <div class="card-body setting-card setting-logo-box p-3">
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <div class="logo-content logo-set-bg py-2" style="height:65px">
-                                                            
-                                                            <a href="<?php echo e($logo . 'favicon.png' . '?' . time()); ?>"
-                                                                target="_blank">
-                                                                <img id="blah6" alt="your image"
-                                                                    src="<?php echo e($logo . 'favicon.png' . '?' . time()); ?>"
-                                                                    width="50px" class="img_setting">
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <div class="choose-files mt-5">
-                                                            <label for="favicon">
-                                                                <div class=" bg-primary"> <i
-                                                                        class="ti ti-upload px-1"></i><?php echo e(__('Choose file here')); ?>
-
-                                                                </div>
-                                                                <input type="file"name="favicon" id="favicon"
-                                                                    class="form-control file"
-                                                                    data-filename="company_logo_update"
-                                                                    onchange="document.getElementById('blah6').src = window.URL.createObjectURL(this.files[0])">
-                                                                
-                                                            </label>
-                                                        </div>
-                                                    </div>
+                                                        
+                                                    </label>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row mt-3">
-                                    <div class="row">
-                                        <div class="form-group col-md-4">
-                                            <?php echo e(Form::label('title_text', __('Title Text'), ['class' => 'form-label'])); ?>
-
-                                            <?php echo e(Form::text('title_text', null, ['class' => 'form-control', 'placeholder' => __('Title Text')])); ?>
-
-                                            <?php $__errorArgs = ['title_text'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                                <span class="invalid-title_text" role="alert">
-                                                    <strong class="text-danger"><?php echo e($message); ?></strong>
-                                                </span>
-                                            <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                                        </div>
-                                        <?php if(\Auth::user()->type == 'super admin'): ?>
-                                            <div class="form-group col-md-4">
-                                                <?php echo e(Form::label('footer_text', __('Footer Text'), ['class' => 'form-label'])); ?>
-
-                                                <?php echo e(Form::text('footer_text', null, ['class' => 'form-control', 'placeholder' => __('Footer Text')])); ?>
-
-                                                <?php $__errorArgs = ['footer_text'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                                    <span class="invalid-footer_text" role="alert">
-                                                        <strong class="text-danger"><?php echo e($message); ?></strong>
-                                                    </span>
-                                                <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                                            </div>
-                                            <div class="form-group col-md-4">
-                                                <?php echo e(Form::label('default_language', __('Default Language'), ['class' => 'form-label'])); ?>
-
-                                                <div class="changeLanguage">
-                                                    <select name="default_language" id="default_language"
-                                                        class="form-control custom-select">
-                                                        <?php $__currentLoopData = \App\Models\Utility::languages(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $code => $language): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                            <option <?php if($lang == $code): ?> selected <?php endif; ?>
-                                                                value="<?php echo e($code); ?>"><?php echo e(ucfirst($language)); ?>
-
-                                                            </option>
-                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="col switch-width">
-                                                    <div class="form-group ml-2 mr-3">
-                                                        <label
-                                                            class="form-label mb-1"><?php echo e(__('Enable Landing Page')); ?></label>
-                                                        <div class="custom-control custom-switch">
-                                                            <input type="checkbox" data-toggle="switchbutton"
-                                                                data-onstyle="primary" class=""
-                                                                name="display_landing_page" id="display_landing_page"
-                                                                <?php echo e($settings['display_landing_page'] == 'on' ? 'checked="checked"' : ''); ?>>
-                                                            <label class="custom-control-label mb-1"
-                                                                for="display_landing_page"></label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-4">
-                                                <div class="col switch-width">
-                                                    <div class="form-group ml-2 mr-3 ">
-
-                                                        <?php echo e(Form::label('verified_button', __('Email Verification'), ['class' => 'form-label'])); ?>
-
-                                                        <div class="custom-control custom-switch">
-                                                            <input type="checkbox" data-toggle="switchbutton"
-                                                                data-onstyle="primary" class=""
-                                                                name="verified_button" id="verified_button"
-                                                                <?php echo e(Utility::getValByName('verified_button') == 'on' ? 'checked="checked"' : ''); ?>>
-                                                            <label class="custom-control-label"
-                                                                for="verified_button"></label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-4">
-                                                <div class="col switch-width">
-                                                    <div class="form-group ml-2 mr-3 ">
-                                                        <?php echo e(Form::label('SITE_RTL', __('Enable RTL'), ['class' => 'form-label'])); ?>
-
-                                                        <div class="custom-control custom-switch">
-                                                            <input type="checkbox" data-toggle="switchbutton"
-                                                                data-onstyle="primary" class="" name="SITE_RTL"
-                                                                id="SITE_RTL"<?php echo e($settings['SITE_RTL'] == 'on' ? 'checked="checked"' : ''); ?>>
-                                                            <label class="custom-control-label" for="SITE_RTL"></label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-
-                                            <div class="col-4">
-                                                <div class="col switch-width">
-                                                    <div class="form-group ml-2 mr-3 ">
-                                                        <?php echo e(Form::label('signup_button', __('Enable Sign-Up Page'), ['class' => 'form-label'])); ?>
-
-                                                        <div class="custom-control custom-switch">
-                                                            <input type="checkbox" data-toggle="switchbutton"
-                                                                data-onstyle="primary" class=""
-                                                                name="signup_button" id="signup_button"
-                                                                <?php echo e(Utility::getValByName('signup_button') == 'on' ? 'checked="checked"' : ''); ?>>
-                                                            <label class="custom-control-label"
-                                                                for="signup_button"></label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        <?php endif; ?>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="small-title"><?php echo e(__('Light Logo')); ?></h5>
                                     </div>
+                                    <div class="card-body setting-card setting-logo-box p-3">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="logo-content logo-set-bg py-2" style="height:65px">
+                                                    
+                                                    <a href="<?php echo e($logo . 'logo-light.png' . '?' . time()); ?>"
+                                                        target="_blank" style="height: 50px; width:150px;">
+                                                        <img id="blah5" alt="your image"
+                                                            src="<?php echo e($logo . 'logo-light.png' . '?' . time()); ?>"
+                                                            style="height: 50px; width:150px;" class="img_setting">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+
+                                                <div class="choose-files mt-5">
+                                                    <label for="logo_light">
+                                                        <div class=" bg-primary"> <i
+                                                                class="ti ti-upload px-1"></i><?php echo e(__('Choose file here')); ?>
+
+                                                        </div>
+                                                        <input type="file"name="logo_light" id="logo_light"
+                                                            class="form-control file"
+                                                            data-filename="company_logo_update"
+                                                            onchange="document.getElementById('blah5').src = window.URL.createObjectURL(this.files[0])">
+
+                                                        
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="small-title"><?php echo e(__('Favicon')); ?></h5>
+                                    </div>
+                                    <div class="card-body setting-card setting-logo-box p-3">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="logo-content logo-set-bg py-2" style="height:65px">
+                                                    
+                                                    <a href="<?php echo e($logo . 'favicon.png' . '?' . time()); ?>"
+                                                        target="_blank">
+                                                        <img id="blah6" alt="your image"
+                                                            src="<?php echo e($logo . 'favicon.png' . '?' . time()); ?>"
+                                                            width="50px" class="img_setting">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="choose-files mt-5">
+                                                    <label for="favicon">
+                                                        <div class=" bg-primary"> <i
+                                                                class="ti ti-upload px-1"></i><?php echo e(__('Choose file here')); ?>
+
+                                                        </div>
+                                                        <input type="file"name="favicon" id="favicon"
+                                                            class="form-control file"
+                                                            data-filename="company_logo_update"
+                                                            onchange="document.getElementById('blah6').src = window.URL.createObjectURL(this.files[0])">
+                                                        
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <?php echo e(Form::label('title_text', __('Title Text'), ['class' => 'form-label'])); ?>
+
+                                    <?php echo e(Form::text('title_text', null, ['class' => 'form-control', 'placeholder' => __('Title Text')])); ?>
+
+                                    <?php $__errorArgs = ['title_text'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                        <span class="invalid-title_text" role="alert">
+                                            <strong class="text-danger"><?php echo e($message); ?></strong>
+                                        </span>
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                </div>
+                                <?php if(\Auth::user()->type == 'super admin'): ?>
+                                    <div class="form-group col-md-4">
+                                        <?php echo e(Form::label('footer_text', __('Footer Text'), ['class' => 'form-label'])); ?>
+
+                                        <?php echo e(Form::text('footer_text', null, ['class' => 'form-control', 'placeholder' => __('Footer Text')])); ?>
+
+                                        <?php $__errorArgs = ['footer_text'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                            <span class="invalid-footer_text" role="alert">
+                                                <strong class="text-danger"><?php echo e($message); ?></strong>
+                                            </span>
+                                        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <?php echo e(Form::label('default_language', __('Default Language'), ['class' => 'form-label'])); ?>
+
+                                        <div class="changeLanguage">
+                                            <select name="default_language" id="default_language"
+                                                class="form-control custom-select">
+                                                <?php $__currentLoopData = \App\Models\Utility::languages(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $code => $language): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <option <?php if($lang == $code): ?> selected <?php endif; ?>
+                                                        value="<?php echo e($code); ?>"><?php echo e(ucfirst($language)); ?>
+
+                                                    </option>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="col switch-width">
+                                            <div class="form-group ml-2 mr-3">
+                                                <label
+                                                    class="form-label mb-1"><?php echo e(__('Enable Landing Page')); ?></label>
+                                                <div class="custom-control custom-switch">
+                                                    <input type="checkbox" data-toggle="switchbutton"
+                                                        data-onstyle="primary" class=""
+                                                        name="display_landing_page" id="display_landing_page"
+                                                        <?php echo e($settings['display_landing_page'] == 'on' ? 'checked="checked"' : ''); ?>>
+                                                    <label class="custom-control-label mb-1"
+                                                        for="display_landing_page"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <div class="col switch-width">
+                                            <div class="form-group ml-2 mr-3 ">
+
+                                                <?php echo e(Form::label('verified_button', __('Email Verification'), ['class' => 'form-label'])); ?>
+
+                                                <div class="custom-control custom-switch">
+                                                    <input type="checkbox" data-toggle="switchbutton"
+                                                        data-onstyle="primary" class=""
+                                                        name="verified_button" id="verified_button"
+                                                        <?php echo e(Utility::getValByName('verified_button') == 'on' ? 'checked="checked"' : ''); ?>>
+                                                    <label class="custom-control-label"
+                                                        for="verified_button"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <div class="col switch-width">
+                                            <div class="form-group ml-2 mr-3 ">
+                                                <?php echo e(Form::label('SITE_RTL', __('Enable RTL'), ['class' => 'form-label'])); ?>
+
+                                                <div class="custom-control custom-switch">
+                                                    <input type="checkbox" data-toggle="switchbutton"
+                                                        data-onstyle="primary" class="" name="SITE_RTL"
+                                                        id="SITE_RTL"<?php echo e($settings['SITE_RTL'] == 'on' ? 'checked="checked"' : ''); ?>>
+                                                    <label class="custom-control-label" for="SITE_RTL"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="col-4">
+                                        <div class="col switch-width">
+                                            <div class="form-group ml-2 mr-3 ">
+                                                <?php echo e(Form::label('signup_button', __('Enable Sign-Up Page'), ['class' => 'form-label'])); ?>
+
+                                                <div class="custom-control custom-switch">
+                                                    <input type="checkbox" data-toggle="switchbutton"
+                                                        data-onstyle="primary" class=""
+                                                        name="signup_button" id="signup_button"
+                                                        <?php echo e(Utility::getValByName('signup_button') == 'on' ? 'checked="checked"' : ''); ?>>
+                                                    <label class="custom-control-label"
+                                                        for="signup_button"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                            <div class="row">
+                                <h4 class="small-title"><?php echo e(__('Theme Customizer')); ?></h4>
+                                <div class="setting-card setting-logo-box p-3">
                                     <div class="row">
-                                        <h4 class="small-title"><?php echo e(__('Theme Customizer')); ?></h4>
-                                        <div class="setting-card setting-logo-box p-3">
+                                        <div class="pct-body">
                                             <div class="row">
-                                                <div class="pct-body">
-                                                    <div class="row">
-                                                        <div class="col-lg-4 col-xl-4 col-md-4">
-                                                            <h6>
-                                                                <i data-feather="credit-card"
-                                                                    class="me-2"></i><?php echo e(__('Primary color settings')); ?>
+                                                <div class="col-lg-4 col-xl-4 col-md-4">
+                                                    <h6>
+                                                        <i data-feather="credit-card"
+                                                            class="me-2"></i><?php echo e(__('Primary color settings')); ?>
 
-                                                            </h6>
-                                                            <hr class="my-2" />
-                                                            <div class="theme-color themes-color">
-                                                                <a href="#!"
-                                                                    class="<?php echo e($settings['color'] == 'theme-1' ? 'active_color' : ''); ?>"
-                                                                    data-value="theme-1"
-                                                                    onclick="check_theme('theme-1')"></a>
-                                                                <input type="radio" class="theme_color" name="color"
-                                                                    value="theme-1" style="display: none;">
-                                                                <a href="#!"
-                                                                    class="<?php echo e($settings['color'] == 'theme-2' ? 'active_color' : ''); ?> "
-                                                                    data-value="theme-2"
-                                                                    onclick="check_theme('theme-2')"></a>
-                                                                <input type="radio" class="theme_color" name="color"
-                                                                    value="theme-2" style="display: none;">
-                                                                <a href="#!"
-                                                                    class="<?php echo e($settings['color'] == 'theme-3' ? 'active_color' : ''); ?>"
-                                                                    data-value="theme-3"
-                                                                    onclick="check_theme('theme-3')"></a>
-                                                                <input type="radio" class="theme_color" name="color"
-                                                                    value="theme-3" style="display: none;">
-                                                                <a href="#!"
-                                                                    class="<?php echo e($settings['color'] == 'theme-4' ? 'active_color' : ''); ?>"
-                                                                    data-value="theme-4"
-                                                                    onclick="check_theme('theme-4')"></a>
-                                                                <input type="radio" class="theme_color" name="color"
-                                                                    value="theme-4" style="display: none;">
-                                                                <a href="#!"
-                                                                    class="<?php echo e($settings['color'] == 'theme-5' ? 'active_color' : ''); ?>"
-                                                                    data-value="theme-5"
-                                                                    onclick="check_theme('theme-5')"></a>
-                                                                <input type="radio" class="theme_color" name="color"
-                                                                    value="theme-5" style="display: none;">
-                                                                <br>
-                                                                <a href="#!"
-                                                                    class="<?php echo e($settings['color'] == 'theme-6' ? 'active_color' : ''); ?>"
-                                                                    data-value="theme-6"
-                                                                    onclick="check_theme('theme-6')"></a>
-                                                                <input type="radio" class="theme_color" name="color"
-                                                                    value="theme-6" style="display: none;">
-                                                                <a href="#!"
-                                                                    class="<?php echo e($settings['color'] == 'theme-7' ? 'active_color' : ''); ?>"
-                                                                    data-value="theme-7"
-                                                                    onclick="check_theme('theme-7')"></a>
-                                                                <input type="radio" class="theme_color" name="color"
-                                                                    value="theme-7" style="display: none;">
-                                                                <a href="#!"
-                                                                    class="<?php echo e($settings['color'] == 'theme-8' ? 'active_color' : ''); ?>"
-                                                                    data-value="theme-8"
-                                                                    onclick="check_theme('theme-8')"></a>
-                                                                <input type="radio" class="theme_color" name="color"
-                                                                    value="theme-8" style="display: none;">
-                                                                <a href="#!"
-                                                                    class="<?php echo e($settings['color'] == 'theme-9' ? 'active_color' : ''); ?>"
-                                                                    data-value="theme-9"
-                                                                    onclick="check_theme('theme-9')"></a>
-                                                                <input type="radio" class="theme_color" name="color"
-                                                                    value="theme-9" style="display: none;">
-                                                                <a href="#!"
-                                                                    class="<?php echo e($settings['color'] == 'theme-10' ? 'active_color' : ''); ?>"
-                                                                    data-value="theme-10"
-                                                                    onclick="check_theme('theme-10')"></a>
-                                                                <input type="radio" class="theme_color" name="color"
-                                                                    value="theme-10" style="display: none;">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-4">
-                                                            <h6>
-                                                                <i data-feather="layout"
-                                                                    class="me-2"></i><?php echo e(__('Sidebar Settings')); ?>
+                                                    </h6>
+                                                    <hr class="my-2" />
+                                                    <div class="theme-color themes-color">
+                                                        <a href="#!"
+                                                            class="<?php echo e($settings['color'] == 'theme-1' ? 'active_color' : ''); ?>"
+                                                            data-value="theme-1"
+                                                            onclick="check_theme('theme-1')"></a>
+                                                        <input type="radio" class="theme_color" name="color"
+                                                            value="theme-1" style="display: none;">
+                                                        <a href="#!"
+                                                            class="<?php echo e($settings['color'] == 'theme-2' ? 'active_color' : ''); ?> "
+                                                            data-value="theme-2"
+                                                            onclick="check_theme('theme-2')"></a>
+                                                        <input type="radio" class="theme_color" name="color"
+                                                            value="theme-2" style="display: none;">
+                                                        <a href="#!"
+                                                            class="<?php echo e($settings['color'] == 'theme-3' ? 'active_color' : ''); ?>"
+                                                            data-value="theme-3"
+                                                            onclick="check_theme('theme-3')"></a>
+                                                        <input type="radio" class="theme_color" name="color"
+                                                            value="theme-3" style="display: none;">
+                                                        <a href="#!"
+                                                            class="<?php echo e($settings['color'] == 'theme-4' ? 'active_color' : ''); ?>"
+                                                            data-value="theme-4"
+                                                            onclick="check_theme('theme-4')"></a>
+                                                        <input type="radio" class="theme_color" name="color"
+                                                            value="theme-4" style="display: none;">
+                                                        <a href="#!"
+                                                            class="<?php echo e($settings['color'] == 'theme-5' ? 'active_color' : ''); ?>"
+                                                            data-value="theme-5"
+                                                            onclick="check_theme('theme-5')"></a>
+                                                        <input type="radio" class="theme_color" name="color"
+                                                            value="theme-5" style="display: none;">
+                                                        <br>
+                                                        <a href="#!"
+                                                            class="<?php echo e($settings['color'] == 'theme-6' ? 'active_color' : ''); ?>"
+                                                            data-value="theme-6"
+                                                            onclick="check_theme('theme-6')"></a>
+                                                        <input type="radio" class="theme_color" name="color"
+                                                            value="theme-6" style="display: none;">
+                                                        <a href="#!"
+                                                            class="<?php echo e($settings['color'] == 'theme-7' ? 'active_color' : ''); ?>"
+                                                            data-value="theme-7"
+                                                            onclick="check_theme('theme-7')"></a>
+                                                        <input type="radio" class="theme_color" name="color"
+                                                            value="theme-7" style="display: none;">
+                                                        <a href="#!"
+                                                            class="<?php echo e($settings['color'] == 'theme-8' ? 'active_color' : ''); ?>"
+                                                            data-value="theme-8"
+                                                            onclick="check_theme('theme-8')"></a>
+                                                        <input type="radio" class="theme_color" name="color"
+                                                            value="theme-8" style="display: none;">
+                                                        <a href="#!"
+                                                            class="<?php echo e($settings['color'] == 'theme-9' ? 'active_color' : ''); ?>"
+                                                            data-value="theme-9"
+                                                            onclick="check_theme('theme-9')"></a>
+                                                        <input type="radio" class="theme_color" name="color"
+                                                            value="theme-9" style="display: none;">
+                                                        <a href="#!"
+                                                            class="<?php echo e($settings['color'] == 'theme-10' ? 'active_color' : ''); ?>"
+                                                            data-value="theme-10"
+                                                            onclick="check_theme('theme-10')"></a>
+                                                        <input type="radio" class="theme_color" name="color"
+                                                            value="theme-10" style="display: none;">
+                                                    </div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <h6>
+                                                        <i data-feather="layout"
+                                                            class="me-2"></i><?php echo e(__('Sidebar Settings')); ?>
 
-                                                            </h6>
-                                                            <hr class="my-2" />
-                                                            <div class="form-check form-switch">
-                                                                <input type="checkbox" class="form-check-input"
-                                                                    id="cust-theme-bg" name="cust_theme_bg"
-                                                                    <?php echo e(Utility::getValByName('cust_theme_bg') == 'on' ? 'checked' : ''); ?> />
-                                                                <label class="form-check-label f-w-600 pl-1"
-                                                                    for="cust-theme-bg"><?php echo e(__('Transparent layout')); ?></label>
+                                                    </h6>
+                                                    <hr class="my-2" />
+                                                    <div class="form-check form-switch">
+                                                        <input type="checkbox" class="form-check-input"
+                                                            id="cust-theme-bg" name="cust_theme_bg"
+                                                            <?php echo e(Utility::getValByName('cust_theme_bg') == 'on' ? 'checked' : ''); ?> />
+                                                        <label class="form-check-label f-w-600 pl-1"
+                                                            for="cust-theme-bg"><?php echo e(__('Transparent layout')); ?></label>
 
-                                                                
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-4">
-                                                            <h6>
-                                                                <i data-feather="sun"
-                                                                    class=""></i><?php echo e(__('Layout settings')); ?>
+                                                        
+                                                    </div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <h6>
+                                                        <i data-feather="sun"
+                                                            class=""></i><?php echo e(__('Layout settings')); ?>
 
-                                                            </h6>
-                                                            <hr class=" my-2" />
-                                                            <div class="form-check form-switch">
-                                                                <input type="checkbox" class="form-check-input"
-                                                                    id="cust-darklayout" name="cust_darklayout"
-                                                                    <?php echo e(Utility::getValByName('cust_darklayout') == 'on' ? 'checked' : ''); ?> />
-                                                                <label class="form-check-label f-w-600 pl-1"
-                                                                    for="cust-darklayout"><?php echo e(__('Dark Layout')); ?></label>
+                                                    </h6>
+                                                    <hr class=" my-2" />
+                                                    <div class="form-check form-switch">
+                                                        <input type="checkbox" class="form-check-input"
+                                                            id="cust-darklayout" name="cust_darklayout"
+                                                            <?php echo e(Utility::getValByName('cust_darklayout') == 'on' ? 'checked' : ''); ?> />
+                                                        <label class="form-check-label f-w-600 pl-1"
+                                                            for="cust-darklayout"><?php echo e(__('Dark Layout')); ?></label>
 
-                                                                
-                                                            </div>
-                                                        </div>
+                                                        
                                                     </div>
                                                 </div>
                                             </div>
@@ -930,13 +928,15 @@ unset($__errorArgs, $__bag); ?>
                                     </div>
                                 </div>
                             </div>
-                            <div class="card-footer text-end">
-                                <?php echo e(Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary'])); ?>
+                        </div>
+                    </div>
+                    <div class="card-footer text-end">
+                        <?php echo e(Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary'])); ?>
 
-                            </div>
-                            <?php echo e(Form::close()); ?>
+                    </div>
+                    <?php echo e(Form::close()); ?>
 
-                        </div> -->
+                </div> 
 
                 <!-- <div id="email-settings" class="card">
                             <div class="card-header">
@@ -2865,7 +2865,7 @@ unset($__errorArgs, $__bag); ?>
     </div>
     <?php endif; ?>
     <?php if(\Auth::user()->type == 'owner'): ?>
-    <!-- <div id="site-settings" class="card">
+    <div id="site-settings" class="card">
         <div class="card-header">
             <h5><?php echo e(__('Site Settings')); ?></h5>
             <small class="text-muted"><?php echo e(__('Edit your site details')); ?></small>
@@ -3176,7 +3176,7 @@ unset($__errorArgs, $__bag); ?>
             <?php echo e(Form::close()); ?>
 
         </div>
-    </div>  -->
+    </div> 
 
     <!-- <div id="company-settings" class="card">
             <div class="card-header">
