@@ -401,6 +401,7 @@ Route::group(['middleware' => ['verified']], function () {
             Route::get('lead/approve_proposal/{id}',[LeadController::class,'approval'])->name('lead.approval');
             Route::get('lead/withdraw_proposal/{id}',[LeadController::class,'withdraw'])->name('lead.withdraw');
             Route::get('lead/resend_proposal/{id}',[LeadController::class,'resend'])->name('lead.resend');
+            Route::get('lead/clone/{id}',[LeadController::class,'duplicate'])->name('lead.clone');
         });
 
     Route::group(

@@ -112,7 +112,7 @@ class RoleController extends Controller
                 }
             }
 
-            return redirect()->route('role.index')->with('success', __('Role Successfully Inserted.'));
+            return redirect()->back()->with('success', __('Role Successfully Inserted.'));
         }
         else
         {
@@ -202,7 +202,7 @@ class RoleController extends Controller
                 $role->givePermissionTo($p);
             }
 
-            return redirect()->route('role.index')->with('success', __('Role Successfully Updated.'));
+            return redirect()->back()->with('success', __('Role Successfully Updated.'));
         }
         else
         {
@@ -223,7 +223,7 @@ class RoleController extends Controller
         {
             $role->delete();
 
-            return redirect()->route('role.index')->with('success', 'Role Successfully Deleted.');
+            return redirect()->back()->with('success', 'Role Successfully Deleted.');
         }
         else
         {

@@ -63,7 +63,7 @@
                                     <td>
                                         <span class="budget"><?php echo e($customer->email); ?></span>
                                     </td>
-                                    <td>.
+                                    <td>
                                         <span class="budget"><?php echo e($customer->phone); ?></span>
                                     </td>
                                     <td>

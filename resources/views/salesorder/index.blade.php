@@ -161,7 +161,7 @@
         function getaccount(opportunities_id) {
 
             $.ajax({
-                url: '{{ route('salesorder.getaccount') }}',
+                url: '{{ route("salesorder.getaccount") }}',
                 type: 'POST',
                 data: {
                     "opportunities_id": opportunities_id,

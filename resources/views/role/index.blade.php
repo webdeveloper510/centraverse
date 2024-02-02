@@ -11,11 +11,11 @@
 @endsection
 @section('action-btn')
     @can('Create Role')
-        <!-- <div class="action-btn bg-warning ms-2">
+        <div class="action-btn bg-warning ms-2">
             <a href="#" data-url="{{ route('role.create') }}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip"title="{{__(' Create')}}"data-title="{{__('Create New Role')}}" class="btn btn-sm btn-primary btn-icon m-1">
                 <i class="ti ti-plus"></i>
             </a>
-        </div> -->
+        </div>
     @endcan
 @endsection
 @section('filter')

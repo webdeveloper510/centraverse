@@ -346,7 +346,7 @@ class UserController extends Controller
             // if($userstatus->email_sent == ){
             //     $resp = Utility::sendEmailTemplate('new_user', [$user->id => $user->email], $uArr);
             // }
-            return redirect()->back()->with('success', __('Staff  Updated.'));
+            return redirect()->back()->with('success', __('Staff Member Updated.'));
         } else {
             return redirect()->back()->with('error', 'permission Denied');
         }
@@ -361,7 +361,7 @@ class UserController extends Controller
             $result = Utility::changeStorageLimit(\Auth::user()->creatorId(), $file_path);
             $user->delete();
 
-            return redirect()->back()->with('success', __('Staff  Deleted.'));
+            return redirect()->back()->with('success', __('Staff Member Deleted.'));
         } else {
             return redirect()->back()->with('error', 'permission Denied');
         }

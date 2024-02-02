@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use App\Models\Webhook;
+use App\Models\User;
 use App\Models\Billing;
 // use Google\Service\ServiceControl\Auth;
 use DB;
@@ -26,8 +27,10 @@ class SettingController extends Controller
             $permissions = Permission::all()->pluck('name', 'id')->toArray();
             $payment = Utility::set_payment_settings();
             $webhooks = Webhook::where('created_by', \Auth::user()->id)->get();
+            $roles = Role::where('created_by', \Auth::user()->creatorId())->with('permissions')->get();
+            $users = User::where('created_by', '=', \Auth::user()->creatorId())->get();
 
-            return view('settings.index', compact('settings', 'payment', 'webhooks','permissions'));
+            return view('settings.index', compact('settings', 'payment', 'webhooks','permissions','roles','users'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -1634,10 +1637,15 @@ class SettingController extends Controller
 
     public function storeImage(Request $request)
     {
+        // echo"<pre>";
+        // print_r($request->all());
+        // echo "no";
         $request->validate([
             'setup' => 'required|image|mimes:jpeg,png,jpg,gif',
         ]);
-        $this->validate($request, ['image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',]);
+        // echo "yes";
+        // die;
+        // $this->validate($request, ['image' => 'image|mimes:jpeg,png,jpg,gif,svg']);
         $image = $request->file('setup');
         $imageName = time() . '.' . $image->getClientOriginalExtension();
         $image->move(public_path('floor_images'), $imageName);
@@ -1699,17 +1707,11 @@ class SettingController extends Controller
         return redirect()->back()->with('success', __('Billing Cost Successfully added'));;
     } 
     public function signature(Request $request){
-        // if(\File::exists(public_path('upload/signature/autorised_signature.png'))){
-        //     \File::delete(public_path('upload/signature/autorised_signature.png'));
-        //     }else{
-        //         if(!empty($request->imageData)){
-        //              $this->uploadSignature($request->imageData);
-        //         }else{
-        //             return redirect()->back()->with('error',('The signature field is required'));
-        //         }
-        //     }
-        return redirect()->back()->with('success',('Signature added Successfully'));
-        // echo "<pre>";print_r($request->imageData);
+        if(\File::exists(public_path('upload/signature/autorised_signature.png')))
+        {
+            \File::delete(public_path('upload/signature/autorised_signature.png'));
+        }
+            $this->uploadSignature($request->signature);
     }
     public function uploadSignature($signed)
     {
@@ -1718,10 +1720,11 @@ class SettingController extends Controller
         $image_type_aux = explode("image/", $image_parts[0]);
         $image_type = $image_type_aux[1];
         $image_base64 = base64_decode($image_parts[1]);
-        $file = 'autorised_signature.png';
-        file_put_contents($folderPath.$file, $image_base64);
+        $file = $folderPath .'autorised_signature.'.$image_type;
+        file_put_contents($file, $image_base64);
         return $file;
     }
+    
 }
 function get_device_type($user_agent)
 {

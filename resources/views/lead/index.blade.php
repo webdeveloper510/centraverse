@@ -31,7 +31,6 @@
                                 <th scope="col" class="sort" data-sort="name">{{__('Lead')}}</th>
                                 <th scope="col" class="sort" data-sort="name">{{__('Name')}}</th>
                                 <th scope="col" class="sort" data-sort="budget">{{__('Email')}}</th>
-                                <!-- <th scope="col" class="sort" >{{__('Phone')}}</th> -->
                                 <th scope="col" class="sort">{{__('Assigned Staff')}}</th>
                                 <th scope="col" class="sort">{{__('Proposal Status')}}</th>
                                 <th scope="col" class="sort">{{__('Admin Approval')}}</th>
@@ -44,7 +43,7 @@
                         @foreach($leads as $lead)
                                 <tr>
                                     <td>
-                                        <span class="budget"><b>{{ ucfirst($lead->leadname) }}</b></span>
+                                        <span class="budget"><b>{{ ucfirst($lead->leadname)}}</b></span>
                                     </td>
                                     <td>
                                         <a href="{{ route('lead.edit',$lead->id) }}" data-size="md" data-title="{{__('Lead Details')}}" class="action-item text-primary">
@@ -54,11 +53,6 @@
                                     <td>
                                         <span class="budget">{{ $lead->email }}</span>
                                     </td>
-                                    <!-- <td>
-                                        <span class="budget">
-                                            {{ $lead->phone }}
-                                        </span>
-                                    </td> -->
                                     <td>
                                         <span class="col-sm-12"><span class="text-sm">{{ ucfirst(!empty($lead->assign_user)?$lead->assign_user->name:'')}} ({{$lead->assign_user->type}})</span></span>
                                     </td>
@@ -86,6 +80,24 @@
                                     </td>
                                     @if(Gate::check('Show Lead') || Gate::check('Edit Lead') || Gate::check('Delete Lead'))
                                         <td class="text-end">
+                                            @if($lead->status == 2)
+                                            <div class="action-btn bg-secondary ms-2">
+                                                    <a href="{{ route('meeting.create',['meeting',0]) }}" data-size="md"
+                                                        data-url="#"data-bs-toggle="tooltip"
+                                                        data-title="{{ __('Convert') }}"title="{{ __('Convert To Event') }}"
+                                                        class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                        <i class="fas fa-exchange-alt"></i>  </a>                                                  </a>
+                                                </div>
+                                                <div class="action-btn bg-primary ms-2">
+                                                    <a href="{{route('lead.clone',urlencode(encrypt($lead->id)))}}" data-size="md"
+                                                        data-url="#"data-bs-toggle="tooltip"title="{{ __('Clone') }}"
+                                                        data-title="{{ __('Clone') }}"
+                                                        class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                        <i class="fa fa-clone"></i>
+                                                    </a>
+                                                </div>
+                                              
+                                            @endif
                                             @if($lead->proposal_status == 0 )
                                                 <div class="action-btn bg-primary ms-2">
                                                     <a href="#" data-size="md"
@@ -106,21 +118,14 @@
                                                     </a>
                                                 </div>
                                             @elseif($lead->proposal_status == 2)
-                                                <!-- <div class="action-btn bg-primary ms-2">
-                                                    <a href="#" data-size="md"
-                                                        data-title="{{ __('Proposal') }}"title="{{ __('Review Proposal') }}"
-                                                        data-bs-toggle="tooltip"  data-ajax-popup="true"
-                                                        data-url="{{ route('lead.review',urlencode(encrypt($lead->id))) }}"
-                                                        class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                        <i class="fas fa-pen"></i>
-                                                    </a>
-                                                </div> -->
-                                                <div class="action-btn bg-info ms-2">
-                                                    <a href="{{route('lead.review',urlencode(encrypt($lead->id))) }}" 
-                                                    class="mx-3 btn btn-sm d-inline-flex align-items-center text-white "
-                                                     data-bs-toggle="tooltip"title="{{__('Review')}}" data-title="{{__('Review Lead')}}">
-                                                 <i class="fas fa-pen"></i></a>
-                                            </div>
+                                                @if($lead->status != 2)
+                                                    <div class="action-btn bg-info ms-2">
+                                                            <a href="{{route('lead.review',urlencode(encrypt($lead->id))) }}" 
+                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white "
+                                                            data-bs-toggle="tooltip"title="{{__('Review')}}" data-title="{{__('Review Lead')}}">
+                                                        <i class="fas fa-pen"></i></a>
+                                                    </div>
+                                                @endif
                                             @endif
                                             <div class="action-btn bg-success ms-2">
                                                 <a href="{{route('lead.proposal',urlencode(encrypt($lead->id))) }}" 

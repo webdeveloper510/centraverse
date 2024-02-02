@@ -11,10 +11,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Salesy Saas- Business Sales CRM">
-    <meta name="author" content="Rajodiya Infotech">
     <title>
-        <?php echo e(Utility::getValByName('title_text') ? Utility::getValByName('title_text') : config('app.name', 'Salesy SaaS')); ?>
+        <?php echo e(Utility::getValByName('title_text') ? Utility::getValByName('title_text') : config('app.name', 'Centraverse')); ?>
 
         - <?php echo $__env->yieldContent('page-title'); ?></title>
 
@@ -109,12 +107,6 @@
         transform: translate(50px, 50px);
         z-index: 99999;
     }
-    /* body.loading{
-        overflow: hidden;   
-    }
-    body.loading .overlay{
-        display: block;
-    } */
 </style>
 </head>
 <?php /**PATH C:\xampp\htdocs\centraverse\resources\views/partials/admin/head.blade.php ENDPATH**/ ?>

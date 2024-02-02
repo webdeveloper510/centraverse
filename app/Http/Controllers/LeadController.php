@@ -55,7 +55,6 @@ class LeadController extends Controller
                 return redirect()->back()->with('error', 'permission Denied');
             }
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -88,7 +87,7 @@ class LeadController extends Controller
                 [
                     'lead_name'=>'required',
                     'name' => 'required|max:120',
-                    'email' => 'required|unique:lead,email',
+                    'email' => 'required',
                     'venue' => 'required',
                     'guest_count' => 'required|numeric',
                     'start_date'=>'required',
@@ -245,7 +244,7 @@ class LeadController extends Controller
                 $request->all(),
                 [
                     'name' => 'required|max:120',
-                    'email' => 'required|email',
+                    'email' => 'required',
                     'guest_count' => 'required|numeric',
                     'start_date'=>'required',
                     'end_date'=>'required',
@@ -261,6 +260,7 @@ class LeadController extends Controller
             }
             $lead['user_id']            = $request->user;
             $lead['name']               = $request->name;
+            $lead['leadname']          = $request->lead_name;
             $lead['email']              = $request->email;
             $lead['phone']              = $request->phone;
             $lead['lead_address']       = $request->lead_address;
@@ -526,8 +526,7 @@ class LeadController extends Controller
             $pdf = Pdf::loadView('lead.signed_proposal', $data);
             return $pdf->stream('proposal.pdf');
     } 
-    public function uploadSignature($signed)
-    {
+    public function uploadSignature($signed){
         $folderPath = public_path('upload/');
         $image_parts = explode(";base64,", $signed);
         $image_type_aux = explode("image/", $image_parts[0]);
@@ -626,5 +625,14 @@ class LeadController extends Controller
             }elseif($status == 3){
                 return redirect()->back()->with('success', __('Lead  Withdrawn.'));
             }
+    }
+    public function duplicate($id){
+        $id = decrypt(urldecode($id));
+        $lead = Lead::find($id);
+        $newlead= $lead->replicate();
+        $newlead->proposal_status = 0;
+        $newlead->status = 0;
+        Lead::create($newlead->toArray());
+        return redirect()->back()->with('Success','Lead Cloned successfully');
     }
 }
