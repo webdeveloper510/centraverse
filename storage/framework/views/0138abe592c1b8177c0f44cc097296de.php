@@ -29,19 +29,19 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                     <a href="<?php echo e(route('dashboard')); ?>" class="dash-link">
                         <span class="dash-micon"><i class="ti ti-home-2"></i></span><span class="dash-mtext"><?php echo e(__('Dashboard')); ?></span></a>
                 </li>
-                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage User')): ?>
+                <!-- <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage User')): ?>
                     <li class="dash-item <?php echo e(\Request::route()->getName() == 'user' || \Request::route()->getName() == 'user.edit' ? ' active' : ''); ?>">
                         
                             <a class="dash-link" href="<?php echo e(array_key_exists('user',$defaultView) ? route($defaultView['user']) : route('user.index')); ?>">
                             <span class="dash-micon"><i class="ti ti-user"></i></span><span class="dash-mtext"><?php echo e(__('Staff')); ?></span></a>
                     </li>
-                <?php endif; ?>
-                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Role')): ?>
+                <?php endif; ?> -->
+                <!-- <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Role')): ?>
                     <li class="dash-item <?php echo e(\Request::route()->getName() == 'role' ? ' active' : ''); ?>">
                         <a href="<?php echo e(route('role.index')); ?>" class="dash-link"><span class="dash-micon">
                             <i class="ti ti-license"></i></span><span class="dash-mtext"><?php echo e(__('Role')); ?></span></a>
                     </li>
-                <?php endif; ?>
+                <?php endif; ?> -->
 
                <!--<?php if(\Auth::user()->type != 'super admin'): ?>
                     <li class="dash-item <?php echo e(\Request::route()->getName() == 'messages' ? ' active' : ''); ?>">
@@ -114,15 +114,15 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                             <span class="dash-micon"><i class="ti ti-blockquote"></i></span><span class="dash-mtext"><?php echo e(__('Quotes')); ?></span>
                         </a>
                     </li>
-                <?php endif; ?>
-                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage SalesOrder')): ?>
+                <?php endif; ?>-->
+                <!-- <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage SalesOrder')): ?>
                     <li class="dash-item <?php echo e(\Request::route()->getName() == 'salesorder' || \Request::route()->getName() == 'salesorder.show' || \Request::route()->getName() == 'salesorder.edit' ? ' active' : ''); ?>">
                         <a href="<?php echo e(route('salesorder.index')); ?>" class="dash-link">
                             <span class="dash-micon"><i class="ti ti-file-invoice"></i></span><span class="dash-mtext"><?php echo e(__('Sales Orders')); ?></span>
                         </a>
                     </li>
-                <?php endif; ?>
-                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Invoice')): ?>
+                <?php endif; ?> -->
+               <!-- <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Invoice')): ?>
                     <li class="dash-item <?php echo e(\Request::route()->getName() == 'invoice' || \Request::route()->getName() == 'invoice.show' || \Request::route()->getName() == 'invoice.edit' ? ' active' : ''); ?>">
                         <a href="<?php echo e(route('invoice.index')); ?>" class="dash-link">
                             <span class="dash-micon"><i class="ti ti-receipt"></i></span><span class="dash-mtext"><?php echo e(__('Invoices')); ?></span>

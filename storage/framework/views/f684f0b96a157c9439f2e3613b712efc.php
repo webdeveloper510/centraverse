@@ -32,7 +32,6 @@
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Lead')); ?></th>
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Name')); ?></th>
                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Email')); ?></th>
-                                <!-- <th scope="col" class="sort" ><?php echo e(__('Phone')); ?></th> -->
                                 <th scope="col" class="sort"><?php echo e(__('Assigned Staff')); ?></th>
                                 <th scope="col" class="sort"><?php echo e(__('Proposal Status')); ?></th>
                                 <th scope="col" class="sort"><?php echo e(__('Admin Approval')); ?></th>
@@ -56,12 +55,6 @@
                                     <td>
                                         <span class="budget"><?php echo e($lead->email); ?></span>
                                     </td>
-                                    <!-- <td>
-                                        <span class="budget">
-                                            <?php echo e($lead->phone); ?>
-
-                                        </span>
-                                    </td> -->
                                     <td>
                                         <span class="col-sm-12"><span class="text-sm"><?php echo e(ucfirst(!empty($lead->assign_user)?$lead->assign_user->name:'')); ?> (<?php echo e($lead->assign_user->type); ?>)</span></span>
                                     </td>
@@ -89,6 +82,24 @@
                                     </td>
                                     <?php if(Gate::check('Show Lead') || Gate::check('Edit Lead') || Gate::check('Delete Lead')): ?>
                                         <td class="text-end">
+                                            <?php if($lead->status == 2): ?>
+                                            <div class="action-btn bg-secondary ms-2">
+                                                    <a href="<?php echo e(route('meeting.create',['meeting',0])); ?>" data-size="md"
+                                                        data-url="#"data-bs-toggle="tooltip"
+                                                        data-title="<?php echo e(__('Convert')); ?>"title="<?php echo e(__('Convert To Event')); ?>"
+                                                        class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                        <i class="fas fa-exchange-alt"></i>  </a>                                                  </a>
+                                                </div>
+                                                <div class="action-btn bg-primary ms-2">
+                                                    <a href="<?php echo e(route('lead.clone',urlencode(encrypt($lead->id)))); ?>" data-size="md"
+                                                        data-url="#"data-bs-toggle="tooltip"title="<?php echo e(__('Clone')); ?>"
+                                                        data-title="<?php echo e(__('Clone')); ?>"
+                                                        class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                        <i class="fa fa-clone"></i>
+                                                    </a>
+                                                </div>
+                                              
+                                            <?php endif; ?>
                                             <?php if($lead->proposal_status == 0 ): ?>
                                                 <div class="action-btn bg-primary ms-2">
                                                     <a href="#" data-size="md"
@@ -109,21 +120,14 @@
                                                     </a>
                                                 </div>
                                             <?php elseif($lead->proposal_status == 2): ?>
-                                                <!-- <div class="action-btn bg-primary ms-2">
-                                                    <a href="#" data-size="md"
-                                                        data-title="<?php echo e(__('Proposal')); ?>"title="<?php echo e(__('Review Proposal')); ?>"
-                                                        data-bs-toggle="tooltip"  data-ajax-popup="true"
-                                                        data-url="<?php echo e(route('lead.review',urlencode(encrypt($lead->id)))); ?>"
-                                                        class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                        <i class="fas fa-pen"></i>
-                                                    </a>
-                                                </div> -->
-                                                <div class="action-btn bg-info ms-2">
-                                                    <a href="<?php echo e(route('lead.review',urlencode(encrypt($lead->id)))); ?>" 
-                                                    class="mx-3 btn btn-sm d-inline-flex align-items-center text-white "
-                                                     data-bs-toggle="tooltip"title="<?php echo e(__('Review')); ?>" data-title="<?php echo e(__('Review Lead')); ?>">
-                                                 <i class="fas fa-pen"></i></a>
-                                            </div>
+                                                <?php if($lead->status != 2): ?>
+                                                    <div class="action-btn bg-info ms-2">
+                                                            <a href="<?php echo e(route('lead.review',urlencode(encrypt($lead->id)))); ?>" 
+                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white "
+                                                            data-bs-toggle="tooltip"title="<?php echo e(__('Review')); ?>" data-title="<?php echo e(__('Review Lead')); ?>">
+                                                        <i class="fas fa-pen"></i></a>
+                                                    </div>
+                                                <?php endif; ?>
                                             <?php endif; ?>
                                             <div class="action-btn bg-success ms-2">
                                                 <a href="<?php echo e(route('lead.proposal',urlencode(encrypt($lead->id)))); ?>" 
