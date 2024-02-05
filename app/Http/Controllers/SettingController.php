@@ -15,6 +15,7 @@ use Spatie\Permission\Models\Role;
 use App\Models\Webhook;
 use App\Models\User;
 use App\Models\Billing;
+use App\Models\Setup;
 // use Google\Service\ServiceControl\Auth;
 use DB;
 class SettingController extends Controller
@@ -1637,20 +1638,18 @@ class SettingController extends Controller
 
     public function storeImage(Request $request)
     {
-        // echo"<pre>";
-        // print_r($request->all());
-        // echo "no";
         $request->validate([
             'setup' => 'required|image|mimes:jpeg,png,jpg,gif',
         ]);
-        // echo "yes";
-        // die;
-        // $this->validate($request, ['image' => 'image|mimes:jpeg,png,jpg,gif,svg']);
         $image = $request->file('setup');
         $imageName = time() . '.' . $image->getClientOriginalExtension();
         $image->move(public_path('floor_images'), $imageName);
         $filePath = 'floor_images/' . $imageName;
-        return redirect()->back()->with('success', __('Image Successfully Uploaded'));
+        $setup = new Setup();
+        $setup['image'] = $imageName;
+        $setup['description'] = $request->description;
+        $setup->save();
+        return redirect()->back()->with('success', __('Setup Successfully Uploaded'));
     }
 
     public function deleteImage(Request $request)

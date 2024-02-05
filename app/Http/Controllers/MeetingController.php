@@ -15,7 +15,7 @@ use App\Models\User;
 use App\Models\UserDefualtView;
 use Illuminate\Http\Request;
 use App\Models\Blockdate;
-use App\Models\Proposal;
+use App\Models\Setup;
 use App\Models\Billing;
 use App\Models\Agreement;
 use App\Models\Billingdetail;
@@ -70,12 +70,13 @@ class MeetingController extends Controller
             $users              = User::where('created_by', \Auth::user()->creatorId())->get();
             $attendees_lead    = Lead::where('created_by', \Auth::user()->creatorId())->where('proposal_status', 2)->get()->pluck('leadname', 'id');
             $attendees_lead->prepend('Select Lead', 0);
+            $setup = Setup::all();
             // $function = Meeting::$function;
             $breakfast = Meeting::$breakfast;
             $lunch = Meeting::$lunch;
             $dinner = Meeting::$dinner;
             $wedding = Meeting::$wedding;
-            return view('meeting.create', compact('status', 'type', 'breakfast', 'lunch', 'dinner', 'wedding', 'parent', 'users', 'attendees_lead', 'function'));
+            return view('meeting.create', compact('status', 'type', 'breakfast', 'setup','lunch', 'dinner', 'wedding', 'parent', 'users', 'attendees_lead'));
         } else {
             return redirect()->back()->with('error', 'permission Denied');
         }

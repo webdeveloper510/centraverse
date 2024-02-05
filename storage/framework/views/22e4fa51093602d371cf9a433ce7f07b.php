@@ -15,7 +15,7 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
     <nav class="dash-sidebar light-sidebar">
 <?php endif; ?>
     <div class="navbar-wrapper">
-        <div class="m-header main-logo">
+        <div class="m-header new_logo"><!-- main-logo -->
             <a href="<?php echo e(route('dashboard')); ?>" class="b-brand">
                 
                     

@@ -1,7 +1,6 @@
 
 <?php
 $settings = App\Models\Utility::settings();
-
 // $logo = asset(Storage::url('uploads/logo/'));
 $logo = \App\Models\Utility::get_file('uploads/logo/');
 $color = isset($settings['color']) ? $settings['color'] : 'theme-4';
@@ -93,7 +92,6 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
     }
 </style>
 <?php endif; ?>
-
 <?php if($color == 'theme-4'): ?>
 <style>
     .btn-check:checked+.btn-outline-success,
@@ -119,7 +117,6 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
     }
 </style>
 <?php endif; ?>
-
 <?php if($color == 'theme-3'): ?>
 <style>
     .btn-check:checked+.btn-outline-success,
@@ -151,8 +148,8 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
     }
 
     .floorimages {
-        height: 160px;
-        width: 200px;
+        height: 250px;
+        width: 100%;
         margin: 26px;
     }
 
@@ -302,7 +299,6 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
         });
     });
 </script>
-
 <script>
     var scrollSpy = new bootstrap.ScrollSpy(document.body, {
         target: '#useradd-sidenav',
@@ -370,7 +366,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
     <!-- [ sample-page ] start -->
     <div class="col-sm-12">
         <div class="row">
-            <div class="col-xl-3">
+            <div class="col-xl-2">
                 <div class="card sticky-top" style="top:30px">
                     <div class="list-group list-group-flush" id="useradd-sidenav">
 
@@ -565,7 +561,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                     </div>
                 </div>
             </div>
-            <div class="col-xl-9">
+            <div class="col-xl-10">
                 <?php if(\Auth::user()->type == 'super admin'): ?>
                  <!-- <div id="brand-settings" class="card">
                     <div class="card-header">
@@ -6255,7 +6251,11 @@ unset($__errorArgs, $__bag); ?>
                     <?php echo csrf_field(); ?>
                     <div class="form-group col-md-12">
                         <label for="setup" class="form-label">Choose Image</label></br>
-                        <input type="file" name="setup" class="form-control" />
+                        <input type="file" name="setup" class="form-control" required/>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="description" class="form-label">Description</label></br>
+                        <input type="textarea" class="form-control" name="description" rows="3" required>                        
                     </div>
                     <div class="text-end">
                         <button type="submit" class="btn-submit btn btn-primary">Submit</button>
@@ -6270,7 +6270,7 @@ unset($__errorArgs, $__bag); ?>
                     <input type="radio" id="image_<?php echo e($loop->index); ?>" name="uploadedImage" class="form-check-input" value="<?php echo e(asset('floor_images/' . basename($image))); ?>">
                     <label for="image_<?php echo e($loop->index); ?>" class="form-check-label">
                         <img src="<?php echo e(asset('floor_images/'. basename($image))); ?>" alt="Uploaded Image" class="img-thumbnail floorimages zoom">
-                        <i class="ti ti-trash" data-image="<?php echo e(basename($image)); ?>" onclick="deleteImage(this)"></i>
+                        <span class=" rounded p-2 m-1 px-3 bg-danger text-white" style="float: inline-end;"><i class="ti ti-trash " data-image="<?php echo e(basename($image)); ?>" onclick="deleteImage(this)"    ></i></span>
                     </label>
                 </div>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

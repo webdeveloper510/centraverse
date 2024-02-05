@@ -15,7 +15,7 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
     <nav class="dash-sidebar light-sidebar">
 @endif
     <div class="navbar-wrapper">
-        <div class="m-header main-logo">
+        <div class="m-header new_logo"><!-- main-logo -->
             <a href="{{ route('dashboard') }}" class="b-brand">
                 {{-- <img src="{{ asset(Storage::url('logo/'.$logo)) }}" alt="{{ env('APP_NAME') }}" class="logo logo-lg" />
                     <img src="{{ asset(Storage::url('logo/'.$logo)) }}" alt="{{ env('APP_NAME') }}" class="logo logo-sm" /> --}}
