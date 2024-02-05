@@ -27,7 +27,8 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
             <ul class="dash-navbar">  
                 <li class="dash-item <?php echo e(\Request::route()->getName() == 'dashboard' ? ' active' : ''); ?>">
                     <a href="<?php echo e(route('dashboard')); ?>" class="dash-link">
-                        <span class="dash-micon"><i class="ti ti-home-2"></i></span><span class="dash-mtext"><?php echo e(__('Dashboard')); ?></span></a>
+                        <!-- <span class="dash-micon"><i class="ti ti-home-2"></i></span> -->
+                            <span class="dash-mtext"><?php echo e(__('Dashboard')); ?></span></a>
                 </li>
                 <!-- <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage User')): ?>
                     <li class="dash-item <?php echo e(\Request::route()->getName() == 'user' || \Request::route()->getName() == 'user.edit' ? ' active' : ''); ?>">
@@ -87,7 +88,8 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                     <li class="dash-item <?php echo e(\Request::route()->getName() == 'lead' || \Request::route()->getName() == 'lead.edit' ? ' active' : ''); ?>">
                         
                         <a href="<?php echo e(array_key_exists('lead',$defaultView) ? route($defaultView['lead']) : route('lead.index')); ?>"   class="dash-link">
-                            <span class="dash-micon"><i class="ti ti-filter"></i></span><span class="dash-mtext"><?php echo e(__('Leads')); ?></span>
+                            <!-- <span class="dash-micon"><i class="ti ti-filter"></i></span> -->
+                            <span class="dash-mtext"><?php echo e(__('Leads')); ?></span>
                         </a>
                 <?php endif; ?>
                  <!-- <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Opportunities')): ?>
@@ -169,14 +171,16 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                         
                         <a href="<?php echo e(array_key_exists('meeting',$defaultView) ? route($defaultView['meeting']) : route('meeting.index')); ?>"
                             class="dash-link">
-                            <span class="dash-micon"><i class="ti ti-calendar"></i></span><span class="dash-mtext"><?php echo e(__('Event')); ?></span>
+                            <!-- <span class="dash-micon"><i class="ti ti-calendar"></i></span> -->
+                            <span class="dash-mtext"><?php echo e(__('Event')); ?></span>
                         </a>
                     </li>
                 <?php endif; ?>
                 <?php if(\Auth::user()->type!='super admin'): ?>
                     <li class="dash-item <?php echo e(\Request::route()->getName() == 'calendar' || \Request::route()->getName() == 'calendar.index' ? ' active' : ''); ?>">
                         <a href="<?php echo e(route('calendar.index')); ?>" class="dash-link">
-                            <span class="dash-micon"><i class="far fa-calendar-alt"></i></span><span class="dash-mtext"><?php echo e(__('Calendar')); ?></span>
+                            <!-- <span class="dash-micon"><i class="far fa-calendar-alt"></i></span> -->
+                            <span class="dash-mtext"><?php echo e(__('Calendar')); ?></span>
                         </a>
                     </li>
                 <?php endif; ?>
@@ -258,15 +262,17 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                 <?php endif; ?>  -->
                 <?php if(\Auth::user()->type == 'owner'): ?> 
                      <li class="dash-item">
-                        <a href="<?php echo e(route('email.template.view')); ?>" class="dash-link"><span
-                        class="dash-micon"><i class="ti ti-template"></i></span><span
+                        <a href="<?php echo e(route('email.template.view')); ?>" class="dash-link">
+                            <!-- <span class="dash-micon"><i class="ti ti-template"></i></span> -->
+                        <span
                         class="dash-mtext"><?php echo e(__('Email Template')); ?></span></a>
                     </li>
                 <?php endif; ?> 
                 <?php if(\Auth::user()->type == 'owner'): ?> 
                      <li class="dash-item">
-                        <a href="<?php echo e(route('customer.index')); ?>" class="dash-link"><span
-                        class="dash-micon"><i class="ti ti-template"></i></span><span
+                        <a href="<?php echo e(route('customer.index')); ?>" class="dash-link">
+                            <!-- <span class="dash-micon"><i class="ti ti-template"></i></span> -->
+                            <span
                         class="dash-mtext"><?php echo e(__('Campaign')); ?></span></a>
                     </li>
                 <?php endif; ?> 
@@ -458,7 +464,8 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                 <?php if(\Auth::user()->type =='owner'): ?>
                     <li class="dash-item <?php echo e(\Request::route()->getName() == 'billing' || \Request::route()->getName() == 'billing.index' ? ' active' : ''); ?>">
                         <a href="<?php echo e(route('billing.index')); ?>" class="dash-link">
-                            <span class="dash-micon"><i class="far fa-calendar-alt"></i></span><span class="dash-mtext"><?php echo e(__('Billing')); ?></span>
+                            <!-- <span class="dash-micon"><i class="far fa-calendar-alt"></i></span> -->
+                            <span class="dash-mtext"><?php echo e(__('Billing')); ?></span>
                         </a>
                     </li>
                 <?php endif; ?>
@@ -468,7 +475,8 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                  <?php if(\Auth::user()->type == 'super admin' || \Auth::user()->type == 'owner'): ?>
                     <li class="dash-item  <?php echo e(Request::route()->getName() == 'settings' ? 'active' : ''); ?>">
                         <a href="<?php echo e(route('settings')); ?>" class="dash-link">
-                            <span class="dash-micon"><i class="ti ti-settings"></i></span><span class="dash-mtext"><?php echo e(__('Settings')); ?></span>
+                            <!-- <span class="dash-micon"><i class="ti ti-settings"></i></span> -->
+                            <span class="dash-mtext"><?php echo e(__('Settings')); ?></span>
                         </a>
                     </li>
                 <?php endif; ?>
@@ -479,7 +487,7 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
 <style>
     .main-logo{
     position: relative !important;
-    min-width: 150px !important;
-    min-height: 150px !important;
+    min-width: 76px !important;
+    min-height: 76px !important;
     }
 </style><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/partials/admin/menu.blade.php ENDPATH**/ ?>

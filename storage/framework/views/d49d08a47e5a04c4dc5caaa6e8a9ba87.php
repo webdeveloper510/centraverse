@@ -17,11 +17,8 @@
 ?>
 
 <?php if(isset($settings['cust_theme_bg']) && $settings['cust_theme_bg'] == 'on'): ?>
-<div class="dash-header transprent-bg new_div">
-  <?php echo $__env->make('partials.admin.menu', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-
-
-</div>  
+<div class="dash-header transprent-bg">
+</div>
     <header class="dash-header transprent-bg">
 
     <?php else: ?>

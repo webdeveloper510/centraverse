@@ -17,11 +17,8 @@
 @endphp
 
 @if (isset($settings['cust_theme_bg']) && $settings['cust_theme_bg'] == 'on')
-<div class="dash-header transprent-bg new_div">
-  @include('partials.admin.menu')
-
-
-</div>  
+<div class="dash-header transprent-bg">
+</div>
     <header class="dash-header transprent-bg">
 
     @else

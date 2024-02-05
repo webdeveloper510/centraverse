@@ -18045,9 +18045,9 @@ body.theme-10 .card .card-header h5:after, body.theme-10 .card .card-header .h5:
         box-shadow: none;
     }
 
-    .dash-sidebar.light-sidebar.transprent-bg .navbar-content {
+    /* .dash-sidebar.light-sidebar.transprent-bg .navbar-content {
         height: calc(100vh - 70px);
-    }
+    } */
 
     .dash-sidebar.light-sidebar:not(.transprent-bg) {
         top: 20px;
@@ -18168,7 +18168,7 @@ body.theme-10 .card .card-header h5:after, body.theme-10 .card .card-header .h5:
     height: 70px;
     display: flex;
     align-items: center;
-    padding: 15px 20px;
+    padding: 5px 20px;
 }
 
 .dash-sidebar .m-header .logo-sm {
