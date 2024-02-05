@@ -29,7 +29,8 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
             <ul class="dash-navbar">  
                 <li class="dash-item {{ \Request::route()->getName() == 'dashboard' ? ' active' : '' }}">
                     <a href="{{ route('dashboard') }}" class="dash-link">
-                        <span class="dash-micon"><i class="ti ti-home-2"></i></span><span class="dash-mtext">{{ __('Dashboard') }}</span></a>
+                        <!-- <span class="dash-micon"><i class="ti ti-home-2"></i></span> -->
+                            <span class="dash-mtext">{{ __('Dashboard') }}</span></a>
                 </li>
                 <!-- @can('Manage User')
                     <li class="dash-item {{ \Request::route()->getName() == 'user' || \Request::route()->getName() == 'user.edit' ? ' active' : '' }}">
@@ -95,7 +96,8 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                             <span class="dash-micon"><i class="ti ti-filter"></i></span><span class="dash-mtext">{{ __('Leads') }}</span>
                         </a> --}}
                         <a href="{{  array_key_exists('lead',$defaultView) ? route($defaultView['lead']) : route('lead.index') }}"   class="dash-link">
-                            <span class="dash-micon"><i class="ti ti-filter"></i></span><span class="dash-mtext">{{ __('Leads') }}</span>
+                            <!-- <span class="dash-micon"><i class="ti ti-filter"></i></span> -->
+                            <span class="dash-mtext">{{ __('Leads') }}</span>
                         </a>
                 @endcan
                  <!-- @can('Manage Opportunities')
@@ -190,14 +192,16 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                         </a> --}}
                         <a href="{{ array_key_exists('meeting',$defaultView) ? route($defaultView['meeting']) : route('meeting.index') }}"
                             class="dash-link">
-                            <span class="dash-micon"><i class="ti ti-calendar"></i></span><span class="dash-mtext">{{ __('Event') }}</span>
+                            <!-- <span class="dash-micon"><i class="ti ti-calendar"></i></span> -->
+                            <span class="dash-mtext">{{ __('Event') }}</span>
                         </a>
                     </li>
                 @endcan
                 @if(\Auth::user()->type!='super admin')
                     <li class="dash-item {{ \Request::route()->getName() == 'calendar' || \Request::route()->getName() == 'calendar.index' ? ' active' : '' }}">
                         <a href="{{ route('calendar.index') }}" class="dash-link">
-                            <span class="dash-micon"><i class="far fa-calendar-alt"></i></span><span class="dash-mtext">{{ __('Calendar') }}</span>
+                            <!-- <span class="dash-micon"><i class="far fa-calendar-alt"></i></span> -->
+                            <span class="dash-mtext">{{ __('Calendar') }}</span>
                         </a>
                     </li>
                 @endif
@@ -285,15 +289,17 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                 @endif  -->
                 @if (\Auth::user()->type == 'owner') 
                      <li class="dash-item">
-                        <a href="{{ route('email.template.view') }}" class="dash-link"><span
-                        class="dash-micon"><i class="ti ti-template"></i></span><span
+                        <a href="{{ route('email.template.view') }}" class="dash-link">
+                            <!-- <span class="dash-micon"><i class="ti ti-template"></i></span> -->
+                        <span
                         class="dash-mtext">{{ __('Email Template') }}</span></a>
                     </li>
                 @endif 
                 @if (\Auth::user()->type == 'owner') 
                      <li class="dash-item">
-                        <a href="{{ route('customer.index') }}" class="dash-link"><span
-                        class="dash-micon"><i class="ti ti-template"></i></span><span
+                        <a href="{{ route('customer.index') }}" class="dash-link">
+                            <!-- <span class="dash-micon"><i class="ti ti-template"></i></span> -->
+                            <span
                         class="dash-mtext">{{ __('Campaign') }}</span></a>
                     </li>
                 @endif 
@@ -485,7 +491,8 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                 @if(\Auth::user()->type =='owner')
                     <li class="dash-item {{ \Request::route()->getName() == 'billing' || \Request::route()->getName() == 'billing.index' ? ' active' : '' }}">
                         <a href="{{ route('billing.index') }}" class="dash-link">
-                            <span class="dash-micon"><i class="far fa-calendar-alt"></i></span><span class="dash-mtext">{{ __('Billing') }}</span>
+                            <!-- <span class="dash-micon"><i class="far fa-calendar-alt"></i></span> -->
+                            <span class="dash-mtext">{{ __('Billing') }}</span>
                         </a>
                     </li>
                 @endif
@@ -495,7 +502,8 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                  @if (\Auth::user()->type == 'super admin' || \Auth::user()->type == 'owner')
                     <li class="dash-item  {{ Request::route()->getName() == 'settings' ? 'active' : '' }}">
                         <a href="{{ route('settings') }}" class="dash-link">
-                            <span class="dash-micon"><i class="ti ti-settings"></i></span><span class="dash-mtext">{{ __('Settings') }}</span>
+                            <!-- <span class="dash-micon"><i class="ti ti-settings"></i></span> -->
+                            <span class="dash-mtext">{{ __('Settings') }}</span>
                         </a>
                     </li>
                 @endif
@@ -506,7 +514,7 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
 <style>
     .main-logo{
     position: relative !important;
-    min-width: 150px !important;
-    min-height: 150px !important;
+    min-width: 76px !important;
+    min-height: 76px !important;
     }
 </style>

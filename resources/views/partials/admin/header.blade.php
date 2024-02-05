@@ -18,8 +18,7 @@
 
 @if (isset($settings['cust_theme_bg']) && $settings['cust_theme_bg'] == 'on')
 <div class="dash-header transprent-bg">
-
-</div>  
+</div>
     <header class="dash-header transprent-bg">
 
     @else
