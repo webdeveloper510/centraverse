@@ -768,3 +768,13 @@
         height: 3.125rem;
         width: 3.125rem;
     }
+    .new_div .m-header.main-logo {
+        display: none;
+    }
+    .new_div ul.dash-navbar {
+        display: flex !important;
+        width: 100% !important;
+    }
+    .new_div .dash-sidebar {
+        width: 100% !important;
+    }

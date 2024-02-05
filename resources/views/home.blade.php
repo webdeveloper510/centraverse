@@ -11,11 +11,7 @@
 
 @section('action-btn')
 
-@endsection
-@php 
-echo date("Y-m-d H:i:s");
-@endphp
-
+@endsection 
 @section('content')
 <style>
     #optionsContainer {
