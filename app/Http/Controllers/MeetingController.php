@@ -70,7 +70,7 @@ class MeetingController extends Controller
             $users              = User::where('created_by', \Auth::user()->creatorId())->get();
             $attendees_lead    = Lead::where('created_by', \Auth::user()->creatorId())->where('proposal_status', 2)->get()->pluck('leadname', 'id');
             $attendees_lead->prepend('Select Lead', 0);
-            $function = Meeting::$function;
+            // $function = Meeting::$function;
             $breakfast = Meeting::$breakfast;
             $lunch = Meeting::$lunch;
             $dinner = Meeting::$dinner;

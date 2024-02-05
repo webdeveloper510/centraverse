@@ -14,6 +14,7 @@ $company_logo = \App\Models\Utility::GetLogo();
 $lang = \App\Models\Utility::getValByName('default_language');
 $EmailTemplates = App\Models\EmailTemplate::all();
 $venue = explode(',',$settings['venue']);
+$function = explode(',',$settings['function']);
 $file_type = config('files_types');
 
 $local_storage_validation = $settings['local_storage_validation'];
@@ -474,7 +475,9 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                         <a href="#venue-settings" class="list-group-item list-group-item-action border-0">{{ __('Venue Settings') }}
                             <div class="float-end"><i class="ti ti-chevron-right"></i></div>
                         </a>
-
+                        <a href="#function-settings" class="list-group-item list-group-item-action border-0">{{ __('Function Settings') }}
+                            <div class="float-end"><i class="ti ti-chevron-right"></i></div>
+                        </a>
                         <a href="#floor-plan-setting" class="list-group-item list-group-item-action border-0">{{ __('Floor Plan Settings') }}
                             <div class="float-end"><i class="ti ti-chevron-right"></i></div>
                         </a>
@@ -5945,6 +5948,54 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                             @can('Delete Role')
                             <div class="action-btn  ms-2">
                                 <a href="#!" class="mx-3 btn btn-sm  align-items-center text-white venue_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="{{ route('venueedit.setting') }}" data-token="{{ csrf_token() }}">
+                                    <i class="ti ti-trash"></i>
+                                </a>
+                            </div>
+                            @endcan
+                            @endif
+                        </span>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+            @endif
+        </div>
+    </div>
+</div>
+<div id="function-settings" class="card">
+    <div class="col-md-12">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-lg-8 col-md-8 col-sm-8">
+                    <h5>{{ __('Function Settings') }}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row mt-3">
+                {{ Form::open(['route' => 'function.setting', 'method' => 'post']) }}
+                @csrf
+                <div class="form-group col-md-12">
+                    {{ Form::label('function', __('Function'), ['class' => 'form-label']) }}
+                    {{ Form::text('function',null,['class' => 'form-control ', 'placeholder' => __('Enter Function'), 'required' => 'required']) }}
+                </div>
+                <div class="text-end">
+                    {{ Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary']) }}
+                </div>
+                {{ Form::close() }}
+            </div>
+            @if(isset($function) && !empty($function))
+            <div class="row mt-3">
+                <div class="form-group col-md-12">
+                    <label class="form-label">Function</label>
+                    <div class="badges">
+                        @foreach ($function as $value)
+                        <span class="badge rounded p-2 m-1 px-3 bg-primary" style="cursor:pointer">
+                            {{ $value }}
+                            @if(Gate::check('Delete Role'))
+                            @can('Delete Role')
+                            <div class="action-btn  ms-2">
+                                <a href="#!" class="mx-3 btn btn-sm  align-items-center text-white venue_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="{{ route('functionedit.setting') }}" data-token="{{ csrf_token() }}">
                                     <i class="ti ti-trash"></i>
                                 </a>
                             </div>

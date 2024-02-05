@@ -1214,7 +1214,10 @@ Route::group(['middleware' => ['verified']], function () {
     //=======================================Venue==========================================//
     Route::post('setting/venue', [SettingController::class, 'venue_select'])->name('venue.setting');
     Route::post('setting/delete-venue',[SettingController::class,'delete_venue'])->name('venueedit.setting');
-    
+     //=======================================Function==========================================//
+     Route::post('setting/function', [SettingController::class, 'addfunction'])->name('function.setting');
+     Route::post('setting/delete-function',[SettingController::class,'delete_function'])->name('functionedit.setting');
+     
     //=======================================Floor Plans=======================//
     Route::post('/floor-images',[SettingController::class,'storeImage']);
     Route::post('/delete-image', [SettingController::class, 'deleteImage']);

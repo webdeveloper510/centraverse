@@ -1694,17 +1694,19 @@ class SettingController extends Controller
         return redirect()->back()->with('success', __('Buffer Time Added successfully.'));
     }
     public function billing_cost(Request $request){
-        $billing = Billing::first();
-        Billing::where('id',$billing->id)->update([
-            'venue_rental'=>$request->venue_rental,
-            'hotel_rooms'=>$request->hotel_rooms,
-            'equipment'=>$request->equipment,
-            'setup'=>$request->setup,
-            'special_req'=>$request->special_req,
-            'classic_brunch'=>$request->food,
-            'gold_2hrs'=>$request->bar_package
-        ]);
-        return redirect()->back()->with('success', __('Billing Cost Successfully added'));;
+        echo "<pre>";
+        print_r($request->all());die;
+        // $billing = Billing::first();
+        // Billing::where('id',$billing->id)->update([
+        //     'venue_rental'=>$request->venue_rental,
+        //     'hotel_rooms'=>$request->hotel_rooms,
+        //     'equipment'=>$request->equipment,
+        //     'setup'=>$request->setup,
+        //     'special_req'=>$request->special_req,
+        //     'classic_brunch'=>$request->food,
+        //     'gold_2hrs'=>$request->bar_package
+        // ]);
+        // return redirect()->back()->with('success', __('Billing Cost Successfully added'));;
     } 
     public function signature(Request $request){
         if(\File::exists(public_path('upload/signature/autorised_signature.png')))
@@ -1723,6 +1725,54 @@ class SettingController extends Controller
         $file = $folderPath .'autorised_signature.'.$image_type;
         file_put_contents($file, $image_base64);
         return $file;
+    }
+    public function addfunction(Request $request){
+        $user = \Auth::user();
+        $inputValue =  $request->input('function');
+        $settings = Utility::settings();
+        $created_at = $updated_at = date('Y-m-d H:i:s');
+        $existingValue = $settings['function'] ?? '';
+        $newValue = $existingValue . ($existingValue ? ',' : '') . $inputValue;
+        if(isset($settings['function']) && !empty($settings['function'])){
+            DB::table('settings')
+                ->where('name','function')
+                ->update([
+                    'value' => $newValue,
+                    'created_by'=> $user->id,
+                    'created_at' =>$created_at,
+                    'updated_at'=>$updated_at
+                ]);
+        }
+        else{
+            \DB::insert(
+                'INSERT INTO settings (`value`, `name`,`created_by`,`created_at`,`updated_at`) values (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`), `updated_at` = VALUES(`updated_at`) ',
+                [
+                    $inputValue,
+                    'function',
+                    $user->id,
+                    $created_at,
+                    $updated_at,
+                ]);
+        }
+        return redirect()->back()->with('success', __('Function Added successfully.'));
+    }
+    public function delete_function(Request $request){
+        $user = \Auth::user();
+        $setting = Utility::settings();
+        $existingValues = explode(',', $setting['function']);
+        $updatedValues = array_diff($existingValues, [$request->badge]);
+        $newvalue = implode(',', $updatedValues);
+        $created_at = $updated_at = date('Y-m-d H:i:s');
+        
+        DB::table('settings')
+        ->where('name','function')
+        ->update([
+            'value' => $newvalue,
+            'created_by'=> $user->id,
+            'created_at' =>$created_at,
+            'updated_at'=>$updated_at
+        ]);
+        return true;
     }
     
 }

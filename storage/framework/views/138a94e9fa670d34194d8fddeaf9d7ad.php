@@ -13,6 +13,7 @@
     $type_arr= explode(',',$setting['event_type']);
     $type_arr = array_combine($type_arr, $type_arr);
     $venue = explode(',',$setting['venue']);
+    $function = explode(',',$setting['function']);
     $meal = ['Formal Plated' ,'Buffet Style' , 'Family Style'];
     $bar = ['Open Bar', 'Cash Bar', 'Package Choice'];
     $platinum = ['Platinum - 4 Hours', 'Platinum - 3 Hours', 'Platinum - 2 Hours'];
@@ -267,7 +268,7 @@
                                             <div class="form-group">
                                                 <?php echo e(Form::label('start_date', __('Start Date'), ['class' => 'form-label'])); ?>
 
-                                                <?php echo Form::date('start_date', null, ['class' => 'form-control', 'required' => 'required']); ?>
+                                                <?php echo Form::date('start_date', null, ['class' => 'form-control', 'required' => 'required','min' => date('Y-m-d')]); ?>
 
                                             </div>
                                         </div>
@@ -275,7 +276,7 @@
                                             <div class="form-group">
                                                 <?php echo e(Form::label('end_date', __('End Date'), ['class' => 'form-label'])); ?>
 
-                                                <?php echo Form::date('end_date', null, ['class' => 'form-control', 'required' => 'required']); ?>
+                                                <?php echo Form::date('end_date', null, ['class' => 'form-control', 'required' => 'required','min' => date('Y-m-d')]); ?>
 
                                             </div>
                                         </div>

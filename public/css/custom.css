@@ -778,3 +778,6 @@
     .new_div .dash-sidebar {
         width: 100% !important;
     }
+    .new_div {
+        z-index: 999;
+    }
