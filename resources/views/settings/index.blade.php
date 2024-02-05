@@ -458,7 +458,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                     class="list-group-item list-group-item-action border-0">{{ __('Email Notification Settings') }}
                                     <div class="float-end"><i class="ti ti-chevron-right"></i></div>
                                 </a>
-                            @endif -->
+                        @endif -->
                         @if (\Auth::user()->type == 'owner')
                         <a href="#user-settings" class="list-group-item list-group-item-action border-0">{{ __('Staff Settings') }}
                             <div class="float-end"><i class="ti ti-chevron-right"></i></div>

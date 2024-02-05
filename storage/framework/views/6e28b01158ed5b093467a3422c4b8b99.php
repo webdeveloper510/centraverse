@@ -471,7 +471,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
 
                                     <div class="float-end"><i class="ti ti-chevron-right"></i></div>
                                 </a>
-                            <?php endif; ?> -->
+                        <?php endif; ?> -->
                         <?php if(\Auth::user()->type == 'owner'): ?>
                         <a href="#user-settings" class="list-group-item list-group-item-action border-0"><?php echo e(__('Staff Settings')); ?>
 
@@ -563,7 +563,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
             </div>
             <div class="col-xl-9">
                 <?php if(\Auth::user()->type == 'super admin'): ?>
-                 <div id="brand-settings" class="card">
+                 <!-- <div id="brand-settings" class="card">
                     <div class="card-header">
                         <h5><?php echo e(__('Brand Settings')); ?></h5>
                         <small class="text-muted"><?php echo e(__('Edit your brand details')); ?></small>
@@ -936,7 +936,7 @@ unset($__errorArgs, $__bag); ?>
                     </div>
                     <?php echo e(Form::close()); ?>
 
-                </div> 
+                </div>  -->
 
                 <!-- <div id="email-settings" class="card">
                             <div class="card-header">
@@ -2865,7 +2865,7 @@ unset($__errorArgs, $__bag); ?>
     </div>
     <?php endif; ?>
     <?php if(\Auth::user()->type == 'owner'): ?>
-    <div id="site-settings" class="card">
+    <!-- <div id="site-settings" class="card">
         <div class="card-header">
             <h5><?php echo e(__('Site Settings')); ?></h5>
             <small class="text-muted"><?php echo e(__('Edit your site details')); ?></small>
@@ -3176,7 +3176,7 @@ unset($__errorArgs, $__bag); ?>
             <?php echo e(Form::close()); ?>
 
         </div>
-    </div> 
+    </div>  -->
 
     <!-- <div id="company-settings" class="card">
             <div class="card-header">

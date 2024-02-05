@@ -13,7 +13,7 @@
 
 <?php $__env->startSection('action-btn'); ?>
 
-<?php $__env->stopSection(); ?>
+<?php $__env->stopSection(); ?> 
 <?php $__env->startSection('content'); ?>
 <style>
     #optionsContainer {
