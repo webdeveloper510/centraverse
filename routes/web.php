@@ -487,21 +487,21 @@ Route::group(['middleware' => ['verified']], function () {
             ],
         ],
         function () {
-            Route::get('meeting/grid', [MeetingController::class, 'grid'])->name('meeting.grid');
+            Route::get('event/grid', [MeetingController::class, 'grid'])->name('meeting.grid');
             Route::post('meeting/getparent', [MeetingController::class, 'getparent'])->name('meeting.getparent');
             Route::resource('meeting', MeetingController::class);
-            Route::post('meeting/get_meeting_data', [MeetingController::class, 'get_meeting_data'])->name('meeting.get_meeting_data')->middleware(['auth', 'XSS']);
-            Route::get('meeting/create/{type}/{id}', [MeetingController::class, 'create'])->name('meeting.create');
-            Route::post('meeting/get_lead_data/',[MeetingController::class, 'get_lead_data'])->name('meeting.lead');
-            Route::post('meeting/get_calender_date/',[MeetingController::class, 'get_calender_date'])->name('meeting.calender');
-            Route::post('meeting/block-date/',[MeetingController::class,'block_date'])->name('meeting.blockdate');
-            Route::post('meeting/unblock-date/',[MeetingController::class,'unblock_date'])->name('meeting.unblock');
-            Route::get('meeting/shareevent/{meeting}', [MeetingController::class, 'share_event'])->name('meeting.share');
-            Route::post('meeting/share_event_info/{id}', [MeetingController::class, 'get_event_info'])->name('meeting.event_info');
+            Route::post('event/get_meeting_data', [MeetingController::class, 'get_meeting_data'])->name('meeting.get_meeting_data')->middleware(['auth', 'XSS']);
+            Route::get('event/create/{type}/{id}', [MeetingController::class, 'create'])->name('meeting.create');
+            Route::post('event/get_lead_data/',[MeetingController::class, 'get_lead_data'])->name('meeting.lead');
+            Route::post('event/get_calender_date/',[MeetingController::class, 'get_calender_date'])->name('meeting.calender');
+            Route::post('event/block-date/',[MeetingController::class,'block_date'])->name('meeting.blockdate');
+            Route::post('event/unblock-date/',[MeetingController::class,'unblock_date'])->name('meeting.unblock');
+            Route::get('event/shareevent/{meeting}', [MeetingController::class, 'share_event'])->name('meeting.share');
+            Route::post('event/share_event_info/{id}', [MeetingController::class, 'get_event_info'])->name('meeting.event_info');
             Route::get('event/agreement/{id}', [MeetingController::class, 'agreement'])->name('meeting.agreement');
             Route::get('/meeting-download/{meeting}', [MeetingController::class, 'download_meeting']);
-            Route::get('meeting/review-proposal/{id}', [MeetingController::class, 'review_agreement'])->name('meeting.review');
-            Route::post('lead/review-agreement/update/{id}', [MeetingController::class, 'review_agreement_data'])->name('meeting.review_agreement.update');
+            Route::get('event/review-proposal/{id}', [MeetingController::class, 'review_agreement'])->name('meeting.review');
+            Route::post('event/review-agreement/update/{id}', [MeetingController::class, 'review_agreement_data'])->name('meeting.review_agreement.update');
         }
     );
   

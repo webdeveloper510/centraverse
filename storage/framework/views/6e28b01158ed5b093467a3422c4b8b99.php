@@ -13,6 +13,7 @@ $company_logo = \App\Models\Utility::GetLogo();
 $lang = \App\Models\Utility::getValByName('default_language');
 $EmailTemplates = App\Models\EmailTemplate::all();
 $venue = explode(',',$settings['venue']);
+$venue = array_combine($venue,$venue);
 $function = explode(',',$settings['function']);
 $file_type = config('files_types');
 
@@ -32,9 +33,7 @@ $SITE_RTL == 'off';
 if(isset($settings['event_type']) && !empty($settings['event_type'])){
 $eventtypes = explode(',',$settings['event_type']);
 }
-if(isset($settings['venue']) && !empty($settings['venue'])){
-$venue = explode(',',$settings['venue']);
-}
+
 $meta_image = \App\Models\Utility::get_file('uploads/metaevent/');
 $imagePath = public_path('upload/signature/autorised_signature.png');
 $imageData = base64_encode(file_get_contents($imagePath));
@@ -349,60 +348,16 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
 <?php echo e(__('Settings')); ?>
 
 <?php $__env->stopSection(); ?>
-<?php $__env->startSection('title'); ?>
-<?php echo e(__('Settings')); ?>
-
-<?php $__env->stopSection(); ?>
-<?php $__env->startSection('breadcrumb'); ?>
-<li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Home')); ?></a></li>
-<li class="breadcrumb-item"><?php echo e(__('Settings')); ?></li>
-<?php $__env->stopSection(); ?>
 <?php $__env->startSection('action-btn'); ?>
 <?php $__env->stopSection(); ?>
-
-
 <?php $__env->startSection('content'); ?>
 <div class="row">
     <!-- [ sample-page ] start -->
     <div class="col-sm-12">
         <div class="row">
-            <div class="col-xl-2">
+            <div class="col-xl-2" style="padding-left: 0px;">
                 <div class="card sticky-top" style="top:30px">
                     <div class="list-group list-group-flush" id="useradd-sidenav">
-
-                        <!-- <?php if(\Auth::user()->type == 'super admin'): ?>
-                                <a href="#brand-settings"
-                                    class="list-group-item list-group-item-action border-0"><?php echo e(__('Brand Settings')); ?> <div
-                                        class="float-end"><i class="ti ti-chevron-right"></i></div></a>
-                            <?php endif; ?>
-                            <?php if(\Auth::user()->type == 'super admin'): ?>
-                                <a href="#email-settings"
-                                    class="list-group-item list-group-item-action dash-link border-0"><?php echo e(__('Email Settings')); ?>
-
-                                    <div class="float-end"><i class="ti ti-chevron-right"></i></div>
-                                </a>
-                            <?php endif; ?>
-                            <?php if(\Auth::user()->type == 'super admin'): ?>
-                                <a href="#pusher-settings"
-                                    class="list-group-item list-group-item-action border-0"><?php echo e(__('Pusher Settings')); ?>
-
-                                    <div class="float-end"><i class="ti ti-chevron-right"></i></div>
-                                </a>
-                            <?php endif; ?>-->
-
-                            <!-- <?php if(\Auth::user()->type == 'owner'): ?>
-                                <a href="#site-settings"
-                                    class="list-group-item list-group-item-action border-0"><?php echo e(__('Site Settings')); ?> <div
-                                        class="float-end"><i class="ti ti-chevron-right"></i></div></a>
-                            <?php endif; ?>  -->
-                        
-                            <!-- <?php if(\Auth::user()->type == 'owner'): ?>
-                                <a href="#company-settings"
-                                    class="list-group-item list-group-item-action border-0"><?php echo e(__('Company Settings')); ?>
-
-                                    <div class="float-end"><i class="ti ti-chevron-right"></i></div>
-                                </a>
-                            <?php endif; ?> -->
 
                         <?php if(\Auth::user()->type == 'owner'): ?>
                         <a href="#company-email-setting" class="list-group-item list-group-item-action border-0"><?php echo e(__('Email Settings')); ?>
@@ -410,44 +365,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                             <div class="float-end"><i class="ti ti-chevron-right"></i></div>
                         </a>
                         <?php endif; ?> 
-                        <!-- <?php if(\Auth::user()->type == 'owner'): ?>
-                                <a href="#system-settings"
-                                    class="list-group-item list-group-item-action border-0"><?php echo e(__('System Settings')); ?>
-
-                                    <div class="float-end"><i class="ti ti-chevron-right"></i></div>
-                                </a>
-                            <?php endif; ?>
-
-                            <?php if(\Auth::user()->type == 'owner'): ?>
-                                <a href="#quote-settings"
-                                    class="list-group-item list-group-item-action border-0"><?php echo e(__('Quote Settings')); ?> <div
-                                        class="float-end"><i class="ti ti-chevron-right"></i></div></a>
-                            <?php endif; ?>
-
-                            <?php if(\Auth::user()->type == 'owner'): ?>
-                                <a href="#invoice-settings"
-                                    class="list-group-item list-group-item-action border-0"><?php echo e(__('Invoice Settings')); ?>
-
-                                    <div class="float-end"><i class="ti ti-chevron-right"></i></div>
-                                </a>
-                            <?php endif; ?>
-
-                            <?php if(\Auth::user()->type == 'owner'): ?>
-                                <a href="#sales-order-settings"
-                                    class="list-group-item list-group-item-action border-0"><?php echo e(__('Sales Order Settings')); ?>
-
-                                    <div class="float-end"><i class="ti ti-chevron-right"></i></div>
-                                </a>
-                            <?php endif; ?> -->
-
-                        <!-- <?php if(\Auth::user()->type == 'owner' || \Auth::user()->type == 'super admin'): ?>
-                                <a href="#payment-settings"
-                                    class="list-group-item list-group-item-action border-0"><?php echo e(__('Payment Settings')); ?>
-
-                                    <div class="float-end"><i class="ti ti-chevron-right"></i></div>
-                                </a>
-                        <?php endif; ?> -->
-
+                        
                         <?php if(\Auth::user()->type == 'owner'): ?>
                         <a href="#twilio-settings" class="list-group-item list-group-item-action border-0"><?php echo e(__('Twilio Settings')); ?>
 
@@ -462,13 +380,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                         </a>
                         <?php endif; ?>
 
-                        <!-- <?php if(\Auth::user()->type == 'owner'): ?>
-                                <a href="#email-notification-settings"
-                                    class="list-group-item list-group-item-action border-0"><?php echo e(__('Email Notification Settings')); ?>
-
-                                    <div class="float-end"><i class="ti ti-chevron-right"></i></div>
-                                </a>
-                        <?php endif; ?> -->
+                       
                         <?php if(\Auth::user()->type == 'owner'): ?>
                         <a href="#user-settings" class="list-group-item list-group-item-action border-0"><?php echo e(__('Staff Settings')); ?>
 
@@ -509,55 +421,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                             <div class="float-end"><i class="ti ti-chevron-right"></i></div>
                         </a>
                         <?php endif; ?>
-                        <!-- <?php if(\Auth::user()->type == 'super admin'): ?>
-                                <a href="#storage-settings"
-                                    class="list-group-item list-group-item-action border-0"><?php echo e(__('Storage Settings')); ?>
-
-                                    <div class="float-end"><i class="ti ti-chevron-right"></i></div>
-                                </a>
-                            <?php endif; ?>
-                            <?php if(\Auth::user()->type == 'owner'): ?>
-                                <a href="#google-calender"
-                                    class="list-group-item list-group-item-action border-0"><?php echo e(__('Google Calendar Settings')); ?>
-
-                                    <div class="float-end"><i class="ti ti-chevron-right"></i></div>
-                                </a>
-                            <?php endif; ?>
-                            <?php if(\Auth::user()->type == 'owner'): ?>
-                                <a href="#webhook-settings"
-                                    class="list-group-item list-group-item-action border-0"><?php echo e(__('Webhook Settings')); ?>
-
-                                    <div class="float-end"><i class="ti ti-chevron-right"></i></div>
-                                </a>
-                            <?php endif; ?>
-                            <?php if(\Auth::user()->type == 'super admin'): ?>
-                                <a href="#SEO"
-                                    class="list-group-item list-group-item-action border-0"><?php echo e(__('SEO Settings')); ?>
-
-                                    <div class="float-end"><i class="ti ti-chevron-right"></i></div>
-                                </a>
-                            <?php endif; ?>
-                            <?php if(\Auth::user()->type == 'super admin'): ?>
-                                <a href="#cache"
-                                    class="list-group-item list-group-item-action border-0"><?php echo e(__('Cache Settings')); ?>
-
-                                    <div class="float-end"><i class="ti ti-chevron-right"></i></div>
-                                </a>
-                            <?php endif; ?>
-                            <?php if(\Auth::user()->type == 'super admin'): ?>
-                                <a href="#cookie"
-                                    class="list-group-item list-group-item-action border-0"><?php echo e(__('Cookie Settings')); ?>
-
-                                    <div class="float-end"><i class="ti ti-chevron-right"></i></div>
-                                </a>
-                            <?php endif; ?> -->
-                        <!-- <?php if(\Auth::user()->type == 'super admin'): ?>
-                                <a href="#pills-chatgpt-settings"
-                                    class="list-group-item list-group-item-action border-0"><?php echo e(__('Chat GPT Key Settings')); ?>
-
-                                    <div class="float-end"><i class="ti ti-chevron-right"></i></div>
-                                </a>
-                            <?php endif; ?> -->
+                   
                     </div>
                 </div>
             </div>
@@ -6249,13 +6113,21 @@ unset($__errorArgs, $__bag); ?>
             <div class="row mt-3">
                 <form method="POST" action="<?php echo e(url('/floor-images')); ?>" enctype="multipart/form-data">
                     <?php echo csrf_field(); ?>
-                    <div class="form-group col-md-12">
+                    <div class="row">
+                    <div class="form-group col-md-6">
                         <label for="setup" class="form-label">Choose Image</label></br>
                         <input type="file" name="setup" class="form-control" required/>
                     </div>
+                    <div class="form-group col-md-6">
+                        <label for="title" class="form-label">Title</label></br>
+                        <input type="text" class="form-control" name="title" required>                        
+                    </div>
+                    </div>
+
                     <div class="form-group col-md-12">
                         <label for="description" class="form-label">Description</label></br>
-                        <input type="textarea" class="form-control" name="description" rows="3" required>                        
+                        <!-- <input type="textarea" class="form-control" name="description" rows="3" >      -->
+                        <textarea name="description" id="description" class="form-control"  rows="3"></textarea>                   
                     </div>
                     <div class="text-end">
                         <button type="submit" class="btn-submit btn btn-primary">Submit</button>
@@ -6265,12 +6137,12 @@ unset($__errorArgs, $__bag); ?>
         </div>
         <div class="col-12">
             <div class="row">
-                <?php $__currentLoopData = File::files(public_path('floor_images')); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php $__currentLoopData = $setup; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $s): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <div class="col-6">
-                    <input type="radio" id="image_<?php echo e($loop->index); ?>" name="uploadedImage" class="form-check-input" value="<?php echo e(asset('floor_images/' . basename($image))); ?>">
+                    <input type="radio" id="image_<?php echo e($loop->index); ?>" name="uploadedImage" class="form-check-input" value="<?php echo e(asset('floor_images/' . $s->image)); ?>">
                     <label for="image_<?php echo e($loop->index); ?>" class="form-check-label">
-                        <img src="<?php echo e(asset('floor_images/'. basename($image))); ?>" alt="Uploaded Image" class="img-thumbnail floorimages zoom">
-                        <span class=" rounded p-2 m-1 px-3 bg-danger text-white" style="float: inline-end;"><i class="ti ti-trash " data-image="<?php echo e(basename($image)); ?>" onclick="deleteImage(this)"    ></i></span>
+                        <img src="<?php echo e(asset('floor_images/'.$s->image)); ?>" alt="Uploaded Image" class="img-thumbnail floorimages zoom">
+                        <span class=" rounded p-2 m-1 px-3 bg-danger text-white" style="float: inline-end;"><i class="ti ti-trash " data-image="<?php echo e($s->image); ?>" onclick="deleteImage(this)"    ></i></span>
                     </label>
                 </div>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -6289,37 +6161,48 @@ unset($__errorArgs, $__bag); ?>
         </div>
         <div class="card-body">
             <div class="row mt-3">
-
                 <?php echo e(Form::open(['route' => 'billing.setting', 'method' => 'post'])); ?>
 
                 <?php echo csrf_field(); ?>
                 <div class="row">
                     <div class="form-group col-md-6">
-                       <?php echo e(Form::label('venue_rental',__('Venue Rental'),['class'=>'form-label'])); ?>
+                       <?php echo e(Form::label('venue',__('Venue'),['class'=>'form-label'])); ?>
 
-                        <?php echo Form::select('venue_rental',$venue, null,['class' => 'form-control ', 'placeholder' => __('Select Venue'), 'required' => 'required']); ?>
+                        <?php echo Form::select('venue',$venue, null,['class' => 'form-control ', 'placeholder' => __('Select Venue'), 'required' => 'required']); ?>
 
                     </div>
                     <div class="col-md-6">
-                        <?php echo e(Form::label('venue_rental_cost', __('Venue Rental'), ['class' => 'form-label'])); ?>
+                        <?php echo e(Form::label('venue_cost', __('Venue Cost'), ['class' => 'form-label'])); ?>
 
-                        <?php echo e(Form::number('venue_rental_cost',null,['class' => 'form-control ', 'placeholder' => __('Enter Venue Rental Cost'), 'required' => 'required'])); ?>
+                        <?php echo e(Form::number('venue_cost',null,['class' => 'form-control ', 'placeholder' => __('Enter Venue Rental Cost'), 'required' => 'required'])); ?>
 
                     </div>
-                   
                 </div>
-
                 <div class="row">
                     <div class="form-group col-md-6">
-                        <?php echo e(Form::label('equipment', __('Tent, Tables, Chairs, AV Equipment'), ['class' => 'form-label'])); ?>
+                        <?php echo e(Form::label('equipment', __('Equipment'), ['class' => 'form-label'])); ?>
 
-                        <?php echo e(Form::number('equipment',null,['class' => 'form-control ', 'placeholder' => __('Enter Equipments Cost'), 'required' => 'required'])); ?>
+                        <?php echo e(Form::number('equipment',null,['class' => 'form-control ', 'placeholder' => __('Enter Equipments Cost (eg. Tent, Tables, Chairs)'), 'required' => 'required'])); ?>
 
                     </div>
                     <div class="form-group col-md-6">
-                        <?php echo e(Form::label('setup', __('Welcome/Rehearsel/Special Setup'), ['class' => 'form-label'])); ?>
+                        <?php echo e(Form::label('welcomesetup', __('Welcome Setup'), ['class' => 'form-label'])); ?>
 
-                        <?php echo e(Form::number('setup',null,['class' => 'form-control ', 'placeholder' => __('Enter Setup Cost'), 'required' => 'required'])); ?>
+                        <?php echo e(Form::number('welcomesetup',null,['class' => 'form-control ', 'placeholder' => __('Enter Welcome Setup Cost'), 'required' => 'required'])); ?>
+
+                    </div>
+                </div>
+                <div class="row">
+                <div class="form-group col-md-6">
+                        <?php echo e(Form::label('rehearsalsetup', __('Rehearsel Setup'), ['class' => 'form-label'])); ?>
+
+                        <?php echo e(Form::number('rehearsalsetup',null,['class' => 'form-control ', 'placeholder' => __('Enter Rehearsel Setup Cost'), 'required' => 'required'])); ?>
+
+                    </div>
+                    <div class="form-group col-md-6">
+                        <?php echo e(Form::label('specialsetup', __('Special Setup'), ['class' => 'form-label'])); ?>
+
+                        <?php echo e(Form::number('specialsetup',null,['class' => 'form-control ', 'placeholder' => __('Enter Special Setup Cost'), 'required' => 'required'])); ?>
 
                     </div>
                 </div>
@@ -6339,15 +6222,37 @@ unset($__errorArgs, $__bag); ?>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-6">
-                        <?php echo e(Form::label('food', __('Brunch/Lunch/Dinner Package'), ['class' => 'form-label'])); ?>
+                        <?php echo e(Form::label('brunch', __('Brunch Package'), ['class' => 'form-label'])); ?>
 
-                        <?php echo e(Form::number('food',null,['class' => 'form-control ', 'placeholder' => __('Enter Food Package Cost'), 'required' => 'required'])); ?>
+                        <?php echo e(Form::number('brunch',null,['class' => 'form-control ', 'placeholder' => __('Enter Brunch Package Cost'), 'required' => 'required'])); ?>
+
+                    </div>
+                    <div class="form-group col-md-6">
+                        <?php echo e(Form::label('lunch', __('Lunch Package'), ['class' => 'form-label'])); ?>
+
+                        <?php echo e(Form::number('lunch',null,['class' => 'form-control ', 'placeholder' => __('Enter Lunch Package Cost'), 'required' => 'required'])); ?>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <?php echo e(Form::label('dinner', __('Dinner Package'), ['class' => 'form-label'])); ?>
+
+                        <?php echo e(Form::number('dinner',null,['class' => 'form-control ', 'placeholder' => __('Enter Dinner Package Cost'), 'required' => 'required'])); ?>
 
                     </div>
                     <div class="form-group col-md-6">
                         <?php echo e(Form::label('hotel_rooms', __('Hotel Rooms'), ['class' => 'form-label'])); ?>
 
                         <?php echo e(Form::number('hotel_rooms',null,['class' => 'form-control ', 'placeholder' => __('Enter Hotel Rooms Cost'), 'required' => 'required'])); ?>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <?php echo e(Form::label('wedding', __('Wedding Package'), ['class' => 'form-label'])); ?>
+
+                        <?php echo e(Form::number('wedding',null,['class' => 'form-control ', 'placeholder' => __('Enter Wedding Package Cost'), 'required' => 'required'])); ?>
 
                     </div>
                 </div>

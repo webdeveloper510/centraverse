@@ -17,6 +17,7 @@
     $gold = ['Gold - 4 Hours', 'Gold - 3 Hours', 'Gold - 2 Hours'];
     $silver = ['Silver - 4 Hours', 'Silver - 3 Hours', 'Silver - 2 Hours'];
     $beer = ['Beer & Wine - 4 Hours', 'Beer & Wine - 3 Hours', 'Beer & Wine - 2 Hours'];
+    $function = explode(',',$setting['function']);
     @endphp
 
 @section('breadcrumb')
@@ -27,9 +28,9 @@
 @section('content')
 <style>
     .floorimages{
-        height: 183px;
-        width: 256px;
-        margin: 26px;
+        height: 400px;
+    width: 600px;
+    margin: 26px;
     }
 
     .selected-image {
@@ -335,11 +336,11 @@
                                         <div class="col-12">
                                         <div class="row">
                                             <label><b>Setup</b></label>
-                                            @foreach(File::files(public_path('floor_images')) as $image)
-                                            <div class="col-6">    
-                                                    <input type="radio" id="image_{{ $loop->index }}" name="uploadedImage" class="form-check-input " value="{{ asset('/public/floor_images/' . basename($image)) }}" style="display:none;"{{$meeting->floor_plan == $image ? 'checked' :''}}>
+                                            @foreach($setup as $s)
+                                            <div class="col-6  mt-4">    
+                                                    <input type="radio" id="image_{{ $loop->index }}" name="uploadedImage" class="form-check-input " value="{{ asset('/floor_images/' . $s->image) }}" style="display:none;"{{$meeting->floor_plan ==$s->image ? 'checked' :''}}>
                                                     <label for="image_{{ $loop->index }}" class="form-check-label">
-                                                        <img src="{{URL::asset('floor_images/'. basename($image))}}" alt="Uploaded Image" class="img-thumbnail floorimages zoom">
+                                                        <img src="{{asset('floor_images/'.$s->image)}}" alt="Uploaded Image" class="img-thumbnail floorimages zoom"data-bs-toggle="tooltip" title="{{$s->Description}}">
                                                     </label>
                                                 </div>
                                             @endforeach

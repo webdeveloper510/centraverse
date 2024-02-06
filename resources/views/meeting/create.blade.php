@@ -23,9 +23,9 @@
 @section('content')
 <style>
     .floorimages{
-        height: 80%;
-        width: 80%;
-        margin: 26px;
+        height: 400px;
+    width: 600px;
+    margin: 26px;
     }
 
     .selected-image {
@@ -364,7 +364,7 @@
                                         <div class="row">
                                             <label><b>Setup</b></label>
                                             @foreach($setup as $s)
-                                            <div class="col-6">    
+                                            <div class="col-6  mt-4">    
                                                     <input type="radio" id="image_{{ $loop->index }}" name="uploadedImage" class="form-check-input " value="{{ asset('floor_images/' . $s->image) }}" style="display:none;">
                                                     <label for="image_{{ $loop->index }}" class="form-check-label">
                                                         <img src="{{asset('floor_images/'.$s->image)}}" alt="Uploaded Image" class="img-thumbnail floorimages zoom"data-bs-toggle="tooltip" title="{{$s->Description}}" >

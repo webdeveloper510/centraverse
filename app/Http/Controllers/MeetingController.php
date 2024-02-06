@@ -275,14 +275,15 @@ class MeetingController extends Controller
             $venue_function = explode(',', $meeting->venue_selection);
             $food_package = explode(',', $meeting->func_package);
             $user_id = explode(',', $meeting->user_id);
+            $setup = Setup::all();
             // $previous = Meeting::where('id', '<', $meeting->id)->max('id');
             // $next = Meeting::where('id', '>', $meeting->id)->min('id');
-            $function = Meeting::$function;
+            // $function = Meeting::$function;
             $breakfast = Meeting::$breakfast;
             $lunch = Meeting::$lunch;
             $dinner = Meeting::$dinner;
             $wedding = Meeting::$wedding;
-            return view('meeting.edit', compact('user_id', 'users', 'food_package', 'function_p', 'venue_function', 'meeting', 'breakfast', 'lunch', 'dinner', 'wedding', 'status', 'function', 'attendees_lead'))->with('start_date', $meeting->start_date)->with('end_date', $meeting->end_date);
+            return view('meeting.edit', compact('user_id', 'users', 'setup','food_package', 'function_p', 'venue_function', 'meeting', 'breakfast', 'lunch', 'dinner', 'wedding', 'status','attendees_lead'))->with('start_date', $meeting->start_date)->with('end_date', $meeting->end_date);
         } else {
             return redirect()->back()->with('error', 'permission Denied');
         }
@@ -728,12 +729,13 @@ class MeetingController extends Controller
         $venue_function = explode(',', $meeting->venue_selection);
         $food_package = explode(',', $meeting->func_package);
         $user_id = explode(',', $meeting->user_id);
-        $function = Meeting::$function;
+        $setup = Setup::all();
+        // $function = Meeting::$function;
         $breakfast = Meeting::$breakfast;
         $lunch = Meeting::$lunch;
         $dinner = Meeting::$dinner;
         $wedding = Meeting::$wedding;
-        return view('meeting.agreement.review_agreement', compact('user_id', 'users', 'food_package', 'function_p', 'venue_function', 'meeting', 'breakfast', 'lunch', 'dinner', 'wedding', 'status', 'function', 'attendees_lead'))->with('start_date', $meeting->start_date)->with('end_date', $meeting->end_date);
+        return view('meeting.agreement.review_agreement', compact('user_id', 'users', 'setup','food_package', 'function_p', 'venue_function', 'meeting', 'breakfast', 'lunch', 'dinner', 'wedding', 'status','attendees_lead'))->with('start_date', $meeting->start_date)->with('end_date', $meeting->end_date);
     }
      public function mail_testing(){
           /*$settings=Utility::settings();
@@ -781,6 +783,7 @@ class MeetingController extends Controller
         } elseif ($request->status == 'Resend') {
             $status = 4;
         } elseif ($request->status == 'Withdraw') {
+            // Lead::where('id',$)
             $status = 5;
         }
         $break_package = $lunch_package = $dinner_package = $wedding_package = '';
@@ -856,14 +859,14 @@ class MeetingController extends Controller
     
                 Mail::to('sonali@codenomad.net')->send(new SendEventMail($meeting));
             } catch (\Exception $e) {
-                \Log::error('Error sending email: ' . $e->getMessage());
+                // \Log::error('Error sending email: ' . $e->getMessage());
                 // return response()->json(
                 //     [
                 //         'is_success' => false,
                 //         'message' => $e->getMessage(),
                 //     ]
                 // );
-                //   return redirect()->back()->with('success', 'Email Not Sent');
+                  return redirect()->back()->with('success', 'Email Not Sent');
             }
             return redirect()->back()->with('success', __('Event  Resent.'));
         }elseif($status == 5){

@@ -52,7 +52,11 @@
 <!-- Demo JS - remove it when starting your project -->
 
 
-
+<script>
+          $(".dash-navbar li a").click(function() {
+           $(this).parent().addClass('active').siblings().removeClass('active'); 
+          } );
+            </script>
 <script>
     function show_toastr(title, message, type) {
         var o, i;
@@ -151,24 +155,24 @@
     };
     var calender_header = {
         today: "<?php echo e(__('today')); ?>",
-        month: '<?php echo e(__('month')); ?>',
-        week: '<?php echo e(__('week')); ?>',
-        day: '<?php echo e(__('day')); ?>',
-        list: '<?php echo e(__('list')); ?>'
+        month: '<?php echo e(__("month")); ?>',
+        week: '<?php echo e(__("week")); ?>',
+        day: '<?php echo e(__("day")); ?>',
+        list: '<?php echo e(__("list")); ?>'
     };
 </script>
 
 
 <?php if(Session::has('success')): ?>
     <script>
-        show_toastr('<?php echo e(__('Success')); ?>', '<?php echo session('success'); ?>', 'success');
+        show_toastr('<?php echo e(__("Success")); ?>', '<?php echo session("success"); ?>', 'success');
     </script>
     <?php echo e(Session::forget('success')); ?>
 
 <?php endif; ?>
 <?php if(Session::has('error')): ?>
     <script>
-        show_toastr('<?php echo e(__('Error')); ?>', '<?php echo session('error'); ?>', 'error');
+        show_toastr('<?php echo e(__("Error")); ?>', '<?php echo session("error"); ?>', 'error');
     </script>
     <?php echo e(Session::forget('error')); ?>
 

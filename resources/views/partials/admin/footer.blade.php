@@ -56,7 +56,11 @@
 <!-- Demo JS - remove it when starting your project -->
 
 
-
+<script>
+          $(".dash-navbar li a").click(function() {
+           $(this).parent().addClass('active').siblings().removeClass('active'); 
+          } );
+            </script>
 <script>
     function show_toastr(title, message, type) {
         var o, i;
@@ -155,35 +159,35 @@
     };
     var calender_header = {
         today: "{{__('today')}}",
-        month: '{{__('month')}}',
-        week: '{{__('week')}}',
-        day: '{{__('day')}}',
-        list: '{{__('list')}}'
+        month: '{{__("month")}}',
+        week: '{{__("week")}}',
+        day: '{{__("day")}}',
+        list: '{{__("list")}}'
     };
 </script>
 {{--
 @if(Session::has('success'))
     <script>
-        toastrs('{{__('Success')}}', '{!! session('success') !!}', 'success');
+        toastrs('{{__("Success")}}', '{!! session("success") !!}', 'success');
     </script>
     {{ Session::forget('success') }}
 @endif
 @if(Session::has('error'))
     <script>
-        toastrs('{{__('Error')}}', '{!! session('error') !!}', 'error');
+        toastrs('{{__("Error")}}', '{!! session("error") !!}', 'error');
     </script>
     {{ Session::forget('error') }}
 @endif --}}
 
 @if(Session::has('success'))
     <script>
-        show_toastr('{{__('Success')}}', '{!! session('success') !!}', 'success');
+        show_toastr('{{__("Success")}}', '{!! session("success") !!}', 'success');
     </script>
     {{ Session::forget('success') }}
 @endif
 @if(Session::has('error'))
     <script>
-        show_toastr('{{__('Error')}}', '{!! session('error') !!}', 'error');
+        show_toastr('{{__("Error")}}', '{!! session("error") !!}', 'error');
     </script>
     {{ Session::forget('error') }}
 @endif

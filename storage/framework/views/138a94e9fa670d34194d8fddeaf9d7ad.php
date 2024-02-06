@@ -30,9 +30,9 @@
 <?php $__env->startSection('content'); ?>
 <style>
     .floorimages{
-        height: 183px;
-        width: 256px;
-        margin: 26px;
+        height: 400px;
+    width: 600px;
+    margin: 26px;
     }
 
     .selected-image {
@@ -406,11 +406,11 @@
                                         <div class="col-12">
                                         <div class="row">
                                             <label><b>Setup</b></label>
-                                            <?php $__currentLoopData = File::files(public_path('floor_images')); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php $__currentLoopData = $setup; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $s): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <div class="col-6">    
-                                                    <input type="radio" id="image_<?php echo e($loop->index); ?>" name="uploadedImage" class="form-check-input " value="<?php echo e(asset('floor_images/' . basename($image))); ?>"  <?php echo e(asset('floor_images/' . basename($image))==$meeting->floor_plan ? 'checked' : ''); ?> style="display:none">
+                                                    <input type="radio" id="image_<?php echo e($loop->index); ?>" name="uploadedImage" class="form-check-input " value="<?php echo e(asset('floor_images/' .$s->image)); ?>"  <?php echo e(asset('floor_images/' .$s->image)==$meeting->floor_plan ? 'checked' : ''); ?> style="display:none">
                                                     <label for="image_<?php echo e($loop->index); ?>" class="form-check-label">
-                                                        <img src="<?php echo e(asset('floor_images/'. basename($image))); ?>" alt="Uploaded Image" class="img-thumbnail floorimages zoom">
+                                                        <img src="<?php echo e(asset('floor_images/'. $s->image)); ?>" alt="Uploaded Image" class="img-thumbnail floorimages zoom">
                                                     </label>
                                                 </div>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -432,9 +432,6 @@
                                 <div class="card-body">
                                     <div class ="row">
                                             <div class="form-group">
-                                                <!-- <?php echo Form::checkbox('room', 1, null, ['id'=>'room', 'class' => 'checkbox']); ?>
-
-                                                <?php echo Form::label('room', 'Rooms at the hotel'); ?>  -->
                                                 <?php echo e(Form::label('rooms',__('Room'),['class'=>'form-label'])); ?>
 
                                             <input type="number" name="rooms" min = 0 class = "form-control" value="<?php echo e($meeting->room); ?>" > 

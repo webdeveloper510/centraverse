@@ -26,7 +26,6 @@
     <!-- [ Mobile header ] End -->
 
     <!-- [ navigation menu ] start -->
-    @include('partials.admin.menu')
     <!-- [ navigation menu ] end -->
 
     <!-- [ Header ] start -->

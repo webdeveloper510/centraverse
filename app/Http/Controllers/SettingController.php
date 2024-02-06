@@ -16,6 +16,7 @@ use App\Models\Webhook;
 use App\Models\User;
 use App\Models\Billing;
 use App\Models\Setup;
+use App\Models\FixedBill;
 // use Google\Service\ServiceControl\Auth;
 use DB;
 class SettingController extends Controller
@@ -30,8 +31,8 @@ class SettingController extends Controller
             $webhooks = Webhook::where('created_by', \Auth::user()->id)->get();
             $roles = Role::where('created_by', \Auth::user()->creatorId())->with('permissions')->get();
             $users = User::where('created_by', '=', \Auth::user()->creatorId())->get();
-
-            return view('settings.index', compact('settings', 'payment', 'webhooks','permissions','roles','users'));
+            $setup = Setup::all();
+            return view('settings.index', compact('settings', 'setup','payment', 'webhooks','permissions','roles','users'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -1656,7 +1657,7 @@ class SettingController extends Controller
     {
         $imageName = $request->input('imageName');
         $imagePath = public_path('floor_images') . '/' . $imageName;
-
+        Setup::where('image',$imageName)->delete();
         if (File::exists($imagePath)) {
             File::delete($imagePath);
             return response()->json(['success' => true]);
@@ -1693,9 +1694,40 @@ class SettingController extends Controller
         return redirect()->back()->with('success', __('Buffer Time Added successfully.'));
     }
     public function billing_cost(Request $request){
-        echo "<pre>";
-        print_r($request->all());die;
-        // $billing = Billing::first();
+        $bill= FixedBill::where('venue',$request->venue)->exists(); 
+        if($bill){
+            FixedBill::where('venue',$request->venue)->update([
+                'venue_cost'=> $request->venue_cost,
+                'hotel_rooms'=> $request->hotel_rooms,
+                'bar_package'=> $request->bar_package,
+                'wedding'=> $request->wedding,
+                'dinner'=> $request->dinner,
+                'lunch'=> $request->lunch,
+                'brunch'=> $request->brunch,
+                'special_req'=> $request->special_req,
+                'specialsetup'=> $request->specialsetup,
+                'rehearsalsetup'=> $request->rehearsalsetup,
+                'welcomesetup'=> $request->welcomesetup,
+                'equipment'=> $request->equipment,
+            ]);
+        }
+        else{
+            $bill = new FixedBill();
+            $bill['venue'] = $request->venue;
+            $bill['venue_cost'] = $request->venue_cost;
+            $bill['hotel_rooms'] = $request->hotel_rooms;
+            $bill['bar_package'] = $request->bar_package;
+            $bill['wedding'] = $request->wedding;
+            $bill['dinner'] = $request->dinner;
+            $bill['lunch'] = $request->lunch;
+            $bill['brunch'] = $request->brunch;
+            $bill['special_req'] = $request->special_req;
+            $bill['specialsetup'] = $request->specialsetup;
+            $bill['rehearsalsetup'] = $request->rehearsalsetup;
+            $bill['welcomesetup'] = $request->welcomesetup;
+            $bill['equipment'] = $request->equipment;
+            $bill->save();
+        }
         // Billing::where('id',$billing->id)->update([
         //     'venue_rental'=>$request->venue_rental,
         //     'hotel_rooms'=>$request->hotel_rooms,
@@ -1705,7 +1737,7 @@ class SettingController extends Controller
         //     'classic_brunch'=>$request->food,
         //     'gold_2hrs'=>$request->bar_package
         // ]);
-        // return redirect()->back()->with('success', __('Billing Cost Successfully added'));;
+        return redirect()->back()->with('success', __('Billing Cost Successfully saved'));;
     } 
     public function signature(Request $request){
         if(\File::exists(public_path('upload/signature/autorised_signature.png')))
