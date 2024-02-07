@@ -33,6 +33,7 @@
     <!-- [ Header ] end -->
 
     <!-- [ Main Content ] start -->
+
     <div class="page-content">
         @include('partials.admin.content')
     </div>

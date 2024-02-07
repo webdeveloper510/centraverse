@@ -41,263 +41,263 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
 ?>
 
 <?php $__env->startPush('css-page'); ?>
-<?php if($color == 'theme-1'): ?>
-<style>
-    .btn-check:checked+.btn-outline-success,
-    .btn-check:active+.btn-outline-success,
-    .btn-outline-success:active,
-    .btn-outline-success.active,
-    .btn-outline-success.dropdown-toggle.show {
-        color: #ffffff;
-        background: linear-gradient(141.55deg, rgba(81, 69, 157, 0) 3.46%, rgba(255, 58, 110, 0.6) 99.86%), #51459d !important;
-        border-color: #51459d !important;
+    <?php if($color == 'theme-1'): ?>
+    <style>
+        .btn-check:checked+.btn-outline-success,
+        .btn-check:active+.btn-outline-success,
+        .btn-outline-success:active,
+        .btn-outline-success.active,
+        .btn-outline-success.dropdown-toggle.show {
+            color: #ffffff;
+            background: linear-gradient(141.55deg, rgba(81, 69, 157, 0) 3.46%, rgba(255, 58, 110, 0.6) 99.86%), #51459d !important;
+            border-color: #51459d !important;
 
-    }
+        }
 
-    .btn-outline-success:hover {
-        color: #ffffff;
-        background: linear-gradient(141.55deg, rgba(81, 69, 157, 0) 3.46%, rgba(255, 58, 110, 0.6) 99.86%), #51459d !important;
-        border-color: #51459d !important;
-    }
+        .btn-outline-success:hover {
+            color: #ffffff;
+            background: linear-gradient(141.55deg, rgba(81, 69, 157, 0) 3.46%, rgba(255, 58, 110, 0.6) 99.86%), #51459d !important;
+            border-color: #51459d !important;
+        }
 
-    .btn.btn-outline-success {
-        color: #51459d;
-        border-color: #51459d !important;
-    }
-</style>
-<?php endif; ?>
-<?php if($color == 'theme-2'): ?>
-<style>
-    .btn-check:checked+.btn-outline-success,
-    .btn-check:active+.btn-outline-success,
-    .btn-outline-success:active,
-    .btn-outline-success.active,
-    .btn-outline-success.dropdown-toggle.show {
-        color: #ffffff;
-        background: linear-gradient(141.55deg, rgba(240, 244, 243, 0) 3.46%, #4ebbd3 99.86%)#1f3996 !important;
-        border-color: #1F3996 !important;
+        .btn.btn-outline-success {
+            color: #51459d;
+            border-color: #51459d !important;
+        }
+    </style>
+    <?php endif; ?>
+    <?php if($color == 'theme-2'): ?>
+    <style>
+        .btn-check:checked+.btn-outline-success,
+        .btn-check:active+.btn-outline-success,
+        .btn-outline-success:active,
+        .btn-outline-success.active,
+        .btn-outline-success.dropdown-toggle.show {
+            color: #ffffff;
+            background: linear-gradient(141.55deg, rgba(240, 244, 243, 0) 3.46%, #4ebbd3 99.86%)#1f3996 !important;
+            border-color: #1F3996 !important;
 
-    }
+        }
 
-    .btn-outline-success:hover {
-        color: #ffffff;
-        background: linear-gradient(141.55deg, rgba(240, 244, 243, 0) 3.46%, #4ebbd3 99.86%)#1f3996 !important;
-        border-color: #1F3996 !important;
-    }
+        .btn-outline-success:hover {
+            color: #ffffff;
+            background: linear-gradient(141.55deg, rgba(240, 244, 243, 0) 3.46%, #4ebbd3 99.86%)#1f3996 !important;
+            border-color: #1F3996 !important;
+        }
 
-    .btn.btn-outline-success {
-        color: #1F3996;
-        border-color: #1F3996 !important;
-    }
-</style>
-<?php endif; ?>
-<?php if($color == 'theme-4'): ?>
-<style>
-    .btn-check:checked+.btn-outline-success,
-    .btn-check:active+.btn-outline-success,
-    .btn-outline-success:active,
-    .btn-outline-success.active,
-    .btn-outline-success.dropdown-toggle.show {
-        color: #ffffff;
-        background-color: #584ed2 !important;
-        border-color: #584ed2 !important;
+        .btn.btn-outline-success {
+            color: #1F3996;
+            border-color: #1F3996 !important;
+        }
+    </style>
+    <?php endif; ?>
+    <?php if($color == 'theme-4'): ?>
+    <style>
+        .btn-check:checked+.btn-outline-success,
+        .btn-check:active+.btn-outline-success,
+        .btn-outline-success:active,
+        .btn-outline-success.active,
+        .btn-outline-success.dropdown-toggle.show {
+            color: #ffffff;
+            background-color: #584ed2 !important;
+            border-color: #584ed2 !important;
 
-    }
+        }
 
-    .btn-outline-success:hover {
-        color: #ffffff;
-        background-color: #584ed2 !important;
-        border-color: #584ed2 !important;
-    }
+        .btn-outline-success:hover {
+            color: #ffffff;
+            background-color: #584ed2 !important;
+            border-color: #584ed2 !important;
+        }
 
-    .btn.btn-outline-success {
-        color: #584ed2;
-        border-color: #584ed2 !important;
-    }
-</style>
-<?php endif; ?>
-<?php if($color == 'theme-3'): ?>
-<style>
-    .btn-check:checked+.btn-outline-success,
-    .btn-check:active+.btn-outline-success,
-    .btn-outline-success:active,
-    .btn-outline-success.active,
-    .btn-outline-success.dropdown-toggle.show {
-        color: #ffffff;
-        background-color: #6fd943 !important;
-        border-color: #6fd943 !important;
+        .btn.btn-outline-success {
+            color: #584ed2;
+            border-color: #584ed2 !important;
+        }
+    </style>
+    <?php endif; ?>
+    <?php if($color == 'theme-3'): ?>
+    <style>
+        .btn-check:checked+.btn-outline-success,
+        .btn-check:active+.btn-outline-success,
+        .btn-outline-success:active,
+        .btn-outline-success.active,
+        .btn-outline-success.dropdown-toggle.show {
+            color: #ffffff;
+            background-color: #6fd943 !important;
+            border-color: #6fd943 !important;
 
-    }
+        }
 
-    .btn-outline-success:hover {
-        color: #ffffff;
-        background-color: #6fd943 !important;
-        border-color: #6fd943 !important;
-    }
+        .btn-outline-success:hover {
+            color: #ffffff;
+            background-color: #6fd943 !important;
+            border-color: #6fd943 !important;
+        }
 
-    .btn.btn-outline-success {
-        color: #6fd943;
-        border-color: #6fd943 !important;
-    }
-</style>
-<?php endif; ?>
-<style>
-    input[type="radio"] {
-        display: none;
-    }
+        .btn.btn-outline-success {
+            color: #6fd943;
+            border-color: #6fd943 !important;
+        }
+    </style>
+    <?php endif; ?>
+    <style>
+        input[type="radio"] {
+            display: none;
+        }
 
-    .floorimages {
-        height: 250px;
-        width: 100%;
-        margin: 26px;
-    }
+        .floorimages {
+            height: 250px;
+            width: 100%;
+            margin: 26px;
+        }
 
-    canvas#signatureCanvas {
-        border: 1px solid black;
-        width: 100%;
-        height: 167px;
-        border-radius: 8px;
-    }
-</style>
+        canvas#signatureCanvas {
+            border: 1px solid black;
+            width: 100%;
+            height: 167px;
+            border-radius: 8px;
+        }
+    </style>
 <?php $__env->stopPush(); ?>
 <?php $__env->startPush('script-page'); ?>
-<script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
-<script type="text/javascript">
-    // $(document).on("click", ".email-template-checkbox", function() {
-    //     var chbox = $(this);
-    //     $.ajax({
-    //         url: chbox.attr('data-url'),
-    //         data: {
-    //             _token: $('meta[name="csrf-token"]').attr('content'),
-    //             status: chbox.val()
-    //         },
-    //         type: 'post',
-    //         success: function(response) {
-    //             if (response.is_success) {
-    //                 toastr('Success', response.success, 'success');
-    //                 if (chbox.val() == 1) {
-    //                     $('#' + chbox.attr('id')).val(0);
-    //                 } else {
-    //                     $('#' + chbox.attr('id')).val(1);
-    //                 }
-    //             } else {
-    //                 toastr('Error', response.error, 'error');
-    //             }
-    //         },
-    //         error: function(response) {
-    //             response = response.responseJSON;
-    //             if (response.is_success) {
-    //                 toastr('Error', response.error, 'error');
-    //             } else {
-    //                 toastr('Error', response, 'error');
-    //             }
-    //         }
-    //     })
-    // });
-</script>
-<script>
-    function check_theme(color_val) {
-        $('#theme_color').prop('checked', false);
-        $('input[value="' + color_val + '"]').prop('checked', true);
-    }
-    var scrollSpy = new bootstrap.ScrollSpy(document.body, {
-        target: '#useradd-sidenav',
-        offset: 300
-    })
-</script>
-<script>
-    $(document).ready(function() {
-        $('.list-group-item').on('click', function() {
-            var href = $(this).attr('data-href');
-            $('.tabs-card').addClass('d-none');
-            $(href).removeClass('d-none');
-            $('#tabs .list-group-item').removeClass('text-primary');
-            // $(this).addClass('text-primary');
-        });
-    });
-
-    function check_theme(color_val) {
-        $('#theme_color').prop('checked', false);
-        $('input[value="' + color_val + '"]').prop('checked', true);
-    }
-</script>
-<script>
-    $(document).on("change", "select[name='quote_template'], input[name='quote_color']", function() {
-        var template = $("select[name='quote_template']").val();
-        var color = $("input[name='quote_color']:checked").val();
-        $('#quote_frame').attr('src', '<?php echo e(url("/quote/preview")); ?>' + template + '/' + color);
-    });
-    $(document).on("change", "select[name='invoice_template'], input[name='invoice_color']", function() {
-        var template = $("select[name='invoice_template']").val();
-        var color = $("input[name='invoice_color']:checked").val();
-        $('#invoice_frame').attr('src', '<?php echo e(url("/invoice/preview")); ?>' + template + '/' + color);
-    });
-    $(document).on("change", "select[name='salesorder_template'], input[name='salesorder_color']", function() {
-        var template = $("select[name='salesorder_template']").val();
-        var color = $("input[name='salesorder_color']:checked").val();
-        $('#salesorder_frame').attr('src', '<?php echo e(url("/salesorder/preview")); ?>' + template + '/' + color);
-    });
-</script>
-
-<script>
-    $(document).on("click", '.send_email', function(e) {
-        e.preventDefault();
-        var title = $(this).attr('data-title');
-
-        var size = 'md';
-        var url = $(this).attr('data-url');
-        if (typeof url != 'undefined') {
-            $("#commonModal .modal-title").html(title);
-            $("#commonModal .modal-dialog").addClass('modal-' + size);
-            $("#commonModal").modal('show');
-
-            $.post(url, {
-                _token: '<?php echo e(csrf_token()); ?>',
-                mail_driver: $("#mail_driver").val(),
-                mail_host: $("#mail_host").val(),
-                mail_port: $("#mail_port").val(),
-                mail_username: $("#mail_username").val(),
-                mail_password: $("#mail_password").val(),
-                mail_encryption: $("#mail_encryption").val(),
-                mail_from_address: $("#mail_from_address").val(),
-                mail_from_name: $("#mail_from_name").val(),
-
-            }, function(data) {
-                $('#commonModal .modal-body').html(data);
-            });
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
+    <script type="text/javascript">
+        // $(document).on("click", ".email-template-checkbox", function() {
+        //     var chbox = $(this);
+        //     $.ajax({
+        //         url: chbox.attr('data-url'),
+        //         data: {
+        //             _token: $('meta[name="csrf-token"]').attr('content'),
+        //             status: chbox.val()
+        //         },
+        //         type: 'post',
+        //         success: function(response) {
+        //             if (response.is_success) {
+        //                 toastr('Success', response.success, 'success');
+        //                 if (chbox.val() == 1) {
+        //                     $('#' + chbox.attr('id')).val(0);
+        //                 } else {
+        //                     $('#' + chbox.attr('id')).val(1);
+        //                 }
+        //             } else {
+        //                 toastr('Error', response.error, 'error');
+        //             }
+        //         },
+        //         error: function(response) {
+        //             response = response.responseJSON;
+        //             if (response.is_success) {
+        //                 toastr('Error', response.error, 'error');
+        //             } else {
+        //                 toastr('Error', response, 'error');
+        //             }
+        //         }
+        //     })
+        // });
+    </script>
+    <script>
+        function check_theme(color_val) {
+            $('#theme_color').prop('checked', false);
+            $('input[value="' + color_val + '"]').prop('checked', true);
         }
-    });
-
-
-    $(document).on('submit', '#test_email', function(e) {
-
-        e.preventDefault();
-        $("#email_sending").show();
-        var post = $(this).serialize();
-        var url = $(this).attr('action');
-        $.ajax({
-            type: "post",
-            url: url,
-            data: post,
-            cache: false,
-
-            success: function(data) {
-
-
-                if (data.is_success) {
-                    show_toastr('Success', data.message, 'success');
-                } else {
-                    show_toastr('Error', data.message, 'error');
-                }
-                $("#email_sending").hide();
-                $('#commonModal').modal('hide');
-            },
-            complete: function() {
-                $('#test_email .btn-create').removeAttr('disabled');
-            },
+        var scrollSpy = new bootstrap.ScrollSpy(document.body, {
+            target: '#useradd-sidenav',
+            offset: 300
+        })
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('.list-group-item').on('click', function() {
+                var href = $(this).attr('data-href');
+                $('.tabs-card').addClass('d-none');
+                $(href).removeClass('d-none');
+                $('#tabs .list-group-item').removeClass('text-primary');
+                // $(this).addClass('text-primary');
+            });
         });
-    });
-</script>
+
+        function check_theme(color_val) {
+            $('#theme_color').prop('checked', false);
+            $('input[value="' + color_val + '"]').prop('checked', true);
+        }
+    </script>
+    <script>
+        $(document).on("change", "select[name='quote_template'], input[name='quote_color']", function() {
+            var template = $("select[name='quote_template']").val();
+            var color = $("input[name='quote_color']:checked").val();
+            $('#quote_frame').attr('src', '<?php echo e(url("/quote/preview")); ?>' + template + '/' + color);
+        });
+        $(document).on("change", "select[name='invoice_template'], input[name='invoice_color']", function() {
+            var template = $("select[name='invoice_template']").val();
+            var color = $("input[name='invoice_color']:checked").val();
+            $('#invoice_frame').attr('src', '<?php echo e(url("/invoice/preview")); ?>' + template + '/' + color);
+        });
+        $(document).on("change", "select[name='salesorder_template'], input[name='salesorder_color']", function() {
+            var template = $("select[name='salesorder_template']").val();
+            var color = $("input[name='salesorder_color']:checked").val();
+            $('#salesorder_frame').attr('src', '<?php echo e(url("/salesorder/preview")); ?>' + template + '/' + color);
+        });
+    </script>
+
+    <script>
+        $(document).on("click", '.send_email', function(e) {
+            e.preventDefault();
+            var title = $(this).attr('data-title');
+
+            var size = 'md';
+            var url = $(this).attr('data-url');
+            if (typeof url != 'undefined') {
+                $("#commonModal .modal-title").html(title);
+                $("#commonModal .modal-dialog").addClass('modal-' + size);
+                $("#commonModal").modal('show');
+
+                $.post(url, {
+                    _token: '<?php echo e(csrf_token()); ?>',
+                    mail_driver: $("#mail_driver").val(),
+                    mail_host: $("#mail_host").val(),
+                    mail_port: $("#mail_port").val(),
+                    mail_username: $("#mail_username").val(),
+                    mail_password: $("#mail_password").val(),
+                    mail_encryption: $("#mail_encryption").val(),
+                    mail_from_address: $("#mail_from_address").val(),
+                    mail_from_name: $("#mail_from_name").val(),
+
+                }, function(data) {
+                    $('#commonModal .modal-body').html(data);
+                });
+            }
+        });
+
+
+        $(document).on('submit', '#test_email', function(e) {
+
+            e.preventDefault();
+            $("#email_sending").show();
+            var post = $(this).serialize();
+            var url = $(this).attr('action');
+            $.ajax({
+                type: "post",
+                url: url,
+                data: post,
+                cache: false,
+
+                success: function(data) {
+
+
+                    if (data.is_success) {
+                        show_toastr('Success', data.message, 'success');
+                    } else {
+                        show_toastr('Error', data.message, 'error');
+                    }
+                    $("#email_sending").hide();
+                    $('#commonModal').modal('hide');
+                },
+                complete: function() {
+                    $('#test_email .btn-create').removeAttr('disabled');
+                },
+            });
+        });
+    </script>
 <script>
     var scrollSpy = new bootstrap.ScrollSpy(document.body, {
         target: '#useradd-sidenav',
@@ -348,6 +348,14 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
 <?php echo e(__('Settings')); ?>
 
 <?php $__env->stopSection(); ?>
+<?php $__env->startSection('title'); ?>
+    <?php echo e(__('Settings')); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('breadcrumb'); ?>
+    <li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Home')); ?></a></li>
+    <li class="breadcrumb-item"><?php echo e(__('Settings')); ?></li>
+<?php $__env->stopSection(); ?>
 <?php $__env->startSection('action-btn'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
@@ -355,7 +363,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
     <!-- [ sample-page ] start -->
     <div class="col-sm-12">
         <div class="row">
-            <div class="col-xl-2" style="padding-left: 0px;">
+            <div class="col-xl-2">
                 <div class="card sticky-top" style="top:30px">
                     <div class="list-group list-group-flush" id="useradd-sidenav">
 
@@ -426,6 +434,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                 </div>
             </div>
             <div class="col-xl-10">
+            
                 <?php if(\Auth::user()->type == 'super admin'): ?>
                  <!-- <div id="brand-settings" class="card">
                     <div class="card-header">

@@ -7,7 +7,6 @@
             {{__('Billing')}}
         </div>
 @endsection
-
 @section('action-btn')
 @endsection
 @section('filter')
@@ -26,6 +25,7 @@ $labels =
 @endphp 
 @section('content')
 <meta name="csrf-token" content="{{ csrf_token() }}" />
+<div class="container">
     <div class="row">
         <div class="col-sm-12">
             <div class="row">
@@ -88,6 +88,7 @@ $labels =
             </div>
         </div>
     </div>
+</div>
 @endsection
 @push('script-page')
 <script>
