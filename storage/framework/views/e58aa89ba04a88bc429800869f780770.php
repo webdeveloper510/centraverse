@@ -4,6 +4,8 @@
     $type_arr= explode(',',$settings['event_type']);
     $type_arr = array_combine($type_arr, $type_arr);
     $venue = explode(',',$settings['venue']);
+    $function = explode(',',$settings['function']);
+    $function = array_combine($function, $function);
     $bar = ['Open Bar', 'Cash Bar', 'Package Choice'];
     $platinum = ['Platinum - 4 Hours', 'Platinum - 3 Hours', 'Platinum - 2 Hours'];
     $gold = ['Gold - 4 Hours', 'Gold - 3 Hours', 'Gold - 2 Hours'];

@@ -11,6 +11,7 @@
     $type_arr= explode(',',$setting['event_type']);
     $type_arr = array_combine($type_arr, $type_arr);
     $venue = explode(',',$setting['venue']);
+    $function = explode(',',$setting['function']);
     $meal = ['Formal Plated' ,'Buffet Style' , 'Family Style'];
     $bar = ['Open Bar', 'Cash Bar', 'Package Choice'];
     $platinum = ['Platinum - 4 Hours', 'Platinum - 3 Hours', 'Platinum - 2 Hours'];
@@ -27,9 +28,9 @@
 @section('content')
 <style>
     .floorimages{
-        height: 183px;
-        width: 256px;
-        margin: 26px;
+        height: 400px;
+    width: 600px;
+    margin: 26px;
     }
 
     .selected-image {
@@ -347,11 +348,11 @@
                                         <div class="col-12">
                                         <div class="row">
                                             <label><b>Setup</b></label>
-                                            @foreach(File::files(public_path('floor_images')) as $image)
-                                            <div class="col-6">    
-                                                    <input type="radio" id="image_{{ $loop->index }}" name="uploadedImage" class="form-check-input " value="{{ asset('floor_images/' . basename($image)) }}"  {{ asset('floor_images/' . basename($image))==$meeting->floor_plan ? 'checked' : '' }} style="display:none">
+                                            @foreach($setup as $s)
+                                                <div class="col-6  mt-4">    
+                                                    <input type="radio" id="image_{{ $loop->index }}" name="uploadedImage" class="form-check-input " value="{{ asset('floor_images/' .$s->image) }}"  {{ asset('floor_images/' .$s->image)==$meeting->floor_plan ? 'checked' : '' }} style="display:none">
                                                     <label for="image_{{ $loop->index }}" class="form-check-label">
-                                                        <img src="{{asset('floor_images/'. basename($image))}}" alt="Uploaded Image" class="img-thumbnail floorimages zoom">
+                                                        <img src="{{asset('floor_images/'. $s->image)}}" alt="Uploaded Image" class="img-thumbnail floorimages zoom"data-bs-toggle="tooltip" title="{{$s->Description}}">
                                                     </label>
                                                 </div>
                                             @endforeach
@@ -373,8 +374,6 @@
                                 <div class="card-body">
                                     <div class ="row">
                                             <div class="form-group">
-                                                <!-- {!! Form::checkbox('room', 1, null, ['id'=>'room', 'class' => 'checkbox']) !!}
-                                                {!! Form::label('room', 'Rooms at the hotel') !!}  -->
                                                 {{Form::label('rooms',__('Room'),['class'=>'form-label']) }}
                                             <input type="number" name="rooms" min = 0 class = "form-control" value="{{$meeting->room}}" > 
                                             </div>

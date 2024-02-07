@@ -54,10 +54,8 @@
             <img data-paylink="<?php echo e(url('/stripe/billing/payment/')); ?>/<?php echo e(Request::segment(2)); ?>" src="https://imgs.search.brave.com/LoWta5ojUgjpQs9ZlNd28kZoOaB8oXZdrQ78xSzEkA4/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/ZWRpZ2l0YWxhZ2Vu/Y3kuY29tLmF1L3dw/LWNvbnRlbnQvdXBs/b2Fkcy9uZXctc3Ry/aXBlLWxvZ28tcG5n/LTg2MHgzNjEucG5n" alt="Stripe" >
         </div>
         <div id="paypal" style="display: none;">
-            <!-- <p>Pay with PayPal</p> -->
         </div>
         <div id="stripe" style="display: none;">
-            <!-- <p>Pay with Stripe</p> -->
         </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>

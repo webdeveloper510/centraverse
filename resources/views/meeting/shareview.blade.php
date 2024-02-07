@@ -4,6 +4,8 @@ $billing = App\Models\Billingdetail::where('event_id',$meeting->id)->exists();
 @if($billing)
     <div class="row">
         <div class="col-lg-12">
+        <div id="notification" class="alert alert-success mt-1">Link copied to clipboard!</div>         
+
                 <div class="">
             {{ Form::model($meeting, ['route' => ['meeting.event_info', urlencode(encrypt($meeting->id))], 'method' => 'POST']) }}
                     <dl class="row">
@@ -36,10 +38,12 @@ $billing = App\Models\Billingdetail::where('event_id',$meeting->id)->exists();
     float: right;
     margin-top: 9px;
 } */
+    #notification {
+        display: none;
+    }
     .section {
-    /* width: 1200px; */
-   margin:10px;
-} 
+    margin:10px;
+    } 
 
 </style>
     <script>
@@ -66,6 +70,17 @@ $billing = App\Models\Billingdetail::where('event_id',$meeting->id)->exists();
 
             /* Remove the temporary input element from the DOM */
             document.body.removeChild(tempInput);
+            showNotification();
+            setTimeout(hideNotification, 2000);
+        }
+        function showNotification() {
+            var notification = document.getElementById('notification');
+            notification.style.display = 'block';
+        }
+
+        function hideNotification() {
+            var notification = document.getElementById('notification');
+            notification.style.display = 'none';
         }
     </script>
 

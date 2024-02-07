@@ -6,25 +6,26 @@
     {{ __('Create Event') }}
 @endsection
 @php
+
     $plansettings = App\Models\Utility::plansettings();
     $setting = App\Models\Utility::settings();
     $type_arr= explode(',',$setting['event_type']);
     $type_arr = array_combine($type_arr, $type_arr);
     $venue = explode(',',$setting['venue']);
+    $function = explode(',',$setting['function']);
     $meal = ['Formal Plated' ,'Buffet Style' , 'Family Style'];
     $bar = ['Open Bar', 'Cash Bar', 'Package Choice'];
     $platinum = ['Platinum - 4 Hours', 'Platinum - 3 Hours', 'Platinum - 2 Hours'];
     $gold = ['Gold - 4 Hours', 'Gold - 3 Hours', 'Gold - 2 Hours'];
     $silver = ['Silver - 4 Hours', 'Silver - 3 Hours', 'Silver - 2 Hours'];
     $beer = ['Beer & Wine - 4 Hours', 'Beer & Wine - 3 Hours', 'Beer & Wine - 2 Hours'];
-  
 @endphp
 @section('content')
 <style>
     .floorimages{
-        height: 183px;
-        width: 256px;
-        margin: 26px;
+        height: 400px;
+    width: 600px;
+    margin: 26px;
     }
 
     .selected-image {
@@ -49,6 +50,7 @@
     transform: scale(1.2); 
     }
 </style>
+
 <meta name="csrf-token" content="{{ csrf_token() }}" />
     <div class="row">
         <div class="col-sm-12">
@@ -361,12 +363,11 @@
                                     <div class="col-12">
                                         <div class="row">
                                             <label><b>Setup</b></label>
-                                            @foreach(File::files(public_path('floor_images')) as $image)
-                                            <div class="col-6">    
-                                                    <input type="radio" id="image_{{ $loop->index }}" name="uploadedImage" class="form-check-input " value="{{ asset('floor_images/' . basename($image)) }}" style="display:none;">
+                                            @foreach($setup as $s)
+                                            <div class="col-6  mt-4">    
+                                                    <input type="radio" id="image_{{ $loop->index }}" name="uploadedImage" class="form-check-input " value="{{ asset('floor_images/' . $s->image) }}" style="display:none;">
                                                     <label for="image_{{ $loop->index }}" class="form-check-label">
-                                                        <img src="{{asset('floor_images/'. basename($image))}}" alt="Uploaded Image" class="img-thumbnail floorimages zoom">
-                                                        <!-- <i class="ti ti-trash" data-image="{{ basename($image) }}" onclick="deleteImage(this)"></i> -->
+                                                        <img src="{{asset('floor_images/'.$s->image)}}" alt="Uploaded Image" class="img-thumbnail floorimages zoom"data-bs-toggle="tooltip" title="{{$s->Description}}" >
                                                     </label>
                                                 </div>
                                             @endforeach

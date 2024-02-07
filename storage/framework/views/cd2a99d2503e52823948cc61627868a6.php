@@ -14,108 +14,218 @@
         $LangName  = new App\Models\Utility();
         $LangName->fullName = 'English';
     }
+    $logo=\App\Models\Utility::get_file('uploads/logo/');
+
+
+$company_logo = \App\Models\Utility::GetLogo();
+
+$users = \Auth::user();
+$currantLang = $users->currentLanguage();
+$emailTemplate = App\Models\EmailTemplate::getemailtemplate();
+$defaultView = App\Models\UserDefualtView::select('module','route')->where('user_id', $users->id)->get()->pluck('route', 'module')->toArray();
+
 ?>
 
-<?php if(isset($settings['cust_theme_bg']) && $settings['cust_theme_bg'] == 'on'): ?>
+ <?php if(isset($settings['cust_theme_bg']) && $settings['cust_theme_bg'] == 'on'): ?>
     <header class="dash-header transprent-bg">
     <?php else: ?>
-        <header class="dash-header">
+    <header class="dash-header">
 <?php endif; ?>
-<div class="header-wrapper">
-    <div class="me-auto dash-mob-drp">
-        <ul class="list-unstyled" >
-            <li class="dash-h-item mob-hamburger">
-                <a href="#" class="nav-link nav-link-icon sidenav-toggler" data-action="sidenav-pin"
-                    data-target="#sidenav-main"></a>
-                <a href="#!" class="dash-head-link" id="mobile-collapse">
-                    <div class="hamburger hamburger--arrowturn">
-                        <div class="hamburger-box">
-                            <div class="hamburger-inner"></div>
-                        </div>
-                    </div>
-                </a>
-            </li>
-            <li class="dropdown dash-h-item drp-company">
-                <a class="dash-head-link dropdown-toggle arrow-none me-0" data-target="#sidenav-main"
-                    data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                    <span class="theme-avtar">
-                        <?php
-                            $profile = \App\Models\Utility::get_file('upload/profile/');
-                        ?>
-                        <?php if(\Request::route()->getName() == 'chats'): ?>
-                            <img class="rounded-circle"
-                                src="<?php echo e(!empty($users->avatar) ? $users->avatar : 'avatar.png'); ?>" style="width:30px;">
-                        <?php else: ?>
-                            <img class="rounded-circle"
-                                <?php if($users->avatar): ?> src="<?php echo e($profile); ?><?php echo e(!empty($users->avatar) ? $users->avatar : 'avatar.png'); ?>" <?php else: ?> src="<?php echo e($profile . 'avatar.png'); ?>" <?php endif; ?>
-                                                    alt="<?php echo e($users->name); ?>"style="width:30px;">
+<div class="new_header">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a href="#" class="navbar-brand">
+                <img src="<?php echo e($logo.'logo.svg'); ?>"
+                    alt="<?php echo e(config('app.name', 'Centraverse')); ?>" class="logo logo-lg nav-sidebar-logo" height="50"/>
+            </a>
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav">
+                    <ul class="dash-navbar">  
+                        <li class="dash-item <?php echo e(\Request::route()->getName() == 'dashboard' ? ' active' : ''); ?>">
+                            <a href="<?php echo e(route('dashboard')); ?>" class="dash-link"><span class="dash-mtext"><?php echo e(__('Dashboard')); ?></span></a>
+                        </li>
+                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Lead')): ?>
+                        <li class="dash-item <?php echo e(\Request::route()->getName() == 'lead' || \Request::route()->getName() == 'lead.edit' ? ' active' : ''); ?>">
+                            
+                            <a href="<?php echo e(array_key_exists('lead',$defaultView) ? route($defaultView['lead']) : route('lead.index')); ?>"   class="dash-link">
+                                <!-- <span class="dash-micon"><i class="ti ti-filter"></i></span> -->
+                                <span class="dash-mtext"><?php echo e(__('Leads')); ?></span>
+                            </a>
                         <?php endif; ?>
-                    </span>
-                    <span class="hide-mob ms-2"><?php echo e(__('Hi')); ?>, <?php echo e($users->name); ?></span>
-                    <i class="ti ti-chevron-down drp-arrow nocolor hide-mob"></i>
-                </a>
-                <div class="dropdown-menu dash-h-dropdown">
-
-                    <a href="<?php echo e(route('profile')); ?>" class="dropdown-item">
-                        <i class="ti ti-user"></i>
-                        <span><?php echo e(__('Profile')); ?></span>
-                    </a>
-                    <a href="<?php echo e(route('logout')); ?>"
-                        onclick="event.preventDefault(); document.getElementById('frm-logout').submit();"
-                        class="dropdown-item">
-                        <i class="ti ti-power"></i>
-                        <span><?php echo e(__('Logout')); ?></span>
-                    </a>
-                    <form id="frm-logout" action="<?php echo e(route('logout')); ?>" method="POST" class="d-none">
-                        <?php echo e(csrf_field()); ?>
-
-                    </form>
+                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Meeting')): ?>
+                        <li class="dash-item <?php echo e(\Request::route()->getName() == 'meeting' || \Request::route()->getName() == 'meeting.show' || \Request::route()->getName() == 'meeting.edit' ? ' active' : ''); ?>">
+                            
+                            <a href="<?php echo e(array_key_exists('meeting',$defaultView) ? route($defaultView['meeting']) : route('meeting.index')); ?>"
+                                class="dash-link">
+                                <!-- <span class="dash-micon"><i class="ti ti-calendar"></i></span> -->
+                                <span class="dash-mtext"><?php echo e(__('Event')); ?></span>
+                            </a>
+                        </li>
+                        <?php endif; ?>
+                        <?php if(\Auth::user()->type == 'owner'): ?> 
+                            <li class="dash-item">
+                                <a href="<?php echo e(route('email.template.view')); ?>" class="dash-link">
+                                    <!-- <span class="dash-micon"><i class="ti ti-template"></i></span> -->
+                                <span
+                                class="dash-mtext"><?php echo e(__('Email Template')); ?></span></a>
+                            </li>
+                        <?php endif; ?> 
+                        <?php if(\Auth::user()->type == 'owner'): ?> 
+                            <li class="dash-item">
+                                <a href="<?php echo e(route('customer.index')); ?>" class="dash-link">
+                                    <!-- <span class="dash-micon"><i class="ti ti-template"></i></span> -->
+                                    <span
+                                class="dash-mtext"><?php echo e(__('Campaign')); ?></span></a>
+                            </li>
+                        <?php endif; ?> 
+                        <?php if(\Auth::user()->type =='owner'): ?>
+                            <li class="dash-item <?php echo e(\Request::route()->getName() == 'billing' || \Request::route()->getName() == 'billing.index' ? ' active' : ''); ?>">
+                                <a href="<?php echo e(route('billing.index')); ?>" class="dash-link">
+                                    <!-- <span class="dash-micon"><i class="far fa-calendar-alt"></i></span> -->
+                                    <span class="dash-mtext"><?php echo e(__('Billing')); ?></span>
+                                </a>
+                            </li>
+                        <?php endif; ?>
+                        <?php if(\Auth::user()->type == 'super admin' || \Auth::user()->type == 'owner'): ?>
+                            <li class="dash-item  <?php echo e(Request::route()->getName() == 'settings' ? 'active' : ''); ?>">
+                                <a href="<?php echo e(route('settings')); ?>" class="dash-link">
+                                    <!-- <span class="dash-micon"><i class="ti ti-settings"></i></span> -->
+                                    <span class="dash-mtext"><?php echo e(__('Settings')); ?></span>
+                                </a>
+                            </li>
+                        <?php endif; ?>
+                    </ul>
                 </div>
-            </li>
-        </ul>
-    </div>
-    <div class="ms-auto">
-        <ul class="list-unstyled">
-            <!-- <?php if(\Auth::user()->type != 'super admin'): ?>
-                <li class="dash-h-item">
-                    <a href="<?php echo e(url('chats')); ?>" class="dash-head-link me-0">
-                        <i class="ti ti-message-circle " style="font-size: 21px"></i>
-                        <span
-                            class="bg-danger dash-h-badge message-counter custom_messanger_counter"><?php echo e($unseenCounter); ?><span
-                                class="sr-only"></span>
-                        </span>
-                    </a>
-                </li>
-            <?php endif; ?> -->
-            <!-- <li class="dropdown dash-h-item drp-language">
-                <a class="dash-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#"
-                    role="button" aria-haspopup="false" aria-expanded="false">
-                    <i class="ti ti-world nocolor"></i>
-                    <span
-                        class="drp-text hide-mob"><?php echo e(ucFirst(isset($LangName->fullName) ? $LangName->fullName : 'en')); ?></span>
-                    <i class="ti ti-chevron-down drp-arrow nocolor"></i>
-                </a>
-                <div class="dropdown-menu dash-h-dropdown dropdown-menu-end">
-                   <?php $__currentLoopData = App\Models\Utility::languages(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $code => $lang): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <a href="<?php echo e(route('change.language', $code)); ?>"
-                            class="dropdown-item <?php echo e($currantLang == $code ? 'text-primary' : ''); ?>">
-                            <span><?php echo e(ucFirst($lang)); ?></span>
+                <div class="navbar-nav ms-auto">
+                    <li class="dropdown dash-h-item drp-company">
+                        <a class="dash-head-link dropdown-toggle arrow-none me-0" data-target="#sidenav-main"
+                            data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                            <span class="theme-avtar">
+                                <?php
+                                    $profile = \App\Models\Utility::get_file('upload/profile/');
+                                ?>
+                                <?php if(\Request::route()->getName() == 'chats'): ?>
+                                    <img class="rounded-circle"
+                                        src="<?php echo e(!empty($users->avatar) ? $users->avatar : 'avatar.png'); ?>" style="width:30px;">
+                                <?php else: ?>
+                                    <img class="rounded-circle"
+                                        <?php if($users->avatar): ?> src="<?php echo e($profile); ?><?php echo e(!empty($users->avatar) ? $users->avatar : 'avatar.png'); ?>" <?php else: ?> src="<?php echo e($profile . 'avatar.png'); ?>" <?php endif; ?>
+                                                            alt="<?php echo e($users->name); ?>"style="width:30px;">
+                                <?php endif; ?>
+                            </span>
+                            <span class="hide-mob ms-2"><?php echo e(__('Hi')); ?>, <?php echo e($users->name); ?></span>
+                            <i class="ti ti-chevron-down drp-arrow nocolor hide-mob"></i>
                         </a>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                    <?php if(Auth::user()->type == 'super admin'): ?>
-                        <a href="#" data-url="<?php echo e(route('create.language')); ?>"
-                            class="dropdown-item border-top py-1 text-primary" data-bs-toggle="tooltip"
-                            data-ajax-popup="true" data-title="<?php echo e(__('Create New Language')); ?>">
-                            <span class="small"><?php echo e(__('Create Languages')); ?></span>
-                        </a>
-                        <a href="<?php echo e(route('manage.language', [$currantLang])); ?>"
-                            class="dropdown-item border-top py-1 text-primary">
-                            <span class="small"><?php echo e(__('Manage Languages')); ?></span>
-                        </a>
-                    <?php endif; ?>
+                        <div class="dropdown-menu dash-h-dropdown">
+
+                            <a href="<?php echo e(route('profile')); ?>" class="dropdown-item">
+                                <i class="ti ti-user"></i>
+                                <span><?php echo e(__('Profile')); ?></span>
+                            </a>
+                            <a href="<?php echo e(route('logout')); ?>"
+                                onclick="event.preventDefault(); document.getElementById('frm-logout').submit();"
+                                class="dropdown-item">
+                                <i class="ti ti-power"></i>
+                                <span><?php echo e(__('Logout')); ?></span>
+                            </a>
+                            <form id="frm-logout" action="<?php echo e(route('logout')); ?>" method="POST" class="d-none">
+                                <?php echo e(csrf_field()); ?>
+
+                            </form>
+                        </div>
+                    </li>
+                    <!-- <a href="#" class="nav-item nav-link">Login</a> -->
                 </div>
-            </li> -->
-        </ul>
-    </div>
+            </div>
+        </div>
+    </nav>
 </div>
-</header><?php /**PATH /home/crmcentraverse/public_html/centraverse/resources/views/partials/admin/header.blade.php ENDPATH**/ ?>
+<!-- <nav class="navbar navbar-expand-lg navbar-light bg-light"> -->
+        <!-- <div class="container-fluid">
+            <a href="#" class="navbar-brand">
+                <img src="https://www.tutorialrepublic.com/examples/images/logo.svg" height="28" alt="CoolBrand">
+            </a>
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav">
+                    <a href="#" class="nav-item nav-link active">Dashboard</a>
+                    <a href="#" class="nav-item nav-link">Leads</a>
+                    <a href="#" class="nav-item nav-link">Event</a>
+                    <a href="#" class="nav-item nav-link">Calendar</a>
+                    <a href="#" class="nav-item nav-link">Email template</a>
+                    <a href="#" class="nav-item nav-link">Campaign</a>	
+                    <a href="#" class="nav-item nav-link">Billing</a>	
+                    <a href="#" class="nav-item nav-link">Settings</a>						
+                </div>
+                <div class="navbar-nav ms-auto">
+                    <a href="#" class="nav-item nav-link">Login</a>
+                </div>
+            </div>
+        </div>
+    </nav> -->
+        <!-- <div class="header-wrapper">
+            <div class="me-auto dash-mob-drp">
+                <ul class="list-unstyled" >
+                    <li class="dash-h-item mob-hamburger">
+                        <a href="#" class="nav-link nav-link-icon sidenav-toggler" data-action="sidenav-pin"
+                            data-target="#sidenav-main"></a>
+                        <a href="#!" class="dash-head-link" id="mobile-collapse">
+                            <div class="hamburger hamburger--arrowturn">
+                                <div class="hamburger-box">
+                                    <div class="hamburger-inner"></div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="dropdown dash-h-item drp-company">
+                        <a class="dash-head-link dropdown-toggle arrow-none me-0" data-target="#sidenav-main"
+                            data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                            <span class="theme-avtar">
+                                <?php
+                                    $profile = \App\Models\Utility::get_file('upload/profile/');
+                                ?>
+                                <?php if(\Request::route()->getName() == 'chats'): ?>
+                                    <img class="rounded-circle"
+                                        src="<?php echo e(!empty($users->avatar) ? $users->avatar : 'avatar.png'); ?>" style="width:30px;">
+                                <?php else: ?>
+                                    <img class="rounded-circle"
+                                        <?php if($users->avatar): ?> src="<?php echo e($profile); ?><?php echo e(!empty($users->avatar) ? $users->avatar : 'avatar.png'); ?>" <?php else: ?> src="<?php echo e($profile . 'avatar.png'); ?>" <?php endif; ?>
+                                                            alt="<?php echo e($users->name); ?>"style="width:30px;">
+                                <?php endif; ?>
+                            </span>
+                            <span class="hide-mob ms-2"><?php echo e(__('Hi')); ?>, <?php echo e($users->name); ?></span>
+                            <i class="ti ti-chevron-down drp-arrow nocolor hide-mob"></i>
+                        </a>
+                        <div class="dropdown-menu dash-h-dropdown">
+
+                            <a href="<?php echo e(route('profile')); ?>" class="dropdown-item">
+                                <i class="ti ti-user"></i>
+                                <span><?php echo e(__('Profile')); ?></span>
+                            </a>
+                            <a href="<?php echo e(route('logout')); ?>"
+                                onclick="event.preventDefault(); document.getElementById('frm-logout').submit();"
+                                class="dropdown-item">
+                                <i class="ti ti-power"></i>
+                                <span><?php echo e(__('Logout')); ?></span>
+                            </a>
+                            <form id="frm-logout" action="<?php echo e(route('logout')); ?>" method="POST" class="d-none">
+                                <?php echo e(csrf_field()); ?>
+
+                            </form>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="ms-auto">
+                <ul class="list-unstyled">
+               
+                </ul>
+            </div>
+        </div> -->
+      
+    </header><?php /**PATH /home/crmcentraverse/public_html/centraverse/resources/views/partials/admin/header.blade.php ENDPATH**/ ?>

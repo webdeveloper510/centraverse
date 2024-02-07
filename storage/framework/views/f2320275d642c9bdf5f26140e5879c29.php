@@ -26,7 +26,6 @@
     <!-- [ Mobile header ] End -->
 
     <!-- [ navigation menu ] start -->
-    <?php echo $__env->make('partials.admin.menu', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <!-- [ navigation menu ] end -->
 
     <!-- [ Header ] start -->

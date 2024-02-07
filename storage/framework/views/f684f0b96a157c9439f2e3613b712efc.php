@@ -82,6 +82,7 @@
                                     </td>
                                     <?php if(Gate::check('Show Lead') || Gate::check('Edit Lead') || Gate::check('Delete Lead')): ?>
                                         <td class="text-end">
+                                          
                                             <?php if($lead->status == 2): ?>
                                             <div class="action-btn bg-secondary ms-2">
                                                     <a href="<?php echo e(route('meeting.create',['meeting',0])); ?>" data-size="md"
@@ -90,15 +91,6 @@
                                                         class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                         <i class="fas fa-exchange-alt"></i>  </a>                                                  </a>
                                                 </div>
-                                                <div class="action-btn bg-primary ms-2">
-                                                    <a href="<?php echo e(route('lead.clone',urlencode(encrypt($lead->id)))); ?>" data-size="md"
-                                                        data-url="#"data-bs-toggle="tooltip"title="<?php echo e(__('Clone')); ?>"
-                                                        data-title="<?php echo e(__('Clone')); ?>"
-                                                        class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                        <i class="fa fa-clone"></i>
-                                                    </a>
-                                                </div>
-                                              
                                             <?php endif; ?>
                                             <?php if($lead->proposal_status == 0 ): ?>
                                                 <div class="action-btn bg-primary ms-2">
@@ -129,6 +121,14 @@
                                                     </div>
                                                 <?php endif; ?>
                                             <?php endif; ?>
+                                            <div class="action-btn bg-primary ms-2">
+                                                    <a href="<?php echo e(route('lead.clone',urlencode(encrypt($lead->id)))); ?>" data-size="md"
+                                                        data-url="#"data-bs-toggle="tooltip"title="<?php echo e(__('Clone')); ?>"
+                                                        data-title="<?php echo e(__('Clone')); ?>"
+                                                        class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                        <i class="fa fa-clone"></i>
+                                                    </a>
+                                            </div>
                                             <div class="action-btn bg-success ms-2">
                                                 <a href="<?php echo e(route('lead.proposal',urlencode(encrypt($lead->id)))); ?>" 
                                                 data-bs-toggle="tooltip"

@@ -13,7 +13,7 @@
 
 <?php $__env->startSection('action-btn'); ?>
 
-<?php $__env->stopSection(); ?>
+<?php $__env->stopSection(); ?> 
 <?php $__env->startSection('content'); ?>
 <style>
     #optionsContainer {
@@ -34,13 +34,13 @@
 
     #optionsContainer {
         display: block;
-        margin-left: 222px;
+        margin-left: 474px;
         margin-top: -16px;
         padding: 10px;
     }
 
     .cmplt {
-        margin-left: 501px;
+        margin-left: 630px;
         margin-top: -206px;
         cursor: pointer;
     }

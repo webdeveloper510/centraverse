@@ -18045,9 +18045,9 @@ body.theme-10 .card .card-header h5:after, body.theme-10 .card .card-header .h5:
         box-shadow: none;
     }
 
-    .dash-sidebar.light-sidebar.transprent-bg .navbar-content {
+    /* .dash-sidebar.light-sidebar.transprent-bg .navbar-content {
         height: calc(100vh - 70px);
-    }
+    } */
 
     .dash-sidebar.light-sidebar:not(.transprent-bg) {
         top: 20px;
@@ -18168,7 +18168,7 @@ body.theme-10 .card .card-header h5:after, body.theme-10 .card .card-header .h5:
     height: 70px;
     display: flex;
     align-items: center;
-    padding: 15px 20px;
+    padding: 5px 20px;
 }
 
 .dash-sidebar .m-header .logo-sm {
@@ -18431,7 +18431,7 @@ body:not(.minimenu) .dash-sidebar .dash-submenu .dash-submenu .dash-submenu > .d
     box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
     color: #525b69;
     min-height: 70px;
-    position: absolute;
+    /* position: absolute; */
     left: 255px;
     right: 0;
     z-index: 1025;
@@ -18907,8 +18907,8 @@ body:not(.minimenu) .dash-sidebar .dash-submenu .dash-submenu .dash-submenu > .d
 
 .dash-container {
     position: relative;
-    top: 70px;
-    margin-left: 210px;
+    /* top: 70px; */
+    /* margin-left: 210px; */
     min-height: calc(100vh - 70px);
 }
 

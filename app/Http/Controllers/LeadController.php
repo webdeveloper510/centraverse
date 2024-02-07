@@ -65,8 +65,8 @@ class LeadController extends Controller
         if (\Auth::user()->can('Create Lead')){
             $users       = User::where('created_by', \Auth::user()->creatorId())->get();
             $status     = Lead::$status;
-            $function = Lead::$function;
-            return view('lead.create', compact('status', 'users', 'function', 'id','type'));
+            // $function = Lead::$function;
+            return view('lead.create', compact('status', 'users', 'id','type'));
         } else {
             return redirect()->back()->with('error', 'permission Denied');
         }
@@ -220,8 +220,7 @@ class LeadController extends Controller
            
             // $campaign = Campaign::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             // $campaign->prepend('--', 0);
-            $function = Lead::$function;
-            return view('lead.edit', compact('venue_function','function_package','lead','users', 'status', 'function'));
+            return view('lead.edit', compact('venue_function','function_package','lead','users', 'status'));
         } else {
             return redirect()->back()->with('error', 'permission Denied');
         }
