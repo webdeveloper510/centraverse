@@ -1322,3 +1322,6 @@ Route::get('/payment-failed',function(){
 });
 
 Route::get('/mail-testing',[MeetingController::class,'mail_testing']);
+
+
+Route::get('/paypal-payment-success',[BillingController::class,'paypalpaymentsuccess']);

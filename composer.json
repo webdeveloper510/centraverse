@@ -30,6 +30,7 @@
         "obydul/laraskrill": "^1.2",
         "orhanerday/open-ai": "^4.7",
         "paymentwall/paymentwall-php": "^2.2",
+        "paypal/paypal-checkout-sdk": "^1.0",
         "paytabscom/laravel_paytabs": "^1.4",
         "phpmailer/phpmailer": "^6.9",
         "psr/simple-cache": "2.0",

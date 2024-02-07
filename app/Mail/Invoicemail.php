@@ -11,15 +11,17 @@ class Invoicemail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $name;
+    public $email;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($invoice,$settings)
+    public function __construct($name,$email)
     {
-        $this->invoice = $invoice;
-        $this->settings = $settings;
+        $this->name = $name;
+        $this->email = $email;
     }
 
     /**
@@ -30,12 +32,12 @@ class Invoicemail extends Mailable
     public function build()
 
     {
-       // return $this->view('invoice.mail')->subject('Invoice Payment.');
-        return $this->markdown('invoice.mail')->subject('Ragarding to Invoice Payment.')->with(
-            [
-                'mail_header' => (!empty($this->settings['company_name'])) ? $this->settings['company_name'] : env('APP_NAME'),
-                'invoice' => $this->invoice
-            ]
-        );
+       return $this->view('invoice.mail')->subject('Invoice Payment.');
+        // return $this->markdown('invoice.mail')->subject('Ragarding to Invoice Payment.')->with(
+        //     [
+        //         'mail_header' => (!empty($this->settings['company_name'])) ? $this->settings['company_name'] : env('APP_NAME'),
+        //         'invoice' => $this->invoice
+        //     ]
+        // );
     }
 }
