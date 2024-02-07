@@ -26,10 +26,10 @@ class Meeting extends Model
     public static $status   = [
         'In process',
         'Waiting For Confirmation',
-        'Event Confirmed',
+        'Confirmed',
         'Approved',
         'Resent',
-        'Withdraw'
+        'Withdrawn'
     ];
     public static $parent   = [
         '' => '--',

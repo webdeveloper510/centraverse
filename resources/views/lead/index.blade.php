@@ -80,6 +80,7 @@
                                     </td>
                                     @if(Gate::check('Show Lead') || Gate::check('Edit Lead') || Gate::check('Delete Lead'))
                                         <td class="text-end">
+                                          
                                             @if($lead->status == 2)
                                             <div class="action-btn bg-secondary ms-2">
                                                     <a href="{{ route('meeting.create',['meeting',0]) }}" data-size="md"
@@ -88,15 +89,6 @@
                                                         class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                         <i class="fas fa-exchange-alt"></i>  </a>                                                  </a>
                                                 </div>
-                                                <div class="action-btn bg-primary ms-2">
-                                                    <a href="{{route('lead.clone',urlencode(encrypt($lead->id)))}}" data-size="md"
-                                                        data-url="#"data-bs-toggle="tooltip"title="{{ __('Clone') }}"
-                                                        data-title="{{ __('Clone') }}"
-                                                        class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                        <i class="fa fa-clone"></i>
-                                                    </a>
-                                                </div>
-                                              
                                             @endif
                                             @if($lead->proposal_status == 0 )
                                                 <div class="action-btn bg-primary ms-2">
@@ -127,6 +119,14 @@
                                                     </div>
                                                 @endif
                                             @endif
+                                            <div class="action-btn bg-primary ms-2">
+                                                    <a href="{{route('lead.clone',urlencode(encrypt($lead->id)))}}" data-size="md"
+                                                        data-url="#"data-bs-toggle="tooltip"title="{{ __('Clone') }}"
+                                                        data-title="{{ __('Clone') }}"
+                                                        class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                        <i class="fa fa-clone"></i>
+                                                    </a>
+                                            </div>
                                             <div class="action-btn bg-success ms-2">
                                                 <a href="{{route('lead.proposal',urlencode(encrypt($lead->id))) }}" 
                                                 data-bs-toggle="tooltip"

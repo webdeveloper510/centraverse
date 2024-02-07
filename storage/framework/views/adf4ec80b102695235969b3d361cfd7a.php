@@ -163,7 +163,7 @@
         function getaccount(opportunities_id) {
 
             $.ajax({
-                url: '<?php echo e(route('salesorder.getaccount')); ?>',
+                url: '<?php echo e(route("salesorder.getaccount")); ?>',
                 type: 'POST',
                 data: {
                     "opportunities_id": opportunities_id,

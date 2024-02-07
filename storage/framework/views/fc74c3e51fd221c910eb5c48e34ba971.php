@@ -1,6 +1,6 @@
-@php
+<?php
  $logo = URL::asset('storage/uploads/logo/');
-@endphp
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -80,7 +80,7 @@
 <body>
     <div class="welcome-container">
         <div class="logo-container">
-            <img src="{{$logo.'/logo.png' }}" alt="Logo" class="logo-img" style="width: 50%;">
+            <img src="<?php echo e($logo.'/logo.png'); ?>" alt="Logo" class="logo-img" style="width: 50%;">
         </div>
         <h1>Payment Success!</h1>
         <p>Thank you for your successful payment.</p>
@@ -88,3 +88,4 @@
 </body>
 
 </html>
+<?php /**PATH C:\xampp\htdocs\centraverse\resources\views/calendar/welcome.blade.php ENDPATH**/ ?>

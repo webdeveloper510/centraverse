@@ -29,7 +29,9 @@ class Lead extends Model
         'status',
         'rooms',
         'proposal_status',
-        'leadname'
+        'leadname',
+        'start_time',
+        'end_time'
     ];
     protected $appends = [
         'status_name',
@@ -38,7 +40,7 @@ class Lead extends Model
         'campaign_name',
     ];
     public static $status = [
-        'In Process',
+        'Share Proposal',
         'Waiting For Confirmation',
         'Confirmed',
         'Withdrawn by admin'
@@ -92,46 +94,42 @@ class Lead extends Model
     public function getStatusNameAttribute()
     {
         $status = Lead::$status[$this->status];
-
         return $this->attributes['status_name'] = $status;
     }
 
-        public  function getAccountNameAttribute()
-        {
-            if (self::$account_name === null) {
-                self::$account_name = self::fetchgetAccountNameAttribute();
-            }
-
-            return self::$account_name;
-        }
-        public  function fetchgetAccountNameAttribute()
-        {
-            $account = Lead::find($this->account);
-            return $this->attributes['account_name'] = !empty($account) ? $account->name : '';
+    public  function getAccountNameAttribute()
+    {
+        if (self::$account_name === null) {
+            self::$account_name = self::fetchgetAccountNameAttribute();
         }
 
-        public  function getCampaignNameAttribute()
-        {
-            if (self::$campaign_name === null) {
-                self::$campaign_name = self::fetchgetCampaignNameAttribute();
-            }
-
-            return self::$campaign_name;
-        }
-        public function fetchgetCampaignNameAttribute()
-        {
-            $campaign = Lead::find($this->campaign);
-
-            return $this->attributes['campaign_name'] = !empty($campaign) ? $campaign->name : '';
+        return self::$account_name;
+    }
+    public  function fetchgetAccountNameAttribute()
+    {
+        $account = Lead::find($this->account);
+        return $this->attributes['account_name'] = !empty($account) ? $account->name : '';
+    }
+    public  function getCampaignNameAttribute()
+    {
+        if (self::$campaign_name === null) {
+            self::$campaign_name = self::fetchgetCampaignNameAttribute();
         }
 
+        return self::$campaign_name;
+    }
+    public function fetchgetCampaignNameAttribute()
+    {
+        $campaign = Lead::find($this->campaign);
+
+        return $this->attributes['campaign_name'] = !empty($campaign) ? $campaign->name : '';
+    }
     public function getSourceNameAttribute()
     {
         $lead_source = Lead::find($this->source);
 
         return $this->attributes['source_name'] = !empty($lead_source) ? $lead_source->name : '';
     }
-
     public function stages()
     {
         return $this->hasOne('App\Models\TaskStage', 'id', 'stage');

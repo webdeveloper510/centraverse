@@ -15,6 +15,8 @@ use Spatie\Permission\Models\Role;
 use App\Models\Webhook;
 use App\Models\User;
 use App\Models\Billing;
+use App\Models\Setup;
+use App\Models\FixedBill;
 // use Google\Service\ServiceControl\Auth;
 use DB;
 class SettingController extends Controller
@@ -29,8 +31,8 @@ class SettingController extends Controller
             $webhooks = Webhook::where('created_by', \Auth::user()->id)->get();
             $roles = Role::where('created_by', \Auth::user()->creatorId())->with('permissions')->get();
             $users = User::where('created_by', '=', \Auth::user()->creatorId())->get();
-
-            return view('settings.index', compact('settings', 'payment', 'webhooks','permissions','roles','users'));
+            $setup = Setup::all();
+            return view('settings.index', compact('settings', 'setup','payment', 'webhooks','permissions','roles','users'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -1637,27 +1639,25 @@ class SettingController extends Controller
 
     public function storeImage(Request $request)
     {
-        // echo"<pre>";
-        // print_r($request->all());
-        // echo "no";
         $request->validate([
             'setup' => 'required|image|mimes:jpeg,png,jpg,gif',
         ]);
-        // echo "yes";
-        // die;
-        // $this->validate($request, ['image' => 'image|mimes:jpeg,png,jpg,gif,svg']);
         $image = $request->file('setup');
         $imageName = time() . '.' . $image->getClientOriginalExtension();
         $image->move(public_path('floor_images'), $imageName);
         $filePath = 'floor_images/' . $imageName;
-        return redirect()->back()->with('success', __('Image Successfully Uploaded'));
+        $setup = new Setup();
+        $setup['image'] = $imageName;
+        $setup['description'] = $request->description;
+        $setup->save();
+        return redirect()->back()->with('success', __('Setup Successfully Uploaded'));
     }
 
     public function deleteImage(Request $request)
     {
         $imageName = $request->input('imageName');
         $imagePath = public_path('floor_images') . '/' . $imageName;
-
+        Setup::where('image',$imageName)->delete();
         if (File::exists($imagePath)) {
             File::delete($imagePath);
             return response()->json(['success' => true]);
@@ -1694,17 +1694,50 @@ class SettingController extends Controller
         return redirect()->back()->with('success', __('Buffer Time Added successfully.'));
     }
     public function billing_cost(Request $request){
-        $billing = Billing::first();
-        Billing::where('id',$billing->id)->update([
-            'venue_rental'=>$request->venue_rental,
-            'hotel_rooms'=>$request->hotel_rooms,
-            'equipment'=>$request->equipment,
-            'setup'=>$request->setup,
-            'special_req'=>$request->special_req,
-            'classic_brunch'=>$request->food,
-            'gold_2hrs'=>$request->bar_package
-        ]);
-        return redirect()->back()->with('success', __('Billing Cost Successfully added'));;
+        $bill= FixedBill::where('venue',$request->venue)->exists(); 
+        if($bill){
+            FixedBill::where('venue',$request->venue)->update([
+                'venue_cost'=> $request->venue_cost,
+                'hotel_rooms'=> $request->hotel_rooms,
+                'bar_package'=> $request->bar_package,
+                'wedding'=> $request->wedding,
+                'dinner'=> $request->dinner,
+                'lunch'=> $request->lunch,
+                'brunch'=> $request->brunch,
+                'special_req'=> $request->special_req,
+                'specialsetup'=> $request->specialsetup,
+                'rehearsalsetup'=> $request->rehearsalsetup,
+                'welcomesetup'=> $request->welcomesetup,
+                'equipment'=> $request->equipment,
+            ]);
+        }
+        else{
+            $bill = new FixedBill();
+            $bill['venue'] = $request->venue;
+            $bill['venue_cost'] = $request->venue_cost;
+            $bill['hotel_rooms'] = $request->hotel_rooms;
+            $bill['bar_package'] = $request->bar_package;
+            $bill['wedding'] = $request->wedding;
+            $bill['dinner'] = $request->dinner;
+            $bill['lunch'] = $request->lunch;
+            $bill['brunch'] = $request->brunch;
+            $bill['special_req'] = $request->special_req;
+            $bill['specialsetup'] = $request->specialsetup;
+            $bill['rehearsalsetup'] = $request->rehearsalsetup;
+            $bill['welcomesetup'] = $request->welcomesetup;
+            $bill['equipment'] = $request->equipment;
+            $bill->save();
+        }
+        // Billing::where('id',$billing->id)->update([
+        //     'venue_rental'=>$request->venue_rental,
+        //     'hotel_rooms'=>$request->hotel_rooms,
+        //     'equipment'=>$request->equipment,
+        //     'setup'=>$request->setup,
+        //     'special_req'=>$request->special_req,
+        //     'classic_brunch'=>$request->food,
+        //     'gold_2hrs'=>$request->bar_package
+        // ]);
+        return redirect()->back()->with('success', __('Billing Cost Successfully saved'));;
     } 
     public function signature(Request $request){
         if(\File::exists(public_path('upload/signature/autorised_signature.png')))
@@ -1723,6 +1756,54 @@ class SettingController extends Controller
         $file = $folderPath .'autorised_signature.'.$image_type;
         file_put_contents($file, $image_base64);
         return $file;
+    }
+    public function addfunction(Request $request){
+        $user = \Auth::user();
+        $inputValue =  $request->input('function');
+        $settings = Utility::settings();
+        $created_at = $updated_at = date('Y-m-d H:i:s');
+        $existingValue = $settings['function'] ?? '';
+        $newValue = $existingValue . ($existingValue ? ',' : '') . $inputValue;
+        if(isset($settings['function']) && !empty($settings['function'])){
+            DB::table('settings')
+                ->where('name','function')
+                ->update([
+                    'value' => $newValue,
+                    'created_by'=> $user->id,
+                    'created_at' =>$created_at,
+                    'updated_at'=>$updated_at
+                ]);
+        }
+        else{
+            \DB::insert(
+                'INSERT INTO settings (`value`, `name`,`created_by`,`created_at`,`updated_at`) values (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`), `updated_at` = VALUES(`updated_at`) ',
+                [
+                    $inputValue,
+                    'function',
+                    $user->id,
+                    $created_at,
+                    $updated_at,
+                ]);
+        }
+        return redirect()->back()->with('success', __('Function Added successfully.'));
+    }
+    public function delete_function(Request $request){
+        $user = \Auth::user();
+        $setting = Utility::settings();
+        $existingValues = explode(',', $setting['function']);
+        $updatedValues = array_diff($existingValues, [$request->badge]);
+        $newvalue = implode(',', $updatedValues);
+        $created_at = $updated_at = date('Y-m-d H:i:s');
+        
+        DB::table('settings')
+        ->where('name','function')
+        ->update([
+            'value' => $newvalue,
+            'created_by'=> $user->id,
+            'created_at' =>$created_at,
+            'updated_at'=>$updated_at
+        ]);
+        return true;
     }
     
 }
