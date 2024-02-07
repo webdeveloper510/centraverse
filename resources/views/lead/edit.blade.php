@@ -29,7 +29,15 @@
 <div class="row">
         <div class="col-sm-12">
             <div class="row">
-                <div class="col-xl-12">
+            <div class="col-xl-2">
+                    <div class="card sticky-top" style="top:30px">
+                        <div class="list-group list-group-flush" id="useradd-sidenav">
+                            <a href="#useradd-1" class="list-group-item list-group-item-action">{{ __('Lead') }} <div
+                                    class="float-end"><i class="ti ti-chevron-right"></i></div></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-10">
                     <div id="useradd-1" class="card">
                         {{ Form::model($lead, ['route' => ['lead.update', $lead->id], 'method' => 'PUT', 'id' => "formdata"]) }}
                         <div class="card-header">
@@ -40,12 +48,12 @@
                                 <div class="row">
                                 <div class="col-6">
                                 <div class="form-group">
-            {{Form::label('lead_name',__('Lead Name'),['class'=>'form-label']) }}
-            {{Form::text('lead_name',$lead->leadname,array('class'=>'form-control','placeholder'=>__('Enter Lead Name')))}}
-            @error('lead_name')
-                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-            @enderror
-        </div>
+                                    {{Form::label('lead_name',__('Lead Name'),['class'=>'form-label']) }}
+                                    {{Form::text('lead_name',$lead->leadname,array('class'=>'form-control','placeholder'=>__('Enter Lead Name')))}}
+                                    @error('lead_name')
+                                        <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                    @enderror
+                                </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">

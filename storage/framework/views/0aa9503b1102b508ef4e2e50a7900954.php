@@ -57,7 +57,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="row">
-                <!-- <div class="col-xl-3">
+                <div class="col-xl-2">
                     <div class="card sticky-top" style="top:30px">
                         <div class="list-group list-group-flush" id="useradd-sidenav">
                             <a href="#useradd-1" class="list-group-item list-group-item-action"><?php echo e(__('Event')); ?> <div
@@ -70,8 +70,8 @@
                                     class="float-end"><i class="ti ti-chevron-right"></i></div></a>          
                         </div>
                     </div>
-                </div> -->
-                <div class="col-xl-12">
+                </div>
+                <div class="col-xl-10">
                     <?php echo e(Form::open(['url' => 'meeting', 'method' => 'post', 'enctype' => 'multipart/form-data','id'=>'formdata'] )); ?>
 
                     <div id="useradd-1" class="card"> 
