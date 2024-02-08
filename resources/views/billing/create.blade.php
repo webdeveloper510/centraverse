@@ -25,66 +25,74 @@ $labels =
 @endphp 
 @section('content')
 <meta name="csrf-token" content="{{ csrf_token() }}" />
-<div class="container">
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="row">
-            {{Form::open(array('url'=>'billing','method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))}}
-                    <div class= "row">
-                        <div class = "col-md-12">
+<div class="row">
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-xl-2">
+                <div class="card sticky-top" style="top:30px">
+                    <div class="list-group list-group-flush" id="useradd-sidenav">
+                        <a href="#useradd-1" class="list-group-item list-group-item-action">{{ __('Create Billing') }} <div
+                                class="float-end"><i class="ti ti-chevron-right"></i></div></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-10">
+                {{Form::open(array('url'=>'billing','method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))}}
+                <!-- <div class= "row"> -->
+                    <div class = "col-md-12" id = "useradd-1" >
+                        <div class="form-group">
+                            <label class="form-label">Select Customer :</label>
+                            <select class="form-select" id = "userinfo" name = "event" required>
+                                <option value= '-1' disabled selected>Select Customer</option>
+                                @foreach($meeting as $meet)
+                                    <option value="{{$meet->id}}">{{$meet->name}} (Event- {{$meet->type}})</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                <!-- </div> -->
+                <!-- <div class = "row">   -->
+                    <div class = "col-md-12">
+                        <div class = "form-group">
+                        <label>No. of Guests : </label>
+                        <input type ="text"  value = "" readonly name ="guestcount" style = "border:none" >
+                    </div>                  
+                <!-- </div>  -->
+                <!-- <div class="row"> -->
+                    <div class="col-md-12">
                             <div class="form-group">
-                                <label class="form-label">Select Customer :</label>
-                                <select class="form-select" id = "userinfo" name = "event" required>
-                                    <option value= '-1' disabled selected>Select Customer</option>
-                                    @foreach($meeting as $meet)
-                                        <option value="{{$meet->id}}">{{$meet->name}} (Event- {{$meet->type}})</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class = "row">  
-                        <div class = "col-md-12">
-                            <div class = "form-group">
-                            <label>No. of Guests : </label>
-                            <input type ="text"  value = "" readonly name ="guestcount" style = "border:none" >
-                        </div>                  
-                    </div> 
-                    <div class="row">
-                        <div class="col-md-12">
-                                <div class="form-group">
-                                    <table class="table">
-                                        <thead>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>{{__('Description')}} </th>
+                                            <th>{{__('Cost')}} </th>
+                                            <th>{{__('Quantity')}} </th>
+                                            <th>{{__('Notes')}} </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($labels as $key=> $label)
                                             <tr>
-                                                <th>{{__('Description')}} </th>
-                                                <th>{{__('Cost')}} </th>
-                                                <th>{{__('Quantity')}} </th>
-                                                <th>{{__('Notes')}} </th>
+                                                <td>{{ucfirst($label)}}</td>
+                                                <td>
+                                                <input type = "text" name ="billing[{{$key}}][cost]" value="${{$billing->$key}}" class= "form-control" readonly></td>
+                                                <td> 
+                                                <input type = "number" name ="billing[{{$key}}][quantity]" min = '0' class= "form-control" required>
+                                                </td>
+                                                <td><input type = "text" name ="billing[{{$key}}][notes]" class= "form-control"></td> 
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($labels as $key=> $label)
-                                                <tr>
-                                                    <td>{{ucfirst($label)}}</td>
-                                                    <td>
-                                                    <input type = "text" name ="billing[{{$key}}][cost]" value="${{$billing->$key}}" class= "form-control" readonly></td>
-                                                    <td> 
-                                                    <input type = "number" name ="billing[{{$key}}][quantity]" min = '0' class= "form-control" required>
-                                                    </td>
-                                                    <td><input type = "text" name ="billing[{{$key}}][notes]" class= "form-control"></td> 
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                    <div class= "form-group">
-                                    <label class = "form-label"> Deposit on file: </label>
-                                    <input type = "number" name = "deposits" min = '0'  class= "form-control" required>
-                                    </div>
-                            </div>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                                <div class= "form-group">
+                                <label class = "form-label"> Deposit on file: </label>
+                                <input type = "number" name = "deposits" min = '0'  class= "form-control" required>
+                                </div>
                         </div>
                     </div>
+                <!-- </div> -->
                 {{Form::submit(__('Save'),array('class'=>'btn btn-primary '))}}
-                    {{ Form::close() }}    
+                {{ Form::close() }}    
             </div>
         </div>
     </div>

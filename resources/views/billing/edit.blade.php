@@ -32,7 +32,7 @@ $labels =
         <div class="col-sm-12">
             <div class="row">
                 {{Form::open(array('route'=>'billing.details','method'=>'post','enctype'=>'multipart/form-data'))}}
-                    <div class= "row">
+                    <!-- <div class= "row"> -->
                         <div class = "col-md-12">
                             <div class="form-group">
                                 <label class="form-label">Select Customer :</label>
@@ -44,8 +44,8 @@ $labels =
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
+                    <!-- </div> -->
+                    <!-- <div class="row"> -->
                         <div class="col-md-12">
                                 <div class="form-group">
                                     <table class="table">
@@ -77,8 +77,8 @@ $labels =
                                     </div>
                             </div>
                         </div>
-                    </div>
-                {{Form::submit(__('Save'),array('class'=>'btn btn-primary '))}}
+                    <!-- </div> -->
+                    {{Form::submit(__('Save'),array('class'=>'btn btn-primary '))}}
                     {{ Form::close() }}    
             </div>
         </div>
