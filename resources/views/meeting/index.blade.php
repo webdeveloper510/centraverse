@@ -40,7 +40,7 @@
                                 <table id="datatable" class="table datatable align-items-center">
                                     <thead class="thead-light">
                                         <tr>
-                                            <th scope="col" class="sort" data-sort="name">{{ __('Lead') }}</th>
+                                            <th scope="col" class="sort" data-sort="name">{{ __('Event') }}</th>
                                             <!-- <th scope="col" class="sort" data-sort="budget">{{ __('Parent') }}</th> -->
                                             <th scope="col" class="sort" data-sort="status">{{ __('Status') }}</th>
                                             <th scope="col" class="sort" data-sort="completion">{{ __('Date Start') }}</th>
@@ -57,8 +57,12 @@
                                                 <td>
                                                     <a href="{{ route('meeting.edit', $meeting->id) }}" data-size="md"
                                                         data-title="{{ __('Event Details') }}" class="action-item text-primary">
+                                                        @if($meeting->attendees_lead != 0)
                                                     {{ucfirst(\App\Models\Lead::where('id',$meeting->attendees_lead)->pluck('leadname')->first())}} 
-                                                    </a>
+                                                @else
+                                                {{ucfirst($meeting->eventname)}}
+                                                @endif
+                                                </a>
                                                 </td>
                                                 <td>
                                                     @if ($meeting->status == 0)

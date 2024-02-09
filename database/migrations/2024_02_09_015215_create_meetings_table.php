@@ -17,6 +17,7 @@ class CreateMeetingsTable extends Migration
             $table->string('name')->nullable();  
             $table->string('email');
             $table->string('lead_address');    
+            $table->string('eventname')->nullable();    
             $table->string('relationship')->nullable();  
             $table->integer('phone')->default(0);
             $table->string('alter_name')->nullable();

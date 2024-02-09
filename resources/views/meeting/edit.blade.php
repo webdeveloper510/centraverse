@@ -86,12 +86,22 @@
                                 </div>
                                 <div class="card-body"> 
                                     <div class="row">
+                                        @if($meeting->attendees_lead != 0 )
                                         <div class="col-6">
                                             <div class="form-group">
                                                 {{ Form::label('attendees_lead', __('Lead'), ['class' => 'form-label']) }}
                                                 {{Form::text('attendees_lead',$attendees_lead,array('class'=>'form-control','required'=>'required','readonly'=>'readonly'))}}
                                             </div>
                                         </div>
+                                        @else
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                {{ Form::label('eventname', __('Event Name'), ['class' => 'form-label']) }}
+                                                {{Form::text('eventname',$meeting->eventname,array('class'=>'form-control','required'=>'required','readonly'=>'readonly'))}}
+                                            </div>
+                                        </div>
+                                        @endif
+                                       
                                         <div class="col-6">
                                         <div class="form-group">
                                             {{Form::label('Assigned Staff',__('Assigned Staff'),['class'=>'form-label']) }}

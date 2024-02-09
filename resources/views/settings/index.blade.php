@@ -411,7 +411,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                         <a href="#buffer-settings" class="list-group-item list-group-item-action border-0">{{ __('Buffer Settings') }}
                             <div class="float-end"><i class="ti ti-chevron-right"></i></div>
                         </a>
-                        <a href="#add-signature" class="list-group-item list-group-item-action border-0">{{ __('Add Authorised Signature') }}
+                        <a href="#add-signature" class="list-group-item list-group-item-action border-0">{{ __('Authorised Signature') }}
                             <div class="float-end"><i class="ti ti-chevron-right"></i></div>
                         </a>
                         @endif
@@ -6044,10 +6044,16 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
             <div class="row mt-3">
                 {{ Form::open(['route' => 'buffer.setting', 'method' => 'post']) }}
                 @csrf
-                <div class="col-12">
+                <div class="col-6">
                     <div class="form-group">
                         {{ Form::label('buffer_time', __('Add Buffer Time'), ['class' => 'form-label']) }}
-                        {!! Form::input('time', 'buffer_time',$settings['buffer_time'], ['class' => 'form-control', 'required' => 'required']) !!}
+                        {!! Form::input('time', 'buffer_time',null, ['class' => 'form-control', 'required' => 'required']) !!}
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        {{ Form::label('buffer_day', __('Add Buffer Day'), ['class' => 'form-label']) }}
+                        {!! Form::number('buffer_day', $settings['buffer_day'], ['class' => 'form-control', 'required' => 'required','min' => '0']) !!}
                     </div>
                 </div>
                 <div class="text-end">

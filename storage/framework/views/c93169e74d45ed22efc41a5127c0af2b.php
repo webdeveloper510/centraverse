@@ -4,7 +4,6 @@
     <?php echo e(__('Email Templates')); ?>
 
 <?php $__env->stopSection(); ?>
-
 <?php $__env->startSection('title'); ?>
     <?php echo e(__('Email Templates')); ?>
 
@@ -41,7 +40,6 @@
 <?php $__env->stopPush(); ?>
 <?php $__env->startSection('content'); ?>
 <div class="row">
-
         <div class="col-12">
             <div class="row">
             <div class="col-xl-2">
@@ -53,7 +51,7 @@
                 </div>
             </div>
             <div class="col-xl-10">
-            <div class="card">
+            <div class="card" id = "useradd-1">
                 <div class="card-body">
                     <div class="language-wrap">
                         <div class="row">

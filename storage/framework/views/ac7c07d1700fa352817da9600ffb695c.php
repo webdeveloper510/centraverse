@@ -42,7 +42,7 @@
                                 <table id="datatable" class="table datatable align-items-center">
                                     <thead class="thead-light">
                                         <tr>
-                                            <th scope="col" class="sort" data-sort="name"><?php echo e(__('Lead')); ?></th>
+                                            <th scope="col" class="sort" data-sort="name"><?php echo e(__('Event')); ?></th>
                                             <!-- <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Parent')); ?></th> -->
                                             <th scope="col" class="sort" data-sort="status"><?php echo e(__('Status')); ?></th>
                                             <th scope="col" class="sort" data-sort="completion"><?php echo e(__('Date Start')); ?></th>
@@ -59,8 +59,13 @@
                                                 <td>
                                                     <a href="<?php echo e(route('meeting.edit', $meeting->id)); ?>" data-size="md"
                                                         data-title="<?php echo e(__('Event Details')); ?>" class="action-item text-primary">
+                                                        <?php if($meeting->attendees_lead != 0): ?>
                                                     <?php echo e(ucfirst(\App\Models\Lead::where('id',$meeting->attendees_lead)->pluck('leadname')->first())); ?> 
-                                                    </a>
+                                                <?php else: ?>
+                                                <?php echo e(ucfirst($meeting->eventname)); ?>
+
+                                                <?php endif; ?>
+                                                </a>
                                                 </td>
                                                 <td>
                                                     <?php if($meeting->status == 0): ?>

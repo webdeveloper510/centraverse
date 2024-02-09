@@ -156,6 +156,7 @@ class Utility extends Model
             "event_types"=>'',
             'venue' => '',
             'buffer_time' =>'',
+            'buffer_day' =>'',
             'function' =>'',
            
         ];

@@ -86,9 +86,9 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                     <tbody>    
                                         <tr style="text-align:center">
                                             <td >Start Date:<?php echo e(\Carbon\Carbon::parse($lead->start_date)->format('d M, Y')); ?> <br>
-                                            End Date: <?php echo e(\Carbon\Carbon::parse($lead->end_date)->format('d M, Y')); ?></td>
+                                                End Date: <?php echo e(\Carbon\Carbon::parse($lead->end_date)->format('d M, Y')); ?></td>
                                             <td  >Start Time:<?php echo e(date('h:i A', strtotime($lead->start_time))); ?> <br>
-                                            End time:<?php echo e(date('h:i A', strtotime($lead->end_time))); ?></td>
+                                                End time:<?php echo e(date('h:i A', strtotime($lead->end_time))); ?></td>
                                             <td ><?php echo e($lead->venue_selection); ?></td>
                                             <td ><?php echo e($lead->type); ?></td>
                                             <td ><?php echo e($lead->function); ?></td>
@@ -388,7 +388,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                     No Personal Checks are accepted for final payment. <br><br>
                                     The Rules and Conditions for Usage are incorporated herein and are made a part hereof. <br><br>
                     
-                                    Please return signed contract with deposit no later than <b><?php echo e(\Carbon\Carbon::parse($lead->start_date)->format('d M, Y')); ?></b> or this contract is no longer valid.<br>
+                                    Please return signed contract with deposit no later than <b><?php echo e(\Carbon\Carbon::parse($lead->start_date)->subDays($settings['buffer_day'])->format('d M, Y')); ?></b> or this contract is no longer valid.<br>
                                     </p>
                                 
                             </div>

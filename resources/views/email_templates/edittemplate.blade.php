@@ -10,7 +10,7 @@
 @endsection
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Home') }}</a></li>
-    <li class="breadcrumb-item"><a href="{{ route('lead.index') }}">{{ __('Email Template') }}</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('email.template.view') }}">{{ __('Email Template') }}</a></li>
     <li class="breadcrumb-item">{{ __('Details') }}</li>
 @endsection
 @push('css-page')
@@ -50,7 +50,7 @@
                     </div>
                 </div>
                 <div class="col-xl-10">
-                    <div class="card">
+                    <div class="card" id="useradd-1">
                         <div class="card-body">
 
                             <div class="language-wrap">

@@ -1,10 +1,10 @@
 
 <?php $__env->startSection('page-title'); ?>
-    <?php echo e(__('Event Edit')); ?>
+    <?php echo e(__('Event Review')); ?>
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('title'); ?>
-    <?php echo e(__('Edit Event')); ?>
+    <?php echo e(__('Review Event')); ?>
 
 <?php $__env->stopSection(); ?>
 <?php
@@ -13,19 +13,19 @@
     $type_arr= explode(',',$setting['event_type']);
     $type_arr = array_combine($type_arr, $type_arr);
     $venue = explode(',',$setting['venue']);
-    $function = explode(',',$setting['function']);
     $meal = ['Formal Plated' ,'Buffet Style' , 'Family Style'];
     $bar = ['Open Bar', 'Cash Bar', 'Package Choice'];
     $platinum = ['Platinum - 4 Hours', 'Platinum - 3 Hours', 'Platinum - 2 Hours'];
     $gold = ['Gold - 4 Hours', 'Gold - 3 Hours', 'Gold - 2 Hours'];
     $silver = ['Silver - 4 Hours', 'Silver - 3 Hours', 'Silver - 2 Hours'];
     $beer = ['Beer & Wine - 4 Hours', 'Beer & Wine - 3 Hours', 'Beer & Wine - 2 Hours'];
-?>
+    $function = explode(',',$setting['function']);
+    ?>
 
 <?php $__env->startSection('breadcrumb'); ?>
     <li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Home')); ?></a></li>
     <li class="breadcrumb-item"><a href="<?php echo e(route('meeting.index')); ?>"><?php echo e(__('Event')); ?></a></li>
-    <li class="breadcrumb-item"><?php echo e(__('Edit')); ?></li>
+    <li class="breadcrumb-item"><?php echo e(__('Review')); ?></li>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 <style>
@@ -63,20 +63,13 @@
                 <div class="col-xl-2">
                     <div class="card sticky-top" style="top:30px">
                         <div class="list-group list-group-flush" id="useradd-sidenav">
-                            <a href="#useradd-1" class="list-group-item list-group-item-action"><?php echo e(__('Edit')); ?> <div
+                            <a href="#useradd-1" class="list-group-item list-group-item-action"><?php echo e(__('Review Event')); ?> <div
                                     class="float-end"><i class="ti ti-chevron-right"></i></div></a>
-                            <a href="#event-details" class="list-group-item list-group-item-action"><?php echo e(__('Event Details')); ?> <div
-                                    class="float-end"><i class="ti ti-chevron-right"></i></div></a>
-                            <a href="#special_req" class="list-group-item list-group-item-action"><?php echo e(__('Special Requirements')); ?> <div
-                                    class="float-end"><i class="ti ti-chevron-right"></i></div></a>   
-                            <a href="#other_info" class="list-group-item list-group-item-action"><?php echo e(__('Other Information')); ?> <div
-                                    class="float-end"><i class="ti ti-chevron-right"></i></div></a>          
-                       
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-10">
-                    <?php echo e(Form::model($meeting, ['route' => ['meeting.update', $meeting->id], 'method' => 'PUT' ,'id'=> 'formdata'])); ?>
+                    <?php echo e(Form::model($meeting, ['route' => ['meeting.review_agreement.update', $meeting->id], 'method' => 'POST' ,'id'=> 'formdata'])); ?>
 
                         <div id="useradd-1" class="card"> 
                             <div class="col-md-12">
@@ -89,7 +82,6 @@
                                 </div>
                                 <div class="card-body"> 
                                     <div class="row">
-                                        <?php if($meeting->attendees_lead != 0 ): ?>
                                         <div class="col-6">
                                             <div class="form-group">
                                                 <?php echo e(Form::label('attendees_lead', __('Lead'), ['class' => 'form-label'])); ?>
@@ -98,17 +90,6 @@
 
                                             </div>
                                         </div>
-                                        <?php else: ?>
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <?php echo e(Form::label('eventname', __('Event Name'), ['class' => 'form-label'])); ?>
-
-                                                <?php echo e(Form::text('eventname',$meeting->eventname,array('class'=>'form-control','required'=>'required','readonly'=>'readonly'))); ?>
-
-                                            </div>
-                                        </div>
-                                        <?php endif; ?>
-                                       
                                         <div class="col-6">
                                         <div class="form-group">
                                             <?php echo e(Form::label('Assigned Staff',__('Assigned Staff'),['class'=>'form-label'])); ?>
@@ -280,7 +261,7 @@
                                             <div class="form-group">
                                                 <?php echo e(Form::label('start_date', __('Start Date'), ['class' => 'form-label'])); ?>
 
-                                                <?php echo Form::date('start_date', null, ['class' => 'form-control', 'required' => 'required','min' => date('Y-m-d')]); ?>
+                                                <?php echo Form::date('start_date', null, ['class' => 'form-control', 'required' => 'required']); ?>
 
                                             </div>
                                         </div>
@@ -288,7 +269,7 @@
                                             <div class="form-group">
                                                 <?php echo e(Form::label('end_date', __('End Date'), ['class' => 'form-label'])); ?>
 
-                                                <?php echo Form::date('end_date', null, ['class' => 'form-control', 'required' => 'required','min' => date('Y-m-d')]); ?>
+                                                <?php echo Form::date('end_date', null, ['class' => 'form-control', 'required' => 'required']); ?>
 
                                             </div>
                                         </div>
@@ -389,40 +370,26 @@
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>  
                                             </div>
                                         </div> 
-                                        <?php if(!$meeting->ad_opts): ?>
                                         <div class = "col-12">
                                             <?php echo e(Form::label('add_opts',__('Additional Options'),['class'=>'form-label'])); ?>
 
                                             <button  data-bs-toggle="tooltip" id = "ad_opt" class="btn btn-sm  btn-icon m-1">
                                                 <i class="ti ti-plus"></i></button>
                                         </div>
-                                        <div class="col-12" id ='add_opts' style="display:none"  >
+                                        <div class="col-12" id ='add_opts' style ="display:none" >
                                             <div class="form-group">
                                                 <?php echo e(Form::text('add_opts',null,array('class'=>'form-control','placeholder'=>__('Any Additional Optionas')))); ?>
 
                                             </div>
                                         </div> 
-                                        
-                                        <?php else: ?>
-                                        <div class = "col-12">
-                                            <?php echo e(Form::label('add_opts',__('Additional Options'),['class'=>'form-label'])); ?>
-
-                                        </div>
-                                        <div class="col-12" id ='add_opts' >
-                                            <div class="form-group">
-                                                <?php echo e(Form::text('add_opts',$meeting->ad_opts,array('class'=>'form-control','placeholder'=>__('Any Additional Optionas')))); ?>
-
-                                            </div>
-                                        </div> 
-                                        <?php endif; ?>
                                         <div class="col-12">
                                         <div class="row">
                                             <label><b>Setup</b></label>
                                             <?php $__currentLoopData = $setup; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $s): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                <div class="col-6  mt-4">    
-                                                    <input type="radio" id="image_<?php echo e($loop->index); ?>" name="uploadedImage" class="form-check-input " value="<?php echo e(asset('floor_images/' .$s->image)); ?>"  <?php echo e(asset('floor_images/' .$s->image)==$meeting->floor_plan ? 'checked' : ''); ?> style="display:none">
+                                            <div class="col-6  mt-4">    
+                                                    <input type="radio" id="image_<?php echo e($loop->index); ?>" name="uploadedImage" class="form-check-input " value="<?php echo e(asset('/floor_images/' . $s->image)); ?>" style="display:none;"<?php echo e($meeting->floor_plan ==$s->image ? 'checked' :''); ?>>
                                                     <label for="image_<?php echo e($loop->index); ?>" class="form-check-label">
-                                                        <img src="<?php echo e(asset('floor_images/'. $s->image)); ?>" alt="Uploaded Image" class="img-thumbnail floorimages zoom"data-bs-toggle="tooltip" title="<?php echo e($s->Description); ?>">
+                                                        <img src="<?php echo e(asset('floor_images/'.$s->image)); ?>" alt="Uploaded Image" class="img-thumbnail floorimages zoom"data-bs-toggle="tooltip" title="<?php echo e($s->Description); ?>">
                                                     </label>
                                                 </div>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -444,6 +411,9 @@
                                 <div class="card-body">
                                     <div class ="row">
                                             <div class="form-group">
+                                                <!-- <?php echo Form::checkbox('room', 1, null, ['id'=>'room', 'class' => 'checkbox']); ?>
+
+                                                <?php echo Form::label('room', 'Rooms at the hotel'); ?>  -->
                                                 <?php echo e(Form::label('rooms',__('Room'),['class'=>'form-label'])); ?>
 
                                             <input type="number" name="rooms" min = 0 class = "form-control" value="<?php echo e($meeting->room); ?>" > 
@@ -559,6 +529,7 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
+                                    
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <?php echo e(Form::label('allergies',__('Allergies'),['class'=>'form-label'])); ?>
@@ -570,12 +541,29 @@
                                          
                                     </div>
                                 </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                    <?php echo e(Form::label('status', __('Status'), ['class' => 'form-label'])); ?>
+
+                                    <div class="checkbox-group">
+                                        <input type="checkbox" id="approveCheckbox" name="status" value="Approve"<?php echo e($meeting->status == 2 ? 'checked' : ''); ?>>
+                                        <label for="approveCheckbox">Approve</label>
+
+                                        <input type="checkbox" id="resendCheckbox" name="status" value="Resend" <?php echo e($meeting->status == 0 ? 'checked' : ''); ?>>
+                                        <label for="resendCheckbox">Resend</label>
+
+                                        <input type="checkbox" id="withdrawCheckbox" name="status" value="Withdraw"<?php echo e($meeting->status == 3 ? 'checked' : ''); ?>>
+                                        <label for="withdrawCheckbox">Withdraw</label>
+                                    </div>
+                                    </div>
+                                </div>
                                 <div class="card-footer text-end">
-                                    <?php echo e(Form::submit(__('Save Changes'), ['class' => 'btn  btn-primary '])); ?>
+                                    <?php echo e(Form::submit(__('Submit'), ['class' => 'btn  btn-primary '])); ?>
 
                                 </div>
                             </div>
                         </div>
+                       
                     <?php echo e(Form::close()); ?>    
                 </div>
             </div>
@@ -589,8 +577,9 @@
         })
         $(document).ready(function() {
         var selectedValue = $('input[name="bar"]:checked').val();
+        // alert(selectedValue);
         if(selectedValue == 'Package Choice'){
-            $('#package').show();
+                    $('#package').show();
         }    
     });
         $('input[type=radio][name=bar]').change(function() {
@@ -623,14 +612,7 @@
             event.stopPropagation();
             event.preventDefault();
         });
-      
-        checkboxes.forEach(function (checkbox) {
-            checkbox.addEventListener('change', function () {
-                toggleDiv(checkbox.id);
-            });
-        });
-    });
-    function toggleDiv(value) {
+        function toggleDiv(value) {
             var divId = value.toLowerCase();
             var div = document.getElementById(divId);
 
@@ -638,13 +620,22 @@
                 div.style.display = document.getElementById(value).checked ? 'block' : 'none';
             }
         }
-        $(document).ready(function () {
-            $('input[name="uploadedImage"]').each(function() {
-            if ($(this).prop('checked')) {
-                var imageId = $(this).attr('id');
-                                $('label[for="' + imageId + '"] img').addClass('selected-image');
-            }
+
+        checkboxes.forEach(function (checkbox) {
+            checkbox.addEventListener('change', function () {
+                toggleDiv(checkbox.id);
+            });
         });
+    });
+</script>
+<script>
+        $('input:checkbox[name= "status"]').click(function(){
+            var isChecked = $(this).prop('checked');
+            var group = $(this).attr('name');
+
+            if (isChecked) {
+                $('input[name="' + group + '"]').not(this).prop('checked', false);
+            }
         });
 </script>
 <script>
@@ -668,4 +659,4 @@ $(document).ready(function () {
 </script>
 
 <?php $__env->stopPush(); ?>
-<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/meeting/edit.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/meeting/agreement/review_agreement.blade.php ENDPATH**/ ?>
