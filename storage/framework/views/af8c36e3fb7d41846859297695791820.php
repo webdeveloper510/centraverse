@@ -31,7 +31,15 @@
 <div class="row">
         <div class="col-sm-12">
             <div class="row">
-                <div class="col-xl-12">
+            <div class="col-xl-2">
+                    <div class="card sticky-top" style="top:30px">
+                        <div class="list-group list-group-flush" id="useradd-sidenav">
+                            <a href="#useradd-1" class="list-group-item list-group-item-action"><?php echo e(__('Lead')); ?> <div
+                                    class="float-end"><i class="ti ti-chevron-right"></i></div></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-10">
                     <div id="useradd-1" class="card">
                         <?php echo e(Form::model($lead, ['route' => ['lead.update', $lead->id], 'method' => 'PUT', 'id' => "formdata"])); ?>
 
@@ -43,21 +51,21 @@
                                 <div class="row">
                                 <div class="col-6">
                                 <div class="form-group">
-            <?php echo e(Form::label('lead_name',__('Lead Name'),['class'=>'form-label'])); ?>
+                                    <?php echo e(Form::label('lead_name',__('Lead Name'),['class'=>'form-label'])); ?>
 
-            <?php echo e(Form::text('lead_name',$lead->leadname,array('class'=>'form-control','placeholder'=>__('Enter Lead Name')))); ?>
+                                    <?php echo e(Form::text('lead_name',$lead->leadname,array('class'=>'form-control','placeholder'=>__('Enter Lead Name')))); ?>
 
-            <?php $__errorArgs = ['lead_name'];
+                                    <?php $__errorArgs = ['lead_name'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                <div class="alert alert-danger mt-1 mb-1"><?php echo e($message); ?></div>
-            <?php unset($message);
+                                        <div class="alert alert-danger mt-1 mb-1"><?php echo e($message); ?></div>
+                                    <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
-        </div>
+                                </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">

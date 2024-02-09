@@ -1,5 +1,8 @@
 <?php 
   $selectedvenue= explode(',',$lead->venue_selection);
+  $imagePath = public_path('upload/signature/autorised_signature.png');
+$imageData = base64_encode(file_get_contents($imagePath));
+$base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base64,' . $imageData;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -82,8 +85,8 @@
                                     </thead>
                                     <tbody>    
                                         <tr style="text-align:center">
-                                            <td >Start Date: <?php echo e(\Auth::user()->dateFormat($lead->start_date)); ?> <br>
-                                            End Date: <?php echo e(\Auth::user()->dateFormat($lead->end_date)); ?></td>
+                                            <td >Start Date:<?php echo e(\Carbon\Carbon::parse($lead->start_date)->format('d M, Y')); ?> <br>
+                                            End Date: <?php echo e(\Carbon\Carbon::parse($lead->end_date)->format('d M, Y')); ?></td>
                                             <td  >Start Time:<?php echo e(date('h:i A', strtotime($lead->start_time))); ?> <br>
                                             End time:<?php echo e(date('h:i A', strtotime($lead->end_time))); ?></td>
                                             <td ><?php echo e($lead->venue_selection); ?></td>
@@ -391,6 +394,10 @@
                             </div>
                         </div>
                         <div class="row">
+                        <div class="col-md-6" >
+                    <strong>Authorized Signature:</strong> <br>
+                    <img src="<?php echo e($base64Image); ?>" style="width:30%; border-bottom:1px solid black;">
+                </div>
                             <div class="col-md-6">
                                 <strong> Signature:</strong>
                                 <br>
@@ -440,7 +447,7 @@
 </style>
 <?php echo $__env->make('partials.admin.head', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <?php echo $__env->make('partials.admin.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
- <script>
+<script>
     document.addEventListener('DOMContentLoaded', function() {
         var canvas = document.getElementById('signatureCanvas');
         var signaturePad = new SignaturePad(canvas);
@@ -459,8 +466,8 @@
             }
         });
     });
-  </script>
-  <script>
+</script>
+<script>
     $(document).ready(function () {
         $('#formdata').submit(function () {
             $("#loader").show(); 

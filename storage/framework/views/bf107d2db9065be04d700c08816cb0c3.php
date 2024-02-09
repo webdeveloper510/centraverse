@@ -8,7 +8,6 @@
 
         </div>
 <?php $__env->stopSection(); ?>
-
 <?php $__env->startSection('action-btn'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('filter'); ?>
@@ -27,6 +26,7 @@ $labels =
 ?> 
 <?php $__env->startSection('content'); ?>
 <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>" />
+<div class="container">
     <div class="row">
         <div class="col-sm-12">
             <div class="row">
@@ -91,6 +91,7 @@ $labels =
             </div>
         </div>
     </div>
+</div>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script-page'); ?>
 <script>

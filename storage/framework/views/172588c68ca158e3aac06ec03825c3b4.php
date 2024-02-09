@@ -7,25 +7,26 @@
 
 <?php $__env->stopSection(); ?>
 <?php
+
     $plansettings = App\Models\Utility::plansettings();
     $setting = App\Models\Utility::settings();
     $type_arr= explode(',',$setting['event_type']);
     $type_arr = array_combine($type_arr, $type_arr);
     $venue = explode(',',$setting['venue']);
+    $function = explode(',',$setting['function']);
     $meal = ['Formal Plated' ,'Buffet Style' , 'Family Style'];
     $bar = ['Open Bar', 'Cash Bar', 'Package Choice'];
     $platinum = ['Platinum - 4 Hours', 'Platinum - 3 Hours', 'Platinum - 2 Hours'];
     $gold = ['Gold - 4 Hours', 'Gold - 3 Hours', 'Gold - 2 Hours'];
     $silver = ['Silver - 4 Hours', 'Silver - 3 Hours', 'Silver - 2 Hours'];
     $beer = ['Beer & Wine - 4 Hours', 'Beer & Wine - 3 Hours', 'Beer & Wine - 2 Hours'];
-  
 ?>
 <?php $__env->startSection('content'); ?>
 <style>
     .floorimages{
-        height: 183px;
-        width: 256px;
-        margin: 26px;
+        height: 400px;
+    width: 600px;
+    margin: 26px;
     }
 
     .selected-image {
@@ -50,11 +51,12 @@
     transform: scale(1.2); 
     }
 </style>
+
 <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>" />
     <div class="row">
         <div class="col-sm-12">
             <div class="row">
-                <!-- <div class="col-xl-3">
+                <div class="col-xl-2">
                     <div class="card sticky-top" style="top:30px">
                         <div class="list-group list-group-flush" id="useradd-sidenav">
                             <a href="#useradd-1" class="list-group-item list-group-item-action"><?php echo e(__('Event')); ?> <div
@@ -67,8 +69,8 @@
                                     class="float-end"><i class="ti ti-chevron-right"></i></div></a>          
                         </div>
                     </div>
-                </div> -->
-                <div class="col-xl-12">
+                </div>
+                <div class="col-xl-10">
                     <?php echo e(Form::open(['url' => 'meeting', 'method' => 'post', 'enctype' => 'multipart/form-data','id'=>'formdata'] )); ?>
 
                     <div id="useradd-1" class="card"> 
@@ -487,12 +489,11 @@ unset($__errorArgs, $__bag); ?>
                                     <div class="col-12">
                                         <div class="row">
                                             <label><b>Setup</b></label>
-                                            <?php $__currentLoopData = File::files(public_path('floor_images')); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <div class="col-6">    
-                                                    <input type="radio" id="image_<?php echo e($loop->index); ?>" name="uploadedImage" class="form-check-input " value="<?php echo e(asset('floor_images/' . basename($image))); ?>" style="display:none;">
+                                            <?php $__currentLoopData = $setup; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $s): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <div class="col-6  mt-4">    
+                                                    <input type="radio" id="image_<?php echo e($loop->index); ?>" name="uploadedImage" class="form-check-input " value="<?php echo e(asset('floor_images/' . $s->image)); ?>" style="display:none;">
                                                     <label for="image_<?php echo e($loop->index); ?>" class="form-check-label">
-                                                        <img src="<?php echo e(asset('floor_images/'. basename($image))); ?>" alt="Uploaded Image" class="img-thumbnail floorimages zoom">
-                                                        <!-- <i class="ti ti-trash" data-image="<?php echo e(basename($image)); ?>" onclick="deleteImage(this)"></i> -->
+                                                        <img src="<?php echo e(asset('floor_images/'.$s->image)); ?>" alt="Uploaded Image" class="img-thumbnail floorimages zoom"data-bs-toggle="tooltip" title="<?php echo e($s->Description); ?>" >
                                                     </label>
                                                 </div>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

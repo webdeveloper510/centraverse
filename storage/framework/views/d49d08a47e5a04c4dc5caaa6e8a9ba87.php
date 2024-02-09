@@ -143,7 +143,7 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
         </div>
     </nav>
 </div>
-<!-- <nav class="navbar navbar-expand-lg navbar-light bg-light"> -->
+    <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light"> -->
         <!-- <div class="container-fluid">
             <a href="#" class="navbar-brand">
                 <img src="https://www.tutorialrepublic.com/examples/images/logo.svg" height="28" alt="CoolBrand">
@@ -168,64 +168,64 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
             </div>
         </div>
     </nav> -->
-        <!-- <div class="header-wrapper">
-            <div class="me-auto dash-mob-drp">
-                <ul class="list-unstyled" >
-                    <li class="dash-h-item mob-hamburger">
-                        <a href="#" class="nav-link nav-link-icon sidenav-toggler" data-action="sidenav-pin"
-                            data-target="#sidenav-main"></a>
-                        <a href="#!" class="dash-head-link" id="mobile-collapse">
-                            <div class="hamburger hamburger--arrowturn">
-                                <div class="hamburger-box">
-                                    <div class="hamburger-inner"></div>
-                                </div>
+    <!-- <div class="header-wrapper">
+        <div class="me-auto dash-mob-drp">
+            <ul class="list-unstyled" >
+                <li class="dash-h-item mob-hamburger">
+                    <a href="#" class="nav-link nav-link-icon sidenav-toggler" data-action="sidenav-pin"
+                        data-target="#sidenav-main"></a>
+                    <a href="#!" class="dash-head-link" id="mobile-collapse">
+                        <div class="hamburger hamburger--arrowturn">
+                            <div class="hamburger-box">
+                                <div class="hamburger-inner"></div>
                             </div>
-                        </a>
-                    </li>
-                    <li class="dropdown dash-h-item drp-company">
-                        <a class="dash-head-link dropdown-toggle arrow-none me-0" data-target="#sidenav-main"
-                            data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                            <span class="theme-avtar">
-                                <?php
-                                    $profile = \App\Models\Utility::get_file('upload/profile/');
-                                ?>
-                                <?php if(\Request::route()->getName() == 'chats'): ?>
-                                    <img class="rounded-circle"
-                                        src="<?php echo e(!empty($users->avatar) ? $users->avatar : 'avatar.png'); ?>" style="width:30px;">
-                                <?php else: ?>
-                                    <img class="rounded-circle"
-                                        <?php if($users->avatar): ?> src="<?php echo e($profile); ?><?php echo e(!empty($users->avatar) ? $users->avatar : 'avatar.png'); ?>" <?php else: ?> src="<?php echo e($profile . 'avatar.png'); ?>" <?php endif; ?>
-                                                            alt="<?php echo e($users->name); ?>"style="width:30px;">
-                                <?php endif; ?>
-                            </span>
-                            <span class="hide-mob ms-2"><?php echo e(__('Hi')); ?>, <?php echo e($users->name); ?></span>
-                            <i class="ti ti-chevron-down drp-arrow nocolor hide-mob"></i>
-                        </a>
-                        <div class="dropdown-menu dash-h-dropdown">
-
-                            <a href="<?php echo e(route('profile')); ?>" class="dropdown-item">
-                                <i class="ti ti-user"></i>
-                                <span><?php echo e(__('Profile')); ?></span>
-                            </a>
-                            <a href="<?php echo e(route('logout')); ?>"
-                                onclick="event.preventDefault(); document.getElementById('frm-logout').submit();"
-                                class="dropdown-item">
-                                <i class="ti ti-power"></i>
-                                <span><?php echo e(__('Logout')); ?></span>
-                            </a>
-                            <form id="frm-logout" action="<?php echo e(route('logout')); ?>" method="POST" class="d-none">
-                                <?php echo e(csrf_field()); ?>
-
-                            </form>
                         </div>
-                    </li>
-                </ul>
-            </div>
-            <div class="ms-auto">
-                <ul class="list-unstyled">
-               
-                </ul>
-            </div>
-        </div> -->
+                    </a>
+                </li>
+                <li class="dropdown dash-h-item drp-company">
+                    <a class="dash-head-link dropdown-toggle arrow-none me-0" data-target="#sidenav-main"
+                        data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                        <span class="theme-avtar">
+                            <?php
+                                $profile = \App\Models\Utility::get_file('upload/profile/');
+                            ?>
+                            <?php if(\Request::route()->getName() == 'chats'): ?>
+                                <img class="rounded-circle"
+                                    src="<?php echo e(!empty($users->avatar) ? $users->avatar : 'avatar.png'); ?>" style="width:30px;">
+                            <?php else: ?>
+                                <img class="rounded-circle"
+                                    <?php if($users->avatar): ?> src="<?php echo e($profile); ?><?php echo e(!empty($users->avatar) ? $users->avatar : 'avatar.png'); ?>" <?php else: ?> src="<?php echo e($profile . 'avatar.png'); ?>" <?php endif; ?>
+                                                        alt="<?php echo e($users->name); ?>"style="width:30px;">
+                            <?php endif; ?>
+                        </span>
+                        <span class="hide-mob ms-2"><?php echo e(__('Hi')); ?>, <?php echo e($users->name); ?></span>
+                        <i class="ti ti-chevron-down drp-arrow nocolor hide-mob"></i>
+                    </a>
+                    <div class="dropdown-menu dash-h-dropdown">
+
+                        <a href="<?php echo e(route('profile')); ?>" class="dropdown-item">
+                            <i class="ti ti-user"></i>
+                            <span><?php echo e(__('Profile')); ?></span>
+                        </a>
+                        <a href="<?php echo e(route('logout')); ?>"
+                            onclick="event.preventDefault(); document.getElementById('frm-logout').submit();"
+                            class="dropdown-item">
+                            <i class="ti ti-power"></i>
+                            <span><?php echo e(__('Logout')); ?></span>
+                        </a>
+                        <form id="frm-logout" action="<?php echo e(route('logout')); ?>" method="POST" class="d-none">
+                            <?php echo e(csrf_field()); ?>
+
+                        </form>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="ms-auto">
+            <ul class="list-unstyled">
+            
+            </ul>
+        </div>
+    </div> -->
       
     </header><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/partials/admin/header.blade.php ENDPATH**/ ?>

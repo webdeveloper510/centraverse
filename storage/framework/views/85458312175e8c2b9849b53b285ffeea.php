@@ -33,6 +33,7 @@
     <!-- [ Header ] end -->
 
     <!-- [ Main Content ] start -->
+
     <div class="page-content">
         <?php echo $__env->make('partials.admin.content', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     </div>
