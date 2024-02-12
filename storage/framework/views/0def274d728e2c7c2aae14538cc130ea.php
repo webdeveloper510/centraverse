@@ -187,20 +187,35 @@
         margin-bottom: 0 !important;
     }
 </style>
+
+
+<?php $__env->startPush('script-page'); ?>
+ <script>
+    $(document).ready(function() {
+        $('#collapse-sidebar-btn').click(function() {
+            $('#sidebar').toggleClass('collapsed');
+            $('#collapse-sidebar-btn i').toggleClass('ti-arrow-left ti-arrow-right');
+
+            // Toggle main content width
+            $('.main-content').toggleClass('col-md-12 col-md-10');
+        });
+    });
+</script>
+
+<?php $__env->stopPush(); ?>
 <div class="container-field">
     <div class="row">
         <div class="col-sm-2">
-            <div class="card sticky-top" style="top:30px">
+        <div class="card sticky-top" style="top:30px">
                 <div class="list-group list-group-flush" id="useradd-sidenav">
                     <a href="#useradd-1" class="list-group-item list-group-item-action"><?php echo e(__('Dashboard')); ?> <div
                             class="float-end"><i class="ti ti-chevron-right"></i></div></a>  
                 </div>
-            </div>
+            </div> 
         </div>
-        <div class="col-sm-10">
+        <div class="col-sm-10  main-content">
             <div class="row">
             
-                <!-- [ sample-page ] start -->
                 <div class="col-sm-12" id = "useradd-1">
                     <div class="row">
                         <?php if(\Auth::user()->type == 'owner'): ?>
@@ -268,9 +283,7 @@
                         $setting = App\Models\Utility::settings();
                         ?>
                     </div>
-                    <!-- [ sample-page ] end -->
                 </div>
-                <!-- [ Main Content ] end -->
             </div>
             <div class="blockd_dates">
                 <?php $__currentLoopData = $blockeddate; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -303,7 +316,6 @@
                     </div>
                 </div>
 
-                <!-- [ sample-page ] end -->
             </div>
         </div>
     </div>

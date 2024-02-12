@@ -190,12 +190,5 @@
 </div>
 </div>
 
-<script>
-$(document).ready(function () {
-    $('#formdata').submit(function () {
-        $("#loader").show(); 
-    });
-})
-</script>
 
 {{Form::close()}}

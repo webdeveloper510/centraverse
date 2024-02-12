@@ -242,14 +242,6 @@ unset($__errorArgs, $__bag); ?>
 </div>
 </div>
 
-<script>
-$(document).ready(function () {
-    $('#formdata').submit(function () {
-        $("#loader").show(); 
-    });
-})
-</script>
-
 <?php echo e(Form::close()); ?>
 
 <?php /**PATH C:\xampp\htdocs\centraverse\resources\views/lead/create.blade.php ENDPATH**/ ?>

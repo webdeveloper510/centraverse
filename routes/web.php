@@ -946,7 +946,7 @@ Route::group(['middleware' => ['verified']], function () {
         function(){
             Route::get('customer', [CustomerInformation::class, 'index'])->name('customer.index')->middleware(['auth', 'XSS']);
             Route::post('customer', [CustomerInformation::class, 'sendmail'])->name('customer.sendmail')->middleware(['auth', 'XSS']);
-
+            Route::post('campaign-type',[CustomerInformation::class,'campaigntype'])->name('auto.campaign_type');
         }
     );
     Route::group(
@@ -1227,7 +1227,9 @@ Route::group(['middleware' => ['verified']], function () {
     Route::post('setting/buffer', [SettingController::class, 'buffertime'])->name('buffer.setting');
     Route::post('setting/signature',[SettingController::class,'signature'])->name('authorised.signature');
 
-
+   //=======================================Campaign=======================//
+   Route::post('setting/campaign-type',[SettingController::class,'addcampaigntype'])->name('settings.campaign-type');
+   Route::post('setting/delete-campaign-type', [SettingController::class, 'deletecampaigntype'])->name('settings.delete.campaign-type');
     //========================================================================================//
     Route::any('user-reset-password/{id}', [UserController::class, 'employeePassword'])->name('user.reset');
     Route::post('user-reset-password/{id}', [UserController::class, 'employeePasswordReset'])->name('user.password.update');

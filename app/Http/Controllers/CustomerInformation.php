@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Campaignmail;
+use App\Models\Campaign;
 
 class CustomerInformation extends Controller
 {
@@ -54,5 +55,14 @@ class CustomerInformation extends Controller
               return redirect()->back()->with('error', 'Email Not Sent');
         }
         return redirect()->back()->with('success', 'Email Sent Successfully');
+    }
+    public function campaigntype(Request $request){
+        $type = $request->type;
+        $settings=  Utility::settings();
+        $campaign = explode(',',$settings['campaign_type']);
+        $filteredArray = array_filter($campaign, function($item) use ($type) {
+            return stripos($item, $type) !== false;
+        });
+        return $filteredArray;
     }
 }

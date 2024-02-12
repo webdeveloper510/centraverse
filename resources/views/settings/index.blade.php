@@ -15,6 +15,7 @@ $EmailTemplates = App\Models\EmailTemplate::all();
 $venue = explode(',',$settings['venue']);
 $venue = array_combine($venue,$venue);
 $function = explode(',',$settings['function']);
+$campaign = explode(',',$settings['campaign_type']);
 $file_type = config('files_types');
 
 $local_storage_validation = $settings['local_storage_validation'];
@@ -412,6 +413,9 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                             <div class="float-end"><i class="ti ti-chevron-right"></i></div>
                         </a>
                         <a href="#add-signature" class="list-group-item list-group-item-action border-0">{{ __('Authorised Signature') }}
+                            <div class="float-end"><i class="ti ti-chevron-right"></i></div>
+                        </a>
+                        <a href="#campaign-type" class="list-group-item list-group-item-action border-0">{{ __('Campaign Type') }}
                             <div class="float-end"><i class="ti ti-chevron-right"></i></div>
                         </a>
                         @endif
@@ -5869,27 +5873,27 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                 {{ Form::close() }}
             </div>
             @if(isset($function) && !empty($function))
-            <div class="row mt-3">
-                <div class="form-group col-md-12">
-                    <label class="form-label">Function</label>
-                    <div class="badges">
-                        @foreach ($function as $value)
-                        <span class="badge rounded p-2 m-1 px-3 bg-primary" style="cursor:pointer">
-                            {{ $value }}
-                            @if(Gate::check('Delete Role'))
-                            @can('Delete Role')
-                            <div class="action-btn  ms-2">
-                                <a href="#!" class="mx-3 btn btn-sm  align-items-center text-white venue_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="{{ route('functionedit.setting') }}" data-token="{{ csrf_token() }}">
-                                    <i class="ti ti-trash"></i>
-                                </a>
-                            </div>
-                            @endcan
-                            @endif
-                        </span>
-                        @endforeach
+                <div class="row mt-3">
+                    <div class="form-group col-md-12">
+                        <label class="form-label">Function</label>
+                        <div class="badges">
+                            @foreach ($function as $value)
+                            <span class="badge rounded p-2 m-1 px-3 bg-primary" style="cursor:pointer">
+                                {{ $value }}
+                                @if(Gate::check('Delete Role'))
+                                    @can('Delete Role')
+                                    <div class="action-btn  ms-2">
+                                        <a href="#!" class="mx-3 btn btn-sm  align-items-center text-white venue_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="{{ route('functionedit.setting') }}" data-token="{{ csrf_token() }}">
+                                            <i class="ti ti-trash"></i>
+                                        </a>
+                                    </div>
+                                    @endcan
+                                @endif
+                            </span>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
-            </div>
             @endif
         </div>
     </div>
@@ -6047,7 +6051,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                 <div class="col-6">
                     <div class="form-group">
                         {{ Form::label('buffer_time', __('Add Buffer Time'), ['class' => 'form-label']) }}
-                        {!! Form::input('time', 'buffer_time',null, ['class' => 'form-control', 'required' => 'required']) !!}
+                        {!! Form::input('time', 'buffer_time', $settings['buffer_time'], ['class' => 'form-control', 'required' => 'required']) !!}
                     </div>
                 </div>
                 <div class="col-6">
@@ -6097,6 +6101,52 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
             </div>
         </form>
     </div>
+</div>
+<div id="campaign-type" class="card">
+    <div class="col-md-12">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-lg-8 col-md-8 col-sm-8">
+                    <h5>{{ __('Campaign Type') }}</h5>
+                </div>
+            </div>
+        </div>
+        <form method="POST"  action="{{route('settings.campaign-type')}}"  id='campaign'>
+            @csrf
+            <div class="card-body">
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <div class="form-group">
+                            {{ Form::label('campaign_type', __('Campaign Type'), ['class' => 'form-label']) }}
+                            {!! Form::text('campaign_type',null, ['class' => 'form-control', 'required' => 'required']) !!}
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <input type="submit" value="Save" class="btn-submit btn btn-primary">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    @if(isset($campaign) && !empty($campaign))
+        <div class="row mt-3">
+            <div class="form-group col-md-12">
+                <label class="form-label">Campaign</label>
+                <div class="badges">
+                    @foreach ($campaign as $value)
+                    <span class="badge rounded p-2 m-1 px-3 bg-primary" style="cursor:pointer">
+                        {{ $value }}
+                        <div class="action-btn  ms-2">
+                            <a href="#!" class="mx-3 btn btn-sm  align-items-center text-white campaign_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="{{ route('settings.delete.campaign-type') }}" data-token="{{ csrf_token() }}">
+                                <i class="ti ti-trash"></i>
+                            </a>
+                        </div>
+                    </span>  
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    @endif
 </div>
 @endif
 </div>

@@ -258,7 +258,7 @@
                 success: function(data) {
                     console.log(data);
                     $('#parent_id').empty();
-                    {{-- $('#parent_id').append('<option value="">{{__("Select Parent")}}</option>'); --}}
+                    // {{-- $('#parent_id').append('<option value="">{{__("Select Parent")}}</option>'); --}}
 
                     $.each(data, function(key, value) {
                         $('#parent_id').append('<option value="' + key + '">' + value + '</option>');
@@ -277,11 +277,6 @@
             $("[name='shipping_state']").val($("[name='billing_state']").val());
             $("[name='shipping_country']").val($("[name='billing_country']").val());
             $("[name='shipping_postalcode']").val($("[name='billing_postalcode']").val());
-        });
-        $(document).ready(function () {
-            $('#formdata').submit(function () {
-                $("#loader").show(); 
-            });
         });
     </script>
 @endpush
