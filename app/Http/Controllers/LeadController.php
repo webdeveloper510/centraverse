@@ -458,7 +458,6 @@ class LeadController extends Controller
         $settings = Utility::settings();
         $id = decrypt(urldecode($id));
         $lead = Lead::find($id);
-        $upd = Lead::where('id',$id)->update(['proposal_status' => 1]);
         try {
             config(
                 [
@@ -471,8 +470,8 @@ class LeadController extends Controller
                     'mail.from.name'    => $settings['mail_from_name'],
                 ]
             );
-
             Mail::to('sonali@codenomad.net')->send(new SendPdfEmail($lead));
+            $upd = Lead::where('id',$id)->update(['proposal_status' => 1]);
         } catch (\Exception $e) {
               return response()->json(
                         [
@@ -619,8 +618,13 @@ class LeadController extends Controller
         
                     Mail::to('sonali@codenomad.net')->send(new SendPdfEmail($lead));
                 } catch (\Exception $e) {
-                  
-                      return redirect()->back()->with('success', 'Email Not Sent');
+                    return response()->json(
+                        [
+                            'is_success' => false,
+                            'message' => $e->getMessage(),
+                        ]
+                    );
+                    //   return redirect()->back()->with('success', 'Email Not Sent');
                 }
                 return redirect()->back()->with('success', __('Lead  Resent.'));
             }elseif($status == 3){

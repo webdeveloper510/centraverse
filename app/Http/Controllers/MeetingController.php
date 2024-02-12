@@ -629,13 +629,13 @@ class MeetingController extends Controller
             Mail::to('sonali@codenomad.net')->send(new SendEventMail($meeting));
             $meeting->update(['status'=>1]);
         } catch (\Exception $e) {
-            // return response()->json(
-            //     [
-            //         'is_success' => false,
-            //         'message' => $e->getMessage(),
-            //     ]
-            // );
-            return redirect()->back()->with('error', 'Email Not Sent');
+            return response()->json(
+                [
+                    'is_success' => false,
+                    'message' => $e->getMessage(),
+                ]
+            );
+            // return redirect()->back()->with('error', 'Email Not Sent');
         }
         return redirect()->back()->with('success', 'Email Sent Successfully');
     }
