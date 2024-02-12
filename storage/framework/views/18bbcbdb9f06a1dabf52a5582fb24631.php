@@ -93,20 +93,5 @@
     
     <link rel='stylesheet' href='https://unpkg.com/nprogress@0.2.0/nprogress.css' />
     <?php echo $__env->yieldPushContent('css-page'); ?>
-    <style>
-    #loader img {
-        width: 120px;
-    }
-    #loader {
-        display: block;
-        position: fixed;
-        width: 100%;
-        height: 100%;
-        top: 35%;
-        left: 40%;
-        transform: translate(50px, 50px);
-        z-index: 99999;
-    }
-</style>
 </head>
 <?php /**PATH /home/crmcentraverse/public_html/centraverse/resources/views/partials/admin/head.blade.php ENDPATH**/ ?>

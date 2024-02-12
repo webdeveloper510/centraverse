@@ -342,7 +342,7 @@ class SettingController extends Controller
 
             return redirect()->back()->with('error', __('Permission denied.'));
         }
-        return redirect()->back()->with('success', 'Business setting succefully saved.' . ((isset($result) && $result != 1) ? '<br> <span class="text-danger">' . $result . '</span>' : ''));
+        return redirect()->back()->with('success', 'Business setting  saved.' . ((isset($result) && $result != 1) ? '<br> <span class="text-danger">' . $result . '</span>' : ''));
     }
 
     public function saveCompanySettings(Request $request)
@@ -376,7 +376,7 @@ class SettingController extends Controller
                 );
             }
 
-            return redirect()->back()->with('success', __('Company Setting successfully updated.'));
+            return redirect()->back()->with('success', __('Company Setting  updated.'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -417,7 +417,7 @@ class SettingController extends Controller
                 );
             }
 
-            return redirect()->back()->with('success', __('Email Setting successfully updated.'));
+            return redirect()->back()->with('success', __('Email Setting  updated.'));
         } elseif (\Auth::user()->type == 'owner') {
             $rules = [
                 'mail_driver' => 'required|string|max:50',
@@ -450,7 +450,7 @@ class SettingController extends Controller
                     ]
                 );
             }
-            return redirect()->back()->with('success', __('Email Setting updated successfully'));
+            return redirect()->back()->with('success', __('Email Setting updated '));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -491,7 +491,7 @@ class SettingController extends Controller
                 );
             }
 
-            return redirect()->back()->with('success', __('System Setting successfully updated.'));
+            return redirect()->back()->with('success', __('System Setting  updated.'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -1192,7 +1192,7 @@ class SettingController extends Controller
                 );
             }
         }
-        return redirect()->back()->with('success', __('Twillio Settings updated successfully.'));
+        return redirect()->back()->with('success', __('Twillio Settings updated .'));
     }
 
     public function recaptchaSettingStore(Request $request)
@@ -1565,7 +1565,7 @@ class SettingController extends Controller
                     $updated_at,
                 ]);
         }
-        return redirect()->back()->with('success', __('Event Type Added successfully.'));
+        return redirect()->back()->with('success', __('Event Type Added.'));
        
     }
 
@@ -1615,7 +1615,7 @@ class SettingController extends Controller
                     $updated_at,
                 ]);
         }
-        return redirect()->back()->with('success', __('Venue Added successfully.'));
+        return redirect()->back()->with('success', __('Venue Added.'));
        
     }
     public function delete_venue(Request $request){
@@ -1650,7 +1650,7 @@ class SettingController extends Controller
         $setup['image'] = $imageName;
         $setup['description'] = $request->description;
         $setup->save();
-        return redirect()->back()->with('success', __('Setup Successfully Uploaded'));
+        return redirect()->back()->with('success', __('Setup  Uploaded'));
     }
 
     public function deleteImage(Request $request)
@@ -1714,7 +1714,7 @@ class SettingController extends Controller
                     $updated_at,
                 ]);
         }
-        return redirect()->back()->with('success', __('Buffer  Added successfully.'));
+        return redirect()->back()->with('success', __('Buffer  Added .'));
     }
     public function billing_cost(Request $request){
         $bill= FixedBill::where('venue',$request->venue)->exists(); 
@@ -1760,7 +1760,7 @@ class SettingController extends Controller
         //     'classic_brunch'=>$request->food,
         //     'gold_2hrs'=>$request->bar_package
         // ]);
-        return redirect()->back()->with('success', __('Billing Cost Successfully saved'));;
+        return redirect()->back()->with('success', __('Billing Cost  Saved'));;
     } 
     public function signature(Request $request){
         if(\File::exists(public_path('upload/signature/autorised_signature.png')))
@@ -1808,7 +1808,7 @@ class SettingController extends Controller
                     $updated_at,
                 ]);
         }
-        return redirect()->back()->with('success', __('Function Added successfully.'));
+        return redirect()->back()->with('success', __('Function Added .'));
     }
     public function delete_function(Request $request){
         $user = \Auth::user();
@@ -1820,6 +1820,54 @@ class SettingController extends Controller
         
         DB::table('settings')
         ->where('name','function')
+        ->update([
+            'value' => $newvalue,
+            'created_by'=> $user->id,
+            'created_at' =>$created_at,
+            'updated_at'=>$updated_at
+        ]);
+        return true;
+    }
+    public function addcampaigntype(Request $request){
+        $user = \Auth::user();
+        $inputValue =  $request->input('campaign_type');
+        $settings = Utility::settings();
+        $created_at = $updated_at = date('Y-m-d H:i:s');
+        $existingValue = $settings['campaign_type'] ?? '';
+        $newValue = $existingValue . ($existingValue ? ',' : '') . $inputValue;
+        if(isset($settings['campaign_type']) && !empty($settings['campaign_type'])){
+            DB::table('settings')
+                ->where('name','campaign_type')
+                ->update([
+                    'value' => $newValue,
+                    'created_by'=> $user->id,
+                    'created_at' =>$created_at,
+                    'updated_at'=>$updated_at
+                ]);
+        }
+        else{
+            \DB::insert(
+                'INSERT INTO settings (`value`, `name`,`created_by`,`created_at`,`updated_at`) values (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`), `updated_at` = VALUES(`updated_at`) ',
+                [
+                    $inputValue,
+                    'campaign_type',
+                    $user->id,
+                    $created_at,
+                    $updated_at,
+                ]);
+        }
+        return redirect()->back()->with('success', __('Campaign Added.'));
+    }
+    public function deletecampaigntype(Request $request){
+        $user = \Auth::user();
+        $setting = Utility::settings();
+        $existingValues = explode(',', $setting['campaign_type']);
+        $updatedValues = array_diff($existingValues, [$request->badge]);
+        $newvalue = implode(',', $updatedValues);
+        $created_at = $updated_at = date('Y-m-d H:i:s');
+        
+        DB::table('settings')
+        ->where('name','campaign_type')
         ->update([
             'value' => $newvalue,
             'created_by'=> $user->id,

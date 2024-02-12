@@ -30,10 +30,10 @@
 <div class="row">
         <div class="col-sm-12">
             <div class="row">
-            <div class="col-xl-2">
+                <div class="col-xl-2">
                     <div class="card sticky-top" style="top:30px">
                         <div class="list-group list-group-flush" id="useradd-sidenav">
-                            <a href="#useradd-1" class="list-group-item list-group-item-action"><?php echo e(__('Lead')); ?> <div
+                            <a href="#useradd-1" class="list-group-item list-group-item-action"><?php echo e(__('Edit Lead')); ?> <div
                                     class="float-end"><i class="ti ti-chevron-right"></i></div></a>
                         </div>
                     </div>
@@ -310,7 +310,7 @@ unset($__errorArgs, $__bag); ?>
                 success: function(data) {
                     console.log(data);
                     $('#parent_id').empty();
-                    
+                    // 
 
                     $.each(data, function(key, value) {
                         $('#parent_id').append('<option value="' + key + '">' + value + '</option>');
@@ -329,11 +329,6 @@ unset($__errorArgs, $__bag); ?>
             $("[name='shipping_state']").val($("[name='billing_state']").val());
             $("[name='shipping_country']").val($("[name='billing_country']").val());
             $("[name='shipping_postalcode']").val($("[name='billing_postalcode']").val());
-        });
-        $(document).ready(function () {
-            $('#formdata').submit(function () {
-                $("#loader").show(); 
-            });
         });
     </script>
 <?php $__env->stopPush(); ?>

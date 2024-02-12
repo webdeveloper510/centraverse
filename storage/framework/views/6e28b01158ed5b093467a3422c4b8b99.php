@@ -15,6 +15,7 @@ $EmailTemplates = App\Models\EmailTemplate::all();
 $venue = explode(',',$settings['venue']);
 $venue = array_combine($venue,$venue);
 $function = explode(',',$settings['function']);
+$campaign = explode(',',$settings['campaign_type']);
 $file_type = config('files_types');
 
 $local_storage_validation = $settings['local_storage_validation'];
@@ -425,6 +426,10 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                             <div class="float-end"><i class="ti ti-chevron-right"></i></div>
                         </a>
                         <a href="#add-signature" class="list-group-item list-group-item-action border-0"><?php echo e(__('Authorised Signature')); ?>
+
+                            <div class="float-end"><i class="ti ti-chevron-right"></i></div>
+                        </a>
+                        <a href="#campaign-type" class="list-group-item list-group-item-action border-0"><?php echo e(__('Campaign Type')); ?>
 
                             <div class="float-end"><i class="ti ti-chevron-right"></i></div>
                         </a>
@@ -6083,28 +6088,28 @@ unset($__errorArgs, $__bag); ?>
 
             </div>
             <?php if(isset($function) && !empty($function)): ?>
-            <div class="row mt-3">
-                <div class="form-group col-md-12">
-                    <label class="form-label">Function</label>
-                    <div class="badges">
-                        <?php $__currentLoopData = $function; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <span class="badge rounded p-2 m-1 px-3 bg-primary" style="cursor:pointer">
-                            <?php echo e($value); ?>
+                <div class="row mt-3">
+                    <div class="form-group col-md-12">
+                        <label class="form-label">Function</label>
+                        <div class="badges">
+                            <?php $__currentLoopData = $function; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <span class="badge rounded p-2 m-1 px-3 bg-primary" style="cursor:pointer">
+                                <?php echo e($value); ?>
 
-                            <?php if(Gate::check('Delete Role')): ?>
-                            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Delete Role')): ?>
-                            <div class="action-btn  ms-2">
-                                <a href="#!" class="mx-3 btn btn-sm  align-items-center text-white venue_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="<?php echo e(route('functionedit.setting')); ?>" data-token="<?php echo e(csrf_token()); ?>">
-                                    <i class="ti ti-trash"></i>
-                                </a>
-                            </div>
-                            <?php endif; ?>
-                            <?php endif; ?>
-                        </span>
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                <?php if(Gate::check('Delete Role')): ?>
+                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Delete Role')): ?>
+                                    <div class="action-btn  ms-2">
+                                        <a href="#!" class="mx-3 btn btn-sm  align-items-center text-white venue_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="<?php echo e(route('functionedit.setting')); ?>" data-token="<?php echo e(csrf_token()); ?>">
+                                            <i class="ti ti-trash"></i>
+                                        </a>
+                                    </div>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                            </span>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </div>
                     </div>
                 </div>
-            </div>
             <?php endif; ?>
         </div>
     </div>
@@ -6293,7 +6298,7 @@ unset($__errorArgs, $__bag); ?>
                     <div class="form-group">
                         <?php echo e(Form::label('buffer_time', __('Add Buffer Time'), ['class' => 'form-label'])); ?>
 
-                        <?php echo Form::input('time', 'buffer_time',null, ['class' => 'form-control', 'required' => 'required']); ?>
+                        <?php echo Form::input('time', 'buffer_time', $settings['buffer_time'], ['class' => 'form-control', 'required' => 'required']); ?>
 
                     </div>
                 </div>
@@ -6348,6 +6353,55 @@ unset($__errorArgs, $__bag); ?>
             </div>
         </form>
     </div>
+</div>
+<div id="campaign-type" class="card">
+    <div class="col-md-12">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-lg-8 col-md-8 col-sm-8">
+                    <h5><?php echo e(__('Campaign Type')); ?></h5>
+                </div>
+            </div>
+        </div>
+        <form method="POST"  action="<?php echo e(route('settings.campaign-type')); ?>"  id='campaign'>
+            <?php echo csrf_field(); ?>
+            <div class="card-body">
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <?php echo e(Form::label('campaign_type', __('Campaign Type'), ['class' => 'form-label'])); ?>
+
+                            <?php echo Form::text('campaign_type',null, ['class' => 'form-control', 'required' => 'required']); ?>
+
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <input type="submit" value="Save" class="btn-submit btn btn-primary">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <?php if(isset($campaign) && !empty($campaign)): ?>
+        <div class="row mt-3">
+            <div class="form-group col-md-12">
+                <label class="form-label">Campaign</label>
+                <div class="badges">
+                    <?php $__currentLoopData = $campaign; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <span class="badge rounded p-2 m-1 px-3 bg-primary" style="cursor:pointer">
+                        <?php echo e($value); ?>
+
+                        <div class="action-btn  ms-2">
+                            <a href="#!" class="mx-3 btn btn-sm  align-items-center text-white campaign_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="<?php echo e(route('settings.delete.campaign-type')); ?>" data-token="<?php echo e(csrf_token()); ?>">
+                                <i class="ti ti-trash"></i>
+                            </a>
+                        </div>
+                    </span>  
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
 </div>
 <?php endif; ?>
 </div>

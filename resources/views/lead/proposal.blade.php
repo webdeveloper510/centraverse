@@ -419,24 +419,8 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
     </div>
 </body>
 </html>
-        <div id = "loader" style = "display:none">
-            <img src = "{{asset('assets/loader/loader.webp')}}"  >
-        </div>
+      
 <style>
-  
-    #loader img {
-            width: 120px;
-    }
-    #loader {
-        display: block;
-        position: fixed;
-        width: 100%;
-        height: 100%;
-        top: 35%;
-        left: 40%;
-        transform: translate(50px, 50px);
-        z-index: 99999;
-    }
     canvas#signatureCanvas {
         border: 1px solid black;
         width: 60%;
@@ -463,13 +447,6 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
             } else {
                document.getElementById('imageData').value = '';
             }
-        });
-    });
-</script>
-<script>
-    $(document).ready(function () {
-        $('#formdata').submit(function () {
-            $("#loader").show(); 
         });
     });
 </script>

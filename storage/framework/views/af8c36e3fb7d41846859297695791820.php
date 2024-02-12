@@ -331,11 +331,6 @@ unset($__errorArgs, $__bag); ?>
             $("[name='shipping_country']").val($("[name='billing_country']").val());
             $("[name='shipping_postalcode']").val($("[name='billing_postalcode']").val());
         });
-        $(document).ready(function () {
-            $('#formdata').submit(function () {
-                $("#loader").show(); 
-            });
-        });
     </script>
 <?php $__env->stopPush(); ?>
 

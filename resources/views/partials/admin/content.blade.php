@@ -31,9 +31,6 @@
         <!-- [ breadcrumb ] end -->
         <!-- [ Main Content ] start -->
         @yield('content')
-        <div id = "loader" style = "display:none">
-            <img src = "{{asset('assets/loader/loader.webp')}}"  >
-        </div>
     </div>
 </div>
 

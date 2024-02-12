@@ -92,19 +92,4 @@
     {{-- styles --}}
     <link rel='stylesheet' href='https://unpkg.com/nprogress@0.2.0/nprogress.css' />
     @stack('css-page')
-    <style>
-    #loader img {
-        width: 120px;
-    }
-    #loader {
-        display: block;
-        position: fixed;
-        width: 100%;
-        height: 100%;
-        top: 35%;
-        left: 40%;
-        transform: translate(50px, 50px);
-        z-index: 99999;
-    }
-</style>
 </head>

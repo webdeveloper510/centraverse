@@ -31,9 +31,6 @@
         <!-- [ breadcrumb ] end -->
         <!-- [ Main Content ] start -->
         <?php echo $__env->yieldContent('content'); ?>
-        <div id = "loader" style = "display:none">
-            <img src = "<?php echo e(asset('assets/loader/loader.webp')); ?>"  >
-        </div>
     </div>
 </div>
 

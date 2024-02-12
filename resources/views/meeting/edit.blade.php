@@ -574,12 +574,5 @@
             });
         });
     </script>
-<script>
-$(document).ready(function () {
-    $('#formdata').submit(function () {
-        $("#loader").show(); 
-    });
-})
-</script>
 
 @endpush

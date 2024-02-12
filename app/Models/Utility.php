@@ -158,6 +158,7 @@ class Utility extends Model
             'buffer_time' =>'',
             'buffer_day' =>'',
             'function' =>'',
+            'campaign_type' =>''
            
         ];
 

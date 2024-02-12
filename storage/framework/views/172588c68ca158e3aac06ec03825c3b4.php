@@ -71,6 +71,34 @@
                     </div>
                 </div>
                 <div class="col-xl-10">
+                <div class="col-md-12 card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-lg-8 col-md-8 col-sm-8">
+                                <h5><?php echo e(__('Event')); ?></h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body"> 
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php echo e(Form::label('Select Existing Lead/New Event',__('Select Existing Lead/New Event'),['class'=>'form-label'])); ?>
+
+                                <div class="form-group">
+                                    <?php echo e(Form::radio('newevent',__('Existing Lead'),false)); ?>
+
+                                    <?php echo e(Form::label('newevent','Existing Lead')); ?>
+
+                                    <?php echo e(Form::radio('newevent',__('New Event'),false)); ?>
+
+                                    <?php echo e(Form::label('newevent','New Event')); ?>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div  id ="event_option" style="display: none;">
                     <?php echo e(Form::open(['url' => 'meeting', 'method' => 'post', 'enctype' => 'multipart/form-data','id'=>'formdata'] )); ?>
 
                     <div id="useradd-1" class="card"> 
@@ -78,17 +106,25 @@
                             <div class="card-header">
                                 <div class="row">
                                     <div class="col-lg-8 col-md-8 col-sm-8">
-                                        <h5><?php echo e(__('Event')); ?></h5>
+                                        <h5><?php echo e(__('Create Event')); ?></h5>
                                     </div>
                                 </div>
                             </div>
-                            <div class="card-body"> 
+                            <div class="card-body">  
                                 <div class="row">
-                                    <div class="col-6">
+                                    <div class="col-6" id = "lead_select"style="display: none;">
                                         <div class="form-group">
                                             <?php echo e(Form::label('lead', __('Lead'), ['class' => 'form-label'])); ?>
 
-                                            <?php echo Form::select('lead', $attendees_lead, null, ['class' => 'form-control ','required'=>'required']); ?>
+                                            <?php echo Form::select('lead', $attendees_lead, null, ['class' => 'form-control']); ?>
+
+                                        </div>
+                                    </div>
+                                     <div class="col-6" id = "new_event" style="display: none;">
+                                        <div class="form-group">
+                                            <?php echo e(Form::label('eventname', __('Event Name'), ['class' => 'form-label'])); ?>
+
+                                            <?php echo e(Form::text('eventname',null,array('class'=>'form-control','placeholder'=>__('Enter Event Name')))); ?>
 
                                         </div>
                                     </div>
@@ -526,9 +562,6 @@ unset($__errorArgs, $__bag); ?>
                             <div class="card-body">
                                 <div class ="row">
                                         <div class="form-group">
-                                            <!-- <?php echo Form::checkbox('room', 1, null, ['id'=>'room', 'class' => 'checkbox']); ?>
-
-                                            <?php echo Form::label('room', 'Rooms at the hotel'); ?>  -->
                                             <?php echo e(Form::label('rooms',__('Room'),['class'=>'form-label'])); ?>
 
                                             <input type="number" name="rooms" min = 0 class = "form-control" >    
@@ -669,6 +702,17 @@ unset($__errorArgs, $__bag); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script-page'); ?>
     <script>
+         $('input[name="newevent"]').on('click', function() {
+            $('#lead_select').hide();
+            $('#new_event').hide();
+            $('#event_option').show();
+            var selectedValue =  $(this).val();
+            if(selectedValue == 'Existing Lead'){
+                $('#lead_select').show();
+            }else{
+                $('#new_event').show();
+            }
+      });
         var scrollSpy = new bootstrap.ScrollSpy(document.body, {
             target: '#useradd-sidenav',
             offset: 300
@@ -795,12 +839,5 @@ unset($__errorArgs, $__bag); ?>
             });
         });
     </script>
-    <script>
-        $(document).ready(function () {
-            $('#formdata').submit(function () {
-                $("#loader").show(); 
-            });
-        })
-        </script>
 <?php $__env->stopPush(); ?>
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/crmcentraverse/public_html/centraverse/resources/views/meeting/create.blade.php ENDPATH**/ ?>
