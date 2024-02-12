@@ -60,22 +60,15 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="row">
-                <!-- <div class="col-xl-3">
+                <div class="col-xl-2">
                     <div class="card sticky-top" style="top:30px">
                         <div class="list-group list-group-flush" id="useradd-sidenav">
-                            <a href="#useradd-1" class="list-group-item list-group-item-action"><?php echo e(__('Edit')); ?> <div
+                            <a href="#useradd-1" class="list-group-item list-group-item-action"><?php echo e(__('Review Event')); ?> <div
                                     class="float-end"><i class="ti ti-chevron-right"></i></div></a>
-                            <a href="#event-details" class="list-group-item list-group-item-action"><?php echo e(__('Event Details')); ?> <div
-                                    class="float-end"><i class="ti ti-chevron-right"></i></div></a>
-                            <a href="#special_req" class="list-group-item list-group-item-action"><?php echo e(__('Special Requirements')); ?> <div
-                                    class="float-end"><i class="ti ti-chevron-right"></i></div></a>   
-                            <a href="#other_info" class="list-group-item list-group-item-action"><?php echo e(__('Other Information')); ?> <div
-                                    class="float-end"><i class="ti ti-chevron-right"></i></div></a>          
-                       
                         </div>
                     </div>
-                </div> -->
-                <div class="col-xl-12">
+                </div>
+                <div class="col-xl-10">
                     <?php echo e(Form::model($meeting, ['route' => ['meeting.review_agreement.update', $meeting->id], 'method' => 'POST' ,'id'=> 'formdata'])); ?>
 
                         <div id="useradd-1" class="card"> 

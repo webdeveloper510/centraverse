@@ -24,7 +24,12 @@
   });
 })();
 </script>
-
+<script>
+        var scrollSpy = new bootstrap.ScrollSpy(document.body, {
+            target: '#useradd-sidenav',
+            offset: 300
+        })
+</script>
 <script src="<?php echo e(asset('assets/js/plugins/dropzone-amd-module.min.js')); ?>"></script>
 <script src="<?php echo e(asset('assets/js/plugins/choices.min.js')); ?>"></script>
 

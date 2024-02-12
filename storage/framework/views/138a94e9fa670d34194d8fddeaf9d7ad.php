@@ -60,7 +60,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="row">
-                <!-- <div class="col-xl-3">
+                <div class="col-xl-2">
                     <div class="card sticky-top" style="top:30px">
                         <div class="list-group list-group-flush" id="useradd-sidenav">
                             <a href="#useradd-1" class="list-group-item list-group-item-action"><?php echo e(__('Edit')); ?> <div
@@ -74,8 +74,8 @@
                        
                         </div>
                     </div>
-                </div> -->
-                <div class="col-xl-12">
+                </div>
+                <div class="col-xl-10">
                     <?php echo e(Form::model($meeting, ['route' => ['meeting.update', $meeting->id], 'method' => 'PUT' ,'id'=> 'formdata'])); ?>
 
                         <div id="useradd-1" class="card"> 
@@ -89,6 +89,7 @@
                                 </div>
                                 <div class="card-body"> 
                                     <div class="row">
+                                        <?php if($meeting->attendees_lead != 0 ): ?>
                                         <div class="col-6">
                                             <div class="form-group">
                                                 <?php echo e(Form::label('attendees_lead', __('Lead'), ['class' => 'form-label'])); ?>
@@ -97,6 +98,17 @@
 
                                             </div>
                                         </div>
+                                        <?php else: ?>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <?php echo e(Form::label('eventname', __('Event Name'), ['class' => 'form-label'])); ?>
+
+                                                <?php echo e(Form::text('eventname',$meeting->eventname,array('class'=>'form-control','required'=>'required','readonly'=>'readonly'))); ?>
+
+                                            </div>
+                                        </div>
+                                        <?php endif; ?>
+                                       
                                         <div class="col-6">
                                         <div class="form-group">
                                             <?php echo e(Form::label('Assigned Staff',__('Assigned Staff'),['class'=>'form-label'])); ?>
@@ -407,10 +419,10 @@
                                         <div class="row">
                                             <label><b>Setup</b></label>
                                             <?php $__currentLoopData = $setup; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $s): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <div class="col-6">    
+                                                <div class="col-6  mt-4">    
                                                     <input type="radio" id="image_<?php echo e($loop->index); ?>" name="uploadedImage" class="form-check-input " value="<?php echo e(asset('floor_images/' .$s->image)); ?>"  <?php echo e(asset('floor_images/' .$s->image)==$meeting->floor_plan ? 'checked' : ''); ?> style="display:none">
                                                     <label for="image_<?php echo e($loop->index); ?>" class="form-check-label">
-                                                        <img src="<?php echo e(asset('floor_images/'. $s->image)); ?>" alt="Uploaded Image" class="img-thumbnail floorimages zoom">
+                                                        <img src="<?php echo e(asset('floor_images/'. $s->image)); ?>" alt="Uploaded Image" class="img-thumbnail floorimages zoom"data-bs-toggle="tooltip" title="<?php echo e($s->Description); ?>">
                                                     </label>
                                                 </div>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

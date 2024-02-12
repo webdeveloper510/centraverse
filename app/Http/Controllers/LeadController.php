@@ -438,8 +438,10 @@ class LeadController extends Controller
         $decryptedId = decrypt(urldecode($id));
         $lead = Lead::find($decryptedId);
         $fixed_cost = Billing::first();
+        $settings = Utility::settings();
         $proposal = Proposal::where('lead_id',$decryptedId)->first();
         $data = [
+                'settings'=>$settings,
                 'proposal'=> $proposal,
                 'lead'=>$lead,
                 'billing' => $fixed_cost,
@@ -493,7 +495,7 @@ class LeadController extends Controller
             $lead = Lead::find($id);
             $settings = Utility::settings();
             $venue = explode(',',$settings['venue']);
-            return view('lead.proposal',compact('lead','venue'));
+            return view('lead.proposal',compact('lead','venue','settings'));
         }
     }
     public function proposal_resp(Request $request,$id){
@@ -628,10 +630,18 @@ class LeadController extends Controller
     public function duplicate($id){
         $id = decrypt(urldecode($id));
         $lead = Lead::find($id);
-        $newlead= $lead->replicate();
-        $newlead->proposal_status = 0;
-        $newlead->status = 0;
-        Lead::create($newlead->toArray());
+        $newlead = new Lead();
+        $newlead['user_id']            = Auth::user()->id;
+        $newlead['name']               = $lead->name;
+        $newlead['leadname']          =  $lead->leadname;
+        $newlead['assigned_user']      = $lead->user_id;
+        $newlead['email']              = $lead->email;
+        $newlead['phone']              = $lead->phone;
+        $newlead['lead_address']       = $lead->lead_address;
+        $newlead['company_name']       = $lead->company_name;
+        $newlead['relationship']       = $lead->relationship;
+        $newlead['created_by']         = \Auth::user()->creatorId();
+        $newlead->save();
         return redirect()->back()->with('Success','Lead Cloned successfully');
     }
 }

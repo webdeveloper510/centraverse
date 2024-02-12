@@ -1666,8 +1666,10 @@ class SettingController extends Controller
         }
     }
     public function buffertime(Request $request){
+
         $user = \Auth::user();
         $inputValue =  $request->input('buffer_time');
+        $bufferday =  $request->input('buffer_day');
         $settings = Utility::settings();
         $created_at = $updated_at = date('Y-m-d H:i:s');
         if(isset($settings['buffer_time']) && !empty($settings['buffer_time'])){
@@ -1691,7 +1693,28 @@ class SettingController extends Controller
                     $updated_at,
                 ]);
         }
-        return redirect()->back()->with('success', __('Buffer Time Added successfully.'));
+        if(isset($settings['buffer_day']) && !empty($settings['buffer_day'])){
+            DB::table('settings')
+                ->where('name','buffer_day')
+                ->update([
+                    'value' => $bufferday,
+                    'created_by'=> $user->id,
+                    'created_at' =>$created_at,
+                    'updated_at'=>$updated_at
+                ]);
+        }
+        else{
+            \DB::insert(
+                'INSERT INTO settings (`value`, `name`,`created_by`,`created_at`,`updated_at`) values (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`), `updated_at` = VALUES(`updated_at`) ',
+                [
+                    $bufferday,
+                    'buffer_day',
+                    $user->id,
+                    $created_at,
+                    $updated_at,
+                ]);
+        }
+        return redirect()->back()->with('success', __('Buffer  Added successfully.'));
     }
     public function billing_cost(Request $request){
         $bill= FixedBill::where('venue',$request->venue)->exists(); 

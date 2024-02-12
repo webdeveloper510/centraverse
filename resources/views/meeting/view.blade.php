@@ -3,9 +3,12 @@
     <div class="col-lg-12">
             <div class="">
                 <dl class="row">
-                    <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('Lead Name')}}</span></dt>
+                    <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('Event')}}</span></dt>
+                    @if($meeting->attendees_lead != 0)
                     <dd class="col-md-6"><span class="text-md">{{ !empty($meeting->attendees_leads->leadname)?$meeting->attendees_leads->leadname:'--' }}</span></dd>
-                  
+                  @else
+                  <dd class="col-md-6"><span class="text-md">{{$meeting->eventname}}</span></dd>
+                  @endif
                     <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('Start Date')}}</span></dt>
                     <dd class="col-md-6"><span class="text-md">{{\Auth::user()->dateFormat($meeting->start_date)}}</span></dd>
                    

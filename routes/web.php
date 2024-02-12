@@ -1301,7 +1301,6 @@ Route::group(['middleware' => ['verified']], function () {
     // Route::delete('/projects/{id}/comment/{tid}/file/{fid}', ['as' => 'comment.destroy.file',    'uses' => 'ContractController@commentDestroyFile',]);
     Route::post('/contract/{id}/comment', [ContractController::class, 'commentStore'])->name('comment.store');
     Route::get('/contract/{id}/comment', [ContractController::class, 'commentDestroy'])->name('comment.destroy');
-
     // Storage setting
     Route::post('storage-settings', [SettingController::class, 'storageSettingStore'])->name('storage.setting.store')->middleware(['auth', 'XSS']);
 });
@@ -1322,3 +1321,6 @@ Route::get('/payment-failed',function(){
 });
 
 Route::get('/mail-testing',[MeetingController::class,'mail_testing']);
+
+
+Route::get('/paypal-payment-success',[BillingController::class,'paypalpaymentsuccess']);

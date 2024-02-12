@@ -58,7 +58,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="row">
-                <!-- <div class="col-xl-3">
+                <div class="col-xl-2">
                     <div class="card sticky-top" style="top:30px">
                         <div class="list-group list-group-flush" id="useradd-sidenav">
                             <a href="#useradd-1" class="list-group-item list-group-item-action">{{ __('Edit') }} <div
@@ -72,8 +72,8 @@
                        
                         </div>
                     </div>
-                </div> -->
-                <div class="col-xl-12">
+                </div>
+                <div class="col-xl-10">
                     {{ Form::model($meeting, ['route' => ['meeting.update', $meeting->id], 'method' => 'PUT' ,'id'=> 'formdata']) }}
                         <div id="useradd-1" class="card"> 
                             <div class="col-md-12">
@@ -86,12 +86,22 @@
                                 </div>
                                 <div class="card-body"> 
                                     <div class="row">
+                                        @if($meeting->attendees_lead != 0 )
                                         <div class="col-6">
                                             <div class="form-group">
                                                 {{ Form::label('attendees_lead', __('Lead'), ['class' => 'form-label']) }}
                                                 {{Form::text('attendees_lead',$attendees_lead,array('class'=>'form-control','required'=>'required','readonly'=>'readonly'))}}
                                             </div>
                                         </div>
+                                        @else
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                {{ Form::label('eventname', __('Event Name'), ['class' => 'form-label']) }}
+                                                {{Form::text('eventname',$meeting->eventname,array('class'=>'form-control','required'=>'required','readonly'=>'readonly'))}}
+                                            </div>
+                                        </div>
+                                        @endif
+                                       
                                         <div class="col-6">
                                         <div class="form-group">
                                             {{Form::label('Assigned Staff',__('Assigned Staff'),['class'=>'form-label']) }}

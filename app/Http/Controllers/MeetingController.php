@@ -108,7 +108,7 @@ class MeetingController extends Controller
                 'end_time' => 'required',
                 'start_date' => 'required',
                 'end_date' => 'required',
-                'lead' => 'required|unique:meetings,attendees_lead',
+                'lead' => 'unique:meetings,attendees_lead',
             ]);
             $start_date = $request->input('start_date');
             $end_date = $request->input('end_date');
@@ -184,6 +184,7 @@ class MeetingController extends Controller
             $meeting['alter_relationship']  = $request->alter_relationship;
             $meeting['alter_lead_address']  = $request->alter_lead_address;
             $meeting['attendees_lead']      = $request->lead;
+            $meeting['eventname']      = $request->eventname;
             $meeting['phone']               = $request->phone;
             $meeting['start_time']          = $request->start_time;
             $meeting['end_time']            = $request->end_time;

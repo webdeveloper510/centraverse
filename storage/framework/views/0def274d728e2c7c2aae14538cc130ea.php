@@ -40,7 +40,7 @@
     }
 
     .cmplt {
-        margin-left: 630px;
+        margin-left: 480px;
         margin-top: -206px;
         cursor: pointer;
     }
@@ -54,7 +54,7 @@
     }
 
     .upcmg {
-        margin-left: 251px;
+        margin-left: 150px;
         margin-top: -201px;
         cursor: pointer;
     }
@@ -189,111 +189,123 @@
 </style>
 <div class="container-field">
     <div class="row">
-        <!-- [ sample-page ] start -->
-        <div class="col-sm-12">
+        <div class="col-sm-2">
+            <div class="card sticky-top" style="top:30px">
+                <div class="list-group list-group-flush" id="useradd-sidenav">
+                    <a href="#useradd-1" class="list-group-item list-group-item-action"><?php echo e(__('Dashboard')); ?> <div
+                            class="float-end"><i class="ti ti-chevron-right"></i></div></a>  
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-10">
             <div class="row">
-                <?php if(\Auth::user()->type == 'owner'): ?>
-                <div class="col-xxl-12">
+            
+                <!-- [ sample-page ] start -->
+                <div class="col-sm-12" id = "useradd-1">
                     <div class="row">
+                        <?php if(\Auth::user()->type == 'owner'): ?>
+                        <div class="col-xxl-12">
+                            <div class="row">
 
-                        <div class="col-lg-3 col-6 totallead">
-                            <div class="card">
-                                <div class="card-body" onclick="leads();">
-                                    <div class="theme-avtar bg-info">
-                                        <i class="fas fa-address-card"></i>
+                                <div class="col-lg-3 col-6 totallead">
+                                    <div class="card">
+                                        <div class="card-body" onclick="leads();">
+                                            <div class="theme-avtar bg-info">
+                                                <i class="fas fa-address-card"></i>
+                                            </div>
+                                            <p class="text-muted text-sm mt-4 mb-2"></p>
+                                            <h6 class="mb-3"><?php echo e(__('Total Lead')); ?></h6>
+                                            <h3 class="mb-0"><?php echo e($data['totalLead']); ?></h3>
+                                        </div>
                                     </div>
-                                    <p class="text-muted text-sm mt-4 mb-2"></p>
-                                    <h6 class="mb-3"><?php echo e(__('Total Lead')); ?></h6>
-                                    <h3 class="mb-0"><?php echo e($data['totalLead']); ?></h3>
+                                </div>
+
+                                <div class="col-lg-3 col-6" id="toggleDiv">
+                                    <div class="card">
+                                        <div class="card-body" onclick="toggleOptions()">
+                                            <div class="theme-avtar bg-warning">
+                                                <i class="ti ti-user"></i>
+                                            </div>
+                                            <p class="text-muted text-sm mt-4 mb-2"></p>
+                                            <h6 class="mb-3"><?php echo e(__('Total Events')); ?></h6>
+                                            <h3 class="mb-0"><?php echo e(@$totalevent); ?> </h3>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="optionsContainer" style="display: none;">
+                                    <div class="col-lg-3 col-6 upcmg">
+                                        <div class="card option" onclick="showUpcoming()">
+                                            <div class="card-body" style="height: 182px;">
+                                                <div class="theme-avtar bg-info">
+                                                    <i class="fas fa-address-card"></i>
+                                                </div>
+                                                <p class="text-muted text-sm mt-4 mb-2"></p>
+                                                <h6 class="mb-3"><?php echo e(__('Upcoming Events')); ?></h6>
+                                                <h4 class="mb-0"><?php echo e(@$upcoming); ?></h4>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3 col-6 cmplt">
+                                        <div class="card option" onclick="showCompleted()">
+                                            <div class="card-body" style="height: 182px;">
+                                                <div class="theme-avtar bg-info">
+                                                    <i class="fas fa-address-card"></i>
+                                                </div>
+                                                <p class="text-muted text-sm mt-4 mb-2"></p>
+                                                <h6 class="mb-3"><?php echo e(__('Completed Events')); ?></h6>
+                                                <h4 class="mb-0"><?php echo e(@$completed); ?></h4>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <?php endif; ?>
 
-                        <div class="col-lg-3 col-6" id="toggleDiv">
-                            <div class="card">
-                                <div class="card-body" onclick="toggleOptions()">
-                                    <div class="theme-avtar bg-warning">
-                                        <i class="ti ti-user"></i>
-                                    </div>
-                                    <p class="text-muted text-sm mt-4 mb-2"></p>
-                                    <h6 class="mb-3"><?php echo e(__('Total Events')); ?></h6>
-                                    <h3 class="mb-0"><?php echo e(@$totalevent); ?> </h3>
-                                </div>
-                            </div>
+                        <?php
+                        $setting = App\Models\Utility::settings();
+                        ?>
+                    </div>
+                    <!-- [ sample-page ] end -->
+                </div>
+                <!-- [ Main Content ] end -->
+            </div>
+            <div class="blockd_dates">
+                <?php $__currentLoopData = $blockeddate; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <input type="hidden" name="strt<?php echo e($key); ?>" value="<?php echo e($value->start_date); ?>">
+                <input type="hidden" name="end<?php echo e($key); ?>" value="<?php echo e($value->end_date); ?>">
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            </div>
+
+            <div class="row checkbox-new">
+                <div class="col-lg-4">
+                    <div data-colorCST="red" class="checkbox"><b>COMPLETED EVENTS</b></div>
+                </div>
+                <div class="col-lg-4">
+                    <div data-colorCST="red" class="checkbox1"><b>UPCOMING EVENTS</b></div>
+                </div>
+                <div class="col-lg-4">
+                    <div data-colorCST="red" class="checkbox2"><b>BLOCKED DATES</b></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 style="width: 150px;"><?php echo e(__('Calendar')); ?></h5>
+                            <input type="hidden" id="path_admin" value="<?php echo e(url('/')); ?>">
                         </div>
-
-                        <div id="optionsContainer" style="display: none;">
-                            <div class="col-lg-3 col-6 upcmg">
-                                <div class="card option" onclick="showUpcoming()">
-                                    <div class="card-body" style="height: 182px;">
-                                        <div class="theme-avtar bg-info">
-                                            <i class="fas fa-address-card"></i>
-                                        </div>
-                                        <p class="text-muted text-sm mt-4 mb-2"></p>
-                                        <h6 class="mb-3"><?php echo e(__('Upcoming Events')); ?></h6>
-                                        <h4 class="mb-0"><?php echo e(@$upcoming); ?></h4>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-3 col-6 cmplt">
-                                <div class="card option" onclick="showCompleted()">
-                                    <div class="card-body" style="height: 182px;">
-                                        <div class="theme-avtar bg-info">
-                                            <i class="fas fa-address-card"></i>
-                                        </div>
-                                        <p class="text-muted text-sm mt-4 mb-2"></p>
-                                        <h6 class="mb-3"><?php echo e(__('Completed Events')); ?></h6>
-                                        <h4 class="mb-0"><?php echo e(@$completed); ?></h4>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="card-body">
+                            <div id='calendar' class='calendar'></div>
                         </div>
                     </div>
                 </div>
-                <?php endif; ?>
 
-                <?php
-                $setting = App\Models\Utility::settings();
-                ?>
-            </div>
-            <!-- [ sample-page ] end -->
-        </div>
-        <!-- [ Main Content ] end -->
-    </div>
-
-    <div class="blockd_dates">
-        <?php $__currentLoopData = $blockeddate; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-        <input type="hidden" name="strt<?php echo e($key); ?>" value="<?php echo e($value->start_date); ?>">
-        <input type="hidden" name="end<?php echo e($key); ?>" value="<?php echo e($value->end_date); ?>">
-        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-    </div>
-
-    <div class="row checkbox-new">
-        <div class="col-lg-4">
-            <div data-colorCST="red" class="checkbox"><b>COMPLETED EVENTS</b></div>
-        </div>
-        <div class="col-lg-4">
-            <div data-colorCST="red" class="checkbox1"><b>UPCOMING EVENTS</b></div>
-        </div>
-        <div class="col-lg-4">
-            <div data-colorCST="red" class="checkbox2"><b>BLOCKED DATES</b></div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header">
-                    <h5 style="width: 150px;"><?php echo e(__('Calendar')); ?></h5>
-                    <input type="hidden" id="path_admin" value="<?php echo e(url('/')); ?>">
-                </div>
-                <div class="card-body">
-                    <div id='calendar' class='calendar'></div>
-                </div>
+                <!-- [ sample-page ] end -->
             </div>
         </div>
-
-        <!-- [ sample-page ] end -->
     </div>
 </div>
 <div id="overlay"></div>

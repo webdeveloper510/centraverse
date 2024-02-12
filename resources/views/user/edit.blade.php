@@ -4,11 +4,12 @@
 @endsection
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Home') }}</a></li>
-    <li class="breadcrumb-item"><a href="{{ route('user.index') }}">{{ __('User') }}</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('settings') }}">{{ __('Settings') }}</a></li>
+    <li class="breadcrumb-item">{{ __('User') }}</li>
     <li class="breadcrumb-item">{{ __('Edit') }}</li>
 @endsection
 @section('action-btn')
-    <div class="btn-group" role="group">
+    <!-- <div class="btn-group" role="group">
         @if (!empty($previous))
             <div class="action-btn ms-2">
                 <a href="{{ route('user.edit', $previous) }}" class="btn btn-sm btn-primary btn-icon m-1"
@@ -39,7 +40,7 @@
                 </a>
             </div>
         @endif
-    </div>
+    </div> -->
 @endsection
 @section('title')
     <div class="d-inline-block">
@@ -52,8 +53,15 @@
         <!-- [ sample-page ] start -->
         <div class="col-sm-12">
             <div class="row">
-              
-                <div class="col-xl-12">
+            <div class="col-xl-2">
+                    <div class="card sticky-top" style="top:30px">
+                        <div class="list-group list-group-flush" id="useradd-sidenav">
+                            <a href="#useradd-1" class="list-group-item list-group-item-action">{{ __('Edit User') }} <div
+                                    class="float-end"><i class="ti ti-chevron-right"></i></div></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-10">
                     <div id="useradd-1" class="card">
                         {{ Form::model($user, ['route' => ['user.update', $user->id], 'method' => 'PUT']) }}
                         <div class="card-header">

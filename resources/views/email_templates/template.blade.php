@@ -3,7 +3,6 @@
 @section('page-title')
     {{ __('Email Templates') }}
 @endsection
-
 @section('title')
     {{ __('Email Templates') }}
 @endsection
@@ -39,14 +38,19 @@
 @endpush
 @section('content')
 <div class="row">
-
         <div class="col-12">
             <div class="row">
-
+            <div class="col-xl-2">
+                <div class="card sticky-top" style="top:30px">
+                    <div class="list-group list-group-flush" id="useradd-sidenav">
+                        <a href="#useradd-1" class="list-group-item list-group-item-action">{{ __('Create Template') }} <div
+                                class="float-end"><i class="ti ti-chevron-right"></i></div></a>
+                    </div>
+                </div>
             </div>
-            <div class="card">
+            <div class="col-xl-10">
+            <div class="card" id = "useradd-1">
                 <div class="card-body">
-
                     <div class="language-wrap">
                         <div class="row">
                             <div class="col-lg-12 col-md-9 col-sm-12 language-form-wrap">

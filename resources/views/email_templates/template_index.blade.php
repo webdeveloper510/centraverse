@@ -20,7 +20,18 @@
 @section('content')
 <div class="row">
     <div class="col-xl-12">
-        <div class="card">
+        <div class="row">
+        <div class="col-xl-2">
+                <div class="card sticky-top" style="top:30px">
+                    <div class="list-group list-group-flush" id="useradd-sidenav">
+                        <a href="#useradd-1" class="list-group-item list-group-item-action">{{ __('Template') }} <div
+                                class="float-end"><i class="ti ti-chevron-right"></i></div></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-10">
+       
+        <div class="card" id ="useradd-1">
             <div class="card-body table-border-style">
                 <div class="table-responsive">
                     <table class="table datatable" id="datatable">
@@ -54,6 +65,7 @@
                     </table>
                 </div>
             </div>
+        </div>
         </div>
     </div>
 </div>

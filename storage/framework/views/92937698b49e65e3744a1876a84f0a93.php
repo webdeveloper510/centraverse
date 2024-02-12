@@ -17,62 +17,75 @@
 
 <div class="main-div">
     <div class="row mt-3">
-        <div class="col-sm-10">
-            <!-- <div class="form-group" > -->
-            <select class="form-select" name="template">
-                <option selected disabled>Select Template</option>
-                <?php $__currentLoopData = $emailtemplates; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $template): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <option value="<?php echo e($template->id); ?>"><?php echo e($template->subject); ?></option>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-            </select>
-        </div>
-        <div class="col-sm-2">
-            <input type="submit" class="btn btn-primary" value="Send Email">
-        </div>
-    </div>
-    <div class="row">
         <div class="col-sm-12">
-            <div class="card">
-                <div class="card-body table-border-style">
-                    <div class="table-responsive overflow_hidden">
-                        <table id="datatable" class="table align-items-center datatable">
+            <div class="row">
+                <div class="col-xl-2">
+                    <div class="card sticky-top" style="top:30px">
+                        <div class="list-group list-group-flush" id="useradd-sidenav">
+                            <a href="#useradd-1" class="list-group-item list-group-item-action"><?php echo e(__('Campaign')); ?> <div
+                                    class="float-end"><i class="ti ti-chevron-right"></i></div></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-10">
+                    <div class="form-group" >
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <select class="form-select" name="template">
+                                    <option selected disabled>Select Template</option>
+                                    <?php $__currentLoopData = $emailtemplates; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $template): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <option value="<?php echo e($template->id); ?>"><?php echo e($template->subject); ?></option>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </select>
+                            </div>
+                            <div class="col-sm-2">
+                                <input type="submit" class="btn btn-primary" value="Send Email">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card" id = "useradd-1">
+                        <div class="card-body table-border-style">
+                            <div class="table-responsive overflow_hidden">
+                                <table id="datatable" class="table align-items-center datatable">
 
-                            <thead class="thead-light">
-                                <tr>
-                                    <th></th>
-                                    <th scope="col" class="sort" data-sort="username"><?php echo e(__('Customer Name')); ?></th>
-                                    <th scope="col" class="sort" data-sort="email"><?php echo e(__('Email')); ?></th>
-                                    <th scope="col" class="sort" data-sort="phone"><?php echo e(__('Phone')); ?></th>
-                                    <th scope="col" class="sort" data-sort="address"><?php echo e(__('Address')); ?></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <input type="checkbox" name="checkall" id="checkall" class="form-check-input">
-                                    </td>
-                                </tr>
-                                <?php $__currentLoopData = $customers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $customer): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <tr>
-                                    <td>
-                                        <input type="checkbox" class="form-check-input align-middle ischeck" value="<?php echo e($customer->email); ?>" name="customer[]">
-                                    </td>
-                                    <td>
-                                        <span class="budget"><b><?php echo e(ucfirst($customer->name)); ?></b></span>
-                                    </td>
-                                    <td>
-                                        <span class="budget"><?php echo e($customer->email); ?></span>
-                                    </td>
-                                    <td>
-                                        <span class="budget"><?php echo e($customer->phone); ?></span>
-                                    </td>
-                                    <td>
-                                        <span class="budget"><?php echo e($customer->lead_address); ?></span>
-                                    </td>
-                                </tr>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                            </tbody>
-                        </table>
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th></th>
+                                            <th scope="col" class="sort" data-sort="username"><?php echo e(__('Customer Name')); ?></th>
+                                            <th scope="col" class="sort" data-sort="email"><?php echo e(__('Email')); ?></th>
+                                            <th scope="col" class="sort" data-sort="phone"><?php echo e(__('Phone')); ?></th>
+                                            <th scope="col" class="sort" data-sort="address"><?php echo e(__('Address')); ?></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" name="checkall" id="checkall" class="form-check-input">
+                                            </td>
+                                        </tr>
+                                        <?php $__currentLoopData = $customers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $customer): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" class="form-check-input align-middle ischeck" value="<?php echo e($customer->email); ?>" name="customer[]">
+                                            </td>
+                                            <td>
+                                                <span class="budget"><b><?php echo e(ucfirst($customer->name)); ?></b></span>
+                                            </td>
+                                            <td>
+                                                <span class="budget"><?php echo e($customer->email); ?></span>
+                                            </td>
+                                            <td>
+                                                <span class="budget"><?php echo e($customer->phone); ?></span>
+                                            </td>
+                                            <td>
+                                                <span class="budget"><?php echo e($customer->lead_address); ?></span>
+                                            </td>
+                                        </tr>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
