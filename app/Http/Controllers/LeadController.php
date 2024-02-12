@@ -474,13 +474,13 @@ class LeadController extends Controller
 
             Mail::to('sonali@codenomad.net')->send(new SendPdfEmail($lead));
         } catch (\Exception $e) {
-            //   return response()->json(
-            //             [
-            //                 'is_success' => false,
-            //                 'message' => $e->getMessage(),
-            //             ]
-            //         );
-              return redirect()->back()->with('success', 'Email Not Sent');
+              return response()->json(
+                        [
+                            'is_success' => false,
+                            'message' => $e->getMessage(),
+                        ]
+                    );
+            //   return redirect()->back()->with('success', 'Email Not Sent');
       
         }
         return redirect()->back()->with('success', 'Email Sent Successfully');
