@@ -242,6 +242,7 @@ unset($__errorArgs, $__bag); ?>
 </div>
 </div>
 
+
 <?php echo e(Form::close()); ?>
 
 <?php /**PATH C:\xampp\htdocs\centraverse\resources\views/lead/create.blade.php ENDPATH**/ ?>

@@ -57,18 +57,21 @@
     transform: scale(1.2); 
     }
 </style>
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="row">
-                <div class="col-xl-2">
-                    <div class="card sticky-top" style="top:30px">
-                        <div class="list-group list-group-flush" id="useradd-sidenav">
-                            <a href="#useradd-1" class="list-group-item list-group-item-action"><?php echo e(__('Review Event')); ?> <div
-                                    class="float-end"><i class="ti ti-chevron-right"></i></div></a>
-                        </div>
-                    </div>
+<div class="container-field">
+    <div id="wrapper">
+        <div id="sidebar-wrapper">
+            <div class="card sticky-top" style="top:30px">
+                <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
+                    <a href="#useradd-1" class="list-group-item list-group-item-action">
+                        <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
+                        <span class="dash-mtext"><?php echo e(__('Review Event')); ?> </span></a>
                 </div>
-                <div class="col-xl-10">
+            </div>
+        </div>
+        <div id="page-content-wrapper">
+            <div class="container-fluid xyz">
+                <div class="row">
+                    <div class="col-lg-12">
                     <?php echo e(Form::model($meeting, ['route' => ['meeting.review_agreement.update', $meeting->id], 'method' => 'POST' ,'id'=> 'formdata'])); ?>
 
                         <div id="useradd-1" class="card"> 
@@ -564,10 +567,29 @@
                             </div>
                         </div>
                        
-                    <?php echo e(Form::close()); ?>    
+                    <?php echo e(Form::close()); ?>  
+                    </div>
                 </div>
             </div>
+        </div>
     </div>
+</div>
+    <!-- <div class="row">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-xl-2">
+                    <div class="card sticky-top" style="top:30px">
+                        <div class="list-group list-group-flush" id="useradd-sidenav">
+                            <a href="#useradd-1" class="list-group-item list-group-item-action"><?php echo e(__('Review Event')); ?> <div
+                                    class="float-end"><i class="ti ti-chevron-right"></i></div></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-10">
+                     
+                </div>
+            </div>
+    </div> -->
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script-page'); ?>
     <script>
@@ -650,13 +672,7 @@
             });
         });
     </script>
-<script>
-$(document).ready(function () {
-    $('#formdata').submit(function () {
-        $("#loader").show(); 
-    });
-})
-</script>
+
 
 <?php $__env->stopPush(); ?>
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/meeting/agreement/review_agreement.blade.php ENDPATH**/ ?>

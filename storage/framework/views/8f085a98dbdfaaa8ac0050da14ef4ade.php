@@ -26,22 +26,23 @@ $labels =
     ]; 
 ?> 
 <?php $__env->startSection('content'); ?>
-<meta name="csrf-token" content="<?php echo e(csrf_token()); ?>" />
-<div class="row">
-    <div class="col-sm-12">
-        <div class="row">
-            <div class="col-xl-2">
-                <div class="card sticky-top" style="top:30px">
-                    <div class="list-group list-group-flush" id="useradd-sidenav">
-                        <a href="#useradd-1" class="list-group-item list-group-item-action"><?php echo e(__('Create Billing')); ?> <div
-                                class="float-end"><i class="ti ti-chevron-right"></i></div></a>
-                    </div>
+<div class="container-field">
+    <div id="wrapper">
+        <div id="sidebar-wrapper">
+            <div class="card sticky-top" style="top:30px">
+                <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
+                    <a href="#useradd-1" class="list-group-item list-group-item-action">
+                        <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
+                        <span class="dash-mtext"><?php echo e(__('Create Billing')); ?> </span></a>
                 </div>
             </div>
-            <div class="col-xl-10">
-                <?php echo e(Form::open(array('url'=>'billing','method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))); ?>
+        </div>
+        <div id="page-content-wrapper">
+            <div class="container-fluid xyz">
+                <div class="row">
+                    <div class="col-lg-12">
+                    <?php echo e(Form::open(array('url'=>'billing','method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))); ?>
 
-                <!-- <div class= "row"> -->
                     <div class = "col-md-12" id = "useradd-1" >
                         <div class="form-group">
                             <label class="form-label">Select Customer :</label>
@@ -53,15 +54,13 @@ $labels =
                             </select>
                         </div>
                     </div>
-                <!-- </div> -->
-                <!-- <div class = "row">   -->
+               
                     <div class = "col-md-12">
                         <div class = "form-group">
                         <label>No. of Guests : </label>
                         <input type ="text"  value = "" readonly name ="guestcount" style = "border:none" >
                     </div>                  
-                <!-- </div>  -->
-                <!-- <div class="row"> -->
+               
                     <div class="col-md-12">
                             <div class="form-group">
                                 <table class="table">
@@ -93,14 +92,15 @@ $labels =
                                 </div>
                         </div>
                     </div>
-                <!-- </div> -->
                 <?php echo e(Form::submit(__('Save'),array('class'=>'btn btn-primary '))); ?>
 
                 <?php echo e(Form::close()); ?>    
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</div> 
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script-page'); ?>
 <script>

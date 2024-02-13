@@ -548,24 +548,7 @@
     </div>
 </body>
 </html>
-        <div id = "loader" style = "display:none">
-            <img src = "<?php echo e(asset('assets/loader/loader.webp')); ?>"  >
-        </div>
         <style>
-  
-  #loader img {
-          width: 120px;
-  }
-  #loader {
-      display: block;
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      top: 35%;
-      left: 40%;
-      transform: translate(50px, 50px);
-      z-index: 99999;
-  }
   canvas#signatureCanvas {
       border: 1px solid black;
       width: 60%;
@@ -595,10 +578,4 @@
         });
     });
   </script>
-  <script>
-    $(document).ready(function () {
-        $('#formdata').submit(function () {
-            $("#loader").show(); 
-        });
-    });
-</script><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/meeting/agreement/signedagreement.blade.php ENDPATH**/ ?>
+ <?php /**PATH C:\xampp\htdocs\centraverse\resources\views/meeting/agreement/signedagreement.blade.php ENDPATH**/ ?>

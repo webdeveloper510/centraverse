@@ -18,20 +18,22 @@
 @endsection
 
 @section('content')
-<div class="row">
-    <div class="col-xl-12">
-        <div class="row">
-        <div class="col-xl-2">
-                <div class="card sticky-top" style="top:30px">
-                    <div class="list-group list-group-flush" id="useradd-sidenav">
-                        <a href="#useradd-1" class="list-group-item list-group-item-action">{{ __('Template') }} <div
-                                class="float-end"><i class="ti ti-chevron-right"></i></div></a>
-                    </div>
+<div class="container-field">
+    <div id="wrapper">
+        <div id="sidebar-wrapper">
+            <div class="card sticky-top" style="top:30px">
+                <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
+                    <a href="#useradd-1" class="list-group-item list-group-item-action">
+                        <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
+                        <span class="dash-mtext">{{ __('Template') }} </span></a>
                 </div>
             </div>
-            <div class="col-xl-10">
-       
-        <div class="card" id ="useradd-1">
+        </div>
+        <div id="page-content-wrapper">
+            <div class="container-fluid xyz">
+                <div class="row">
+                    <div class="col-lg-12">
+                    <div class="card" id ="useradd-1">
             <div class="card-body table-border-style">
                 <div class="table-responsive">
                     <table class="table datatable" id="datatable">
@@ -45,7 +47,7 @@
                             @foreach($EmailTemplate as $key=>$template)
                                 <tr>
                                     <td>
-                                      <b>{{ucfirst($template->subject)}}</b>
+                                    <b>{{ucfirst($template->subject)}}</b>
                                     </td>
                                     <td class="text-end">
                                         <div class="action-btn bg-info ms-2">
@@ -65,7 +67,6 @@
                     </table>
                 </div>
             </div>
-        </div>
         </div>
     </div>
 </div>

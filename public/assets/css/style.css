@@ -3635,9 +3635,9 @@ textarea.is-invalid.dataTable-input {
     opacity: 0;
 }
 
-.collapse:not(.show) {
-    display: none;
-}
+/* .collapse:not(.show) { */
+    /* display: none; */
+/* } */
 
 .collapsing {
     height: 0;
@@ -22167,6 +22167,7 @@ body .table thead th {
 
 .form-group {
     margin-bottom: 1.3rem;
+    width: 100%;
 }
 
 .form-group label {

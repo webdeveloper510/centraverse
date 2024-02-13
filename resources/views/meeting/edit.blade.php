@@ -55,25 +55,30 @@
     transform: scale(1.2); 
     }
 </style>
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="row">
-                <div class="col-xl-2">
-                    <div class="card sticky-top" style="top:30px">
-                        <div class="list-group list-group-flush" id="useradd-sidenav">
-                            <a href="#useradd-1" class="list-group-item list-group-item-action">{{ __('Edit') }} <div
-                                    class="float-end"><i class="ti ti-chevron-right"></i></div></a>
-                            <a href="#event-details" class="list-group-item list-group-item-action">{{ __('Event Details') }} <div
-                                    class="float-end"><i class="ti ti-chevron-right"></i></div></a>
-                            <a href="#special_req" class="list-group-item list-group-item-action">{{ __('Special Requirements') }} <div
-                                    class="float-end"><i class="ti ti-chevron-right"></i></div></a>   
-                            <a href="#other_info" class="list-group-item list-group-item-action">{{ __('Other Information') }} <div
-                                    class="float-end"><i class="ti ti-chevron-right"></i></div></a>          
-                       
-                        </div>
-                    </div>
+<div class="container-field">
+    <div id="wrapper">
+        <div id="sidebar-wrapper">
+            <div class="card sticky-top" style="top:30px">
+                <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
+                    <a href="#useradd-1" class="list-group-item list-group-item-action">
+                        <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
+                        <span class="dash-mtext">{{ __('Event') }} </span></a>
+                        <a href="#useradd-1" class="list-group-item list-group-item-action">
+                        <span class="fa-stack fa-lg pull-left"></span>
+                        <span class="dash-mtext">{{ __('Event Details') }} </span></a>
+                        <a href="#useradd-1" class="list-group-item list-group-item-action">
+                        <span class="fa-stack fa-lg pull-left"></span>
+                        <span class="dash-mtext">{{ __('Special Requirements') }} </span></a>
+                        <a href="#useradd-1" class="list-group-item list-group-item-action">
+                        <span class="fa-stack fa-lg pull-left"></span>
+                        <span class="dash-mtext">{{ __('Other Information') }} </span></a>
                 </div>
-                <div class="col-xl-10">
+            </div>
+        </div>
+        <div id="page-content-wrapper">
+            <div class="container-fluid xyz">
+                <div class="row">
+                    <div class="col-lg-12">
                     {{ Form::model($meeting, ['route' => ['meeting.update', $meeting->id], 'method' => 'PUT' ,'id'=> 'formdata']) }}
                         <div id="useradd-1" class="card"> 
                             <div class="col-md-12">
@@ -492,9 +497,12 @@
                             </div>
                         </div>
                     {{ Form::close() }}    
+                    </div>
                 </div>
             </div>
+        </div>
     </div>
+</div>
 @endsection
 @push('script-page')
     <script>
