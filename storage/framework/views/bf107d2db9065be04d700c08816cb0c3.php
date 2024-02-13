@@ -26,68 +26,76 @@ $labels =
 ?> 
 <?php $__env->startSection('content'); ?>
 <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>" />
-<div class="container">
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="row">
-            <?php echo e(Form::open(array('url'=>'billing','method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))); ?>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-xl-2">
+                <div class="card sticky-top" style="top:30px">
+                    <div class="list-group list-group-flush" id="useradd-sidenav">
+                        <a href="#useradd-1" class="list-group-item list-group-item-action"><?php echo e(__('Create Billing')); ?> <div
+                                class="float-end"><i class="ti ti-chevron-right"></i></div></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-10">
+                <?php echo e(Form::open(array('url'=>'billing','method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))); ?>
 
-                    <div class= "row">
-                        <div class = "col-md-12">
+                <!-- <div class= "row"> -->
+                    <div class = "col-md-12" id = "useradd-1" >
+                        <div class="form-group">
+                            <label class="form-label">Select Customer :</label>
+                            <select class="form-select" id = "userinfo" name = "event" required>
+                                <option value= '-1' disabled selected>Select Customer</option>
+                                <?php $__currentLoopData = $meeting; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $meet): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <option value="<?php echo e($meet->id); ?>"><?php echo e($meet->name); ?> (Event- <?php echo e($meet->type); ?>)</option>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            </select>
+                        </div>
+                    </div>
+                <!-- </div> -->
+                <!-- <div class = "row">   -->
+                    <div class = "col-md-12">
+                        <div class = "form-group">
+                        <label>No. of Guests : </label>
+                        <input type ="text"  value = "" readonly name ="guestcount" style = "border:none" >
+                    </div>                  
+                <!-- </div>  -->
+                <!-- <div class="row"> -->
+                    <div class="col-md-12">
                             <div class="form-group">
-                                <label class="form-label">Select Customer :</label>
-                                <select class="form-select" id = "userinfo" name = "event" required>
-                                    <option value= '-1' disabled selected>Select Customer</option>
-                                    <?php $__currentLoopData = $meeting; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $meet): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <option value="<?php echo e($meet->id); ?>"><?php echo e($meet->name); ?> (Event- <?php echo e($meet->type); ?>)</option>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class = "row">  
-                        <div class = "col-md-12">
-                            <div class = "form-group">
-                            <label>No. of Guests : </label>
-                            <input type ="text"  value = "" readonly name ="guestcount" style = "border:none" >
-                        </div>                  
-                    </div> 
-                    <div class="row">
-                        <div class="col-md-12">
-                                <div class="form-group">
-                                    <table class="table">
-                                        <thead>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th><?php echo e(__('Description')); ?> </th>
+                                            <th><?php echo e(__('Cost')); ?> </th>
+                                            <th><?php echo e(__('Quantity')); ?> </th>
+                                            <th><?php echo e(__('Notes')); ?> </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php $__currentLoopData = $labels; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $label): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <tr>
-                                                <th><?php echo e(__('Description')); ?> </th>
-                                                <th><?php echo e(__('Cost')); ?> </th>
-                                                <th><?php echo e(__('Quantity')); ?> </th>
-                                                <th><?php echo e(__('Notes')); ?> </th>
+                                                <td><?php echo e(ucfirst($label)); ?></td>
+                                                <td>
+                                                <input type = "text" name ="billing[<?php echo e($key); ?>][cost]" value="$<?php echo e($billing->$key); ?>" class= "form-control" readonly></td>
+                                                <td> 
+                                                <input type = "number" name ="billing[<?php echo e($key); ?>][quantity]" min = '0' class= "form-control" required>
+                                                </td>
+                                                <td><input type = "text" name ="billing[<?php echo e($key); ?>][notes]" class= "form-control"></td> 
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php $__currentLoopData = $labels; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $label): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                <tr>
-                                                    <td><?php echo e(ucfirst($label)); ?></td>
-                                                    <td>
-                                                    <input type = "text" name ="billing[<?php echo e($key); ?>][cost]" value="$<?php echo e($billing->$key); ?>" class= "form-control" readonly></td>
-                                                    <td> 
-                                                    <input type = "number" name ="billing[<?php echo e($key); ?>][quantity]" min = '0' class= "form-control" required>
-                                                    </td>
-                                                    <td><input type = "text" name ="billing[<?php echo e($key); ?>][notes]" class= "form-control"></td> 
-                                                </tr>
-                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                        </tbody>
-                                    </table>
-                                    <div class= "form-group">
-                                    <label class = "form-label"> Deposit on file: </label>
-                                    <input type = "number" name = "deposits" min = '0'  class= "form-control" required>
-                                    </div>
-                            </div>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    </tbody>
+                                </table>
+                                <div class= "form-group">
+                                <label class = "form-label"> Deposit on file: </label>
+                                <input type = "number" name = "deposits" min = '0'  class= "form-control" required>
+                                </div>
                         </div>
                     </div>
+                <!-- </div> -->
                 <?php echo e(Form::submit(__('Save'),array('class'=>'btn btn-primary '))); ?>
 
-                    <?php echo e(Form::close()); ?>    
+                <?php echo e(Form::close()); ?>    
             </div>
         </div>
     </div>

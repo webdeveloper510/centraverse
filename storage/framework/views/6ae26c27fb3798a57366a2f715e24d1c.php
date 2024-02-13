@@ -186,32 +186,54 @@
         margin-bottom: 0 !important;
     }
 </style>
+<style>
+   #sidebar.collapsed {
+      width: 50px; /* Set the width as desired for the collapsed state */
+   }
+
+   .toggle-icon {
+      transition: transform 0.3s ease; /* Add a transition for a smooth rotation effect */
+   }
+</style>
 
 
 <?php $__env->startPush('script-page'); ?>
- <script>
-    $(document).ready(function() {
-        $('#collapse-sidebar-btn').click(function() {
-            $('#sidebar').toggleClass('collapsed');
-            $('#collapse-sidebar-btn i').toggleClass('ti-arrow-left ti-arrow-right');
-
-            // Toggle main content width
-            $('.main-content').toggleClass('col-md-12 col-md-10');
-        });
-    });
+<script>
+//    $(document).ready(function() {
+//       // Toggle sidebar on button click
+//       $('#toggle-sidebar').click(function() {
+//          $('#sidebar').toggleClass('collapsed');
+//          $('.toggle-icon').toggleClass('fa-chevron-right fa-chevron-left');
+//       });
+//    });
 </script>
+
 
 <?php $__env->stopPush(); ?>
 <div class="container-field">
     <div class="row">
         <div class="col-sm-2">
-        <div class="card sticky-top" style="top:30px">
+            <div class="card sticky-top" style="top:30px">
                 <div class="list-group list-group-flush" id="useradd-sidenav">
                     <a href="#useradd-1" class="list-group-item list-group-item-action"><?php echo e(__('Dashboard')); ?> <div
                             class="float-end"><i class="ti ti-chevron-right"></i></div></a>  
                 </div>
             </div> 
         </div>
+       <!-- <div class="card" id="sidebar" style="top:30px">
+            <div class="list-group list-group-flush" id="useradd-sidenav">
+                <button class="list-group-item list-group-item-action" id="toggle-sidebar">
+                    <span class="toggle-content">
+                        <span class="dash-micon"><i class="ti ti-home-2"></i></span>
+                        <span class="dash-mtext"><?php echo e(__('Dashboard')); ?></span>
+                    </span>
+                </button>
+            </div>
+        </div> -->
+        <!-- </div> -->
+
+
+
         <div class="col-sm-10  main-content">
             <div class="row">
             
