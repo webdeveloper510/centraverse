@@ -11,7 +11,7 @@
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('breadcrumb'); ?>
     <li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Home')); ?></a></li>
-    <li class="breadcrumb-item"><a href="<?php echo e(route('lead.index')); ?>"><?php echo e(__('Email Template')); ?></a></li>
+    <li class="breadcrumb-item"><a href="<?php echo e(route('email.template.view')); ?>"><?php echo e(__('Email Template')); ?></a></li>
     <li class="breadcrumb-item"><?php echo e(__('Details')); ?></li>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('css-page'); ?>
@@ -40,53 +40,60 @@
 <?php $__env->stopPush(); ?>
 <?php $__env->startSection('content'); ?>
 <div class="row">
-
         <div class="col-12">
             <div class="row">
+                <div class="col-xl-2">
+                    <div class="card sticky-top" style="top:30px">
+                        <div class="list-group list-group-flush" id="useradd-sidenav">
+                            <a href="#useradd-1" class="list-group-item list-group-item-action"><?php echo e(__('Edit Template')); ?> <div
+                                    class="float-end"><i class="ti ti-chevron-right"></i></div></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-10">
+                    <div class="card" id="useradd-1">
+                        <div class="card-body">
 
-            </div>
-            <div class="card">
-                <div class="card-body">
-
-                    <div class="language-wrap">
-                        <div class="row">
-                            <div class="col-lg-12 col-md-9 col-sm-12 language-form-wrap">
-                            <?php echo e(Form::model($EmailTemplate, ['route' => ['update.email.template', $EmailTemplate->id], 'method' => 'POST' ,'id'=> 'formdata'])); ?>
-
+                            <div class="language-wrap">
                                 <div class="row">
-                                    <div class="form-group col-md-6">
-                                        <?php echo e(Form::label('subject', __('Subject'), ['class' => 'form-control-label text-dark'])); ?>
+                                    <div class="col-lg-12 col-md-9 col-sm-12 language-form-wrap">
+                                    <?php echo e(Form::model($EmailTemplate, ['route' => ['update.email.template', $EmailTemplate->id], 'method' => 'POST' ,'id'=> 'formdata'])); ?>
 
-                                        <?php echo e(Form::text('subject', null, ['class' => 'form-control font-style', 'required' => 'required'])); ?>
+                                        <div class="row">
+                                            <div class="form-group col-md-6">
+                                                <?php echo e(Form::label('subject', __('Subject'), ['class' => 'form-control-label text-dark'])); ?>
 
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <?php echo e(Form::label('from', __('From'), ['class' => 'form-control-label text-dark'])); ?>
+                                                <?php echo e(Form::text('subject', null, ['class' => 'form-control font-style', 'required' => 'required'])); ?>
 
-                                        <?php echo e(Form::text('from',null, ['class' => 'form-control font-style', 'required' => 'required'])); ?>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <?php echo e(Form::label('from', __('From'), ['class' => 'form-control-label text-dark'])); ?>
+
+                                                <?php echo e(Form::text('from',null, ['class' => 'form-control font-style', 'required' => 'required'])); ?>
+
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-12">
+                                                <?php echo e(Form::label('content', __('Email Message'), ['class' => 'form-control-label text-dark'])); ?>
+
+                                                <?php echo e(Form::textarea('content',null, ['class' => 'summernote', 'required' => 'required'])); ?>
+
+                                            </div>
+                                            <div class="col-md-12 text-end">
+                                                <input type="submit" value="<?php echo e(__('Save')); ?>"
+                                                    class="btn btn-print-invoice  btn-primary">
+                                            </div>
+
+                                        </div>
+                                        <?php echo e(Form::close()); ?>
 
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="form-group col-12">
-                                        <?php echo e(Form::label('content', __('Email Message'), ['class' => 'form-control-label text-dark'])); ?>
-
-                                        <?php echo e(Form::textarea('content',null, ['class' => 'summernote', 'required' => 'required'])); ?>
-
-                                    </div>
-                                    <div class="col-md-12 text-end">
-                                        <input type="submit" value="<?php echo e(__('Save')); ?>"
-                                            class="btn btn-print-invoice  btn-primary">
-                                    </div>
-
-                                </div>
-                                <?php echo e(Form::close()); ?>
-
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
     </div>
 <?php $__env->stopSection(); ?>

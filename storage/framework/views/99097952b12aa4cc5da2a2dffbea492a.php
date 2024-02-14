@@ -13,11 +13,11 @@
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 <link rel="stylesheet" href="https://editor.unlayer.com/embed.css">
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> -->
 <script src="https://editor.unlayer.com/embed.js"></script>
 <?php echo e(Form::open(array('route' => 'customer.sendmail','method' =>'post'))); ?>
 
-<div class="main-div">
+<!-- <div class="main-div">
     <div class="row mt-3">
         <div class="col-sm-12">
             <div class="row">
@@ -67,7 +67,41 @@
                                 <label class="form-check-label" for="text">Text</label>
                             </div>
                         </div>
-                        <!-- <div class="col-md-4">
+                        
+                    </div>
+                    
+                    <div class="container">
+                    <div id="editor" style ="height:500px !important ;display:none"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+<div class="container-field">
+    <div id="wrapper">
+        <div id="sidebar-wrapper">
+            <div class="card sticky-top" style="top:30px">
+                <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
+                    <a href="#useradd-1" class="list-group-item list-group-item-action">
+                        <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
+                        <span class="dash-mtext"><?php echo e(__('Campaign')); ?> </span></a>
+                </div>
+            </div>
+        </div>
+        <div id="page-content-wrapper">
+            <div class="container-fluid xyz">
+                <div class="row">
+                    <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="type">Type</label>
+                                <input type='text' id='autocomplete' name= "type"class="form-control" required>
+                                <ul id="autocomplete-suggestions" class="list-group"  ></ul>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="type">Select Recipients</label>
                                 <select name="recipients" id="recipients" class="form-select" required>
@@ -82,68 +116,21 @@
                                 <label for="title">Title</label>
                                 <input type='text' name= "title"class="form-control" required>
                             </div>
-                        </div> -->
+                        </div>
                     </div>
-                        <!-- <div class="row">
-                            <div class="col-sm-10">
-                                <select class="form-select" name="template">
-                                    <option selected disabled>Select Template</option>
-                                    <?php $__currentLoopData = $emailtemplates; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $template): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <option value="<?php echo e($template->id); ?>"><?php echo e($template->subject); ?></option>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                </select>
+                    <div class="row mt-5">
+                        <div class="col-md-4">
+                            <label for="type">Notify as:</label><br>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="email" value="email" name = "notify[1][]">
+                                <label class="form-check-label" for="email">Email</label>
                             </div>
-                            <div class="col-sm-2">
-                                <input type="submit" class="btn btn-primary" value="Send Email">
-                            </div>
-                        </div> -->
-                    
-                    <!-- <div class="card" id = "useradd-1">
-                        <div class="card-body table-border-style">
-                            <div class="table-responsive overflow_hidden">
-                                <table id="datatable" class="table align-items-center datatable">
-
-                                    <thead class="thead-light">
-                                        <tr>
-                                            <th></th>
-                                            <th scope="col" class="sort" data-sort="username"><?php echo e(__('Customer Name')); ?></th>
-                                            <th scope="col" class="sort" data-sort="email"><?php echo e(__('Email')); ?></th>
-                                            <th scope="col" class="sort" data-sort="phone"><?php echo e(__('Phone')); ?></th>
-                                            <th scope="col" class="sort" data-sort="address"><?php echo e(__('Address')); ?></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <input type="checkbox" name="checkall" id="checkall" class="form-check-input">
-                                            </td>
-                                        </tr>
-                                        <?php $__currentLoopData = $customers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $customer): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <tr>
-                                            <td>
-                                                <input type="checkbox" class="form-check-input align-middle ischeck" value="<?php echo e($customer->email); ?>" name="customer[]">
-                                            </td>
-                                            <td>
-                                                <span class="budget"><b><?php echo e(ucfirst($customer->name)); ?></b></span>
-                                            </td>
-                                            <td>
-                                                <span class="budget"><?php echo e($customer->email); ?></span>
-                                            </td>
-                                            <td>
-                                                <span class="budget"><?php echo e($customer->phone); ?></span>
-                                            </td>
-                                            <td>
-                                                <span class="budget"><?php echo e($customer->lead_address); ?></span>
-                                            </td>
-                                        </tr>
-                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                    </tbody>
-                                </table>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="text" value="text"  name = "notify[1][]">
+                                <label class="form-check-label" for="text">Text</label>
                             </div>
                         </div>
-                    </div> -->
-                    <div class="container">
-                    <div id="editor" style ="height:500px !important ;display:none"></div>
+                    </div>
                     </div>
                 </div>
             </div>

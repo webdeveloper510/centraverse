@@ -86,9 +86,9 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                     <tbody>    
                                         <tr style="text-align:center">
                                             <td >Start Date:<?php echo e(\Carbon\Carbon::parse($lead->start_date)->format('d M, Y')); ?> <br>
-                                            End Date: <?php echo e(\Carbon\Carbon::parse($lead->end_date)->format('d M, Y')); ?></td>
+                                                End Date: <?php echo e(\Carbon\Carbon::parse($lead->end_date)->format('d M, Y')); ?></td>
                                             <td  >Start Time:<?php echo e(date('h:i A', strtotime($lead->start_time))); ?> <br>
-                                            End time:<?php echo e(date('h:i A', strtotime($lead->end_time))); ?></td>
+                                                End time:<?php echo e(date('h:i A', strtotime($lead->end_time))); ?></td>
                                             <td ><?php echo e($lead->venue_selection); ?></td>
                                             <td ><?php echo e($lead->type); ?></td>
                                             <td ><?php echo e($lead->function); ?></td>
@@ -388,7 +388,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                     No Personal Checks are accepted for final payment. <br><br>
                                     The Rules and Conditions for Usage are incorporated herein and are made a part hereof. <br><br>
                     
-                                    Please return signed contract with deposit no later than <b><?php echo e(\Carbon\Carbon::parse($lead->start_date)->format('d M, Y')); ?></b> or this contract is no longer valid.<br>
+                                    Please return signed contract with deposit no later than <b><?php echo e(\Carbon\Carbon::parse($lead->start_date)->subDays($settings['buffer_day'])->format('d M, Y')); ?></b> or this contract is no longer valid.<br>
                                     </p>
                                 
                             </div>
@@ -420,24 +420,8 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
     </div>
 </body>
 </html>
-        <div id = "loader" style = "display:none">
-            <img src = "<?php echo e(asset('assets/loader/loader.webp')); ?>"  >
-        </div>
+      
 <style>
-  
-    #loader img {
-            width: 120px;
-    }
-    #loader {
-        display: block;
-        position: fixed;
-        width: 100%;
-        height: 100%;
-        top: 35%;
-        left: 40%;
-        transform: translate(50px, 50px);
-        z-index: 99999;
-    }
     canvas#signatureCanvas {
         border: 1px solid black;
         width: 60%;
@@ -464,13 +448,6 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
             } else {
                document.getElementById('imageData').value = '';
             }
-        });
-    });
-</script>
-<script>
-    $(document).ready(function () {
-        $('#formdata').submit(function () {
-            $("#loader").show(); 
         });
     });
 </script><?php /**PATH /home/crmcentraverse/public_html/centraverse/resources/views/lead/proposal.blade.php ENDPATH**/ ?>

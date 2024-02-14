@@ -23,18 +23,22 @@
 <?php $__env->startSection('filter'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="row">
-                <div class="col-xl-2">
-                    <div class="card sticky-top" style="top:30px">
-                        <div class="list-group list-group-flush" id="useradd-sidenav">
-                            <a href="#useradd-1" class="list-group-item list-group-item-action"><?php echo e(__('Event')); ?> <div
-                                    class="float-end"><i class="ti ti-chevron-right"></i></div></a>
-                        </div>
-                    </div>
+<div class="container-field">
+    <div id="wrapper">
+        <div id="sidebar-wrapper">
+            <div class="card sticky-top" style="top:30px">
+                <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
+                    <a href="#useradd-1" class="list-group-item list-group-item-action"><span class="fa-stack fa-lg pull-left"><i class="ti ti-home-2"></i></span>
+                        <span class="dash-mtext"><?php echo e(__('Event')); ?> </span></a>
+
+                    </a>
                 </div>
-                <div class="col-xl-10">
+            </div>
+        </div>
+        <div id="page-content-wrapper">
+            <div class="container-fluid xyz">
+                <div class="row">
+                    <div class="col-lg-12">
                     <div class="card" id ="useradd-1">
                         <div class="card-body table-border-style">
                             <div class="table-responsive overflow_hidden">
@@ -42,7 +46,6 @@
                                     <thead class="thead-light">
                                         <tr>
                                             <th scope="col" class="sort" data-sort="name"><?php echo e(__('Event')); ?></th>
-                                            <!-- <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Parent')); ?></th> -->
                                             <th scope="col" class="sort" data-sort="status"><?php echo e(__('Status')); ?></th>
                                             <th scope="col" class="sort" data-sort="completion"><?php echo e(__('Date Start')); ?></th>
                                             <th scope="col" class="sort" data-sort="completion"><?php echo e(__('Event')); ?></th>
@@ -174,10 +177,12 @@
                             </div>
                         </div>
                     </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script-page'); ?>
     <script>

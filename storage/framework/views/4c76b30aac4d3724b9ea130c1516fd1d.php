@@ -24,18 +24,21 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="row">
-                <div class="col-xl-2">
-                    <div class="card sticky-top" style="top:30px">
-                        <div class="list-group list-group-flush" id="useradd-sidenav">
-                            <a href="#useradd-1" class="list-group-item list-group-item-action"><?php echo e(__('Billing')); ?> <div
-                                    class="float-end"><i class="ti ti-chevron-right"></i></div></a>
-                        </div>
-                    </div>
+<div class="container-field">
+    <div id="wrapper">
+        <div id="sidebar-wrapper">
+            <div class="card sticky-top" style="top:30px">
+                <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
+                    <a href="#useradd-1" class="list-group-item list-group-item-action">
+                        <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
+                        <span class="dash-mtext"><?php echo e(__('Billing')); ?> </span></a>
                 </div>
-                <div class="col-xl-10">
+            </div>
+        </div>
+        <div id="page-content-wrapper">
+            <div class="container-fluid xyz">
+                <div class="row">
+                    <div class="col-lg-12">
                     <div class="card" id ="useradd-1">
                         <div class="card-body table-border-style">
                             <div class="table-responsive overflow_hidden">
@@ -74,19 +77,6 @@
                                                 <span class="badge bg-success p-2 px-3 rounded"><?php echo e(__(\App\Models\Billingdetail::$status[$bill->status])); ?></span>
                                                 <?php endif; ?>
                                             </td>
-                                                <!-- <td class="text-end">
-                                                    <div class="action-btn bg-danger ms-2">
-                                                        <?php echo Form::open(['method' => 'DELETE', 'route' => ['billing.destroy', $bill->id]]); ?>
-
-                                                        <a href="#!"
-                                                            class="mx-3 btn btn-sm   align-items-center text-white show_confirm"
-                                                            data-bs-toggle="tooltip" title='Delete'>
-                                                            <i class="ti ti-trash"></i>
-                                                        </a>
-                                                        <?php echo Form::close(); ?>
-
-                                                    </div>
-                                                </td> -->
                                             </tr>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </tbody>
@@ -94,9 +84,11 @@
                             </div>
                         </div>
                     </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+</div> 
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/crmcentraverse/public_html/centraverse/resources/views/billing/index.blade.php ENDPATH**/ ?>
