@@ -947,7 +947,9 @@ Route::group(['middleware' => ['verified']], function () {
             Route::get('customer', [CustomerInformation::class, 'index'])->name('customer.index')->middleware(['auth', 'XSS']);
             Route::post('customer', [CustomerInformation::class, 'sendmail'])->name('customer.sendmail')->middleware(['auth', 'XSS']);
             Route::post('campaign-type',[CustomerInformation::class,'campaigntype'])->name('auto.campaign_type');
-            Route::get('user-list',[CustomerInformation::class,'existinguserlist'])->name('campaign.existinguser');        
+            Route::get('user-list',[CustomerInformation::class,'existinguserlist'])->name('campaign.existinguser'); 
+            Route::get('customer-list',[CustomerInformation::class,'addusers'])->name('userlist'); 
+            Route::get('upload-user-list',[CustomerInformation::class,'uploaduserlist'])->name('uploadusersinfo');       
         }
     );
     Route::group(

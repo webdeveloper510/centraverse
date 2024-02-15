@@ -56,6 +56,7 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                 <!-- <span class="dash-micon"><i class="ti ti-filter"></i></span> -->
                                 <span class="dash-mtext">{{ __('Leads') }}</span>
                             </a>
+                        </li>
                         @endcan
                         @can('Manage Meeting')
                         <li class="dash-item {{ \Request::route()->getName() == 'meeting' || \Request::route()->getName() == 'meeting.show' || \Request::route()->getName() == 'meeting.edit' ? ' active' : '' }}">
@@ -89,10 +90,12 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                         @if(\Auth::user()->type =='owner')
                             <li class="dash-item {{ \Request::route()->getName() == 'billing' || \Request::route()->getName() == 'billing.index' ? ' active' : '' }}">
                                 <a href="{{ route('billing.index') }}" class="dash-link">
-                                    <!-- <span class="dash-micon"><i class="far fa-calendar-alt"></i></span> -->
                                     <span class="dash-mtext">{{ __('Billing') }}</span>
                                 </a>
                             </li>
+                            <li class="dash-item {{ \Request::route()->getName() == 'customer-list' ? ' active' : '' }}">
+                            <a href="{{route('userlist')}}" class="dash-link"><span class="dash-mtext">{{ __('Customer List') }}</span></a>
+                        </li>
                         @endif
                         @if (\Auth::user()->type == 'super admin' || \Auth::user()->type == 'owner')
                             <li class="dash-item  {{ Request::route()->getName() == 'settings' ? 'active' : '' }}">

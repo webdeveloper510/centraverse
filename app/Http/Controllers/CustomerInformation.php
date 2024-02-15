@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Campaignmail;
+use App\Imports\UsersImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CustomerInformation extends Controller
 {
@@ -67,5 +69,17 @@ class CustomerInformation extends Controller
     public function existinguserlist(){
         $leadsuser = Lead::all();
         return view('customer.existingleads',compact('leadsuser'));
+    }
+    public function addusers(){
+        return view('customer.new_user');
+    }
+    public function uploaduserlist(){
+        return view('customer.uploaduserinfo');
+    }
+    public function import() 
+    {
+        Excel::import(new UsersImport,request()->file('users'));
+               
+        return back();
     }
 }
