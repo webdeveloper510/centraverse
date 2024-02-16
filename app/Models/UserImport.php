@@ -9,4 +9,5 @@ class UserImport extends Model
 {
     use HasFactory;
     protected $table = 'importusers';
+    protected $fillable = ['name','email','phone','address','organization'];
 }

@@ -45,13 +45,15 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @foreach($users as $user)
                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td><span>{{ucfirst($user->name)}}</span></td>
+                                                <td><span>{{ucfirst($user->email)}}</span></td>
+                                                <td><span>{{ucfirst($user->phone)}}</span></td>
+                                                <td><span>{{ucfirst($user->address)}}</span></td>
+                                                <td><span>{{ucfirst($user->organization)}}</span></td>
                                             </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>

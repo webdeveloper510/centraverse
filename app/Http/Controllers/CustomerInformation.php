@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Campaignmail;
 use App\Imports\UsersImport;
+use App\Models\UserImport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class CustomerInformation extends Controller
@@ -71,15 +72,25 @@ class CustomerInformation extends Controller
         return view('customer.existingleads',compact('leadsuser'));
     }
     public function addusers(){
-        return view('customer.new_user');
+        $users = UserImport::all();
+        return view('customer.new_user',compact('users'));
     }
     public function uploaduserlist(){
         return view('customer.uploaduserinfo');
     }
-    public function import() 
+    public function importuser(Request $request) 
     {
         Excel::import(new UsersImport,request()->file('users'));
-               
         return back();
+    }
+    public function mailformatting(){
+        return view('customer.editor');
+    }
+    public function textmailformatting(){
+        return view('customer.textmail');
+    }
+    public function addeduserlist(){
+        $users = UserImport::all();
+        return view('customer.addeduserlist',compact('users'));
     }
 }

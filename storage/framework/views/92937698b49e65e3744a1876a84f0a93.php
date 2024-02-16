@@ -14,7 +14,6 @@
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 <link rel="stylesheet" href="https://editor.unlayer.com/embed.css">
-<!-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> -->
 <script src="https://editor.unlayer.com/embed.js"></script>
 <?php echo e(Form::open(array('route' => 'customer.sendmail','method' =>'post'))); ?>
 
@@ -68,9 +67,14 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row mt-5">
+                            <div class="col-md-6">
+                                <label>Upload Documents:</label><br>
+                                 <input type="file" name="document" id="document"class="form-control" placeholder="Drag and Drop files here">
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div id="editor" style="height:500px;display:none"></div>
 
             </div>
         </div>
@@ -93,8 +97,7 @@
                         <a href="#" data-url="<?php echo e(route('campaign.existinguser')); ?>" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('User List')); ?>" title="<?php echo e(__('Select Reciients')); ?>" class="btn btn-primary btn-icon m-1 close" style="float: right;"><?php echo e(__('Existing Lead')); ?></a>
                     </div>
                     <div class="col-md-6">
-                        <button class="btn btn-primary btn-icon m-1" style="float: left;" class="form-control">
-                            Upload User List</button>
+                        <a href="#" data-url="<?php echo e(route('campaign.addeduser')); ?>" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('User List')); ?>" title="<?php echo e(__('Select Reciients')); ?>" class="btn btn-primary btn-icon m-1 close" style="float: right;"><?php echo e(__('User list')); ?></a>
                     </div>
                 </div>
             </div>
@@ -116,43 +119,93 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-6  mt-4">
+                        <div class="form-group">
                         <input type="radio" name="format" id="format" class="form-check-input " value="html" style="display: none;">
                         <label for="format" class="form-check-label">
-                            <img src="<?php echo e(asset('assets/images/html-formatter.svg')); ?>" alt="Uploaded Image" class="img-thumbnail formatter" data-bs-toggle="tooltip" title="HTML Mail">
+                            <img src="<?php echo e(asset('assets/images/html-formatter.svg')); ?>" alt="Uploaded Image" class="img-thumbnail formatter" data-bs-toggle="tooltip" title="HTML Mail" style="float: inline-end;">
                         </label>
-                        <h4>HTML Mail</h4>
+                        <h4  style="float: inline-end;">HTML Mail</h4>
+                        </div>
+                      
                     </div>
                     <div class="col-6  mt-4">
-                        <input type="radio" name="format" id="txt" class="form-check-input " value="text" style="display: none;">
-                        <label for="txt" class="form-check-label">
-                            <img src="<?php echo e(asset('assets/images/text.svg')); ?>" alt="Uploaded Image" class="img-thumbnail formatter" data-bs-toggle="tooltip" title="Text Mail">
-                        </label>
-                        <h4>Text Mail</h4>
-
+                        <div class="form-group">
+                            <input type="radio" name="format" id="txt" class="form-check-input " value="text" style="display: none;">
+                            <label for="txt" class="form-check-label">
+                                <img src="<?php echo e(asset('assets/images/text.svg')); ?>" alt="Uploaded Image" class="img-thumbnail formatter" data-bs-toggle="tooltip" title="Text Mail" >
+                            </label>
+                            <h4 class="mt-2">Text Mail</h4>
+                        </div>
                     </div>
-                    <!-- <div class="col-md-12"style="display:flex"> -->
-                    <!-- <div class="form-group formatter"> -->
-                    <!-- <img src="<?php echo e(asset('assets/images/html-formatter.svg')); ?>" alt="formatter" id="formatter"> -->
-                    <!-- <h5>HTML MAIL</h5>   -->
-                    <!-- </div> -->
-                    <!-- <div class="form-group formatter">
-
-            <img src="<?php echo e(asset('assets/images/text.svg')); ?>" alt="formatter" id="text-icon">
-            <h5>TEXT MAIL</h5>
-                </div> -->
-                    <!-- <button class="btn btn-primary btn-icon m-1" style="float: left;"class="form-control">
-                Upload User List</button> -->
-                    <!-- </div> -->
+                    
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary close" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
+<div class="modal" tabindex="-1" role="dialog" id="htmlmail">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">HTML Mail</h5>
+                <button type="button" class="close btn btn-primary" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            <div id="editor" style="height:500px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" tabindex="-1" role="dialog" id="textformat">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Email Formatting</h5>
+                <button type="button" class="close btn btn-primary" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <?php echo e(Form::label('subject', __('Subject'), ['class' => 'form-control-label text-dark'])); ?>
+
+                                <?php echo e(Form::text('subject', null, ['class' => 'form-control font-style', 'required' => 'required'])); ?>
+
+                            </div>
+                            <div class="form-group col-md-6">
+                                <?php echo e(Form::label('from', __('From'), ['class' => 'form-control-label text-dark'])); ?>
+
+                                <?php echo e(Form::text('from',null, ['class' => 'form-control font-style', 'required' => 'required'])); ?>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-12">
+                                <?php echo e(Form::label('content', __('Email Message'), ['class' => 'form-control-label text-dark'])); ?>
+
+                                <?php echo e(Form::textarea('content',null, ['class' => 'summernote', 'required' => 'required'])); ?>
+
+                            </div>
+                            <div class="col-md-12 text-end">
+                                <input type="submit" value="<?php echo e(__('Save')); ?>"
+                                    class="btn btn-print-invoice  btn-primary">
+                            </div>
+
+                        </div>                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('css-page'); ?>
+<link rel="stylesheet" href="<?php echo e(asset('css/summernote/summernote-bs4.css')); ?>">
+
 <style>
     div#myModal {
         position: absolute;
@@ -160,8 +213,8 @@
 
     .formatter {
         background: #e3e8ef;
-        width: 18%;
-        padding: 10px;
+        width: 35%;
+        padding: 14px;
         border-radius: 7px;
     }
 
@@ -200,7 +253,7 @@
         }
         $('input[name="format"]').removeAttr('checked');
         $(this).attr('checked', 'checked');
-            $('label[for="' + $(this).attr('id') + '"] img').addClass('selected-image');
+        $('label[for="' + $(this).attr('id') + '"] img').addClass('selected-image');
     });
 </script>
 <script>
@@ -216,20 +269,9 @@
         var val = $(this).val();
         if (val == 'email') {
             $("#formatting").css("display", "block");
-            // $('#editor').show();
         } else {
-            // $('#editor').hide();
+            $("#textformat").css("display", "block");
         }
-    })
-
-    $(document).ready(function() {
-        var unlayer = $('#editor-container').unlayer({
-            apiKey: '1JIEPtRKTHWUcY5uMLY4TWFs2JHUbYjAcZIyd6ubblfukgU6XfAQkceYXUzI1DpR',
-        });
-    });
-    unlayer.init({
-        id: 'editor',
-        projectId: 119381,
     })
 </script>
 <script>
@@ -270,17 +312,43 @@
         $("#recipients").click(function() {
             $("#myModal").css("display", "block");
         });
-
         $(".close").click(function() {
             $("#myModal").css("display", "none");
             $("#formatting").css("display", "none");
-        });
-
-        // Close the popup if the overlay is clicked
+            $("#htmlmail").css("display", "none");
+            $("#textformat").css("display", "none");
+        })
         $(window).click(function(event) {
             if (event.target.id === "myModal") {
                 $("#myModal").css("display", "none");
             }
+        });
+    });
+</script>
+<script>
+    $('input[name = "format"]').change(function(){
+        var value = $(this).val();
+        $('#formatting').css("display","none");
+    if(value == 'html'){
+        window.location.href ='<?php echo e(route("htmlmail")); ?>';
+    }else{
+        window.location.href ="<?php echo e(route('textmail')); ?>";
+    }
+    });
+</script>
+<script src="<?php echo e(asset('css/summernote/summernote-bs4.js')); ?>"></script>
+<script src="<?php echo e(asset('js/plugins/tinymce/tinymce.min.js')); ?>"></script>
+<script>
+    if ($(".pc-tinymce-2").length) {
+        tinymce.init({
+            selector: '.pc-tinymce-2',
+            height: "400",
+            content_style: 'body { font-family: "Inter", sans-serif; }'
+        });
+    }
+    $(document).ready(function() {
+        $('.summernote').summernote({
+            height: 200,
         });
     });
 </script>

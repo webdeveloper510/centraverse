@@ -47,13 +47,15 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td><span><?php echo e(ucfirst($user->name)); ?></span></td>
+                                                <td><span><?php echo e(ucfirst($user->email)); ?></span></td>
+                                                <td><span><?php echo e(ucfirst($user->phone)); ?></span></td>
+                                                <td><span><?php echo e(ucfirst($user->address)); ?></span></td>
+                                                <td><span><?php echo e(ucfirst($user->organization)); ?></span></td>
                                             </tr>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tbody>
                                     </table>
                                 </div>

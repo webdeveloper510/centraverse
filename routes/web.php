@@ -948,8 +948,12 @@ Route::group(['middleware' => ['verified']], function () {
             Route::post('customer', [CustomerInformation::class, 'sendmail'])->name('customer.sendmail')->middleware(['auth', 'XSS']);
             Route::post('campaign-type',[CustomerInformation::class,'campaigntype'])->name('auto.campaign_type');
             Route::get('user-list',[CustomerInformation::class,'existinguserlist'])->name('campaign.existinguser'); 
+            Route::get('added-user-list',[CustomerInformation::class,'addeduserlist'])->name('campaign.addeduser'); 
             Route::get('customer-list',[CustomerInformation::class,'addusers'])->name('userlist'); 
             Route::get('upload-user-list',[CustomerInformation::class,'uploaduserlist'])->name('uploadusersinfo');       
+            Route::post('upload-user',[CustomerInformation::class,'importuser'])->name('importuser');       
+            Route::get('html-mail',[CustomerInformation::class,'mailformatting'])->name('htmlmail');  
+            Route::get('text-mail',[CustomerInformation::class,'textmailformatting'])->name('textmail');  
         }
     );
     Route::group(
