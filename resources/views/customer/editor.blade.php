@@ -11,7 +11,6 @@
 
 @endsection
 @section('content')
-<script src="https://editor.unlayer.com/embed.js"></script>
 <div class="container-field">
     <div id="wrapper">
         <div id="sidebar-wrapper">
@@ -27,7 +26,8 @@
             <div class="container-fluid xyz">
                 <div class="row">
                     <div class="col-lg-12">
-                        <div id="editor" style="height: 500px;"></div>
+                        <div id="editor-container"  style="height: 700px;"></div>
+                        <button class="save">Save</button>
                     </div>
                 </div>
             </div>
@@ -36,22 +36,46 @@
 </div>
 @endsection
 @push('script-page')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.8.0/html2pdf.bundle.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+
+<script src="https://editor.unlayer.com/embed.js"></script>
 <script>
     $(document).ready(function() {
         var unlayer = $('#editor-container').unlayer({
             apiKey: '1JIEPtRKTHWUcY5uMLY4TWFs2JHUbYjAcZIyd6ubblfukgU6XfAQkceYXUzI1DpR',
         });
     });
-    unlayer.init({
-        appearance: {
-            panels: {
-            tools: {
-                dock: 'left'
-            }
-            }
-        },
-        id: 'editor',
+            unlayer.init({
+        id: 'editor-container',
         projectId: 119381,
-    })
+        displayMode: 'email'
+        })
+        $('.save').click(function(){
+            unlayer.exportHtml(function(data) {
+            var json = data.design; // design json
+            var html = data.html; // final html
+            console.log(html);
+            // generatePDF(html);
+            })
+            function generatePDF(value) {
+                html2pdf(value, {
+                    margin: 10,
+                    filename: 'template.pdf',
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2 },
+                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                    pagebreak: { before: '.break-page' }
+                })
+                .then(() => {
+                  
+                    console.log('PDF generated successfully');
+                })
+                .catch((error) => {
+                    console.error('Error generating PDF:', error);
+                });
+            }
+
+        })
 </script>
 @endpush

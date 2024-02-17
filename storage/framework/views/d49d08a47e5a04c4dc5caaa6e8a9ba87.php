@@ -66,14 +66,13 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                             </a>
                         </li>
                         <?php endif; ?>
-                        <?php if(\Auth::user()->type == 'owner'): ?> 
+                        <!-- <?php if(\Auth::user()->type == 'owner'): ?> 
                             <li class="dash-item">
                                 <a href="<?php echo e(route('email.template.view')); ?>" class="dash-link">
-                                    <!-- <span class="dash-micon"><i class="ti ti-template"></i></span> -->
                                 <span
                                 class="dash-mtext"><?php echo e(__('Email Template')); ?></span></a>
                             </li>
-                        <?php endif; ?> 
+                        <?php endif; ?>  -->
                         <?php if(\Auth::user()->type == 'owner'): ?> 
                             <li class="dash-item">
                                 <a href="<?php echo e(route('customer.index')); ?>" class="dash-link">
@@ -89,7 +88,7 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                 </a>
                             </li>
                             <li class="dash-item <?php echo e(\Request::route()->getName() == 'customer-list' ? ' active' : ''); ?>">
-                            <a href="<?php echo e(route('userlist')); ?>" class="dash-link"><span class="dash-mtext"><?php echo e(__('Customer List')); ?></span></a>
+                            <a href="<?php echo e(route('userlist')); ?>" class="dash-link"><span class="dash-mtext"><?php echo e(__('Customer')); ?></span></a>
                         </li>
                         <?php endif; ?>
                         <?php if(\Auth::user()->type == 'super admin' || \Auth::user()->type == 'owner'): ?>

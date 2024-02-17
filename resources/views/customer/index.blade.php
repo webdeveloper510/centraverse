@@ -11,8 +11,6 @@
 
 @endsection
 @section('content')
-<link rel="stylesheet" href="https://editor.unlayer.com/embed.css">
-<script src="https://editor.unlayer.com/embed.js"></script>
 {{ Form::open(array('route' => 'customer.sendmail','method' =>'post')) }}
 <div class="container-field">
     <div id="wrapper">
@@ -54,7 +52,7 @@
                         <div class="row mt-5">
                             <div class="col-md-4">
                                 <label for="type">Notify as:</label><br>
-                                <div class="form-check form-check-inline">
+                                <div class="form-check form-check-inline createmail">
                                     <input class="form-check-input" type="checkbox" id="email" value="email" name="notify[1][]">
                                     <label class="form-check-label" for="email">Email</label>
                                 </div>
@@ -69,6 +67,10 @@
                                 <label>Upload Documents:</label><br>
                                  <input type="file" name="document" id="document"class="form-control" placeholder="Drag and Drop files here">
                             </div>
+                            <div class="col-md-6">
+                                 <!-- <input type="file" name="document" id="document"class="form-control" placeholder="Drag and Drop files here"> -->
+                           <button class="btn btn-primary">Send Mail</button>
+                                </div>
                         </div>
                     </div>
                 </div>
@@ -77,7 +79,6 @@
         </div>
     </div>
 </div>
-{{Form::close()}}
 <div class="modal" tabindex="-1" role="dialog" id="myModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -88,21 +89,50 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="row">
+                <div class="row" >
                     <div class="col-md-6">
-                        <a href="#" data-url="{{route('campaign.existinguser')}}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('User List')}}" title="{{__('Select Reciients')}}" class="btn btn-primary btn-icon m-1 close" style="float: right;">{{__('Existing Lead')}}</a>
+                        <h5>User List</h5>
+                        <ul class="list-group" id="scrollableDiv">
+                            @foreach($leadsuser as $user)
+                                    <li class="list-group-item">
+                                        {{ucfirst($user->name)}}
+                                        <input type="checkbox" name="users[]" class="pages  modal-checkbox" value="{{$user->email}}" style="float: right;">
+                                    </li>
+                            @endforeach
+                            @foreach($users as $user)
+                                <li class="list-group-item">
+                                    {{ucfirst($user->name)}}
+                                    <input type="checkbox" name="users[]"class="pages  modal-checkbox" value="{{$user->email}}" style="  float: right;">
+                                </li>
+                            @endforeach
+                        </ul>
+                        <!-- <a href="#" data-url="{{route('campaign.existinguser')}}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('User List')}}" title="{{__('Select Reciients')}}" class="btn btn-primary btn-icon m-1 close" style="float: right;">{{__('Existing Lead')}}</a> -->
                     </div>
                     <div class="col-md-6">
-                        <a href="#" data-url="{{route('campaign.addeduser')}}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('User List')}}" title="{{__('Select Reciients')}}" class="btn btn-primary btn-icon m-1 close" style="float: right;">{{__('User list')}}</a>
+                        <h5>Selected Users</h5>
+                        <ul class="list-group" id="selectedUsers">
+                            <!-- Selected users checkboxes will be appended here -->
+                        </ul>
                     </div>
+                    <!-- <input type="hidden" name="selectedUsers" id="selectedUsersInput"> -->
+                    <!-- <div class="col-md-4" >
+                        <h5>User List</h5>
+                        <ul class="list-group" id="scrollableDiv">
+                           
+                        </ul> -->
+                        <!-- <a href="#" data-url="{{route('campaign.existinguser')}}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('User List')}}" title="{{__('Select Reciients')}}" class="btn btn-primary btn-icon m-1 close" style="float: right;">{{__('Existing Lead')}}</a> -->
+                    <!-- </div> -->
+                   
+                    <!-- <div class="col-md-6">
+                        <a href="#" data-url="{{route('campaign.addeduser')}}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('User List')}}" title="{{__('Select Reciients')}}" class="btn btn-primary btn-icon m-1 close" style=" width: 45%;">{{__('User list')}}</a>
+                    </div> -->
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary close" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
+{{Form::close()}}
+
 <div class="modal" tabindex="-1" role="dialog" id="formatting">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -116,7 +146,7 @@
                 <div class="row">
                     <div class="col-6  mt-4">
                         <div class="form-group">
-                        <input type="radio" name="format" id="format" class="form-check-input " value="html" style="display: none;">
+                        <input type="radio" name="format" id="format" class="form-check-input" value="html" style="display: none;">
                         <label for="format" class="form-check-label">
                             <img src="{{asset('assets/images/html-formatter.svg')}}" alt="Uploaded Image" class="img-thumbnail formatter" data-bs-toggle="tooltip" title="HTML Mail" style="float: inline-end;">
                         </label>
@@ -193,7 +223,13 @@
 @endsection
 @push('css-page')
 <link rel="stylesheet" href="{{ asset('css/summernote/summernote-bs4.css') }}">
-
+<style>
+        #scrollableDiv{
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 0px;
+        }
+    </style>
 <style>
     div#myModal {
         position: absolute;
@@ -237,15 +273,15 @@
         $('.formatter').removeClass('selected-image');
         if ($(this).is(':checked')) {
             var imageId = $(this).attr('id');
-            $('label[for="' + imageId + '"] img').addClass('selected-image');
+            $('label[for="'+ imageId +'"] img').addClass('selected-image');
         }
         $('input[name="format"]').removeAttr('checked');
         $(this).attr('checked', 'checked');
-        $('label[for="' + $(this).attr('id') + '"] img').addClass('selected-image');
+        $('label[for="'+ $(this).attr('id') + '"] img').addClass('selected-image');
     });
 </script>
 <script>
-    $("input[type='checkbox']").click(function() {
+    $(".createmail input[type='checkbox']").click(function() {
         var $box = $(this);
         if ($box.is(":checked")) {
             var group = "input:checkbox[name='" + $box.attr("name") + "']";
@@ -257,7 +293,7 @@
         var val = $(this).val();
         if (val == 'email') {
             $("#formatting").css("display", "block");
-        } else {
+        } else if(val == 'text'){
             $("#textformat").css("display", "block");
         }
     })
@@ -339,5 +375,46 @@
             height: 200,
         });
     });
+    $(document).ready(function () {
+       
+            // Function to handle checkbox changes in scrollableDiv
+            $("#scrollableDiv").on("change", ".pages", function () {
+                const checkboxValue = $(this).val();
+                const labelText = $(this).parent().text().trim();
+                const destinationList = $("#selectedUsers");
+
+                if ($(this).prop("checked")) {
+                    // Clone the li element and change the name attribute
+                    const clonedLi = $(this).parent().clone();
+                    clonedLi.find("input").attr({
+                        "name": "selectuser[]",
+                        "style": "float: right; display: none;" // Add the style attribute
+                    });
+
+                    // Append the cloned li to the second list
+                    destinationList.append(clonedLi);
+                } else {
+                    // Remove the corresponding li from the second list
+                    destinationList.find(`input[value="${checkboxValue}"]`).parent().remove();
+                }
+            });
+        });
 </script>
+<script>
+    // function updateForm() {
+    //     var selectedUsers = [];
+    //     var checkboxes = document.getElementsByClassName('modal-checkbox');
+
+    //     for (var i = 0; i < checkboxes.length; i++) {
+    //         if (checkboxes[i].checked) {
+    //             selectedUsers.push(checkboxes[i].value);
+    //         }
+    //     }
+
+    //     // Update the hidden input field with the selected checkbox values
+    //     document.getElementById('selectedUsersInput').value = selectedUsers.join(',');
+    // }
+</script>
+
+
 @endpush

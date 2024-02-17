@@ -10,37 +10,80 @@
         background-color: #f0f0f0;
     }
 </style>
-<div class="row">
-    <div class="col-md-6">
-        <h6>List</h6>
-        <div class="form-group">
-            <input type="text" name="search" id="search"class="form-control"placeholder ="Search By List name">
-            <div class="selectpagebox" id="pagebox1">
+
+    <form method="POST" id="checkboxForm">
+        <div class="row">
+            <div class="col-md-6">
+                <h6>List</h6>
+                <div class="form-group">
+                    <input type="text" name="search" id="search" class="form-control" placeholder="Search By List name">
+                    <div class="selectpagebox" id="pagebox1">
+                        <ul class="list-group">
+                            <!-- Use a loop to generate checkbox items -->
+                            @foreach($leadsuser as $user)
+                                <li class="list-group-item">
+                                    {{ucfirst($user->name)}}
+                                    <input type="checkbox" name="users[]" class="pages" value="{{$user->email}}" style="float: right;">
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h6>Selected Users</h6>
+                <div class="form-group">
+                    <input type="text" name="search" id="searchSelected" class="form-control">
+                    <div class="selectpagebox" id="pagebox2">
+                        <ul class="list-group">
+                            <!-- Selected users will be added here dynamically -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <input type="submit" value="Save" class="btn btn-success">
+                <button type="button" class="btn  btn-light"
+        data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </form>
+
+<!-- <form method = "POST" id="checkboxForm">
+    <div class="row">
+        <div class="col-md-6">
+            <h6>List</h6>
+            <div class="form-group">
+                <input type="text" name="search" id="search"class="form-control"placeholder ="Search By List name">
+                <div class="selectpagebox" id="pagebox1">
+                    <ul class="list-group">
+                        @foreach($leadsuser as $user)
+                        <li class="list-group-item">{{ucfirst($user->name)}}<input type="checkbox" name="users[]"class="pages" value="{{$user->id}}" style="  float: right;"></li>
+                        @endforeach
+                    </ul>
+                </div>
+            
+            </div>    
+        </div>
+        <div class="col-md-6">
+            <h6>Selected Users</h6>
+            <div class="form-group">
+                <input type="text" name="search" id="search"class="form-control ">
+                <div class="selectpagebox" id="pagebox2">
                 <ul class="list-group">
-                    @foreach($leadsuser as $user)
-                    <li class="list-group-item">{{ucfirst($user->name)}}<input type="checkbox" name="users[]"class="pages" value="{{$user->id}}" style="  float: right;"></li>
-                    @endforeach
                 </ul>
-            </div>
-          
-        </div>    
+                </div>
+            </div>    
+        </div>
     </div>
-    <div class="col-md-6">
-        <h6>Selected Users</h6>
-        <div class="form-group">
-            <input type="text" name="search" id="search"class="form-control ">
-            <div class="selectpagebox" id="pagebox2">
-            <ul class="list-group">
-            </ul>
-            </div>
-        </div>    
+    <div class="row">
+        <div class="col-md-12">
+            <input type="submit" value="Save" class="btn  btn-success">
+        </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        <input type="submit" value="Save" class="btn  btn-success">
-    </div>
-</div>
+</form> -->
 <script>
     $(".pages").change(function () {
         var page = $(this);
@@ -52,3 +95,13 @@
         }
     });
 </script>
+<script>
+        $("#checkboxForm").submit(function (event) {
+        event.preventDefault(); // Prevent the default form submission behavior
+        const checkedCheckboxes = $(".pages:checked");
+        const checkboxValues = checkedCheckboxes.map(function () {
+            return $(this).val();
+        }).get();
+        localStorage.setItem('selectedusers', JSON.stringify(checkboxValues));
+    });
+    </script>
