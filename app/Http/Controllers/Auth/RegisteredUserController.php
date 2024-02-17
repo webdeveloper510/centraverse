@@ -47,7 +47,6 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
-
         if (Utility::getValByName('recaptcha_module') == 'yes') {
             $validation['g-recaptcha-response'] = 'required';
         } else {

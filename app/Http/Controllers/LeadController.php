@@ -485,7 +485,7 @@ class LeadController extends Controller
         return redirect()->back()->with('success', 'Email Sent Successfully');
     }
     public function proposalview($id){
-        
+        $billing = Billing::first();
         $id = decrypt(urldecode($id));
         $proposal =  Proposal::where('lead_id',$id)->exists();
         if($proposal){
@@ -494,7 +494,7 @@ class LeadController extends Controller
             $lead = Lead::find($id);
             $settings = Utility::settings();
             $venue = explode(',',$settings['venue']);
-            return view('lead.proposal',compact('lead','venue','settings'));
+            return view('lead.proposal',compact('lead','venue','settings','billing'));
         }
     }
     public function proposal_resp(Request $request,$id){

@@ -167,7 +167,134 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                             1786 will be provided for each.
                                         </p>
                                     <!-- <h6  >Billing Summary</h6> -->
+                                    <h6>Billing Summary -Estimate</h6>
+                    <table style=" width: 100%;">
+                        <thead>
+                            <tr>
+                                <th style="text-align:left; font-size:13px;text-align:left; padding:5px 5px; margin-left:5px;">Name : <?php echo e($lead->name); ?></th>
+                                <th colspan = "2" style="padding:5px 0px;margin-left :5px;font-size:13px"></th>
+                                <th colspan = "3"  style="text-align:left;text-align:left; padding:5px 5px; margin-left:5px;">Date:<?php echo date("d/m/Y"); ?> </th>
+                                <th  style="text-align:left; font-size:13px;padding:5px 5px; margin-left:5px;">Event: <?php echo e($lead->type); ?></th>
+                            </tr>
+                            <tr style="background-color:#063806;">
+                                <th style="color:#ffffff; font-size:13px;text-align:left; padding:5px 5px; margin-left:5px;">Description</th>
+                                <th colspan = "2" style="color:#ffffff; font-size:13px;padding:5px 5px; margin-left:5px;">Additional</th>
+                                <th  style="color:#ffffff; font-size:13px;padding:5px 5px;margin-left: 5px;font-size:13px">Cost</th>
+                                <th  style="color:#ffffff; font-size:13px;padding:5px 5px;margin-left :5px;font-size:13px">Quantity</th>
+                                <th  style="color:#ffffff; font-size:13px;padding:5px 5px;margin-left :5px;font-size:13px">Total Price</th>
+                                <th style="color:#ffffff; font-size:13px;padding:5px 5px;margin-left :5px;font-size:13px">Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>    
+                            <tr>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Venue Rental</td>
+                                <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                 
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($billing->venue_rental); ?></td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;">1</td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($total[] = $billing->venue_rental * 1); ?></td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($lead->venue_selection); ?></td>
+                            </tr>
+                            
+                            <tr>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Brunch / Lunch / Dinner Package</td>
+                                <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($billing->classic_brunch); ?></td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($lead->guest_count); ?></td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($total[] = $billing->classic_brunch * $lead->guest_count); ?></td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($lead->function); ?></td>
+                            </tr>
+                            <tr>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Bar Package</td>
+                                <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($billing->platinum_3hrs); ?></td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;">10</td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($total[] = $billing->platinum_3hrs * 10); ?></td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($lead->bar); ?></td>
+                            </tr>
+                            <tr>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Hotel Rooms</td>
+                                <td colspan = "2" style="padding:5px 5px; margin-left:5px;"></td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($billing->hotel_rooms); ?></td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($lead->rooms); ?></td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($total[] = $billing->hotel_rooms * $lead->rooms); ?></td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                            </tr>
+                            <tr>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Tent, Tables, Chairs, AV Equipment</td>
+                                <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($billing->equipment); ?></td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($lead->guest_count); ?></td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($total[] = $billing->equipment * $lead->guest_count); ?></td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Chairs</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Welcome / Rehearsal / Special Setup</td>
+                                <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px"></td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($billing->setup); ?></td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;">1</td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($total[] = $billing->setup * 1); ?></td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                            </tr>
+                            <tr>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Special Requests / Others</td>
+                                <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($billing->special_req); ?></td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;">1</td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($total[] = $billing->special_req * 1); ?></td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Bartender Fee</td>
+                                
+                            </tr>
+                            <tr>
+                                <td>-</td>
+                                <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                                <td colspan = "3" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                                
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                            </tr>
+                            <tr>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Total</td>
+                                <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                                <td colspan = "3" style="padding:5px 5px; margin-left:5px;font-size:13px;">$<?php echo e(array_sum($total)); ?></td>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                            </tr>
+                            <tr>
+                                <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Sales, Occupancy Tax</td>
+                                <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                                <td colspan = "3" style="padding:5px 5px; margin-left:5px;font-size:13px;"> $<?php echo e(7* array_sum($total)/100); ?></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:left;text-align:left; padding:5px 5px; margin-left:5px;font-size:13px;">Service Charges & Gratuity</td>
+                                <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                                <td colspan = "3" style="padding:5px 5px; margin-left:5px;font-size:13px;">$<?php echo e(20* array_sum($total)/100); ?></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>-</td>
+                                <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                                <td colspan = "3" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td style="background-color:#ffff00; padding:5px 5px; margin-left:5px;font-size:13px;">Grand Total / Estimated Total</td>
+                                <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                                <td colspan = "3" style="padding:5px 5px; margin-left:5px;font-size:13px;">$ <?php echo e($grandtotal=  array_sum($total) + 20* array_sum($total)/100 + 7* array_sum($total)/100); ?></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td style="background-color:#d7e7d7; padding:5px 5px; margin-left:5px;font-size:13px;">Deposits on file</td>
+                                <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                                <td colspan = "3" style="background-color:#d7e7d7;padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                                <td></td>
+                            </tr> <tr>
+                                <td style="background-color:#ffff00;text-align:left; padding:5px 5px; margin-left:5px;font-size:13px;">balance due</td>
+                                <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                                <td colspan = "3" style="padding:5px 5px; margin-left:5px;font-size:13px;background-color:#9fdb9f;">$<?php echo e($grandtotal); ?></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
                                 
                                     <h3 style = "text-align:center">TERMS AND CONDITIONS</h3>
                                     <h6  >FOOD AND ALCOHOLIC BEVERAGES and 3RD PARTY / ON-SITE VENDORS</h6>

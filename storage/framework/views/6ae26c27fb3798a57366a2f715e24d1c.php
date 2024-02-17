@@ -7,15 +7,10 @@
 <?php $__env->startSection('title'); ?>
 <?php echo e(__('Dashboard')); ?>
 
-
 <?php $__env->stopSection(); ?>
-
 <?php $__env->startSection('action-btn'); ?>
-
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
-
-
 <div class="container-field">
     <div id="wrapper">
         <div id="sidebar-wrapper">
@@ -23,7 +18,6 @@
                 <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
                     <a href="#useradd-1" class="list-group-item list-group-item-action"><span class="fa-stack fa-lg pull-left"><i class="ti ti-home-2"></i></span>
                         <span class="dash-mtext"><?php echo e(__('Dashboard')); ?> </span></a>
-
                     </a>
                 </div>
             </div>
