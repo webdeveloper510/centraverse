@@ -54,6 +54,7 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                 <!-- <span class="dash-micon"><i class="ti ti-filter"></i></span> -->
                                 <span class="dash-mtext"><?php echo e(__('Leads')); ?></span>
                             </a>
+                        </li>
                         <?php endif; ?>
                         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Meeting')): ?>
                         <li class="dash-item <?php echo e(\Request::route()->getName() == 'meeting' || \Request::route()->getName() == 'meeting.show' || \Request::route()->getName() == 'meeting.edit' ? ' active' : ''); ?>">
@@ -65,14 +66,13 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                             </a>
                         </li>
                         <?php endif; ?>
-                        <?php if(\Auth::user()->type == 'owner'): ?> 
+                        <!-- <?php if(\Auth::user()->type == 'owner'): ?> 
                             <li class="dash-item">
                                 <a href="<?php echo e(route('email.template.view')); ?>" class="dash-link">
-                                    <!-- <span class="dash-micon"><i class="ti ti-template"></i></span> -->
                                 <span
                                 class="dash-mtext"><?php echo e(__('Email Template')); ?></span></a>
                             </li>
-                        <?php endif; ?> 
+                        <?php endif; ?>  -->
                         <?php if(\Auth::user()->type == 'owner'): ?> 
                             <li class="dash-item">
                                 <a href="<?php echo e(route('customer.index')); ?>" class="dash-link">
@@ -84,10 +84,12 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                         <?php if(\Auth::user()->type =='owner'): ?>
                             <li class="dash-item <?php echo e(\Request::route()->getName() == 'billing' || \Request::route()->getName() == 'billing.index' ? ' active' : ''); ?>">
                                 <a href="<?php echo e(route('billing.index')); ?>" class="dash-link">
-                                    <!-- <span class="dash-micon"><i class="far fa-calendar-alt"></i></span> -->
                                     <span class="dash-mtext"><?php echo e(__('Billing')); ?></span>
                                 </a>
                             </li>
+                            <li class="dash-item <?php echo e(\Request::route()->getName() == 'customer-list' ? ' active' : ''); ?>">
+                            <a href="<?php echo e(route('userlist')); ?>" class="dash-link"><span class="dash-mtext"><?php echo e(__('Customer')); ?></span></a>
+                        </li>
                         <?php endif; ?>
                         <?php if(\Auth::user()->type == 'super admin' || \Auth::user()->type == 'owner'): ?>
                             <li class="dash-item  <?php echo e(Request::route()->getName() == 'settings' ? 'active' : ''); ?>">
