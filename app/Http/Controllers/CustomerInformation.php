@@ -12,6 +12,8 @@ use App\Mail\Campaignmail;
 use App\Imports\UsersImport;
 use App\Models\UserImport;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\File;
+use App\Models\Campaigndata;
 
 class CustomerInformation extends Controller
 {
@@ -23,46 +25,57 @@ class CustomerInformation extends Controller
        return view('customer.index',compact('customers','emailtemplates','leadsuser','users'));
     }
     public function sendmail(Request $request){
-     
-        $uniqueUsers = array_unique($request->input('users'));
-        echo "<pre>";
-        print_r($uniqueUsers);
-        // $validator = Validator::make(
-        //     $request->all(),
-        //     [
-        //         'template'=>'required',
-        //         'customer'=>'required'
-        //     ]);
-        // if ($validator->fails()) {
-        //     $messages = $validator->getMessageBag();
-        //     return redirect()->back()->with('error', $messages->first());
-        // }
-        // $template = Emailcontent::where('id',$request->template)->first();
-        // $customers = $request->customer;
-        // $settings = Utility::settings();
-        // foreach($customers as $customer){
-        //     Mail::to($customer)->send(new Campaignmail($template));
-        //     echo"<br>";
-        //     print_r($customer);
-        // }
-        // try {
-        //     config(
-        //         [
-        //             'mail.driver'       => $settings['mail_driver'],
-        //             'mail.host'         => $settings['mail_host'],
-        //             'mail.port'         => $settings['mail_port'],
-        //             'mail.username'     => $settings['mail_username'],
-        //             'mail.password'     => $settings['mail_password'],
-        //             'mail.from.address' => $settings['mail_from_address'],
-        //             'mail.from.name'    => $settings['mail_from_name'],
-        //         ]
-        //     );
+        $validator = \Validator::make(
+            $request->all(),
+            [
+                'description'=>'required',
+                'type' => 'required|max:120',
+                'recipients' => 'required',
+                'title' => 'required',
+            ]);
+        if ($validator->fails()) {
+            $messages = $validator->getMessageBag();
+            return redirect()->back()->with('error', $messages->first());
+        }
+        $campaignlist = new Campaigndata();
+        $campaignlist['type'] = $request->type;
+        $campaignlist['title'] =$request->title;
+        $campaignlist['recipients'] =$request->recepient_names;
+        $campaignlist['content'] =$request->content;
+        $campaignlist['description'] = $request->description;
+        $campaignlist->save();
+        $customers = explode(',',$request->recepient_names);
+        $subject= $request->description;
+        $settings = Utility::settings();
 
-        //     Mail::to('sonali@codenomad.net')->send(new Campaignmail($template));
-        // } catch (\Exception $e) {
-        //       return redirect()->back()->with('error', 'Email Not Sent');
-        // }
-        return redirect()->back();
+        foreach($customers as $customer){
+            try {
+                config(
+                    [
+                        'mail.driver'       => $settings['mail_driver'],
+                        'mail.host'         => $settings['mail_host'],
+                        'mail.port'         => $settings['mail_port'],
+                        'mail.username'     => $settings['mail_username'],
+                        'mail.password'     => $settings['mail_password'],
+                        'mail.from.address' => $settings['mail_from_address'],
+                        'mail.from.name'    => $settings['mail_from_name'],
+                    ]
+                );
+                Mail::raw($request->content, function ($message) use ($customer) {
+                    $message->to($customer)
+                    ->subject('Campaign');
+                });
+            } catch (\Exception $e) {
+                return response()->json(
+                    [
+                        'is_success' => false,
+                        'message' => $e->getMessage(),
+                    ]
+                );
+                //   return redirect()->back()->with('error', 'Email Not Sent');
+            }
+            return redirect()->back()->with('success','Email Sent Successfully');
+        }
     }
     public function campaigntype(Request $request){
         $type = $request->type;
@@ -86,8 +99,12 @@ class CustomerInformation extends Controller
     }
     public function importuser(Request $request) 
     {
-        Excel::import(new UsersImport,request()->file('users'));
-        return back();
+        $category = [
+            'category' => $request->input('category'),
+        ];
+        Excel::import(new UsersImport($category),request()->file('users'));
+        return redirect()->back()->with('success', 'Data  imported successfully');
+
     }
     public function mailformatting(){
         return view('customer.editor');
@@ -98,5 +115,26 @@ class CustomerInformation extends Controller
     public function addeduserlist(){
         $users = UserImport::all();
         return view('customer.addeduserlist',compact('users'));
+    }
+    public function campaign_categories(Request $request){
+        $types = $request->types;
+        if(!empty($types)){
+            foreach($types as $type){
+                $user[] = UserImport::where('category',$type)->get();
+            }
+            return $user;
+        }
+    }
+    public function savetemplatedesign(Request $request){
+        $jsonData = json_encode($request->jsondata);
+
+        $uniqueFilename = 'data_' . uniqid() . '.json';
+        $filePath = public_path() . '/template/' . $uniqueFilename;
+        File::put($filePath, $jsonData);
+        return $jsonData;
+    }
+    public function campaignlisting(){
+        $campaignlist = Campaigndata::all();
+        return view('customer.campaignlist',compact('campaignlist'));
     }
 }

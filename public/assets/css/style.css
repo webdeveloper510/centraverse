@@ -2915,7 +2915,7 @@ textarea.form-control-lg {
 }
 
 .input-group-text {
-    display: flex;
+    display: block;
     align-items: center;
     padding: 0.575rem 1rem;
     font-size: 0.875rem;
@@ -2924,9 +2924,9 @@ textarea.form-control-lg {
     color: #293240;
     text-align: center;
     white-space: nowrap;
-    background-color: #f8f9fd;
-    border: 1px solid #ced4da;
-    border-radius: 6px;
+    background-color: #e3e8ee;
+    /* border: 1px solid #ced4da; */
+    /* border-radius: 6px; */
 }
 
 .input-group-lg > .form-control, .input-group-lg > .custom-select,
