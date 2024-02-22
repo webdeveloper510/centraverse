@@ -4,30 +4,37 @@ namespace App\Imports;
 
 use App\Models\UserImport;
 use Maatwebsite\Excel\Concerns\ToModel;
-// use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-
-class UsersImport implements ToModel
+class UsersImport implements ToModel, WithHeadingRow
 {
     /**
     * @param array $row
     *
     * @return \Illuminate\Database\Eloquent\Model|null
     */
+    protected $category;
+
+    public function __construct($category)
+    {
+        $this->category = $category;
+    }
+
     public function model(array $row)
     {
-        if(empty($row[3])){
-            $row[3] == NULL;
-        }elseif($row[4]){
-            $row[4] == NULL;
+        $row = array_merge($row, $this->category);
+        if (UserImport::where(['email'=> $row['email'],'category'=> $row['category']])->exists()) {
+            return null;
         }
-        return new UserImport([
-                'name'     => $row[0],
-                'email'    => $row[1], 
-                'phone'    => $row[2],
-                'address'   => $row[3],
-                'organization'=>$row[4]
-        ]);
+        $data = [
+            'name'         => $row['name'],
+            'email'        => $row['email'],
+            'phone'        => $row['phone'],
+            'address'      => $row['address'],
+            'organization' => $row['organization'],
+            'category'      => $row['category']
+        ];
+        return new UserImport($data);
     }
    
 }

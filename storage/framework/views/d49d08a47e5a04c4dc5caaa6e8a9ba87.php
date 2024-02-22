@@ -62,7 +62,7 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                             <a href="<?php echo e(array_key_exists('meeting',$defaultView) ? route($defaultView['meeting']) : route('meeting.index')); ?>"
                                 class="dash-link">
                                 <!-- <span class="dash-micon"><i class="ti ti-calendar"></i></span> -->
-                                <span class="dash-mtext"><?php echo e(__('Event')); ?></span>
+                                <span class="dash-mtext"><?php echo e(__('Events')); ?></span>
                             </a>
                         </li>
                         <?php endif; ?>
@@ -78,7 +78,12 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                 <a href="<?php echo e(route('customer.index')); ?>" class="dash-link">
                                     <!-- <span class="dash-micon"><i class="ti ti-template"></i></span> -->
                                     <span
-                                class="dash-mtext"><?php echo e(__('Campaign')); ?></span></a>
+                                class="dash-mtext"><?php echo e(__('Campaigns')); ?></span></a>
+                            </li>
+                            <li class="dash-item <?php echo e(\Request::route()->getName() == 'customer-list' ? ' active' : ''); ?>">
+                                <a href="<?php echo e(route('userlist')); ?>" class="dash-link">
+                                    <span class="dash-mtext"><?php echo e(__('Customers')); ?></span>
+                                </a>
                             </li>
                         <?php endif; ?> 
                         <?php if(\Auth::user()->type =='owner'): ?>
@@ -87,9 +92,6 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                     <span class="dash-mtext"><?php echo e(__('Billing')); ?></span>
                                 </a>
                             </li>
-                            <li class="dash-item <?php echo e(\Request::route()->getName() == 'customer-list' ? ' active' : ''); ?>">
-                            <a href="<?php echo e(route('userlist')); ?>" class="dash-link"><span class="dash-mtext"><?php echo e(__('Customer')); ?></span></a>
-                        </li>
                         <?php endif; ?>
                         <?php if(\Auth::user()->type == 'super admin' || \Auth::user()->type == 'owner'): ?>
                             <li class="dash-item  <?php echo e(Request::route()->getName() == 'settings' ? 'active' : ''); ?>">
