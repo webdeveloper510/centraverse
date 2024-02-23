@@ -79,7 +79,7 @@ $campaigntypes = explode(',',$settings['campaign_type']);
                     var innerArray = data[i];
                     for (var j = 0; j < innerArray.length; j++) {
                         var user = innerArray[j];
-                        var list = `<li class = "list-group-item">${user.name}(${user.category})<input type ="checkbox" name="users[]" value ="${user.id}"class="form-check pages"></li>`
+                        var list = `<li class = "list-group-item">${user.name}(${user.category})<input type ="checkbox" name="users[]" value ="${user.email}"class="form-check pages"></li>`
                         $('#checkboxContainer ul').append(list);
                     }
                 }

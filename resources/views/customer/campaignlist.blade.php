@@ -37,23 +37,15 @@
                                                 <th scope="col" class="sort" data-sort="name">{{__('Title')}}</th>
                                                 <th scope="col" class="sort" data-sort="name">{{__('Type')}}</th>
                                                 <th scope="col" class="sort" data-sort="budget">{{__('Created At')}}</th>
-                                                <th scope="col" class="sort">{{__('Due date')}}</th>
                                                 <th scope="col" class="sort">{{__('Action')}}</th>                                               
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach($campaignlist as $campaign)
                                             <tr>
-                                                <td>
-                                                    <span class="budget"><b>{{ucfirst($campaign->title)}}</b></span>
-                                                </td>
-                                                <td>
-                                                <span class="budget"><b>{{ucfirst($campaign->type)}}</b></span>
-                                                </td>
-                                                <td>
-                                                    <span class="budget">{{ucfirst($campaign->created_at)}}</span>
-                                                </td>
-                                                <td><span class="col-sm-12"><span class="text-sm"></span></span></td>
+                                                <td><span class="budget"><b>{{ucfirst($campaign->title)}}</b></span></td>
+                                                <td><span class="budget"><b>{{ucfirst($campaign->type)}}</b></span></td>
+                                                <td><span class="budget">{{ \Carbon\Carbon::parse($campaign->created_at)->format('d M, Y')}}</span></td>
                                                 <td></td>
                                             </tr>
                                             @endforeach
