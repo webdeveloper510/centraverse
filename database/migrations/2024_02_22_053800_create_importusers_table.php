@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('address')->nullable();
             $table->string('organization')->nullable();
+            $table->string('category');
             $table->timestamps();
         });
     }
