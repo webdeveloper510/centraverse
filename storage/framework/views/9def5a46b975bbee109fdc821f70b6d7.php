@@ -23,7 +23,7 @@
             <div class="card sticky-top" style="top:30px">
                 <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
                     <a href="#useradd-1" class="list-group-item list-group-item-action"><span class="fa-stack fa-lg pull-left"><i class="ti ti-users"></i></span>
-                        <span class="dash-mtext"><?php echo e(__('Customer List')); ?> </span></a>
+                        <span class="dash-mtext"><?php echo e(__('Customers')); ?> </span></a>
 
                     </a>
                 </div>
@@ -42,18 +42,26 @@
                                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Name')); ?></th>
                                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Email')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Phone')); ?></th>
+                                                <th scope="col" class="sort"><?php echo e(__('Category')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Address')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Organization')); ?></th>
+                                                <th scope="col" class="sort"><?php echo e(__('Actions')); ?></th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <tr>
                                                 <td><span><?php echo e(ucfirst($user->name)); ?></span></td>
-                                                <td><span><?php echo e(ucfirst($user->email)); ?></span></td>
-                                                <td><span><?php echo e(ucfirst($user->phone)); ?></span></td>
+                                                <td><span><?php echo e($user->email); ?></span></td>
+                                                <td><span><?php echo e($user->phone); ?></span></td>
+                                                <td><span><?php echo e(ucfirst($user->category)); ?></span></td>
                                                 <td><span><?php echo e(ucfirst($user->address)); ?></span></td>
                                                 <td><span><?php echo e(ucfirst($user->organization)); ?></span></td>
+                                                <td>  
+                                                    <div class="action-btn bg-info ms-2">
+                                                        <a href="#" data-url="<?php echo e(route('lead.create',['lead',0])); ?>"class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " id ="<?php echo e($user->id); ?>"  onclick="storeIdInLocalStorage(this)"data-bs-toggle="tooltip" title="<?php echo e(__('Convert Lead')); ?>"  data-ajax-popup="true" data-title="<?php echo e(__('Create Lead')); ?>"><i class="fas fa-exchange-alt"></i></a>
+                                                    </div>
+                                                </td>                                            
                                             </tr>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tbody>
@@ -68,4 +76,12 @@
     </div>
 </div>
 <?php $__env->stopSection(); ?>
+<?php $__env->startPush('script-page'); ?>
+<script>
+    function storeIdInLocalStorage(link) {
+        var id = link.id;
+        localStorage.setItem('clickedLinkId', id);
+    }
+</script>
+<?php $__env->stopPush(); ?>
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/customer/new_user.blade.php ENDPATH**/ ?>

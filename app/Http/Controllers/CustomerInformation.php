@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Campaignmail;
 use App\Imports\UsersImport;
+use App\Mail\SendCampaignMail;
 use App\Models\UserImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\File;
@@ -26,7 +27,7 @@ class CustomerInformation extends Controller
        return view('customer.index',compact('customers','emailtemplates','leadsuser','users'));
     }
     public function sendmail(Request $request){
-       
+    //    echo"<pre>";print_r($request->all());die;
         $validator = \Validator::make(
             $request->all(),
             [
@@ -39,12 +40,12 @@ class CustomerInformation extends Controller
             $messages = $validator->getMessageBag();
             return redirect()->back()->with('error', $messages->first());
         }
-
         $campaignlist = new Campaigndata();
         $campaignlist['type'] = $request->type;
         $campaignlist['title'] =$request->title;
         $campaignlist['recipients'] =$request->recepient_names;
         $campaignlist['content'] =$request->content;
+        $campaignlist['template'] =$request->template_html;
         $campaignlist['description'] = $request->description;
         $campaignlist->save();
         $notifyvia = $request->notify[1][0];
@@ -102,22 +103,17 @@ class CustomerInformation extends Controller
                         'mail.from.name'    => $settings['mail_from_name'],
                     ]
                 );
-                Mail::raw($request->content, function ($message) use ($customer) {
-                    $message->to($customer)
-                    ->subject('Campaign');
-                });
+                Mail::to($customer)->send(new SendCampaignMail($campaignlist));
+            
                 return redirect()->back()->with('success','Email Sent Successfully');
 
             } catch (\Exception $e) {
-                return response()->json(
-                    [
-                        'is_success' => false,
-                        'message' => $e->getMessage(),
-                    ]
-                );
+              
                   return redirect()->back()->with('error', 'Email Not Sent');
             }
         }
+        
+     
         return redirect()->back()->with('success','Campaign  Sent Successfully');
 
     }
@@ -169,16 +165,80 @@ class CustomerInformation extends Controller
             return $user;
         }
     }
-    public function savetemplatedesign(Request $request){
-        $jsonData = json_encode($request->jsondata);
 
-        // $uniqueFilename = 'data_' . uniqid() . '.json';
-        // $filePath = public_path() . '/template/' . $uniqueFilename;
-        // File::put($filePath, $jsonData);
-        return $jsonData;
-    }
     public function campaignlisting(){
         $campaignlist = Campaigndata::all();
         return view('customer.campaignlist',compact('campaignlist'));
+    }
+    public function contactinfo(Request $request){
+       $user =  UserImport::where('id',$request->customerid)->get();
+       return $user;
+    }
+    public function resendcampaign(Request $request){
+        $campaign = Campaigndata::where('id',$request->id)->get();
+        $settings = Utility::settings();
+        $customers = explode(',',$request->recepient_names);
+        if(!empty($campaign->template)){
+            foreach($customers as $customer){
+                try {
+                    config(
+                        [
+                            'mail.driver'       => $settings['mail_driver'],
+                            'mail.host'         => $settings['mail_host'],
+                            'mail.port'         => $settings['mail_port'],
+                            'mail.username'     => $settings['mail_username'],
+                            'mail.password'     => $settings['mail_password'],
+                            'mail.from.address' => $settings['mail_from_address'],
+                            'mail.from.name'    => $settings['mail_from_name'],
+                        ]
+                    );
+                    Mail::to($customer)->send(new SendCampaignMail($campaign));
+                   
+                    return 'Email Sent Successfully';
+        
+                } catch (\Exception $e) {
+                    return response()->json(
+                        [
+                            'is_success' => false,
+                            'message' => $e->getMessage(),
+                        ]
+                    );
+                }
+            }
+        }else{
+
+                foreach($customers as $customer){
+                    $lead = Lead::where('email',$customer)->exists();
+                    $existinguser = UserImport::where('email',$customer)->exists();
+                    if($lead){
+                       $user =  Lead::where('email',$customer)->pluck('phone');
+                    }
+                    if($existinguser){
+                        $user =   UserImport::where('email',$customer)->pluck('phone');
+                    }  
+                    $uArr[] = [
+                        'user' =>$user,
+                        'content' => $request->content,
+                    ]; 
+                    // print_r($uArr);
+                   
+                }
+                $account_sid = $settings['twilio_sid'];
+                $auth_token = $settings['twilio_token'];
+                $twilio_number = $settings['twilio_from'];
+                foreach ($uArr as  $value) {
+                    try {
+                        $client = new Client($account_sid, $auth_token);
+                        $client->messages->create('+91'.$value['user'][0], [
+                            'from' => $twilio_number,
+                            'body' => $value['content'],
+                        ]);
+                        return 'Message Sent successfully';
+                    } catch (\Exception $e) {
+                        return "Message couldn't be sent";
+                    }
+                }
+            
+        }      
     }
 }

@@ -955,8 +955,10 @@ Route::group(['middleware' => ['verified']], function () {
             Route::get('html-mail',[CustomerInformation::class,'mailformatting'])->name('htmlmail');  
             Route::get('text-mail',[CustomerInformation::class,'textmailformatting'])->name('textmail');  
             Route::post('campaign-category',[CustomerInformation::class,'campaign_categories'])->name('campaign_categories');  
-            Route::post('save_template',[CustomerInformation::class,'savetemplatedesign'])->name('template-design');  
+            // Route::post('save_template',[CustomerInformation::class,'savetemplatedesign'])->name('template-design');  
             Route::get('campaign-list',[CustomerInformation::class,'campaignlisting'])->name('campaign-list');  
+            Route::post('contactinfo',[CustomerInformation::class,'contactinfo'])->name('getcontactinfo');  
+            Route::post('resend-campaign',[CustomerInformation::class,'resendcampaign'])->name('resend-campaign');
 
         }
     );

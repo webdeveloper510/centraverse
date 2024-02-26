@@ -21,7 +21,7 @@
             <div class="card sticky-top" style="top:30px">
                 <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
                     <a href="#useradd-1" class="list-group-item list-group-item-action"><span class="fa-stack fa-lg pull-left"><i class="ti ti-users"></i></span>
-                        <span class="dash-mtext">{{ __('Customer List') }} </span></a>
+                        <span class="dash-mtext">{{ __('Customers') }} </span></a>
 
                     </a>
                 </div>
@@ -40,18 +40,26 @@
                                                 <th scope="col" class="sort" data-sort="name">{{__('Name')}}</th>
                                                 <th scope="col" class="sort" data-sort="budget">{{__('Email')}}</th>
                                                 <th scope="col" class="sort">{{__('Phone')}}</th>
+                                                <th scope="col" class="sort">{{__('Category')}}</th>
                                                 <th scope="col" class="sort">{{__('Address')}}</th>
                                                 <th scope="col" class="sort">{{__('Organization')}}</th>
+                                                <th scope="col" class="sort">{{__('Actions')}}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach($users as $user)
                                             <tr>
                                                 <td><span>{{ucfirst($user->name)}}</span></td>
-                                                <td><span>{{ucfirst($user->email)}}</span></td>
-                                                <td><span>{{ucfirst($user->phone)}}</span></td>
+                                                <td><span>{{$user->email}}</span></td>
+                                                <td><span>{{$user->phone}}</span></td>
+                                                <td><span>{{ucfirst($user->category)}}</span></td>
                                                 <td><span>{{ucfirst($user->address)}}</span></td>
                                                 <td><span>{{ucfirst($user->organization)}}</span></td>
+                                                <td>  
+                                                    <div class="action-btn bg-info ms-2">
+                                                        <a href="#" data-url="{{ route('lead.create',['lead',0]) }}"class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " id ="{{ $user->id }}"  onclick="storeIdInLocalStorage(this)"data-bs-toggle="tooltip" title="{{__('Convert Lead')}}"  data-ajax-popup="true" data-title="{{__('Create Lead')}}"><i class="fas fa-exchange-alt"></i></a>
+                                                    </div>
+                                                </td>                                            
                                             </tr>
                                             @endforeach
                                         </tbody>
@@ -66,3 +74,11 @@
     </div>
 </div>
 @endsection
+@push('script-page')
+<script>
+    function storeIdInLocalStorage(link) {
+        var id = link.id;
+        localStorage.setItem('clickedLinkId', id);
+    }
+</script>
+@endpush
