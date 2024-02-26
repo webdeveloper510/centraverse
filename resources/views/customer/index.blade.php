@@ -60,7 +60,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <label for="decription">Decription</label>
+                                <label for="description">Description</label>
                                 <textarea name="description" id="description" class="form-control" rows="5"></textarea>
                             </div>
                         </div>
@@ -93,8 +93,6 @@
         </div>
     </div>
 </div>
-<!-- <div id="editor-container"></div> -->
-
 <div class="modal" tabindex="-1" role="dialog" id="myModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -118,6 +116,7 @@
         </div>
     </div>
 </div>
+
 <div class="modal" tabindex="-1" role="dialog" id="formatting">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -133,10 +132,7 @@
                         <div class="form-group">
                             <input type="radio" name="format" id="format" class="form-check-input" value="html" style="display: none;">
                             <label for="format" class="form-check-label">
-                                <!-- <a href="#" data-url="{{ route('htmlmail')}}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('Html mail')}}"class="close"> -->
                                 <img src="{{asset('assets/images/html-formatter.svg')}}" alt="Uploaded Image" class="img-thumbnail formatter" id="html_mail" data-bs-toggle="tooltip" title="HTML Mail" style="float: inline-end;">
-                                <!-- </a> -->
-
                             </label>
                             <h4 style="float: inline-end;">HTML Mail</h4>
                         </div>
@@ -157,6 +153,7 @@
         </div>
     </div>
 </div>
+
 <div class="modal" tabindex="-1" role="dialog" id="textformat">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -183,6 +180,7 @@
         </div>
     </div>
 </div>
+
 <div class="modal" tabindex="-1" role="dialog" id="edito" >
     <div class="modal-dialog" role="document" style="max-width: 75% !important;">
         <div class="modal-content">
@@ -193,15 +191,15 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div id="editor-container"  style="height: 500px;"></div>
+                <div id="editor-container" style="height:500px;"></div>
             </div>
             <div class="modal-footer">
-                <button class="savedesign"><i class="fa fa-check"></i></button>
+                <button type="button" class="savedesign"><i class="fa fa-check"></i></button>
             </div>
         </div>
     </div>
 </div>
-<div id="editor"></div>
+
 {{Form::close()}}
 @endsection
 @push('css-page')
@@ -255,11 +253,15 @@
         $("#edito").css("display", "block");
         $("#formatting").css("display", "none");
     });
+    $('#text_mail').click(function() {
+        var descrip = $('textarea[name= "description"]').val();
+        $('textarea[name ="content"]').val(descrip);
+        $("#textformat").css("display", "block");
+        $("#formatting").css("display", "none");
+      
+    });
     $(document).ready(function(){
         var unlayer = $('#editor-container').unlayer({
-            apiKey: '1JIEPtRKTHWUcY5uMLY4TWFs2JHUbYjAcZIyd6ubblfukgU6XfAQkceYXUzI1DpR',
-        });
-        var unlayerdes = $('#editor').unlayer({
             apiKey: '1JIEPtRKTHWUcY5uMLY4TWFs2JHUbYjAcZIyd6ubblfukgU6XfAQkceYXUzI1DpR',
         });
     })
@@ -268,17 +270,11 @@
         projectId: 119381,
         displayMode: 'email'
     });
-    unlayerdes.init({
-        id: 'editor',
-        projectId: 119381,
-        displayMode: 'email'
-    });
-    
     $('.savedesign').click(function(e){
         e.preventDefault();
         unlayer.exportHtml(function(data) {
         var json = data.design; 
-            // console.log(json); 
+            console.log(json); 
             $.ajax({
                 url: "{{ route('template-design') }}",
                 type: 'POST',
@@ -287,26 +283,44 @@
                     "_token": "{{ csrf_token() }}",
                 },
                 success: function(data) {
-                  console.log(data);
-                //   var editor = new Unlayer({
-                //         id: 'editor', // ID of the target div
-                //         projectId: 119381, // Your Unlayer project ID
-                //         displayMode: 'email',
-                //         displayModeDefault: 'email',
-                //         apiKey: '1JIEPtRKTHWUcY5uMLY4TWFs2JHUbYjAcZIyd6ubblfukgU6XfAQkceYXUzI1DpR', // Your Unlayer API key
+                    console.log(data);
+                    // var designContainer = document.getElementById('design-container');
+                    // createHTMLFromJSON(data, designContainer);
+                    // function createHTMLFromJSON(json, parentElement) {
+                    //     if (json && json.elements && Array.isArray(json.elements)) {
+                    //         json.elements.forEach(function (elementData) {
+                    //         var element = document.createElement(elementData.tag);
 
-                //     });
-                unlayerdes.loadDesign(data);
+                    //         // Set attributes
+                    //         if (elementData.attributes) {
+                    //             for (var attribute in elementData.attributes) {
+                    //             if (elementData.attributes.hasOwnProperty(attribute)) {
+                    //                 element.setAttribute(attribute, elementData.attributes[attribute]);
+                    //             }
+                    //             }
+                    //         }
+
+                    //         // Set content
+                    //         if (elementData.content) {
+                    //             element.innerHTML = elementData.content;
+                    //         }
+
+                    //         // Append to parent element
+                    //         parentElement.appendChild(element);
+
+                    //         // Recursively create child elements
+                    //         if (elementData.elements) {
+                    //             createHTMLFromJSON(elementData, element);
+                    //         }
+                    //         });
+                    //     }
+                    // }
+                    // unlayer.render(designContainer);
+                    //   console.log(data);
                 }
             });
         });           
     })
-    $('#text_mail').click(function() {
-        $("#textformat").css("display", "block");
-        $("#formatting").css("display", "none");
-        var descrip = $('textarea[name= "description"]').val();
-        $('textarea[name ="content"]').val(descrip);
-    });
 </script>
 <script>
     $(document).ready(function() {
@@ -315,19 +329,17 @@
         $('input[name = "recepient_names"]').val(storedValues);
         localStorage.removeItem('selectedValues');
     });
-
-
     $('input[name="format"]').change(function() {
         $('.formatter').removeClass('selected-image');
         if ($(this).is(':checked')) {
             var imageId = $(this).attr('id');
             $('label[for="' + imageId + '"] img').addClass('selected-image');
+            // alert(imageId);
         }
         $('input[name="format"]').removeAttr('checked');
         $(this).attr('checked', 'checked');
         $('label[for="' + $(this).attr('id') + '"] img').addClass('selected-image');
     });
-
     $(".createmail input[type='checkbox']").click(function() {
         $('input[name=content]').val('');
         var $box = $(this);

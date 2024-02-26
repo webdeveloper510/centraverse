@@ -39,23 +39,15 @@
                                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Title')); ?></th>
                                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Type')); ?></th>
                                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Created At')); ?></th>
-                                                <th scope="col" class="sort"><?php echo e(__('Due date')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Action')); ?></th>                                               
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php $__currentLoopData = $campaignlist; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $campaign): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <tr>
-                                                <td>
-                                                    <span class="budget"><b><?php echo e(ucfirst($campaign->title)); ?></b></span>
-                                                </td>
-                                                <td>
-                                                <span class="budget"><b><?php echo e(ucfirst($campaign->type)); ?></b></span>
-                                                </td>
-                                                <td>
-                                                    <span class="budget"><?php echo e(ucfirst($campaign->created_at)); ?></span>
-                                                </td>
-                                                <td><span class="col-sm-12"><span class="text-sm"></span></span></td>
+                                                <td><span class="budget"><b><?php echo e(ucfirst($campaign->title)); ?></b></span></td>
+                                                <td><span class="budget"><b><?php echo e(ucfirst($campaign->type)); ?></b></span></td>
+                                                <td><span class="budget"><?php echo e(\Carbon\Carbon::parse($campaign->created_at)->format('d M, Y')); ?></span></td>
                                                 <td></td>
                                             </tr>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

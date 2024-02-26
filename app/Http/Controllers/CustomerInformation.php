@@ -14,6 +14,7 @@ use App\Models\UserImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\File;
 use App\Models\Campaigndata;
+use Twilio\Rest\Client;
 
 class CustomerInformation extends Controller
 {
@@ -25,6 +26,7 @@ class CustomerInformation extends Controller
        return view('customer.index',compact('customers','emailtemplates','leadsuser','users'));
     }
     public function sendmail(Request $request){
+       
         $validator = \Validator::make(
             $request->all(),
             [
@@ -37,6 +39,7 @@ class CustomerInformation extends Controller
             $messages = $validator->getMessageBag();
             return redirect()->back()->with('error', $messages->first());
         }
+
         $campaignlist = new Campaigndata();
         $campaignlist['type'] = $request->type;
         $campaignlist['title'] =$request->title;
@@ -44,6 +47,44 @@ class CustomerInformation extends Controller
         $campaignlist['content'] =$request->content;
         $campaignlist['description'] = $request->description;
         $campaignlist->save();
+        $notifyvia = $request->notify[1][0];
+       
+        if($notifyvia != "email"){
+            $users = explode(',',$request->recepient_names);
+            foreach($users as $user){
+                $lead = Lead::where('email',$user)->exists();
+                $existinguser = UserImport::where('email',$user)->exists();
+                if($lead){
+                   $user =  Lead::where('email',$user)->pluck('phone');
+                }
+                if($existinguser){
+                    $user =   UserImport::where('email',$user)->pluck('phone');
+                }  
+                $uArr[] = [
+                    'user' =>$user,
+                    'content' => $request->content,
+                ]; 
+                // print_r($uArr);
+               
+            }
+           
+            $settings = Utility::settings();
+            $account_sid = $settings['twilio_sid'];
+            $auth_token = $settings['twilio_token'];
+            $twilio_number = $settings['twilio_from'];
+            foreach ($uArr as  $value) {
+                try {
+                    $client = new Client($account_sid, $auth_token);
+                    $client->messages->create('+91'.$value['user'][0], [
+                        'from' => $twilio_number,
+                        'body' => $value['content'],
+                    ]);
+                    return redirect()->back()->with('success','Message Sent successfully');
+                } catch (\Exception $e) {
+                    return redirect()->back()->with('error',"Message couldn't be sent");
+                }
+            }
+        }
         $customers = explode(',',$request->recepient_names);
         $subject= $request->description;
         $settings = Utility::settings();
@@ -65,6 +106,8 @@ class CustomerInformation extends Controller
                     $message->to($customer)
                     ->subject('Campaign');
                 });
+                return redirect()->back()->with('success','Email Sent Successfully');
+
             } catch (\Exception $e) {
                 return response()->json(
                     [
@@ -72,10 +115,11 @@ class CustomerInformation extends Controller
                         'message' => $e->getMessage(),
                     ]
                 );
-                //   return redirect()->back()->with('error', 'Email Not Sent');
+                  return redirect()->back()->with('error', 'Email Not Sent');
             }
-            return redirect()->back()->with('success','Email Sent Successfully');
         }
+        return redirect()->back()->with('success','Campaign  Sent Successfully');
+
     }
     public function campaigntype(Request $request){
         $type = $request->type;
@@ -128,9 +172,9 @@ class CustomerInformation extends Controller
     public function savetemplatedesign(Request $request){
         $jsonData = json_encode($request->jsondata);
 
-        $uniqueFilename = 'data_' . uniqid() . '.json';
-        $filePath = public_path() . '/template/' . $uniqueFilename;
-        File::put($filePath, $jsonData);
+        // $uniqueFilename = 'data_' . uniqid() . '.json';
+        // $filePath = public_path() . '/template/' . $uniqueFilename;
+        // File::put($filePath, $jsonData);
         return $jsonData;
     }
     public function campaignlisting(){
