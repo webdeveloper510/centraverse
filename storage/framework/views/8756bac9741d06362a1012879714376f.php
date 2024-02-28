@@ -78,19 +78,6 @@
                                                 <span class="badge bg-success p-2 px-3 rounded"><?php echo e(__(\App\Models\Billingdetail::$status[$bill->status])); ?></span>
                                                 <?php endif; ?>
                                             </td>
-                                                <!-- <td class="text-end">
-                                                    <div class="action-btn bg-danger ms-2">
-                                                        <?php echo Form::open(['method' => 'DELETE', 'route' => ['billing.destroy', $bill->id]]); ?>
-
-                                                        <a href="#!"
-                                                            class="mx-3 btn btn-sm   align-items-center text-white show_confirm"
-                                                            data-bs-toggle="tooltip" title='Delete'>
-                                                            <i class="ti ti-trash"></i>
-                                                        </a>
-                                                        <?php echo Form::close(); ?>
-
-                                                    </div>
-                                                </td> -->
                                             </tr>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </tbody>

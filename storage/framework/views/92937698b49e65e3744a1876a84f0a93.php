@@ -13,7 +13,7 @@
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
-<?php echo e(Form::open(array('route' => 'customer.sendmail','method' =>'post'))); ?>
+<?php echo e(Form::open(array('route' => 'customer.sendmail','method' =>'post','files' => true))); ?>
 
 <div class="container-field">
     <div id="wrapper">
@@ -84,7 +84,8 @@
                         <div class="row mt-5">
                             <div class="col-md-6">
                                 <label>Upload Documents:</label><br>
-                                <input type="file" name="document" id="document" class="form-control" placeholder="Drag and Drop files here">
+                                <!-- <input type="file" name="document" id="document" class="form-control" placeholder="Drag and Drop files here"> -->
+                           <input type="file" name="document" id="document" class="form-control" >
                             </div>
                             <div class="col-md-6">
                                 <button class="btn btn-primary mt-3"  style="float: right;" >Continue</button>
@@ -180,8 +181,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary close" value="Save" id="message"><?php echo e(__('Save')); ?></button>
-                <!-- <input type="submit" value="<?php echo e(__('Save')); ?>" class="btn btn-print-invoice btn-primary"> -->
+                <button type ="button"class="btn btn-primary close" value="Save" id="message"><?php echo e(__('Save')); ?></button>
                 <button type="button" class="btn  btn-light close" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -207,6 +207,33 @@
     </div>
 </div>
 
+<!-- <div class="modal" tabindex="-1" role="dialog" id="textmail">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Text Mail</h5>
+                <button type="button" class="close btn btn-primary" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group col-12">
+                        <?php echo e(Form::label('content', __('Message'), ['class' => 'form-control-label text-dark'])); ?>
+
+                        <?php echo e(Form::textarea('content',null, ['class' => 'form-control'])); ?>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary close" value="Save" id="message"><?php echo e(__('Save')); ?></button>
+                <button type="button" class="btn  btn-light close" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div> -->
 <?php echo e(Form::close()); ?>
 
 <?php $__env->stopSection(); ?>
@@ -280,55 +307,13 @@
     });
     $('.savedesign').click(function(e){
         e.preventDefault();
+        $("#edito").css("display", "none");
+
         unlayer.exportHtml(function(data) {
         var json = data.html; 
-            console.log(json); 
-            // $('.template').html(json);
+            // console.log(json); 
             $('input[name="template_html"]').val(json)
-            // $.ajax({
-            //     url: "",
-            //     type: 'POST',
-            //     data: {
-            //         "jsondata": json,
-            //         "_token": "<?php echo e(csrf_token()); ?>",
-            //     },
-            //     success: function(data) {
-            //         console.log(data);
-                    // var designContainer = document.getElementById('design-container');
-                    // createHTMLFromJSON(data, designContainer);
-                    // function createHTMLFromJSON(json, parentElement) {
-                    //     if (json && json.elements && Array.isArray(json.elements)) {
-                    //         json.elements.forEach(function (elementData) {
-                    //         var element = document.createElement(elementData.tag);
-
-                    //         // Set attributes
-                    //         if (elementData.attributes) {
-                    //             for (var attribute in elementData.attributes) {
-                    //             if (elementData.attributes.hasOwnProperty(attribute)) {
-                    //                 element.setAttribute(attribute, elementData.attributes[attribute]);
-                    //             }
-                    //             }
-                    //         }
-
-                    //         // Set content
-                    //         if (elementData.content) {
-                    //             element.innerHTML = elementData.content;
-                    //         }
-
-                    //         // Append to parent element
-                    //         parentElement.appendChild(element);
-
-                    //         // Recursively create child elements
-                    //         if (elementData.elements) {
-                    //             createHTMLFromJSON(elementData, element);
-                    //         }
-                    //         });
-                    //     }
-                    // }
-                    // unlayer.render(designContainer);
-                    //   console.log(data);
-        //         }
-        //     });
+           
         });           
     })
 </script>

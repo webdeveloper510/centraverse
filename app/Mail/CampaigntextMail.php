@@ -8,20 +8,17 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Mail\Mailables\Attachment;
 
-class SendCampaignMail extends Mailable
+class CampaigntextMail extends Mailable
 {
     use Queueable, SerializesModels;
-    public $campaignlist;
-    public $attachmentPath;
+    public $content;
     /**
      * Create a new message instance.
      */
-    public function __construct($campaignlist, $attachmentPath)
+    public function __construct($content)
     {
-        $this->campaignlist = $campaignlist ;
-        $this->attachmentPath = $attachmentPath ;
+        $this->content = $content;
     }
 
     /**
@@ -40,7 +37,7 @@ class SendCampaignMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'customer.mail.index',
+            view: 'customer.mail.textmail',
         );
     }
 
@@ -56,6 +53,6 @@ class SendCampaignMail extends Mailable
     public function build()
     {
         return $this->subject('Campaign')
-                    ->view('customer.mail.index') ;
-        }
+                    ->view('customer.mail.textmail') ;
+    }
 }

@@ -93,6 +93,7 @@ class MeetingController extends Controller
     // WORKING  17-01-2024
     public function store(Request $request)
     {
+        
         if (\Auth::user()->can('Create Meeting')) {
             $request->validate([
                 'name' => 'required|max:120',
@@ -626,7 +627,7 @@ class MeetingController extends Controller
                     'mail.from.name'    => $settings['mail_from_name'],
                 ]
             );
-            Mail::to('sonali@codenomad.net')->send(new SendEventMail($meeting));
+            Mail::to($meeting->email)->send(new SendEventMail($meeting));
             $meeting->update(['status'=>1]);
         } catch (\Exception $e) {
             return response()->json(
@@ -858,7 +859,7 @@ class MeetingController extends Controller
                     ]
                 );
     
-                Mail::to('sonali@codenomad.net')->send(new SendEventMail($meeting));
+                Mail::to($meeting->email)->send(new SendEventMail($meeting));
             } catch (\Exception $e) {
                 // \Log::error('Error sending email: ' . $e->getMessage());
                 // return response()->json(

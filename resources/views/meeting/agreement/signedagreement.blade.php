@@ -10,7 +10,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script> -->
     <title>Agreement</title>
 </head>
 
@@ -528,13 +528,20 @@
                     <img src="{{$base64Image}}" style="width:30%; border-bottom:1px solid black;">
                 </div>
                         <div class="col-md-6">
+
                             <strong> Signature:</strong>
                             <br>
                             <div id="sig" class="mt-3">
+                            <canvas id="signatureCanvas" width="300" class="signature-canvas"></canvas>
+                            <!-- <div id="sig" class="mt-3">
                                 <canvas id="signatureCanvas" width="200" height="200" required></canvas>
                                 <input type="hidden" name="imageData" id="imageData">
+                            </div> -->
+                            <input type="hidden" name="imageData" id="imageData">
                             </div>
-                            <button id="clearButton" class="btn btn-danger btn-sm mt-1">Clear Signature</button>
+                            <button type ="button"id="clearButton" class="btn btn-danger btn-sm mt-1">Clear Signature</button>
+
+                            <!-- <button id="clearButton" class="btn btn-danger btn-sm mt-1">Clear Signature</button> -->
                         </div> 
                     </div>
                     <div class="row">
@@ -558,6 +565,22 @@
 </style>
 @include('partials.admin.head')
 @include('partials.admin.footer')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
+  
+  <!-- <script>
+    // Initialize Signature Pad
+    var canvas = document.getElementById('signatureCanvas');
+    var signaturePad = new SignaturePad(canvas, {
+      backgroundColor: 'rgba(255, 255, 255, 0)',
+      penColor: 'black'
+    });
+
+    // Clear the signature pad
+    function clearSignature() {
+      signaturePad.clear();
+    }
+  </script> -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script> -->
  <script>
     document.addEventListener('DOMContentLoaded', function() {
         var canvas = document.getElementById('signatureCanvas');

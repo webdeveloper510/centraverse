@@ -11,7 +11,7 @@
 
 @endsection
 @section('content')
-{{ Form::open(array('route' => 'customer.sendmail','method' =>'post')) }}
+{{ Form::open(array('route' => 'customer.sendmail','method' =>'post','files' => true)) }}
 <div class="container-field">
     <div id="wrapper">
         <div id="sidebar-wrapper">
@@ -81,7 +81,8 @@
                         <div class="row mt-5">
                             <div class="col-md-6">
                                 <label>Upload Documents:</label><br>
-                                <input type="file" name="document" id="document" class="form-control" placeholder="Drag and Drop files here">
+                                <!-- <input type="file" name="document" id="document" class="form-control" placeholder="Drag and Drop files here"> -->
+                           <input type="file" name="document" id="document" class="form-control" >
                             </div>
                             <div class="col-md-6">
                                 <button class="btn btn-primary mt-3"  style="float: right;" >Continue</button>
@@ -175,8 +176,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary close" value="Save" id="message">{{ __('Save') }}</button>
-                <!-- <input type="submit" value="{{ __('Save') }}" class="btn btn-print-invoice btn-primary"> -->
+                <button type ="button"class="btn btn-primary close" value="Save" id="message">{{ __('Save') }}</button>
                 <button type="button" class="btn  btn-light close" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -202,6 +202,31 @@
     </div>
 </div>
 
+<!-- <div class="modal" tabindex="-1" role="dialog" id="textmail">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Text Mail</h5>
+                <button type="button" class="close btn btn-primary" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group col-12">
+                        {{ Form::label('content', __('Message'), ['class' => 'form-control-label text-dark']) }}
+                        {{ Form::textarea('content',null, ['class' => 'form-control']) }}
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary close" value="Save" id="message">{{ __('Save') }}</button>
+                <button type="button" class="btn  btn-light close" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div> -->
 {{Form::close()}}
 @endsection
 @push('css-page')
@@ -274,6 +299,8 @@
     });
     $('.savedesign').click(function(e){
         e.preventDefault();
+        $("#edito").css("display", "none");
+
         unlayer.exportHtml(function(data) {
         var json = data.html; 
             // console.log(json); 

@@ -40,25 +40,26 @@
         }
 
         .logo-img {
-            width: 45%;
+            width: 10%;
         }
     </style>
 </head>
-
+@include('partials.admin.head')
 <body>
     <div class="container">
         <img src="{{$logo.'/logo.png' }}" alt="Logo" class="logo-img">
-        <h1>Select Payment Option</h1>
+        <h4>Click Here to pay</h4>
         <div class="payment-options">
-            <img data-paylink="{{ url('/paypal/billing/payment/') }}/{{Request::segment(2)}}" src="https://imgs.search.brave.com/F2X32YQLP77NPXmbREsXY2P3dZPYQYmrSrb3A9ycd9I/rs:fit:860:0:0/g:ce/aHR0cHM6Ly8xMDAw/bG9nb3MubmV0L3dw/LWNvbnRlbnQvdXBs/b2Fkcy8yMDE3LzA1/L0NvbG9yLVBheXBh/bC1Mb2dvLTUwMHg0/MDQuanBn" alt="PayPal">
-            <img data-paylink="{{ url('/stripe/billing/payment/') }}/{{Request::segment(2)}}" src="https://imgs.search.brave.com/LoWta5ojUgjpQs9ZlNd28kZoOaB8oXZdrQ78xSzEkA4/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/ZWRpZ2l0YWxhZ2Vu/Y3kuY29tLmF1L3dw/LWNvbnRlbnQvdXBs/b2Fkcy9uZXctc3Ry/aXBlLWxvZ28tcG5n/LTg2MHgzNjEucG5n" alt="Stripe" >
+            <a href="{{route('pay')}}" class="btn btn-primary">Pay Now</a>
+            <!-- <img data-paylink="{{ url('/paypal/billing/payment/') }}/{{Request::segment(2)}}" src="https://imgs.search.brave.com/F2X32YQLP77NPXmbREsXY2P3dZPYQYmrSrb3A9ycd9I/rs:fit:860:0:0/g:ce/aHR0cHM6Ly8xMDAw/bG9nb3MubmV0L3dw/LWNvbnRlbnQvdXBs/b2Fkcy8yMDE3LzA1/L0NvbG9yLVBheXBh/bC1Mb2dvLTUwMHg0/MDQuanBn" alt="PayPal">
+            <img data-paylink="{{ url('/stripe/billing/payment/') }}/{{Request::segment(2)}}" src="https://imgs.search.brave.com/LoWta5ojUgjpQs9ZlNd28kZoOaB8oXZdrQ78xSzEkA4/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/ZWRpZ2l0YWxhZ2Vu/Y3kuY29tLmF1L3dw/LWNvbnRlbnQvdXBs/b2Fkcy9uZXctc3Ry/aXBlLWxvZ28tcG5n/LTg2MHgzNjEucG5n" alt="Stripe" > -->
         </div>
-        <div id="paypal" style="display: none;">
+        <!-- <div id="paypal" style="display: none;">
         </div>
         <div id="stripe" style="display: none;">
-        </div>
+        </div> -->
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script>
         jQuery(function($){
         $('div.payment-options > img').click(function(){
@@ -66,7 +67,7 @@
             window.location.href = id;
         })
         });    
-    </script>
+    </script> -->
 </body>
 
 </html>
