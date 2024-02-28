@@ -50,7 +50,7 @@
         <img src="{{$logo.'/logo.png' }}" alt="Logo" class="logo-img">
         <h4>Click Here to pay</h4>
         <div class="payment-options">
-            <a href="{{route('pay')}}" class="btn btn-primary">Pay Now</a>
+            <a href="{{route('pay',urlencode(encrypt($new_id)))}}" class="btn btn-primary">Pay Now</a>
             <!-- <img data-paylink="{{ url('/paypal/billing/payment/') }}/{{Request::segment(2)}}" src="https://imgs.search.brave.com/F2X32YQLP77NPXmbREsXY2P3dZPYQYmrSrb3A9ycd9I/rs:fit:860:0:0/g:ce/aHR0cHM6Ly8xMDAw/bG9nb3MubmV0L3dw/LWNvbnRlbnQvdXBs/b2Fkcy8yMDE3LzA1/L0NvbG9yLVBheXBh/bC1Mb2dvLTUwMHg0/MDQuanBn" alt="PayPal">
             <img data-paylink="{{ url('/stripe/billing/payment/') }}/{{Request::segment(2)}}" src="https://imgs.search.brave.com/LoWta5ojUgjpQs9ZlNd28kZoOaB8oXZdrQ78xSzEkA4/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/ZWRpZ2l0YWxhZ2Vu/Y3kuY29tLmF1L3dw/LWNvbnRlbnQvdXBs/b2Fkcy9uZXctc3Ry/aXBlLWxvZ28tcG5n/LTg2MHgzNjEucG5n" alt="Stripe" > -->
         </div>

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Billingdetail;
+use App\Models\Meeting;
 use App\Models\PaymentLogs;
 use Illuminate\Http\Request;
 use net\authorize\api\contract\v1 as AnetAPI;
@@ -9,10 +11,12 @@ use net\authorize\api\controller as AnetController;
 
 class AuthorizeController extends Controller
 {
-    public function pay() {
-        return view('payments.pay');
+    public function pay($id) {
+        $id = decrypt(urldecode($id));
+        $event = Meeting::where('id',$id)->first();
+        return view('payments.pay',compact('event'));
     }
-    public function handleonlinepay(Request $request) {
+    public function handleonlinepay(Request $request ,$id) {
         $input = $request->all();
 
     /* Create a merchantAuthenticationType object with authentication details
@@ -101,8 +105,6 @@ class AuthorizeController extends Controller
             // Since the API request was successful, look for a transaction response
             // and parse it to display the results of authorizing the card
             $tresponse = $response->getTransactionResponse();
-            \Log::info('Transaction Response: ', $tresponse);
-die;
             if ($tresponse != null && $tresponse->getMessages() != null) {
                 echo " Successfully created transaction with Transaction ID: " . $tresponse->getTransId() . "\n";
                 echo " Transaction Response Code: " . $tresponse->getResponseCode() . "\n";
@@ -122,7 +124,8 @@ die;
                         'name_of_card' =>  $input['owner'],
                         'qty' =>  1,
                     ]);
-
+                    Billingdetail::where('event_id', $id)->update(['status' => 2]);
+                    return view('calendar.welcome')->with('success',$message_text);
             } else {
                 echo "Transaction Failed \n";
                 if ($tresponse->getErrors() != null) {
@@ -160,7 +163,9 @@ die;
         $msg_type = 'error_msg';
         $message_text = 'No reponse returned';
     }
-
-    return back()->with($msg_type,$message_text);
+    return view('calendar.paymentfailed')->with($msg_type, $message_text);
+    // return back()->with($msg_type,$message_text);
     }
 }
+// Billingdetail::where('event_id', $event_id)->update(['status' => 2]);
+// return view('calendar.welcome');

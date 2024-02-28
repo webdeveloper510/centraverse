@@ -532,12 +532,8 @@
                             <strong> Signature:</strong>
                             <br>
                             <div id="sig" class="mt-3">
-                            <canvas id="signatureCanvas" width="300" class="signature-canvas"></canvas>
-                            <!-- <div id="sig" class="mt-3">
-                                <canvas id="signatureCanvas" width="200" height="200" required></canvas>
+                                <canvas id="signatureCanvas" width="300" class="signature-canvas"></canvas>
                                 <input type="hidden" name="imageData" id="imageData">
-                            </div> -->
-                            <input type="hidden" name="imageData" id="imageData">
                             </div>
                             <button type ="button"id="clearButton" class="btn btn-danger btn-sm mt-1">Clear Signature</button>
 
@@ -566,21 +562,7 @@
 <?php echo $__env->make('partials.admin.head', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <?php echo $__env->make('partials.admin.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
-  
-  <!-- <script>
-    // Initialize Signature Pad
-    var canvas = document.getElementById('signatureCanvas');
-    var signaturePad = new SignaturePad(canvas, {
-      backgroundColor: 'rgba(255, 255, 255, 0)',
-      penColor: 'black'
-    });
 
-    // Clear the signature pad
-    function clearSignature() {
-      signaturePad.clear();
-    }
-  </script> -->
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script> -->
  <script>
     document.addEventListener('DOMContentLoaded', function() {
         var canvas = document.getElementById('signatureCanvas');

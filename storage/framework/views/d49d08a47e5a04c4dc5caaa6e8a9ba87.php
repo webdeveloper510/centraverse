@@ -85,6 +85,11 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                     <span class="dash-mtext"><?php echo e(__('Customers')); ?></span>
                                 </a>
                             </li>
+                            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Contract')): ?>
+                                <li class="dash-item  <?php echo e((Request::route()->getName() == 'contract.index' || Request::route()->getName() == 'contract.show') ? 'active' : ''); ?>">
+                                    <a href="<?php echo e(route('contract.index')); ?>" class="dash-link"><span class="dash-mtext"><?php echo e(__('Contracts')); ?></span></a>
+                                </li>
+                            <?php endif; ?>
                         <?php endif; ?> 
                         <?php if(\Auth::user()->type =='owner'): ?>
                             <li class="dash-item <?php echo e(\Request::route()->getName() == 'billing' || \Request::route()->getName() == 'billing.index' ? ' active' : ''); ?>">

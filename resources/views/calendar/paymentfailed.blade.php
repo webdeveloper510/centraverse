@@ -1,5 +1,5 @@
 @php
- $logo = asset('storage/uploads/logo/');
+$logo = URL::asset('storage/uploads/logo/');
 @endphp
 <!DOCTYPE html>
 <html lang="en">
@@ -13,11 +13,10 @@
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            display: flex;
+            display: grid;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: linear-gradient(45deg, #e74c3c, #c0392b); /* Red gradient background */
         }
 
         .failed-container {
@@ -33,7 +32,8 @@
         }
 
         h1 {
-            color: #e74c3c; /* Red color for the heading */
+            color: #e74c3c;
+            /* Red color for the heading */
             font-size: 36px;
             margin-bottom: 10px;
         }
@@ -52,7 +52,8 @@
             padding: 12px 24px;
             font-size: 18px;
             color: #ffffff;
-            background: linear-gradient(45deg, #e74c3c, #c0392b); /* Red gradient button */
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            /* Red gradient button */
             border: none;
             border-radius: 5px;
             cursor: pointer;
@@ -61,7 +62,8 @@
         }
 
         .button:hover {
-            background: linear-gradient(45deg, #c0392b, #e74c3c); /* Darker red gradient on hover */
+            background: linear-gradient(45deg, #c0392b, #e74c3c);
+            /* Darker red gradient on hover */
         }
 
         @keyframes fadeInUp {
@@ -69,6 +71,7 @@
                 opacity: 0;
                 transform: translateY(20px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -79,6 +82,7 @@
 
 <body>
     <div class="failed-container">
+      
         <div class="logo-container">
             <img src="{{$logo.'/logo.png' }}" alt="Logo" class="logo-img">
         </div>

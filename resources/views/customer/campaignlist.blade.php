@@ -9,6 +9,7 @@
 @endsection
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{__('Home')}}</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('customer.index') }}">{{__('Campaigns')}}</a></li>
     <li class="breadcrumb-item">{{__('View Campaigns')}}</li>
 @endsection
 @section('content')

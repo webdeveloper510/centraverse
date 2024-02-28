@@ -1,5 +1,6 @@
 <?php 
   $selectedvenue= explode(',',$lead->venue_selection);
+  $settings = App\Models\Utility::settings();
   $imagePath = public_path('upload/signature/autorised_signature.png');
 $imageData = base64_encode(file_get_contents($imagePath));
 $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base64,' . $imageData;
@@ -528,10 +529,16 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                 <strong> Signature:</strong>
                                 <br>
                                 <div id="sig" class="mt-3">
+                                <canvas id="signatureCanvas" width="300" class="signature-canvas"></canvas>
+                                <input type="hidden" name="imageData" id="imageData">
+                            </div>
+                            <button type ="button"id="clearButton" class="btn btn-danger btn-sm mt-1">Clear Signature</button>
+
+                                <!-- <div id="sig" class="mt-3">
                                     <canvas id="signatureCanvas" width="200" height="200" required></canvas>
                                     <input type="hidden" name="imageData" id="imageData">
                                 </div>
-                                <button id="clearButton" class="btn btn-danger btn-sm mt-1">Clear Signature</button>
+                                <button id="clearButton" class="btn btn-danger btn-sm mt-1">Clear Signature</button> -->
                             </div> 
                            
                         </div>
@@ -557,7 +564,29 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
 </style>
 @include('partials.admin.head')
 @include('partials.admin.footer')
-<script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
+
+ <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var canvas = document.getElementById('signatureCanvas');
+        var signaturePad = new SignaturePad(canvas);
+        function clearCanvas() {
+            signaturePad.clear();
+        }
+        document.getElementById('clearButton').addEventListener('click', function(e) {
+            e.preventDefault();
+            clearCanvas();
+        });
+        document.querySelector('form').addEventListener('submit', function() {
+            if (signaturePad.points.length != 0) {
+                document.getElementById('imageData').value = signaturePad.toDataURL();
+            } else {
+                document.getElementById('imageData').value = '';
+            }
+        });
+    });
+  </script>
+<!-- <script>
     document.addEventListener('DOMContentLoaded', function() {
         var canvas = document.getElementById('signatureCanvas');
         var signaturePad = new SignaturePad(canvas);
@@ -576,4 +605,4 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
             }
         });
     });
-</script>
+</script> -->

@@ -1,26 +1,25 @@
-@php
- $logo = URL::asset('storage/uploads/logo/');
-@endphp
+<?php
+$logo = URL::asset('storage/uploads/logo/');
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome | Successful Payment</title>
+    <title>Payment Failed</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            display: flex;
+            display: grid;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: linear-gradient(45deg, #3498db, #2ecc71);
         }
 
-        .welcome-container {
+        .failed-container {
             text-align: center;
             background-color: #ffffff;
             padding: 30px;
@@ -33,7 +32,8 @@
         }
 
         h1 {
-            color: #3498db;
+            color: #e74c3c;
+            /* Red color for the heading */
             font-size: 36px;
             margin-bottom: 10px;
         }
@@ -52,7 +52,8 @@
             padding: 12px 24px;
             font-size: 18px;
             color: #ffffff;
-            background: linear-gradient(45deg, #219653, #145388);
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            /* Red gradient button */
             border: none;
             border-radius: 5px;
             cursor: pointer;
@@ -61,7 +62,8 @@
         }
 
         .button:hover {
-            background: linear-gradient(45deg, #145388, #219653);
+            background: linear-gradient(45deg, #c0392b, #e74c3c);
+            /* Darker red gradient on hover */
         }
 
         @keyframes fadeInUp {
@@ -69,6 +71,7 @@
                 opacity: 0;
                 transform: translateY(20px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -78,14 +81,17 @@
 </head>
 
 <body>
-    <div class="welcome-container">
+    <div class="failed-container">
+      
         <div class="logo-container">
-            <img src="{{$logo.'/logo.png' }}" alt="Logo" class="logo-img" style="width: 50%;">
+            <img src="<?php echo e($logo.'/logo.png'); ?>" alt="Logo" class="logo-img">
         </div>
-        <h1>Payment Success!</h1>
-        <p>Thank you for your successful payment.</p>
+        <h1>Payment Failed!</h1>
+        <p>We're sorry, but your payment was unsuccessful.</p>
+        <div class="button-container">
+            <a href="<?php echo e(url('/')); ?>" class="button">Return to Homepage</a>
+        </div>
     </div>
 </body>
 
-</html>
-
+</html><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/calendar/paymentfailed.blade.php ENDPATH**/ ?>

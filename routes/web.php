@@ -963,8 +963,8 @@ Route::group(['middleware' => ['verified']], function () {
 
         }
     );
-    Route::get('/pay',[AuthorizeController::class,'pay'])->name('pay');
-    Route::post('/dopay/online',[AuthorizeController::class,'handleonlinepay'])->name('dopay.online');
+    Route::get('/pay/{id}',[AuthorizeController::class,'pay'])->name('pay');
+    Route::post('/dopay/online/{id}',[AuthorizeController::class,'handleonlinepay'])->name('dopay.online');
     Route::group(
         [
             'middleware' => [
