@@ -119,7 +119,7 @@
     </div>
 </div>
 {{Form::close()}}
-                        <script>
+<script>
                         $(document).ready(function() {
       var input = document.querySelector("#phone-input");
       var iti = window.intlTelInput(input, {

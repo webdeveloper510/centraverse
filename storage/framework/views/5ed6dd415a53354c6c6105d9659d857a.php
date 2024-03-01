@@ -156,7 +156,7 @@ unset($__errorArgs, $__bag); ?> -->
 </div>
 <?php echo e(Form::close()); ?>
 
-                        <!-- <script>
+<script>
                         $(document).ready(function() {
       var input = document.querySelector("#phone-input");
       var iti = window.intlTelInput(input, {
@@ -218,6 +218,6 @@ const inputElement = document.getElementById('phone-input');
 inputElement.addEventListener('keydown',enforceFormat);
 inputElement.addEventListener('keyup',formatToPhone);
 
-</script> -->
+</script>
 <?php endif; ?>
 <?php /**PATH C:\xampp\htdocs\centraverse\resources\views/user/create.blade.php ENDPATH**/ ?>
