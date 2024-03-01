@@ -9,16 +9,16 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class SendEventMail extends Mailable
+class SendCampaignMail extends Mailable
 {
     use Queueable, SerializesModels;
-    public $meeting;
+    public $campaignlist;
     /**
      * Create a new message instance.
      */
-    public function __construct($meeting)
+    public function __construct($campaignlist)
     {
-       $this->meeting = $meeting;
+        $this->campaignlist = $campaignlist ;
     }
 
     /**
@@ -27,7 +27,7 @@ class SendEventMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Agreement',
+            subject: 'Campaign Mail',
         );
     }
 
@@ -37,9 +37,8 @@ class SendEventMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'meeting.agreement.mail',
+            view: 'customer.mail.index',
         );
-        
     }
 
     /**
@@ -51,10 +50,9 @@ class SendEventMail extends Mailable
     {
         return [];
     }
-
     public function build()
     {
-        return $this->subject('Agreement')
-                    ->view('meeting.agreement.mail'); 
-    }
+        return $this->subject('Campaign')
+                    ->view('customer.mail.index'); 
+    } 
 }

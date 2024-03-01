@@ -95,7 +95,6 @@
                                                 </td>
                                                 <?php if(Gate::check('Show Lead') || Gate::check('Edit Lead') || Gate::check('Delete Lead')): ?>
                                                 <td class="text-end">
-
                                                     <?php if($lead->status == 2): ?>
                                                     <div class="action-btn bg-secondary ms-2">
                                                         <a href="<?php echo e(route('meeting.create',['meeting',0])); ?>" data-size="md" data-url="#" data-bs-toggle="tooltip" data-title="<?php echo e(__('Convert')); ?>" title="<?php echo e(__('Convert To Event')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">

@@ -96,6 +96,8 @@
         </div>
     </div>
 </div>
+<input type="text" name="template_html" value="">
+<!-- <div class="template"></div> -->
 <div class="modal" tabindex="-1" role="dialog" id="myModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -279,17 +281,19 @@
     $('.savedesign').click(function(e){
         e.preventDefault();
         unlayer.exportHtml(function(data) {
-        var json = data.design; 
+        var json = data.html; 
             console.log(json); 
-            $.ajax({
-                url: "<?php echo e(route('template-design')); ?>",
-                type: 'POST',
-                data: {
-                    "jsondata": json,
-                    "_token": "<?php echo e(csrf_token()); ?>",
-                },
-                success: function(data) {
-                    console.log(data);
+            // $('.template').html(json);
+            $('input[name="template_html"]').val(json)
+            // $.ajax({
+            //     url: "",
+            //     type: 'POST',
+            //     data: {
+            //         "jsondata": json,
+            //         "_token": "<?php echo e(csrf_token()); ?>",
+            //     },
+            //     success: function(data) {
+            //         console.log(data);
                     // var designContainer = document.getElementById('design-container');
                     // createHTMLFromJSON(data, designContainer);
                     // function createHTMLFromJSON(json, parentElement) {
@@ -323,8 +327,8 @@
                     // }
                     // unlayer.render(designContainer);
                     //   console.log(data);
-                }
-            });
+        //         }
+        //     });
         });           
     })
 </script>
@@ -425,17 +429,6 @@
         });
     });
 </script>
-<!-- <script>
-    $('input[name = "format"]').change(function(){
-        var value = $(this).val();
-        $('#formatting').css("display","none");
-        if(value == 'html'){
-            window.location.href ='<?php echo e(route("htmlmail")); ?>';
-        } else{
-            window.location.href ="<?php echo e(route('textmail')); ?>";
-        }
-    });
-</script> -->
 <script src="<?php echo e(asset('css/summernote/summernote-bs4.js')); ?>"></script>
 <script src="<?php echo e(asset('js/plugins/tinymce/tinymce.min.js')); ?>"></script>
 <script>

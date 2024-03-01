@@ -93,7 +93,6 @@
                                                 </td>
                                                 @if(Gate::check('Show Lead') || Gate::check('Edit Lead') || Gate::check('Delete Lead'))
                                                 <td class="text-end">
-
                                                     @if($lead->status == 2)
                                                     <div class="action-btn bg-secondary ms-2">
                                                         <a href="{{ route('meeting.create',['meeting',0]) }}" data-size="md" data-url="#" data-bs-toggle="tooltip" data-title="{{ __('Convert') }}" title="{{ __('Convert To Event') }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">

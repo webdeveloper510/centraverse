@@ -95,6 +95,8 @@
         </div>
     </div>
 </div>
+<input type="text" name="template_html" value="">
+<!-- <div class="template"></div> -->
 <div class="modal" tabindex="-1" role="dialog" id="myModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -278,52 +280,10 @@
     $('.savedesign').click(function(e){
         e.preventDefault();
         unlayer.exportHtml(function(data) {
-        var json = data.design; 
-            console.log(json); 
-            $.ajax({
-                url: "<?php echo e(route('template-design')); ?>",
-                type: 'POST',
-                data: {
-                    "jsondata": json,
-                    "_token": "<?php echo e(csrf_token()); ?>",
-                },
-                success: function(data) {
-                    console.log(data);
-                    // var designContainer = document.getElementById('design-container');
-                    // createHTMLFromJSON(data, designContainer);
-                    // function createHTMLFromJSON(json, parentElement) {
-                    //     if (json && json.elements && Array.isArray(json.elements)) {
-                    //         json.elements.forEach(function (elementData) {
-                    //         var element = document.createElement(elementData.tag);
-
-                    //         // Set attributes
-                    //         if (elementData.attributes) {
-                    //             for (var attribute in elementData.attributes) {
-                    //             if (elementData.attributes.hasOwnProperty(attribute)) {
-                    //                 element.setAttribute(attribute, elementData.attributes[attribute]);
-                    //             }
-                    //             }
-                    //         }
-
-                    //         // Set content
-                    //         if (elementData.content) {
-                    //             element.innerHTML = elementData.content;
-                    //         }
-
-                    //         // Append to parent element
-                    //         parentElement.appendChild(element);
-
-                    //         // Recursively create child elements
-                    //         if (elementData.elements) {
-                    //             createHTMLFromJSON(elementData, element);
-                    //         }
-                    //         });
-                    //     }
-                    // }
-                    // unlayer.render(designContainer);
-                    //   console.log(data);
-                }
-            });
+        var json = data.html; 
+            // console.log(json); 
+            $('input[name="template_html"]').val(json)
+           
         });           
     })
 </script>
@@ -424,17 +384,6 @@
         });
     });
 </script>
-<!-- <script>
-    $('input[name = "format"]').change(function(){
-        var value = $(this).val();
-        $('#formatting').css("display","none");
-        if(value == 'html'){
-            window.location.href ='<?php echo e(route("htmlmail")); ?>';
-        } else{
-            window.location.href ="<?php echo e(route('textmail')); ?>";
-        }
-    });
-</script> -->
 <script src="<?php echo e(asset('css/summernote/summernote-bs4.js')); ?>"></script>
 <script src="<?php echo e(asset('js/plugins/tinymce/tinymce.min.js')); ?>"></script>
 <script>
