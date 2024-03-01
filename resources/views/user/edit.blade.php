@@ -72,7 +72,7 @@
                         <div class="card-body">
                             <form>
                                 <div class="row">
-                                    <div class="col-sm-6">
+                                    <!-- <div class="col-sm-6">
                                         <div class="form-group">
                                             {{ Form::label('username', __('User Name'), ['class' => 'form-label']) }}
                                             {{ Form::text('username', null, ['class' => 'form-control', 'placeholder' => __('Enter User Name'), 'required' => 'required']) }}
@@ -82,7 +82,7 @@
                                                 </span>
                                             @enderror
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="col-6">
                                         <div class="form-group">
                                             {{ Form::label('name', __('Name'), ['class' => 'form-label']) }}
@@ -117,16 +117,16 @@
                                         </div>
                                     </div>
                                     <div class="col-6">
-                                        <div class="form-group">
+                                        <div class="form-group intl-tel-input">
                                             {{ Form::label('phone', __('Phone'), ['class' => 'form-label']) }}
-                                            {{ Form::text('phone', null, ['class' => 'form-control', 'placeholder' => __('Enter Phone'), 'required' => 'required']) }}
-                                            @error('phone')
-                                                <span class="invalid-phone" role="alert">
-                                                    <strong class="text-danger">{{ $message }}</strong>
-                                                </span>
-                                            @enderror
+                                            
+                                            <div class="intl-tel-input">
+                                                <input type="tel" id="phone-input" name="phone" class="phone-input form-control" placeholder="Enter Phone" maxlength="16">
+                                            </div>
                                         </div>
                                     </div>
+                                    <input type="hidden" name="countrycode" id="country-code">
+
                                     <div class="col-6">
                                         <div class="form-group">
                                             {{ Form::label('name', __('Gender'), ['class' => 'form-label']) }}
@@ -379,7 +379,77 @@
     </div>
 
 @endsection
+@push('css-page')
+<style>
+    .iti.iti--allow-dropdown.iti--separate-dial-code {
+    width: 100%;
+}
+</style>
+@endpush
 @push('script-page')
+<script>
+                        $(document).ready(function() {
+      var input = document.querySelector("#phone-input");
+      var iti = window.intlTelInput(input, {
+        separateDialCode: true,
+      });
+ 
+      var indiaCountryCode = iti.getSelectedCountryData().iso2;
+      var countryCode = iti.getSelectedCountryData().dialCode;
+      $('#country-code').val(countryCode);
+      if (indiaCountryCode !== 'us') {
+        iti.setCountry('us');
+      }
+    });
+    </script>
+
+<script>
+    const isNumericInput = (event) => {
+	const key = event.keyCode;
+	return ((key >= 48 && key <= 57) || // Allow number line
+		(key >= 96 && key <= 105) // Allow number pad
+	);
+};
+
+const isModifierKey = (event) => {
+	const key = event.keyCode;
+	return (event.shiftKey === true || key === 35 || key === 36) || // Allow Shift, Home, End
+		(key === 8 || key === 9 || key === 13 || key === 46) || // Allow Backspace, Tab, Enter, Delete
+		(key > 36 && key < 41) || // Allow left, up, right, down
+		(
+			// Allow Ctrl/Command + A,C,V,X,Z
+			(event.ctrlKey === true || event.metaKey === true) &&
+			(key === 65 || key === 67 || key === 86 || key === 88 || key === 90)
+		)
+};
+
+const enforceFormat = (event) => {
+	// Input must be of a valid number format or a modifier key, and not longer than ten digits
+	if(!isNumericInput(event) && !isModifierKey(event)){
+		event.preventDefault();
+	}
+};
+
+const formatToPhone = (event) => {
+	if(isModifierKey(event)) {return;}
+
+	// I am lazy and don't like to type things more than once
+	const target = event.target;
+	const input = event.target.value.replace(/\D/g,'').substring(0,10); // First ten digits of input only
+	const zip = input.substring(0,3);
+	const middle = input.substring(3,6);
+	const last = input.substring(6,10);
+
+	if(input.length > 6){target.value = `(${zip}) ${middle} - ${last}`;}
+	else if(input.length > 3){target.value = `(${zip}) ${middle}`;}
+	else if(input.length > 0){target.value = `(${zip}`;}
+};
+
+const inputElement = document.getElementById('phone-input');
+inputElement.addEventListener('keydown',enforceFormat);
+inputElement.addEventListener('keyup',formatToPhone);
+
+</script>
     <script>
         var scrollSpy = new bootstrap.ScrollSpy(document.body, {
             target: '#useradd-sidenav',

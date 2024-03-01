@@ -706,7 +706,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                         <thead class="thead-light">
                                                             <tr>
                                                                 <th scope="col" class="sort" data-sort="username"><?php echo e(__('Avatar')); ?></th>
-                                                                <th scope="col" class="sort" data-sort="username"><?php echo e(__('User Name')); ?></th>
+                                                                <!-- <th scope="col" class="sort" data-sort="username"><?php echo e(__('User Name')); ?></th> -->
                                                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Name')); ?></th>
                                                                 <th scope="col" class="sort" data-sort="email"><?php echo e(__('Email')); ?></th>
                                                                 <?php if(\Auth::user()->type != 'super admin'): ?>
@@ -735,14 +735,14 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                                             </a>
                                                                         </span>
                                                                     </td>
-                                                                    <td class="budget">
+                                                                    <!-- <td class="budget">
                                                                         <a href="#" data-size="md" data-url="<?php echo e(route('user.show', $user->id)); ?>"
                                                                             data-ajax-popup="true" data-title="<?php echo e(__('User Details')); ?>"
                                                                             class="action-item text-primary">
                                                                             <?php echo e(ucfirst($user->username)); ?>
 
                                                                         </a>
-                                                                    </td>
+                                                                    </td> -->
                                                                     <td>
                                                                         <span class="budget"> <?php echo e(ucfirst($user->name)); ?> </span>
                                                                     </td>
@@ -1284,10 +1284,10 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                     </div>
                                                     <button id="clearButton" class="btn btn-danger btn-sm mt-1">Clear Signature</button> -->
                                                     <div id="sig" class="mt-5">
-                                <canvas id="signatureCanvas" width="300" class="signature-canvas"></canvas>
-                                <input type="hidden" name="imageData" id="imageData">
-                            </div>
-                            <button type ="button"id="clearButton" class="btn btn-danger btn-sm mt-1">Clear Signature</button>
+                                                        <canvas id="signatureCanvas" width="300" class="signature-canvas"></canvas>
+                                                        <input type="hidden" name="imageData" id="imageData">
+                                                    </div>
+                                                    <button type ="button"id="clearButton" class="btn btn-danger btn-sm mt-1">Clear Signature</button>
 
                                                 </div>
                                                 <div class="text-end">

@@ -62,6 +62,7 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+        $phone= $request->countrycode.preg_replace('/\D/', '', $request->input('phone'));
         if (\Auth::user()->can('Create User')){
             $default_language = DB::table('settings')->select('value')->where('name', 'default_language')->first();
             if (\Auth::user()->type == 'super admin') {
@@ -80,7 +81,7 @@ class UserController extends Controller
                 }
                 $user               = new User();
                 if (Utility::getValByName('verified_button') == "off") {
-                    $user['username']   = $request->username;
+                    $user['username']   = $request->email;
                     $user['name']       = $request->name;
                     $user['email']      = $request->email;
                     // $user['email_verified_at'] = $request->email_verified_at;
@@ -95,7 +96,7 @@ class UserController extends Controller
                     $user->assignRole($role_r);
                     $user->userDefaultDataRegister($user->id);
                 } else {
-                    $user['username']   = $request->username;
+                    $user['username']   = $request->email;
                     $user['name']       = $request->name;
                     $user['email']      = $request->email;
                     $user['email_verified_at'] = $request->email_verified_at;
@@ -123,7 +124,7 @@ class UserController extends Controller
                 $validator = \Validator::make(
                     $request->all(),
                     [
-                        'username' => 'required|max:120',
+                        // 'username' => 'required|max:120',
                         'name' => 'required|max:120',
                         'email' => [
                             'required',
@@ -133,7 +134,7 @@ class UserController extends Controller
                         ],
                         'password' => 'required|min:6',
                         'avatar' => ['image', 'mimes:jpeg,png,jpg'],
-                        'phone'=>'required|numeric',
+                        'phone'=>'required',
                         'user_roles'=>'required'
                     ]
                 );
@@ -148,13 +149,13 @@ class UserController extends Controller
                 if ($total_user < $plan->max_user || $plan->max_user == -1) {
                     $role_r             = Role::findById($request->user_roles);
                     $user               = new User();
-                    $user['username']   = $request->username;
+                    $user['username']   = $request->email;
                     $user['name']       = $request->name;
                     $user['title']      = $request->title;
                     $user['email']      = $request->email;
                     $user['email_verified_at'] = $request->email_verified_at;
                     $user['email_verified_at'] = date('H:i:s');
-                    $user['phone']      = $request->phone;
+                    $user['phone']      = $phone;
                     $user['gender']     = $request->gender;
                     $user['is_active']  = ($request->is_active == 'on') ? 1 : 0;
                     $user['lang']       = !empty($setting['default_owner_language']) ? $setting['default_owner_language'] : 'en';
@@ -220,7 +221,7 @@ class UserController extends Controller
                                 'app_name' => env('APP_NAME'),
                                 // 'app_url' => url('/'),
                             ];
-                            Utility::send_twilio_msg($user->phone, 'new_user', $uArr);
+                            Utility::send_twilio_msg('+'.$phone, 'new_user', $uArr);
                         }
                     // }
                     //webhook
@@ -298,10 +299,12 @@ class UserController extends Controller
 
         if (\Auth::user()->can('Edit User')) {
             $user      = User::find($id);
+            $phone= $request->countrycode.preg_replace('/\D/', '', $request->input('phone'));
+
             $validator = \Validator::make(
                 $request->all(),
                 [
-                    'username' => 'required|max:120',
+                    // 'username' => 'required|max:120',
                     'name' => 'required|max:120',
                 ]
             );
@@ -312,10 +315,10 @@ class UserController extends Controller
             }
 
             $role_r             = Role::findById($request->user_roles);
-            $user['username']   = $request->username;
+            $user['username']   = $request->email;
             $user['name']       = $request->name;
             $user['title']      = $request->title;
-            $user['phone']      = $request->phone;
+            $user['phone']      = $phone;
             $user['gender']     = $request->gender;
             $user['is_active']  = ($request->is_active == 'on') ? 1 : 0;
             $user['type']       = $role_r->name;
