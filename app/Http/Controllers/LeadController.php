@@ -470,7 +470,7 @@ class LeadController extends Controller
                     'mail.from.name'    => $settings['mail_from_name'],
                 ]
             );
-            Mail::to('sonali@codenomad.net')->send(new SendPdfEmail($lead));
+            Mail::to($lead->email)->send(new SendPdfEmail($lead));
             $upd = Lead::where('id',$id)->update(['proposal_status' => 1]);
         } catch (\Exception $e) {
             //   return response()->json(
@@ -616,7 +616,7 @@ class LeadController extends Controller
                         ]
                     );
         
-                    Mail::to('sonali@codenomad.net')->send(new SendPdfEmail($lead));
+                    Mail::to($lead->email)->send(new SendPdfEmail($lead));
                 } catch (\Exception $e) {
                     return response()->json(
                         [

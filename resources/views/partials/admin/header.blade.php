@@ -90,6 +90,11 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                     <span class="dash-mtext">{{ __('Customers') }}</span>
                                 </a>
                             </li>
+                            <!-- @can('Manage Contract')
+                                <li class="dash-item  {{ (Request::route()->getName() == 'contract.index' || Request::route()->getName() == 'contract.show') ? 'active' : '' }}">
+                                    <a href="{{route('contract.index')}}" class="dash-link"><span class="dash-mtext">{{__('Contracts')}}</span></a>
+                                </li>
+                            @endcan -->
                         @endif 
                         @if(\Auth::user()->type =='owner')
                             <li class="dash-item {{ \Request::route()->getName() == 'billing' || \Request::route()->getName() == 'billing.index' ? ' active' : '' }}">
@@ -97,6 +102,17 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                     <span class="dash-mtext">{{ __('Billing') }}</span>
                                 </a>
                             </li>
+                            <!-- <li class="dash-item">
+                        <a href="{{ route('email.template.view') }}" class="dash-link">
+                            <span class="dash-micon"><i class="ti ti-template"></i></span>
+                        <span
+                        class="dash-mtext">{{ __('Email Template') }}</span></a>
+                    </li> -->
+                    <!-- <li class="dash-item {{ (Request::route()->getName() == 'email_template.index' || Request::segment(1) == 'email_template_lang' || Request::route()->getName() == 'manageemail.lang') ? 'active' : '' }}">
+                        <a href="{{ route('manage.email.language',[$emailTemplate ->id,\Auth::user()->lang]) }}" class="dash-link"><span
+                        class="dash-micon"><i class="ti ti-template"></i></span><span
+                        class="dash-mtext">{{ __('Email Template') }}</span></a>
+                    </li> -->
                         @endif
                         @if (\Auth::user()->type == 'super admin' || \Auth::user()->type == 'owner')
                             <li class="dash-item  {{ Request::route()->getName() == 'settings' ? 'active' : '' }}">

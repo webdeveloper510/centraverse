@@ -161,7 +161,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
     </style>
 <?php $__env->stopPush(); ?>
 <?php $__env->startPush('script-page'); ?>
-    <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
     <script type="text/javascript">
         // $(document).on("click", ".email-template-checkbox", function() {
         //     var chbox = $(this);
@@ -690,7 +690,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                         <h5><?php echo e(__('Staff Settings')); ?></h5>
                                                         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create User')): ?>
                                                         <div class="action-btn bg-warning ms-2" style="float: inline-end;">
-                                                            <a href="#" data-url="<?php echo e(route('user.create')); ?>" data-size="md" data-ajax-popup="true" data-bs-toggle="tooltip"
+                                                            <a href="javascript:void(0);"  data-url="<?php echo e(route('user.create')); ?>" data-size="md" data-ajax-popup="true" data-bs-toggle="tooltip"
                                                                 title="<?php echo e(__('Create Staff')); ?>"data-title="<?php echo e(__('Create Staff Member')); ?>" class="btn btn-sm btn-primary btn-icon">
                                                                 <i class="ti ti-plus"></i>
                                                             </a>
@@ -820,7 +820,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                         <h5><?php echo e(__('Role Settings')); ?></h5>
                                                         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Role')): ?>
                                                             <div class="action-btn bg-warning ms-2" style="float: inline-end;">
-                                                                <a href="#" data-url="<?php echo e(route('role.create')); ?>" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip"title="<?php echo e(__(' Create Role')); ?>"data-title="<?php echo e(__('Create New Role')); ?>" class="btn btn-sm btn-primary btn-icon m-1">
+                                                                <a  href="javascript:void(0);"  data-url="<?php echo e(route('role.create')); ?>" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip"title="<?php echo e(__(' Create Role')); ?>"data-title="<?php echo e(__('Create New Role')); ?>" class="btn btn-sm btn-primary btn-icon m-1">
                                                                     <i class="ti ti-plus"></i>
                                                                 </a>
                                                             </div>
@@ -1277,11 +1277,17 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                 <div class="col-6">
                                                     <strong> Signature:</strong>
                                                     <br>
-                                                    <div id="sig" class="mt-3">
+                                                    <!-- <div id="sig" class="mt-3">
                                                         <canvas id="signatureCanvas" width="200" height="200" required></canvas>
                                                         <input type="hidden" name="imageData" id="imageData">
                                                     </div>
-                                                    <button id="clearButton" class="btn btn-danger btn-sm mt-1">Clear Signature</button>
+                                                    <button id="clearButton" class="btn btn-danger btn-sm mt-1">Clear Signature</button> -->
+                                                    <div id="sig" class="mt-5">
+                                                        <canvas id="signatureCanvas" width="300" class="signature-canvas"></canvas>
+                                                        <input type="hidden" name="imageData" id="imageData">
+                                                    </div>
+                                                    <button type ="button"id="clearButton" class="btn btn-danger btn-sm mt-1">Clear Signature</button>
+
                                                 </div>
                                                 <div class="text-end">
                                                     <input type="submit" value="Save" class="btn-submit btn btn-primary">

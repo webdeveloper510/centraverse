@@ -220,9 +220,7 @@ class UserController extends Controller
                                 'app_name' => env('APP_NAME'),
                                 // 'app_url' => url('/'),
                             ];
-                            Utility::send_twilio_msg('+919882240722', 'new_user', $uArr);
-
-                            // Utility::send_twilio_msg($user->phone, 'new_user', $uArr);
+                            Utility::send_twilio_msg($user->phone, 'new_user', $uArr);
                         }
                     // }
                     //webhook

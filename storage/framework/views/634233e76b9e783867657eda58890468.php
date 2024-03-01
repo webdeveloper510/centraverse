@@ -1,1 +1,0 @@
-abcd<?php /**PATH C:\xampp\htdocs\centraverse\resources\views/invoice/mail.blade.php ENDPATH**/ ?>

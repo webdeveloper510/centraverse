@@ -8,6 +8,7 @@
         "php": "^8.0.2",
         "anandsiddharth/laravel-paytm-wallet": "^2.0",
         "anhskohbo/no-captcha": "^3.4",
+        "authorizenet/authorizenet": "^2.0",
         "barryvdh/laravel-dompdf": "^2.0",
         "coingate/coingate-php": "^4.1",
         "doctrine/dbal": "^3.5",
@@ -91,7 +92,10 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
     },
     "minimum-stability": "stable",
     "prefer-stable": true

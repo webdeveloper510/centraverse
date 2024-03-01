@@ -8,7 +8,7 @@ use App\Models\Utility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\Campaignmail;
+use App\Mail\CampaigntextMail;
 use App\Imports\UsersImport;
 use App\Mail\SendCampaignMail;
 use App\Models\UserImport;
@@ -27,7 +27,6 @@ class CustomerInformation extends Controller
        return view('customer.index',compact('customers','emailtemplates','leadsuser','users'));
     }
     public function sendmail(Request $request){
-    //    echo"<pre>";print_r($request->all());die;
         $validator = \Validator::make(
             $request->all(),
             [
@@ -40,16 +39,20 @@ class CustomerInformation extends Controller
             $messages = $validator->getMessageBag();
             return redirect()->back()->with('error', $messages->first());
         }
+        $content = $request->content;
         $campaignlist = new Campaigndata();
         $campaignlist['type'] = $request->type;
         $campaignlist['title'] =$request->title;
         $campaignlist['recipients'] =$request->recepient_names;
-        $campaignlist['content'] =$request->content;
+        $campaignlist['content'] =$content;
         $campaignlist['template'] =$request->template_html;
         $campaignlist['description'] = $request->description;
         $campaignlist->save();
         $notifyvia = $request->notify[1][0];
-       
+        $attachment = $request->file('document');
+        if($attachment){
+            $attachmentPath = $attachment->store('attachments', 'public');
+        }
         if($notifyvia != "email"){
             $users = explode(',',$request->recepient_names);
             foreach($users as $user){
@@ -64,11 +67,8 @@ class CustomerInformation extends Controller
                 $uArr[] = [
                     'user' =>$user,
                     'content' => $request->content,
-                ]; 
-                // print_r($uArr);
-               
-            }
-           
+                ];                
+            } 
             $settings = Utility::settings();
             $account_sid = $settings['twilio_sid'];
             $auth_token = $settings['twilio_token'];
@@ -86,10 +86,10 @@ class CustomerInformation extends Controller
                 }
             }
         }
+       
         $customers = explode(',',$request->recepient_names);
         $subject= $request->description;
         $settings = Utility::settings();
-
         foreach($customers as $customer){
             try {
                 config(
@@ -103,19 +103,23 @@ class CustomerInformation extends Controller
                         'mail.from.name'    => $settings['mail_from_name'],
                     ]
                 );
-                Mail::to($customer)->send(new SendCampaignMail($campaignlist));
-            
+                if(($request->format) && $request->format =='html'){
+                    Mail::to($customer)->send(new SendCampaignMail($campaignlist, $attachmentPath));
+                }elseif(($request->format) && $request->format =='text'){
+                    Mail::to($customer)->send(new CampaigntextMail($content));
+                }
                 return redirect()->back()->with('success','Email Sent Successfully');
-
             } catch (\Exception $e) {
-              
-                  return redirect()->back()->with('error', 'Email Not Sent');
+                return response()->json(
+                    [
+                        'is_success' => false,
+                        'message' => $e->getMessage(),
+                    ]
+                );
+                //   return redirect()->back()->with('error', 'Email Not Sent');
             }
         }
-        
-     
         return redirect()->back()->with('success','Campaign  Sent Successfully');
-
     }
     public function campaigntype(Request $request){
         $type = $request->type;
@@ -192,7 +196,7 @@ class CustomerInformation extends Controller
                             'mail.from.name'    => $settings['mail_from_name'],
                         ]
                     );
-                    Mail::to($customer)->send(new SendCampaignMail($campaign));
+                    // Mail::to($customer)->send(new SendCampaignMail($campaign));
                    
                     return 'Email Sent Successfully';
         
@@ -219,9 +223,7 @@ class CustomerInformation extends Controller
                     $uArr[] = [
                         'user' =>$user,
                         'content' => $request->content,
-                    ]; 
-                    // print_r($uArr);
-                   
+                    ];                    
                 }
                 $account_sid = $settings['twilio_sid'];
                 $auth_token = $settings['twilio_token'];

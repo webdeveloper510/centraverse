@@ -14,6 +14,7 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AccountTypeController;
 use App\Http\Controllers\AccountIndustryController;
 use App\Http\Controllers\AiTemplateController;
+use App\Http\Controllers\AuthorizeController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CustomerInformation;
@@ -962,6 +963,8 @@ Route::group(['middleware' => ['verified']], function () {
 
         }
     );
+    Route::get('/pay/{id}',[AuthorizeController::class,'pay'])->name('pay');
+    Route::post('/dopay/online/{id}',[AuthorizeController::class,'handleonlinepay'])->name('dopay.online');
     Route::group(
         [
             'middleware' => [

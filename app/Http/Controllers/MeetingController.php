@@ -93,23 +93,28 @@ class MeetingController extends Controller
     // WORKING  17-01-2024
     public function store(Request $request)
     {
+        
         if (\Auth::user()->can('Create Meeting')) {
-            $request->validate([
-                'name' => 'required|max:120',
-                'start_date' => 'required',
-                'end_date' => 'required',
-                'email' => 'required|email|max:120',
-                'lead_address' => 'required|max:120',
-                'type' => 'required',
-                'venue' => 'required',
-                'function' => 'required|max:120',
-                'guest_count' => 'required',
-                'start_time' => 'required',
-                'end_time' => 'required',
-                'start_date' => 'required',
-                'end_date' => 'required',
-                'lead' => 'unique:meetings,attendees_lead',
-            ]);
+            $validator = \Validator::make(
+                $request->all(),
+                [
+                    'name' => 'required|max:120',
+                    'start_date' => 'required',
+                    'end_date' => 'required',
+                    'email' => 'required|email|max:120',
+                    'lead_address' => 'required|max:120',
+                    'type' => 'required',
+                    'venue' => 'required|max:120',
+                    'function' => 'required|max:120',
+                    'guest_count' => 'required',
+                    'start_time' => 'required',
+                    'end_time' => 'required',
+                    'meal' => 'required'
+                ]);
+            if ($validator->fails()) {
+                $messages = $validator->getMessageBag();
+                return redirect()->back()->with('error', $messages->first());
+            }
             $start_date = $request->input('start_date');
             $end_date = $request->input('end_date');
             $start_time = $request->input('start_time');
@@ -131,7 +136,7 @@ class MeetingController extends Controller
                 })->count();
 
             if ($overlapping_event > 0) {
-                return redirect()->back()->with('error', 'Event with overlapping time and matching venue already exists!');
+                return redirect()->back()->with('error', 'Event exists for correspomding time or venue!');
             }
 
             $overlapping_event = Blockdate::where('start_date', '<=', $end_date)
@@ -149,7 +154,7 @@ class MeetingController extends Controller
                 })->count();
 
             if ($overlapping_event > 0) {
-                return redirect()->back()->with('error', 'Date Already Blocked for corrosponding time and Venue');
+                return redirect()->back()->with('error', 'Date is Blocked for corrosponding time and venue');
             }
             $allPackages = array_merge(
                 isset($request->break_package) ? $request->break_package : [],
@@ -626,7 +631,7 @@ class MeetingController extends Controller
                     'mail.from.name'    => $settings['mail_from_name'],
                 ]
             );
-            Mail::to('sonali@codenomad.net')->send(new SendEventMail($meeting));
+            Mail::to($meeting->email)->send(new SendEventMail($meeting));
             $meeting->update(['status'=>1]);
         } catch (\Exception $e) {
             return response()->json(
@@ -858,7 +863,7 @@ class MeetingController extends Controller
                     ]
                 );
     
-                Mail::to('sonali@codenomad.net')->send(new SendEventMail($meeting));
+                Mail::to($meeting->email)->send(new SendEventMail($meeting));
             } catch (\Exception $e) {
                 // \Log::error('Error sending email: ' . $e->getMessage());
                 // return response()->json(
