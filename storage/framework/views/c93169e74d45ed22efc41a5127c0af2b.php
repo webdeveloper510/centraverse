@@ -54,47 +54,47 @@
             <div class="container-fluid xyz">
                 <div class="row">
                     <div class="col-lg-12">
-                    <div class="card" id = "useradd-1">
-                <div class="card-body">
-                    <div class="language-wrap">
-                        <div class="row">
-                            <div class="col-lg-12 col-md-9 col-sm-12 language-form-wrap">
-                                <?php echo e(Form::open(array('route'=>'store.email.template','method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))); ?>
+                        <div class="card" id = "useradd-1">
+                            <div class="card-body">
+                                <div class="language-wrap">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-9 col-sm-12 language-form-wrap">
+                                            <?php echo e(Form::open(array('route'=>'store.email.template','method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))); ?>
 
-                                <div class="row">
-                                    <div class="form-group col-md-6">
-                                        <?php echo e(Form::label('subject', __('Subject'), ['class' => 'form-control-label text-dark'])); ?>
+                                            <div class="row">
+                                                <div class="form-group col-md-6">
+                                                    <?php echo e(Form::label('subject', __('Subject'), ['class' => 'form-control-label text-dark'])); ?>
 
-                                        <?php echo e(Form::text('subject', null, ['class' => 'form-control font-style', 'required' => 'required'])); ?>
+                                                    <?php echo e(Form::text('subject', null, ['class' => 'form-control font-style', 'required' => 'required'])); ?>
 
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <?php echo e(Form::label('from', __('From'), ['class' => 'form-control-label text-dark'])); ?>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <?php echo e(Form::label('from', __('From'), ['class' => 'form-control-label text-dark'])); ?>
 
-                                        <?php echo e(Form::text('from',null, ['class' => 'form-control font-style', 'required' => 'required'])); ?>
+                                                    <?php echo e(Form::text('from',null, ['class' => 'form-control font-style', 'required' => 'required'])); ?>
 
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group col-12">
+                                                    <?php echo e(Form::label('content', __('Email Message'), ['class' => 'form-control-label text-dark'])); ?>
+
+                                                    <?php echo e(Form::textarea('content',null, ['class' => 'summernote', 'required' => 'required'])); ?>
+
+                                                </div>
+                                                <div class="col-md-12 text-end">
+                                                    <input type="submit" value="<?php echo e(__('Save')); ?>"
+                                                        class="btn btn-print-invoice  btn-primary">
+                                                </div>
+
+                                            </div>
+                                            <?php echo e(Form::close()); ?>
+
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="form-group col-12">
-                                        <?php echo e(Form::label('content', __('Email Message'), ['class' => 'form-control-label text-dark'])); ?>
-
-                                        <?php echo e(Form::textarea('content',null, ['class' => 'summernote', 'required' => 'required'])); ?>
-
-                                    </div>
-                                    <div class="col-md-12 text-end">
-                                        <input type="submit" value="<?php echo e(__('Save')); ?>"
-                                            class="btn btn-print-invoice  btn-primary">
-                                    </div>
-
-                                </div>
-                                <?php echo e(Form::close()); ?>
-
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
                     </div>
                 </div>
             </div>

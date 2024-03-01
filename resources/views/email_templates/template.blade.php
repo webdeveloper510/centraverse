@@ -77,7 +77,6 @@
                                                     <input type="submit" value="{{ __('Save') }}"
                                                         class="btn btn-print-invoice  btn-primary">
                                                 </div>
-
                                             </div>
                                             {{ Form::close() }}
                                         </div>

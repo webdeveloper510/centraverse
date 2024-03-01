@@ -6,6 +6,8 @@ if($proposal && ($proposal['image'] != null)){
     $signed =  base64_encode(file_get_contents($proposal['image']));
     $sign = 'data:image/' . pathinfo($proposal['image'], PATHINFO_EXTENSION) . ';base64,' . $signed;
 }
+$settings = App\Models\Utility::settings();
+
 @endphp
 <!DOCTYPE html>
 <html lang="en">

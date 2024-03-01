@@ -95,22 +95,26 @@ class MeetingController extends Controller
     {
         
         if (\Auth::user()->can('Create Meeting')) {
-            $request->validate([
-                'name' => 'required|max:120',
-                'start_date' => 'required',
-                'end_date' => 'required',
-                'email' => 'required|email|max:120',
-                'lead_address' => 'required|max:120',
-                'type' => 'required',
-                'venue' => 'required',
-                'function' => 'required|max:120',
-                'guest_count' => 'required',
-                'start_time' => 'required',
-                'end_time' => 'required',
-                'start_date' => 'required',
-                'end_date' => 'required',
-                'lead' => 'unique:meetings,attendees_lead',
-            ]);
+            $validator = \Validator::make(
+                $request->all(),
+                [
+                    'name' => 'required|max:120',
+                    'start_date' => 'required',
+                    'end_date' => 'required',
+                    'email' => 'required|email|max:120',
+                    'lead_address' => 'required|max:120',
+                    'type' => 'required',
+                    'venue' => 'required|max:120',
+                    'function' => 'required|max:120',
+                    'guest_count' => 'required',
+                    'start_time' => 'required',
+                    'end_time' => 'required',
+                    'meal' => 'required'
+                ]);
+            if ($validator->fails()) {
+                $messages = $validator->getMessageBag();
+                return redirect()->back()->with('error', $messages->first());
+            }
             $start_date = $request->input('start_date');
             $end_date = $request->input('end_date');
             $start_time = $request->input('start_time');
@@ -132,7 +136,7 @@ class MeetingController extends Controller
                 })->count();
 
             if ($overlapping_event > 0) {
-                return redirect()->back()->with('error', 'Event with overlapping time and matching venue already exists!');
+                return redirect()->back()->with('error', 'Event exists for correspomding time or venue!');
             }
 
             $overlapping_event = Blockdate::where('start_date', '<=', $end_date)
@@ -150,7 +154,7 @@ class MeetingController extends Controller
                 })->count();
 
             if ($overlapping_event > 0) {
-                return redirect()->back()->with('error', 'Date Already Blocked for corrosponding time and Venue');
+                return redirect()->back()->with('error', 'Date is Blocked for corrosponding time and venue');
             }
             $allPackages = array_merge(
                 isset($request->break_package) ? $request->break_package : [],
