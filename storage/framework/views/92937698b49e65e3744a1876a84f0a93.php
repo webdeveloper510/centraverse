@@ -1,26 +1,30 @@
-@extends('layouts.admin')
-@section('page-title')
-{{ __('Campaign') }}
-@endsection
-@section('title')
-{{ __('Campaign') }}
-@endsection
-@section('breadcrumb')
-<li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Home') }}</a></li>
-<li class="breadcrumb-item">{{ __('Campaign') }}</li>
 
-@endsection
+<?php $__env->startSection('page-title'); ?>
+<?php echo e(__('Campaign')); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('title'); ?>
+<?php echo e(__('Campaign')); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('breadcrumb'); ?>
+<li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Home')); ?></a></li>
+<li class="breadcrumb-item"><?php echo e(__('Campaign')); ?></li>
+
+<?php $__env->stopSection(); ?>
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
-@section('content')
-@foreach($campaign as $cam)
-@if($cam->template != NULL)
+<?php $__env->startSection('content'); ?>
+<?php $__currentLoopData = $campaign; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cam): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+<?php if($cam->template != NULL): ?>
 <div class="htmlContent" style="display: none;">
-{!!$cam->template!!}
+<?php echo $cam->template; ?>
+
 </div>
-@endif
-@endforeach
-{{ Form::open(array('route' => 'customer.sendmail','method' =>'post','files' => true)) }}
+<?php endif; ?>
+<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+<?php echo e(Form::open(array('route' => 'customer.sendmail','method' =>'post','files' => true))); ?>
+
 <div class="container-field">
     <div id="wrapper">
         <div id="sidebar-wrapper">
@@ -28,10 +32,10 @@
                 <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
                     <a href="#useradd-1" class="list-group-item list-group-item-action">
                         <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
-                        <span class="dash-mtext">{{ __('Campaign') }} </span></a>
-                        <a href="{{route('campaign-list')}}" class="list-group-item list-group-item-action">
+                        <span class="dash-mtext"><?php echo e(__('Campaign')); ?> </span></a>
+                        <a href="<?php echo e(route('campaign-list')); ?>" class="list-group-item list-group-item-action">
                         <span class="fa-stack fa-lg pull-left"></span>
-                        <span class="dash-mtext">{{ __('View Campaigns') }} </span></a>
+                        <span class="dash-mtext"><?php echo e(__('View Campaigns')); ?> </span></a>
                 </div>
             </div>
         </div>
@@ -67,7 +71,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <button type="button" id="tempopt">aaaaa</button> -->
+                        <button type="button" id="tempopt">aaaaa</button>
                         <div class="row">
                             <div class="col-md-12">
                                 <label for="description">Description</label>
@@ -118,11 +122,11 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <a href="#" data-url="{{route('campaign.existinguser')}}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('Edit Recipients')}}" title="{{__('Select Recipients')}}" class="btn btn-primary btn-icon m-1 close" style="float: right;">{{__('User Recipients')}}</a>
+                        <a href="#" data-url="<?php echo e(route('campaign.existinguser')); ?>" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('Edit Recipients')); ?>" title="<?php echo e(__('Select Recipients')); ?>" class="btn btn-primary btn-icon m-1 close" style="float: right;"><?php echo e(__('User Recipients')); ?></a>
                     </div>
 
                     <div class="col-md-6">
-                        <a href="#" data-url="{{route('campaign.addeduser')}}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('Edit Recipients')}}" title="{{__('Select Recipients')}}" class="btn btn-primary btn-icon m-1 close" style=" width: 45%;">{{__('List')}}</a>
+                        <a href="#" data-url="<?php echo e(route('campaign.addeduser')); ?>" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('Edit Recipients')); ?>" title="<?php echo e(__('Select Recipients')); ?>" class="btn btn-primary btn-icon m-1 close" style=" width: 45%;"><?php echo e(__('List')); ?></a>
                     </div>
                 </div>
             </div>
@@ -145,7 +149,7 @@
                         <div class="form-group">
                             <input type="radio" name="format" id="format" class="form-check-input" value="html" style="display: none;">
                             <label for="format" class="form-check-label">
-                                <img src="{{asset('assets/images/html-formatter.svg')}}" alt="Uploaded Image" class="img-thumbnail formatter" id="html_mail" data-bs-toggle="tooltip" title="HTML Mail" style="float: inline-end;">
+                                <img src="<?php echo e(asset('assets/images/html-formatter.svg')); ?>" alt="Uploaded Image" class="img-thumbnail formatter" id="html_mail" data-bs-toggle="tooltip" title="HTML Mail" style="float: inline-end;">
                             </label>
                             <h4 style="float: inline-end;">HTML Mail</h4>
                         </div>
@@ -155,7 +159,7 @@
                         <div class="form-group">
                             <input type="radio" name="format" id="txt" class="form-check-input " value="text" style="display: none;">
                             <label for="txt" class="form-check-label">
-                                <img src="{{asset('assets/images/text.svg')}}" alt="Uploaded Image" class="img-thumbnail formatter"id="text_mail" data-bs-toggle="tooltip" title="Text Mail">
+                                <img src="<?php echo e(asset('assets/images/text.svg')); ?>" alt="Uploaded Image" class="img-thumbnail formatter"id="text_mail" data-bs-toggle="tooltip" title="Text Mail">
                             </label>
                             <h4 class="mt-2">Text Mail</h4>
                         </div>
@@ -179,14 +183,16 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="form-group col-12">
-                        {{ Form::label('content', __('Message'), ['class' => 'form-control-label text-dark']) }}
-                        {{ Form::textarea('content',null, ['class' => 'form-control']) }}
+                        <?php echo e(Form::label('content', __('Message'), ['class' => 'form-control-label text-dark'])); ?>
+
+                        <?php echo e(Form::textarea('content',null, ['class' => 'form-control'])); ?>
+
                     </div>
 
                 </div>
             </div>
             <div class="modal-footer">
-                <button type ="button"class="btn btn-primary close" value="Save" id="message">{{ __('Save') }}</button>
+                <button type ="button"class="btn btn-primary close" value="Save" id="message"><?php echo e(__('Save')); ?></button>
                 <button type="button" class="btn  btn-light close" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -206,15 +212,15 @@
                     <div class="col-md-12">
                         <button type="button" class="btn btn-light">Create New Template</button>
                         <button type="button" class="btn btn-light"id ="existingtemplates">Use Template</button>
-                        <!-- <a href="#" data-url="{{route('htmlmail')}}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('Edit Recipients')}}" title="{{__('Select Recipients')}}" class="btn btn-primary btn-icon m-1 close" style="float: right;">{{__('User Recipients')}}</a> -->
+                        <!-- <a href="#" data-url="<?php echo e(route('htmlmail')); ?>" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('Edit Recipients')); ?>" title="<?php echo e(__('Select Recipients')); ?>" class="btn btn-primary btn-icon m-1 close" style="float: right;"><?php echo e(__('User Recipients')); ?></a> -->
 
                     </div>
                     <!-- <div class="col-md-6">
-                        <a href="#" data-url="{{route('campaign.existinguser')}}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('Edit Recipients')}}" title="{{__('Select Recipients')}}" class="btn btn-primary btn-icon m-1 close" style="float: right;">{{__('User Recipients')}}</a>
+                        <a href="#" data-url="<?php echo e(route('campaign.existinguser')); ?>" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('Edit Recipients')); ?>" title="<?php echo e(__('Select Recipients')); ?>" class="btn btn-primary btn-icon m-1 close" style="float: right;"><?php echo e(__('User Recipients')); ?></a>
                     </div>
 
                     <div class="col-md-6">
-                        <a href="#" data-url="{{route('campaign.addeduser')}}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('Edit Recipients')}}" title="{{__('Select Recipients')}}" class="btn btn-primary btn-icon m-1 close" style=" width: 45%;">{{__('List')}}</a>
+                        <a href="#" data-url="<?php echo e(route('campaign.addeduser')); ?>" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('Edit Recipients')); ?>" title="<?php echo e(__('Select Recipients')); ?>" class="btn btn-primary btn-icon m-1 close" style=" width: 45%;"><?php echo e(__('List')); ?></a>
                     </div> -->
                 </div>
             </div>
@@ -257,10 +263,11 @@
         </div>
     </div>
 </div>
-{{Form::close()}}
-@endsection
-@push('css-page')
-    <link rel="stylesheet" href="{{ asset('css/summernote/summernote-bs4.css') }}">
+<?php echo e(Form::close()); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startPush('css-page'); ?>
+    <link rel="stylesheet" href="<?php echo e(asset('css/summernote/summernote-bs4.css')); ?>">
     <style>
         #scrollableDiv {
             max-height: 200px;
@@ -302,8 +309,8 @@
             box-shadow: 0 0 15px rgba(41, 128, 185, 0.8);
         }
     </style>
-@endpush
-@push('script-page') 
+<?php $__env->stopPush(); ?>
+<?php $__env->startPush('script-page'); ?> 
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -412,10 +419,10 @@ $('#existingedit').css('display','block');
         var value = this.value;
         $.ajax({
             type: 'POST',
-            url: "{{route('auto.campaign_type')}}",
+            url: "<?php echo e(route('auto.campaign_type')); ?>",
             data: {
                 "type": value,
-                "_token": "{{ csrf_token() }}",
+                "_token": "<?php echo e(csrf_token()); ?>",
             },
             success: function(result) {
                 console.log(result);
@@ -461,8 +468,8 @@ $('#existingedit').css('display','block');
         });
     });
 </script>
-<script src="{{ asset('css/summernote/summernote-bs4.js') }}"></script>
-<script src="{{ asset('js/plugins/tinymce/tinymce.min.js') }}"></script>
+<script src="<?php echo e(asset('css/summernote/summernote-bs4.js')); ?>"></script>
+<script src="<?php echo e(asset('js/plugins/tinymce/tinymce.min.js')); ?>"></script>
 <script>
     if ($(".pc-tinymce-2").length) {
         tinymce.init({
@@ -501,7 +508,7 @@ $('#existingedit').css('display','block');
         });
     });
 </script>
-@endpush
+<?php $__env->stopPush(); ?>
 <style>
 .modal-body.new_model {
     display: flex;
@@ -526,3 +533,4 @@ table#u_body {
     background: none !important;
 } */
 </style>
+<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/customer/index.blade.php ENDPATH**/ ?>
