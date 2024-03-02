@@ -91,5 +91,8 @@
 
     {{-- styles --}}
     <link rel='stylesheet' href='https://unpkg.com/nprogress@0.2.0/nprogress.css' />
+
+    <!-- Option 1: Include in HTML -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     @stack('css-page')
 </head>
