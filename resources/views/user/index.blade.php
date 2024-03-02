@@ -30,7 +30,7 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th scope="col" class="sort" data-sort="username">{{ __('Avatar') }}</th>
-                                    <th scope="col" class="sort" data-sort="username">{{ __('User Name') }}</th>
+                                    <!-- <th scope="col" class="sort" data-sort="username">{{ __('User Name') }}</th> -->
                                     <th scope="col" class="sort" data-sort="name">{{ __('Name') }}</th>
                                     <th scope="col" class="sort" data-sort="email">{{ __('Email') }}</th>
                                     @if (\Auth::user()->type != 'super admin')
@@ -59,13 +59,13 @@
                                                 </a>
                                             </span>
                                         </td>
-                                        <td class="budget">
+                                        <!-- <td class="budget">
                                             <a href="#" data-size="md" data-url="{{ route('user.show', $user->id) }}"
                                                 data-ajax-popup="true" data-title="{{ __('User Details') }}"
                                                 class="action-item text-primary">
                                                 {{ ucfirst($user->username) }}
                                             </a>
-                                        </td>
+                                        </td> -->
                                         <td>
                                             <span class="budget"> {{ ucfirst($user->name) }} </span>
                                         </td>
