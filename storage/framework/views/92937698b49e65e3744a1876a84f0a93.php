@@ -12,7 +12,17 @@
 <li class="breadcrumb-item"><?php echo e(__('Campaign')); ?></li>
 
 <?php $__env->stopSection(); ?>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
 <?php $__env->startSection('content'); ?>
+<?php $__currentLoopData = $campaign; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cam): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+<?php if($cam->template != NULL): ?>
+<div class="htmlContent" style="display: none;">
+<?php echo $cam->template; ?>
+
+</div>
+<?php endif; ?>
+<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 <?php echo e(Form::open(array('route' => 'customer.sendmail','method' =>'post','files' => true))); ?>
 
 <div class="container-field">
@@ -61,6 +71,7 @@
                                 </div>
                             </div>
                         </div>
+                        <button type="button" id="tempopt">aaaaa</button>
                         <div class="row">
                             <div class="col-md-12">
                                 <label for="description">Description</label>
@@ -187,7 +198,35 @@
         </div>
     </div>
 </div>
+<div class="modal" tabindex="-1" role="dialog" id="templateoptions" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Template</h5>
+                <button type="button" class="close btn btn-primary" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-light">Create New Template</button>
+                        <button type="button" class="btn btn-light"id ="existingtemplates">Use Template</button>
+                        <!-- <a href="#" data-url="<?php echo e(route('htmlmail')); ?>" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('Edit Recipients')); ?>" title="<?php echo e(__('Select Recipients')); ?>" class="btn btn-primary btn-icon m-1 close" style="float: right;"><?php echo e(__('User Recipients')); ?></a> -->
 
+                    </div>
+                    <!-- <div class="col-md-6">
+                        <a href="#" data-url="<?php echo e(route('campaign.existinguser')); ?>" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('Edit Recipients')); ?>" title="<?php echo e(__('Select Recipients')); ?>" class="btn btn-primary btn-icon m-1 close" style="float: right;"><?php echo e(__('User Recipients')); ?></a>
+                    </div>
+
+                    <div class="col-md-6">
+                        <a href="#" data-url="<?php echo e(route('campaign.addeduser')); ?>" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('Edit Recipients')); ?>" title="<?php echo e(__('Select Recipients')); ?>" class="btn btn-primary btn-icon m-1 close" style=" width: 45%;"><?php echo e(__('List')); ?></a>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="modal" tabindex="-1" role="dialog" id="edito" >
     <div class="modal-dialog" role="document" style="max-width: 75% !important;">
         <div class="modal-content">
@@ -206,34 +245,24 @@
         </div>
     </div>
 </div>
-
-<!-- <div class="modal" tabindex="-1" role="dialog" id="textmail">
-    <div class="modal-dialog" role="document">
+<div class="modal" tabindex="-1" role="dialog" id="existingedit" >
+    <div class="modal-dialog" role="document" style="max-width: 75% !important;">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Text Mail</h5>
-                <button type="button" class="close btn btn-primary" data-dismiss="modal" aria-label="Close">
+                <h5 class="modal-title" id="exampleModalLabel">Template</h5>
+                <button type="button" class="close btn btn-primary close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="form-group col-12">
-                        <?php echo e(Form::label('content', __('Message'), ['class' => 'form-control-label text-dark'])); ?>
-
-                        <?php echo e(Form::textarea('content',null, ['class' => 'form-control'])); ?>
-
-                    </div>
-
-                </div>
-            </div>
+             <div class="modal-body new_model"> 
+            
+           </div>
             <div class="modal-footer">
-                <button class="btn btn-primary close" value="Save" id="message"><?php echo e(__('Save')); ?></button>
-                <button type="button" class="btn  btn-light close" data-dismiss="modal">Close</button>
+                <button type="button"><i class="fa fa-check"></i></button>
             </div>
         </div>
     </div>
-</div> -->
+</div>
 <?php echo e(Form::close()); ?>
 
 <?php $__env->stopSection(); ?>
@@ -282,6 +311,23 @@
     </style>
 <?php $__env->stopPush(); ?>
 <?php $__env->startPush('script-page'); ?> 
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var html = $('.htmlContent').text();
+        console.log(html);
+                html2canvas(html).then(function(canvas) {
+            // Convert canvas to base64 image data
+            var imageData = canvas.toDataURL('image/png');
+
+            // Display the image or save it as needed
+            var img = new Image();
+            img.src = imageData;
+            document.body.appendChild(img);
+        });
+});
+       
+</script>
 <script src="https://editor.unlayer.com/embed.js"></script>
 <script>
     $('#html_mail').click(function() {
@@ -315,6 +361,14 @@
             $('input[name="template_html"]').val(json)
            
         });           
+    })
+    $('#tempopt').click(function(e){
+        e.preventDefault();
+        $("#templateoptions").css("display", "block");      
+    })
+    $('#existingtemplates').click(function(e){
+e.preventDefault();
+$('#existingedit').css('display','block');
     })
 </script>
 <script>
@@ -454,22 +508,29 @@
         });
     });
 </script>
-<script>
-    // function updateForm() {
-    //     var selectedUsers = [];
-    //     var checkboxes = document.getElementsByClassName('modal-checkbox');
-
-    //     for (var i = 0; i < checkboxes.length; i++) {
-    //         if (checkboxes[i].checked) {
-    //             selectedUsers.push(checkboxes[i].value);
-    //         }
-    //     }
-
-    //     // Update the hidden input field with the selected checkbox values
-    //     document.getElementById('selectedUsersInput').value = selectedUsers.join(',');
-    // }
-</script>
-
-
 <?php $__env->stopPush(); ?>
+<style>
+.modal-body.new_model {
+    display: flex;
+}
+body.theme-4 {
+    background: none !important;
+}
+table#u_body {
+    background: none !important;
+}
+.u-row {
+    width: 50% !important;
+}
+/* .new_model .temp {
+    width: 40%;
+}
+.new_model .temp table img {
+    min-width: 200px !important;
+    width: 200px !important;
+}
+table#u_body {
+    background: none !important;
+} */
+</style>
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/customer/index.blade.php ENDPATH**/ ?>

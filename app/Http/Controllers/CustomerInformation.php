@@ -24,7 +24,8 @@ class CustomerInformation extends Controller
        $emailtemplates = Emailcontent::all();
        $leadsuser = Lead::all();
        $users = UserImport::all();
-       return view('customer.index',compact('customers','emailtemplates','leadsuser','users'));
+       $campaign= Campaigndata::all();
+       return view('customer.index',compact('customers','emailtemplates','leadsuser','users','campaign'));
     }
     public function sendmail(Request $request){
         $validator = \Validator::make(
@@ -48,6 +49,7 @@ class CustomerInformation extends Controller
         $campaignlist['template'] =$request->template_html;
         $campaignlist['description'] = $request->description;
         $campaignlist->save();
+
         $notifyvia = $request->notify[1][0];
         $attachment = $request->file('document');
         if($attachment){
