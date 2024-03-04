@@ -252,13 +252,13 @@
                                         <div class="col-6">
                                             <div class="form-group">
                                                 {{ Form::label('start_date', __('Start Date'), ['class' => 'form-label']) }}
-                                                {!! Form::date('start_date', null, ['class' => 'form-control', 'required' => 'required','min' => date('Y-m-d')]) !!}
+                                                {!! Form::date('start_date', null, ['class' => 'form-control', 'required' => 'required']) !!}
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
                                                 {{ Form::label('end_date', __('End Date'), ['class' => 'form-label']) }}
-                                                {!! Form::date('end_date', null, ['class' => 'form-control', 'required' => 'required','min' => date('Y-m-d')]) !!}
+                                                {!! Form::date('end_date', null, ['class' => 'form-control', 'required' => 'required']) !!}
                                             </div>
                                         </div>
                                         <div class="col-6">

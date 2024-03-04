@@ -286,7 +286,7 @@ $beer = ['Beer & Wine - 4 Hours', 'Beer & Wine - 3 Hours', 'Beer & Wine - 2 Hour
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     {{ Form::label('start_date', __('Start Date'), ['class' => 'form-label']) }}
-                                                    {!! Form::date('start_date', null, ['class' => 'form-control', 'required' => 'required','min' => date('Y-m-d')]) !!}
+                                                    {!! Form::date('start_date', null, ['class' => 'form-control', 'required' => 'required']) !!}
                                                 </div>
                                                 @error('start_date')
                                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
@@ -295,7 +295,7 @@ $beer = ['Beer & Wine - 4 Hours', 'Beer & Wine - 3 Hours', 'Beer & Wine - 2 Hour
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     {{ Form::label('end_date', __('End Date'), ['class' => 'form-label']) }}
-                                                    {!! Form::date('end_date',null, ['class' => 'form-control', 'required' => 'required','min' => date('Y-m-d')]) !!}
+                                                    {!! Form::date('end_date',null, ['class' => 'form-control', 'required' => 'required']) !!}
                                                 </div>
                                                 @error('end_date')
                                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>

@@ -13,10 +13,8 @@ use App\Imports\UsersImport;
 use App\Mail\SendCampaignMail;
 use App\Models\UserImport;
 use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Support\Facades\File;
 use App\Models\Campaigndata;
 use Twilio\Rest\Client;
-
 class CustomerInformation extends Controller
 {
     public function index(){
@@ -28,7 +26,7 @@ class CustomerInformation extends Controller
        return view('customer.index',compact('customers','emailtemplates','leadsuser','users','campaign'));
     }
     public function sendmail(Request $request){
-        $validator = \Validator::make(
+        $validator = Validator::make(
             $request->all(),
             [
                 'description'=>'required',
@@ -89,6 +87,7 @@ class CustomerInformation extends Controller
             }
         }
        
+
         $customers = explode(',',$request->recepient_names);
         $subject= $request->description;
         $settings = Utility::settings();
@@ -106,7 +105,13 @@ class CustomerInformation extends Controller
                     ]
                 );
                 if(($request->format) && $request->format =='html'){
-                    Mail::to($customer)->send(new SendCampaignMail($campaignlist, $attachmentPath));
+                    $mail = new SendCampaignMail($campaignlist);
+                   
+                    if ($attachment!== null) {
+                        $mail->attach($attachmentPath);
+                    }
+                    Mail::to($customer)->send($mail);
+                    // Mail::to($customer)->send(new SendCampaignMail($campaignlist, $attachmentPath));
                 }elseif(($request->format) && $request->format =='text'){
                     Mail::to($customer)->send(new CampaigntextMail($content));
                 }
