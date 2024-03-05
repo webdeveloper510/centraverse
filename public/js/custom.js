@@ -161,9 +161,9 @@ $(document).ready(function() {
             }
         })
     });
-    $('.function_show_confirm').click(function(event) {
-        
+    $('.function_package_show_confirm').click(function(event) {
         var url = $(this).data('url');
+        var val =$(this).data('id');
         var badgeContainer = $(this).closest('.badge');
         var badgeText = badgeContainer.text().trim();
         var token = $(this).data('token');
@@ -189,10 +189,56 @@ $(document).ready(function() {
                     url: url,
                     data: {
                         "badge":badgeText,
+                        "value":val,
                         "_token": token,
                     },
                     success: function (result) {
                         // console.log(result);
+                        if (result == true) {
+                            swal.fire("Done!", result.message, "success");
+                            setTimeout(function(){
+                                location.reload();
+                            },1000);
+                        } else {
+                            swal.fire("Error!", result.message, "error");
+                        }
+                    }
+                });
+            }
+        })
+    });
+    $('.function_show_confirm').click(function(event) {
+        var url = $(this).data('url');
+        var val =$(this).data('id');
+        var badgeContainer = $(this).closest('.badge');
+        var badgeText = badgeContainer.text().trim();
+        var token = $(this).data('token');
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success',
+                cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
+        })
+        swalWithBootstrapButtons.fire({
+            title: 'Are you sure?',
+            text: "This action can not be undone. Do you want to continue?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: {
+                        "badge":badgeText,
+                        "value":val,
+                        "_token": token,
+                    },
+                    success: function (result) {
                         if (result == true) {
                             swal.fire("Done!", result.message, "success");
                             setTimeout(function(){

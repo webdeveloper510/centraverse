@@ -1781,17 +1781,31 @@ class SettingController extends Controller
         return $file;
     }
     public function addfunction(Request $request){
+        $settings = Utility::settings();
+        $data['function'] = $request->function;
+        $data['package'] = $request->package;
+        $data = json_encode($data);
         $user = \Auth::user();
-        $inputValue =  $request->input('function');
         $settings = Utility::settings();
         $created_at = $updated_at = date('Y-m-d H:i:s');
         $existingValue = $settings['function'] ?? '';
-        $newValue = $existingValue . ($existingValue ? ',' : '') . $inputValue;
+        $existingArray = json_decode($existingValue, true);
+        if ($existingArray === null) {
+            // If no existing data, initialize an empty array
+            $existingArray = array();
+            }
+
+        // Append the new data to the existing array
+        $existingArray[] = json_decode($data, true);
+
+        // Encode the entire array as JSON
+        $jsonData = json_encode($existingArray);
+       
         if(isset($settings['function']) && !empty($settings['function'])){
             DB::table('settings')
                 ->where('name','function')
                 ->update([
-                    'value' => $newValue,
+                    'value' => $jsonData,
                     'created_by'=> $user->id,
                     'created_at' =>$created_at,
                     'updated_at'=>$updated_at
@@ -1801,7 +1815,7 @@ class SettingController extends Controller
             \DB::insert(
                 'INSERT INTO settings (`value`, `name`,`created_by`,`created_at`,`updated_at`) values (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`), `updated_at` = VALUES(`updated_at`) ',
                 [
-                    $inputValue,
+                    $jsonData,
                     'function',
                     $user->id,
                     $created_at,
@@ -1810,24 +1824,50 @@ class SettingController extends Controller
         }
         return redirect()->back()->with('success', __('Function Added .'));
     }
-    public function delete_function(Request $request){
+    public function delete_function_package(Request $request){
+        
         $user = \Auth::user();
         $setting = Utility::settings();
-        $existingValues = explode(',', $setting['function']);
-        $updatedValues = array_diff($existingValues, [$request->badge]);
-        $newvalue = implode(',', $updatedValues);
+        $badge = $request->badge;
+        $function = json_decode($setting['function']);
+        $data = $function[$request->value];
+        $data->package = array_values(array_filter($data->package, function ($item) use ($badge) {
+            return $item !== $badge;
+        }));
+        $updatedfunction = json_encode($function);
         $created_at = $updated_at = date('Y-m-d H:i:s');
         
         DB::table('settings')
         ->where('name','function')
         ->update([
-            'value' => $newvalue,
+            'value' => $updatedfunction,
             'created_by'=> $user->id,
             'created_at' =>$created_at,
             'updated_at'=>$updated_at
         ]);
         return true;
     }
+   public function delete_function(Request $request){ 
+    $user = \Auth::user();
+    $setting = Utility::settings();
+    $badge = $request->badge;
+    $function = json_decode($setting['function']);
+    unset($function[$request->value]);
+    $function = array_values($function);
+    $updatedfunction = json_encode($function);
+    $created_at = $updated_at = date('Y-m-d H:i:s');
+    DB::table('settings')
+    ->where('name','function')
+    ->update([
+        'value' => $updatedfunction,
+        'created_by'=> $user->id,
+        'created_at' =>$created_at,
+        'updated_at'=>$updated_at
+    ]);
+    return true;
+   }
+    
+  
     public function addcampaigntype(Request $request){
         $user = \Auth::user();
         $inputValue =  $request->input('campaign_type');
