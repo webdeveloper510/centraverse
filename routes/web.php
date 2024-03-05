@@ -88,6 +88,7 @@ use App\Http\Controllers\SspayController;
 use App\Http\Controllers\XenditPaymentController;
 use App\Http\Controllers\YooKassaController;
 use App\Http\Controllers\BillingController;
+use App\Http\Controllers\DashboardTestingController;
 use Illuminate\Support\Facades\DB;
 
 /*
@@ -1344,3 +1345,6 @@ Route::get('/testview', function(){
 });
 
 Route::get('/paypal-payment-success',[BillingController::class,'paypalpaymentsuccess']);
+
+// Dashboard Testing route
+Route::get('/dashboard-testing',[DashboardTestingController::class,'index']);

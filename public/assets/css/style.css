@@ -29494,3 +29494,28 @@ table.dataTable tbody > tr.selected th.select-checkbox:after {
 }
 
 /**====== End Sidebar scroll css  ======**/
+.inner_col {
+    padding: 10px;
+    border: 1px dotted #ccc;
+}
+
+.inner_col h5.card-title.mb-2 {
+    font-size: 13px;
+}
+.inner_col .card-body {
+    min-height: 100px;
+    padding: 15px;
+	position: relative;
+}
+h5.card-text {
+    font-size: 11px;
+    color: #333;
+}
+.inner_col p {
+    font-size: 13px;
+}
+.inner_col .action-btn {
+    position: absolute;
+    right: 6px;
+    top: 13px;
+}

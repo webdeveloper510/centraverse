@@ -10,7 +10,16 @@
 <li class="breadcrumb-item">{{ __('Campaign') }}</li>
 
 @endsection
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
 @section('content')
+@foreach($campaign as $cam)
+@if($cam->template != NULL)
+<div class="htmlContent" style="display: none;">
+{!!$cam->template!!}
+</div>
+@endif
+@endforeach
 {{ Form::open(array('route' => 'customer.sendmail','method' =>'post','files' => true)) }}
 <div class="container-field">
     <div id="wrapper">
@@ -58,6 +67,7 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- <button type="button" id="tempopt">aaaaa</button> -->
                         <div class="row">
                             <div class="col-md-12">
                                 <label for="description">Description</label>
@@ -182,7 +192,35 @@
         </div>
     </div>
 </div>
+<div class="modal" tabindex="-1" role="dialog" id="templateoptions" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Template</h5>
+                <button type="button" class="close btn btn-primary" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-light">Create New Template</button>
+                        <button type="button" class="btn btn-light"id ="existingtemplates">Use Template</button>
+                        <!-- <a href="#" data-url="{{route('htmlmail')}}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('Edit Recipients')}}" title="{{__('Select Recipients')}}" class="btn btn-primary btn-icon m-1 close" style="float: right;">{{__('User Recipients')}}</a> -->
 
+                    </div>
+                    <!-- <div class="col-md-6">
+                        <a href="#" data-url="{{route('campaign.existinguser')}}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('Edit Recipients')}}" title="{{__('Select Recipients')}}" class="btn btn-primary btn-icon m-1 close" style="float: right;">{{__('User Recipients')}}</a>
+                    </div>
+
+                    <div class="col-md-6">
+                        <a href="#" data-url="{{route('campaign.addeduser')}}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('Edit Recipients')}}" title="{{__('Select Recipients')}}" class="btn btn-primary btn-icon m-1 close" style=" width: 45%;">{{__('List')}}</a>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="modal" tabindex="-1" role="dialog" id="edito" >
     <div class="modal-dialog" role="document" style="max-width: 75% !important;">
         <div class="modal-content">
@@ -201,32 +239,24 @@
         </div>
     </div>
 </div>
-
-<!-- <div class="modal" tabindex="-1" role="dialog" id="textmail">
-    <div class="modal-dialog" role="document">
+<div class="modal" tabindex="-1" role="dialog" id="existingedit" >
+    <div class="modal-dialog" role="document" style="max-width: 75% !important;">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Text Mail</h5>
-                <button type="button" class="close btn btn-primary" data-dismiss="modal" aria-label="Close">
+                <h5 class="modal-title" id="exampleModalLabel">Template</h5>
+                <button type="button" class="close btn btn-primary close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="form-group col-12">
-                        {{ Form::label('content', __('Message'), ['class' => 'form-control-label text-dark']) }}
-                        {{ Form::textarea('content',null, ['class' => 'form-control']) }}
-                    </div>
-
-                </div>
-            </div>
+             <div class="modal-body new_model"> 
+            
+           </div>
             <div class="modal-footer">
-                <button class="btn btn-primary close" value="Save" id="message">{{ __('Save') }}</button>
-                <button type="button" class="btn  btn-light close" data-dismiss="modal">Close</button>
+                <button type="button"><i class="fa fa-check"></i></button>
             </div>
         </div>
     </div>
-</div> -->
+</div>
 {{Form::close()}}
 @endsection
 @push('css-page')
@@ -274,6 +304,23 @@
     </style>
 @endpush
 @push('script-page') 
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var html = $('.htmlContent').text();
+        console.log(html);
+                html2canvas(html).then(function(canvas) {
+            // Convert canvas to base64 image data
+            var imageData = canvas.toDataURL('image/png');
+
+            // Display the image or save it as needed
+            var img = new Image();
+            img.src = imageData;
+            document.body.appendChild(img);
+        });
+});
+       
+</script>
 <script src="https://editor.unlayer.com/embed.js"></script>
 <script>
     $('#html_mail').click(function() {
@@ -307,6 +354,14 @@
             $('input[name="template_html"]').val(json)
            
         });           
+    })
+    $('#tempopt').click(function(e){
+        e.preventDefault();
+        $("#templateoptions").css("display", "block");      
+    })
+    $('#existingtemplates').click(function(e){
+e.preventDefault();
+$('#existingedit').css('display','block');
     })
 </script>
 <script>
@@ -446,21 +501,28 @@
         });
     });
 </script>
-<script>
-    // function updateForm() {
-    //     var selectedUsers = [];
-    //     var checkboxes = document.getElementsByClassName('modal-checkbox');
-
-    //     for (var i = 0; i < checkboxes.length; i++) {
-    //         if (checkboxes[i].checked) {
-    //             selectedUsers.push(checkboxes[i].value);
-    //         }
-    //     }
-
-    //     // Update the hidden input field with the selected checkbox values
-    //     document.getElementById('selectedUsersInput').value = selectedUsers.join(',');
-    // }
-</script>
-
-
 @endpush
+<style>
+.modal-body.new_model {
+    display: flex;
+}
+body.theme-4 {
+    background: none !important;
+}
+table#u_body {
+    background: none !important;
+}
+.u-row {
+    width: 50% !important;
+}
+/* .new_model .temp {
+    width: 40%;
+}
+.new_model .temp table img {
+    min-width: 200px !important;
+    width: 200px !important;
+}
+table#u_body {
+    background: none !important;
+} */
+</style>

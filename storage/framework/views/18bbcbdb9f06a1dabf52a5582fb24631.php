@@ -92,6 +92,9 @@
 
     
     <link rel='stylesheet' href='https://unpkg.com/nprogress@0.2.0/nprogress.css' />
+
+    <!-- Option 1: Include in HTML -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <?php echo $__env->yieldPushContent('css-page'); ?>
 </head>
 <?php /**PATH /home/crmcentraverse/public_html/centraverse/resources/views/partials/admin/head.blade.php ENDPATH**/ ?>
