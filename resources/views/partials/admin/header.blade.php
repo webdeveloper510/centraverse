@@ -49,11 +49,8 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                         </li>
                         @can('Manage Lead')
                         <li class="dash-item {{ \Request::route()->getName() == 'lead' || \Request::route()->getName() == 'lead.edit' ? ' active' : '' }}">
-                            {{-- <a href="{{ !empty(\Auth::user()->getDefualtViewRouteByModule('lead')) ? route(\Auth::user()->getDefualtViewRouteByModule('lead')) : route('lead.index') }}" class="dash-link">
-                                <span class="dash-micon"><i class="ti ti-filter"></i></span><span class="dash-mtext">{{ __('Leads') }}</span>
-                            </a> --}}
+                           
                             <a href="{{  array_key_exists('lead',$defaultView) ? route($defaultView['lead']) : route('lead.index') }}"   class="dash-link">
-                                <!-- <span class="dash-micon"><i class="ti ti-filter"></i></span> -->
                                 <span class="dash-mtext">{{ __('Leads') }}</span>
                             </a>
                         </li>
@@ -66,62 +63,44 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                             </a> --}}
                             <a href="{{ array_key_exists('meeting',$defaultView) ? route($defaultView['meeting']) : route('meeting.index') }}"
                                 class="dash-link">
-                                <!-- <span class="dash-micon"><i class="ti ti-calendar"></i></span> -->
                                 <span class="dash-mtext">{{ __('Events') }}</span>
                             </a>
                         </li>
                         @endcan
-                        <!-- @if (\Auth::user()->type == 'owner') 
-                            <li class="dash-item">
-                                <a href="{{ route('email.template.view') }}" class="dash-link">
-                                <span
-                                class="dash-mtext">{{ __('Email Template') }}</span></a>
-                            </li>
-                        @endif  -->
-                        @if (\Auth::user()->type == 'owner') 
+                       
+                            @can('Manage Campaign')
                             <li class="dash-item">
                                 <a href="{{ route('customer.index') }}" class="dash-link">
-                                    <!-- <span class="dash-micon"><i class="ti ti-template"></i></span> -->
                                     <span
                                 class="dash-mtext">{{ __('Campaigns') }}</span></a>
                             </li>
+                            @endcan
+                            @can('Manage User')
                             <li class="dash-item {{ \Request::route()->getName() == 'customer-list' ? ' active' : '' }}">
                                 <a href="{{route('userlist')}}" class="dash-link">
                                     <span class="dash-mtext">{{ __('Customers') }}</span>
                                 </a>
                             </li>
-                            <!-- @can('Manage Contract')
+                            @endcan
+                            @can('Manage Contract')
                                 <li class="dash-item  {{ (Request::route()->getName() == 'contract.index' || Request::route()->getName() == 'contract.show') ? 'active' : '' }}">
                                     <a href="{{route('contract.index')}}" class="dash-link"><span class="dash-mtext">{{__('Contracts')}}</span></a>
                                 </li>
-                            @endcan -->
-                        @endif 
-                        @if(\Auth::user()->type =='owner')
+                            @endcan
+                        @can('Manage Payment')
                             <li class="dash-item {{ \Request::route()->getName() == 'billing' || \Request::route()->getName() == 'billing.index' ? ' active' : '' }}">
                                 <a href="{{ route('billing.index') }}" class="dash-link">
                                     <span class="dash-mtext">{{ __('Billing') }}</span>
                                 </a>
                             </li>
-                            <!-- <li class="dash-item">
-                        <a href="{{ route('email.template.view') }}" class="dash-link">
-                            <span class="dash-micon"><i class="ti ti-template"></i></span>
-                        <span
-                        class="dash-mtext">{{ __('Email Template') }}</span></a>
-                    </li> -->
-                    <!-- <li class="dash-item {{ (Request::route()->getName() == 'email_template.index' || Request::segment(1) == 'email_template_lang' || Request::route()->getName() == 'manageemail.lang') ? 'active' : '' }}">
-                        <a href="{{ route('manage.email.language',[$emailTemplate ->id,\Auth::user()->lang]) }}" class="dash-link"><span
-                        class="dash-micon"><i class="ti ti-template"></i></span><span
-                        class="dash-mtext">{{ __('Email Template') }}</span></a>
-                    </li> -->
-                        @endif
-                        @if (\Auth::user()->type == 'super admin' || \Auth::user()->type == 'owner')
+                        @endcan
+                          
                             <li class="dash-item  {{ Request::route()->getName() == 'settings' ? 'active' : '' }}">
                                 <a href="{{ route('settings') }}" class="dash-link">
                                     <!-- <span class="dash-micon"><i class="ti ti-settings"></i></span> -->
                                     <span class="dash-mtext">{{ __('Settings') }}</span>
                                 </a>
                             </li>
-                        @endif
                     </ul>
                 </div>
                 <div class="navbar-nav ms-auto">
@@ -167,31 +146,7 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
         </div>
     </nav>
 </div>
-    <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light"> -->
-        <!-- <div class="container-fluid">
-            <a href="#" class="navbar-brand">
-                <img src="https://www.tutorialrepublic.com/examples/images/logo.svg" height="28" alt="CoolBrand">
-            </a>
-            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <div class="navbar-nav">
-                    <a href="#" class="nav-item nav-link active">Dashboard</a>
-                    <a href="#" class="nav-item nav-link">Leads</a>
-                    <a href="#" class="nav-item nav-link">Event</a>
-                    <a href="#" class="nav-item nav-link">Calendar</a>
-                    <a href="#" class="nav-item nav-link">Email template</a>
-                    <a href="#" class="nav-item nav-link">Campaign</a>	
-                    <a href="#" class="nav-item nav-link">Billing</a>	
-                    <a href="#" class="nav-item nav-link">Settings</a>						
-                </div>
-                <div class="navbar-nav ms-auto">
-                    <a href="#" class="nav-item nav-link">Login</a>
-                </div>
-            </div>
-        </div>
-    </nav> -->
+
     <!-- <div class="header-wrapper">
         <div class="me-auto dash-mob-drp">
             <ul class="list-unstyled" >

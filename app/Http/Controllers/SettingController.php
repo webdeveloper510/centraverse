@@ -24,7 +24,7 @@ class SettingController extends Controller
 
     public function index()
     {
-        if (\Auth::user()->type == 'owner' || \Auth::user()->type == 'super admin') {
+        // if (\Auth::user()->type == 'owner' || \Auth::user()->type == 'super admin') {
             $settings = Utility::settings();
             $permissions = Permission::all()->pluck('name', 'id')->toArray();
             $payment = Utility::set_payment_settings();
@@ -33,9 +33,9 @@ class SettingController extends Controller
             $users = User::where('created_by', '=', \Auth::user()->creatorId())->get();
             $setup = Setup::all();
             return view('settings.index', compact('settings', 'setup','payment', 'webhooks','permissions','roles','users'));
-        } else {
-            return redirect()->back()->with('error', __('Permission denied.'));
-        }
+        // } else {
+            // return redirect()->back()->with('error', __('Permission denied.'));
+        // }
     }
 
     public function saveBusinessSettings(Request $request)
@@ -1717,49 +1717,80 @@ class SettingController extends Controller
         return redirect()->back()->with('success', __('Buffer  Added .'));
     }
     public function billing_cost(Request $request){
-        $bill= FixedBill::where('venue',$request->venue)->exists(); 
-        if($bill){
-            FixedBill::where('venue',$request->venue)->update([
-                'venue_cost'=> $request->venue_cost,
-                'hotel_rooms'=> $request->hotel_rooms,
-                'bar_package'=> $request->bar_package,
-                'wedding'=> $request->wedding,
-                'dinner'=> $request->dinner,
-                'lunch'=> $request->lunch,
-                'brunch'=> $request->brunch,
-                'special_req'=> $request->special_req,
-                'specialsetup'=> $request->specialsetup,
-                'rehearsalsetup'=> $request->rehearsalsetup,
-                'welcomesetup'=> $request->welcomesetup,
-                'equipment'=> $request->equipment,
-            ]);
+
+        $settings = Utility::settings();
+        $user = \Auth::user();
+        $created_at = $updated_at = date('Y-m-d H:i:s');
+        $existingValue = $settings['fixed_billing'] ?? '';
+
+        $function_arr = json_decode($settings['function']);
+        $function = $function_arr[$request->function]->function;
+        $function_package = $function_arr[$request->function]->package;
+        $function_package = $function_package[$request->packages];
+
+        $bar_arr = json_decode($settings['barpackage']);
+        $bar = $bar_arr[$request->bar_package]->bar;
+        $bar_package = $bar_arr[$request->bar_package]->barpackage;
+        $bar_package = $bar_package[$request->bar_packages];
+
+        $data = $request->all();
+        $jsonData = [
+            'venue' => [
+                $data['venue'] => $request->venue_cost,
+            ],
+            $function => [
+                $function_package=>$request->package_cost
+            ],
+            $bar => [
+                $bar_package=>$request->barpackage_cost
+            ],
+            'equipment' =>$request->equipment,
+            'hotel_rooms' =>$request->hotel_rooms,
+            'special_req'=>$request->special_req,
+            'rehearsalsetup' =>$request->rehearsalsetup,
+            'welcomesetup' =>$request->welcomesetup
+        ];
+        $existingData = json_decode($existingValue, true);
+        // Loop through the submitted data
+        foreach ($jsonData as $key => $value) {
+            // Check if the key exists in the existing data
+            if (isset($existingData[$key])) {
+                // If it's an array, update or add key-value pairs inside it
+                if (is_array($value)) {
+                    foreach ($value as $nestedKey => $nestedValue) {
+                        $existingData[$key][$nestedKey] = $nestedValue;
+                    }
+                } else {
+                    // If it's not an array, update the value directly
+                    $existingData[$key] = $value;
+                }
+            } else {
+                // If the key doesn't exist, add a new key-value pair
+                $existingData[$key] = $value;
+            }
+        }
+    $jsonString = json_encode($existingData);
+        if(isset($settings['fixed_billing']) && !empty($settings['fixed_billing'])){
+            DB::table('settings')
+                ->where('name','fixed_billing')
+                ->update([
+                    'value' => $jsonString,
+                    'created_by'=> $user->id,
+                    'created_at' =>$created_at,
+                    'updated_at'=>$updated_at
+                ]);
         }
         else{
-            $bill = new FixedBill();
-            $bill['venue'] = $request->venue;
-            $bill['venue_cost'] = $request->venue_cost;
-            $bill['hotel_rooms'] = $request->hotel_rooms;
-            $bill['bar_package'] = $request->bar_package;
-            $bill['wedding'] = $request->wedding;
-            $bill['dinner'] = $request->dinner;
-            $bill['lunch'] = $request->lunch;
-            $bill['brunch'] = $request->brunch;
-            $bill['special_req'] = $request->special_req;
-            $bill['specialsetup'] = $request->specialsetup;
-            $bill['rehearsalsetup'] = $request->rehearsalsetup;
-            $bill['welcomesetup'] = $request->welcomesetup;
-            $bill['equipment'] = $request->equipment;
-            $bill->save();
+            \DB::insert(
+                'INSERT INTO settings (`value`, `name`,`created_by`,`created_at`,`updated_at`) values (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`), `updated_at` = VALUES(`updated_at`) ',
+                [
+                    $jsonString,
+                    'fixed_billing',
+                    $user->id,
+                    $created_at,
+                    $updated_at,
+                ]);
         }
-        // Billing::where('id',$billing->id)->update([
-        //     'venue_rental'=>$request->venue_rental,
-        //     'hotel_rooms'=>$request->hotel_rooms,
-        //     'equipment'=>$request->equipment,
-        //     'setup'=>$request->setup,
-        //     'special_req'=>$request->special_req,
-        //     'classic_brunch'=>$request->food,
-        //     'gold_2hrs'=>$request->bar_package
-        // ]);
         return redirect()->back()->with('success', __('Billing Cost  Saved'));;
     } 
     public function signature(Request $request){
@@ -1824,6 +1855,47 @@ class SettingController extends Controller
         }
         return redirect()->back()->with('success', __('Function Added .'));
     }
+    public function addbars(Request $request){
+        $settings = Utility::settings();
+
+        $data['bar'] = $request->bar;
+        $data['barpackage'] = $request->barpackage;
+        $data = json_encode($data);
+        $user = \Auth::user();
+        $settings = Utility::settings();
+        $created_at = $updated_at = date('Y-m-d H:i:s');
+        $existingValue = $settings['barpackage'] ?? '';
+        $existingArray = json_decode($existingValue, true);
+        if ($existingArray === null) {
+            $existingArray = array();
+            }
+        $existingArray[] = json_decode($data, true);
+        $jsonData = json_encode($existingArray);
+        echo "<pre>";print_r($jsonData);
+
+        if(isset($settings['barpackage']) && !empty($settings['barpackage'])){
+            DB::table('settings')
+                ->where('name','barpackage')
+                ->update([
+                    'value' => $jsonData,
+                    'created_by'=> $user->id,
+                    'created_at' =>$created_at,
+                    'updated_at'=>$updated_at
+                ]);
+        }
+        else{
+            \DB::insert(
+                'INSERT INTO settings (`value`, `name`,`created_by`,`created_at`,`updated_at`) values (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`), `updated_at` = VALUES(`updated_at`) ',
+                [
+                    $jsonData,
+                    'barpackage',
+                    $user->id,
+                    $created_at,
+                    $updated_at,
+                ]);
+        }
+        return redirect()->back()->with('success', __('Bar Package Added .'));
+    }
     public function delete_function_package(Request $request){
         
         $user = \Auth::user();
@@ -1866,7 +1938,48 @@ class SettingController extends Controller
     ]);
     return true;
    }
+   public function delete_bar(Request $request){ 
+    $user = \Auth::user();
+    $setting = Utility::settings();
+    $badge = $request->badge;
+    $bar = json_decode($setting['barpackage']);
+    unset($bar[$request->value]);
+    $bar = array_values($bar);
+    $updatedbar = json_encode($bar);
+    $created_at = $updated_at = date('Y-m-d H:i:s');
+    DB::table('settings')
+    ->where('name','barpackage')
+    ->update([
+        'value' => $updatedbar,
+        'created_by'=> $user->id,
+        'created_at' =>$created_at,
+        'updated_at'=>$updated_at
+    ]);
+    return true;
+   }
+   public function delete_bar_package(Request $request){
+        
+    $user = \Auth::user();
+    $setting = Utility::settings();
+    $badge = $request->badge;
+    $bar = json_decode($setting['barpackage']);
+    $data = $bar[$request->value];
+    $data->barpackage = array_values(array_filter($data->barpackage, function ($item) use ($badge) {
+        return $item !== $badge;
+    }));
+    $updatedbar = json_encode($bar);
+    $created_at = $updated_at = date('Y-m-d H:i:s');
     
+    DB::table('settings')
+    ->where('name','barpackage')
+    ->update([
+        'value' => $updatedbar,
+        'created_by'=> $user->id,
+        'created_at' =>$created_at,
+        'updated_at'=>$updated_at
+    ]);
+    return true;
+}
   
     public function addcampaigntype(Request $request){
         $user = \Auth::user();

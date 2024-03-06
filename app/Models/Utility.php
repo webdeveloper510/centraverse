@@ -158,8 +158,9 @@ class Utility extends Model
             'buffer_time' =>'',
             'buffer_day' =>'',
             'function' =>'',
-            'campaign_type' =>''
-           
+            'campaign_type' =>'',
+            'barpackage'=>'',
+            'fixed_billing' =>''
         ];
 
         foreach ($data as $row) {

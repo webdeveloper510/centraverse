@@ -32,7 +32,7 @@
                     </thead>
                     <tbody>
                     @php
-                    $modules=['Role','User','Lead','Meeting'];
+                    $modules=['Role','User','Lead','Meeting','Campaign','Contract','Payment'];
                     @endphp
                     @foreach($modules as $module)
                         <tr>
