@@ -1035,6 +1035,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                             {{ Form::close() }}
                                         </div>
                                         @if(isset($bar) && !empty($bar))
+                                        @if(isset($function) && !empty($function))
                                             <div class="row mt-3">
                                                 <div class="form-group col-md-12">
                                                     <label class="form-label">Bar</label>
@@ -1158,9 +1159,11 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                 {{Form::label('function',__('Function'),['class'=>'form-label']) }}
                                                 <select name="function" id="function_names" class="form-select">
                                                     <option selected disabled>Select Function</option>
+                                                    @if(isset($function) && !empty($function))
                                                     @foreach($function as $key =>$value)
                                                     <option value="{{$key}}">{{$value->function}}</option>
                                                     @endforeach
+                                                    @endif
                                                 </select>
                                             </div>
                                         </div>
@@ -1181,9 +1184,11 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                 {{Form::label('bar_package',__('Bar'),['class'=>'form-label']) }}
                                                 <select name="bar_package" id="bar_names" class="form-select">
                                                     <option selected disabled>Select Bar</option>
+                                                    @if(isset($bar) && !empty($bar))
                                                     @foreach($bar as $key =>$value)
                                                     <option value="{{$key}}">{{$value->bar}}</option>
                                                     @endforeach
+                                                    @endif
                                                 </select>
                                             </div>
                                         </div>
