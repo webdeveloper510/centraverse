@@ -49,9 +49,8 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                         </li>
                         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Lead')): ?>
                         <li class="dash-item <?php echo e(\Request::route()->getName() == 'lead' || \Request::route()->getName() == 'lead.edit' ? ' active' : ''); ?>">
-                            
+                           
                             <a href="<?php echo e(array_key_exists('lead',$defaultView) ? route($defaultView['lead']) : route('lead.index')); ?>"   class="dash-link">
-                                <!-- <span class="dash-micon"><i class="ti ti-filter"></i></span> -->
                                 <span class="dash-mtext"><?php echo e(__('Leads')); ?></span>
                             </a>
                         </li>
@@ -61,67 +60,44 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                             
                             <a href="<?php echo e(array_key_exists('meeting',$defaultView) ? route($defaultView['meeting']) : route('meeting.index')); ?>"
                                 class="dash-link">
-                                <!-- <span class="dash-micon"><i class="ti ti-calendar"></i></span> -->
                                 <span class="dash-mtext"><?php echo e(__('Events')); ?></span>
                             </a>
                         </li>
                         <?php endif; ?>
-                        <!-- <?php if(\Auth::user()->type == 'owner'): ?> 
-                            <li class="dash-item">
-                                <a href="<?php echo e(route('email.template.view')); ?>" class="dash-link">
-                                <span
-                                class="dash-mtext"><?php echo e(__('Email Template')); ?></span></a>
-                            </li>
-                        <?php endif; ?>  -->
-                        <li class="dash-item  <?php echo e(Request::route()->getName() == 'settings' ? 'active' : ''); ?>">
-                                <a href="<?php echo e(route('settings')); ?>" class="dash-link">
-                                    <!-- <span class="dash-micon"><i class="ti ti-settings"></i></span> -->
-                                    <span class="dash-mtext"><?php echo e(__('Settings')); ?></span>
-                                </a>
-                            </li>
-                        <!-- <?php if(\Auth::user()->type == 'owner'): ?>  -->
+                       
+                            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Campaign')): ?>
                             <li class="dash-item">
                                 <a href="<?php echo e(route('customer.index')); ?>" class="dash-link">
-                                    <!-- <span class="dash-micon"><i class="ti ti-template"></i></span> -->
                                     <span
                                 class="dash-mtext"><?php echo e(__('Campaigns')); ?></span></a>
                             </li>
+                            <?php endif; ?>
+                            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage User')): ?>
                             <li class="dash-item <?php echo e(\Request::route()->getName() == 'customer-list' ? ' active' : ''); ?>">
                                 <a href="<?php echo e(route('userlist')); ?>" class="dash-link">
                                     <span class="dash-mtext"><?php echo e(__('Customers')); ?></span>
                                 </a>
                             </li>
-                            <!-- <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Contract')): ?>
+                            <?php endif; ?>
+                            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Contract')): ?>
                                 <li class="dash-item  <?php echo e((Request::route()->getName() == 'contract.index' || Request::route()->getName() == 'contract.show') ? 'active' : ''); ?>">
                                     <a href="<?php echo e(route('contract.index')); ?>" class="dash-link"><span class="dash-mtext"><?php echo e(__('Contracts')); ?></span></a>
                                 </li>
-                            <?php endif; ?> -->
-                        <!-- <?php endif; ?>  -->
-                        <!-- <?php if(\Auth::user()->type =='owner'): ?> -->
+                            <?php endif; ?>
+                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Payment')): ?>
                             <li class="dash-item <?php echo e(\Request::route()->getName() == 'billing' || \Request::route()->getName() == 'billing.index' ? ' active' : ''); ?>">
                                 <a href="<?php echo e(route('billing.index')); ?>" class="dash-link">
                                     <span class="dash-mtext"><?php echo e(__('Billing')); ?></span>
                                 </a>
                             </li>
-                            <!-- <li class="dash-item">
-                            <a href="<?php echo e(route('email.template.view')); ?>" class="dash-link">
-                                <span class="dash-micon"><i class="ti ti-template"></i></span>
-                            <span
-                            class="dash-mtext"><?php echo e(__('Email Template')); ?></span></a>
-                        </li> -->
-                        <!-- <li class="dash-item <?php echo e((Request::route()->getName() == 'email_template.index' || Request::segment(1) == 'email_template_lang' || Request::route()->getName() == 'manageemail.lang') ? 'active' : ''); ?>">
-                            <a href="<?php echo e(route('manage.email.language',[$emailTemplate ->id,\Auth::user()->lang])); ?>" class="dash-link"><span
-                            class="dash-micon"><i class="ti ti-template"></i></span><span
-                            class="dash-mtext"><?php echo e(__('Email Template')); ?></span></a>
-                        </li> -->
-                        <!-- <?php endif; ?> -->
-                        <!-- <?php if(\Auth::user()->type == 'super admin' || \Auth::user()->type == 'owner'): ?> -->
-                            <!-- <li class="dash-item  <?php echo e(Request::route()->getName() == 'settings' ? 'active' : ''); ?>">
+                        <?php endif; ?>
+                          
+                            <li class="dash-item  <?php echo e(Request::route()->getName() == 'settings' ? 'active' : ''); ?>">
                                 <a href="<?php echo e(route('settings')); ?>" class="dash-link">
+                                    <!-- <span class="dash-micon"><i class="ti ti-settings"></i></span> -->
                                     <span class="dash-mtext"><?php echo e(__('Settings')); ?></span>
                                 </a>
-                            </li> -->
-                        <!-- <?php endif; ?> -->
+                            </li>
                     </ul>
                 </div>
                 <div class="navbar-nav ms-auto">
@@ -168,31 +144,7 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
         </div>
     </nav>
 </div>
-    <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light"> -->
-        <!-- <div class="container-fluid">
-            <a href="#" class="navbar-brand">
-                <img src="https://www.tutorialrepublic.com/examples/images/logo.svg" height="28" alt="CoolBrand">
-            </a>
-            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <div class="navbar-nav">
-                    <a href="#" class="nav-item nav-link active">Dashboard</a>
-                    <a href="#" class="nav-item nav-link">Leads</a>
-                    <a href="#" class="nav-item nav-link">Event</a>
-                    <a href="#" class="nav-item nav-link">Calendar</a>
-                    <a href="#" class="nav-item nav-link">Email template</a>
-                    <a href="#" class="nav-item nav-link">Campaign</a>	
-                    <a href="#" class="nav-item nav-link">Billing</a>	
-                    <a href="#" class="nav-item nav-link">Settings</a>						
-                </div>
-                <div class="navbar-nav ms-auto">
-                    <a href="#" class="nav-item nav-link">Login</a>
-                </div>
-            </div>
-        </div>
-    </nav> -->
+
     <!-- <div class="header-wrapper">
         <div class="me-auto dash-mob-drp">
             <ul class="list-unstyled" >
