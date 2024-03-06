@@ -1831,7 +1831,6 @@ class SettingController extends Controller
 
         // Encode the entire array as JSON
         $jsonData = json_encode($existingArray);
-       
         if(isset($settings['function']) && !empty($settings['function'])){
             DB::table('settings')
                 ->where('name','function')

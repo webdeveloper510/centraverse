@@ -16,6 +16,7 @@ $venue = explode(',',$settings['venue']);
 $venue = array_combine($venue,$venue);
 if(!empty($settings['function'])){
 $function =json_decode($settings['function']);
+
 }
 if(!empty($settings['barpackage'])){
 $bar =json_decode($settings['barpackage']);
@@ -1158,9 +1159,11 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                 {{Form::label('function',__('Function'),['class'=>'form-label']) }}
                                                 <select name="function" id="function_names" class="form-select">
                                                     <option selected disabled>Select Function</option>
+                                                    @if(isset($function) && !empty($function))
                                                     @foreach($function as $key =>$value)
                                                     <option value="{{$key}}">{{$value->function}}</option>
                                                     @endforeach
+                                                    @endif
                                                 </select>
                                             </div>
                                         </div>
@@ -3511,16 +3514,14 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
         var value = $(this).val();
         if (value) {
             $('.function_cost').show();
-            var functionarr = <?= json_encode($function) ?>;
+            var functionarr = <?=  (isset($function) && !empty($function)) ? json_encode($function) : 'null' ?>;
             $.each(functionarr, function(index, function_val) {
-
                 if (index == value) {
                     var func = function_val.function;
                     var packagevalue = function_val.package;
                     $('#packages_name').show();
                     $.each(packagevalue, function(index, val) {
                         $('#packages_name').append('<option value="' + index + '">' + val + '</option>');
-                      
                     });
                 }
             });
