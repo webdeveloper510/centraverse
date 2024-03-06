@@ -1092,6 +1092,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
 
                                         </div>
                                         <?php if(isset($bar) && !empty($bar)): ?>
+                                        <?php if(isset($function) && !empty($function)): ?>
                                             <div class="row mt-3">
                                                 <div class="form-group col-md-12">
                                                     <label class="form-label">Bar</label>
@@ -1222,9 +1223,11 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
 
                                                 <select name="function" id="function_names" class="form-select">
                                                     <option selected disabled>Select Function</option>
+                                                    <?php if(isset($function) && !empty($function)): ?>
                                                     <?php $__currentLoopData = $function; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key =>$value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <option value="<?php echo e($key); ?>"><?php echo e($value->function); ?></option>
                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                    <?php endif; ?>
                                                 </select>
                                             </div>
                                         </div>
@@ -1249,9 +1252,11 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
 
                                                 <select name="bar_package" id="bar_names" class="form-select">
                                                     <option selected disabled>Select Bar</option>
+                                                    <?php if(isset($bar) && !empty($bar)): ?>
                                                     <?php $__currentLoopData = $bar; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key =>$value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <option value="<?php echo e($key); ?>"><?php echo e($value->bar); ?></option>
                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                    <?php endif; ?>
                                                 </select>
                                             </div>
                                         </div>
