@@ -58,10 +58,11 @@ class DashboardTestingController extends Controller
 
                 $date = today()->format('Y-m-d');
 
-                $activeLeads = Lead::where('created_at', '>=', $date)->get();
-                $lostLeads = Lead::where('created_at', '<', $date)->get(); 
-                $activeEvent = Meeting::where('created_at', '>=', $date)->get();
-                $pastEvents = Meeting::where('created_at', '<', $date)->get();
+                $activeLeads = Lead::where('created_by', \Auth::user()->creatorId())->
+                where('start_date', '>=', $date)->get();
+                $lostLeads = Lead::where('proposal_status', '==',3)->get(); 
+                $activeEvent = Meeting::where('start_date', '>=', $date)->get();
+                $pastEvents = Meeting::where('start_date', '<', $date)->get();
 
                 $upcoming = Meeting::where('start_date', '>=', $date)->get()->count();
                 $completed = Meeting::where('start_date', '<', $date)->get()->count();

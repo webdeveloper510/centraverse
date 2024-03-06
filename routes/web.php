@@ -1233,7 +1233,9 @@ Route::group(['middleware' => ['verified']], function () {
     Route::post('setting/delete-venue',[SettingController::class,'delete_venue'])->name('venueedit.setting');
      //=======================================Function==========================================//
      Route::post('setting/function', [SettingController::class, 'addfunction'])->name('function.setting');
-     Route::post('setting/delete-function',[SettingController::class,'delete_function'])->name('functionedit.setting');
+     Route::post('setting/delete-package-function',[SettingController::class,'delete_function_package'])->name('functionedit.setting');
+     Route::post('setting/delete-function',[SettingController::class,'delete_function'])->name('functionpackage.setting');
+
      
     //=======================================Floor Plans=======================//
     Route::post('/floor-images',[SettingController::class,'storeImage']);

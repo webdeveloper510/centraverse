@@ -12,290 +12,201 @@
 <?php $__env->startSection('action-btn'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
-<div class="container-field">
-    <div id="wrapper">
-        <div id="sidebar-wrapper">
-            <div class="card sticky-top" style="top:30px">
-                <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
-                    <a href="#useradd-1" class="list-group-item list-group-item-action"><span class="fa-stack fa-lg pull-left"><i class="ti ti-home-2"></i></span>
-                        <span class="dash-mtext"><?php echo e(__('Dashboard')); ?> </span></a>
-                    </a>
+    <div class="container-field">
+        <div id="wrapper">
+            <div id="sidebar-wrapper">
+                <div class="card sticky-top" style="top:30px">
+                    <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
+                        <a href="#useradd-1" class="list-group-item list-group-item-action"><span class="fa-stack fa-lg pull-left"><i class="ti ti-home-2"></i></span>
+                            <span class="dash-mtext"><?php echo e(__('Dashboard')); ?> </span></a>
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div id="page-content-wrapper">
-            <div class="container-fluid xyz">
-                <div class="row">
-                    <!-- <div class="col-lg-12"> -->
-                        <?php if(\Auth::user()->type == 'owner'): ?>
-                        <div class="col-lg-3 col-6 totallead"style="padding: 15px;">
-                            <div class="card">
-                                <div class="card-body" onclick="leads();">
-                                    <div class="theme-avtar bg-info">
-                                        <i class="fas fa-address-card"></i>
+            <div id="page-content-wrapper">
+                <div class="container-fluid xyz">
+                    <div class="row">
+                        <!-- <div class="col-lg-12"> -->
+                            <?php if(\Auth::user()->type == 'owner'): ?>
+                            <div class="col-lg-3 col-6 totallead"style="padding: 15px;">
+                                <div class="card">
+                                    <div class="card-body newcard_body" onclick="leads();">
+                                        <div class="theme-avtar bg-info">
+                                            <i class="fas fa-address-card"></i>
+                                        </div>
+                                        <div class="right_side">
+                                        <h6 class="mb-3"><?php echo e(__('Total Lead')); ?></h6>
+                                        <h3 class="mb-0"><?php echo e($data['totalLead']); ?></h3>
+                                        </div>
                                     </div>
-                                    <p class="text-muted text-sm mt-4 mb-2"></p>
-                                    <h6 class="mb-3"><?php echo e(__('Total Lead')); ?></h6>
-                                    <h3 class="mb-0"><?php echo e($data['totalLead']); ?></h3>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="col-lg-3 col-6" id="toggleDiv" style="padding: 15px;">
-                            <div class="card">
-                                <div class="card-body" onclick="toggleOptions()">
-                                    <div class="theme-avtar bg-warning">
-                                        <i class="ti ti-user"></i>
+                            <div class="col-lg-3 col-6" id="toggleDiv" style="padding: 15px;">
+                                <div class="card">
+                                    <div class="card-body newcard_body" onclick="toggleOptions()">
+                                        <div class="theme-avtar bg-warning">
+                                            <i class="ti ti-user"></i>
+                                        </div>
+                                        <div class="right_side">
+                                        <h6 class="mb-3"><?php echo e(__('Total Events')); ?></h6>
+                                        <h3 class="mb-0"><?php echo e(@$totalevent); ?> </h3>
+                                        </div>
                                     </div>
-                                    <p class="text-muted text-sm mt-4 mb-2"></p>
-                                    <h6 class="mb-3"><?php echo e(__('Total Events')); ?></h6>
-                                    <h3 class="mb-0"><?php echo e(@$totalevent); ?> </h3>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- <div class="optionsContainer"> -->
-                        <div class="col-lg-3 col-6 upcmg optionsContainer"  style="padding: 15px;">
-                            <div class="card option" onclick="showUpcoming()">
-                                <div class="card-body" style="height: 182px;">
-                                    <div class="theme-avtar bg-info">
-                                        <i class="fas fa-address-card"></i>
+                            <!-- <div class="optionsContainer"> -->
+                            <div class="col-lg-3 col-6 upcmg optionsContainer"  style="padding: 15px;">
+                                <div class="card option" onclick="showUpcoming()">
+                                    <div class="card-body newcard_body" style="">
+                                        <div class="theme-avtar bg-info">
+                                            <i class="fas fa-address-card"></i>
+                                        </div>
+                                        <div class="right_side">
+                                        <h6 class="mb-3"><?php echo e(__('Upcoming Events')); ?></h6>
+                                        <h4 class="mb-0"><?php echo e(@$upcoming); ?></h4>
+                                        </div>
                                     </div>
-                                    <p class="text-muted text-sm mt-4 mb-2"></p>
-                                    <h6 class="mb-3"><?php echo e(__('Upcoming Events')); ?></h6>
-                                    <h4 class="mb-0"><?php echo e(@$upcoming); ?></h4>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-3 col-6 cmplt optionsContainer"  style="padding: 15px;">
-                            <div class="card option" onclick="showCompleted()">
-                                <div class="card-body" style="height: 182px;">
-                                    <div class="theme-avtar bg-info">
-                                        <i class="fas fa-address-card"></i>
+                            <div class="col-lg-3 col-6 cmplt optionsContainer"  style="padding: 15px;">
+                                <div class="card option" onclick="showCompleted()">
+                                    <div class="card-body newcard_body" style="">
+                                        <div class="theme-avtar bg-info">
+                                            <i class="fas fa-address-card"></i>
+                                        </div>
+                                        <div class="right_side">
+                                        <h6 class="mb-3"><?php echo e(__('Completed Events')); ?></h6>
+                                        <h4 class="mb-0"><?php echo e(@$completed); ?></h4>
+                                        </div>
                                     </div>
-                                    <p class="text-muted text-sm mt-4 mb-2"></p>
-                                    <h6 class="mb-3"><?php echo e(__('Completed Events')); ?></h6>
-                                    <h4 class="mb-0"><?php echo e(@$completed); ?></h4>
                                 </div>
                             </div>
-                        </div>
+                            <!-- </div> -->
+                            <?php endif; ?>
+
+                            <?php
+                            $setting = App\Models\Utility::settings();
+                            ?>
                         <!-- </div> -->
-                        <?php endif; ?>
-
-                        <?php
-                        $setting = App\Models\Utility::settings();
-                        ?>
-                    <!-- </div> -->
-                </div>
-                <div class="blockd_dates">
-                    <?php $__currentLoopData = $blockeddate; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <input type="hidden" name="strt<?php echo e($key); ?>" value="<?php echo e($value->start_date); ?>">
-                    <input type="hidden" name="end<?php echo e($key); ?>" value="<?php echo e($value->end_date); ?>">
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                </div>
-
-                <div class="container">
+                    </div>
                     <div class="row">
                         <div class="col-sm">
-                        <div class="inner_col">    
-                        <h5 class="card-title mb-2">Past Event</h5>
-                            <?php $__currentLoopData = $pastEvents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $event): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <div class="card">
-                                <div class="card-body">                                    
-                                    <p><?php echo e($event['type']); ?></p>
-                                    <h5 class="card-text"><?php echo e($event['name']); ?></h5>
-                                    <!-- <p class="card-text"><?php echo e($event['description']); ?></p> -->
-                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Lead')): ?>
-                                    <div class="action-btn bg-warning ms-2">
-                                        <a href="#" data-size="md" data-url="<?php echo e(route('meeting.show',$event->id)); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('Event Details')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                            <i class="ti ti-eye"></i>
-                                        </a>
-                                    </div>
-                                    <?php endif; ?> 
-                                </div>
-                            </div>                            
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> 
-                            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Meeting')): ?>
-                                <div class="col-12 text-end mt-3">
-                                    <a href="<?php echo e(route('meeting.create',['meeting',0])); ?>"> 
-                                        <button  data-bs-toggle="tooltip"title="<?php echo e(__('Create')); ?>" class="btn btn-sm btn-primary btn-icon m-1">
-                                        <i class="ti ti-plus"></i></button>
-                                    </a><span>New Card</span>
-                                </div>
-                            <?php endif; ?>
-                        </div>
-                        </div>
-                        <div class="col-sm">
-                        <div class="inner_col">   
-                        <h5 class="card-title mb-2">Active & Upcoming Events</h5>
-                            <?php $__currentLoopData = $activeEvent; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $event): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <div class="inner_col">  
+                                <h5 class="card-title mb-2">Active Leads</h5>
+                                <?php $__currentLoopData = $activeLeads; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $lead): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="card">
-                                    <div class="card-body">                                        
-                                        <p><?php echo e($event['type']); ?></p>
-                                        <h5 class="card-text"><?php echo e($event['name']); ?></h5>
-                                                   <!-- <p class="card-text"><?php echo e($event['description']); ?></p>  -->
-                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Lead')): ?>
-                                        <div class="action-btn bg-warning ms-2">
-                                            <a href="#" data-size="md" data-url="<?php echo e(route('meeting.show',$event->id)); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('Event Details')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                <i class="ti ti-eye"></i>
-                                            </a>
-                                        </div>
-                                        <?php endif; ?>                                                                    
-                                    </div>
+                                    <div class="card-body new_bottomcard">
+                                        <h4 class="card-text"><?php echo e($lead['leadname']); ?>
+
+                                            <span>(<?php echo e($lead['type']); ?>)</span>
+                                        </h4>
+                                        <?php if($lead['start_date'] == $lead['end_date']): ?>
+                                            <p><?php echo e(Carbon\Carbon::parse($lead['start_date'])->format('M d')); ?></p>
+                                        <?php else: ?> 
+                                            <p><?php echo e(Carbon\Carbon::parse($lead['start_date'])->format('M d')); ?> -
+                                        <?php echo e(\Auth::user()->dateFormat($lead['end_date'])); ?></p>
+                                        <?php endif; ?>
+                                        <!-- <span><?php echo e(date('h:i A', strtotime($lead['start_time']))); ?> - <?php echo e(date('h:i A', strtotime($lead['end_time']))); ?></span>                                                                                                                  -->
+                                                                                                      
+                                    </div>                              
                                 </div>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>                            
-                            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Meeting')): ?>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Lead')): ?>
                                 <div class="col-12 text-end mt-3">
-                                    <a href="<?php echo e(route('meeting.create',['meeting',0])); ?>"> 
-                                        <button  data-bs-toggle="tooltip"title="<?php echo e(__('Create')); ?>" class="btn btn-sm btn-primary btn-icon m-1">
-                                        <i class="ti ti-plus"></i></button>
-                                    </a>
-                                    <span>New Card</span>
+                                <a href="#" data-url="<?php echo e(route('lead.create',['lead',0])); ?>" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('Create New Lead')); ?>" title="<?php echo e(__('Create Lead')); ?>" class="btn btn-sm btn-primary btn-icon m-1">
+                                    <i class="ti ti-plus"></i>
+                                </a>
                                 </div>
-                            <?php endif; ?>
-                        </div></div>
-                        <div class="col-sm">
-                        <div class="inner_col">   
-                        <h5 class="card-title mb-2">Lost Leads</h5>
-                            <?php $__currentLoopData = $lostLeads; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $lead): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <div class="card">
-                                <div class="card-body">                                   
-                                    <p><?php echo e($lead['type']); ?></p>
-                                    <h5 class="card-text"><?php echo e($lead['leadname']); ?></h5>
-                                    <!-- <p class="card-text"><?php echo e($lead['description']); ?></p>  -->
-                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Lead')): ?>
-                                    <div class="action-btn bg-warning ms-2">
-                                        <a href="#" data-size="md" data-url="<?php echo e(route('lead.show',$lead->id)); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('Lead Details')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                            <i class="ti ti-eye"></i>
-                                        </a>
-                                    </div>
-                                    <?php endif; ?>                                                                 
-                                </div>
-                            </div>                            
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> 
-                            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Lead')): ?>
-                            <a href="#" data-url="<?php echo e(route('lead.create',['lead',0])); ?>" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('Create New Lead')); ?>" title="<?php echo e(__('Create')); ?>" class="btn btn-sm btn-primary btn-icon m-1">
-                                <i class="ti ti-plus"></i>
-                            </a>
-                            <span>New Card</span>
-                            <?php endif; ?>
-                        </div></div>
-                        <div class="col-sm">
-                        <div class="inner_col">  
-                        <h5 class="card-title mb-2">Active Leads list</h5>
-                            <?php $__currentLoopData = $activeLeads; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $lead): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <div class="card">
-                                <div class="card-body">
-                                    <p><?php echo e($lead['type']); ?></p>
-                                    <h5 class="card-text"><?php echo e($lead['leadname']); ?></h5>
-                                    <!-- <p class="card-text"><?php echo e($lead['description']); ?></p>  -->
-                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Lead')): ?>
-                                    <div class="action-btn bg-warning ms-2">
-                                        <a href="#" data-size="md" data-url="<?php echo e(route('lead.show',$lead->id)); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('Lead Details')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                            <i class="ti ti-eye"></i>
-                                        </a>
-                                    </div>
-                                    <?php endif; ?>                                                                       
-                                </div>                              
+                                <?php endif; ?>
                             </div>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Lead')): ?>
-                            <a href="#" data-url="<?php echo e(route('lead.create',['lead',0])); ?>" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('Create New Lead')); ?>" title="<?php echo e(__('Create')); ?>" class="btn btn-sm btn-primary btn-icon m-1">
-                                <i class="ti ti-plus"></i>
-                            </a>
-                            <span>New Card</span>
-                            <?php endif; ?>
                         </div>
-                    </div></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="overlay"></div>
-    <div id="popup-form" style="border:solid 1px black;">
-        <div class="row step1 blocked" data-popdate="">
-            <div class="card">
-                <div class="col-md-12">
-                    <?php echo e(Form::open(['route' => 'meeting.blockdate', 'method' => 'post', 'enctype' => 'multipart/form-data'])); ?>
+                        <div class="col-sm">
+                            <div class="inner_col">   
+                            <h5 class="card-title mb-2">Active/Upcoming Events</h5>
+                                <?php $__currentLoopData = $activeEvent; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $event): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <div class="card">
+                                        <div class="card-body">  
+                                        <h4 class="card-text"><?php echo e($event['name']); ?>
 
-                    <div class="card-header">
-                        <div class="row">
-                            <div class="col-12">
-                                <h5><?php echo e(__('Block Date')); ?></h5>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label class="form-label">Venue</label>
-                                    <div class="checkbox-container d-flex flex-wrap">
-                                        <?php $__currentLoopData = $venue_dropdown; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value => $label): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <div class="form-check mx-2">
-                                            <input class="form-check-input venue-checkbox" type="checkbox" id="<?php echo e($value); ?>" name="venue[]" value="<?php echo e($label); ?>">
-                                            <label class="form-check-label" for="<?php echo e($value); ?>"><?php echo e($label); ?></label>
+                                            <span>(<?php echo e($event['type']); ?>)</span>
+</h4>
+                                        <?php if($event['start_date'] == $event['end_date']): ?>
+                                            <p><?php echo e(Carbon\Carbon::parse($event['start_date'])->format('M d')); ?></p>
+                                        <?php else: ?> 
+                                            <p><?php echo e(Carbon\Carbon::parse($event['start_date'])->format('M d')); ?> -
+                                        <?php echo e(\Auth::user()->dateFormat($event['end_date'])); ?></p>
+                                        <?php endif; ?>
+                                        <!-- <span><?php echo e(date('h:i A', strtotime($event['start_time']))); ?> - <?php echo e(date('h:i A', strtotime($event['end_time']))); ?></span>                                     -->
+                                                                          
+                                            <!-- <p><?php echo e($event['type']); ?></p>
+                                            <h5 class="card-text"><?php echo e($event['name']); ?></h5> -->
+                                                    <!-- <p class="card-text"><?php echo e($event['description']); ?></p>  -->
+                                                                                                            
                                         </div>
-                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <?php echo e(Form::label('start_date', __('Start Date'), ['class' => 'form-label'])); ?>
-
-                                    <?php echo Form::date('start_date', date('Y-m-d'), ['class' => 'form-control', 'required' => 'required','min' => date('Y-m-d')]); ?>
-
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <?php echo e(Form::label('start_time', __('Start Time'), ['class' => 'form-label'])); ?>
-
-                                    <?php echo Form::time('start_time', '00:00', ['class' => 'form-control']); ?>
-
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <?php echo e(Form::label('end_date', __('End Date'), ['class' => 'form-label'])); ?>
-
-                                    <?php echo Form::date('end_date', date('Y-m-d'), ['class' => 'form-control', 'required' => 'required','required' => 'required','min' => date('Y-m-d')]); ?>
-
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <?php echo e(Form::label('end_time', __('End Time'), ['class' => 'form-label'])); ?>
-
-                                    <?php echo Form::time('end_time', '00:00', ['class' => 'form-control', 'required' => 'required']); ?>
-
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <?php echo e(Form::label('purpose',__('Purpose'),['class'=>'form-label'])); ?>
-
-                                    <?php echo e(Form::textarea('purpose',null,['class'=>'form-control','rows'=>2])); ?>
-
-                                </div>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>                            
+                                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Meeting')): ?>
+                                    <div class="col-12 text-end mt-3">
+                                        <a href="<?php echo e(route('meeting.create',['meeting',0])); ?>"> 
+                                            <button  data-bs-toggle="tooltip"title="<?php echo e(__('Create Event')); ?>" class="btn btn-sm btn-primary btn-icon m-1">
+                                            <i class="ti ti-plus"></i></button>
+                                        </a>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         </div>
-                    </div>
-                    <div class="card-footer text-end">
-                        <?php echo e(Form::submit(__('Block'), ['id'=>'block','class' => 'btn  btn-primary '])); ?>
+                        <div class="col-sm">
+                            <div class="inner_col">    
+                                <h5 class="card-title mb-2">Past Events</h5>
+                                <?php $__currentLoopData = $pastEvents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $event): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <div class="card">
+                                    <div class="card-body">                                    
+                                        <h4 class="card-text"><?php echo e($event['name']); ?>
 
-                        <button class="btn btn-primary" id="unblock" data-bs-toggle="tooltip" title="<?php echo e(__('Close')); ?>" style="display:none">Unblock</button>
-                        <p class="btn  btn-primary close-popup" data-bs-toggle="tooltip" title="<?php echo e(__('Close')); ?>">Close</p>
-                    </div>
-                    <?php echo e(Form::close()); ?>
+                                            <span>(<?php echo e($event['type']); ?>)</span>
+</h4>
+                                        <?php if($event['start_date'] == $event['end_date']): ?>
+                                            <p><?php echo e(Carbon\Carbon::parse($event['start_date'])->format('M d')); ?></p>
+                                        <?php else: ?> 
+                                            <p><?php echo e(Carbon\Carbon::parse($event['start_date'])->format('M d')); ?> -
+                                        <?php echo e(\Auth::user()->dateFormat($event['end_date'])); ?></p>
+                                        <?php endif; ?>
+                                        <!-- <span><?php echo e(date('h:i A', strtotime($event['start_time']))); ?> - <?php echo e(date('h:i A', strtotime($event['end_time']))); ?></span>                                     -->
+                                    </div>
+                                </div>                            
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> 
+                            </div>
+                        </div>    
+                        <div class="col-sm">
+                            <div class="inner_col">   
+                                <h5 class="card-title mb-2">Lost Leads</h5>
+                                <?php $__currentLoopData = $lostLeads; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $lead): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <div class="card">
+                                    <div class="card-body">  
+                                        <h4 class="card-text"><?php echo e($lead['leadname']); ?>
 
+                                            <span><?php echo e($lead['type']); ?></span>
+</h4>
+                                        <?php if($event['start_date'] == $event['end_date']): ?>
+                                            <p><?php echo e(Carbon\Carbon::parse($lead['start_date'])->format('M d')); ?></p>
+                                        <?php else: ?> 
+                                            <p><?php echo e(Carbon\Carbon::parse($lead['start_date'])->format('M d')); ?> -
+                                        <?php echo e(\Auth::user()->dateFormat($lead['end_date'])); ?></p>
+                                        <?php endif; ?>
+                                        <!-- <span><?php echo e(date('h:i A', strtotime($lead['start_time']))); ?> - <?php echo e(date('h:i A', strtotime($lead['end_time']))); ?></span>                                                                                                                  -->
+                                    </div>
+                                </div>                            
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> 
+                            </div>
+                        </div>    
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <?php $__env->stopSection(); ?>
+<?php $__env->stopSection(); ?>
 
     <?php $__env->startPush('script-page'); ?>
     <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "dc4641f860664c6e824b093274f50291"}'></script>

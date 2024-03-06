@@ -360,7 +360,7 @@ unset($__errorArgs, $__bag); ?>
                                                 <div class="form-group">
                                                     <?php echo e(Form::label('start_date', __('Start Date'), ['class' => 'form-label'])); ?>
 
-                                                    <?php echo Form::date('start_date', null, ['class' => 'form-control', 'required' => 'required','min' => date('Y-m-d')]); ?>
+                                                    <?php echo Form::date('start_date', null, ['class' => 'form-control', 'required' => 'required']); ?>
 
                                                 </div>
                                                 <?php $__errorArgs = ['start_date'];
@@ -378,7 +378,7 @@ unset($__errorArgs, $__bag); ?>
                                                 <div class="form-group">
                                                     <?php echo e(Form::label('end_date', __('End Date'), ['class' => 'form-label'])); ?>
 
-                                                    <?php echo Form::date('end_date',null, ['class' => 'form-control', 'required' => 'required','min' => date('Y-m-d')]); ?>
+                                                    <?php echo Form::date('end_date',null, ['class' => 'form-control', 'required' => 'required']); ?>
 
                                                 </div>
                                                 <?php $__errorArgs = ['end_date'];

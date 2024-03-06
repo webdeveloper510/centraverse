@@ -14,14 +14,12 @@ class SendCampaignMail extends Mailable
 {
     use Queueable, SerializesModels;
     public $campaignlist;
-    public $attachmentPath;
     /**
      * Create a new message instance.
      */
-    public function __construct($campaignlist, $attachmentPath)
+    public function __construct($campaignlist)
     {
         $this->campaignlist = $campaignlist ;
-        $this->attachmentPath = $attachmentPath ;
     }
 
     /**

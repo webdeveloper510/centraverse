@@ -73,7 +73,13 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                 class="dash-mtext"><?php echo e(__('Email Template')); ?></span></a>
                             </li>
                         <?php endif; ?>  -->
-                        <?php if(\Auth::user()->type == 'owner'): ?> 
+                        <li class="dash-item  <?php echo e(Request::route()->getName() == 'settings' ? 'active' : ''); ?>">
+                                <a href="<?php echo e(route('settings')); ?>" class="dash-link">
+                                    <!-- <span class="dash-micon"><i class="ti ti-settings"></i></span> -->
+                                    <span class="dash-mtext"><?php echo e(__('Settings')); ?></span>
+                                </a>
+                            </li>
+                        <!-- <?php if(\Auth::user()->type == 'owner'): ?>  -->
                             <li class="dash-item">
                                 <a href="<?php echo e(route('customer.index')); ?>" class="dash-link">
                                     <!-- <span class="dash-micon"><i class="ti ti-template"></i></span> -->
@@ -90,33 +96,32 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                     <a href="<?php echo e(route('contract.index')); ?>" class="dash-link"><span class="dash-mtext"><?php echo e(__('Contracts')); ?></span></a>
                                 </li>
                             <?php endif; ?> -->
-                        <?php endif; ?> 
-                        <?php if(\Auth::user()->type =='owner'): ?>
+                        <!-- <?php endif; ?>  -->
+                        <!-- <?php if(\Auth::user()->type =='owner'): ?> -->
                             <li class="dash-item <?php echo e(\Request::route()->getName() == 'billing' || \Request::route()->getName() == 'billing.index' ? ' active' : ''); ?>">
                                 <a href="<?php echo e(route('billing.index')); ?>" class="dash-link">
                                     <span class="dash-mtext"><?php echo e(__('Billing')); ?></span>
                                 </a>
                             </li>
                             <!-- <li class="dash-item">
-                        <a href="<?php echo e(route('email.template.view')); ?>" class="dash-link">
-                            <span class="dash-micon"><i class="ti ti-template"></i></span>
-                        <span
-                        class="dash-mtext"><?php echo e(__('Email Template')); ?></span></a>
-                    </li> -->
-                    <!-- <li class="dash-item <?php echo e((Request::route()->getName() == 'email_template.index' || Request::segment(1) == 'email_template_lang' || Request::route()->getName() == 'manageemail.lang') ? 'active' : ''); ?>">
-                        <a href="<?php echo e(route('manage.email.language',[$emailTemplate ->id,\Auth::user()->lang])); ?>" class="dash-link"><span
-                        class="dash-micon"><i class="ti ti-template"></i></span><span
-                        class="dash-mtext"><?php echo e(__('Email Template')); ?></span></a>
-                    </li> -->
-                        <?php endif; ?>
-                        <?php if(\Auth::user()->type == 'super admin' || \Auth::user()->type == 'owner'): ?>
-                            <li class="dash-item  <?php echo e(Request::route()->getName() == 'settings' ? 'active' : ''); ?>">
+                            <a href="<?php echo e(route('email.template.view')); ?>" class="dash-link">
+                                <span class="dash-micon"><i class="ti ti-template"></i></span>
+                            <span
+                            class="dash-mtext"><?php echo e(__('Email Template')); ?></span></a>
+                        </li> -->
+                        <!-- <li class="dash-item <?php echo e((Request::route()->getName() == 'email_template.index' || Request::segment(1) == 'email_template_lang' || Request::route()->getName() == 'manageemail.lang') ? 'active' : ''); ?>">
+                            <a href="<?php echo e(route('manage.email.language',[$emailTemplate ->id,\Auth::user()->lang])); ?>" class="dash-link"><span
+                            class="dash-micon"><i class="ti ti-template"></i></span><span
+                            class="dash-mtext"><?php echo e(__('Email Template')); ?></span></a>
+                        </li> -->
+                        <!-- <?php endif; ?> -->
+                        <!-- <?php if(\Auth::user()->type == 'super admin' || \Auth::user()->type == 'owner'): ?> -->
+                            <!-- <li class="dash-item  <?php echo e(Request::route()->getName() == 'settings' ? 'active' : ''); ?>">
                                 <a href="<?php echo e(route('settings')); ?>" class="dash-link">
-                                    <!-- <span class="dash-micon"><i class="ti ti-settings"></i></span> -->
                                     <span class="dash-mtext"><?php echo e(__('Settings')); ?></span>
                                 </a>
-                            </li>
-                        <?php endif; ?>
+                            </li> -->
+                        <!-- <?php endif; ?> -->
                     </ul>
                 </div>
                 <div class="navbar-nav ms-auto">
