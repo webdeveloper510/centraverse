@@ -1,22 +1,11 @@
 <div class="dash-container">
     <div class="dash-content">
-        <div class="page-header p-4">
+        <div class="page-header">
             <div class="page-block">
                 <div class="row align-items-center">
-                    <div class="col-md-1">
-                        <nav class="navbar navbar-default no-margin">
-                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                                <ul class="nav navbar-nav">
-                                    <li class="active">
-                                        <button class="navbar-toggle collapse in" data-toggle="collapse" id="menu-toggle-2" style=" background: #e8ecf3;"> <span class="navbar-toggler-icon"></span>
-                                        </button>
-                                    </li>
-                                </ul>
-                            </div>
-                        </nav>
-                    </div>
+                    
                     <div class="col-md-11">
-                        <div class="page-header-title" style="margin-top: 15px;position: relative;left: -45px;top: -6px;">
+                        <div class="page-header-title">
                             <h4 class="m-b-10"><?php echo $__env->yieldContent('title'); ?></h4>
                         </div>
                     </div>
@@ -43,11 +32,15 @@
 <script>
         $("#menu-toggle").click(function(e) {
             e.preventDefault();
-            $("#wrapper").toggleClass("toggled");
+            $(".page-content").toggleClass("toggled");
+            $("#sidebar-wrapper").toggleClass("toggled");
+            $(".dash-header").toggleClass("toggled");
         });
         $("#menu-toggle-2").click(function(e) {
             e.preventDefault();
-            $("#wrapper").toggleClass("toggled-2");
+            $(".page-content").toggleClass("toggled-2");
+            $("#sidebar-wrapper").toggleClass("close-sidebar");
+            $(".dash-header").toggleClass("close-header");
             $('#menu ul').hide();
         });
 
@@ -235,17 +228,51 @@
 </style>
 
 <style>
+.page-content {
+    margin-left: 250px;
+}
+
+.scrollbar {
+    float: left;
+    width: 100%;
+    height: 100vh;
+    overflow: auto;
+}
+/* width */
+.scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+.scrollbar::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 5px;
+}
+ 
+/* Handle */
+.scrollbar::-webkit-scrollbar-thumb {
+    background:#145388;
+    border-radius: 10px;
+}
+
+/* 
+.sticky-top::-webkit-scrollbar-thumb:hover {
+  background: #b30000; 
+} */
+
     .nav-pills>li>a {
         border-radius: 0;
     }
-
+    
     #wrapper {
         padding-left: 0;
         -webkit-transition: all 0.5s ease;
         -moz-transition: all 0.5s ease;
         -o-transition: all 0.5s ease;
         transition: all 0.5s ease;
-        overflow: hidden;
+        /* overflow: hidden; */
+        height: 100%;
+    display: flex;
     }
 
     #wrapper.toggled {
@@ -254,20 +281,30 @@
     }
 
     #sidebar-wrapper {
-        z-index: 1000;
+        /* z-index: 1000;
         position: absolute;
         left: 250px;
         width: 0;
         height: 100%;
         margin-left: -250px;
         overflow-y: auto;
-        background: #fff;
-        -webkit-transition: all 0.5s ease;
-        -moz-transition: all 0.5s ease;
-        -o-transition: all 0.5s ease;
-        transition: all 0.5s ease;
+        background: #fff; */
+        bottom: 0;
+    margin-top: 0;
+    position: fixed;
+    top: 0;
+    width:250px;
+        background: #e6ebf2;
     }
+    .navbar-brand-box {
+    text-align: center;
+    border-bottom:1px solid #e3e1e1;
+}
 
+.navbar-brand-box a img {
+    width: 74px;
+    height: 100%;
+}
     #wrapper.toggled #sidebar-wrapper {
         width: 250px;
     }
@@ -294,7 +331,7 @@
     .sidebar-nav {
         position: absolute;
         top: 0;
-        width: 250px;
+        width: 100%;
         margin: 0;
         padding: 0;
         list-style: none;
@@ -344,9 +381,9 @@
     }
 
     @media (min-width: 768px) {
-        #wrapper {
+        /* #wrapper {
             padding-left: 250px;
-        }
+        } */
 
         .fixed-brand {
             width: 250px;
@@ -381,7 +418,8 @@
         }
 
         #page-content-wrapper {
-            padding: 20px;
+            width:100%;
+            padding: 20px 0px;
             position: relative;
            -webkit-transition: all 0.5s ease;
              -moz-transition: all 0.5s ease;

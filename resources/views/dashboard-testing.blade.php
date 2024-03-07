@@ -13,7 +13,7 @@
     <div class="container-field">
         <div id="wrapper">
             <div id="sidebar-wrapper">
-                <div class="card sticky-top" style="top:30px">
+                <div class="card">
                     <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
                         <a href="#useradd-1" class="list-group-item list-group-item-action"><span class="fa-stack fa-lg pull-left"><i class="ti ti-home-2"></i></span>
                             <span class="dash-mtext">{{ __('Dashboard') }} </span></a>
