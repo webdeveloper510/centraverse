@@ -27,6 +27,7 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
 ?>
 
  <?php if(isset($settings['cust_theme_bg']) && $settings['cust_theme_bg'] == 'on'): ?>
+ <div class="outer-layout">
     <header class="dash-header transprent-bg">
     <?php else: ?>
     <header class="dash-header">
@@ -34,10 +35,14 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
 <div class="new_header">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a href="#" class="navbar-brand">
-                <img src="<?php echo e($logo.'logo.svg'); ?>"
-                    alt="<?php echo e(config('app.name', 'Centraverse')); ?>" class="logo logo-lg nav-sidebar-logo" height="50"/>
-            </a>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                <ul class="nav navbar-nav">
+                                    <li class="active">
+                                        <button class="navbar-toggle collapse in" data-toggle="collapse" id="menu-toggle-2" style=" background: #e8ecf3;"> <span class="navbar-toggler-icon"></span>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
             <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -205,4 +210,8 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
         </div>
     </div> -->
       
-    </header><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/partials/admin/header.blade.php ENDPATH**/ ?>
+    </header>
+
+    <?php echo $__env->make('partials.admin.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+   
+</div><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/partials/admin/header.blade.php ENDPATH**/ ?>
