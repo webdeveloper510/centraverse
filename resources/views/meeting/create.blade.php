@@ -313,12 +313,14 @@ $beer = ['Beer & Wine - 4 Hours', 'Beer & Wine - 3 Hours', 'Beer & Wine - 2 Hour
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     {{ Form::label('function', __('Function'), ['class' => 'form-label']) }}
+                                                    @if(isset($function) && !empty($function))
                                                     @foreach($function as $key => $value)
                                                     <div class="form-check">
                                                         {!! Form::checkbox('function[]',$value->function, null, ['id' => 'function_' . $key, 'class' => 'form-check-input']) !!}
                                                         {{ Form::label($value->function, $value->function, ['class' => 'form-check-label']) }}
                                                     </div>
                                                     @endforeach
+                                                    @endif
                                                 </div>
                                                 @error('function')
                                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
@@ -373,6 +375,7 @@ $beer = ['Beer & Wine - 4 Hours', 'Beer & Wine - 3 Hours', 'Beer & Wine - 2 Hour
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     {{Form::label('ad_opts',__('Additional Options'),['class'=>'form-label']) }}
+                                                    @if(isset($additional_items) && !empty($additional_items))
                                                     @foreach($additional_items as $key=>$items)
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="checkbox" name="ad_opts[]" value="{{ key($items) }}" id="addopt{{ $key }}">
@@ -381,7 +384,7 @@ $beer = ['Beer & Wine - 4 Hours', 'Beer & Wine - 3 Hours', 'Beer & Wine - 2 Hour
                                                         </label>
                                                     </div>
                                                     @endforeach
-
+                                                    @endif
                                                 </div>
                                             </div>
                                            
@@ -563,6 +566,7 @@ $beer = ['Beer & Wine - 4 Hours', 'Beer & Wine - 3 Hours', 'Beer & Wine - 2 Hour
         event.stopPropagation();
         event.preventDefault();
     });
+    $(document).ready(function() {
     $('select[name= "lead"]').on('change', function() {
         $('#breakfast').hide();
         $('#lunch').hide();
@@ -629,6 +633,7 @@ $beer = ['Beer & Wine - 4 Hours', 'Beer & Wine - 3 Hours', 'Beer & Wine - 2 Hour
             }
         });
     });
+});
     $('input[name= "function[]"]').on('change', function() {
         $('#breakfast').hide();
         $('#lunch').hide();

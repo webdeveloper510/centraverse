@@ -350,7 +350,6 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
 <?php $__env->startSection('content'); ?>
 <div class="container-field">
     <div id="wrapper">
-        
         <div id="page-content-wrapper">
             <div class="container-fluid xyz">
                 <div class="row">
@@ -1084,7 +1083,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                             <div class="card-header">
                                 <div class="row">
                                     <div id="floor-plan-setting" class="col-lg-8 col-md-8 col-sm-8">
-                                        <h5><?php echo e(__('Upload Floor Plan')); ?></h5>
+                                        <h5><?php echo e(__('Upload Setup')); ?></h5>
                                     </div>
                                 </div>
                             </div>

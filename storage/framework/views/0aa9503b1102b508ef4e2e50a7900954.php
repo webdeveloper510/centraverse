@@ -424,6 +424,7 @@ unset($__errorArgs, $__bag); ?>
                                                 <div class="form-group">
                                                     <?php echo e(Form::label('function', __('Function'), ['class' => 'form-label'])); ?>
 
+                                                    <?php if(isset($function) && !empty($function)): ?>
                                                     <?php $__currentLoopData = $function; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <div class="form-check">
                                                         <?php echo Form::checkbox('function[]',$value->function, null, ['id' => 'function_' . $key, 'class' => 'form-check-input']); ?>
@@ -432,6 +433,7 @@ unset($__errorArgs, $__bag); ?>
 
                                                     </div>
                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                    <?php endif; ?>
                                                 </div>
                                                 <?php $__errorArgs = ['function'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -506,6 +508,7 @@ unset($__errorArgs, $__bag); ?>
                                                 <div class="form-group">
                                                     <?php echo e(Form::label('ad_opts',__('Additional Options'),['class'=>'form-label'])); ?>
 
+                                                    <?php if(isset($additional_items) && !empty($additional_items)): ?>
                                                     <?php $__currentLoopData = $additional_items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$items): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="checkbox" name="ad_opts[]" value="<?php echo e(key($items)); ?>" id="addopt<?php echo e($key); ?>">
@@ -515,7 +518,7 @@ unset($__errorArgs, $__bag); ?>
                                                         </label>
                                                     </div>
                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
+                                                    <?php endif; ?>
                                                 </div>
                                             </div>
                                            
@@ -730,6 +733,7 @@ unset($__errorArgs, $__bag); ?>
         event.stopPropagation();
         event.preventDefault();
     });
+    $(document).ready(function() {
     $('select[name= "lead"]').on('change', function() {
         $('#breakfast').hide();
         $('#lunch').hide();
@@ -796,6 +800,7 @@ unset($__errorArgs, $__bag); ?>
             }
         });
     });
+});
     $('input[name= "function[]"]').on('change', function() {
         $('#breakfast').hide();
         $('#lunch').hide();

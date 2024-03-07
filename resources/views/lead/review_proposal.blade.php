@@ -27,7 +27,6 @@
 @section('content')
 <div class="container-field">
     <div id="wrapper">
-        
         <div id="page-content-wrapper">
             <div class="container-fluid xyz">
     <div class="row">
@@ -105,13 +104,13 @@
                                 <div class="col-6">
                                     <div class="form-group">
                                         {{ Form::label('start_date', __('Start Date'), ['class' => 'form-label']) }}
-                                        {!! Form::date('start_date', null, ['class' => 'form-control', 'required' => 'required']) !!}
+                                        {!! Form::date('start_date', $lead->start_date, ['class' => 'form-control', 'required' => 'required']) !!}
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
                                         {{ Form::label('end_date', __('End Date'), ['class' => 'form-label']) }}
-                                        {!! Form::date('end_date', null, ['class' => 'form-control', 'required' => 'required']) !!}
+                                        {!! Form::date('end_date', $lead->end_date, ['class' => 'form-control', 'required' => 'required']) !!}
                                     </div>
                                 </div>
                                 
