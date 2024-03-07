@@ -115,7 +115,7 @@ unset($__errorArgs, $__bag); ?>
             <div class="form-group">
                 <?php echo e(Form::label('start_date', __('Start Date'), ['class' => 'form-label'])); ?>
 
-                <?php echo Form::date('start_date', date('Y-m-d'), ['class' => 'form-control', 'required' => 'required','min' => date('Y-m-d')]); ?>
+                <?php echo Form::date('start_date', date('Y-m-d'), ['class' => 'form-control', 'required' => 'required'); ?>
 
             </div>
         </div>
@@ -123,7 +123,7 @@ unset($__errorArgs, $__bag); ?>
             <div class="form-group">
                 <?php echo e(Form::label('end_date', __('End Date'), ['class' => 'form-label'])); ?>
 
-                <?php echo Form::date('end_date', date('Y-m-d'), ['class' => 'form-control', 'required' => 'required','min' => date('Y-m-d')]); ?>
+                <?php echo Form::date('end_date', date('Y-m-d'), ['class' => 'form-control', 'required' => 'required']); ?>
 
             </div>
         </div>

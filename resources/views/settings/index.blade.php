@@ -1035,7 +1035,6 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                             {{ Form::close() }}
                                         </div>
                                         @if(isset($bar) && !empty($bar))
-                                        @if(isset($function) && !empty($function))
                                             <div class="row mt-3">
                                                 <div class="form-group col-md-12">
                                                     <label class="form-label">Bar</label>
@@ -1159,11 +1158,9 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                 {{Form::label('function',__('Function'),['class'=>'form-label']) }}
                                                 <select name="function" id="function_names" class="form-select">
                                                     <option selected disabled>Select Function</option>
-                                                    @if(isset($function) && !empty($function))
                                                     @foreach($function as $key =>$value)
                                                     <option value="{{$key}}">{{$value->function}}</option>
                                                     @endforeach
-                                                    @endif
                                                 </select>
                                             </div>
                                         </div>
@@ -3515,7 +3512,6 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
         if (value) {
             $('.function_cost').show();
             var functionarr = <?= json_encode($function) ?>;
-            var func_bill = <?= json_encode($billing) ?>;
             $.each(functionarr, function(index, function_val) {
 
                 if (index == value) {
@@ -3524,18 +3520,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                     $('#packages_name').show();
                     $.each(packagevalue, function(index, val) {
                         $('#packages_name').append('<option value="' + index + '">' + val + '</option>');
-                        // $.each(func_bill, function(bill_index, function_bill) {
-                        // var func = function_val.function;
-                        // $.each(function_bill,function(key,value){
-                        //     console.log(key ,'ads',val);
-                        //     if(key == val){
-                        //     $('input[name ="package_cost"]').val(7);
-                        //     console.log('fv');
-                        // }else{
-                        //     console.log('sfdfsf');
-                        // }
-                        // });
-                    // });
+                      
                     });
                 }
             });
@@ -3548,7 +3533,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
         var value = $(this).val();
         if (value) {
             $('.bar_cost').show();
-            var bararr = <?= json_encode($bar) ?>;
+            var bararr = <?=  (isset($billing) && !empty($bar)) ? json_encode($bar) : 'null' ?>;
             $.each(bararr, function(index, val) {
                 if (index == value) {
                     var packagevalue = val.barpackage;

@@ -1250,9 +1250,11 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
 
                                                 <select name="bar_package" id="bar_names" class="form-select">
                                                     <option selected disabled>Select Bar</option>
+                                                    <?php if(isset($bar) && !empty($bar)): ?>
                                                     <?php $__currentLoopData = $bar; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key =>$value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <option value="<?php echo e($key); ?>"><?php echo e($value->bar); ?></option>
                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                    <?php endif; ?>
                                                 </select>
                                             </div>
                                         </div>
@@ -3755,7 +3757,6 @@ unset($__errorArgs, $__bag); ?>
         if (value) {
             $('.function_cost').show();
             var functionarr = <?= json_encode($function) ?>;
-            var func_bill = <?= json_encode($billing) ?>;
             $.each(functionarr, function(index, function_val) {
 
                 if (index == value) {
@@ -3764,18 +3765,7 @@ unset($__errorArgs, $__bag); ?>
                     $('#packages_name').show();
                     $.each(packagevalue, function(index, val) {
                         $('#packages_name').append('<option value="' + index + '">' + val + '</option>');
-                        // $.each(func_bill, function(bill_index, function_bill) {
-                        // var func = function_val.function;
-                        // $.each(function_bill,function(key,value){
-                        //     console.log(key ,'ads',val);
-                        //     if(key == val){
-                        //     $('input[name ="package_cost"]').val(7);
-                        //     console.log('fv');
-                        // }else{
-                        //     console.log('sfdfsf');
-                        // }
-                        // });
-                    // });
+                      
                     });
                 }
             });
@@ -3788,7 +3778,7 @@ unset($__errorArgs, $__bag); ?>
         var value = $(this).val();
         if (value) {
             $('.bar_cost').show();
-            var bararr = <?= json_encode($bar) ?>;
+            var bararr = <?=  (isset($billing) && !empty($bar)) ? json_encode($bar) : 'null' ?>;
             $.each(bararr, function(index, val) {
                 if (index == value) {
                     var packagevalue = val.barpackage;
