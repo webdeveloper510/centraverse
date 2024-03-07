@@ -27,18 +27,14 @@
     <li class="breadcrumb-item"><?php echo e(__('Details')); ?></li>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
+<div class="container-field">
+    <div id="wrapper">
+        
+        <div id="page-content-wrapper">
+            <div class="container-fluid xyz">
     <div class="row">
         <div class="col-sm-12">
-            <div class="row">
-                <div class="col-xl-2">
-                    <div class="card sticky-top" style="top:30px">
-                        <div class="list-group list-group-flush" id="useradd-sidenav">
-                            <a href="#useradd-1" class="list-group-item list-group-item-action border-0"><?php echo e(__('Review Lead')); ?> <div
-                                    class="float-end"><i class="ti ti-chevron-right"></i></div></a>
-                          </div>
-                    </div>
-                </div>
-                <div class="col-xl-10">
+              
                     <div id="useradd-1" class="card">
                         <?php echo e(Form::model($lead, ['route' => ['lead.review.update', $lead->id], 'method' => 'POST', 'id' => "formdata"])); ?>
 
@@ -274,8 +270,7 @@
                         <?php echo e(Form::close()); ?>
 
                     </div>
-                </div>
-            </div>
+                
         </div>
     </div>
 <?php $__env->stopSection(); ?>

@@ -53,10 +53,13 @@ class BillingController extends Controller
         }
     }
     public function createbill(){
+        $meeting    = Meeting::get();
+        $billing = Billing::first();
+        return view('billing.create', compact('billing', 'meeting'));
         // if (\Auth::user()->type == 'owner') {
             // $meeting    = Meeting::get();
             // $billing = Billing::first();
-            return view('billing.a');
+            // return view('billing.a');
         // }
     }
     /**

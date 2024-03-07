@@ -25,15 +25,6 @@
 @section('content')
 <div class="container-field">
     <div id="wrapper">
-        <div id="sidebar-wrapper">
-            <div class="card sticky-top" style="top:30px">
-                <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
-                    <a href="#useradd-1" class="list-group-item list-group-item-action">
-                        <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
-                        <span class="dash-mtext">{{ __('Billing') }} </span></a>
-                </div>
-            </div>
-        </div>
         <div id="page-content-wrapper">
             <div class="container-fluid xyz">
                 <div class="row">
@@ -74,7 +65,7 @@
                                                     <span class="badge bg-info p-2 px-3 rounded">Billing Not created</span>
                                                 </td>
                                                 <td class="text-end">
-                                                @can('Create Payment')
+                                                    @can('Create Payment')
                                                     <div class="action-btn bg-primary ms-2">
                                                         <a href="#" data-size="md" data-url="{{ route('createbill',['billing',$event->id]) }}" data-bs-toggle="tooltip" title="{{__('Create')}}" data-ajax-popup="true" data-title="{{__('Lead Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-plus"></i>

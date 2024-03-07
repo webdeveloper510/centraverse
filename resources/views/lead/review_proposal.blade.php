@@ -25,18 +25,14 @@
     <li class="breadcrumb-item">{{ __('Details') }}</li>
 @endsection
 @section('content')
+<div class="container-field">
+    <div id="wrapper">
+        
+        <div id="page-content-wrapper">
+            <div class="container-fluid xyz">
     <div class="row">
         <div class="col-sm-12">
-            <div class="row">
-                <div class="col-xl-2">
-                    <div class="card sticky-top" style="top:30px">
-                        <div class="list-group list-group-flush" id="useradd-sidenav">
-                            <a href="#useradd-1" class="list-group-item list-group-item-action border-0">{{ __('Review Lead') }} <div
-                                    class="float-end"><i class="ti ti-chevron-right"></i></div></a>
-                          </div>
-                    </div>
-                </div>
-                <div class="col-xl-10">
+              
                     <div id="useradd-1" class="card">
                         {{ Form::model($lead, ['route' => ['lead.review.update', $lead->id], 'method' => 'POST', 'id' => "formdata"]) }}
                         <div class="card-header">
@@ -231,8 +227,7 @@
                         </div>
                         {{ Form::close() }}
                     </div>
-                </div>
-            </div>
+                
         </div>
     </div>
 @endsection

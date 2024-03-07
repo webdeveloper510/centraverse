@@ -27,15 +27,6 @@
 <?php $__env->startSection('content'); ?>
 <div class="container-field">
     <div id="wrapper">
-        <div id="sidebar-wrapper">
-            <div class="card sticky-top" style="top:30px">
-                <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
-                    <a href="#useradd-1" class="list-group-item list-group-item-action">
-                        <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
-                        <span class="dash-mtext"><?php echo e(__('Billing')); ?> </span></a>
-                </div>
-            </div>
-        </div>
         <div id="page-content-wrapper">
             <div class="container-fluid xyz">
                 <div class="row">
@@ -77,7 +68,7 @@
                                                     <span class="badge bg-info p-2 px-3 rounded">Billing Not created</span>
                                                 </td>
                                                 <td class="text-end">
-                                                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Payment')): ?>
+                                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Payment')): ?>
                                                     <div class="action-btn bg-primary ms-2">
                                                         <a href="#" data-size="md" data-url="<?php echo e(route('createbill',['billing',$event->id])); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Create')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('Lead Details')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-plus"></i>

@@ -13,18 +13,6 @@
 {{ Form::open(array('route' => 'customer.sendmail','method' =>'post','files' => true)) }}
 <div class="container-field">
     <div id="wrapper">
-        <div id="sidebar-wrapper">
-            <div class="card sticky-top" style="top:30px">
-                <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
-                    <a href="#useradd-1" class="list-group-item list-group-item-action">
-                        <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
-                        <span class="dash-mtext">{{ __('Campaign') }} </span></a>
-                    <a href="{{route('campaign-list')}}" class="list-group-item list-group-item-action">
-                        <span class="fa-stack fa-lg pull-left"></span>
-                        <span class="dash-mtext">{{ __('View Campaigns') }} </span></a>
-                </div>
-            </div>
-        </div>
         <div id="page-content-wrapper">
             <div class="container-fluid xyz">
                 <div class="row">
@@ -91,7 +79,7 @@
         </div>
     </div>
 </div>
-<input type="text" name="template_html" value="">
+<input type="hidden" name="template_html" value="" >
 
 <!-- <div class="template"></div> -->
 <div class="modal" tabindex="-1" role="dialog" id="myModal">

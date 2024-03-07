@@ -348,7 +348,6 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
 @section('content')
 <div class="container-field">
     <div id="wrapper">
-        
         <div id="page-content-wrapper">
             <div class="container-fluid xyz">
                 <div class="row">

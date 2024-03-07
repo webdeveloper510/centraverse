@@ -63,24 +63,6 @@ if(isset($setting['additional_items']) && !empty($setting['additional_items'])){
 </style>
 <div class="container-field">
     <div id="wrapper">
-        <div id="sidebar-wrapper">
-            <div class="card sticky-top" style="top:30px">
-                <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
-                    <a href="#useradd-1" class="list-group-item list-group-item-action">
-                        <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
-                        <span class="dash-mtext">{{ __('Event') }} </span></a>
-                        <a href="#useradd-1" class="list-group-item list-group-item-action">
-                        <span class="fa-stack fa-lg pull-left"></span>
-                        <span class="dash-mtext">{{ __('Event Details') }} </span></a>
-                        <a href="#useradd-1" class="list-group-item list-group-item-action">
-                        <span class="fa-stack fa-lg pull-left"></span>
-                        <span class="dash-mtext">{{ __('Special Requirements') }} </span></a>
-                        <a href="#useradd-1" class="list-group-item list-group-item-action">
-                        <span class="fa-stack fa-lg pull-left"></span>
-                        <span class="dash-mtext">{{ __('Other Information') }} </span></a>
-                </div>
-            </div>
-        </div>
         <div id="page-content-wrapper">
             <div class="container-fluid xyz">
                 <div class="row">
