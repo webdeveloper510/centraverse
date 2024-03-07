@@ -93,7 +93,6 @@ class MeetingController extends Controller
     // WORKING  17-01-2024
     public function store(Request $request)
     {
-        
         if (\Auth::user()->can('Create Meeting')) {
             $validator = \Validator::make(
                 $request->all(),
@@ -189,13 +188,14 @@ class MeetingController extends Controller
             $meeting['alter_relationship']  = $request->alter_relationship;
             $meeting['alter_lead_address']  = $request->alter_lead_address;
             $meeting['attendees_lead']      = $request->lead;
-            $meeting['eventname']      = $request->eventname;
+            $meeting['eventname']            = $request->eventname;
             $meeting['phone']               = $request->phone;
             $meeting['start_time']          = $request->start_time;
             $meeting['end_time']            = $request->end_time;
-            $meeting['ad_opts']             = $request->add_opts;
+            $meeting['ad_opts']             = implode(',',$request->ad_opts);
             $meeting['floor_plan']          = $request->uploadedImage;
             $meeting['created_by']          = \Auth::user()->creatorId();
+            
             $meeting->save();
             $Assign_user_phone = User::where('id', $request->user)->first();
             $setting  = Utility::settings(\Auth::user()->creatorId());
@@ -282,6 +282,7 @@ class MeetingController extends Controller
             $food_package = explode(',', $meeting->func_package);
             $user_id = explode(',', $meeting->user_id);
             $setup = Setup::all();
+            $ad_options = explode(',',$meeting->ad_opts);
             // $previous = Meeting::where('id', '<', $meeting->id)->max('id');
             // $next = Meeting::where('id', '>', $meeting->id)->min('id');
             // $function = Meeting::$function;
@@ -289,7 +290,7 @@ class MeetingController extends Controller
             $lunch = Meeting::$lunch;
             $dinner = Meeting::$dinner;
             $wedding = Meeting::$wedding;
-            return view('meeting.edit', compact('user_id', 'users', 'setup','food_package', 'function_p', 'venue_function', 'meeting', 'breakfast', 'lunch', 'dinner', 'wedding', 'status','attendees_lead'))->with('start_date', $meeting->start_date)->with('end_date', $meeting->end_date);
+            return view('meeting.edit', compact('user_id', 'users', 'setup','food_package','ad_options','function_p', 'venue_function', 'meeting', 'breakfast', 'lunch', 'dinner', 'wedding', 'status','attendees_lead'))->with('start_date', $meeting->start_date)->with('end_date', $meeting->end_date);
         } else {
             return redirect()->back()->with('error', 'permission Denied');
         }
@@ -307,21 +308,26 @@ class MeetingController extends Controller
     public function update(Request $request, Meeting $meeting)
     {
         if (\Auth::user()->can('Edit Meeting')) {
-            $request->validate([
-                'name' => 'required|max:120',
-                'start_date' => 'required',
-                'end_date' => 'required',
-                'email' => 'required|email|max:120',
-                'lead_address' => 'required|max:120',
-                'type' => 'required',
-                'venue' => 'required|max:120',
-                'function' => 'required|max:120',
-                'guest_count' => 'required',
-                'start_time' => 'required',
-                'end_time' => 'required',
-                'meal' => 'required'
-            ]);
-           
+            $validator = \Validator::make(
+                $request->all(),
+                [
+                    'name' => 'required|max:120',
+                    'start_date' => 'required',
+                    'end_date' => 'required',
+                    'email' => 'required|email|max:120',
+                    'lead_address' => 'required|max:120',
+                    'type' => 'required',
+                    'venue' => 'required|max:120',
+                    'function' => 'required|max:120',
+                    'guest_count' => 'required',
+                    'start_time' => 'required',
+                    'end_time' => 'required',
+                    'meal' => 'required'
+                ]);
+            if ($validator->fails()) {
+                $messages = $validator->getMessageBag();
+                return redirect()->back()->with('error', $messages->first());
+            }
             $start_date = $request->input('start_date');
             $end_date = $request->input('end_date');
             $start_time = $request->input('start_time');
@@ -414,9 +420,11 @@ class MeetingController extends Controller
             $meeting['phone']               = $request->phone;
             $meeting['start_time']        = $request->start_time;
             $meeting['end_time']       = $request->end_time;
-            $meeting['ad_opts']             = $request->add_opts;
+            $meeting['ad_opts']             =isset($request->ad_opts)? implode(',',$request->ad_opts):'' ;
             $meeting['floor_plan']          = $request->uploadedImage;
             $meeting['created_by']        = \Auth::user()->creatorId();
+            // echo "<pre>";print_r($meeting);die;
+
             $meeting->update();
             return redirect()->back()->with('success', __('Event Updated.'));
         } else {

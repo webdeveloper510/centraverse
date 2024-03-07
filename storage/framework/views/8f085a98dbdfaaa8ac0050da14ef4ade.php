@@ -1,17 +1,19 @@
-@extends('layouts.admin')
-@section('page-title')
-    {{__('Billing')}}
-@endsection
-@section('title')
+
+<?php $__env->startSection('page-title'); ?>
+    <?php echo e(__('Billing')); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('title'); ?>
         <div class="page-header-title">
-            {{__('Billing')}}
+            <?php echo e(__('Billing')); ?>
+
         </div>
-@endsection
-@section('action-btn')
-@endsection
-@section('filter')
-@endsection
-@php
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('action-btn'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('filter'); ?>
+<?php $__env->stopSection(); ?>
+<?php
 if(isset($settings['fixed_billing'])&& !empty($settings['fixed_billing'])){
     $billing = json_decode($settings['fixed_billing']);
     echo"<pre>";print_r($billing);
@@ -26,8 +28,8 @@ $labels =
         'special_req' =>'Special Requests /Other',
         'classic_brunch'=>'Brunch/Lunch/Dinner Package',
     ]; 
-@endphp 
-@section('content')
+?> 
+<?php $__env->startSection('content'); ?>
 <div class="container-field">
     <div id="wrapper">
         <div id="sidebar-wrapper">
@@ -35,7 +37,7 @@ $labels =
                 <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
                     <a href="#useradd-1" class="list-group-item list-group-item-action">
                         <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
-                        <span class="dash-mtext">{{ __('Create Billing') }} </span></a>
+                        <span class="dash-mtext"><?php echo e(__('Create Billing')); ?> </span></a>
                 </div>
             </div>
         </div>
@@ -43,15 +45,16 @@ $labels =
             <div class="container-fluid xyz">
                 <div class="row">
                     <div class="col-lg-12">
-                    {{Form::open(array('url'=>'billing','method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))}}
+                    <?php echo e(Form::open(array('url'=>'billing','method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))); ?>
+
                     <div class = "col-md-12" id = "useradd-1" >
                         <div class="form-group">
                             <label class="form-label">Select Customer :</label>
                             <select class="form-select" id = "userinfo" name = "event" required>
                                 <option value= '-1' disabled selected>Select Customer</option>
-                                @foreach($meeting as $meet)
-                                    <option value="{{$meet->id}}">{{$meet->name}} (Event- {{$meet->type}})</option>
-                                @endforeach
+                                <?php $__currentLoopData = $meeting; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $meet): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <option value="<?php echo e($meet->id); ?>"><?php echo e($meet->name); ?> (Event- <?php echo e($meet->type); ?>)</option>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </select>
                         </div>
                     </div>
@@ -67,24 +70,24 @@ $labels =
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>{{__('Description')}} </th>
-                                            <th>{{__('Cost')}} </th>
-                                            <th>{{__('Quantity')}} </th>
-                                            <th>{{__('Notes')}} </th>
+                                            <th><?php echo e(__('Description')); ?> </th>
+                                            <th><?php echo e(__('Cost')); ?> </th>
+                                            <th><?php echo e(__('Quantity')); ?> </th>
+                                            <th><?php echo e(__('Notes')); ?> </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($labels as $key=> $label)
+                                        <?php $__currentLoopData = $labels; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $label): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <tr>
-                                                <td>{{ucfirst($label)}}</td>
+                                                <td><?php echo e(ucfirst($label)); ?></td>
                                                 <td>
-                                                <input type = "text" name ="billing[{{$key}}][cost]" value="${{$billing->$key}}" class= "form-control" readonly></td>
+                                                <input type = "text" name ="billing[<?php echo e($key); ?>][cost]" value="$<?php echo e($billing->$key); ?>" class= "form-control" readonly></td>
                                                 <td> 
-                                                <input type = "number" name ="billing[{{$key}}][quantity]" min = '0' class= "form-control" required>
+                                                <input type = "number" name ="billing[<?php echo e($key); ?>][quantity]" min = '0' class= "form-control" required>
                                                 </td>
-                                                <td><input type = "text" name ="billing[{{$key}}][notes]" class= "form-control"></td> 
+                                                <td><input type = "text" name ="billing[<?php echo e($key); ?>][notes]" class= "form-control"></td> 
                                             </tr>
-                                        @endforeach
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </tbody>
                                 </table>
                                 <div class= "form-group">
@@ -93,25 +96,26 @@ $labels =
                                 </div>
                         </div>
                     </div>
-                {{Form::submit(__('Save'),array('class'=>'btn btn-primary '))}}
-                {{ Form::close() }}    
+                <?php echo e(Form::submit(__('Save'),array('class'=>'btn btn-primary '))); ?>
+
+                <?php echo e(Form::close()); ?>    
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div> 
-@endsection
-@push('script-page')
+<?php $__env->stopSection(); ?>
+<?php $__env->startPush('script-page'); ?>
 <script>
     $('select[name= "event"]').on('change', function() {
         var id = this.value ;
         $.ajax({
-            url: "{{ route('billing.eventdetail') }}",
+            url: "<?php echo e(route('billing.eventdetail')); ?>",
             type: 'POST',
             data: {
                 "id": id,
-                "_token": "{{ csrf_token() }}",
+                "_token": "<?php echo e(csrf_token()); ?>",
             },
             success: function(data) {
                 $('input[name ="guestcount"]').val(data[0].guest_count);
@@ -128,4 +132,5 @@ $labels =
         });          
     });
 </script>
-@endpush
+<?php $__env->stopPush(); ?>
+<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/billing/create.blade.php ENDPATH**/ ?>

@@ -11,7 +11,13 @@
     $type_arr= explode(',',$setting['event_type']);
     $type_arr = array_combine($type_arr, $type_arr);
     $venue = explode(',',$setting['venue']);
-    $function = explode(',',$setting['function']);
+    if(isset($setting['function']) && !empty($setting['function'])){
+    $function = json_decode($setting['function']);
+}
+if(isset($setting['additional_items']) && !empty($setting['additional_items'])){
+    $additional_items = json_decode($setting['additional_items']);
+}
+
     $meal = ['Formal Plated' ,'Buffet Style' , 'Family Style'];
     $bar = ['Open Bar', 'Cash Bar', 'Package Choice'];
     $platinum = ['Platinum - 4 Hours', 'Platinum - 3 Hours', 'Platinum - 2 Hours'];
@@ -285,8 +291,8 @@
                                                 <br>
                                                 @foreach($function as $value)
                                                     <label>
-                                                        <input type="checkbox" id="{{ $value }}" name="function[]" value="{{ $value }}" class="function-checkbox" {{ in_array($value, $function_p) ? 'checked' : '' }} onchange="toggleDiv('{{ $value }}')">
-                                                        {{ $value }}
+                                                        <input type="checkbox" id="{{ $value->function }}" name="function[]" value="{{ $value->function }}" class="function-checkbox" {{ in_array($value->function, $function_p) ? 'checked' : '' }} onchange="toggleDiv('{{ $value->function }}')">
+                                                        {{ $value->function }}
                                                     </label>
                                                     <br>
                                                 @endforeach
@@ -338,28 +344,21 @@
                                                 @endforeach  
                                             </div>
                                         </div> 
-                                        @if(!$meeting->ad_opts)
-                                        <div class = "col-12">
-                                            {{Form::label('add_opts',__('Additional Options'),['class'=>'form-label']) }}
-                                            <button  data-bs-toggle="tooltip" id = "ad_opt" class="btn btn-sm  btn-icon m-1">
-                                                <i class="ti ti-plus"></i></button>
-                                        </div>
-                                        <div class="col-12" id ='add_opts' style="display:none"  >
-                                            <div class="form-group">
-                                                {{Form::text('add_opts',null,array('class'=>'form-control','placeholder'=>__('Any Additional Optionas')))}}
+                                        <div class="col-6">
+                                                <div class="form-group">
+                                                    {{Form::label('ad_opts',__('Additional Options'),['class'=>'form-label']) }}
+                                                    @foreach($additional_items as $key=>$items)
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" name="ad_opts[]" value="{{ key($items) }}" id="addopt{{ $key }}"{{ in_array(key($items), $ad_options) ? 'checked' : '' }}>
+                                                        <label class="form-check-label" for="addopt{{ $key }}">
+                                                        {{ key($items) }}
+                                                        </label>
+                                                    </div>
+                                                    @endforeach
+
+                                                </div>
                                             </div>
-                                        </div> 
-                                        
-                                        @else
-                                        <div class = "col-12">
-                                            {{Form::label('add_opts',__('Additional Options'),['class'=>'form-label']) }}
-                                        </div>
-                                        <div class="col-12" id ='add_opts' >
-                                            <div class="form-group">
-                                                {{Form::text('add_opts',$meeting->ad_opts,array('class'=>'form-control','placeholder'=>__('Any Additional Optionas')))}}
-                                            </div>
-                                        </div> 
-                                        @endif
+                                    
                                         <div class="col-12">
                                         <div class="row">
                                             <label><b>Setup</b></label>
@@ -536,23 +535,7 @@
             event.stopPropagation();
             event.preventDefault();
         });
-    document.addEventListener("DOMContentLoaded", function () {
-        var checkboxes = document.querySelectorAll('.function-checkbox');
-        checkboxes.forEach(function (checkbox) {
-            toggleDiv(checkbox.id);
-        });
-        document.getElementById('ad_opt').addEventListener('click', function(event) {
-            $('#add_opts').toggle();
-            event.stopPropagation();
-            event.preventDefault();
-        });
-      
-        checkboxes.forEach(function (checkbox) {
-            checkbox.addEventListener('change', function () {
-                toggleDiv(checkbox.id);
-            });
-        });
-    });
+  
     function toggleDiv(value) {
             var divId = value.toLowerCase();
             var div = document.getElementById(divId);
