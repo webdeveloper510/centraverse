@@ -89,6 +89,7 @@ use App\Http\Controllers\XenditPaymentController;
 use App\Http\Controllers\YooKassaController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\DashboardTestingController;
+use Google\Service\ServiceConsumerManagement\BillingConfig;
 use Illuminate\Support\Facades\DB;
 
 /*
@@ -415,6 +416,7 @@ Route::group(['middleware' => ['verified']], function () {
         ],
         function () {
           Route::resource('billing',BillingController::class);
+          Route::get('billing/create/{type}/{id}',[BillingController::class,'createbill'])->name('createbill');
           Route::post('billing/event',[BillingController::class,'get_event_info'])->name('billing.eventdetail');
           Route::post('billing/payment',[BillingController::class,'billpaymenturl'])->name('billing.paymenturl');
 

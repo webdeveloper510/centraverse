@@ -14,10 +14,10 @@
 <?php $__env->startSection('filter'); ?>
 <?php $__env->stopSection(); ?>
 <?php
+$settings = App\Models\Utility::settings();
 if(isset($settings['fixed_billing'])&& !empty($settings['fixed_billing'])){
-    $billing = json_decode($settings['fixed_billing']);
-    echo"<pre>";print_r($billing);
-}die;
+    $billings = json_decode($settings['fixed_billing']);
+}
 $labels =
     [ 
         'venue_rental' => 'Venue Rental',
