@@ -30,7 +30,6 @@ $labels =
 @section('content')
 <div class="container-field">
     <div id="wrapper">
-        
         <div id="page-content-wrapper">
             <div class="container-fluid xyz">
                 <div class="row">

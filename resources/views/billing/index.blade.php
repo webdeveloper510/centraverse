@@ -10,14 +10,6 @@
     <li class="breadcrumb-item">{{ __('Billing') }}</li>
 @endsection
 @section('action-btn')
-    @can('Create Payment')
-        <div class="col-12 text-end mt-3">
-            <a href="{{ route('billing.create') }}"> 
-                <button  data-bs-toggle="tooltip"title="{{ __('Create') }}" class="btn btn-sm btn-primary btn-icon m-1">
-                <i class="ti ti-plus"></i></button>
-            </a>
-        </div>
-    @endcan
 @endsection
 @section('filter')
 @endsection
@@ -67,7 +59,7 @@
                                                 <td class="text-end">
                                                     @can('Create Payment')
                                                     <div class="action-btn bg-primary ms-2">
-                                                        <a href="#" data-size="md" data-url="{{ route('createbill',['billing',$event->id]) }}" data-bs-toggle="tooltip" title="{{__('Create')}}" data-ajax-popup="true" data-title="{{__('Lead Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                        <a href="#" data-size="md" data-url="{{ route('createbill',['billing',$event->id]) }}" data-bs-toggle="tooltip" title="{{__('Create')}}" data-ajax-popup="true" data-title="{{__('Billing Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-plus"></i>
                                                         </a>
                                                     </div>

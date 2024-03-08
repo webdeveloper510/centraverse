@@ -52,10 +52,12 @@ class BillingController extends Controller
             return view('billing.create', compact('billing', 'meeting'));
         }
     }
-    public function createbill(){
-        $meeting    = Meeting::get();
-        $billing = Billing::first();
-        return view('billing.create', compact('billing', 'meeting'));
+    public function createbill($type,$id){
+        $event = Meeting::find($id);
+        return view('billing.a',compact('type','id','event'));
+        // $meeting    = Meeting::get();
+        // $billing = Billing::first();
+        // return view('billing.create', compact('billing', 'meeting'));
         // if (\Auth::user()->type == 'owner') {
             // $meeting    = Meeting::get();
             // $billing = Billing::first();
@@ -67,20 +69,22 @@ class BillingController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = \Validator::make(
-            $request->all(),
-            [
-                'event' => 'required|unique:billindetails,event_id',
-            ],
-            [
-                'event.unique' => 'Billing already exists for this event'
-            ]
-        );
-        if ($validator->fails()) {
-            $messages = $validator->getMessageBag();
+        // echo "<pre>";
+        // print_r($request->all());
+        // $validator = \Validator::make(
+        //     $request->all(),
+        //     [
+        //         'event' => 'required|unique:billindetails,event_id',
+        //     ],
+        //     [
+        //         'event.unique' => 'Billing already exists for this event'
+        //     ]
+        // );
+        // if ($validator->fails()) {
+        //     $messages = $validator->getMessageBag();
 
-            return redirect()->back()->with('error', $messages->first());
-        }
+        //     return redirect()->back()->with('error', $messages->first());
+        // }
         $event_info = Meeting::where('id', $request->event)->first();
         $billingdetails = new Billingdetail();
         $billingdetails['event_id'] = $request->event;
