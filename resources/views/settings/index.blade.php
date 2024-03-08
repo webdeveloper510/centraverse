@@ -1024,7 +1024,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                             <div class="card-header">
                                 <div class="row">
                                     <div id="floor-plan-setting" class="col-lg-8 col-md-8 col-sm-8">
-                                        <h5>{{ __('Upload Floor Plan') }}</h5>
+                                        <h5>{{ __('Upload Setup') }}</h5>
                                     </div>
                                 </div>
                             </div>
@@ -1125,7 +1125,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                     <div class="row">
                                         <div class="  form-group col-md-6">
                                             {{Form::label('bar_package',__('Bar'),['class'=>'form-label']) }}
-                                            <select name="bar_package" id="bar_names" class="form-select">
+                                            <select name="bar_package" id="bar_names" class="form-select" required>
                                                 <option selected disabled>Select Bar</option>
                                                 @if(isset($bar) && !empty($bar))
                                                 @foreach($bar as $key =>$value)
