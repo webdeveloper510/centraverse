@@ -27,6 +27,7 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
 @endphp
 
  @if (isset($settings['cust_theme_bg']) && $settings['cust_theme_bg'] == 'on')
+ <div class="outer-layout">
     <header class="dash-header transprent-bg">
     @else
     <header class="dash-header">
@@ -34,10 +35,14 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
 <div class="new_header">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a href="#" class="navbar-brand">
-                <img src="{{$logo.'logo.svg'}}"
-                    alt="{{ config('app.name', 'Centraverse') }}" class="logo logo-lg nav-sidebar-logo" height="50"/>
-            </a>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                <ul class="nav navbar-nav">
+                                    <li class="active">
+                                        <button class="navbar-toggle collapse in" data-toggle="collapse" id="menu-toggle-2" style=" background: #e8ecf3;"> <span class="navbar-toggler-icon"></span>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
             <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -82,11 +87,11 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                 </a>
                             </li>
                             @endcan
-                            @can('Manage Contract')
+                            <!-- @can('Manage Contract')
                                 <li class="dash-item  {{ (Request::route()->getName() == 'contract.index' || Request::route()->getName() == 'contract.show') ? 'active' : '' }}">
                                     <a href="{{route('contract.index')}}" class="dash-link"><span class="dash-mtext">{{__('Contracts')}}</span></a>
                                 </li>
-                            @endcan
+                            @endcan -->
                         @can('Manage Payment')
                             <li class="dash-item {{ \Request::route()->getName() == 'billing' || \Request::route()->getName() == 'billing.index' ? ' active' : '' }}">
                                 <a href="{{ route('billing.index') }}" class="dash-link">
@@ -207,3 +212,7 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
     </div> -->
       
     </header>
+
+    @include('partials.admin.sidebar')
+   
+</div>

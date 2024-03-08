@@ -160,7 +160,8 @@ class Utility extends Model
             'function' =>'',
             'campaign_type' =>'',
             'barpackage'=>'',
-            'fixed_billing' =>''
+            'fixed_billing' =>'',
+            'additional_items'=>''
         ];
 
         foreach ($data as $row) {

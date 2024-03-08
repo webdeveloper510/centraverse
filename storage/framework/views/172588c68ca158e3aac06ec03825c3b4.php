@@ -13,7 +13,13 @@ $setting = App\Models\Utility::settings();
 $type_arr= explode(',',$setting['event_type']);
 $type_arr = array_combine($type_arr, $type_arr);
 $venue = explode(',',$setting['venue']);
-$function = explode(',',$setting['function']);
+if(isset($setting['function']) && !empty($setting['function'])){
+    $function = json_decode($setting['function']);
+}
+if(isset($setting['additional_items']) && !empty($setting['additional_items'])){
+    $additional_items = json_decode($setting['additional_items']);
+}
+
 $meal = ['Formal Plated' ,'Buffet Style' , 'Family Style'];
 $bar = ['Open Bar', 'Cash Bar', 'Package Choice'];
 $platinum = ['Platinum - 4 Hours', 'Platinum - 3 Hours', 'Platinum - 2 Hours'];
@@ -53,24 +59,7 @@ $beer = ['Beer & Wine - 4 Hours', 'Beer & Wine - 3 Hours', 'Beer & Wine - 2 Hour
 </style>
 <div class="container-field">
     <div id="wrapper">
-        <div id="sidebar-wrapper">
-            <div class="card sticky-top" style="top:30px">
-                <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
-                    <a href="#useradd-1" class="list-group-item list-group-item-action">
-                        <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
-                        <span class="dash-mtext"><?php echo e(__('Event')); ?> </span></a>
-                    <a href="#useradd-1" class="list-group-item list-group-item-action">
-                        <span class="fa-stack fa-lg pull-left"></span>
-                        <span class="dash-mtext"><?php echo e(__('Event Details')); ?> </span></a>
-                    <a href="#useradd-1" class="list-group-item list-group-item-action">
-                        <span class="fa-stack fa-lg pull-left"></span>
-                        <span class="dash-mtext"><?php echo e(__('Special Requirements')); ?> </span></a>
-                    <a href="#useradd-1" class="list-group-item list-group-item-action">
-                        <span class="fa-stack fa-lg pull-left"></span>
-                        <span class="dash-mtext"><?php echo e(__('Other Information')); ?> </span></a>
-                </div>
-            </div>
-        </div>
+        
         <div id="page-content-wrapper">
             <div class="container-fluid xyz">
                 <div class="row">
@@ -436,9 +425,9 @@ unset($__errorArgs, $__bag); ?>
 
                                                     <?php $__currentLoopData = $function; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <div class="form-check">
-                                                        <?php echo Form::checkbox('function[]',$value, null, ['id' => 'function_' . $key, 'class' => 'form-check-input']); ?>
+                                                        <?php echo Form::checkbox('function[]',$value->function, null, ['id' => 'function_' . $key, 'class' => 'form-check-input']); ?>
 
-                                                        <?php echo e(Form::label($value, $value, ['class' => 'form-check-label'])); ?>
+                                                        <?php echo e(Form::label($value->function, $value->function, ['class' => 'form-check-label'])); ?>
 
                                                     </div>
                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -511,18 +500,24 @@ unset($__errorArgs, $__bag); ?>
                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </div>
                                             </div>
-                                            <div class="col-12">
-                                                <?php echo e(Form::label('add_opts',__('Additional Options'),['class'=>'form-label'])); ?>
-
-                                                <button data-bs-toggle="tooltip" id="ad_opt" class="btn btn-sm  btn-icon m-1">
-                                                    <i class="ti ti-plus"></i></button>
-                                            </div>
-                                            <div class="col-12" id='add_opts' style="display:none">
+                                           
+                                            <div class="col-6">
                                                 <div class="form-group">
-                                                    <?php echo e(Form::text('add_opts',null,array('class'=>'form-control','placeholder'=>__('Any Additional Optionas')))); ?>
+                                                    <?php echo e(Form::label('ad_opts',__('Additional Options'),['class'=>'form-label'])); ?>
+
+                                                    <?php $__currentLoopData = $additional_items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$items): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" name="ad_opts[]" value="<?php echo e(key($items)); ?>" id="addopt<?php echo e($key); ?>">
+                                                        <label class="form-check-label" for="addopt<?php echo e($key); ?>">
+                                                        <?php echo e(key($items)); ?>
+
+                                                        </label>
+                                                    </div>
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                                                 </div>
                                             </div>
+                                           
                                             <div class="col-12">
                                                 <div class="row">
                                                     <label><b>Setup</b></label>
@@ -827,11 +822,6 @@ unset($__errorArgs, $__bag); ?>
         if (val == 'Package Choice') {
             $('#package').show();
         }
-    });
-    document.getElementById('ad_opt').addEventListener('click', function(event) {
-        $('#add_opts').toggle();
-        event.stopPropagation();
-        event.preventDefault();
     });
 </script>
 <script>

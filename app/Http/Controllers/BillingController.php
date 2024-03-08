@@ -36,7 +36,8 @@ class BillingController extends Controller
         if (\Auth::user()->type == 'owner') {
             $billing = Billingdetail::all();
             $status = Billingdetail::$status;
-            return view('billing.index', compact('billing'));
+            $events = Meeting::where('status',2)->get();
+            return view('billing.index', compact('billing','events'));
         }
     }
 
@@ -47,12 +48,20 @@ class BillingController extends Controller
     {
         if (\Auth::user()->type == 'owner') {
             $meeting    = Meeting::get();
-            // $assigned_user = Lead::all();
             $billing = Billing::first();
             return view('billing.create', compact('billing', 'meeting'));
         }
     }
-
+    public function createbill(){
+        $meeting    = Meeting::get();
+        $billing = Billing::first();
+        return view('billing.create', compact('billing', 'meeting'));
+        // if (\Auth::user()->type == 'owner') {
+            // $meeting    = Meeting::get();
+            // $billing = Billing::first();
+            // return view('billing.a');
+        // }
+    }
     /**
      * Store a newly created resource in storage.
      */
@@ -84,28 +93,9 @@ class BillingController extends Controller
         $billingdetails['food'] = serialize($request->billing['classic_brunch']);
         $billingdetails['created_by'] = \Auth::user()->creatorId();
         $billingdetails->save();
-        // $data['data'] = [
-        //     'billingdetails' => $billingdetails->event_id,
-        //     'hotel_rooms' => unserialize($billingdetails->hotel_rooms),
-        //     'venue_rental' => unserialize($billingdetails->venue_rental),
-        //     'equipment' => unserialize($billingdetails->equipment),
-        //     'setup' => unserialize($billingdetails->setup),
-        //     'bar' => unserialize($billingdetails->bar),
-        //     'special_req' => unserialize($billingdetails->special_req),
-        //     'food' => unserialize($billingdetails->food),
-        //     'deposit'=>$request->deposits,
-        //     'event_name'=>$event_info->name,
-        //     'event_type' => $event_info->type
-        //     ]
-        // ;
-        // $pdf = Pdf::loadView('billing.view', $data);
-        // $filename = 'billing_summary-' . time() . '.pdf';
-        // $destinationFolder = public_path('/assets/billing_pdf/');
-        // $filePath = $destinationFolder . $filename;
-        // $pdf->save($filePath);
+      
         return redirect()->back()->with('success', __('Billing Created'));
-        // return redirect()->back()->with('success', __('Billing Created'));
-        // return $mpdf->Output();
+     
     }
 
     /**
@@ -214,47 +204,6 @@ class BillingController extends Controller
         exit;
     }
 
-    // public function paypal_payment_view($meeting)
-    // {
-    //     $id = decrypt(urldecode($meeting));
-
-    //     $user = Meeting::where('id', $id)->get();
-    //     $amount = $user[0]->total;
-
-    //     $provider = new PayPalClient;
-    //     $provider->setApiCredentials(config('paypal'));
-    //     $paypalToken = $provider->getAccessToken();
-    //     $response = $provider->createOrder([
-    //         "intent" => "CAPTURE",
-    //         "application_context" => [
-    //             "return_url" => url('/payment-success?meeting_id=' . $meeting . '&session_id='),
-    //             "cancel_url" => url('/payment-failed'),
-    //         ],
-    //         "purchase_units" => [
-    //             0 => [
-    //                 "amount" => [
-    //                     "currency_code" => "USD",
-    //                     "value" => $amount
-    //                 ]
-    //             ]
-    //         ]
-    //     ]);
-    //     if (isset($response['id']) && $response['id'] != null) {
-    //         foreach ($response['links'] as $links) {
-    //             if ($links['rel'] == 'approve') {
-    //                 return redirect()->away($links['href']);
-    //             }
-    //         }
-    //         return redirect()
-    //             ->route('createTransaction')
-    //             ->with('error', 'Something went wrong.');
-    //     } else {
-    //         return redirect()
-    //             ->route('createTransaction')
-    //             ->with('error', $response['message'] ?? 'Something went wrong.');
-    //     }
-    // }
-
     public function paypal_payment_view($meeting)
     {
         $id = decrypt(urldecode($meeting));
@@ -326,56 +275,4 @@ class BillingController extends Controller
         return view('calendar.welcome');
     }
 
-    // public function paypalpaymentsuccess(Request $request)
-    // {
-    //     echo "<pre>";
-    //     echo "paypal";
-    //     $meeting_id = session('meeting_id');
-
-    //     $all_data = $request->all(); 
-    //     print_r($all_data);
-
-    //     $paypalToken = $request->input('token');
-    //     $payerID = $request->input('PayerID');
-
-    //     die;
-    //     // Execute the PayPal payment
-    //     try {
-    //         // Call PayPal API to execute the payment
-    //         $response = $this->paypalClient->executePayment($paypalToken, $payerID);
-    
-    //         // Retrieve transaction details
-    //         $orderId = $response->result->id;
-    
-    //         // Use OrdersGetRequest to retrieve transaction details
-    //         $request = new OrdersGetRequest($orderId);
-    
-    //         // Execute PayPal API request to retrieve order details
-    //         $response = $this->paypalClient->execute($request);
-    
-    //         // Handle the transaction details as needed
-    //         $transactionDetails = $response->result;
-    //         dd($transactionDetails); // Display transaction details for debugging
-    
-    //         // Redirect to welcome page or display a payment confirmation page
-    //         // return redirect()->route('welcome');
-    //     } catch (HttpException $ex) {
-    //         // Handle PayPal API errors
-    //         dd($ex->getMessage()); // Display error message for debugging
-    //     }
-    //     die;
-    //     // session(['paypal_data' => $all_data]);
-
-    //     // // Redirect to welcome page
-    //     // return redirect()->route('welcome');
-    // }
-
-    // public function welcome()
-    // {
-    //     // Retrieve all data filled in PayPal from session
-    //     $paypal_data = session('paypal_data');
-
-    //     // Pass the retrieved data to the welcome view
-    //     return view('welcome')->with('paypal_data', $paypal_data);
-    // }
 }

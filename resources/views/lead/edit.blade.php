@@ -8,7 +8,9 @@
     $type_arr= explode(',',$setting['event_type']);
     $type_arr = array_combine($type_arr, $type_arr);
     $venue = explode(',',$setting['venue']);
-    $function = explode(',',$setting['function']);
+    if(isset($setting['function']) && !empty($setting['function'])){
+        $function = json_decode($setting['function']);
+    }
     $bar = ['Open Bar', 'Cash Bar', 'Package Choice'];
     $platinum = ['Platinum - 4 Hours', 'Platinum - 3 Hours', 'Platinum - 2 Hours'];
     $gold = ['Gold - 4 Hours', 'Gold - 3 Hours', 'Gold - 2 Hours'];
@@ -28,16 +30,7 @@
 @section('content')
 <div class="container-field">
     <div id="wrapper">
-        <div id="sidebar-wrapper">
-            <div class="card sticky-top" style="top:30px">
-                <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
-                    <a href="#useradd-1" class="list-group-item list-group-item-action"><span class="fa-stack fa-lg pull-left"><i class="ti ti-home-2"></i></span>
-                        <span class="dash-mtext">{{ __('Edit Lead') }} </span></a>
-
-                    </a>
-                </div>
-            </div>
-        </div>
+        
         <div id="page-content-wrapper">
             <div class="container-fluid xyz">
                 <div class="row">
@@ -145,8 +138,8 @@
                                     <div class="checkbox-group">
                                         @foreach($function as $key => $value)
                                             <label>
-                                                <input type="checkbox" id="{{ $value }}" name="function[]" value="{{ $value }}" class="function-checkbox" {{ in_array($value, $function_package) ? 'checked' : '' }}>
-                                                {{ $value }}
+                                                <input type="checkbox" id="{{ $value->function }}" name="function[]" value="{{  $value->function }}" class="function-checkbox" {{ in_array( $value->function, $function_package) ? 'checked' : '' }}>
+                                                {{ $value->function }}
                                             </label><br>
                                         @endforeach
                                     </div>

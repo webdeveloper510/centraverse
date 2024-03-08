@@ -19,16 +19,7 @@
 <?php $__env->startSection('content'); ?>
 <div class="container-field">
     <div id="wrapper">
-        <div id="sidebar-wrapper">
-            <div class="card sticky-top" style="top:30px">
-                <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
-                    <a href="#useradd-1" class="list-group-item list-group-item-action"><span class="fa-stack fa-lg pull-left"><i class="ti ti-users"></i></span>
-                        <span class="dash-mtext"><?php echo e(__('Customers')); ?> </span></a>
-
-                    </a>
-                </div>
-            </div>
-        </div>
+       
         <div id="page-content-wrapper">
             <div class="container-fluid xyz">
                 <div class="row">

@@ -4,8 +4,9 @@
     $type_arr= explode(',',$settings['event_type']);
     $type_arr = array_combine($type_arr, $type_arr);
     $venue = explode(',',$settings['venue']);
-    $function = explode(',',$settings['function']);
-    $function = array_combine($function, $function);
+    if(isset($settings['function']) && !empty($settings['function'])){
+        $function = json_decode($settings['function']);
+    }
     $bar = ['Open Bar', 'Cash Bar', 'Package Choice'];
     $platinum = ['Platinum - 4 Hours', 'Platinum - 3 Hours', 'Platinum - 2 Hours'];
     $gold = ['Gold - 4 Hours', 'Gold - 3 Hours', 'Gold - 2 Hours'];
@@ -115,7 +116,7 @@ unset($__errorArgs, $__bag); ?>
             <div class="form-group">
                 <?php echo e(Form::label('start_date', __('Start Date'), ['class' => 'form-label'])); ?>
 
-                <?php echo Form::date('start_date', date('Y-m-d'), ['class' => 'form-control', 'required' => 'required','min' => date('Y-m-d')]); ?>
+                <?php echo Form::date('start_date', date('Y-m-d'), ['class' => 'form-control', 'required' => 'required']); ?>
 
             </div>
         </div>
@@ -123,7 +124,7 @@ unset($__errorArgs, $__bag); ?>
             <div class="form-group">
                 <?php echo e(Form::label('end_date', __('End Date'), ['class' => 'form-label'])); ?>
 
-                <?php echo Form::date('end_date', date('Y-m-d'), ['class' => 'form-control', 'required' => 'required','min' => date('Y-m-d')]); ?>
+                <?php echo Form::date('end_date', date('Y-m-d'), ['class' => 'form-control', 'required' => 'required']); ?>
 
             </div>
         </div>
@@ -143,9 +144,9 @@ unset($__errorArgs, $__bag); ?>
 
                 <?php $__currentLoopData = $function; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <div class="form-check">
-                        <?php echo Form::checkbox('function[]', $value, null, ['class' => 'form-check-input', 'id' => 'function_' . $key]); ?>
+                        <?php echo Form::checkbox('function[]', $value->function, null, ['class' => 'form-check-input', 'id' => 'function_' . $key]); ?>
 
-                        <?php echo e(Form::label($value, $value, ['class' => 'form-check-label'])); ?>
+                        <?php echo e(Form::label($value->function, $value->function, ['class' => 'form-check-label'])); ?>
 
                     </div>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

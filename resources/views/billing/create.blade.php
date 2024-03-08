@@ -12,6 +12,10 @@
 @section('filter')
 @endsection
 @php
+$settings = App\Models\Utility::settings();
+if(isset($settings['fixed_billing'])&& !empty($settings['fixed_billing'])){
+    $billings = json_decode($settings['fixed_billing']);
+}
 $labels =
     [ 
         'venue_rental' => 'Venue Rental',
@@ -26,15 +30,7 @@ $labels =
 @section('content')
 <div class="container-field">
     <div id="wrapper">
-        <div id="sidebar-wrapper">
-            <div class="card sticky-top" style="top:30px">
-                <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
-                    <a href="#useradd-1" class="list-group-item list-group-item-action">
-                        <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
-                        <span class="dash-mtext">{{ __('Create Billing') }} </span></a>
-                </div>
-            </div>
-        </div>
+        
         <div id="page-content-wrapper">
             <div class="container-fluid xyz">
                 <div class="row">

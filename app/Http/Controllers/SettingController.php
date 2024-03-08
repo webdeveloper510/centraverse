@@ -1717,7 +1717,6 @@ class SettingController extends Controller
         return redirect()->back()->with('success', __('Buffer  Added .'));
     }
     public function billing_cost(Request $request){
-
         $settings = Utility::settings();
         $user = \Auth::user();
         $created_at = $updated_at = date('Y-m-d H:i:s');
@@ -1726,24 +1725,22 @@ class SettingController extends Controller
         $function_arr = json_decode($settings['function']);
         $function = $function_arr[$request->function]->function;
         $function_package = $function_arr[$request->function]->package;
-        $function_package = $function_package[$request->packages];
+        $packages = array_combine($function_package, $request->package_cost);
 
         $bar_arr = json_decode($settings['barpackage']);
         $bar = $bar_arr[$request->bar_package]->bar;
         $bar_package = $bar_arr[$request->bar_package]->barpackage;
-        $bar_package = $bar_package[$request->bar_packages];
+        $barpackages = array_combine($bar_package, $request->bar_package_cost);
 
+        // $bar_package = $bar_package[$request->bar_packages];
+      
         $data = $request->all();
         $jsonData = [
             'venue' => [
                 $data['venue'] => $request->venue_cost,
             ],
-            $function => [
-                $function_package=>$request->package_cost
-            ],
-            $bar => [
-                $bar_package=>$request->barpackage_cost
-            ],
+            $function => $packages,
+            $bar => $barpackages,
             'equipment' =>$request->equipment,
             'hotel_rooms' =>$request->hotel_rooms,
             'special_req'=>$request->special_req,
@@ -1751,25 +1748,20 @@ class SettingController extends Controller
             'welcomesetup' =>$request->welcomesetup
         ];
         $existingData = json_decode($existingValue, true);
-        // Loop through the submitted data
         foreach ($jsonData as $key => $value) {
-            // Check if the key exists in the existing data
             if (isset($existingData[$key])) {
-                // If it's an array, update or add key-value pairs inside it
                 if (is_array($value)) {
                     foreach ($value as $nestedKey => $nestedValue) {
                         $existingData[$key][$nestedKey] = $nestedValue;
                     }
                 } else {
-                    // If it's not an array, update the value directly
                     $existingData[$key] = $value;
                 }
             } else {
-                // If the key doesn't exist, add a new key-value pair
                 $existingData[$key] = $value;
             }
         }
-    $jsonString = json_encode($existingData);
+        $jsonString = json_encode($existingData);    
         if(isset($settings['fixed_billing']) && !empty($settings['fixed_billing'])){
             DB::table('settings')
                 ->where('name','fixed_billing')
@@ -1791,7 +1783,7 @@ class SettingController extends Controller
                     $updated_at,
                 ]);
         }
-        return redirect()->back()->with('success', __('Billing Cost  Saved'));;
+        return redirect()->back()->with('success', __('Billing Cost Saved'));;
     } 
     public function signature(Request $request){
         if(\File::exists(public_path('upload/signature/autorised_signature.png')))
@@ -1831,7 +1823,6 @@ class SettingController extends Controller
 
         // Encode the entire array as JSON
         $jsonData = json_encode($existingArray);
-       
         if(isset($settings['function']) && !empty($settings['function'])){
             DB::table('settings')
                 ->where('name','function')
@@ -1871,7 +1862,6 @@ class SettingController extends Controller
             }
         $existingArray[] = json_decode($data, true);
         $jsonData = json_encode($existingArray);
-        echo "<pre>";print_r($jsonData);
 
         if(isset($settings['barpackage']) && !empty($settings['barpackage'])){
             DB::table('settings')
@@ -2028,6 +2018,89 @@ class SettingController extends Controller
             'updated_at'=>$updated_at
         ]);
         return true;
+    }
+    public function additional_items(Request $request){
+        $user = \Auth::user();
+        $settings = Utility::settings();
+        $created_at = $updated_at = date('Y-m-d H:i:s');
+
+        // $additionalItems = $request->input('additional_items', []);
+        // $additionalItemsCosts = $request->input('additional_items_cost', []);
+    
+        // $itemsWithCosts = [];
+        // foreach ($additionalItems as $key => $item) {
+        //     $cost = isset($additionalItemsCosts[$key]) ? $additionalItemsCosts[$key] : null;
+        //     $itemsWithCosts[$item] = $cost;
+        // }
+        // $data = json_encode($itemsWithCosts);
+        // $existingValue = $settings['additional_items'] ?? '';
+        // $existingArray = json_decode($existingValue, true);
+        // if ($existingArray === null) {
+        //     $existingArray = array();
+        //     }
+
+        // // Append the new data to the existing array
+        // $existingArray[] = json_decode($data, true);
+        // $jsonData = json_encode($existingArray);
+        // echo $jsonData;die;
+        $additionalItems = $request->input('additional_items', []);
+        $additionalItemsCosts = $request->input('additional_items_cost', []);
+        
+        $itemsWithCosts = [];
+        
+        foreach ($additionalItems as $key => $item) {
+            $cost = isset($additionalItemsCosts[$key]) ? $additionalItemsCosts[$key] : null;
+            $itemsWithCosts[$item] = $cost;
+        }
+        
+        $existingValue = $settings['additional_items'] ?? '';
+        $existingArray = json_decode($existingValue, true);
+        
+        if ($existingArray === null) {
+            $existingArray = [];
+        }
+        
+        // Update the existing data with the new values
+        foreach ($itemsWithCosts as $item => $cost) {
+            $keyExists = false;
+        
+            foreach ($existingArray as &$existingItem) {
+                if (isset($existingItem[$item])) {
+                    $existingItem[$item] = $cost;
+                    $keyExists = true;
+                    break;
+                }
+            }
+        
+            if (!$keyExists) {
+                // Add a new item if the key doesn't exist
+                $existingArray[] = [$item => $cost];
+            }
+        }
+        
+        $jsonData = json_encode($existingArray);
+        if(isset($settings['additional_items']) && !empty($settings['additional_items'])){
+            DB::table('settings')
+                ->where('name','additional_items')
+                ->update([
+                    'value' => $jsonData,
+                    'created_by'=> $user->id,
+                    'created_at' =>$created_at,
+                    'updated_at'=>$updated_at
+                ]);
+        }
+        else{
+            \DB::insert(
+                'INSERT INTO settings (`value`, `name`,`created_by`,`created_at`,`updated_at`) values (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`), `updated_at` = VALUES(`updated_at`) ',
+                [
+                    $jsonData,
+                    'additional_items',
+                    $user->id,
+                    $created_at,
+                    $updated_at,
+                ]);
+        }
+        return redirect()->back()->with('success', __('Additional Items Added.'));
     }
     
 }

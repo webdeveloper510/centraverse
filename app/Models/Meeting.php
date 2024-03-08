@@ -21,7 +21,7 @@ class Meeting extends Model
         'attendees_user',
         'attendees_lead',
         'food_package',
-        'total'
+        'total','ad_opts'
     ];
     public static $status   = [
         'In process',
