@@ -1082,7 +1082,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                             <div class="card-header">
                                 <div class="row">
                                     <div id="floor-plan-setting" class="col-lg-8 col-md-8 col-sm-8">
-                                        <h5><?php echo e(__('Upload Floor Plan')); ?></h5>
+                                        <h5><?php echo e(__('Upload Setup')); ?></h5>
                                     </div>
                                 </div>
                             </div>
@@ -1194,7 +1194,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                         <div class="  form-group col-md-6">
                                             <?php echo e(Form::label('bar_package',__('Bar'),['class'=>'form-label'])); ?>
 
-                                            <select name="bar_package" id="bar_names" class="form-select">
+                                            <select name="bar_package" id="bar_names" class="form-select" required>
                                                 <option selected disabled>Select Bar</option>
                                                 <?php if(isset($bar) && !empty($bar)): ?>
                                                 <?php $__currentLoopData = $bar; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key =>$value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>

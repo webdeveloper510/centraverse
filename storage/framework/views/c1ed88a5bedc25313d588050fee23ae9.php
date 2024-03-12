@@ -1,7 +1,7 @@
 <?php
 $billing = App\Models\Billingdetail::where('event_id',$meeting->id)->exists();
 ?>
-<?php if($billing): ?>
+
     <div class="row">
         <div class="col-lg-12">
         <div id="notification" class="alert alert-success mt-1">Link copied to clipboard!</div>         
@@ -32,9 +32,6 @@ $billing = App\Models\Billingdetail::where('event_id',$meeting->id)->exists();
 
         </div>
     </div>
-<?php else: ?>
-    <div class = "alert alert-info">Firstly, Create Billing For this event!</div>
-<?php endif; ?>
 <style>
     /* input.btn.btn-primary {
     float: right;
