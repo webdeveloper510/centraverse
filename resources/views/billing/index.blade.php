@@ -54,9 +54,11 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <span class="badge bg-info p-2 px-3 rounded">Billing Not created</span>
+                                                    <span class="badge bg-info p-2 px-3 rounded">Create Bill</span>
                                                 </td>
+                                               
                                                 <td class="text-end">
+                                                    @if(!(\App\Models\Billing::where('event_id',$event->id)->exists()))
                                                     @can('Create Payment')
                                                     <div class="action-btn bg-primary ms-2">
                                                         <a href="#" data-size="md" data-url="{{ route('billing.create',['billing',$event->id]) }}" data-bs-toggle="tooltip" title="{{__('Create')}}" data-ajax-popup="true" data-title="{{__('Billing Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
@@ -64,18 +66,16 @@
                                                         </a>
                                                     </div>
                                                     @endcan
+                                                    @endif
+                                                    @if(\App\Models\Billing::where('event_id',$event->id)->exists())
                                                     @can('Manage Payment')
                                                     <div class="action-btn bg-warning ms-2">
-                                                        <a href="#" data-size="md" data-url="" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Lead Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                        <a href="#" data-size="md" data-url="{{ route('billing.show',$event->id) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Billing Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-eye"></i>
                                                         </a>
                                                     </div>
                                                     @endcan
-                                                    @can('Edit Payment')
-                                                    <div class="action-btn bg-info ms-2">
-                                                        <a href="" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " data-bs-toggle="tooltip" title="{{__('Details')}}" data-title="{{__('Edit Lead')}}"><i class="ti ti-edit"></i></a>
-                                                    </div>
-                                                    @endcan
+                                                    @endif
                                                     @can('Delete Payment')
                                                     <div class="action-btn bg-danger ms-2">
                                                         <a href="#!" class="mx-3 btn btn-sm  align-items-center text-white show_confirm" data-bs-toggle="tooltip" title='Delete'>

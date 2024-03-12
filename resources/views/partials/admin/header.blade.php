@@ -54,7 +54,6 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                         </li>
                         @can('Manage Lead')
                         <li class="dash-item {{ \Request::route()->getName() == 'lead' || \Request::route()->getName() == 'lead.edit' ? ' active' : '' }}">
-                           
                             <a href="{{  array_key_exists('lead',$defaultView) ? route($defaultView['lead']) : route('lead.index') }}"   class="dash-link">
                                 <span class="dash-mtext">{{ __('Leads') }}</span>
                             </a>
@@ -62,10 +61,6 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                         @endcan
                         @can('Manage Meeting')
                         <li class="dash-item {{ \Request::route()->getName() == 'meeting' || \Request::route()->getName() == 'meeting.show' || \Request::route()->getName() == 'meeting.edit' ? ' active' : '' }}">
-                            {{-- <a href="{{ !empty(\Auth::user()->getDefualtViewRouteByModule('meeting')) ? route(\Auth::user()->getDefualtViewRouteByModule('meeting')) : route('meeting.index') }}"
-                                class="dash-link">
-                                <span class="dash-micon"><i class="ti ti-calendar"></i></span><span class="dash-mtext">{{ __('Event') }}</span>
-                            </a> --}}
                             <a href="{{ array_key_exists('meeting',$defaultView) ? route($defaultView['meeting']) : route('meeting.index') }}"
                                 class="dash-link">
                                 <span class="dash-mtext">{{ __('Events') }}</span>

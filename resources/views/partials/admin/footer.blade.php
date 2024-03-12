@@ -24,12 +24,11 @@
   });
 })();
 </script>
-<!-- <script>
+<script>
         var scrollSpy = new bootstrap.ScrollSpy(document.body, {
-            target: '#useradd-sidenav',
             offset: 300
         })
-</script> -->
+</script>
 <script src="{{asset('assets/js/plugins/dropzone-amd-module.min.js')}}"></script>
 <script src="{{asset('assets/js/plugins/choices.min.js')}}"></script>
 
@@ -57,9 +56,17 @@
 <script src="{{asset('assets/js/plugins/datepicker-full.min.js')}}"></script>
 
 <script src="{{ asset('js/custom.js') }}"></script>
-
+<script>
+$(document).ready(function() {
+        $('.list-group-item').on('click', function() {
+            var href = $(this).attr('data-href');
+            $('.tabs-card').addClass('d-none');
+            $(href).removeClass('d-none');
+            $('#tabs .list-group-item').removeClass('text-primary');
+        });
+    });
+</script>
 <!-- Demo JS - remove it when starting your project -->
-
 
 <script>
           $(".dash-navbar li a").click(function() {

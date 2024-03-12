@@ -9,16 +9,12 @@
 <?php echo e(__('Dashboard')); ?>
 
 <?php $__env->stopSection(); ?>
-<?php $__env->startSection('action-btn'); ?>
-<?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 <div class="container-field">
     <div id="wrapper">
-       
         <div id="page-content-wrapper">
-            <div class="container-fluid xyz">
+            <div class="container-fluid xyz" id="useradd-1">
                 <div class="row">
-                    <!-- <div class="col-lg-12"> -->
                         <?php if(\Auth::user()->type == 'owner'): ?>
                         <div class="col-lg-3 col-6 totallead"style="padding: 15px;">
                             <div class="card">
@@ -196,14 +192,12 @@
             </div>
         </div>
     </div>
-
-    <?php $__env->stopSection(); ?>
-
-    <?php $__env->startPush('script-page'); ?>
+</div>
+<?php $__env->stopSection(); ?>
+<?php $__env->startPush('script-page'); ?>
     <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "dc4641f860664c6e824b093274f50291"}'></script>
     <script src="<?php echo e(asset('assets/js/plugins/main.min.js')); ?>"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-
     <script type="text/javascript">
         <?php
         $segment = Request::segment(2);
@@ -374,13 +368,7 @@
 
         }
     </script>
-   
     <script>
-        /* function toggleOptions() {
-            var optionsContainer = document.getElementsByClassName('optionsContainer')[0];
-            optionsContainer.style.display = optionsContainer.style.display === 'none' ? 'block' : 'none';
-        } */
-
         function showUpcoming() {
             window.location.href = "<?php echo e(url('/meeting-upcoming')); ?>";
         }
@@ -399,5 +387,5 @@
             })
         })
     </script>
-    <?php $__env->stopPush(); ?>
+<?php $__env->stopPush(); ?>
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/home.blade.php ENDPATH**/ ?>

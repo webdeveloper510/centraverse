@@ -92,7 +92,7 @@ $meetingData['setup_cost'] = '';
                 <tr>
                     <td>{{ucfirst($label)}}</td>
                     <td>
-                        <input type="text" name="billing[{{$key}}][cost]" value="${{ isset($meetingData[$key.'_cost']) ? $meetingData[$key.'_cost'] : '' }}" class="form-control">
+                        <input type="text" name="billing[{{$key}}][cost]" value="${{ isset($meetingData[$key.'_cost']) ? $meetingData[$key.'_cost'] : '' }}" class="form-control dlr">
                     </td>
                     <td>
                         <input type="number" name="billing[{{$key}}][quantity]" min='0' class="form-control" value="{{$meetingData[$key] ?? ''}}" required>

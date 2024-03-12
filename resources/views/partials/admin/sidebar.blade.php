@@ -102,6 +102,11 @@
                     <span class="fa-stack fa-lg pull-left"></span>
                     <span class="dash-mtext">{{ __('View Campaigns') }} </span></a>
                 @endif
+                @if(\Request::route()->getName() == 'campaign-list' )
+                <a href="#useradd-1" class="list-group-item list-group-item-action">
+                    <span class="fa-stack fa-lg pull-left"></span>
+                    <span class="dash-mtext">{{ __('View Campaigns') }} </span></a>
+                @endif
                 @if(\Request::route()->getName() == 'meeting.index')
                 <a href="#useradd-1" class="list-group-item list-group-item-action"><span class="fa-stack fa-lg pull-left"><i class="ti ti-home-2"></i></span>
                     <span class="dash-mtext">{{ __('Event') }} </span></a>
@@ -113,18 +118,17 @@
                 <a href="#useradd-1" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
                     <span class="dash-mtext">{{ __('Event') }} </span></a>
-                <a href="#useradd-1" class="list-group-item list-group-item-action">
+                <a href="#event-details" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"></span>
                     <span class="dash-mtext">{{ __('Event Details') }} </span></a>
-                <a href="#useradd-1" class="list-group-item list-group-item-action">
+                <a href="#special_req" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"></span>
                     <span class="dash-mtext">{{ __('Special Requirements') }} </span></a>
-                <a href="#useradd-1" class="list-group-item list-group-item-action">
+                <a href="#other_info" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"></span>
                     <span class="dash-mtext">{{ __('Other Information') }} </span></a>
                 @endif
                 @if(\Request::route()->getName() == 'meeting.review' )
-
                 <a href="#useradd-1" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
                     <span class="dash-mtext">{{ __('Review Event') }} </span></a>

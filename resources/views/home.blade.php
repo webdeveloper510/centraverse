@@ -7,16 +7,12 @@
 @section('title')
 {{ __('Dashboard') }}
 @endsection
-@section('action-btn')
-@endsection
 @section('content')
 <div class="container-field">
     <div id="wrapper">
-       
         <div id="page-content-wrapper">
-            <div class="container-fluid xyz">
+            <div class="container-fluid xyz" id="useradd-1">
                 <div class="row">
-                    <!-- <div class="col-lg-12"> -->
                         @if (\Auth::user()->type == 'owner')
                         <div class="col-lg-3 col-6 totallead"style="padding: 15px;">
                             <div class="card">
@@ -181,14 +177,12 @@
             </div>
         </div>
     </div>
-
-    @endsection
-
-    @push('script-page')
+</div>
+@endsection
+@push('script-page')
     <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "dc4641f860664c6e824b093274f50291"}'></script>
     <script src="{{ asset('assets/js/plugins/main.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-
     <script type="text/javascript">
         @php
         $segment = Request::segment(2);
@@ -359,13 +353,7 @@
 
         }
     </script>
-   
     <script>
-        /* function toggleOptions() {
-            var optionsContainer = document.getElementsByClassName('optionsContainer')[0];
-            optionsContainer.style.display = optionsContainer.style.display === 'none' ? 'block' : 'none';
-        } */
-
         function showUpcoming() {
             window.location.href = "{{ url('/meeting-upcoming') }}";
         }
@@ -384,4 +372,4 @@
             })
         })
     </script>
-    @endpush
+@endpush
