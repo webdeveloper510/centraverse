@@ -54,7 +54,6 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                         </li>
                         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Lead')): ?>
                         <li class="dash-item <?php echo e(\Request::route()->getName() == 'lead' || \Request::route()->getName() == 'lead.edit' ? ' active' : ''); ?>">
-                           
                             <a href="<?php echo e(array_key_exists('lead',$defaultView) ? route($defaultView['lead']) : route('lead.index')); ?>"   class="dash-link">
                                 <span class="dash-mtext"><?php echo e(__('Leads')); ?></span>
                             </a>
@@ -62,7 +61,6 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                         <?php endif; ?>
                         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Meeting')): ?>
                         <li class="dash-item <?php echo e(\Request::route()->getName() == 'meeting' || \Request::route()->getName() == 'meeting.show' || \Request::route()->getName() == 'meeting.edit' ? ' active' : ''); ?>">
-                            
                             <a href="<?php echo e(array_key_exists('meeting',$defaultView) ? route($defaultView['meeting']) : route('meeting.index')); ?>"
                                 class="dash-link">
                                 <span class="dash-mtext"><?php echo e(__('Events')); ?></span>

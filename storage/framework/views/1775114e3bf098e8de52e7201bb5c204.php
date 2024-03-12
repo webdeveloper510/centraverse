@@ -1,18 +1,20 @@
-@extends('layouts.admin')
-@section('page-title')
-    {{__('Campaign')}}
-@endsection
-@section('title')
+
+<?php $__env->startSection('page-title'); ?>
+    <?php echo e(__('Campaign')); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('title'); ?>
     <div class="page-header-title">
-        {{__('Campaign')}}
+        <?php echo e(__('Campaign')); ?>
+
     </div>
-@endsection
-@section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{__('Home')}}</a></li>
-    <li class="breadcrumb-item"><a href="{{ route('customer.index') }}">{{__('Campaigns')}}</a></li>
-    <li class="breadcrumb-item">{{__('View Campaigns')}}</li>
-@endsection
-@section('content')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('breadcrumb'); ?>
+    <li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Home')); ?></a></li>
+    <li class="breadcrumb-item"><a href="<?php echo e(route('customer.index')); ?>"><?php echo e(__('Campaigns')); ?></a></li>
+    <li class="breadcrumb-item"><?php echo e(__('View Campaigns')); ?></li>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
 <div class="container-field">
     <div id="wrapper">
         <div id="page-content-wrapper">
@@ -25,37 +27,37 @@
                                     <table class="table datatable" id="datatable">
                                         <thead>
                                             <tr>
-                                                <th scope="col" class="sort" data-sort="name">{{__('Campaign Title')}}</th>
-                                                <th scope="col" class="sort" data-sort="name">{{__('Campaign Type')}}</th>
-                                                <th scope="col" class="sort" data-sort="budget">{{__('Created At')}}</th>
-                                                <th scope="col" class="sort">{{__('Action')}}</th>                                               
+                                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Campaign Title')); ?></th>
+                                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Campaign Type')); ?></th>
+                                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Created At')); ?></th>
+                                                <th scope="col" class="sort"><?php echo e(__('Action')); ?></th>                                               
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach($campaignlist as $key=> $campaign)
+                                            <?php $__currentLoopData = $campaignlist; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $campaign): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <tr>
-                                                    <td><span class="budget"><b>{{ucfirst($campaign->title)}}</b></span></td>
-                                                    <td><span class="budget"><b>{{ucfirst($campaign->type)}}</b></span></td>
-                                                    <td><span class="budget">{{ \Carbon\Carbon::parse($campaign->created_at)->format('d M, Y')}}</span></td>
+                                                    <td><span class="budget"><b><?php echo e(ucfirst($campaign->title)); ?></b></span></td>
+                                                    <td><span class="budget"><b><?php echo e(ucfirst($campaign->type)); ?></b></span></td>
+                                                    <td><span class="budget"><?php echo e(\Carbon\Carbon::parse($campaign->created_at)->format('d M, Y')); ?></span></td>
                                                     <td><button onclick="toggleRowVisibility(<?php echo $key + 1 ?>)" style="border-radius: 35px;">
                                                     <span class="dash-arrow"><i data-feather="chevron-right"></i></span>
                                                     </button></td>
                                                 </tr>
-                                                <tr class="hidden-row" id="hiddenRow{{ $key + 1 }}" style="display: none;    background: #e6ebf2;">
+                                                <tr class="hidden-row" id="hiddenRow<?php echo e($key + 1); ?>" style="display: none;    background: #e6ebf2;">
                                                     <th scope="col">Users</th>
                                                     <th scope="col">Description</th>
                                                     <th scope="col" >Actions</th>
                                                     <th></th>
                                                 </tr>
-                                                <tr class="hidden-row" id="hiddenRowContent{{ $key + 1 }}" style="display: none;    background: #e6ebf2;">
-                                                    <td><span class="budget"><b>{{ucfirst($campaign->recipients)}}</b></span></td>
-                                                    <td><span class="budget"><b>{{ucfirst($campaign->description)}}</b></span></td>
+                                                <tr class="hidden-row" id="hiddenRowContent<?php echo e($key + 1); ?>" style="display: none;    background: #e6ebf2;">
+                                                    <td><span class="budget"><b><?php echo e(ucfirst($campaign->recipients)); ?></b></span></td>
+                                                    <td><span class="budget"><b><?php echo e(ucfirst($campaign->description)); ?></b></span></td>
                                                     <td><button type="button"style="border-radius: 35px;" title="Resend" onclick="resendcampaign(<?php  echo $campaign->id?>)">
                                                     <i class="ti ti-share"></i>
                                                 </button></td>
                                                 <td></td>
                                                 </tr>
-                                            @endforeach
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -81,11 +83,11 @@
     }
     function resendcampaign(id){
        $.ajax({
-                url: "{{route('resend-campaign')}}",
+                url: "<?php echo e(route('resend-campaign')); ?>",
                 type: 'POST',
                 data: {
                     "id": id,
-                    "_token": "{{ csrf_token() }}",
+                    "_token": "<?php echo e(csrf_token()); ?>",
                 },
                 success: function(data) {
                     console.log(data);
@@ -94,4 +96,5 @@
             });
     }
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/customer/campaignlist.blade.php ENDPATH**/ ?>

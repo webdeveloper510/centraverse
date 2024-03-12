@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('billing', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('event_id')->unique();
+            $table->foreign('event_id')->references('id')->on('meetings');
+            $table->text('data');
+            $table->integer('deposits')->default(0);
+            $table->boolean('status')->default(0);
             $table->timestamps();
         });
     }

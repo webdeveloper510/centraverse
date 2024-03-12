@@ -57,9 +57,11 @@
                                                     <?php endif; ?>
                                                 </td>
                                                 <td>
-                                                    <span class="badge bg-info p-2 px-3 rounded">Billing Not created</span>
+                                                    <span class="badge bg-info p-2 px-3 rounded">Create Bill</span>
                                                 </td>
+                                               
                                                 <td class="text-end">
+                                                    <?php if(!(\App\Models\Billing::where('event_id',$event->id)->exists())): ?>
                                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Payment')): ?>
                                                     <div class="action-btn bg-primary ms-2">
                                                         <a href="#" data-size="md" data-url="<?php echo e(route('billing.create',['billing',$event->id])); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Create')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('Billing Details')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
@@ -67,17 +69,15 @@
                                                         </a>
                                                     </div>
                                                     <?php endif; ?>
+                                                    <?php endif; ?>
+                                                    <?php if(\App\Models\Billing::where('event_id',$event->id)->exists()): ?>
                                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Payment')): ?>
                                                     <div class="action-btn bg-warning ms-2">
-                                                        <a href="#" data-size="md" data-url="" data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('Lead Details')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                        <a href="#" data-size="md" data-url="<?php echo e(route('billing.show',$event->id)); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('Billing Details')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-eye"></i>
                                                         </a>
                                                     </div>
                                                     <?php endif; ?>
-                                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Edit Payment')): ?>
-                                                    <div class="action-btn bg-info ms-2">
-                                                        <a href="" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " data-bs-toggle="tooltip" title="<?php echo e(__('Details')); ?>" data-title="<?php echo e(__('Edit Lead')); ?>"><i class="ti ti-edit"></i></a>
-                                                    </div>
                                                     <?php endif; ?>
                                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Delete Payment')): ?>
                                                     <div class="action-btn bg-danger ms-2">

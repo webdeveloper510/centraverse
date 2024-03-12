@@ -202,7 +202,6 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
             $('.tabs-card').addClass('d-none');
             $(href).removeClass('d-none');
             $('#tabs .list-group-item').removeClass('text-primary');
-            // $(this).addClass('text-primary');
         });
     });
 

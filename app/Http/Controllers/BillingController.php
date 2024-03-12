@@ -9,21 +9,11 @@ use App\Models\Meeting;
 use App\Models\Lead;
 use App\Models\Payment;
 use App\Models\Billingdetail;
-// use Mpdf\Mpdf;
-// use Illuminate\Support\Facades\Mail;
-// use App\Mail\SendPdfEmail;
-// use App\Mail\SendBillingMail;
-// use Barryvdh\DomPDF\Facade\Pdf;
-// use App\Models\Utility;
-// use PayPal;
-use App\Mail\Invoicemail;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use Stripe\Stripe;
 use Stripe\PaymentIntent;
 use Stripe\Checkout\Session;
-use PayPalCheckoutSdk\Orders\OrdersGetRequest;
-use PayPalHttp\HttpException;
-use Mail;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class BillingController extends Controller
 {
@@ -36,7 +26,7 @@ class BillingController extends Controller
         if (\Auth::user()->type == 'owner') {
             $billing = Billingdetail::all();
             $status = Billingdetail::$status;
-            $events = Meeting::where('status',2)->get();
+            $events = Meeting::all();
             return view('billing.index', compact('billing','events'));
         }
     }
@@ -60,48 +50,36 @@ class BillingController extends Controller
      */
     public function store(Request $request ,$id)
     {
-        return redirect()->back()->with('success', __('Billing Created'));
-        echo "<pre>";
-        print_r(json_encode($request->billing));die;
         // $validator = \Validator::make(
         //     $request->all(),
         //     [
-        //         'event' => 'required|unique:billindetails,event_id',
+        //         'event' => 'required|unique:billing,event_id',
         //     ],
-        //     [
-        //         'event.unique' => 'Billing already exists for this event'
-        //     ]
         // );
         // if ($validator->fails()) {
         //     $messages = $validator->getMessageBag();
 
         //     return redirect()->back()->with('error', $messages->first());
         // }
-        $event_info = Meeting::where('id', $request->event)->first();
-        $billingdetails = new Billingdetail();
-        $billingdetails['event_id'] = $request->event;
-        $billingdetails['venue_rental'] = serialize($request->billing['venue_rental']);
-        $billingdetails['hotel_rooms'] = serialize($request->billing['hotel_rooms']);
-        $billingdetails['equipment'] = serialize($request->billing['equipment']);
-        $billingdetails['setup'] = serialize($request->billing['setup']);
-        $billingdetails['bar'] = serialize($request->billing['gold_2hrs']);
-        $billingdetails['special_req'] = serialize($request->billing['special_req']);
-        $billingdetails['food'] = serialize($request->billing['classic_brunch']);
-        $billingdetails['created_by'] = \Auth::user()->creatorId();
-        $billingdetails->save();
+        $billing = new Billing();
+        $billing['event_id'] = $id;
+        $billing['data'] = serialize($request->billing);
+        $billing['status'] = 1;
+        $billing['deposits'] = $request->deposits;
+        $billing->save();
       
         return redirect()->back()->with('success', __('Billing Created'));
      
     }
-
     /**
      * Display the specified resource.
-     */
+    */
     public function show(string $id)
     {
-        //
+        $billing = Billing::where('event_id',$id)->first();
+        $event = Meeting::where('id',$id)->first();
+        return view('billing.view',compact('billing','event'));
     }
-
     /**
      * Show the form for editing the specified resource.
      */
@@ -112,7 +90,7 @@ class BillingController extends Controller
     }
     /**
      * Update the specified resource in storage.
-     */
+    */
     public function update(Request $request, string $id)
     {
     }
@@ -131,34 +109,6 @@ class BillingController extends Controller
         $event_info = Meeting::where('id', $request->id)->get();
         return $event_info;
     }
-    // public function billpaymenturl(Request $request){
-    //     $settings = Utility::settings();
-    //     $meeting = Meeting::find($request->id);
-    //     $meeting->update(['total'=>$request->total]);
-    //     try {
-    //         config(
-    //             [
-    //                 'mail.driver'       => $settings['mail_driver'],
-    //                 'mail.host'         => $settings['mail_host'],
-    //                 'mail.port'         => $settings['mail_port'],
-    //                 'mail.username'     => $settings['mail_username'],
-    //                 'mail.password'     => $settings['mail_password'],
-    //                 'mail.from.address' => $settings['mail_from_address'],
-    //                 'mail.from.name'    => $settings['mail_from_name'],
-    //             ]
-    //         );
-
-    //     Mail::to('sonali@codenomad.net')->send(new SendBillingMail($meeting));
-    //     } catch (\Exception $e) {
-    //         return response()->json(
-    //             [
-    //                 'is_success' => false,
-    //                 'message' => $e->getMessage(),
-    //             ]
-    //         );
-    //     }
-    //     return true;
-    // }
     public function payviamode($id)
     {
         $new_id = decrypt(urldecode($id));
@@ -269,5 +219,17 @@ class BillingController extends Controller
 
         Billingdetail::where('event_id', $event_id)->update(['status' => 2]);
         return view('calendar.welcome');
+    }
+    public function estimationview($id){
+        $id =  decrypt(urldecode($id));
+        $billing = Billing::where('event_id',$id)->first();
+        $event = Meeting::find($id);
+        $data = [
+            'event'=>$event,
+            'billing_data' => unserialize($billing->data),
+            'billing' => $billing
+        ];
+        $pdf = Pdf::loadView('billing.estimateview', $data);
+        return $pdf->stream('estimate.pdf');
     }
 }

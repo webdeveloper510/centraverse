@@ -89,6 +89,7 @@ use App\Http\Controllers\XenditPaymentController;
 use App\Http\Controllers\YooKassaController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\DashboardTestingController;
+use App\Models\Billing;
 use Google\Service\ServiceConsumerManagement\BillingConfig;
 use Illuminate\Support\Facades\DB;
 
@@ -405,6 +406,7 @@ Route::group(['middleware' => ['verified']], function () {
             Route::get('lead/withdraw_proposal/{id}',[LeadController::class,'withdraw'])->name('lead.withdraw');
             Route::get('lead/resend_proposal/{id}',[LeadController::class,'resend'])->name('lead.resend');
             Route::get('lead/clone/{id}',[LeadController::class,'duplicate'])->name('lead.clone');
+            
         });
 
     Route::group(
@@ -418,8 +420,10 @@ Route::group(['middleware' => ['verified']], function () {
           Route::resource('billing',BillingController::class);
           Route::get('billing/create/{type}/{id}',[BillingController::class,'create'])->name('billing.create');
           Route::post('billing/add-data/{id}',[BillingController::class,'store'])->name('billing.addbilling');
+        //   Route::post('billing/estimate-view/{id}',[BillingController::class,'store'])->name('billing.addbilling');
           Route::post('billing/event',[BillingController::class,'get_event_info'])->name('billing.eventdetail');
           Route::post('billing/payment',[BillingController::class,'billpaymenturl'])->name('billing.paymenturl');
+          Route::get('billing/estimate-view/{id}',[BillingController::class,'estimationview'])->name('billing.estimateview');
 
         }
     );
