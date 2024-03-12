@@ -59,7 +59,7 @@
                                                 <td class="text-end">
                                                     @can('Create Payment')
                                                     <div class="action-btn bg-primary ms-2">
-                                                        <a href="#" data-size="md" data-url="{{ route('createbill',['billing',$event->id]) }}" data-bs-toggle="tooltip" title="{{__('Create')}}" data-ajax-popup="true" data-title="{{__('Billing Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                        <a href="#" data-size="md" data-url="{{ route('billing.create',['billing',$event->id]) }}" data-bs-toggle="tooltip" title="{{__('Create')}}" data-ajax-popup="true" data-title="{{__('Billing Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-plus"></i>
                                                         </a>
                                                     </div>

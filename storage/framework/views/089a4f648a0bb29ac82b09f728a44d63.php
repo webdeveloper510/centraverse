@@ -32,22 +32,24 @@ $foodItems = explode(',', $meetingData['food_package']);
 
 // Initialize the total cost
 $totalFoodPackageCost = 0;
-
+if(isset($billings) && !empty($billings)){
 // Check dynamically for each item in 'food_package'
-foreach ($foodItems as $foodItem) {
-    // Remove any extra spaces
-    $foodItem = trim($foodItem);
+    foreach ($foodItems as $foodItem) {
+        // Remove any extra spaces
+        $foodItem = trim($foodItem);
 
-    // Check if the item exists in the billingObject and has a cost
-    foreach ($billings as $category => $categoryItems) {
-        if (is_array($categoryItems) && isset($categoryItems[$foodItem])) {
-            $totalFoodPackageCost += $categoryItems[$foodItem];
-            break; // Break out of the inner loop once a match is found
+        // Check if the item exists in the billingObject and has a cost
+        foreach ($billings as $category => $categoryItems) {
+            if (is_array($categoryItems) && isset($categoryItems[$foodItem])) {
+                $totalFoodPackageCost += $categoryItems[$foodItem];
+                break; // Break out of the inner loop once a match is found
+            }
         }
     }
+    $meetingData['food_package_cost'] = $totalFoodPackageCost;
 }
-$meetingData['food_package_cost'] = $totalFoodPackageCost;
 $additionalItemsCost = 0;
+if(isset($billings) && !empty($billings)){
 foreach ($additional_items as $item) {
     foreach ($item as $itemName => $itemCost) {
         if (in_array($itemName, explode(',', $meetingData['additional_items']))) {
@@ -56,7 +58,7 @@ foreach ($additional_items as $item) {
     }
 }
 $meetingData['additional_items_cost'] = $additionalItemsCost;
-
+}
 // Get the value for 'Patio' from the 'venue' array
 $subcategories = array_map('trim', explode(',', $meetingData['venue_rental']));
 $venueRentalCost = 0;
@@ -65,12 +67,12 @@ foreach ($subcategories as $subcategory) {
 }
 
 $meetingData['venue_rental_cost'] = $venueRentalCost;
-$meetingData['hotel_rooms_cost'] = $billings['hotel_rooms'];
-$meetingData['equipment_cost'] = $billings['equipment'];
+$meetingData['hotel_rooms_cost'] = $billings['hotel_rooms'] ?? '';
+$meetingData['equipment_cost'] = $billings['equipment'] ?? '';
 $meetingData['bar_package_cost'] = 8;
 $meetingData['food_package_cost'] = $totalFoodPackageCost;
-$meetingData['additional_items_cost'] = $additionalItemsCost;
-$meetingData['special_req_cost'] =  $billings['special_req'];
+$meetingData['additional_items_cost'] = $additionalItemsCost ;
+$meetingData['special_req_cost'] =  $billings['special_req'] ?? '';
 $meetingData['setup_cost'] = '';
 ?>
 <?php echo e(Form::open(array('url'=>'billing','method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))); ?>

@@ -1,131 +1,122 @@
-<?php $__env->startSection('page-title'); ?>
-    <?php echo e(__('Billing')); ?>
-
-<?php $__env->stopSection(); ?>
-<?php $__env->startSection('title'); ?>
-        <div class="page-header-title">
-            <?php echo e(__('Billing')); ?>
-
-        </div>
-<?php $__env->stopSection(); ?>
-<?php $__env->startSection('action-btn'); ?>
-<?php $__env->stopSection(); ?>
-<?php $__env->startSection('filter'); ?>
-<?php $__env->stopSection(); ?>
 <?php
+$settings = App\Models\Utility::settings();
+if(isset($settings['fixed_billing'])&& !empty($settings['fixed_billing'])){
+$billings = json_decode($settings['fixed_billing'],true);
+}
+if(isset($settings['additional_items'])&& !empty($settings['additional_items'])){
+$additional_items = json_decode($settings['additional_items'],true);
+}
+
 $labels =
-    [ 
-        'venue_rental' => 'Venue Rental',
-        'hotel_rooms'=>'Hotel Rooms',
-        'equipment'=>'Tent, Tables, Chairs, AV Equipment',
-        'setup' =>'Setup',
-        'gold_2hrs'=>'Bar Package',
-        'special_req' =>'Special Requests /Other',
-        'classic_brunch'=>'Brunch/Lunch/Dinner Package',
-    ]; 
-?> 
-<?php $__env->startSection('content'); ?>
-<div class="container-field">
-    <div id="wrapper">
-        <div id="sidebar-wrapper">
-            <div class="card sticky-top" style="top:30px">
-                <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
-                    <a href="#useradd-1" class="list-group-item list-group-item-action">
-                        <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
-                        <span class="dash-mtext"><?php echo e(__('Create Billing')); ?> </span></a>
-                </div>
-            </div>
-        </div>
-        <div id="page-content-wrapper">
-            <div class="container-fluid xyz">
-                <div class="row">
-                    <div class="col-lg-12">
-                    <?php echo e(Form::open(array('url'=>'billing','method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))); ?>
+[
+'venue_rental' => 'Venue',
+'hotel_rooms'=>'Hotel Rooms',
+'equipment'=>'Tent, Tables, Chairs, AV Equipment',
+'setup' =>'Setup',
+'bar_package'=>'Bar Package',
+'special_req' =>'Special Requests/Other',
+'food_package'=>'Food Package',
+'additional_items' =>'Additional Items'
+];
+$meetingData = [
+'venue_rental' => $event->venue_selection,
+'hotel_rooms'=>$event->room,
+'equipment' =>$event->spcl_request,
+'bar_package' => $event->bar . ((isset($event->bar_package) && !empty($event->bar_package)) ? ('(' . $event->bar_package . ')') : ''),
+'food_package' => ((isset($event->func_package) && !empty($event->func_package)) ? ( $event->func_package ) : ''),
+'additional_items' => $event->ad_opts,
+'setup' =>''
+];
+// Split the 'food_package' string into an array of items
+$foodItems = explode(',', $meetingData['food_package']);
 
-                    <div class = "col-md-12" id = "useradd-1" >
-                        <div class="form-group">
-                            <label class="form-label">Select Customer :</label>
-                            <select class="form-select" id = "userinfo" name = "event" required>
-                                <option value= '-1' disabled selected>Select Customer</option>
-                                <?php $__currentLoopData = $meeting; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $meet): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <option value="<?php echo e($meet->id); ?>"><?php echo e($meet->name); ?> (Event- <?php echo e($meet->type); ?>)</option>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                            </select>
-                        </div>
-                    </div>
-               
-                    <div class = "col-md-12">
-                        <div class = "form-group">
-                        <label>No. of Guests : </label>
-                        <input type ="text"  value = "" readonly name ="guestcount" style = "border:none" >
-                    </div>                  
-               
-                    <div class="col-md-12">
-                            <div class="form-group">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th><?php echo e(__('Description')); ?> </th>
-                                            <th><?php echo e(__('Cost')); ?> </th>
-                                            <th><?php echo e(__('Quantity')); ?> </th>
-                                            <th><?php echo e(__('Notes')); ?> </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php $__currentLoopData = $labels; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $label): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <tr>
-                                                <td><?php echo e(ucfirst($label)); ?></td>
-                                                <td>
-                                                <input type = "text" name ="billing[<?php echo e($key); ?>][cost]" value="$<?php echo e($billing->$key); ?>" class= "form-control" readonly></td>
-                                                <td> 
-                                                <input type = "number" name ="billing[<?php echo e($key); ?>][quantity]" min = '0' class= "form-control" required>
-                                                </td>
-                                                <td><input type = "text" name ="billing[<?php echo e($key); ?>][notes]" class= "form-control"></td> 
-                                            </tr>
-                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                    </tbody>
-                                </table>
-                                <div class= "form-group">
-                                <label class = "form-label"> Deposit on file: </label>
-                                <input type = "number" name = "deposits" min = '0'  class= "form-control" required>
-                                </div>
-                        </div>
-                    </div>
-                <?php echo e(Form::submit(__('Save'),array('class'=>'btn btn-primary '))); ?>
+// Initialize the total cost
+$totalFoodPackageCost = 0;
+if(isset($billings) && !empty($billings)){
+// Check dynamically for each item in 'food_package'
+    foreach ($foodItems as $foodItem) {
+        // Remove any extra spaces
+        $foodItem = trim($foodItem);
 
-                <?php echo e(Form::close()); ?>    
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> 
-<?php $__env->stopSection(); ?>
-<?php $__env->startPush('script-page'); ?>
-<script>
-    $('select[name= "event"]').on('change', function() {
-        var id = this.value ;
-        $.ajax({
-            url: "<?php echo e(route('billing.eventdetail')); ?>",
-            type: 'POST',
-            data: {
-                "id": id,
-                "_token": "<?php echo e(csrf_token()); ?>",
-            },
-            success: function(data) {
-                $('input[name ="guestcount"]').val(data[0].guest_count);
-                $('input[name ="billing[venue_rental][notes]"]').val(data[0].venue_selection);
-                $('input[name ="billing[hotel_rooms][quantity]"]').val(data[0].room);
-                $('input[name ="billing[gold_2hrs][notes]"]').val(data[0].bar);
-                $('input[name ="billing[special_req][notes]"]').val(data[0].spcl_request);
-                $('input[name ="billing[classic_brunch][notes]"]').val(data[0].function +','+ data[0].func_package);
-                $('input[name ="billing[hotel_rooms][quantity]"]').attr('readonly', true);
-                $('input[name ="billing[venue_rental][notes]"]').attr('readonly', true);
-                $('input[name ="billing[gold_2hrs][notes]"]').attr('readonly', true);
-                $('input[name ="billing[classic_brunch][notes]"]').attr('readonly', true);
+        // Check if the item exists in the billingObject and has a cost
+        foreach ($billings as $category => $categoryItems) {
+            if (is_array($categoryItems) && isset($categoryItems[$foodItem])) {
+                $totalFoodPackageCost += $categoryItems[$foodItem];
+                break; // Break out of the inner loop once a match is found
             }
-        });          
-    });
-</script>
-<?php $__env->stopPush(); ?>
-<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/crmcentraverse/public_html/centraverse/resources/views/billing/create.blade.php ENDPATH**/ ?>
+        }
+    }
+    $meetingData['food_package_cost'] = $totalFoodPackageCost;
+}
+$additionalItemsCost = 0;
+if(isset($billings) && !empty($billings)){
+foreach ($additional_items as $item) {
+    foreach ($item as $itemName => $itemCost) {
+        if (in_array($itemName, explode(',', $meetingData['additional_items']))) {
+            $additionalItemsCost += $itemCost;
+        }
+    }
+}
+$meetingData['additional_items_cost'] = $additionalItemsCost;
+}
+// Get the value for 'Patio' from the 'venue' array
+$subcategories = array_map('trim', explode(',', $meetingData['venue_rental']));
+$venueRentalCost = 0;
+foreach ($subcategories as $subcategory) {
+    $venueRentalCost += $billings['venue'][$subcategory] ?? 0;
+}
+
+$meetingData['venue_rental_cost'] = $venueRentalCost;
+$meetingData['hotel_rooms_cost'] = $billings['hotel_rooms'] ?? '';
+$meetingData['equipment_cost'] = $billings['equipment'] ?? '';
+$meetingData['bar_package_cost'] = 8;
+$meetingData['food_package_cost'] = $totalFoodPackageCost;
+$meetingData['additional_items_cost'] = $additionalItemsCost ;
+$meetingData['special_req_cost'] =  $billings['special_req'] ?? '';
+$meetingData['setup_cost'] = '';
+?>
+<?php echo e(Form::open(array('route' => ['billing.addbilling', $id],'method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))); ?>
+
+<div class="col-md-12">
+    <div class="form-group">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th><?php echo e(__('Description')); ?> </th>
+                    <th><?php echo e(__('Cost(per person)')); ?> </th>
+                    <th><?php echo e(__('Quantity')); ?> </th>
+                    <th><?php echo e(__('Notes')); ?> </th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php $__currentLoopData = $labels; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $label): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <tr>
+                    <td><?php echo e(ucfirst($label)); ?></td>
+                    <td>
+                        <input type="text" name="billing[<?php echo e($key); ?>][cost]" value="$<?php echo e(isset($meetingData[$key.'_cost']) ? $meetingData[$key.'_cost'] : ''); ?>" class="form-control">
+                    </td>
+                    <td>
+                        <input type="number" name="billing[<?php echo e($key); ?>][quantity]" min='0' class="form-control" value="<?php echo e($meetingData[$key] ?? ''); ?>" required>
+                    </td>
+                    <td>
+                        <input type="text" name="billing[<?php echo e($key); ?>][notes]" class="form-control" value="<?php echo e(($key !== 'hotel_rooms') ? $meetingData[$key] ?? '' : ''); ?>">
+                    </td>
+                </tr>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label"> Deposit on file: </label>
+        <input type="number" name="deposits" min='0' class="form-control" required>
+    </div>
+</div>
+<?php echo e(Form::submit(__('Save'),array('class'=>'btn btn-primary '))); ?>
+
+<?php echo e(Form::close()); ?>    
+<style>
+    .modal-dialog.modal-md {
+        max-width: max-content;
+    }
+</style><?php /**PATH /home/crmcentraverse/public_html/centraverse/resources/views/billing/create.blade.php ENDPATH**/ ?>

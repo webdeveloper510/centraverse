@@ -44,33 +44,25 @@ class BillingController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create($type,$id)
     {
         if (\Auth::user()->type == 'owner') {
-            $meeting    = Meeting::get();
-            $billing = Billing::first();
-            return view('billing.create', compact('billing', 'meeting'));
+            $event = Meeting::find($id);
+            return view('billing.create', compact('type','id','event'));
         }
     }
     public function createbill($type,$id){
-        $event = Meeting::find($id);
+      
         return view('billing.a',compact('type','id','event'));
-        // $meeting    = Meeting::get();
-        // $billing = Billing::first();
-        // return view('billing.create', compact('billing', 'meeting'));
-        // if (\Auth::user()->type == 'owner') {
-            // $meeting    = Meeting::get();
-            // $billing = Billing::first();
-            // return view('billing.a');
-        // }
     }
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request ,$id)
     {
-        // echo "<pre>";
-        // print_r($request->all());
+        return redirect()->back()->with('success', __('Billing Created'));
+        echo "<pre>";
+        print_r(json_encode($request->billing));die;
         // $validator = \Validator::make(
         //     $request->all(),
         //     [
@@ -278,5 +270,4 @@ class BillingController extends Controller
         Billingdetail::where('event_id', $event_id)->update(['status' => 2]);
         return view('calendar.welcome');
     }
-
 }
