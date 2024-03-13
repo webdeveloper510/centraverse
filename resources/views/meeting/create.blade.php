@@ -540,17 +540,148 @@ $beer = ['Beer & Wine - 4 Hours', 'Beer & Wine - 3 Hours', 'Beer & Wine - 2 Hour
 @endsection
 @push('script-page')
 <script>
-    $('input[name="newevent"]').on('click', function() {
-        $('#lead_select').hide();
-        $('#new_event').hide();
-        $('#event_option').show();
-        var selectedValue = $(this).val();
-        if (selectedValue == 'Existing Lead') {
-            $('#lead_select').show();
-        } else {
-            $('#new_event').show();
-            $('input#resetForm').trigger('click');
+    document.addEventListener('DOMContentLoaded', async function() {
+        try {
+            const getSessionStorage = () => {
+                return new Promise((resolve, reject) => {
+                    try {
+                        const storedSessionData = window.sessionStorage.getItem("selectedDate");
+                        resolve(storedSessionData);
+                    } catch (error) {
+                        reject(error);
+                    }
+                });
+            };
+            const storedSessionData = await getSessionStorage();
+            if (storedSessionData) {
+                console.log(`sessionStorage: ${storedSessionData}`);
+                document.getElementById('newevent').click();
+                const startDateInput = document.getElementById('start_date');
+                if (startDateInput) {
+                    startDateInput.setAttribute('value', storedSessionData);
+                    startDateInput.value = storedSessionData;
+                    console.log("Value set successfully.");
+                } else {
+                    console.error("Element with ID 'start_date' not found.");
+                }
+            } else {
+                console.log("No sessionStorage data found.");
+            }
+        } catch (error) {
+            console.error("Error occurred while retrieving sessionStorage:", error);
         }
+    });
+</script>
+<script>
+   
+    $(document).ready(function() {
+        $('input[name=newevent]').prop('checked',false);
+        $('input[name="newevent"]').on('click', function() {
+            $('#lead_select').hide();
+            $('#new_event').hide();
+            $('#event_option').show();
+            var selectedValue = $(this).val();
+            if (selectedValue == 'Existing Lead') {
+                $('#lead_select').show();
+            } else {
+                $('#new_event').show();
+                $('input#resetForm').trigger('click');
+            }
+        });
+        $('select[name= "lead"]').on('change', function() {
+            $("input[name='user[]'").prop('checked', false);
+            $("input[name='bar']").prop('checked', false);
+            $("input[name='user[]']").prop('checked', false);
+            $("input[name='venue[]']").prop('checked', false);
+            $("input[name='function[]']").prop('checked', false);
+            $('#breakfast').hide();
+            $('#lunch').hide();
+            $('#dinner').hide();
+            $('#wedding').hide();
+            var venu = this.value;
+            $.ajax({
+                url: "{{ route('meeting.lead') }}",
+                type: 'POST',
+                data: {
+                    "venue": venu,
+                    "_token": "{{ csrf_token() }}",
+                },
+                success: function(data) {
+
+                    venue_str = data.venue_selection;
+                    venue_arr = venue_str.split(",");
+                    func_str = data.function;
+                    func_arr = func_str.split(",");
+                    $('input[name ="company_name"]').val(data.company_name);
+                    $('input[name ="name"]').val(data.name);
+                    $('input[name ="phone"]').val(data.phone);
+                    $('input[name ="relationship"]').val(data.relationship);
+                    $('input[name ="start_date"]').val(data.start_date);
+                    $('input[name ="end_date"]').val(data.end_date);
+                    $('input[name ="start_time"]').val(data.start_time);
+                    $('input[name ="end_time"]').val(data.end_time);
+                    $('input[name ="rooms"]').val(data.rooms);
+                    $('input[name ="email"]').val(data.email);
+                    $('input[name ="lead_address"]').val(data.lead_address);
+                    $("select[name='type'] option[value='" + data.type + "']").prop("selected", true);
+                    $("input[name='bar'][value='" + data.bar + "']").prop('checked', true);
+                    $("input[name='user[]'][value='" + data.assigned_user + "']").prop('checked', true);
+                    $.each(venue_arr, function(i, val) {
+                        $("input[name='venue[]'][value='" + val + "']").prop('checked', true);
+                    });
+
+                    $.each(func_arr, function(i, val) {
+                        $("input[name='function[]'][value='" + val + "']").prop('checked', true);
+                    });
+                    $('input[name ="guest_count"]').val(data.guest_count);
+                    var checkedFunctions = $('input[name="function[]"]:checked').map(function() {
+                        return $(this).val();
+                    }).get();
+                    if (checkedFunctions.includes('Breakfast') || checkedFunctions.includes('Brunch')) {
+                        // console.log("fdsfdsfds")
+                        $('#breakfast').show();
+                    }
+                    if (checkedFunctions.includes('Lunch')) {
+                        $('#lunch').show();
+                    }
+                    if (checkedFunctions.includes('Dinner')) {
+                        $('#dinner').show();
+                    }
+                    if (checkedFunctions.includes('Wedding')) {
+                        $('#wedding').show();
+                    }
+                }
+            });
+        });
+        $('input[name= "function[]"]').on('change', function() {
+            $('#breakfast').hide();
+            $('#lunch').hide();
+            $('#dinner').hide();
+            $('#wedding').hide();
+            var checkedFunctions = $('input[name="function[]"]:checked').map(function() {
+                return $(this).val();
+            }).get();
+            console.log(checkedFunctions);
+            if (checkedFunctions.includes('Breakfast') || checkedFunctions.includes('Brunch')) {
+                $('#breakfast').show();
+            }
+            if (checkedFunctions.includes('Lunch')) {
+                $('#lunch').show();
+            }
+            if (checkedFunctions.includes('Dinner')) {
+                $('#dinner').show();
+            }
+            if (checkedFunctions.includes('Wedding')) {
+                $('#wedding').show();
+            }
+        });
+        $('input[type=radio][name=bar]').change(function() {
+            $('#package').hide();
+            var val = $(this).val();
+            if (val == 'Package Choice') {
+                $('#package').show();
+            }
+        });
     });
     var scrollSpy = new bootstrap.ScrollSpy(document.body, {
         target: '#useradd-sidenav',
@@ -565,102 +696,6 @@ $beer = ['Beer & Wine - 4 Hours', 'Beer & Wine - 3 Hours', 'Beer & Wine - 2 Hour
         }
         event.stopPropagation();
         event.preventDefault();
-    });
-    $(document).ready(function() {
-    $('select[name= "lead"]').on('change', function() {
-        $('#breakfast').hide();
-        $('#lunch').hide();
-        $('#dinner').hide();
-        $('#wedding').hide();
-        var venu = this.value;
-        $.ajax({
-            url: "{{ route('meeting.lead') }}",
-            type: 'POST',
-            data: {
-                "venue": venu,
-                "_token": "{{ csrf_token() }}",
-            },
-            success: function(data) {
-                console.log(data);
-                venue_str = data.venue_selection;
-                venue_arr = venue_str.split(",");
-                func_str = data.function;
-                func_arr = func_str.split(",");
-                $('input[name ="company_name"]').val(data.company_name);
-                $('input[name ="name"]').val(data.name);
-                $('input[name ="phone"]').val(data.phone);
-                $('input[name ="relationship"]').val(data.relationship);
-                $('input[name ="start_date"]').val(data.start_date);
-                $('input[name ="end_date"]').val(data.end_date);
-
-                $('input[name ="start_time"]').val(data.start_time);
-                $('input[name ="end_time"]').val(data.end_time);
-                $('input[name ="rooms"]').val(data.rooms);
-                $('input[name ="email"]').val(data.email);
-                $('input[name ="lead_address"]').val(data.lead_address);
-                $("select[name='type'] option[value='" + data.type + "']").prop("selected", true);
-                $("input[name='bar'][value='" + data.bar + "']").prop('checked', true);
-                // $("select[name='user'] option[value='"+data.assigned_user+"']").prop("selected", true);
-                $("input[name='user[]'][value='" + data.assigned_user + "']").prop('checked', true);
-                $.each(venue_arr, function(i, val) {
-                    $("input[name='venue[]'][value='" + val + "']").prop('checked', true);
-                });
-
-                $.each(func_arr, function(i, val) {
-                    $("input[name='function[]'][value='" + val + "']").prop('checked', true);
-                });
-
-                $('input[name ="guest_count"]').val(data.guest_count);
-
-                var checkedFunctions = $('input[name="function[]"]:checked').map(function() {
-                    return $(this).val();
-                }).get();
-                console.log("check", checkedFunctions);
-
-                if (checkedFunctions.includes('Breakfast') || checkedFunctions.includes('Brunch')) {
-                    // console.log("fdsfdsfds")
-                    $('#breakfast').show();
-                }
-                if (checkedFunctions.includes('Lunch')) {
-                    $('#lunch').show();
-                }
-                if (checkedFunctions.includes('Dinner')) {
-                    $('#dinner').show();
-                }
-                if (checkedFunctions.includes('Wedding')) {
-                    $('#wedding').show();
-                }
-            }
-        });
-    });
-});
-    $('input[name= "function[]"]').on('change', function() {
-        $('#breakfast').hide();
-        $('#lunch').hide();
-        $('#dinner').hide();
-        $('#wedding').hide();
-        var checkedFunctions = $('input[name="function[]"]:checked').map(function() {
-            return $(this).val();
-        }).get();
-        if (checkedFunctions.includes('Breakfast') || checkedFunctions.includes('Brunch')) {
-            $('#breakfast').show();
-        }
-        if (checkedFunctions.includes('Lunch')) {
-            $('#lunch').show();
-        }
-        if (checkedFunctions.includes('Dinner')) {
-            $('#dinner').show();
-        }
-        if (checkedFunctions.includes('Wedding')) {
-            $('#wedding').show();
-        }
-    });
-    $('input[type=radio][name=bar]').change(function() {
-        $('#package').hide();
-        var val = $(this).val();
-        if (val == 'Package Choice') {
-            $('#package').show();
-        }
     });
 </script>
 <script>

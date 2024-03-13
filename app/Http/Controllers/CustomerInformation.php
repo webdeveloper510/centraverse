@@ -10,30 +10,35 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\CampaigntextMail;
 use App\Imports\UsersImport;
+use App\Exports\UsersExport;
 use App\Mail\SendCampaignMail;
 use App\Models\UserImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Campaigndata;
 use Twilio\Rest\Client;
+
 class CustomerInformation extends Controller
 {
-    public function index(){
-       $customers = Lead::all();
-       $emailtemplates = Emailcontent::all();
-       $leadsuser = Lead::all();
-       $users = UserImport::all();
-       $campaign= Campaigndata::all();
-       return view('customer.index',compact('customers','emailtemplates','leadsuser','users','campaign'));
+    public function index()
+    {
+        $customers = Lead::all();
+        $emailtemplates = Emailcontent::all();
+        $leadsuser = Lead::all();
+        $users = UserImport::all();
+        $campaign = Campaigndata::all();
+        return view('customer.index', compact('customers', 'emailtemplates', 'leadsuser', 'users', 'campaign'));
     }
-    public function sendmail(Request $request){
+    public function sendmail(Request $request)
+    {
         $validator = Validator::make(
             $request->all(),
             [
-                'description'=>'required',
+                'description' => 'required',
                 'type' => 'required|max:120',
                 'recipients' => 'required',
                 'title' => 'required',
-            ]);
+            ]
+        );
         if ($validator->fails()) {
             $messages = $validator->getMessageBag();
             return redirect()->back()->with('error', $messages->first());
@@ -41,34 +46,34 @@ class CustomerInformation extends Controller
         $content = $request->content;
         $campaignlist = new Campaigndata();
         $campaignlist['type'] = $request->type;
-        $campaignlist['title'] =$request->title;
-        $campaignlist['recipients'] =$request->recepient_names;
-        $campaignlist['content'] =$content;
-        $campaignlist['template'] =$request->template_html;
+        $campaignlist['title'] = $request->title;
+        $campaignlist['recipients'] = $request->recepient_names;
+        $campaignlist['content'] = $content;
+        $campaignlist['template'] = $request->template_html;
         $campaignlist['description'] = $request->description;
         $campaignlist->save();
 
         $notifyvia = $request->notify[1][0];
         $attachment = $request->file('document');
-        if($attachment){
+        if ($attachment) {
             $attachmentPath = $attachment->store('attachments', 'public');
         }
-        if($notifyvia != "email"){
-            $users = explode(',',$request->recepient_names);
-            foreach($users as $user){
-                $lead = Lead::where('email',$user)->exists();
-                $existinguser = UserImport::where('email',$user)->exists();
-                if($lead){
-                   $user =  Lead::where('email',$user)->pluck('phone');
+        if ($notifyvia != "email") {
+            $users = explode(',', $request->recepient_names);
+            foreach ($users as $user) {
+                $lead = Lead::where('email', $user)->exists();
+                $existinguser = UserImport::where('email', $user)->exists();
+                if ($lead) {
+                    $user =  Lead::where('email', $user)->pluck('phone');
                 }
-                if($existinguser){
-                    $user =   UserImport::where('email',$user)->pluck('phone');
-                }  
+                if ($existinguser) {
+                    $user =   UserImport::where('email', $user)->pluck('phone');
+                }
                 $uArr[] = [
-                    'user' =>$user,
+                    'user' => $user,
                     'content' => $request->content,
-                ];                
-            } 
+                ];
+            }
             $settings = Utility::settings();
             $account_sid = $settings['twilio_sid'];
             $auth_token = $settings['twilio_token'];
@@ -76,22 +81,22 @@ class CustomerInformation extends Controller
             foreach ($uArr as  $value) {
                 try {
                     $client = new Client($account_sid, $auth_token);
-                    $client->messages->create('+91'.$value['user'][0], [
+                    $client->messages->create('+91' . $value['user'][0], [
                         'from' => $twilio_number,
                         'body' => $value['content'],
                     ]);
-                    return redirect()->back()->with('success','Message Sent successfully');
+                    return redirect()->back()->with('success', 'Message Sent successfully');
                 } catch (\Exception $e) {
-                    return redirect()->back()->with('error',"Message couldn't be sent");
+                    return redirect()->back()->with('error', "Message couldn't be sent");
                 }
             }
         }
-       
 
-        $customers = explode(',',$request->recepient_names);
-        $subject= $request->description;
+
+        $customers = explode(',', $request->recepient_names);
+        $subject = $request->description;
         $settings = Utility::settings();
-        foreach($customers as $customer){
+        foreach ($customers as $customer) {
             try {
                 config(
                     [
@@ -104,18 +109,18 @@ class CustomerInformation extends Controller
                         'mail.from.name'    => $settings['mail_from_name'],
                     ]
                 );
-                if(($request->format) && $request->format =='html'){
+                if (($request->format) && $request->format == 'html') {
                     $mail = new SendCampaignMail($campaignlist);
-                   
-                    if ($attachment!== null) {
+
+                    if ($attachment !== null) {
                         $mail->attach($attachmentPath);
                     }
                     Mail::to($customer)->send($mail);
                     // Mail::to($customer)->send(new SendCampaignMail($campaignlist, $attachmentPath));
-                }elseif(($request->format) && $request->format =='text'){
+                } elseif (($request->format) && $request->format == 'text') {
                     Mail::to($customer)->send(new CampaigntextMail($content));
                 }
-                return redirect()->back()->with('success','Email Sent Successfully');
+                return redirect()->back()->with('success', 'Email Sent Successfully');
             } catch (\Exception $e) {
                 return response()->json(
                     [
@@ -126,71 +131,97 @@ class CustomerInformation extends Controller
                 //   return redirect()->back()->with('error', 'Email Not Sent');
             }
         }
-        return redirect()->back()->with('success','Campaign  Sent Successfully');
+        return redirect()->back()->with('success', 'Campaign  Sent Successfully');
     }
-    public function campaigntype(Request $request){
+    public function campaigntype(Request $request)
+    {
         $type = $request->type;
-        $settings=  Utility::settings();
-        $campaign = explode(',',$settings['campaign_type']);
-        $filteredArray = array_filter($campaign, function($item) use ($type) {
+        $settings =  Utility::settings();
+        $campaign = explode(',', $settings['campaign_type']);
+        $filteredArray = array_filter($campaign, function ($item) use ($type) {
             return stripos($item, $type) !== false;
         });
         return $filteredArray;
     }
-    public function existinguserlist(){
+    public function existinguserlist()
+    {
         $leadsuser = Lead::all();
-        return view('customer.existingleads',compact('leadsuser'));
+        return view('customer.existingleads', compact('leadsuser'));
     }
-    public function addusers(){
+    public function addusers()
+    {
         $users = UserImport::all();
-        return view('customer.new_user',compact('users'));
+        return view('customer.new_user', compact('users'));
     }
-    public function uploaduserlist(){
+    public function uploaduserlist()
+    {
         return view('customer.uploaduserinfo');
     }
-    public function importuser(Request $request) 
+    public function exportuser(Request $request)
     {
-        $category = [
-            'category' => $request->input('category'),
-        ];
-        Excel::import(new UsersImport($category),request()->file('users'));
-        return redirect()->back()->with('success', 'Data  imported successfully');
-
+        return Excel::download(new UsersExport, 'users.xlsx');
     }
-    public function mailformatting(){
+    public function importuser(Request $request)
+    {
+        if ($request->customerType == 'uploadFile') {
+            $category = [
+                'category' => $request->input('category'),
+            ];
+            Excel::import(new UsersImport($category), request()->file('users'));
+            return redirect()->back()->with('success', 'Data  imported successfully');
+        } elseif ($request->customerType == 'addForm') {
+            $UsersImports = new UserImport();
+            $UsersImports->name = $request->name;
+            $UsersImports->phone = $request->phone;
+            $UsersImports->email = $request->email;
+            $UsersImports->address = $request->address;
+            $UsersImports->organization = $request->organization;
+            $UsersImports->category = $request->category;
+            $UsersImports->save();
+            return redirect()->back()->with('success', 'Insert successfully');
+        }
+    }
+    public function mailformatting()
+    {
         return view('customer.editor');
     }
-    public function textmailformatting(){
+    public function textmailformatting()
+    {
         return view('customer.textmail');
     }
-    public function addeduserlist(){
+    public function addeduserlist()
+    {
         $users = UserImport::all();
-        return view('customer.addeduserlist',compact('users'));
+        return view('customer.addeduserlist', compact('users'));
     }
-    public function campaign_categories(Request $request){
+    public function campaign_categories(Request $request)
+    {
         $types = $request->types;
-        if(!empty($types)){
-            foreach($types as $type){
-                $user[] = UserImport::where('category',$type)->get();
+        if (!empty($types)) {
+            foreach ($types as $type) {
+                $user[] = UserImport::where('category', $type)->get();
             }
             return $user;
         }
     }
 
-    public function campaignlisting(){
+    public function campaignlisting()
+    {
         $campaignlist = Campaigndata::all();
-        return view('customer.campaignlist',compact('campaignlist'));
+        return view('customer.campaignlist', compact('campaignlist'));
     }
-    public function contactinfo(Request $request){
-       $user =  UserImport::where('id',$request->customerid)->get();
-       return $user;
+    public function contactinfo(Request $request)
+    {
+        $user =  UserImport::where('id', $request->customerid)->get();
+        return $user;
     }
-    public function resendcampaign(Request $request){
-        $campaign = Campaigndata::where('id',$request->id)->get();
+    public function resendcampaign(Request $request)
+    {
+        $campaign = Campaigndata::where('id', $request->id)->get();
         $settings = Utility::settings();
-        $customers = explode(',',$request->recepient_names);
-        if(!empty($campaign->template)){
-            foreach($customers as $customer){
+        $customers = explode(',', $request->recepient_names);
+        if (!empty($campaign->template)) {
+            foreach ($customers as $customer) {
                 try {
                     config(
                         [
@@ -204,9 +235,8 @@ class CustomerInformation extends Controller
                         ]
                     );
                     // Mail::to($customer)->send(new SendCampaignMail($campaign));
-                   
+
                     return 'Email Sent Successfully';
-        
                 } catch (\Exception $e) {
                     return response()->json(
                         [
@@ -216,38 +246,37 @@ class CustomerInformation extends Controller
                     );
                 }
             }
-        }else{
+        } else {
 
-                foreach($customers as $customer){
-                    $lead = Lead::where('email',$customer)->exists();
-                    $existinguser = UserImport::where('email',$customer)->exists();
-                    if($lead){
-                       $user =  Lead::where('email',$customer)->pluck('phone');
-                    }
-                    if($existinguser){
-                        $user =   UserImport::where('email',$customer)->pluck('phone');
-                    }  
-                    $uArr[] = [
-                        'user' =>$user,
-                        'content' => $request->content,
-                    ];                    
+            foreach ($customers as $customer) {
+                $lead = Lead::where('email', $customer)->exists();
+                $existinguser = UserImport::where('email', $customer)->exists();
+                if ($lead) {
+                    $user =  Lead::where('email', $customer)->pluck('phone');
                 }
-                $account_sid = $settings['twilio_sid'];
-                $auth_token = $settings['twilio_token'];
-                $twilio_number = $settings['twilio_from'];
-                foreach ($uArr as  $value) {
-                    try {
-                        $client = new Client($account_sid, $auth_token);
-                        $client->messages->create('+91'.$value['user'][0], [
-                            'from' => $twilio_number,
-                            'body' => $value['content'],
-                        ]);
-                        return 'Message Sent successfully';
-                    } catch (\Exception $e) {
-                        return "Message couldn't be sent";
-                    }
+                if ($existinguser) {
+                    $user =   UserImport::where('email', $customer)->pluck('phone');
                 }
-            
-        }      
+                $uArr[] = [
+                    'user' => $user,
+                    'content' => $request->content,
+                ];
+            }
+            $account_sid = $settings['twilio_sid'];
+            $auth_token = $settings['twilio_token'];
+            $twilio_number = $settings['twilio_from'];
+            foreach ($uArr as  $value) {
+                try {
+                    $client = new Client($account_sid, $auth_token);
+                    $client->messages->create('+91' . $value['user'][0], [
+                        'from' => $twilio_number,
+                        'body' => $value['content'],
+                    ]);
+                    return 'Message Sent successfully';
+                } catch (\Exception $e) {
+                    return "Message couldn't be sent";
+                }
+            }
+        }
     }
 }

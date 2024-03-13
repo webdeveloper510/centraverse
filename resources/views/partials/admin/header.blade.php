@@ -82,6 +82,13 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                 </a>
                             </li>
                             @endcan
+                            @if(\Auth::user()->type!='super admin')
+                    <li class="dash-item {{ \Request::route()->getName() == 'calendar-new' || \Request::route()->getName() == 'calendernew.index' ? ' active' : '' }}">
+                        <a href="{{ route('calendernew.index') }}" class="dash-link">
+                           <span class="dash-mtext">{{ __('Calendar') }}</span>
+                        </a>
+                    </li>
+                @endif
                             <!-- @can('Manage Contract')
                                 <li class="dash-item  {{ (Request::route()->getName() == 'contract.index' || Request::route()->getName() == 'contract.show') ? 'active' : '' }}">
                                     <a href="{{route('contract.index')}}" class="dash-link"><span class="dash-mtext">{{__('Contracts')}}</span></a>

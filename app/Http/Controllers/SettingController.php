@@ -2020,65 +2020,36 @@ class SettingController extends Controller
         return true;
     }
     public function additional_items(Request $request){
-        $user = \Auth::user();
+  
+    $user = \Auth::user();
         $settings = Utility::settings();
         $created_at = $updated_at = date('Y-m-d H:i:s');
-
-        // $additionalItems = $request->input('additional_items', []);
-        // $additionalItemsCosts = $request->input('additional_items_cost', []);
-    
-        // $itemsWithCosts = [];
-        // foreach ($additionalItems as $key => $item) {
-        //     $cost = isset($additionalItemsCosts[$key]) ? $additionalItemsCosts[$key] : null;
-        //     $itemsWithCosts[$item] = $cost;
-        // }
-        // $data = json_encode($itemsWithCosts);
-        // $existingValue = $settings['additional_items'] ?? '';
-        // $existingArray = json_decode($existingValue, true);
-        // if ($existingArray === null) {
-        //     $existingArray = array();
-        //     }
-
-        // // Append the new data to the existing array
-        // $existingArray[] = json_decode($data, true);
-        // $jsonData = json_encode($existingArray);
-        // echo $jsonData;die;
-        $additionalItems = $request->input('additional_items', []);
-        $additionalItemsCosts = $request->input('additional_items_cost', []);
-        
-        $itemsWithCosts = [];
-        
-        foreach ($additionalItems as $key => $item) {
-            $cost = isset($additionalItemsCosts[$key]) ? $additionalItemsCosts[$key] : null;
-            $itemsWithCosts[$item] = $cost;
+        $settings = Utility::settings();
+        $function = json_decode($settings['function']);
+        $additionalFunction = $function[$request->additional_function]->function;
+        $additionalPackage = $request->additional_package;
+        $additionalItems = [];
+        for ($i = 0; $i < count($request->additional_items); $i++) {
+            $additionalItems[$request->additional_items[$i]] = $request->additional_items_cost[$i];
         }
-        
-        $existingValue = $settings['additional_items'] ?? '';
+
+        $resultArray = [
+            $additionalFunction => [
+                $additionalPackage => $additionalItems
+            ]
+        ];
+                $existingValue = $settings['additional_items'] ?? '';
+        // Decode existing JSON string into an array
         $existingArray = json_decode($existingValue, true);
-        
+
+        // If the existing JSON string is invalid or null, initialize an empty array
         if ($existingArray === null) {
             $existingArray = [];
         }
-        
-        // Update the existing data with the new values
-        foreach ($itemsWithCosts as $item => $cost) {
-            $keyExists = false;
-        
-            foreach ($existingArray as &$existingItem) {
-                if (isset($existingItem[$item])) {
-                    $existingItem[$item] = $cost;
-                    $keyExists = true;
-                    break;
-                }
-            }
-        
-            if (!$keyExists) {
-                // Add a new item if the key doesn't exist
-                $existingArray[] = [$item => $cost];
-            }
-        }
-        
+        // Merge the new data with the existing array
+        $existingArray = array_merge_recursive($existingArray, $resultArray);
         $jsonData = json_encode($existingArray);
+
         if(isset($settings['additional_items']) && !empty($settings['additional_items'])){
             DB::table('settings')
                 ->where('name','additional_items')

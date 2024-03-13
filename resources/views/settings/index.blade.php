@@ -18,7 +18,7 @@ if(!empty($settings['function'])){
 $function =json_decode($settings['function']);
 }
 if(!empty($settings['additional_items'])){
-$additional_items =json_decode($settings['additional_items']);
+$additional_items =json_decode($settings['additional_items'],true);
 }
 if(!empty($settings['barpackage'])){
 $bar =json_decode($settings['barpackage']);
@@ -60,6 +60,23 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
         border: 4px solid #fff;
         filter: drop-shadow(5px 6px 6px #145388);
     } */
+    .popup {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    display: none;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+}
+
+.popup input {
+    width: 100px; /* Adjust the width as needed */
+}
+
+.hidden {
+    display: none;
+}
     ul>li.active {
         border: 4px solid #fff;
         filter: drop-shadow(5px 6px 6px #145388);
@@ -1324,6 +1341,27 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                     @csrf
                                     <div id="additional-items-container">
                                         <div class="row form-group">
+                                            <label for 'additional_function'>Select Package</label>
+
+                                            <div class="col-md-6">
+                                                @if(isset($settings['function']) && !empty($settings['function']))
+                                                <select name="additional_function" id="additional_function" class="form-select">
+                                                    <option value="0" selected disabled>Select Function</option>
+                                                    @foreach($function as $key =>$value)
+                                                    <option value="{{$key}}">{{$value->function}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+
+                                                <select name="additional_package" id="additional_package" class="form-select">
+                                                    <option value="0" selected disabled>Select Package</option>
+                                                </select>
+
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="row form-group">
                                             <div class="col-md-5">
                                                 {{ Form::label('additional_items[]', __('Additional Item ' . $i=1), ['class' => 'form-label']) }}
                                                 {{ Form::text('additional_items[]', null, ['class' => 'form-control', 'placeholder' => __('Enter Additional Item'), 'required' => 'required']) }}
@@ -1345,22 +1383,49 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                 <div class="row mt-3">
                                     <div class="form-group col-md-12">
                                         <label class="form-label">Additional Items</label>
-                                        <div class="badges">
-                                            <ul class="nav nav-tabs tabActive" style="border-bottom:none;">
-                                                @foreach ($additional_items as $key=> $value)
-                                                <li class="badge rounded p-2 m-1 px-3 bg-primary ">
-                                                    @foreach($value as $index=>$val)
-                                                    {{$index}}
+
+                                        <table class="table table-striped table-bordered" style=" border: 1px solid #9b8c8c">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Function</th>
+                                                    <th scope="col">Package</th>
+                                                    <th scope="col">Additional Item</th>
+                                                    <th scope="col">Cost</th>
+                                                    <th scope="col">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    @foreach ($additional_items as $functionName => $packages)
+                                                    @foreach ($packages as $packageName => $items)
+                                                <tr>
+                                                    <td rowspan="{{ count($items) }}">{{ $functionName }}</td>
+                                                    <td rowspan="{{ count($items) }}">{{ $packageName }}</td>
+                                                    @php $firstItem = true; @endphp
+                                                    @foreach ($items as $itemName => $cost)
+                                                    @if (!$firstItem)
+                                                <tr>
+                                                    @endif
+                                                    <td>{{ $itemName }}</td>
+                                                    <td>{{ $cost }}</td>
+                                                    <td>  
+                                                        <button class="edit-cost-btn">Edit</button>
+                                                        <div class="popup" style="display: none;">
+                                                            <input type="text" class="new-cost-input">
+                                                            <button class="save-cost-btn">Save</button>
+                                                        </div>
+                                                    </td>
+                                                    @php $firstItem = false; @endphp
                                                     @endforeach
-                                                    <div class="action-btn  ms-2">
-                                                        <a href="javascript:void(0);" class="mx-3 btn btn-sm  align-items-center text-white bar_show_confirm" data-bs-toggle="tooltip" data-id="{{$key}}" title='Delete' data-url="{{ route('barpackage.setting') }}" data-token="{{ csrf_token() }}">
-                                                            <i class="ti ti-trash"></i>
-                                                        </a>
-                                                    </div>
-                                                </li>
+                                                </tr>
+
                                                 @endforeach
-                                            </ul>
-                                        </div>
+                                                @endforeach
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+
                                     </div>
                                 </div>
                                 @endif
@@ -3518,6 +3583,23 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
 @endsection
 @push('script-page')
 <script>
+    $(document).ready(function() {
+        $('#additional_function').change(function() {
+            var selectedFunction = $(this).val();
+            var packages = []; // Array to store packages corresponding to the selected function
+            var selectedFunctionObj = <?php echo json_encode($function); ?>[selectedFunction];
+            if (selectedFunctionObj) {
+                packages = selectedFunctionObj.package; // Get the packages for the selected function
+            }
+            $('#additional_package').empty();
+            // Populate 'aditional_package' select box with corresponding packages
+            $.each(packages, function(index, package) {
+                $('#additional_package').append('<option value="' + package + '">' + package + '</option>');
+            });
+        });
+    });
+</script>
+<script>
     var additionalItemCount = 2;
 
     function addAdditionalItem() {
@@ -3550,6 +3632,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
         additionalItemCount++;
         container.appendChild(newRow);
     }
+
     function removeAdditionalItem(rowId) {
         var rowToRemove = document.getElementById('additional-row-' + rowId);
         rowToRemove.remove();
@@ -3712,4 +3795,32 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
         });
     });
 </script>
+<script>
+$(document).ready(function() {
+    $('.edit-cost-btn').click(function() {
+        var row = $(this).closest('tr');
+        var cost = row.find('.cost').text();
+        var popup = row.find('.popup');
+        // Show the popup near the cost
+        popup.show();
+        popup.css({
+            top: row.offset().top,
+            left: row.find('.cost').offset().left + row.find('.cost').outerWidth()
+        });
+
+        // Set the current cost value in the popup input
+        popup.find('.new-cost-input').val(cost);
+    });
+
+    $('.save-cost-btn').click(function() {
+        var row = $(this).closest('tr');
+        var newCost = row.find('.new-cost-input').val();
+        alert(newCost);
+        // Send AJAX request to update the cost
+        // Code for AJAX request...
+    });
+});
+</script>
+
+
 @endpush

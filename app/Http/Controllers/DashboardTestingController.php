@@ -31,7 +31,6 @@ class DashboardTestingController extends Controller
 
     public function index()
     {
-        // echo "hello";
         if (\Auth::check()) {
             if (\Auth::user()->type == 'super admin') {
                 $user                       = \Auth::user();

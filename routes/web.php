@@ -16,6 +16,7 @@ use App\Http\Controllers\AccountIndustryController;
 use App\Http\Controllers\AiTemplateController;
 use App\Http\Controllers\AuthorizeController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\CalenderNewController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CustomerInformation;
 use App\Http\Controllers\LeadController;
@@ -420,7 +421,6 @@ Route::group(['middleware' => ['verified']], function () {
           Route::resource('billing',BillingController::class);
           Route::get('billing/create/{type}/{id}',[BillingController::class,'create'])->name('billing.create');
           Route::post('billing/add-data/{id}',[BillingController::class,'store'])->name('billing.addbilling');
-        //   Route::post('billing/estimate-view/{id}',[BillingController::class,'store'])->name('billing.addbilling');
           Route::post('billing/event',[BillingController::class,'get_event_info'])->name('billing.eventdetail');
           Route::post('billing/payment',[BillingController::class,'billpaymenturl'])->name('billing.paymenturl');
           Route::get('billing/estimate-view/{id}',[BillingController::class,'estimationview'])->name('billing.estimateview');
@@ -964,11 +964,11 @@ Route::group(['middleware' => ['verified']], function () {
             Route::get('html-mail',[CustomerInformation::class,'mailformatting'])->name('htmlmail');  
             Route::get('text-mail',[CustomerInformation::class,'textmailformatting'])->name('textmail');  
             Route::post('campaign-category',[CustomerInformation::class,'campaign_categories'])->name('campaign_categories');  
-            // Route::post('save_template',[CustomerInformation::class,'savetemplatedesign'])->name('template-design');  
             Route::get('campaign-list',[CustomerInformation::class,'campaignlisting'])->name('campaign-list');  
             Route::post('contactinfo',[CustomerInformation::class,'contactinfo'])->name('getcontactinfo');  
             Route::post('resend-campaign',[CustomerInformation::class,'resendcampaign'])->name('resend-campaign');
-
+            Route::get('export-user', [CustomerInformation::class, 'exportuser'])->name('exportuser');
+         
         }
     );
     Route::get('/pay/{id}',[AuthorizeController::class,'pay'])->name('pay');
@@ -1212,10 +1212,7 @@ Route::group(['middleware' => ['verified']], function () {
     Route::get('request_send/{id}', [PlanRequestController::class, 'userRequest'])->name('send.request')->middleware(['auth', 'XSS']);
     Route::get('request_response/{id}/{response}', [PlanRequestController::class, 'acceptRequest'])->name('response.request')->middleware(['auth', 'XSS']);
     Route::get('request_response/{id}', [PlanRequestController::class, 'cancelRequest'])->name('request.cancel')->middleware(['auth', 'XSS']);
-
-
-
-
+    
     // ===============================================Import Export=======================================
     Route::get('salesOrder/export', [SalesOrderController::class, 'fileExport'])->name('salesorder.export');
 
@@ -1247,7 +1244,6 @@ Route::group(['middleware' => ['verified']], function () {
      Route::post('setting/delete-bars',[SettingController::class,'delete_bar'])->name('barpackage.setting');
      Route::post('setting/delete-bar-function',[SettingController::class,'delete_bar_package'])->name('baredit.setting');
      Route::post('setting/additional-items',[SettingController::class,'additional_items'])->name('additional.setting');
-
 
 
      
@@ -1364,3 +1360,5 @@ Route::get('/paypal-payment-success',[BillingController::class,'paypalpaymentsuc
 
 // Dashboard Testing route
 Route::get('/dashboard-testing',[DashboardTestingController::class,'index']);
+Route::post('/calender-meeting-data', [CalenderNewController::class, 'get_event_data']);
+Route::get('/calender-new', [CalenderNewController::class, 'index'])->name('calendernew.index');
