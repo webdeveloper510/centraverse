@@ -16,16 +16,6 @@
 <?php $__env->startSection('content'); ?>
 <div class="container-field">
     <div id="wrapper">
-        <div id="sidebar-wrapper">
-            <div class="card sticky-top" style="top:30px">
-                <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
-                    
-                        <a href="<?php echo e(route('campaign-list')); ?>" class="list-group-item list-group-item-action">
-                        <span class="fa-stack fa-lg pull-left"><i class="ti ti-eye"></i></span>
-                        <span class="dash-mtext"><?php echo e(__('View Campaigns')); ?> </span></a>
-                </div>
-            </div>
-        </div>
         <div id="page-content-wrapper">
             <div class="container-fluid xyz">
                 <div class="row">

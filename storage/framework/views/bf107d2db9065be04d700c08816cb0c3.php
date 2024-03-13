@@ -93,7 +93,7 @@ $meetingData['setup_cost'] = '';
                 <tr>
                     <td><?php echo e(ucfirst($label)); ?></td>
                     <td>
-                        <input type="text" name="billing[<?php echo e($key); ?>][cost]" value="$<?php echo e(isset($meetingData[$key.'_cost']) ? $meetingData[$key.'_cost'] : ''); ?>" class="form-control">
+                        <input type="text" name="billing[<?php echo e($key); ?>][cost]" value="$<?php echo e(isset($meetingData[$key.'_cost']) ? $meetingData[$key.'_cost'] : ''); ?>" class="form-control dlr">
                     </td>
                     <td>
                         <input type="number" name="billing[<?php echo e($key); ?>][quantity]" min='0' class="form-control" value="<?php echo e($meetingData[$key] ?? ''); ?>" required>

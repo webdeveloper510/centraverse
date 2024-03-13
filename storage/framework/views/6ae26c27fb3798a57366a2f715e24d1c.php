@@ -386,10 +386,5 @@
             })
         })
     </script>
-<<<<<<< HEAD:storage/framework/views/6ae26c27fb3798a57366a2f715e24d1c.php
-    <?php $__env->stopPush(); ?>
-<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/crmcentraverse/public_html/centraverse/resources/views/home.blade.php ENDPATH**/ ?>
-=======
 <?php $__env->stopPush(); ?>
-<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/home.blade.php ENDPATH**/ ?>
->>>>>>> 40c1574d966bd0d1d52e893442d0ec6176104186:storage/framework/views/0def274d728e2c7c2aae14538cc130ea.php
+<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/crmcentraverse/public_html/centraverse/resources/views/home.blade.php ENDPATH**/ ?>

@@ -42,7 +42,7 @@ unset($__errorArgs, $__bag); ?>
                     </thead>
                     <tbody>
                     <?php
-                    $modules=['Role','User','Lead','Meeting'];
+                    $modules=['Role','User','Lead','Meeting','Campaign','Contract','Payment'];
                     ?>
                     <?php $__currentLoopData = $modules; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $module): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <tr>
