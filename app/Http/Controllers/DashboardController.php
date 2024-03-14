@@ -31,7 +31,6 @@ class DashboardController extends Controller
 
     public function index()
     {
-        // echo "hello";
         if (\Auth::check()) {
             if (\Auth::user()->type == 'super admin') {
                 $user                       = \Auth::user();
@@ -48,14 +47,22 @@ class DashboardController extends Controller
                 $data['totalUser']          = User::where('created_by', \Auth::user()->creatorId())->count();
                 $data['totalAccount']       = Account::where('created_by', \Auth::user()->creatorId())->count();
                 $data['totalContact']       = Contact::where('created_by', \Auth::user()->creatorId())->count();
-                $data['totalLead']          = Lead::where('created_by', \Auth::user()->creatorId())->count();
+                $data['totalLead']          = Lead::where('created_by', \Auth::user()->creatorId())->count();                 
                 $data['totalSalesorder']    = $totalSalesOrder = SalesOrder::where('created_by', \Auth::user()->creatorId())->count();
                 $data['totalInvoice']       = $totalInvoice = Invoice::where('created_by', \Auth::user()->creatorId())->count();
                 $data['totalQuote']         = $totalQuote = Quote::where('created_by', \Auth::user()->creatorId())->count();
                 $data['totalOpportunities'] = Opportunities::where('created_by', \Auth::user()->creatorId())->count();
                 $data['totalProduct']       = Product::where('created_by', \Auth::user()->creatorId())->count();
                 $data['invoiceColor']       = Invoice::$statuesColor;
+
                 $date = today()->format('Y-m-d');
+
+                $activeLeads = Lead::where('created_by', \Auth::user()->creatorId())->
+                where('start_date', '>=', $date)->get();
+                $lostLeads = Lead::where('proposal_status', '==',3)->take(4)->get(); 
+                $activeEvent = Meeting::where('start_date', '>=', $date)->take(4)->get();
+                $pastEvents = Meeting::where('start_date', '<', $date)->take(4)->get();
+
                 $upcoming = Meeting::where('start_date', '>=', $date)->get()->count();
                 $completed = Meeting::where('start_date', '<', $date)->get()->count();
                 $totalevent = Meeting::all()->count();
@@ -123,7 +130,7 @@ class DashboardController extends Controller
                 } else {
                     $storage_limit = 0;
                 }
-                return view('home', compact('venue_dropdown','blockeddate','data','users','plan','storage_limit','upcoming','completed','totalevent'));
+                return view('home', compact('venue_dropdown','blockeddate','data','users','plan','storage_limit','upcoming','completed','totalevent','activeLeads', 'lostLeads', 'activeEvent', 'pastEvents'));
             }
         } else {
 
@@ -135,6 +142,109 @@ class DashboardController extends Controller
                     return redirect('login');
             }
         }
+        // if (\Auth::check()) {
+        //     if (\Auth::user()->type == 'super admin') {
+        //         $user                       = \Auth::user();
+        //         $user['total_user']         = $user->countCompany();
+        //         $user['total_paid_user']    = $user->countPaidCompany();
+        //         $user['total_orders']       = Order::total_orders();
+        //         $user['total_orders_price'] = Order::total_orders_price();
+        //         $user['total_plan']         = Plan::total_plan();
+        //         $user['most_purchese_plan'] = (!empty(Plan::most_purchese_plan()) ? Plan::most_purchese_plan()->name : '-');
+        //         $chartData                  = $this->getOrderChart(['duration' => 'week']);
+
+        //         return view('super_admin', compact('user', 'chartData'));
+        //     } else {
+        //         $data['totalUser']          = User::where('created_by', \Auth::user()->creatorId())->count();
+        //         $data['totalAccount']       = Account::where('created_by', \Auth::user()->creatorId())->count();
+        //         $data['totalContact']       = Contact::where('created_by', \Auth::user()->creatorId())->count();
+        //         $data['totalLead']          = Lead::where('created_by', \Auth::user()->creatorId())->count();
+        //         $data['totalSalesorder']    = $totalSalesOrder = SalesOrder::where('created_by', \Auth::user()->creatorId())->count();
+        //         $data['totalInvoice']       = $totalInvoice = Invoice::where('created_by', \Auth::user()->creatorId())->count();
+        //         $data['totalQuote']         = $totalQuote = Quote::where('created_by', \Auth::user()->creatorId())->count();
+        //         $data['totalOpportunities'] = Opportunities::where('created_by', \Auth::user()->creatorId())->count();
+        //         $data['totalProduct']       = Product::where('created_by', \Auth::user()->creatorId())->count();
+        //         $data['invoiceColor']       = Invoice::$statuesColor;
+        //         $date = today()->format('Y-m-d');
+        //         $upcoming = Meeting::where('start_date', '>=', $date)->get()->count();
+        //         $completed = Meeting::where('start_date', '<', $date)->get()->count();
+        //         $totalevent = Meeting::all()->count();
+        //         $blockeddate = Blockdate::all();
+        //         $settings = Utility::settings();
+        //         $venue = $settings['venue'];
+        //         $venue_dropdown = explode(",",$venue);                          
+        //         $statuss  = Invoice::$status;
+        //         $invoices = [];
+        //         foreach ($statuss as $id => $status) {
+        //             $invoice                   = $total = Invoice::where('status', $id)->where('created_by', \Auth::user()->creatorId())->count();
+        //             $percentage                = ($totalInvoice != 0) ? ($total * 100) / $totalInvoice : '0';
+        //             $invoicedata['percentage'] = number_format($percentage, 2);
+        //             $invoicedata['data']       = $invoice;
+        //             $invoicedata['status']     = $status;
+        //             $invoices[]                = $invoicedata;
+        //         }
+
+        //         $data['invoice'] = $invoices;
+
+        //         $statuss = Quote::$status;
+        //         $quotes  = [];
+        //         foreach ($statuss as $id => $status) {
+        //             $quote = $total = Quote::where('status', $id)->where('created_by', \Auth::user()->creatorId())->count();
+
+        //             $percentage              = ($totalQuote != 0) ? ($total * 100) / $totalQuote : '0';
+        //             $quotedata['percentage'] = number_format($percentage, 2);
+        //             $quotedata['data']       = $quote;
+        //             $quotedata['status']     = $status;
+        //             $quotes[]                = $quotedata;
+        //         }
+        //         $data['quote'] = $quotes;
+
+
+        //         $statuss     = SalesOrder::$status;
+        //         $salesOrders = [];
+        //         foreach ($statuss as $id => $status) {
+        //             $salesorder                   = SalesOrder::where('status', $id)->where('created_by', \Auth::user()->creatorId())->count();
+        //             $percentage                   = ($totalSalesOrder != 0) ? ($total * 100) / $totalSalesOrder : '0';
+        //             $salesorderdata['percentage'] = number_format($percentage, 2);
+        //             $salesorderdata['data']       = $salesorder;
+        //             $salesorderdata['status']     = $status;
+        //             $salesOrders[]                = $salesorderdata;
+        //         }
+        //         $data['salesOrder'] = $salesOrders;
+
+        //         $data['lineChartData'] = \Auth::user()->getIncExpLineChartDate();
+
+        //         $data['calendar'] = $this->calendarData();
+
+        //         $data['topDueTask']         = Task::select('*')->where('created_by', \Auth::user()->creatorId())->where('due_date', '<', date('Y-m-d'))->limit(5)->get();
+        //         $data['topMeeting']         = Meeting::where('created_by', \Auth::user()->creatorId())->where('start_date', '>', date('Y-m-d'))->limit(5)->get();
+        //         $data['thisMonthCall']      = Call::whereBetween(
+        //             'start_date',
+        //             [
+        //                 Carbon::now()->startOfMonth(),
+        //                 Carbon::now()->endOfMonth(),
+        //             ]
+        //         )->where('created_by', \Auth::user()->creatorId())->limit(5)->get();
+
+        //         $users = User::find(\Auth::user()->creatorId());
+        //         $plan = Plan::find($users->plan);
+        //         if ($plan->storage_limit > 0) {
+        //             $storage_limit = ($users->storage_limit / $plan->storage_limit) * 100;
+        //         } else {
+        //             $storage_limit = 0;
+        //         }
+        //         return view('home', compact('venue_dropdown','blockeddate','data','users','plan','storage_limit','upcoming','completed','totalevent'));
+        //     }
+        // } else {
+
+        //     if (!file_exists(storage_path() . "/installed")) {
+        //         header('location:install');
+        //         die;
+        //     } else {    
+        //         $settings = Utility::settings();
+        //             return redirect('login');
+        //     }
+        // }
     }
     public function getOrderChart($arrParam)
     {

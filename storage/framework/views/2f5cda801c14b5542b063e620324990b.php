@@ -17,7 +17,7 @@ if(!empty($settings['function'])){
 $function =json_decode($settings['function']);
 }
 if(!empty($settings['additional_items'])){
-$additional_items =json_decode($settings['additional_items']);
+$additional_items =json_decode($settings['additional_items'],true);
 }
 if(!empty($settings['barpackage'])){
 $bar =json_decode($settings['barpackage']);
@@ -59,6 +59,23 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
         border: 4px solid #fff;
         filter: drop-shadow(5px 6px 6px #145388);
     } */
+    .popup {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    display: none;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+}
+
+.popup input {
+    width: 100px; /* Adjust the width as needed */
+}
+
+.hidden {
+    display: none;
+}
     ul>li.active {
         border: 4px solid #fff;
         filter: drop-shadow(5px 6px 6px #145388);
@@ -1415,6 +1432,27 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                     <?php echo csrf_field(); ?>
                                     <div id="additional-items-container">
                                         <div class="row form-group">
+                                            <label for 'additional_function'>Select Package</label>
+
+                                            <div class="col-md-6">
+                                                <?php if(isset($settings['function']) && !empty($settings['function'])): ?>
+                                                <select name="additional_function" id="additional_function" class="form-select">
+                                                    <option value="0" selected disabled>Select Function</option>
+                                                    <?php $__currentLoopData = $function; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key =>$value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <option value="<?php echo e($key); ?>"><?php echo e($value->function); ?></option>
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+
+                                                <select name="additional_package" id="additional_package" class="form-select">
+                                                    <option value="0" selected disabled>Select Package</option>
+                                                </select>
+
+                                                <?php endif; ?>
+                                            </div>
+                                        </div>
+                                        <div class="row form-group">
                                             <div class="col-md-5">
                                                 <?php echo e(Form::label('additional_items[]', __('Additional Item ' . $i=1), ['class' => 'form-label'])); ?>
 
@@ -1441,23 +1479,49 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                 <div class="row mt-3">
                                     <div class="form-group col-md-12">
                                         <label class="form-label">Additional Items</label>
-                                        <div class="badges">
-                                            <ul class="nav nav-tabs tabActive" style="border-bottom:none;">
-                                                <?php $__currentLoopData = $additional_items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                <li class="badge rounded p-2 m-1 px-3 bg-primary ">
-                                                    <?php $__currentLoopData = $value; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index=>$val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                    <?php echo e($index); ?>
 
+                                        <table class="table table-striped table-bordered" style=" border: 1px solid #9b8c8c">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Function</th>
+                                                    <th scope="col">Package</th>
+                                                    <th scope="col">Additional Item</th>
+                                                    <th scope="col">Cost</th>
+                                                    <th scope="col">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <?php $__currentLoopData = $additional_items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $functionName => $packages): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <?php $__currentLoopData = $packages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $packageName => $items): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <tr>
+                                                    <td rowspan="<?php echo e(count($items)); ?>"><?php echo e($functionName); ?></td>
+                                                    <td rowspan="<?php echo e(count($items)); ?>"><?php echo e($packageName); ?></td>
+                                                    <?php $firstItem = true; ?>
+                                                    <?php $__currentLoopData = $items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $itemName => $cost): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <?php if(!$firstItem): ?>
+                                                <tr>
+                                                    <?php endif; ?>
+                                                    <td><?php echo e($itemName); ?></td>
+                                                    <td><?php echo e($cost); ?></td>
+                                                    <td>  
+                                                        <button class="edit-cost-btn">Edit</button>
+                                                        <div class="popup" style="display: none;">
+                                                            <input type="text" class="new-cost-input">
+                                                            <button class="save-cost-btn">Save</button>
+                                                        </div>
+                                                    </td>
+                                                    <?php $firstItem = false; ?>
                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                    <div class="action-btn  ms-2">
-                                                        <a href="javascript:void(0);" class="mx-3 btn btn-sm  align-items-center text-white bar_show_confirm" data-bs-toggle="tooltip" data-id="<?php echo e($key); ?>" title='Delete' data-url="<?php echo e(route('barpackage.setting')); ?>" data-token="<?php echo e(csrf_token()); ?>">
-                                                            <i class="ti ti-trash"></i>
-                                                        </a>
-                                                    </div>
-                                                </li>
+                                                </tr>
+
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                            </ul>
-                                        </div>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+
                                     </div>
                                 </div>
                                 <?php endif; ?>
@@ -3771,6 +3835,23 @@ unset($__errorArgs, $__bag); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script-page'); ?>
 <script>
+    $(document).ready(function() {
+        $('#additional_function').change(function() {
+            var selectedFunction = $(this).val();
+            var packages = []; // Array to store packages corresponding to the selected function
+            var selectedFunctionObj = <?php echo json_encode($function); ?>[selectedFunction];
+            if (selectedFunctionObj) {
+                packages = selectedFunctionObj.package; // Get the packages for the selected function
+            }
+            $('#additional_package').empty();
+            // Populate 'aditional_package' select box with corresponding packages
+            $.each(packages, function(index, package) {
+                $('#additional_package').append('<option value="' + package + '">' + package + '</option>');
+            });
+        });
+    });
+</script>
+<script>
     var additionalItemCount = 2;
 
     function addAdditionalItem() {
@@ -3803,6 +3884,7 @@ unset($__errorArgs, $__bag); ?>
         additionalItemCount++;
         container.appendChild(newRow);
     }
+
     function removeAdditionalItem(rowId) {
         var rowToRemove = document.getElementById('additional-row-' + rowId);
         rowToRemove.remove();
@@ -3965,5 +4047,33 @@ unset($__errorArgs, $__bag); ?>
         });
     });
 </script>
+<script>
+$(document).ready(function() {
+    $('.edit-cost-btn').click(function() {
+        var row = $(this).closest('tr');
+        var cost = row.find('.cost').text();
+        var popup = row.find('.popup');
+        // Show the popup near the cost
+        popup.show();
+        popup.css({
+            top: row.offset().top,
+            left: row.find('.cost').offset().left + row.find('.cost').outerWidth()
+        });
+
+        // Set the current cost value in the popup input
+        popup.find('.new-cost-input').val(cost);
+    });
+
+    $('.save-cost-btn').click(function() {
+        var row = $(this).closest('tr');
+        var newCost = row.find('.new-cost-input').val();
+        alert(newCost);
+        // Send AJAX request to update the cost
+        // Code for AJAX request...
+    });
+});
+</script>
+
+
 <?php $__env->stopPush(); ?>
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/crmcentraverse/public_html/centraverse/resources/views/settings/index.blade.php ENDPATH**/ ?>

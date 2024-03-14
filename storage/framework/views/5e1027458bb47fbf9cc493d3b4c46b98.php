@@ -14,11 +14,14 @@
 <a href="#" data-url="<?php echo e(route('uploadusersinfo')); ?>" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('Upload User')); ?>" title="<?php echo e(__('Upload')); ?>" class="btn btn-sm btn-primary btn-icon m-1">
     <i class="ti ti-plus"></i>
 </a>
+<a href="<?php echo e(route('exportuser')); ?>" data-bs-toggle="tooltip" data-title="<?php echo e(__('Export User')); ?>" title="<?php echo e(__('Export')); ?>" class="btn btn-sm btn-primary btn-icon m-1">
+    <i class="ti ti-table-export"></i>
+</a>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 <div class="container-field">
     <div id="wrapper">
-       
+
         <div id="page-content-wrapper">
             <div class="container-fluid xyz">
                 <div class="row">
@@ -47,11 +50,11 @@
                                                 <td><span><?php echo e(ucfirst($user->category)); ?></span></td>
                                                 <td><span><?php echo e(ucfirst($user->address)); ?></span></td>
                                                 <td><span><?php echo e(ucfirst($user->organization)); ?></span></td>
-                                                <td>  
+                                                <td>
                                                     <div class="action-btn bg-info ms-2">
-                                                        <a href="#" data-url="<?php echo e(route('lead.create',['lead',0])); ?>"class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " id ="<?php echo e($user->id); ?>"  onclick="storeIdInLocalStorage(this)"data-bs-toggle="tooltip" title="<?php echo e(__('Convert Lead')); ?>"  data-ajax-popup="true" data-title="<?php echo e(__('Create Lead')); ?>"><i class="fas fa-exchange-alt"></i></a>
+                                                        <a href="#" data-url="<?php echo e(route('lead.create',['lead',0])); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " id="<?php echo e($user->id); ?>" onclick="storeIdInLocalStorage(this)" data-bs-toggle="tooltip" title="<?php echo e(__('Convert Lead')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('Create Lead')); ?>"><i class="fas fa-exchange-alt"></i></a>
                                                     </div>
-                                                </td>                                            
+                                                </td>
                                             </tr>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tbody>

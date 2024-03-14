@@ -82,6 +82,13 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                 </a>
                             </li>
                             <?php endif; ?>
+                            <?php if(\Auth::user()->type!='super admin'): ?>
+                    <li class="dash-item <?php echo e(\Request::route()->getName() == 'calendar-new' || \Request::route()->getName() == 'calendernew.index' ? ' active' : ''); ?>">
+                        <a href="<?php echo e(route('calendernew.index')); ?>" class="dash-link">
+                           <span class="dash-mtext"><?php echo e(__('Calendar')); ?></span>
+                        </a>
+                    </li>
+                <?php endif; ?>
                             <!-- <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Contract')): ?>
                                 <li class="dash-item  <?php echo e((Request::route()->getName() == 'contract.index' || Request::route()->getName() == 'contract.show') ? 'active' : ''); ?>">
                                     <a href="<?php echo e(route('contract.index')); ?>" class="dash-link"><span class="dash-mtext"><?php echo e(__('Contracts')); ?></span></a>
