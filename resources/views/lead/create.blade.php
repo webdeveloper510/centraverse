@@ -78,10 +78,8 @@
             <div class="form-group">
                 {{ Form::label('venue_selection', __('Venue'), ['class' => 'form-label']) }}
                 @foreach($venue as $key => $label)
-                    <div>
                         {{ Form::checkbox('venue[]', $label, false, ['id' => 'venue' . ($key + 1)]) }}
                         {{ Form::label($label, $label) }}
-                    </div>
                 @endforeach  
             </div>
         </div>

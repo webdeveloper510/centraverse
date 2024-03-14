@@ -60,23 +60,101 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
         border: 4px solid #fff;
         filter: drop-shadow(5px 6px 6px #145388);
     } */
-    .popup {
-    position: absolute;
-    top: 0;
-    left: 100%;
-    display: none;
-    padding: 10px;
-    background-color: #fff;
-    border: 1px solid #ccc;
-}
+    /* Popup container */
+    /* .popup {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+    }
 
-.popup input {
-    width: 100px; /* Adjust the width as needed */
-}
+    .popup .popuptext {
+        visibility: hidden;
+        width: 160px;
+        background-color: #555;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 8px 0;
+        position: absolute;
+        z-index: 1;
+        bottom: 125%;
+        left: 50%;
+        margin-left: -80px;
+    }
 
-.hidden {
-    display: none;
-}
+    .popup .popuptext::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: #555 transparent transparent transparent;
+    }
+
+    .popup .show {
+        visibility: visible;
+        -webkit-animation: fadeIn 1s;
+        animation: fadeIn 1s
+    }
+
+    @-webkit-keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    } */
+    /* Style the modal */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    /* Modal Content/Box */
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+    }
+
+    /* Close Button */
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
     ul>li.active {
         border: 4px solid #fff;
         filter: drop-shadow(5px 6px 6px #145388);
@@ -201,7 +279,13 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
 @endpush
 @push('script-page')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
-
+<script>
+    // When the user clicks on <div>, open the popup
+    function myFunction() {
+        var popup = document.getElementById("myPopup");
+        popup.classList.toggle("show");
+    }
+</script>
 <script>
     function check_theme(color_val) {
         $('#theme_color').prop('checked', false);
@@ -1399,21 +1483,20 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                     @foreach ($additional_items as $functionName => $packages)
                                                     @foreach ($packages as $packageName => $items)
                                                 <tr>
-                                                    <td rowspan="{{ count($items) }}">{{ $functionName }}</td>
-                                                    <td rowspan="{{ count($items) }}">{{ $packageName }}</td>
+                                                    <td data-td-data="{{ $functionName }}" rowspan="{{ count($items) }}" class="functionname">{{ $functionName }}</td>
+                                                    <td data-td-data="{{ $packageName }}" rowspan="{{ count($items) }}" class="package">{{ $packageName }}</td>
                                                     @php $firstItem = true; @endphp
                                                     @foreach ($items as $itemName => $cost)
                                                     @if (!$firstItem)
                                                 <tr>
+                                                    <td data-td-data="{{ $functionName }}" style="display: none;"></td>
+                                                    <td data-td-data="{{ $functionName }}" style="display: none;"></td>
                                                     @endif
-                                                    <td>{{ $itemName }}</td>
-                                                    <td>{{ $cost }}</td>
-                                                    <td>  
-                                                        <button class="edit-cost-btn">Edit</button>
-                                                        <div class="popup" style="display: none;">
-                                                            <input type="text" class="new-cost-input">
-                                                            <button class="save-cost-btn">Save</button>
-                                                        </div>
+
+                                                    <td class="item">{{ $itemName }}</td>
+                                                    <td class="cost">{{ $cost }}</td>
+                                                    <td>
+                                                        <button class="btn btn-sm edit-cost-btn bg-info"> <i class="ti ti-edit"></i></button>
                                                     </td>
                                                     @php $firstItem = false; @endphp
                                                     @endforeach
@@ -1936,58 +2019,57 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                 </div> -->
 
                     <!-- <div id="pusher-settings" class="card">
-                                                    <div class="card-header">
-                                                        <h5>{{ __('Pusher Settings') }}</h5>
-                                                        <small class="text-muted">{{ __('Edit your pusher details') }}</small>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        {{ Form::model($settings, ['route' => 'pusher.setting', 'method' => 'post']) }}
-                                                        <div class="row mt-3">
-                                                            <div class="form-group col-md-6">
-                                                                {{ Form::label('pusher_app_id', __('Pusher App Id *'), ['class' => 'form-label']) }}
-                                                                {{ Form::text('pusher_app_id', isset($settings['pusher_app_id']) ? $settings['pusher_app_id'] : '', ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Id', 'required' => 'required']) }}
-                                                                @error('pusher_app_id')
-                                                                    <span class="invalid-pusher_app_id" role="alert">
-                                                                        <strong class="text-danger">{{ $message }}</strong>
-                                                                    </span>
-                                                                @enderror
-                                                            </div>
+                        <div class="card-header">
+                            <h5>{{ __('Pusher Settings') }}</h5>
+                            <small class="text-muted">{{ __('Edit your pusher details') }}</small>
+                        </div>
+                        <div class="card-body">
+                            {{ Form::model($settings, ['route' => 'pusher.setting', 'method' => 'post']) }}
+                            <div class="row mt-3">
+                                <div class="form-group col-md-6">
+                                    {{ Form::label('pusher_app_id', __('Pusher App Id *'), ['class' => 'form-label']) }}
+                                    {{ Form::text('pusher_app_id', isset($settings['pusher_app_id']) ? $settings['pusher_app_id'] : '', ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Id', 'required' => 'required']) }}
+                                    @error('pusher_app_id')
+                                        <span class="invalid-pusher_app_id" role="alert">
+                                            <strong class="text-danger">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
 
-                                                            <div class="form-group col-md-6">
-                                                                {{ Form::label('pusher_app_key', __('Pusher App Key *'), ['class' => 'form-label']) }}
-                                                                {{ Form::text('pusher_app_key', isset($settings['pusher_app_key']) ? $settings['pusher_app_key'] : '', ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Key', 'required' => 'required']) }}
-                                                                @error('pusher_app_key')
-                                                                    <span class="invalid-pusher_app_key" role="alert">
-                                                                        <strong class="text-danger">{{ $message }}</strong>
-                                                                    </span>
-                                                                @enderror
-                                                            </div>
-                                                            <div class="form-group col-md-6">
-                                                                {{ Form::label('pusher_app_secret', __('Pusher App Secret *'), ['class' => 'form-label']) }}
-                                                                {{ Form::text('pusher_app_secret', isset($settings['pusher_app_secret']) ? $settings['pusher_app_secret'] : '', ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Key', 'required' => 'required']) }}
-                                                                @error('pusher_app_secret')
-                                                                    <span class="invalid-pusher_app_secret" role="alert">
-                                                                        <strong class="text-danger">{{ $message }}</strong>
-                                                                    </span>
-                                                                @enderror
-                                                            </div>
-                                                            <div class="form-group col-md-6">
-                                                                {{ Form::label('pusher_app_cluster', __('Pusher App Cluster *'), ['class' => 'form-label']) }}
-                                                                {{ Form::text('pusher_app_cluster', isset($settings['pusher_app_cluster']) ? $settings['pusher_app_cluster'] : '' , ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Cluster', 'required' => 'required']) }}
-                                                                @error('pusher_app_cluster')
-                                                                    <span class="invalid-pusher_app_cluster" role="alert">
-                                                                        <strong class="text-danger">{{ $message }}</strong>
-                                                                    </span>
-                                                                @enderror
-                                                            </div>
-                                                            <div class="text-end">
-                                                                {{ Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary']) }}
-                                                            </div>
-                                                        </div>
-                                                        {{ Form::close() }}
-                                                    </div>
-                                                </div> -->
-
+                                <div class="form-group col-md-6">
+                                    {{ Form::label('pusher_app_key', __('Pusher App Key *'), ['class' => 'form-label']) }}
+                                    {{ Form::text('pusher_app_key', isset($settings['pusher_app_key']) ? $settings['pusher_app_key'] : '', ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Key', 'required' => 'required']) }}
+                                    @error('pusher_app_key')
+                                        <span class="invalid-pusher_app_key" role="alert">
+                                            <strong class="text-danger">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                                <div class="form-group col-md-6">
+                                    {{ Form::label('pusher_app_secret', __('Pusher App Secret *'), ['class' => 'form-label']) }}
+                                    {{ Form::text('pusher_app_secret', isset($settings['pusher_app_secret']) ? $settings['pusher_app_secret'] : '', ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Key', 'required' => 'required']) }}
+                                    @error('pusher_app_secret')
+                                        <span class="invalid-pusher_app_secret" role="alert">
+                                            <strong class="text-danger">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                                <div class="form-group col-md-6">
+                                    {{ Form::label('pusher_app_cluster', __('Pusher App Cluster *'), ['class' => 'form-label']) }}
+                                    {{ Form::text('pusher_app_cluster', isset($settings['pusher_app_cluster']) ? $settings['pusher_app_cluster'] : '' , ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Cluster', 'required' => 'required']) }}
+                                    @error('pusher_app_cluster')
+                                        <span class="invalid-pusher_app_cluster" role="alert">
+                                            <strong class="text-danger">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                                <div class="text-end">
+                                    {{ Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary']) }}
+                                </div>
+                            </div>
+                            {{ Form::close() }}
+                        </div>
+                    </div> -->
                     <div id="payment-settings" class="card">
                         <div class="card-header">
                             <h5>{{ __('Payment Settings') }}</h5>
@@ -3580,6 +3662,16 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
         @endif
     </div>
 </div>
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <form id="editForm">
+            <label for="newCost">New Cost:</label>
+            <input type="text" id="newCost" name="newCost">
+            <button type="button" id="saveBtn">Save</button>
+        </form>
+    </div>
+</div>
 @endsection
 @push('script-page')
 <script>
@@ -3796,30 +3888,42 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
     });
 </script>
 <script>
-$(document).ready(function() {
-    $('.edit-cost-btn').click(function() {
-        var row = $(this).closest('tr');
-        var cost = row.find('.cost').text();
-        var popup = row.find('.popup');
-        // Show the popup near the cost
-        popup.show();
-        popup.css({
-            top: row.offset().top,
-            left: row.find('.cost').offset().left + row.find('.cost').outerWidth()
+    $(document).ready(function() {
+        document.querySelectorAll('.edit-cost-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                // Get the current cost value
+                const costElement = this.closest('tr').querySelector('.cost');
+                let currentCost = costElement.textContent.trim();
+                const packageName = this.closest('tr').querySelector('.package').textContent.trim();
+                const itemName = this.closest('tr').querySelector('.item').textContent.trim();
+                const functionname = this.closest('tr').querySelector('.functionname').textContent.trim();
+
+                // Prompt the user to enter a new cost value
+                const newCost = prompt('Enter new cost:', currentCost);
+
+                // Update the cost if the user provided a new value
+                if (newCost !== null && newCost !== '' && !isNaN(newCost)) {
+                    costElement.textContent = newCost;
+                }
+                $.ajax({
+                    url: "{{route('additionalitems.edit')}}",
+                    type: 'POST',
+                    data: {
+                        function_name: functionname,
+                        package_name: packageName,
+                        item_name: itemName,
+                        cost: newCost,
+                        _token: "{{ csrf_token() }}",
+                    },
+                    success: function(data) {
+                        console.log(data);
+                    },
+                });
+            });
         });
+        // Get the modal
 
-        // Set the current cost value in the popup input
-        popup.find('.new-cost-input').val(cost);
     });
-
-    $('.save-cost-btn').click(function() {
-        var row = $(this).closest('tr');
-        var newCost = row.find('.new-cost-input').val();
-        alert(newCost);
-        // Send AJAX request to update the cost
-        // Code for AJAX request...
-    });
-});
 </script>
 
 

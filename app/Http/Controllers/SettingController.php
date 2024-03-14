@@ -2049,7 +2049,6 @@ class SettingController extends Controller
         // Merge the new data with the existing array
         $existingArray = array_merge_recursive($existingArray, $resultArray);
         $jsonData = json_encode($existingArray);
-
         if(isset($settings['additional_items']) && !empty($settings['additional_items'])){
             DB::table('settings')
                 ->where('name','additional_items')
@@ -2073,7 +2072,20 @@ class SettingController extends Controller
         }
         return redirect()->back()->with('success', __('Additional Items Added.'));
     }
-    
+    public function editadditionalcost(Request $request){
+        // print_r($request->all()); 
+        $settings = Utility::settings();
+        $additionalItems = json_decode($settings['additional_items'],true);
+        // print_r(json_decode($settings['additional_items'],true));   
+        self::updateValue($additionalItems,$request->function_name,$request->package_name ,$request->item_name, $request->cost);
+        $additionalItems = json_encode($additionalItems);
+        print_r($additionalItems); 
+    }
+    function updateValue(&$array, $functionName, $packageName, $itemName, $newCost) {
+        if (isset($array[$functionName][$packageName][$itemName])) {
+            $array[$functionName][$packageName][$itemName] = $newCost;
+        }
+    }
 }
 function get_device_type($user_agent)
 {

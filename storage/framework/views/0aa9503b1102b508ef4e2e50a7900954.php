@@ -8,19 +8,17 @@
 
 <?php $__env->stopSection(); ?>
 <?php
-
 $plansettings = App\Models\Utility::plansettings();
 $setting = App\Models\Utility::settings();
 $type_arr= explode(',',$setting['event_type']);
 $type_arr = array_combine($type_arr, $type_arr);
 $venue = explode(',',$setting['venue']);
 if(isset($setting['function']) && !empty($setting['function'])){
-    $function = json_decode($setting['function']);
+$function = json_decode($setting['function']);
 }
 if(isset($setting['additional_items']) && !empty($setting['additional_items'])){
-    $additional_items = json_decode($setting['additional_items']);
+$additional_items = json_decode($setting['additional_items'],true);
 }
-
 $meal = ['Formal Plated' ,'Buffet Style' , 'Family Style'];
 $bar = ['Open Bar', 'Cash Bar', 'Package Choice'];
 $platinum = ['Platinum - 4 Hours', 'Platinum - 3 Hours', 'Platinum - 2 Hours'];
@@ -60,7 +58,7 @@ $beer = ['Beer & Wine - 4 Hours', 'Beer & Wine - 3 Hours', 'Beer & Wine - 2 Hour
 </style>
 <div class="container-field">
     <div id="wrapper">
-        
+
         <div id="page-content-wrapper">
             <div class="container-fluid xyz">
                 <div class="row">
@@ -446,7 +444,11 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
                                             </div>
-                                            <div class="col-6" id="breakfast" style="display:none">
+                                            <div class="packages-list-container"></div>
+                                            <div class="abc">
+
+                                            </div>
+                                            <!-- <div class="col-6" id="breakfast" style="display:none">
                                                 <div class="form-group">
                                                     <?php echo e(Form::label('break_package', __('Breakfast Package'), ['class' => 'form-label'])); ?>
 
@@ -459,7 +461,6 @@ unset($__errorArgs, $__bag); ?>
                                                     </div>
                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </div>
-
                                             </div>
                                             <div class="col-6" id="lunch" style="display:none">
                                                 <div class="form-group">
@@ -502,8 +503,8 @@ unset($__errorArgs, $__bag); ?>
                                                     </div>
                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </div>
-                                            </div>
-                                           
+                                            </div> -->
+                                            <div class="items-container"></div>
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     <?php echo e(Form::label('ad_opts',__('Additional Options'),['class'=>'form-label'])); ?>
@@ -513,7 +514,7 @@ unset($__errorArgs, $__bag); ?>
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="checkbox" name="ad_opts[]" value="<?php echo e(key($items)); ?>" id="addopt<?php echo e($key); ?>">
                                                         <label class="form-check-label" for="addopt<?php echo e($key); ?>">
-                                                        <?php echo e(key($items)); ?>
+                                                            <?php echo e(key($items)); ?>
 
                                                         </label>
                                                     </div>
@@ -521,7 +522,7 @@ unset($__errorArgs, $__bag); ?>
                                                     <?php endif; ?>
                                                 </div>
                                             </div>
-                                           
+
                                             <div class="col-12">
                                                 <div class="row">
                                                     <label><b>Setup</b></label>
@@ -740,9 +741,8 @@ unset($__errorArgs, $__bag); ?>
     });
 </script>
 <script>
-   
     $(document).ready(function() {
-        $('input[name=newevent]').prop('checked',false);
+        $('input[name=newevent]').prop('checked', false);
         $('input[name="newevent"]').on('click', function() {
             $('#lead_select').hide();
             $('#new_event').hide();
@@ -774,7 +774,6 @@ unset($__errorArgs, $__bag); ?>
                     "_token": "<?php echo e(csrf_token()); ?>",
                 },
                 success: function(data) {
-
                     venue_str = data.venue_selection;
                     venue_arr = venue_str.split(",");
                     func_str = data.function;
@@ -820,28 +819,28 @@ unset($__errorArgs, $__bag); ?>
                 }
             });
         });
-        $('input[name= "function[]"]').on('change', function() {
-            $('#breakfast').hide();
-            $('#lunch').hide();
-            $('#dinner').hide();
-            $('#wedding').hide();
-            var checkedFunctions = $('input[name="function[]"]:checked').map(function() {
-                return $(this).val();
-            }).get();
-            console.log(checkedFunctions);
-            if (checkedFunctions.includes('Breakfast') || checkedFunctions.includes('Brunch')) {
-                $('#breakfast').show();
-            }
-            if (checkedFunctions.includes('Lunch')) {
-                $('#lunch').show();
-            }
-            if (checkedFunctions.includes('Dinner')) {
-                $('#dinner').show();
-            }
-            if (checkedFunctions.includes('Wedding')) {
-                $('#wedding').show();
-            }
-        });
+        // $('input[name= "function[]"]').on('change', function() {
+        //     $('#breakfast').hide();
+        //     $('#lunch').hide();
+        //     $('#dinner').hide();
+        //     $('#wedding').hide();
+        //     var checkedFunctions = $('input[name="function[]"]:checked').map(function() {
+        //         return $(this).val();
+        //     }).get();
+        //     console.log(checkedFunctions);
+        //     if (checkedFunctions.includes('Breakfast') || checkedFunctions.includes('Brunch')) {
+        //         $('#breakfast').show();
+        //     }
+        //     if (checkedFunctions.includes('Lunch')) {
+        //         $('#lunch').show();
+        //     }
+        //     if (checkedFunctions.includes('Dinner')) {
+        //         $('#dinner').show();
+        //     }
+        //     if (checkedFunctions.includes('Wedding')){
+        //         $('#wedding').show();
+        //     }
+        // });
         $('input[type=radio][name=bar]').change(function() {
             $('#package').hide();
             var val = $(this).val();
@@ -849,6 +848,96 @@ unset($__errorArgs, $__bag); ?>
                 $('#package').show();
             }
         });
+        // Listen for changes in the selected functions
+        $('input[type="checkbox"][name="function[]"]').change(function() {
+            const selectedFunctions = $('input[type="checkbox"][name="function[]"]:checked').map(function() {
+                return this.value;
+            }).get();
+            // Remove existing package containers
+            $('.function-packages-container').remove();
+            // Create containers for selected functions
+            selectedFunctions.forEach(function(functionName) {
+                const containerId = functionName.toLowerCase() + '-packages-container';
+                const containerHtml = '<div id="' + containerId + '" class="function-packages-container"></div>';
+                $('.abc').append(containerHtml);
+                getPackagesForFunction(functionName, containerId); // Get and append packages for the function
+            });
+        });
+
+        function getPackagesForFunction(functionName, containerId) {
+            try {
+                // Parse the JSON string containing package data
+                const data = <?php echo json_encode($additional_items); ?>;
+                // Function to get package names based on function name
+                function getPackageNames(functionName) {
+                    // Convert function name to lowercase
+                    const lowerFunctionName = functionName.toLowerCase();
+                    // Check if the function exists in the data
+                    if (data[functionName]) {
+                        const packages = data[functionName];
+                        // Extract package names from the nested objects
+                        const packageNames = Object.keys(packages);
+                        return packageNames;
+                    } else {
+                        // If function not found, return empty array or handle accordingly
+                        return [];
+                    }
+                }
+                // Get the package names for the specified function
+                const packageNames = getPackageNames(functionName);
+                // Generate HTML for the package options
+                if (packageNames.length != 0) {
+                    let html = '<div class="package-label"><b>' + functionName + ' Package </b></div>'
+                    packageNames.forEach(function(packageName, index) {
+                        const packageId = functionName.toLowerCase().replace(/\s/g, '-') + '-package-' + index;
+                        const packageInputName = functionName.toLowerCase().replace(/\s/g, '_') + '_package[]';
+                        html += '<div class="form-check">';
+                        html += '<input id="' + packageId + '" class="form-check-input radio_class" name="' + packageInputName + '" type="radio" value="' + packageName + '">';
+                        html += '<label for="' + packageId + '" class="form-check-label">' + packageName + '</label>';
+                        html += '</div>';
+                    });
+                    // Append package options to the container
+                    $('#' + containerId).html(html);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+        jQuery(function($) {
+            $('div.form-check > input[type="radio"].radio_class').click(function(e) {
+                e.preventDefault();
+                alert('dfsdf');
+                try {
+                    console.log($(this).val());
+                } catch (error) {
+                    console.error(error);
+                }
+            });
+        })
+        // $('input[type="radio"]').change(function() {
+        //     const data = <?php echo json_encode($additional_items); ?>;
+        //     // const label = $('.package-label').text();
+        //     console.log(data)
+        //     // Get the value of the selected radio button
+        //     const selectedValue = $(this).val();
+        //     // Check if the selected value exists in the data
+        //     if (data[selectedValue]) {
+        //         const items = data[selectedValue];
+        //         let html = '<div class="package-label"><b>' + selectedValue + '</b></div>';
+        //         html += '<ul>';
+
+        //         // Loop through the items and generate HTML
+        //         $.each(items, function(itemName, itemValue) {
+        //             html += '<li>' + itemName + ': ' + itemValue + '</li>';
+        //         });
+        //         console.log()
+        //         html += '</ul>';
+
+        //         // Append the HTML to the container
+        //         $('#items-container').html(html);
+        //     }
+        // });
+
     });
     var scrollSpy = new bootstrap.ScrollSpy(document.body, {
         target: '#useradd-sidenav',
