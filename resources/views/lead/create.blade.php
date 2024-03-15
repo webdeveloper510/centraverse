@@ -74,15 +74,19 @@
                 {!! Form::select('type', isset($type_arr) ? $type_arr : '', null,array('class' => 'form-control','required'=>'required')) !!}
             </div>
         </div>
+        @if(isset($venue) && !empty($venue))
         <div class="col-6">
             <div class="form-group">
                 {{ Form::label('venue_selection', __('Venue'), ['class' => 'form-label']) }}
+                <div>
                 @foreach($venue as $key => $label)
                         {{ Form::checkbox('venue[]', $label, false, ['id' => 'venue' . ($key + 1)]) }}
                         {{ Form::label($label, $label) }}
                 @endforeach  
+                </div>
             </div>
         </div>
+        @endif
         <div class="col-6">
             <div class="form-group">
                 {{ Form::label('start_date', __('Start Date'), ['class' => 'form-label']) }}
@@ -102,7 +106,7 @@
                 {!! Form::number('guest_count', null,array('class' => 'form-control','min'=> 0)) !!}
             </div>
         </div>
-        
+       @if(isset($function) && !empty($function))
         <div class="col-6">
             <div class="form-group">
                 {{ Form::label('function', __('Function'), ['class' => 'form-label']) }}
@@ -115,6 +119,7 @@
 
             </div>
         </div>
+        @endif
         <div class="col-6">
             <div class="form-group">
                 {{Form::label('Assign Staff',__('Assign Staff'),['class'=>'form-label']) }}
