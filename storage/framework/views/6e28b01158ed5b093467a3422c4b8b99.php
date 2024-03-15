@@ -60,23 +60,101 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
         border: 4px solid #fff;
         filter: drop-shadow(5px 6px 6px #145388);
     } */
-    .popup {
-    position: absolute;
-    top: 0;
-    left: 100%;
-    display: none;
-    padding: 10px;
-    background-color: #fff;
-    border: 1px solid #ccc;
-}
+    /* Popup container */
+    /* .popup {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+    }
 
-.popup input {
-    width: 100px; /* Adjust the width as needed */
-}
+    .popup .popuptext {
+        visibility: hidden;
+        width: 160px;
+        background-color: #555;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 8px 0;
+        position: absolute;
+        z-index: 1;
+        bottom: 125%;
+        left: 50%;
+        margin-left: -80px;
+    }
 
-.hidden {
-    display: none;
-}
+    .popup .popuptext::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: #555 transparent transparent transparent;
+    }
+
+    .popup .show {
+        visibility: visible;
+        -webkit-animation: fadeIn 1s;
+        animation: fadeIn 1s
+    }
+
+    @-webkit-keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    } */
+    /* Style the modal */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    /* Modal Content/Box */
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+    }
+
+    /* Close Button */
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
     ul>li.active {
         border: 4px solid #fff;
         filter: drop-shadow(5px 6px 6px #145388);
@@ -201,7 +279,13 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
 <?php $__env->stopPush(); ?>
 <?php $__env->startPush('script-page'); ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
-
+<script>
+    // When the user clicks on <div>, open the popup
+    function myFunction() {
+        var popup = document.getElementById("myPopup");
+        popup.classList.toggle("show");
+    }
+</script>
 <script>
     function check_theme(color_val) {
         $('#theme_color').prop('checked', false);
@@ -1496,21 +1580,20 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                     <?php $__currentLoopData = $additional_items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $functionName => $packages): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <?php $__currentLoopData = $packages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $packageName => $items): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <tr>
-                                                    <td rowspan="<?php echo e(count($items)); ?>"><?php echo e($functionName); ?></td>
-                                                    <td rowspan="<?php echo e(count($items)); ?>"><?php echo e($packageName); ?></td>
+                                                    <td data-td-data="<?php echo e($functionName); ?>" rowspan="<?php echo e(count($items)); ?>" class="functionname"><?php echo e($functionName); ?></td>
+                                                    <td data-td-data="<?php echo e($packageName); ?>" rowspan="<?php echo e(count($items)); ?>" class="package"><?php echo e($packageName); ?></td>
                                                     <?php $firstItem = true; ?>
                                                     <?php $__currentLoopData = $items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $itemName => $cost): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <?php if(!$firstItem): ?>
                                                 <tr>
+                                                    <td data-td-data="<?php echo e($functionName); ?>" style="display: none;"></td>
+                                                    <td data-td-data="<?php echo e($functionName); ?>" style="display: none;"></td>
                                                     <?php endif; ?>
-                                                    <td><?php echo e($itemName); ?></td>
-                                                    <td><?php echo e($cost); ?></td>
-                                                    <td>  
-                                                        <button class="edit-cost-btn">Edit</button>
-                                                        <div class="popup" style="display: none;">
-                                                            <input type="text" class="new-cost-input">
-                                                            <button class="save-cost-btn">Save</button>
-                                                        </div>
+
+                                                    <td class="item"><?php echo e($itemName); ?></td>
+                                                    <td class="cost"><?php echo e($cost); ?></td>
+                                                    <td>
+                                                        <button class="btn btn-sm edit-cost-btn bg-info"> <i class="ti ti-edit"></i></button>
                                                     </td>
                                                     <?php $firstItem = false; ?>
                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -2066,97 +2149,96 @@ unset($__errorArgs, $__bag); ?>
                                                 </div> -->
 
                     <!-- <div id="pusher-settings" class="card">
-                                                    <div class="card-header">
-                                                        <h5><?php echo e(__('Pusher Settings')); ?></h5>
-                                                        <small class="text-muted"><?php echo e(__('Edit your pusher details')); ?></small>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <?php echo e(Form::model($settings, ['route' => 'pusher.setting', 'method' => 'post'])); ?>
+                        <div class="card-header">
+                            <h5><?php echo e(__('Pusher Settings')); ?></h5>
+                            <small class="text-muted"><?php echo e(__('Edit your pusher details')); ?></small>
+                        </div>
+                        <div class="card-body">
+                            <?php echo e(Form::model($settings, ['route' => 'pusher.setting', 'method' => 'post'])); ?>
 
-                                                        <div class="row mt-3">
-                                                            <div class="form-group col-md-6">
-                                                                <?php echo e(Form::label('pusher_app_id', __('Pusher App Id *'), ['class' => 'form-label'])); ?>
+                            <div class="row mt-3">
+                                <div class="form-group col-md-6">
+                                    <?php echo e(Form::label('pusher_app_id', __('Pusher App Id *'), ['class' => 'form-label'])); ?>
 
-                                                                <?php echo e(Form::text('pusher_app_id', isset($settings['pusher_app_id']) ? $settings['pusher_app_id'] : '', ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Id', 'required' => 'required'])); ?>
+                                    <?php echo e(Form::text('pusher_app_id', isset($settings['pusher_app_id']) ? $settings['pusher_app_id'] : '', ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Id', 'required' => 'required'])); ?>
 
-                                                                <?php $__errorArgs = ['pusher_app_id'];
+                                    <?php $__errorArgs = ['pusher_app_id'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                                                                    <span class="invalid-pusher_app_id" role="alert">
-                                                                        <strong class="text-danger"><?php echo e($message); ?></strong>
-                                                                    </span>
-                                                                <?php unset($message);
+                                        <span class="invalid-pusher_app_id" role="alert">
+                                            <strong class="text-danger"><?php echo e($message); ?></strong>
+                                        </span>
+                                    <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
-                                                            </div>
+                                </div>
 
-                                                            <div class="form-group col-md-6">
-                                                                <?php echo e(Form::label('pusher_app_key', __('Pusher App Key *'), ['class' => 'form-label'])); ?>
+                                <div class="form-group col-md-6">
+                                    <?php echo e(Form::label('pusher_app_key', __('Pusher App Key *'), ['class' => 'form-label'])); ?>
 
-                                                                <?php echo e(Form::text('pusher_app_key', isset($settings['pusher_app_key']) ? $settings['pusher_app_key'] : '', ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Key', 'required' => 'required'])); ?>
+                                    <?php echo e(Form::text('pusher_app_key', isset($settings['pusher_app_key']) ? $settings['pusher_app_key'] : '', ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Key', 'required' => 'required'])); ?>
 
-                                                                <?php $__errorArgs = ['pusher_app_key'];
+                                    <?php $__errorArgs = ['pusher_app_key'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                                                                    <span class="invalid-pusher_app_key" role="alert">
-                                                                        <strong class="text-danger"><?php echo e($message); ?></strong>
-                                                                    </span>
-                                                                <?php unset($message);
+                                        <span class="invalid-pusher_app_key" role="alert">
+                                            <strong class="text-danger"><?php echo e($message); ?></strong>
+                                        </span>
+                                    <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
-                                                            </div>
-                                                            <div class="form-group col-md-6">
-                                                                <?php echo e(Form::label('pusher_app_secret', __('Pusher App Secret *'), ['class' => 'form-label'])); ?>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <?php echo e(Form::label('pusher_app_secret', __('Pusher App Secret *'), ['class' => 'form-label'])); ?>
 
-                                                                <?php echo e(Form::text('pusher_app_secret', isset($settings['pusher_app_secret']) ? $settings['pusher_app_secret'] : '', ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Key', 'required' => 'required'])); ?>
+                                    <?php echo e(Form::text('pusher_app_secret', isset($settings['pusher_app_secret']) ? $settings['pusher_app_secret'] : '', ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Key', 'required' => 'required'])); ?>
 
-                                                                <?php $__errorArgs = ['pusher_app_secret'];
+                                    <?php $__errorArgs = ['pusher_app_secret'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                                                                    <span class="invalid-pusher_app_secret" role="alert">
-                                                                        <strong class="text-danger"><?php echo e($message); ?></strong>
-                                                                    </span>
-                                                                <?php unset($message);
+                                        <span class="invalid-pusher_app_secret" role="alert">
+                                            <strong class="text-danger"><?php echo e($message); ?></strong>
+                                        </span>
+                                    <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
-                                                            </div>
-                                                            <div class="form-group col-md-6">
-                                                                <?php echo e(Form::label('pusher_app_cluster', __('Pusher App Cluster *'), ['class' => 'form-label'])); ?>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <?php echo e(Form::label('pusher_app_cluster', __('Pusher App Cluster *'), ['class' => 'form-label'])); ?>
 
-                                                                <?php echo e(Form::text('pusher_app_cluster', isset($settings['pusher_app_cluster']) ? $settings['pusher_app_cluster'] : '' , ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Cluster', 'required' => 'required'])); ?>
+                                    <?php echo e(Form::text('pusher_app_cluster', isset($settings['pusher_app_cluster']) ? $settings['pusher_app_cluster'] : '' , ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Cluster', 'required' => 'required'])); ?>
 
-                                                                <?php $__errorArgs = ['pusher_app_cluster'];
+                                    <?php $__errorArgs = ['pusher_app_cluster'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                                                                    <span class="invalid-pusher_app_cluster" role="alert">
-                                                                        <strong class="text-danger"><?php echo e($message); ?></strong>
-                                                                    </span>
-                                                                <?php unset($message);
+                                        <span class="invalid-pusher_app_cluster" role="alert">
+                                            <strong class="text-danger"><?php echo e($message); ?></strong>
+                                        </span>
+                                    <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
-                                                            </div>
-                                                            <div class="text-end">
-                                                                <?php echo e(Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary'])); ?>
+                                </div>
+                                <div class="text-end">
+                                    <?php echo e(Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary'])); ?>
 
-                                                            </div>
-                                                        </div>
-                                                        <?php echo e(Form::close()); ?>
+                                </div>
+                            </div>
+                            <?php echo e(Form::close()); ?>
 
-                                                    </div>
-                                                </div> -->
-
+                        </div>
+                    </div> -->
                     <div id="payment-settings" class="card">
                         <div class="card-header">
                             <h5><?php echo e(__('Payment Settings')); ?></h5>
@@ -3833,6 +3915,16 @@ unset($__errorArgs, $__bag); ?>
         <?php endif; ?>
     </div>
 </div>
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <form id="editForm">
+            <label for="newCost">New Cost:</label>
+            <input type="text" id="newCost" name="newCost">
+            <button type="button" id="saveBtn">Save</button>
+        </form>
+    </div>
+</div>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script-page'); ?>
 <script>
@@ -4049,30 +4141,42 @@ unset($__errorArgs, $__bag); ?>
     });
 </script>
 <script>
-$(document).ready(function() {
-    $('.edit-cost-btn').click(function() {
-        var row = $(this).closest('tr');
-        var cost = row.find('.cost').text();
-        var popup = row.find('.popup');
-        // Show the popup near the cost
-        popup.show();
-        popup.css({
-            top: row.offset().top,
-            left: row.find('.cost').offset().left + row.find('.cost').outerWidth()
+    $(document).ready(function() {
+        document.querySelectorAll('.edit-cost-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                // Get the current cost value
+                const costElement = this.closest('tr').querySelector('.cost');
+                let currentCost = costElement.textContent.trim();
+                const packageName = this.closest('tr').querySelector('.package').textContent.trim();
+                const itemName = this.closest('tr').querySelector('.item').textContent.trim();
+                const functionname = this.closest('tr').querySelector('.functionname').textContent.trim();
+
+                // Prompt the user to enter a new cost value
+                const newCost = prompt('Enter new cost:', currentCost);
+
+                // Update the cost if the user provided a new value
+                if (newCost !== null && newCost !== '' && !isNaN(newCost)) {
+                    costElement.textContent = newCost;
+                }
+                $.ajax({
+                    url: "<?php echo e(route('additionalitems.edit')); ?>",
+                    type: 'POST',
+                    data: {
+                        function_name: functionname,
+                        package_name: packageName,
+                        item_name: itemName,
+                        cost: newCost,
+                        _token: "<?php echo e(csrf_token()); ?>",
+                    },
+                    success: function(data) {
+                        console.log(data);
+                    },
+                });
+            });
         });
+        // Get the modal
 
-        // Set the current cost value in the popup input
-        popup.find('.new-cost-input').val(cost);
     });
-
-    $('.save-cost-btn').click(function() {
-        var row = $(this).closest('tr');
-        var newCost = row.find('.new-cost-input').val();
-        alert(newCost);
-        // Send AJAX request to update the cost
-        // Code for AJAX request...
-    });
-});
 </script>
 
 
