@@ -12,7 +12,7 @@ $type_arr= explode(',',$setting['event_type']);
 $type_arr = array_combine($type_arr, $type_arr);
 $venue = explode(',',$setting['venue']);
 if(isset($setting['function']) && !empty($setting['function'])){
-$function = json_decode($setting['function']);
+$function = json_decode($setting['function'],true);
 }
 if(isset($setting['additional_items']) && !empty($setting['additional_items'])){
 $additional_items = json_decode($setting['additional_items'],true);
@@ -314,8 +314,8 @@ $beer = ['Beer & Wine - 4 Hours', 'Beer & Wine - 3 Hours', 'Beer & Wine - 2 Hour
                                                     @if(isset($function) && !empty($function))
                                                     @foreach($function as $key => $value)
                                                     <div class="form-check">
-                                                        {!! Form::checkbox('function[]',$value->function, null, ['id' => 'function_' . $key, 'class' => 'form-check-input']) !!}
-                                                        {{ Form::label($value->function, $value->function, ['class' => 'form-check-label']) }}
+                                                        {!! Form::checkbox('function[]',$value['function'], null, ['id' => 'function_' . $key, 'class' => 'form-check-input']) !!}
+                                                        {{ Form::label($value['function'], $value['function'], ['class' => 'form-check-label']) }}
                                                     </div>
                                                     @endforeach
                                                     @endif
@@ -324,10 +324,30 @@ $beer = ['Beer & Wine - 4 Hours', 'Beer & Wine - 3 Hours', 'Beer & Wine - 2 Hour
                                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                                            <div class="packages-list-container"></div>
-                                            <div class="abc">
+                                            <div class="col-6" id="mailFunctionSection">
+
+                                                @if(isset($function) && !empty($function))
+                                                @foreach($function as $key =>$value)
+                                                <div class="form-group" data-main-index="{{$key}}" data-main-value="{{$value['function']}}" id="function_package" style="display: none;">
+                                                    {{ Form::label('package', __($value['function']), ['class' => 'form-label']) }}
+
+                                                    @foreach($value['package'] as $k=>$package)
+
+                                                    <div class="form-check" data-main-index="{{$k}}" data-main-package="{{$package}}">
+                                                        {!! Form::checkbox('package_'.$key.'[]',$package, null, ['id' => 'package_' . $key.$k, 'data-function' => $value['function'], 'class' => 'form-check-input']) !!}
+                                                        {{ Form::label($package, $package, ['class' => 'form-check-label']) }}
+                                                    </div>
+
+                                                    @endforeach
+                                                </div>
+                                                @endforeach
+                                                @endif
 
                                             </div>
+                                            <!-- <div class="packages-list-container"></div> -->
+                                            <!-- <div class="abc">
+
+                                            </div> -->
                                             <!-- <div class="col-6" id="breakfast" style="display:none">
                                                 <div class="form-group">
                                                     {{ Form::label('break_package', __('Breakfast Package'), ['class' => 'form-label']) }}
@@ -682,60 +702,90 @@ $beer = ['Beer & Wine - 4 Hours', 'Beer & Wine - 3 Hours', 'Beer & Wine - 2 Hour
             }
         });
         // Listen for changes in the selected functions
-        $('input[type="checkbox"][name="function[]"]').change(function() {
+        /* $('input[type="checkbox"][name="function[]"]').change(function() {
             const selectedFunctions = $('input[type="checkbox"][name="function[]"]:checked').map(function() {
                 return this.value;
             }).get();
-            // Remove existing package containers
-            $('.function-packages-container').remove();
-            // Create containers for selected functions
-            selectedFunctions.forEach(function(functionName) {
-                const containerId = functionName.toLowerCase() + '-packages-container';
-                const containerHtml = '<div id="' + containerId + '" class="function-packages-container"></div>';
-                $('.abc').append(containerHtml);
-                getPackagesForFunction(functionName, containerId); // Get and append packages for the function
+
+            $('#function_package input[type=checkbox]').each(function() {
+                var func = $(this).attr('data-function');
+                var parentDiv = $(this).parent('div');
+                var main = $(this).parents('div');
+                console.log(main);
+                var packageName = $(this).next('.form-check-label').text(); // Get the package name
+
+                if (selectedFunctions.length != 0) {
+                    $('#function_package').css('display', 'block');
+                    if (selectedFunctions.includes(func)) {
+                        // If the function matches, hide the parent div
+                        parentDiv.show();
+                        if (parentDiv.find('h5').length === 0) {
+                            parentDiv.prepend('<h5>' + func + ' Package </h5>');
+                        }
+                    } else {
+                        parentDiv.hide();
+                    }
+                } else {
+                    parentDiv.hide();
+                }
+
+                
+            });
+        }); */
+        jQuery(function() {
+            $('input[name="function[]"]').change(function() {
+                $('div#mailFunctionSection > div').hide();
+                $('input[name="function[]"]:checked').each(function() {
+                    var funVal = $(this).val();
+                    $('div#mailFunctionSection > div').each(function() {
+                        var attr32 = $(this).data('main-value');
+                        if (attr32 == funVal) {
+                            $(this).show();
+                        }
+                    });
+                });
             });
         });
 
-        function getPackagesForFunction(functionName, containerId) {
-            try {
-                // Parse the JSON string containing package data
-                const data = <?php echo json_encode($additional_items); ?>;
-                // Function to get package names based on function name
-                function getPackageNames(functionName) {
-                    // Convert function name to lowercase
-                    const lowerFunctionName = functionName.toLowerCase();
-                    // Check if the function exists in the data
-                    if (data[functionName]) {
-                        const packages = data[functionName];
-                        // Extract package names from the nested objects
-                        const packageNames = Object.keys(packages);
-                        return packageNames;
-                    } else {
-                        // If function not found, return empty array or handle accordingly
-                        return [];
-                    }
-                }
-                // Get the package names for the specified function
-                const packageNames = getPackageNames(functionName);
-                // Generate HTML for the package options
-                if (packageNames.length != 0) {
-                    let html = '<div class="package-label"><b>' + functionName + ' Package </b></div>'
-                    packageNames.forEach(function(packageName, index) {
-                        const packageId = functionName.toLowerCase().replace(/\s/g, '-') + '-package-' + index;
-                        const packageInputName = functionName.toLowerCase().replace(/\s/g, '_') + '_package[]';
-                        html += '<div class="form-check">';
-                        html += '<input id="' + packageId + '" class="form-check-input radio_class" name="' + packageInputName + '" type="radio" value="' + packageName + '">';
-                        html += '<label for="' + packageId + '" class="form-check-label">' + packageName + '</label>';
-                        html += '</div>';
-                    });
-                    // Append package options to the container
-                    $('#' + containerId).html(html);
-                }
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        }
+        // function getPackagesForFunction(functionName, containerId) {
+        //     try {
+        //         // Parse the JSON string containing package data
+        //         const data = <?php echo json_encode($additional_items); ?>;
+        //         // Function to get package names based on function name
+        //         function getPackageNames(functionName) {
+        //             // Convert function name to lowercase
+        //             const lowerFunctionName = functionName.toLowerCase();
+        //             // Check if the function exists in the data
+        //             if (data[functionName]) {
+        //                 const packages = data[functionName];
+        //                 // Extract package names from the nested objects
+        //                 const packageNames = Object.keys(packages);
+        //                 return packageNames;
+        //             } else {
+        //                 // If function not found, return empty array or handle accordingly
+        //                 return [];
+        //             }
+        //         }
+        //         // Get the package names for the specified function
+        //         const packageNames = getPackageNames(functionName);
+        //         // Generate HTML for the package options
+        //         if (packageNames.length != 0) {
+        //             let html = '<div class="package-label"><b>' + functionName + ' Package </b></div>'
+        //             packageNames.forEach(function(packageName, index) {
+        //                 const packageId = functionName.toLowerCase().replace(/\s/g, '-') + '-package-' + index;
+        //                 const packageInputName = functionName.toLowerCase().replace(/\s/g, '_') + '_package[]';
+        //                 html += '<div class="form-check">';
+        //                 html += '<input id="' + packageId + '" class="form-check-input radio_class" name="' + packageInputName + '" type="radio" value="' + packageName + '">';
+        //                 html += '<label for="' + packageId + '" class="form-check-label">' + packageName + '</label>';
+        //                 html += '</div>';
+        //             });
+        //             // Append package options to the container
+        //             $('#' + containerId).html(html);
+        //         }
+        //     } catch (error) {
+        //         console.error('Error:', error);
+        //     }
+        // }
     });
     var scrollSpy = new bootstrap.ScrollSpy(document.body, {
         target: '#useradd-sidenav',

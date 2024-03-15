@@ -1362,3 +1362,5 @@ Route::get('/dashboard-testing',[DashboardTestingController::class,'index']);
 Route::post('/calender-meeting-data', [CalenderNewController::class, 'get_event_data']);
 Route::get('/calender-new', [CalenderNewController::class, 'index'])->name('calendernew.index');
 Route::post('/edit-addittional-items',[SettingController::class,'editadditionalcost'])->name('additionalitems.edit');
+Route::post('/function-packages', [MeetingController::class, 'getpackages'])->name('function.packages');
+
