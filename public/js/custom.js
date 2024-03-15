@@ -441,7 +441,55 @@ $(document).ready(function() {
             })
         });
     });
-
+    $('.additional_show_confirm').click(function(event) {
+        event.preventDefault();
+    
+        // Get the value of the data-function attribute
+        var functionval = $(this).data('function');
+        var packageval = $(this).data('package');
+        var itemval = $(this).data('item');
+        var url = $(this).data('url');
+        var token = $(this).data('token');
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success',
+                cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
+        })
+        swalWithBootstrapButtons.fire({
+            title: 'Are you sure?',
+            text: "This action can not be undone. Do you want to continue?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: {
+                        "functionval":functionval,
+                        "packageval":packageval,
+                        "itemval":itemval,
+                        "_token": token,
+                    },
+                    success: function (result) {
+                        if (result == true) {
+                            swal.fire("Done!", result.message, "success");
+                            setTimeout(function(){
+                                location.reload();
+                            },1000);
+                        } else {
+                            swal.fire("Error!", result.message, "error");
+                        }
+                    }
+                });
+            }
+        })
+    });
     $(document).ready(function() {
         // $('#myTable').DataTable();
         if ($("#myTable").length > 0) {
