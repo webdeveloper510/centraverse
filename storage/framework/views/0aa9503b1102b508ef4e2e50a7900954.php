@@ -416,8 +416,6 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
                                             </div>
-
-
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     <?php echo e(Form::label('function', __('Function'), ['class' => 'form-label'])); ?>
@@ -445,105 +443,45 @@ endif;
 unset($__errorArgs, $__bag); ?>
                                             </div>
                                             <div class="col-6" id="mailFunctionSection">
-
                                                 <?php if(isset($function) && !empty($function)): ?>
                                                 <?php $__currentLoopData = $function; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key =>$value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <div class="form-group" data-main-index="<?php echo e($key); ?>" data-main-value="<?php echo e($value['function']); ?>" id="function_package" style="display: none;">
                                                     <?php echo e(Form::label('package', __($value['function']), ['class' => 'form-label'])); ?>
 
-
-                                                    <?php $__currentLoopData = $value['package']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $k=>$package): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-
+                                                    <?php $__currentLoopData = $value['package']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $k => $package): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <div class="form-check" data-main-index="<?php echo e($k); ?>" data-main-package="<?php echo e($package); ?>">
                                                         <?php echo Form::checkbox('package_'.$key.'[]',$package, null, ['id' => 'package_' . $key.$k, 'data-function' => $value['function'], 'class' => 'form-check-input']); ?>
 
                                                         <?php echo e(Form::label($package, $package, ['class' => 'form-check-label'])); ?>
 
                                                     </div>
-
                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </div>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 <?php endif; ?>
-
                                             </div>
-                                            <!-- <div class="packages-list-container"></div> -->
-                                            <!-- <div class="abc">
+                                            <div class="col-6" id="additionalSection">
+                                                <?php if(isset($additional_items) && !empty($additional_items)): ?>
+                                                <?php echo e(Form::label('additional', __('additional items'), ['class' => 'form-label'])); ?>
 
-                                            </div> -->
-                                            <!-- <div class="col-6" id="breakfast" style="display:none">
-                                                <div class="form-group">
-                                                    <?php echo e(Form::label('break_package', __('Breakfast Package'), ['class' => 'form-label'])); ?>
+                                                <?php $__currentLoopData = $additional_items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ad_key =>$ad_value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <?php $__currentLoopData = $ad_value; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $fun_key =>$packageVal): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <div class="form-group" data-additional-index="<?php echo e($fun_key); ?>" data-additional-value="<?php echo e(key($packageVal)); ?>" id="ad_package">
+                                                    <?php echo e(Form::label('additional', __($fun_key), ['class' => 'form-label'])); ?>
 
-                                                    <?php $__currentLoopData = $breakfast; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $label): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                    <div>
-                                                        <?php echo e(Form::radio('break_package[]',$label, false, ['id' => 'break_package' . ($key + 1)])); ?>
+                                                    <?php $__currentLoopData = $packageVal; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $pac_key =>$item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <div class="form-check" data-additional-index="<?php echo e($pac_key); ?>" data-additional-package="<?php echo e($pac_key); ?>">
+                                                        <?php echo Form::checkbox('additional[]',$pac_key, null, ['data-function' => $fun_key, 'class' => 'form-check-input']); ?>
 
-                                                        <?php echo e(Form::label($label, $label)); ?>
-
-                                                    </div>
-                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                </div>
-                                            </div>
-                                            <div class="col-6" id="lunch" style="display:none">
-                                                <div class="form-group">
-                                                    <?php echo e(Form::label('lunch_package', __('Lunch Package'), ['class' => 'form-label'])); ?>
-
-                                                    <?php $__currentLoopData = $lunch; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $label): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                    <div>
-                                                        <?php echo e(Form::radio('lunch_package[]', $label, false, ['id' => 'lunch_package' . ($key + 1)])); ?>
-
-                                                        <?php echo e(Form::label($label, $label)); ?>
+                                                        <?php echo e(Form::label($pac_key, $pac_key, ['class' => 'form-check-label'])); ?>
 
                                                     </div>
                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </div>
-                                            </div>
-                                            <div class="col-6" id="dinner" style="display:none">
-                                                <div class="form-group">
-                                                    <?php echo e(Form::label('dinner_package', __('Dinner Package'), ['class' => 'form-label'])); ?>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                <?php endif; ?>
 
-                                                    <?php $__currentLoopData = $dinner; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $label): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                    <div>
-                                                        <?php echo e(Form::radio('dinner_package[]', $label, false, ['id' => 'dinner_package' . ($key + 1)])); ?>
-
-                                                        <?php echo e(Form::label($label, $label)); ?>
-
-                                                    </div>
-                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                </div>
-                                            </div>
-                                            <div class="col-6" id="wedding" style="display:none">
-                                                <div class="form-group">
-                                                    <?php echo e(Form::label('wedding_package', __('Wedding Package'), ['class' => 'form-label'])); ?>
-
-                                                    <?php $__currentLoopData = $wedding; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $label): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                    <div>
-                                                        <?php echo e(Form::radio('wedding_package[]', $label, false, ['id' => 'wedding_package' . ($key + 1)])); ?>
-
-                                                        <?php echo e(Form::label($label, $label)); ?>
-
-                                                    </div>
-                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                </div>
-                                            </div> -->
-                                            <div class="items-container"></div>
-                                            <div class="col-6">
-                                                <div class="form-group">
-                                                    <?php echo e(Form::label('ad_opts',__('Additional Options'),['class'=>'form-label'])); ?>
-
-                                                    <?php if(isset($additional_items) && !empty($additional_items)): ?>
-                                                    <?php $__currentLoopData = $additional_items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$items): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" name="ad_opts[]" value="<?php echo e(key($items)); ?>" id="addopt<?php echo e($key); ?>">
-                                                        <label class="form-check-label" for="addopt<?php echo e($key); ?>">
-                                                            <?php echo e(key($items)); ?>
-
-                                                        </label>
-                                                    </div>
-                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                    <?php endif; ?>
-                                                </div>
                                             </div>
 
                                             <div class="col-12">
@@ -870,92 +808,77 @@ unset($__errorArgs, $__bag); ?>
             if (val == 'Package Choice') {
                 $('#package').show();
             }
-        });
-        // Listen for changes in the selected functions
-        /* $('input[type="checkbox"][name="function[]"]').change(function() {
-            const selectedFunctions = $('input[type="checkbox"][name="function[]"]:checked').map(function() {
-                return this.value;
-            }).get();
-
-            $('#function_package input[type=checkbox]').each(function() {
-                var func = $(this).attr('data-function');
-                var parentDiv = $(this).parent('div');
-                var main = $(this).parents('div');
-                console.log(main);
-                var packageName = $(this).next('.form-check-label').text(); // Get the package name
-
-                if (selectedFunctions.length != 0) {
-                    $('#function_package').css('display', 'block');
-                    if (selectedFunctions.includes(func)) {
-                        // If the function matches, hide the parent div
-                        parentDiv.show();
-                        if (parentDiv.find('h5').length === 0) {
-                            parentDiv.prepend('<h5>' + func + ' Package </h5>');
-                        }
-                    } else {
-                        parentDiv.hide();
-                    }
-                } else {
-                    parentDiv.hide();
-                }
-
-                
-            });
-        }); */
+        })
         jQuery(function() {
             $('input[name="function[]"]').change(function() {
                 $('div#mailFunctionSection > div').hide();
                 $('input[name="function[]"]:checked').each(function() {
                     var funVal = $(this).val();
                     $('div#mailFunctionSection > div').each(function() {
-                        var attr32 = $(this).data('main-value');
-                        if (attr32 == funVal) {
+                        var attr_value = $(this).data('main-value');
+                        if (attr_value == funVal) {
                             $(this).show();
                         }
+                        $(this).children('.form-check').change(function() {
+                            asdfsaf = $(this).data('main-package');
+                            console.log(`asdfsaf: ${asdfsaf}`);
+                            nsdmsd = $(this).children('input').attr('name');
+                            alert(nsdmsd);
+                            // $('div#additionalSection > div').hide();
+                            $(`${nsdmsd}:checked`).each(function() {
+                                gsdgfg = $(this).data('additional-index');
+                                if (asdfsaf == gsdgfg) {
+                                    $(this).show();
+                                    alert('yes');
+                                } else {
+                                    $(this).hide();
+                                    alert('no');
+                                }
+                            })
+                        })
                     });
                 });
             });
         });
+        /* jQuery(function() {
+            $('div#mailFunctionSection input[type=checkbox]').change(function() {
+                // $('div#additionalSection > div').hide();
+                var funcValue = $(this).val();
+                // var additionalCheckboxes = $('div#additionalSection input[data-function]');
+                // $('div#mailFunctionSection input[type=checkbox]:checked').each(function() {
+                // $('div#additionalSection > div input[type = checkbox]').each(function() {
+                //     var at = $(this).data('additional-index');
+                //     console.log(at);
+                // });
 
-        // function getPackagesForFunction(functionName, containerId) {
-        //     try {
-        //         // Parse the JSON string containing package data
-        //         const data = <?php echo json_encode($additional_items); ?>;
-        //         // Function to get package names based on function name
-        //         function getPackageNames(functionName) {
-        //             // Convert function name to lowercase
-        //             const lowerFunctionName = functionName.toLowerCase();
-        //             // Check if the function exists in the data
-        //             if (data[functionName]) {
-        //                 const packages = data[functionName];
-        //                 // Extract package names from the nested objects
-        //                 const packageNames = Object.keys(packages);
-        //                 return packageNames;
-        //             } else {
-        //                 // If function not found, return empty array or handle accordingly
-        //                 return [];
-        //             }
-        //         }
-        //         // Get the package names for the specified function
-        //         const packageNames = getPackageNames(functionName);
-        //         // Generate HTML for the package options
-        //         if (packageNames.length != 0) {
-        //             let html = '<div class="package-label"><b>' + functionName + ' Package </b></div>'
-        //             packageNames.forEach(function(packageName, index) {
-        //                 const packageId = functionName.toLowerCase().replace(/\s/g, '-') + '-package-' + index;
-        //                 const packageInputName = functionName.toLowerCase().replace(/\s/g, '_') + '_package[]';
-        //                 html += '<div class="form-check">';
-        //                 html += '<input id="' + packageId + '" class="form-check-input radio_class" name="' + packageInputName + '" type="radio" value="' + packageName + '">';
-        //                 html += '<label for="' + packageId + '" class="form-check-label">' + packageName + '</label>';
-        //                 html += '</div>';
-        //             });
-        //             // Append package options to the container
-        //             $('#' + containerId).html(html);
-        //         }
-        //     } catch (error) {
-        //         console.error('Error:', error);
-        //     }
-        // }
+                // });
+                $('#additionalSection > div').each(function() {
+                    // Get the data-function value of the current checkbox
+                    var dataFunction = $(this).data('additional-index');
+
+                    console.log(dataFunction);
+                });
+                // });
+
+            });
+            // $('#mailFunctionSection input[type="checkbox"]').change(function() {
+            // //    $('div#additionalSection > div').hide();
+            //    var packVal = $(this).val();
+            //    console.log(packVal);
+            //     // $('input[name="additional[]"]:checked').each(function() {
+
+            //         // $('div#additionalSection > div').each(function() {
+            //         //     var value = $(this).data('function');
+            //         //     alert(value);
+            //         //     console.log(value);                        
+            //         //     // if (value == packVal) {
+            //         //     //     console.log('asd');
+            //         //     //     // $(this).show();
+            //         //     // }
+            //     //     });
+            //     // });
+            // });
+        }); */
     });
     var scrollSpy = new bootstrap.ScrollSpy(document.body, {
         target: '#useradd-sidenav',
