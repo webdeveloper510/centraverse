@@ -329,7 +329,7 @@ $beer = ['Beer & Wine - 4 Hours', 'Beer & Wine - 3 Hours', 'Beer & Wine - 2 Hour
                                                     {{ Form::label('package', __($value['function']), ['class' => 'form-label']) }}
                                                     @foreach($value['package'] as $k => $package)
                                                     <div class="form-check" data-main-index="{{$k}}" data-main-package="{{$package}}">
-                                                        {!! Form::checkbox('package_'.$key.'[]',$package, null, ['id' => 'package_' . $key.$k, 'data-function' => $value['function'], 'class' => 'form-check-input']) !!}
+                                                        {!! Form::checkbox('package_'.str_replace(' ', '_', strtolower($value['function'])).'[]',$package, null, ['id' => 'package_' . $key.$k, 'data-function' => $value['function'], 'class' => 'form-check-input']) !!}
                                                         {{ Form::label($package, $package, ['class' => 'form-check-label']) }}
                                                     </div>
                                                     @endforeach
@@ -339,14 +339,14 @@ $beer = ['Beer & Wine - 4 Hours', 'Beer & Wine - 3 Hours', 'Beer & Wine - 2 Hour
                                             </div>
                                             <div class="col-6" id="additionalSection">
                                                 @if(isset($additional_items) && !empty($additional_items))
-                                                {{ Form::label('additional', __('additional items'), ['class' => 'form-label']) }}
+                                                {{ Form::label('additional', __('Additional items'), ['class' => 'form-label']) }}
                                                 @foreach($additional_items as $ad_key =>$ad_value)
                                                 @foreach($ad_value as $fun_key =>$packageVal)
-                                                <div class="form-group" data-additional-index="{{$fun_key}}" data-additional-value="{{key($packageVal)}}" id="ad_package">
+                                                <div class="form-group" data-additional-index="{{$fun_key}}" data-additional-value="{{key($packageVal)}}" id="ad_package" style="display: none;">
                                                     {{ Form::label('additional', __($fun_key), ['class' => 'form-label']) }}
                                                     @foreach($packageVal as $pac_key =>$item)
                                                     <div class="form-check" data-additional-index="{{$pac_key}}" data-additional-package="{{$pac_key}}">
-                                                        {!! Form::checkbox('additional[]',$pac_key, null, ['data-function' => $fun_key, 'class' => 'form-check-input']) !!}
+                                                        {!! Form::checkbox('additional_'.str_replace(' ', '_', strtolower($ad_key)).'_'.str_replace(' ', '_', strtolower($fun_key)).'[]',$pac_key, null, ['data-function' => $fun_key, 'class' => 'form-check-input']) !!}
                                                         {{ Form::label($pac_key, $pac_key, ['class' => 'form-check-label']) }}
                                                     </div>
                                                     @endforeach
@@ -562,10 +562,6 @@ $beer = ['Beer & Wine - 4 Hours', 'Beer & Wine - 3 Hours', 'Beer & Wine - 2 Hour
             $("input[name='user[]']").prop('checked', false);
             $("input[name='venue[]']").prop('checked', false);
             $("input[name='function[]']").prop('checked', false);
-            $('#breakfast').hide();
-            $('#lunch').hide();
-            $('#dinner').hide();
-            $('#wedding').hide();
             var venu = this.value;
             $.ajax({
                 url: "{{ route('meeting.lead') }}",
@@ -604,44 +600,19 @@ $beer = ['Beer & Wine - 4 Hours', 'Beer & Wine - 3 Hours', 'Beer & Wine - 2 Hour
                     var checkedFunctions = $('input[name="function[]"]:checked').map(function() {
                         return $(this).val();
                     }).get();
-                    if (checkedFunctions.includes('Breakfast') || checkedFunctions.includes('Brunch')) {
-                        // console.log("fdsfdsfds")
-                        $('#breakfast').show();
-                    }
-                    if (checkedFunctions.includes('Lunch')) {
-                        $('#lunch').show();
-                    }
-                    if (checkedFunctions.includes('Dinner')) {
-                        $('#dinner').show();
-                    }
-                    if (checkedFunctions.includes('Wedding')) {
-                        $('#wedding').show();
-                    }
+                    var mailFunctionSection = document.getElementById('mailFunctionSection');
+                    var divs = mailFunctionSection.querySelectorAll('.form-group');
+                    divs.forEach(function(div) {
+                        var mainValue = div.getAttribute('data-main-value');
+                        if (checkedFunctions.includes(mainValue)) {
+                            div.style.display = 'block';
+                        } else {
+                            div.style.display = 'none';
+                        }
+                    });                   
                 }
             });
         });
-        // $('input[name= "function[]"]').on('change', function() {
-        //     $('#breakfast').hide();
-        //     $('#lunch').hide();
-        //     $('#dinner').hide();
-        //     $('#wedding').hide();
-        //     var checkedFunctions = $('input[name="function[]"]:checked').map(function() {
-        //         return $(this).val();
-        //     }).get();
-        //     console.log(checkedFunctions);
-        //     if (checkedFunctions.includes('Breakfast') || checkedFunctions.includes('Brunch')) {
-        //         $('#breakfast').show();
-        //     }
-        //     if (checkedFunctions.includes('Lunch')) {
-        //         $('#lunch').show();
-        //     }
-        //     if (checkedFunctions.includes('Dinner')) {
-        //         $('#dinner').show();
-        //     }
-        //     if (checkedFunctions.includes('Wedding')){
-        //         $('#wedding').show();
-        //     }
-        // });
         $('input[type=radio][name=bar]').change(function() {
             $('#package').hide();
             var val = $(this).val();
@@ -659,66 +630,24 @@ $beer = ['Beer & Wine - 4 Hours', 'Beer & Wine - 3 Hours', 'Beer & Wine - 2 Hour
                         if (attr_value == funVal) {
                             $(this).show();
                         }
-                        $(this).children('.form-check').change(function() {
-                            asdfsaf = $(this).data('main-package');
-                            console.log(`asdfsaf: ${asdfsaf}`);
-                            nsdmsd = $(this).children('input').attr('name');
-                            // alert(nsdmsd);
-                            // $('div#additionalSection > div').hide();
-                            $(`${nsdmsd}:checked`).each(function() {
-                                gsdgfg = $(this).data('additional-index');
-                                if (asdfsaf == gsdgfg) {
-                                    $(this).show();
-                                    // alert('yes');
-                                } else {
-                                    $(this).hide();
-                                    // alert('no');
-                                }
-                            })
-                        })
                     });
                 });
             });
         });
-        /* jQuery(function() {
+        jQuery(function() {
             $('div#mailFunctionSection input[type=checkbox]').change(function() {
-                // $('div#additionalSection > div').hide();
-                var funcValue = $(this).val();
-                // var additionalCheckboxes = $('div#additionalSection input[data-function]');
-                // $('div#mailFunctionSection input[type=checkbox]:checked').each(function() {
-                // $('div#additionalSection > div input[type = checkbox]').each(function() {
-                //     var at = $(this).data('additional-index');
-                //     console.log(at);
-                // });
-
-                // });
-                $('#additionalSection > div').each(function() {
-                    // Get the data-function value of the current checkbox
-                    var dataFunction = $(this).data('additional-index');
-
-                    console.log(dataFunction);
+                $('div#additionalSection > div').hide();
+                $('div#mailFunctionSection input[type=checkbox]:checked').each(function() {
+                    var funcValue = $(this).val();
+                    $('div#additionalSection > div').each(function() {
+                        var ad_val = $(this).data('additional-index');
+                        if (funcValue == ad_val) {
+                            $(this).show();
+                        }
+                    });
                 });
-                // });
-
             });
-            // $('#mailFunctionSection input[type="checkbox"]').change(function() {
-            // //    $('div#additionalSection > div').hide();
-            //    var packVal = $(this).val();
-            //    console.log(packVal);
-            //     // $('input[name="additional[]"]:checked').each(function() {
-
-            //         // $('div#additionalSection > div').each(function() {
-            //         //     var value = $(this).data('function');
-            //         //     alert(value);
-            //         //     console.log(value);                        
-            //         //     // if (value == packVal) {
-            //         //     //     console.log('asd');
-            //         //     //     // $(this).show();
-            //         //     // }
-            //     //     });
-            //     // });
-            // });
-        }); */
+        });
     });
     var scrollSpy = new bootstrap.ScrollSpy(document.body, {
         target: '#useradd-sidenav',

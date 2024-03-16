@@ -94,6 +94,10 @@ class MeetingController extends Controller
     public function store(Request $request)
     {
         if (\Auth::user()->can('Create Meeting')) {
+           
+            $data = $request->all();
+           
+            echo "<pre>";print_r($data);die;
             $validator = \Validator::make(
                 $request->all(),
                 [
@@ -114,6 +118,7 @@ class MeetingController extends Controller
                 $messages = $validator->getMessageBag();
                 return redirect()->back()->with('error', $messages->first());
             }
+            
             $start_date = $request->input('start_date');
             $end_date = $request->input('end_date');
             $start_time = $request->input('start_time');
