@@ -1192,7 +1192,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                 @foreach($venue as $venueKey => $venueValue)
                                                 <tr>
                                                     <td>{{__($venueKey)}}</td>
-                                                    <td><input type="number" class="form-control" name="venue[{{$venueKey}}]" id="venue_{{$venueKey}}" value="{{$billing['venue'][$venueKey]}}" placeholder="{{__($venueKey)}}"></td>
+                                                    <td><input type="number" class="form-control" name="venue[{{ isset($venueKey) ? $venueKey : '' }}]" id="venue_{{$venueKey}}" value="{{ isset($billing['venue'][$venueKey]) ? $billing['venue'][$venueKey] : '' }}" placeholder="{{__($venueKey)}}"></td>
                                                 </tr>
                                                 @endforeach
                                             </table>
@@ -1209,7 +1209,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                     <td>
                                                         @foreach($functionValue->package as $packageKey => $packageValue)
                                                         {{ Form::label($packageValue, __($packageValue), ['class' => 'form-label']) }}
-                                                        <input type="number" class="form-control" name="package[{{$packageValue}}]" id="package_{{$packageKey}}" value="{{$billing['package'][$packageValue]}}" placeholder="{{$packageValue}}">
+                                                        <input type="number" class="form-control" name="package[{{ isset($packageValue) ? $packageValue : '' }}]" id="package_{{isset($packageKey)? $packageKey :''}}" value="{{ isset($billing['package'][$packageValue]) ? $billing['package'][$packageValue] : '' }}" placeholder="{{ isset($packageValue) ? $packageValue :''}}">
                                                         @endforeach
                                                     </td>
                                                 </tr>
@@ -1228,7 +1228,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                     <td>
                                                         @foreach($barValue->barpackage as $barpackageKey => $barpackageValue)
                                                         {{ Form::label($barpackageValue, __($barpackageValue), ['class' => 'form-label']) }}
-                                                        <input type="number" class="form-control" name="barpackage[{{$barpackageValue}}]" id="barpackage_{{$barpackageKey}}" value="{{$billing['barpackage'][$barpackageValue]}}" placeholder="{{$barpackageValue}}">
+                                                        <input type="number" class="form-control" name="barpackage[{{ isset($barpackageValue) ? $barpackageValue : '' }}]" id="barpackage_{{isset($barpackageKey)? $barpackageKey :''}}" value="{{ isset($billing['barpackage'][$barpackageValue]) ? $billing['barpackage'][$barpackageValue] : '' }}" placeholder="{{ isset($barpackageValue) ? $barpackageValue :''}}">
                                                         @endforeach
                                                     </td>
                                                 </tr>
