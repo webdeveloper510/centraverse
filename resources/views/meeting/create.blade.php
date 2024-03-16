@@ -12,7 +12,7 @@ $type_arr= explode(',',$setting['event_type']);
 $type_arr = array_combine($type_arr, $type_arr);
 $venue = explode(',',$setting['venue']);
 if(isset($setting['function']) && !empty($setting['function'])){
-$function = json_decode($setting['function']);
+$function = json_decode($setting['function'],true);
 }
 if(isset($setting['additional_items']) && !empty($setting['additional_items'])){
 $additional_items = json_decode($setting['additional_items'],true);
@@ -306,16 +306,14 @@ $beer = ['Beer & Wine - 4 Hours', 'Beer & Wine - 3 Hours', 'Beer & Wine - 2 Hour
                                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                                 @enderror
                                             </div>
-
-
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     {{ Form::label('function', __('Function'), ['class' => 'form-label']) }}
                                                     @if(isset($function) && !empty($function))
                                                     @foreach($function as $key => $value)
                                                     <div class="form-check">
-                                                        {!! Form::checkbox('function[]',$value->function, null, ['id' => 'function_' . $key, 'class' => 'form-check-input']) !!}
-                                                        {{ Form::label($value->function, $value->function, ['class' => 'form-check-label']) }}
+                                                        {!! Form::checkbox('function[]',$value['function'], null, ['id' => 'function_' . $key, 'class' => 'form-check-input']) !!}
+                                                        {{ Form::label($value['function'], $value['function'], ['class' => 'form-check-label']) }}
                                                     </div>
                                                     @endforeach
                                                     @endif
@@ -324,69 +322,39 @@ $beer = ['Beer & Wine - 4 Hours', 'Beer & Wine - 3 Hours', 'Beer & Wine - 2 Hour
                                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                                            <div class="packages-list-container"></div>
-                                            <div class="abc">
+                                            <div class="col-6" id="mailFunctionSection">
+                                                @if(isset($function) && !empty($function))
+                                                @foreach($function as $key =>$value)
+                                                <div class="form-group" data-main-index="{{$key}}" data-main-value="{{$value['function']}}" id="function_package" style="display: none;">
+                                                    {{ Form::label('package', __($value['function']), ['class' => 'form-label']) }}
+                                                    @foreach($value['package'] as $k => $package)
+                                                    <div class="form-check" data-main-index="{{$k}}" data-main-package="{{$package}}">
+                                                        {!! Form::checkbox('package_'.$key.'[]',$package, null, ['id' => 'package_' . $key.$k, 'data-function' => $value['function'], 'class' => 'form-check-input']) !!}
+                                                        {{ Form::label($package, $package, ['class' => 'form-check-label']) }}
+                                                    </div>
+                                                    @endforeach
+                                                </div>
+                                                @endforeach
+                                                @endif
+                                            </div>
+                                            <div class="col-6" id="additionalSection">
+                                                @if(isset($additional_items) && !empty($additional_items))
+                                                {{ Form::label('additional', __('additional items'), ['class' => 'form-label']) }}
+                                                @foreach($additional_items as $ad_key =>$ad_value)
+                                                @foreach($ad_value as $fun_key =>$packageVal)
+                                                <div class="form-group" data-additional-index="{{$fun_key}}" data-additional-value="{{key($packageVal)}}" id="ad_package">
+                                                    {{ Form::label('additional', __($fun_key), ['class' => 'form-label']) }}
+                                                    @foreach($packageVal as $pac_key =>$item)
+                                                    <div class="form-check" data-additional-index="{{$pac_key}}" data-additional-package="{{$pac_key}}">
+                                                        {!! Form::checkbox('additional[]',$pac_key, null, ['data-function' => $fun_key, 'class' => 'form-check-input']) !!}
+                                                        {{ Form::label($pac_key, $pac_key, ['class' => 'form-check-label']) }}
+                                                    </div>
+                                                    @endforeach
+                                                </div>
+                                                @endforeach
+                                                @endforeach
+                                                @endif
 
-                                            </div>
-                                            <!-- <div class="col-6" id="breakfast" style="display:none">
-                                                <div class="form-group">
-                                                    {{ Form::label('break_package', __('Breakfast Package'), ['class' => 'form-label']) }}
-                                                    @foreach($breakfast as $key => $label)
-                                                    <div>
-                                                        {{ Form::radio('break_package[]',$label, false, ['id' => 'break_package' . ($key + 1)]) }}
-                                                        {{ Form::label($label, $label) }}
-                                                    </div>
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                            <div class="col-6" id="lunch" style="display:none">
-                                                <div class="form-group">
-                                                    {{ Form::label('lunch_package', __('Lunch Package'), ['class' => 'form-label']) }}
-                                                    @foreach($lunch as $key => $label)
-                                                    <div>
-                                                        {{ Form::radio('lunch_package[]', $label, false, ['id' => 'lunch_package' . ($key + 1)]) }}
-                                                        {{ Form::label($label, $label) }}
-                                                    </div>
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                            <div class="col-6" id="dinner" style="display:none">
-                                                <div class="form-group">
-                                                    {{ Form::label('dinner_package', __('Dinner Package'), ['class' => 'form-label']) }}
-                                                    @foreach($dinner as $key => $label)
-                                                    <div>
-                                                        {{ Form::radio('dinner_package[]', $label, false, ['id' => 'dinner_package' . ($key + 1)]) }}
-                                                        {{ Form::label($label, $label) }}
-                                                    </div>
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                            <div class="col-6" id="wedding" style="display:none">
-                                                <div class="form-group">
-                                                    {{ Form::label('wedding_package', __('Wedding Package'), ['class' => 'form-label']) }}
-                                                    @foreach($wedding as $key => $label)
-                                                    <div>
-                                                        {{ Form::radio('wedding_package[]', $label, false, ['id' => 'wedding_package' . ($key + 1)]) }}
-                                                        {{ Form::label($label, $label) }}
-                                                    </div>
-                                                    @endforeach
-                                                </div>
-                                            </div> -->
-                                            <div class="items-container"></div>
-                                            <div class="col-6">
-                                                <div class="form-group">
-                                                    {{Form::label('ad_opts',__('Additional Options'),['class'=>'form-label']) }}
-                                                    @if(isset($additional_items) && !empty($additional_items))
-                                                    @foreach($additional_items as $key=>$items)
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" name="ad_opts[]" value="{{ key($items) }}" id="addopt{{ $key }}">
-                                                        <label class="form-check-label" for="addopt{{ $key }}">
-                                                            {{ key($items) }}
-                                                        </label>
-                                                    </div>
-                                                    @endforeach
-                                                    @endif
-                                                </div>
                                             </div>
 
                                             <div class="col-12">
@@ -680,62 +648,77 @@ $beer = ['Beer & Wine - 4 Hours', 'Beer & Wine - 3 Hours', 'Beer & Wine - 2 Hour
             if (val == 'Package Choice') {
                 $('#package').show();
             }
-        });
-        // Listen for changes in the selected functions
-        $('input[type="checkbox"][name="function[]"]').change(function() {
-            const selectedFunctions = $('input[type="checkbox"][name="function[]"]:checked').map(function() {
-                return this.value;
-            }).get();
-            // Remove existing package containers
-            $('.function-packages-container').remove();
-            // Create containers for selected functions
-            selectedFunctions.forEach(function(functionName) {
-                const containerId = functionName.toLowerCase() + '-packages-container';
-                const containerHtml = '<div id="' + containerId + '" class="function-packages-container"></div>';
-                $('.abc').append(containerHtml);
-                getPackagesForFunction(functionName, containerId); // Get and append packages for the function
+        })
+        jQuery(function() {
+            $('input[name="function[]"]').change(function() {
+                $('div#mailFunctionSection > div').hide();
+                $('input[name="function[]"]:checked').each(function() {
+                    var funVal = $(this).val();
+                    $('div#mailFunctionSection > div').each(function() {
+                        var attr_value = $(this).data('main-value');
+                        if (attr_value == funVal) {
+                            $(this).show();
+                        }
+                        $(this).children('.form-check').change(function() {
+                            asdfsaf = $(this).data('main-package');
+                            console.log(`asdfsaf: ${asdfsaf}`);
+                            nsdmsd = $(this).children('input').attr('name');
+                            // alert(nsdmsd);
+                            // $('div#additionalSection > div').hide();
+                            $(`${nsdmsd}:checked`).each(function() {
+                                gsdgfg = $(this).data('additional-index');
+                                if (asdfsaf == gsdgfg) {
+                                    $(this).show();
+                                    // alert('yes');
+                                } else {
+                                    $(this).hide();
+                                    // alert('no');
+                                }
+                            })
+                        })
+                    });
+                });
             });
         });
+        /* jQuery(function() {
+            $('div#mailFunctionSection input[type=checkbox]').change(function() {
+                // $('div#additionalSection > div').hide();
+                var funcValue = $(this).val();
+                // var additionalCheckboxes = $('div#additionalSection input[data-function]');
+                // $('div#mailFunctionSection input[type=checkbox]:checked').each(function() {
+                // $('div#additionalSection > div input[type = checkbox]').each(function() {
+                //     var at = $(this).data('additional-index');
+                //     console.log(at);
+                // });
 
-        function getPackagesForFunction(functionName, containerId) {
-            try {
-                // Parse the JSON string containing package data
-                const data = <?php echo json_encode($additional_items); ?>;
-                // Function to get package names based on function name
-                function getPackageNames(functionName) {
-                    // Convert function name to lowercase
-                    const lowerFunctionName = functionName.toLowerCase();
-                    // Check if the function exists in the data
-                    if (data[functionName]) {
-                        const packages = data[functionName];
-                        // Extract package names from the nested objects
-                        const packageNames = Object.keys(packages);
-                        return packageNames;
-                    } else {
-                        // If function not found, return empty array or handle accordingly
-                        return [];
-                    }
-                }
-                // Get the package names for the specified function
-                const packageNames = getPackageNames(functionName);
-                // Generate HTML for the package options
-                if (packageNames.length != 0) {
-                    let html = '<div class="package-label"><b>' + functionName + ' Package </b></div>'
-                    packageNames.forEach(function(packageName, index) {
-                        const packageId = functionName.toLowerCase().replace(/\s/g, '-') + '-package-' + index;
-                        const packageInputName = functionName.toLowerCase().replace(/\s/g, '_') + '_package[]';
-                        html += '<div class="form-check">';
-                        html += '<input id="' + packageId + '" class="form-check-input radio_class" name="' + packageInputName + '" type="radio" value="' + packageName + '">';
-                        html += '<label for="' + packageId + '" class="form-check-label">' + packageName + '</label>';
-                        html += '</div>';
-                    });
-                    // Append package options to the container
-                    $('#' + containerId).html(html);
-                }
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        }
+                // });
+                $('#additionalSection > div').each(function() {
+                    // Get the data-function value of the current checkbox
+                    var dataFunction = $(this).data('additional-index');
+
+                    console.log(dataFunction);
+                });
+                // });
+
+            });
+            // $('#mailFunctionSection input[type="checkbox"]').change(function() {
+            // //    $('div#additionalSection > div').hide();
+            //    var packVal = $(this).val();
+            //    console.log(packVal);
+            //     // $('input[name="additional[]"]:checked').each(function() {
+
+            //         // $('div#additionalSection > div').each(function() {
+            //         //     var value = $(this).data('function');
+            //         //     alert(value);
+            //         //     console.log(value);                        
+            //         //     // if (value == packVal) {
+            //         //     //     console.log('asd');
+            //         //     //     // $(this).show();
+            //         //     // }
+            //     //     });
+            //     // });
+            // });
+        }); */
     });
     var scrollSpy = new bootstrap.ScrollSpy(document.body, {
         target: '#useradd-sidenav',

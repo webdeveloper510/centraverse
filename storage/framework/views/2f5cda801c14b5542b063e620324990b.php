@@ -1519,7 +1519,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                             <label for 'additional_function'>Select Package</label>
 
                                             <div class="col-md-6">
-                                                <?php if(isset($settings['function']) && !empty($settings['function'])): ?>
+                                                <?php if(isset($function) && !empty($function)): ?>
                                                 <select name="additional_function" id="additional_function" class="form-select">
                                                     <option value="0" selected disabled>Select Function</option>
                                                     <?php $__currentLoopData = $function; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key =>$value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -1585,15 +1585,17 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                     <?php $__currentLoopData = $items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $itemName => $cost): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <?php if(!$firstItem): ?>
                                                 <tr>
-                                                    <td data-td-data="<?php echo e($functionName); ?>" style="display: none;"></td>
-                                                    <td data-td-data="<?php echo e($functionName); ?>" style="display: none;"></td>
                                                     <?php endif; ?>
 
                                                     <td class="item"><?php echo e($itemName); ?></td>
                                                     <td class="cost"><?php echo e($cost); ?></td>
-                                                    <td>
+                                                    <td data-function="<?php echo e($functionName); ?>" data-package="<?php echo e($packageName); ?>">
                                                         <button class="btn btn-sm edit-cost-btn bg-info"> <i class="ti ti-edit"></i></button>
+                                                        <a href="#!" class="mx-3 btn btn-sm  align-items-center bg-info text-white additional_show_confirm" data-bs-toggle="tooltip" title='Delete'data-function="<?php echo e($functionName); ?>"data-package="<?php echo e($packageName); ?>" data-item="<?php echo e($itemName); ?>" data-url="<?php echo e(route('additionaldelete.setting')); ?>" data-token="<?php echo e(csrf_token()); ?>">
+                                                            <i class="ti ti-trash"></i>
+                                                        </a>
                                                     </td>
+                                                    
                                                     <?php $firstItem = false; ?>
                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </tr>
@@ -3931,7 +3933,8 @@ unset($__errorArgs, $__bag); ?>
         $('#additional_function').change(function() {
             var selectedFunction = $(this).val();
             var packages = []; // Array to store packages corresponding to the selected function
-            var selectedFunctionObj = <?php echo json_encode($function); ?>[selectedFunction];
+            var selectedFunctionObj = <?php (isset($function) && !empty($function)) ? json_encode($function) : 'null'?>[selectedFunction];
+           
             if (selectedFunctionObj) {
                 packages = selectedFunctionObj.package; // Get the packages for the selected function
             }
@@ -4144,11 +4147,14 @@ unset($__errorArgs, $__bag); ?>
         document.querySelectorAll('.edit-cost-btn').forEach(button => {
             button.addEventListener('click', function() {
                 // Get the current cost value
+                console.log(button);
                 const costElement = this.closest('tr').querySelector('.cost');
                 let currentCost = costElement.textContent.trim();
-                const packageName = this.closest('tr').querySelector('.package').textContent.trim();
                 const itemName = this.closest('tr').querySelector('.item').textContent.trim();
-                const functionname = this.closest('tr').querySelector('.functionname').textContent.trim();
+
+                const packageName = this.closest('td').getAttribute('data-function').trim();
+                const functionname = this.closest('td').getAttribute('data-package').trim();
+                // const functionname = this.closest('tr').querySelector('.functionname').textContent.trim();
 
                 // Prompt the user to enter a new cost value
                 const newCost = prompt('Enter new cost:', currentCost);

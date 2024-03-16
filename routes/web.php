@@ -1235,6 +1235,7 @@ Route::group(['middleware' => ['verified']], function () {
     //=======================================Venue==========================================//
     Route::post('setting/venue', [SettingController::class, 'venue_select'])->name('venue.setting');
     Route::post('setting/delete-venue',[SettingController::class,'delete_venue'])->name('venueedit.setting');
+    Route::post('setting/delete-additional-items',[SettingController::class,'delete_additional_items'])->name('additionaldelete.setting');
      //=======================================Function==========================================//
      Route::post('setting/function', [SettingController::class, 'addfunction'])->name('function.setting');
      Route::post('setting/bar', [SettingController::class, 'addbars'])->name('bar.setting');
@@ -1362,3 +1363,5 @@ Route::get('/dashboard-testing',[DashboardTestingController::class,'index']);
 Route::post('/calender-meeting-data', [CalenderNewController::class, 'get_event_data']);
 Route::get('/calender-new', [CalenderNewController::class, 'index'])->name('calendernew.index');
 Route::post('/edit-addittional-items',[SettingController::class,'editadditionalcost'])->name('additionalitems.edit');
+Route::post('/function-packages', [MeetingController::class, 'getpackages'])->name('function.packages');
+

@@ -270,4 +270,4 @@ unset($__errorArgs, $__bag); ?>
     </script>
 <?php echo e(Form::close()); ?>
 
-<?php /**PATH /home/crmcentraverse/public_html/centraverse/resources/views/lead/create.blade.php ENDPATH**/ ?>
+<?php /**PATH D:\0Work\xampp\htdocs\laravel\centraverse\resources\views/lead/create.blade.php ENDPATH**/ ?>

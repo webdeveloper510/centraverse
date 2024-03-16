@@ -927,4 +927,32 @@ class MeetingController extends Controller
     
         return response()->json(['data' => []]);     
     }
+    public function getpackages(Request $request){
+        $settings = Utility::settings();
+        $add_items = json_decode($settings['additional_items'],true);
+        $selectedFunctions = $request->selectedFunctions;
+        // print_r($add_items);
+        // print_r($request->all());
+        // Iterate over each selected function
+        foreach ($selectedFunctions as $selectedFunction) {
+            // Check if the selected function exists in the meal details
+            if (isset($add_items[$selectedFunction])) {
+                $selectedFunctionDetails = $add_items[$selectedFunction];
+                // Iterate over each meal type within the selected function
+                print_r($selectedFunctionDetails);
+               
+                foreach ($selectedFunctionDetails as $mealType => $items) {
+                    return json_encode($mealType);
+                    echo "$mealType\n";
+                    // Iterate over each item within the meal type
+                    // foreach ($items as $item => $quantity) {
+                    //     echo "Item: $item, Quantity: $quantity\n";
+                    // }
+                }
+            } else {
+                echo "'$selectedFunction' meal type not found.\n";
+            }
+        }
+
+    }
 }

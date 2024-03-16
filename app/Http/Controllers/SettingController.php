@@ -19,22 +19,23 @@ use App\Models\Setup;
 use App\Models\FixedBill;
 // use Google\Service\ServiceControl\Auth;
 use DB;
+
 class SettingController extends Controller
 {
 
     public function index()
     {
         // if (\Auth::user()->type == 'owner' || \Auth::user()->type == 'super admin') {
-            $settings = Utility::settings();
-            $permissions = Permission::all()->pluck('name', 'id')->toArray();
-            $payment = Utility::set_payment_settings();
-            $webhooks = Webhook::where('created_by', \Auth::user()->id)->get();
-            $roles = Role::where('created_by', \Auth::user()->creatorId())->with('permissions')->get();
-            $users = User::where('created_by', '=', \Auth::user()->creatorId())->get();
-            $setup = Setup::all();
-            return view('settings.index', compact('settings', 'setup','payment', 'webhooks','permissions','roles','users'));
+        $settings = Utility::settings();
+        $permissions = Permission::all()->pluck('name', 'id')->toArray();
+        $payment = Utility::set_payment_settings();
+        $webhooks = Webhook::where('created_by', \Auth::user()->id)->get();
+        $roles = Role::where('created_by', \Auth::user()->creatorId())->with('permissions')->get();
+        $users = User::where('created_by', '=', \Auth::user()->creatorId())->get();
+        $setup = Setup::all();
+        return view('settings.index', compact('settings', 'setup', 'payment', 'webhooks', 'permissions', 'roles', 'users'));
         // } else {
-            // return redirect()->back()->with('error', __('Permission denied.'));
+        // return redirect()->back()->with('error', __('Permission denied.'));
         // }
     }
 
@@ -1544,17 +1545,16 @@ class SettingController extends Controller
         $created_at = $updated_at = date('Y-m-d H:i:s');
         $existingValue = $settings['event_type'] ?? '';
         $newValue = $existingValue . ($existingValue ? ',' : '') . $inputValue;
-        if(isset($settings['event_type']) && !empty($settings['event_type'])){
+        if (isset($settings['event_type']) && !empty($settings['event_type'])) {
             DB::table('settings')
-                ->where('name','event_type')
+                ->where('name', 'event_type')
                 ->update([
                     'value' => $newValue,
-                    'created_by'=> $user->id,
-                    'created_at' =>$created_at,
-                    'updated_at'=>$updated_at
+                    'created_by' => $user->id,
+                    'created_at' => $created_at,
+                    'updated_at' => $updated_at
                 ]);
-        }
-        else{
+        } else {
             \DB::insert(
                 'INSERT INTO settings (`value`, `name`,`created_by`,`created_at`,`updated_at`) values (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`), `updated_at` = VALUES(`updated_at`) ',
                 [
@@ -1563,48 +1563,49 @@ class SettingController extends Controller
                     $user->id,
                     $created_at,
                     $updated_at,
-                ]);
+                ]
+            );
         }
         return redirect()->back()->with('success', __('Event Type Added.'));
-       
     }
 
-    public function delete_event_type(Request $request){
+    public function delete_event_type(Request $request)
+    {
         $user = \Auth::user();
         $setting = Utility::settings();
         $existingValues = explode(',', $setting['event_type']);
         $updatedValues = array_diff($existingValues, [$request->badge]);
         $newvalue = implode(',', $updatedValues);
         $created_at = $updated_at = date('Y-m-d H:i:s');
-        
+
         DB::table('settings')
-        ->where('name','event_type')
-        ->update([
-            'value' => $newvalue,
-            'created_by'=> $user->id,
-            'created_at' =>$created_at,
-            'updated_at'=>$updated_at
-        ]);
+            ->where('name', 'event_type')
+            ->update([
+                'value' => $newvalue,
+                'created_by' => $user->id,
+                'created_at' => $created_at,
+                'updated_at' => $updated_at
+            ]);
         return true;
     }
-    public function venue_select(Request $request){
+    public function venue_select(Request $request)
+    {
         $user = \Auth::user();
         $inputValue =  $request->input('venue');
         $settings = Utility::settings();
         $created_at = $updated_at = date('Y-m-d H:i:s');
         $existingValue = $settings['venue'] ?? '';
         $newValue = $existingValue . ($existingValue ? ',' : '') . $inputValue;
-        if(isset($settings['venue']) && !empty($settings['venue'])){
+        if (isset($settings['venue']) && !empty($settings['venue'])) {
             DB::table('settings')
-                ->where('name','venue')
+                ->where('name', 'venue')
                 ->update([
                     'value' => $newValue,
-                    'created_by'=> $user->id,
-                    'created_at' =>$created_at,
-                    'updated_at'=>$updated_at
+                    'created_by' => $user->id,
+                    'created_at' => $created_at,
+                    'updated_at' => $updated_at
                 ]);
-        }
-        else{
+        } else {
             \DB::insert(
                 'INSERT INTO settings (`value`, `name`,`created_by`,`created_at`,`updated_at`) values (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`), `updated_at` = VALUES(`updated_at`) ',
                 [
@@ -1613,27 +1614,28 @@ class SettingController extends Controller
                     $user->id,
                     $created_at,
                     $updated_at,
-                ]);
+                ]
+            );
         }
         return redirect()->back()->with('success', __('Venue Added.'));
-       
     }
-    public function delete_venue(Request $request){
+    public function delete_venue(Request $request)
+    {
         $user = \Auth::user();
         $setting = Utility::settings();
         $existingValues = explode(',', $setting['venue']);
         $updatedValues = array_diff($existingValues, [$request->badge]);
         $newvalue = implode(',', $updatedValues);
         $created_at = $updated_at = date('Y-m-d H:i:s');
-        
+
         DB::table('settings')
-        ->where('name','venue')
-        ->update([
-            'value' => $newvalue,
-            'created_by'=> $user->id,
-            'created_at' =>$created_at,
-            'updated_at'=>$updated_at
-        ]);
+            ->where('name', 'venue')
+            ->update([
+                'value' => $newvalue,
+                'created_by' => $user->id,
+                'created_at' => $created_at,
+                'updated_at' => $updated_at
+            ]);
         return true;
     }
 
@@ -1657,7 +1659,7 @@ class SettingController extends Controller
     {
         $imageName = $request->input('imageName');
         $imagePath = public_path('floor_images') . '/' . $imageName;
-        Setup::where('image',$imageName)->delete();
+        Setup::where('image', $imageName)->delete();
         if (File::exists($imagePath)) {
             File::delete($imagePath);
             return response()->json(['success' => true]);
@@ -1665,24 +1667,24 @@ class SettingController extends Controller
             return response()->json(['success' => false, 'error' => 'Image not found']);
         }
     }
-    public function buffertime(Request $request){
+    public function buffertime(Request $request)
+    {
 
         $user = \Auth::user();
         $inputValue =  $request->input('buffer_time');
         $bufferday =  $request->input('buffer_day');
         $settings = Utility::settings();
         $created_at = $updated_at = date('Y-m-d H:i:s');
-        if(isset($settings['buffer_time']) && !empty($settings['buffer_time'])){
+        if (isset($settings['buffer_time']) && !empty($settings['buffer_time'])) {
             DB::table('settings')
-                ->where('name','buffer_time')
+                ->where('name', 'buffer_time')
                 ->update([
                     'value' => $inputValue,
-                    'created_by'=> $user->id,
-                    'created_at' =>$created_at,
-                    'updated_at'=>$updated_at
+                    'created_by' => $user->id,
+                    'created_at' => $created_at,
+                    'updated_at' => $updated_at
                 ]);
-        }
-        else{
+        } else {
             \DB::insert(
                 'INSERT INTO settings (`value`, `name`,`created_by`,`created_at`,`updated_at`) values (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`), `updated_at` = VALUES(`updated_at`) ',
                 [
@@ -1691,19 +1693,19 @@ class SettingController extends Controller
                     $user->id,
                     $created_at,
                     $updated_at,
-                ]);
+                ]
+            );
         }
-        if(isset($settings['buffer_day']) && !empty($settings['buffer_day'])){
+        if (isset($settings['buffer_day']) && !empty($settings['buffer_day'])) {
             DB::table('settings')
-                ->where('name','buffer_day')
+                ->where('name', 'buffer_day')
                 ->update([
                     'value' => $bufferday,
-                    'created_by'=> $user->id,
-                    'created_at' =>$created_at,
-                    'updated_at'=>$updated_at
+                    'created_by' => $user->id,
+                    'created_at' => $created_at,
+                    'updated_at' => $updated_at
                 ]);
-        }
-        else{
+        } else {
             \DB::insert(
                 'INSERT INTO settings (`value`, `name`,`created_by`,`created_at`,`updated_at`) values (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`), `updated_at` = VALUES(`updated_at`) ',
                 [
@@ -1712,11 +1714,13 @@ class SettingController extends Controller
                     $user->id,
                     $created_at,
                     $updated_at,
-                ]);
+                ]
+            );
         }
         return redirect()->back()->with('success', __('Buffer  Added .'));
     }
-    public function billing_cost(Request $request){
+    public function billing_cost(Request $request)
+    {
         $settings = Utility::settings();
         $user = \Auth::user();
         $created_at = $updated_at = date('Y-m-d H:i:s');
@@ -1733,7 +1737,7 @@ class SettingController extends Controller
         $barpackages = array_combine($bar_package, $request->bar_package_cost);
 
         // $bar_package = $bar_package[$request->bar_packages];
-      
+
         $data = $request->all();
         $jsonData = [
             'venue' => [
@@ -1741,11 +1745,11 @@ class SettingController extends Controller
             ],
             $function => $packages,
             $bar => $barpackages,
-            'equipment' =>$request->equipment,
-            'hotel_rooms' =>$request->hotel_rooms,
-            'special_req'=>$request->special_req,
-            'rehearsalsetup' =>$request->rehearsalsetup,
-            'welcomesetup' =>$request->welcomesetup
+            'equipment' => $request->equipment,
+            'hotel_rooms' => $request->hotel_rooms,
+            'special_req' => $request->special_req,
+            'rehearsalsetup' => $request->rehearsalsetup,
+            'welcomesetup' => $request->welcomesetup
         ];
         $existingData = json_decode($existingValue, true);
         foreach ($jsonData as $key => $value) {
@@ -1761,18 +1765,17 @@ class SettingController extends Controller
                 $existingData[$key] = $value;
             }
         }
-        $jsonString = json_encode($existingData);    
-        if(isset($settings['fixed_billing']) && !empty($settings['fixed_billing'])){
+        $jsonString = json_encode($existingData);
+        if (isset($settings['fixed_billing']) && !empty($settings['fixed_billing'])) {
             DB::table('settings')
-                ->where('name','fixed_billing')
+                ->where('name', 'fixed_billing')
                 ->update([
                     'value' => $jsonString,
-                    'created_by'=> $user->id,
-                    'created_at' =>$created_at,
-                    'updated_at'=>$updated_at
+                    'created_by' => $user->id,
+                    'created_at' => $created_at,
+                    'updated_at' => $updated_at
                 ]);
-        }
-        else{
+        } else {
             \DB::insert(
                 'INSERT INTO settings (`value`, `name`,`created_by`,`created_at`,`updated_at`) values (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`), `updated_at` = VALUES(`updated_at`) ',
                 [
@@ -1781,16 +1784,17 @@ class SettingController extends Controller
                     $user->id,
                     $created_at,
                     $updated_at,
-                ]);
+                ]
+            );
         }
         return redirect()->back()->with('success', __('Billing Cost Saved'));;
-    } 
-    public function signature(Request $request){
-        if(\File::exists(public_path('upload/signature/autorised_signature.png')))
-        {
+    }
+    public function signature(Request $request)
+    {
+        if (\File::exists(public_path('upload/signature/autorised_signature.png'))) {
             \File::delete(public_path('upload/signature/autorised_signature.png'));
         }
-            $this->uploadSignature($request->signature);
+        $this->uploadSignature($request->signature);
     }
     public function uploadSignature($signed)
     {
@@ -1799,11 +1803,12 @@ class SettingController extends Controller
         $image_type_aux = explode("image/", $image_parts[0]);
         $image_type = $image_type_aux[1];
         $image_base64 = base64_decode($image_parts[1]);
-        $file = $folderPath .'autorised_signature.'.$image_type;
+        $file = $folderPath . 'autorised_signature.' . $image_type;
         file_put_contents($file, $image_base64);
         return $file;
     }
-    public function addfunction(Request $request){
+    public function addfunction(Request $request)
+    {
         $settings = Utility::settings();
         $data['function'] = $request->function;
         $data['package'] = $request->package;
@@ -1816,24 +1821,23 @@ class SettingController extends Controller
         if ($existingArray === null) {
             // If no existing data, initialize an empty array
             $existingArray = array();
-            }
+        }
 
         // Append the new data to the existing array
         $existingArray[] = json_decode($data, true);
 
         // Encode the entire array as JSON
         $jsonData = json_encode($existingArray);
-        if(isset($settings['function']) && !empty($settings['function'])){
+        if (isset($settings['function']) && !empty($settings['function'])) {
             DB::table('settings')
-                ->where('name','function')
+                ->where('name', 'function')
                 ->update([
                     'value' => $jsonData,
-                    'created_by'=> $user->id,
-                    'created_at' =>$created_at,
-                    'updated_at'=>$updated_at
+                    'created_by' => $user->id,
+                    'created_at' => $created_at,
+                    'updated_at' => $updated_at
                 ]);
-        }
-        else{
+        } else {
             \DB::insert(
                 'INSERT INTO settings (`value`, `name`,`created_by`,`created_at`,`updated_at`) values (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`), `updated_at` = VALUES(`updated_at`) ',
                 [
@@ -1842,11 +1846,13 @@ class SettingController extends Controller
                     $user->id,
                     $created_at,
                     $updated_at,
-                ]);
+                ]
+            );
         }
         return redirect()->back()->with('success', __('Function Added .'));
     }
-    public function addbars(Request $request){
+    public function addbars(Request $request)
+    {
         $settings = Utility::settings();
 
         $data['bar'] = $request->bar;
@@ -1859,21 +1865,20 @@ class SettingController extends Controller
         $existingArray = json_decode($existingValue, true);
         if ($existingArray === null) {
             $existingArray = array();
-            }
+        }
         $existingArray[] = json_decode($data, true);
         $jsonData = json_encode($existingArray);
 
-        if(isset($settings['barpackage']) && !empty($settings['barpackage'])){
+        if (isset($settings['barpackage']) && !empty($settings['barpackage'])) {
             DB::table('settings')
-                ->where('name','barpackage')
+                ->where('name', 'barpackage')
                 ->update([
                     'value' => $jsonData,
-                    'created_by'=> $user->id,
-                    'created_at' =>$created_at,
-                    'updated_at'=>$updated_at
+                    'created_by' => $user->id,
+                    'created_at' => $created_at,
+                    'updated_at' => $updated_at
                 ]);
-        }
-        else{
+        } else {
             \DB::insert(
                 'INSERT INTO settings (`value`, `name`,`created_by`,`created_at`,`updated_at`) values (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`), `updated_at` = VALUES(`updated_at`) ',
                 [
@@ -1882,12 +1887,14 @@ class SettingController extends Controller
                     $user->id,
                     $created_at,
                     $updated_at,
-                ]);
+                ]
+            );
         }
         return redirect()->back()->with('success', __('Bar Package Added .'));
     }
-    public function delete_function_package(Request $request){
-        
+    public function delete_function_package(Request $request)
+    {
+
         $user = \Auth::user();
         $setting = Utility::settings();
         $badge = $request->badge;
@@ -1898,97 +1905,100 @@ class SettingController extends Controller
         }));
         $updatedfunction = json_encode($function);
         $created_at = $updated_at = date('Y-m-d H:i:s');
-        
+
         DB::table('settings')
-        ->where('name','function')
-        ->update([
-            'value' => $updatedfunction,
-            'created_by'=> $user->id,
-            'created_at' =>$created_at,
-            'updated_at'=>$updated_at
-        ]);
+            ->where('name', 'function')
+            ->update([
+                'value' => $updatedfunction,
+                'created_by' => $user->id,
+                'created_at' => $created_at,
+                'updated_at' => $updated_at
+            ]);
         return true;
     }
-   public function delete_function(Request $request){ 
-    $user = \Auth::user();
-    $setting = Utility::settings();
-    $badge = $request->badge;
-    $function = json_decode($setting['function']);
-    unset($function[$request->value]);
-    $function = array_values($function);
-    $updatedfunction = json_encode($function);
-    $created_at = $updated_at = date('Y-m-d H:i:s');
-    DB::table('settings')
-    ->where('name','function')
-    ->update([
-        'value' => $updatedfunction,
-        'created_by'=> $user->id,
-        'created_at' =>$created_at,
-        'updated_at'=>$updated_at
-    ]);
-    return true;
-   }
-   public function delete_bar(Request $request){ 
-    $user = \Auth::user();
-    $setting = Utility::settings();
-    $badge = $request->badge;
-    $bar = json_decode($setting['barpackage']);
-    unset($bar[$request->value]);
-    $bar = array_values($bar);
-    $updatedbar = json_encode($bar);
-    $created_at = $updated_at = date('Y-m-d H:i:s');
-    DB::table('settings')
-    ->where('name','barpackage')
-    ->update([
-        'value' => $updatedbar,
-        'created_by'=> $user->id,
-        'created_at' =>$created_at,
-        'updated_at'=>$updated_at
-    ]);
-    return true;
-   }
-   public function delete_bar_package(Request $request){
-        
-    $user = \Auth::user();
-    $setting = Utility::settings();
-    $badge = $request->badge;
-    $bar = json_decode($setting['barpackage']);
-    $data = $bar[$request->value];
-    $data->barpackage = array_values(array_filter($data->barpackage, function ($item) use ($badge) {
-        return $item !== $badge;
-    }));
-    $updatedbar = json_encode($bar);
-    $created_at = $updated_at = date('Y-m-d H:i:s');
-    
-    DB::table('settings')
-    ->where('name','barpackage')
-    ->update([
-        'value' => $updatedbar,
-        'created_by'=> $user->id,
-        'created_at' =>$created_at,
-        'updated_at'=>$updated_at
-    ]);
-    return true;
-}
-  
-    public function addcampaigntype(Request $request){
+    public function delete_function(Request $request)
+    {
+        $user = \Auth::user();
+        $setting = Utility::settings();
+        $badge = $request->badge;
+        $function = json_decode($setting['function']);
+        unset($function[$request->value]);
+        $function = array_values($function);
+        $updatedfunction = json_encode($function);
+        $created_at = $updated_at = date('Y-m-d H:i:s');
+        DB::table('settings')
+            ->where('name', 'function')
+            ->update([
+                'value' => $updatedfunction,
+                'created_by' => $user->id,
+                'created_at' => $created_at,
+                'updated_at' => $updated_at
+            ]);
+        return true;
+    }
+    public function delete_bar(Request $request)
+    {
+        $user = \Auth::user();
+        $setting = Utility::settings();
+        $badge = $request->badge;
+        $bar = json_decode($setting['barpackage']);
+        unset($bar[$request->value]);
+        $bar = array_values($bar);
+        $updatedbar = json_encode($bar);
+        $created_at = $updated_at = date('Y-m-d H:i:s');
+        DB::table('settings')
+            ->where('name', 'barpackage')
+            ->update([
+                'value' => $updatedbar,
+                'created_by' => $user->id,
+                'created_at' => $created_at,
+                'updated_at' => $updated_at
+            ]);
+        return true;
+    }
+    public function delete_bar_package(Request $request)
+    {
+
+        $user = \Auth::user();
+        $setting = Utility::settings();
+        $badge = $request->badge;
+        $bar = json_decode($setting['barpackage']);
+        $data = $bar[$request->value];
+        $data->barpackage = array_values(array_filter($data->barpackage, function ($item) use ($badge) {
+            return $item !== $badge;
+        }));
+        $updatedbar = json_encode($bar);
+        $created_at = $updated_at = date('Y-m-d H:i:s');
+
+        DB::table('settings')
+            ->where('name', 'barpackage')
+            ->update([
+                'value' => $updatedbar,
+                'created_by' => $user->id,
+                'created_at' => $created_at,
+                'updated_at' => $updated_at
+            ]);
+        return true;
+    }
+
+    public function addcampaigntype(Request $request)
+    {
         $user = \Auth::user();
         $inputValue =  $request->input('campaign_type');
         $settings = Utility::settings();
         $created_at = $updated_at = date('Y-m-d H:i:s');
         $existingValue = $settings['campaign_type'] ?? '';
         $newValue = $existingValue . ($existingValue ? ',' : '') . $inputValue;
-        if(isset($settings['campaign_type']) && !empty($settings['campaign_type'])){
+        if (isset($settings['campaign_type']) && !empty($settings['campaign_type'])) {
             DB::table('settings')
-                ->where('name','campaign_type')
+                ->where('name', 'campaign_type')
                 ->update([
                     'value' => $newValue,
-                    'created_by'=> $user->id,
-                    'created_at' =>$created_at,
-                    'updated_at'=>$updated_at
+                    'created_by' => $user->id,
+                    'created_at' => $created_at,
+                    'updated_at' => $updated_at
                 ]);
-        }
-        else{
+        } else {
             \DB::insert(
                 'INSERT INTO settings (`value`, `name`,`created_by`,`created_at`,`updated_at`) values (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`), `updated_at` = VALUES(`updated_at`) ',
                 [
@@ -1997,34 +2007,55 @@ class SettingController extends Controller
                     $user->id,
                     $created_at,
                     $updated_at,
-                ]);
+                ]
+            );
         }
         return redirect()->back()->with('success', __('Campaign Added.'));
     }
-    public function deletecampaigntype(Request $request){
+    public function deletecampaigntype(Request $request)
+    {
         $user = \Auth::user();
         $setting = Utility::settings();
         $existingValues = explode(',', $setting['campaign_type']);
         $updatedValues = array_diff($existingValues, [$request->badge]);
         $newvalue = implode(',', $updatedValues);
         $created_at = $updated_at = date('Y-m-d H:i:s');
-        
+
         DB::table('settings')
-        ->where('name','campaign_type')
-        ->update([
-            'value' => $newvalue,
-            'created_by'=> $user->id,
-            'created_at' =>$created_at,
-            'updated_at'=>$updated_at
-        ]);
+            ->where('name', 'campaign_type')
+            ->update([
+                'value' => $newvalue,
+                'created_by' => $user->id,
+                'created_at' => $created_at,
+                'updated_at' => $updated_at
+            ]);
         return true;
     }
-    public function additional_items(Request $request){
-  
-    $user = \Auth::user();
+    public function delete_additional_items(Request $request){
+      
+        $user = \Auth::user();
+        $setting = Utility::settings();
+        $additional_items = json_decode($setting['additional_items'],true);
+        $data = $additional_items[$request->functionval][$request->packageval];
+        unset($additional_items[$request->functionval][$request->packageval][$request->itemval]);
+        $updatedadditional= json_encode($additional_items);
+        $created_at = $updated_at = date('Y-m-d H:i:s');
+        DB::table('settings')
+            ->where('name', 'additional_items')
+            ->update([
+                'value' => $updatedadditional,
+                'created_by' => $user->id,
+                'created_at' => $created_at,
+                'updated_at' => $updated_at
+            ]);
+        return true;
+    }
+    public function additional_items(Request $request)
+    {
+
+        $user = \Auth::user();
         $settings = Utility::settings();
         $created_at = $updated_at = date('Y-m-d H:i:s');
-        $settings = Utility::settings();
         $function = json_decode($settings['function']);
         $additionalFunction = $function[$request->additional_function]->function;
         $additionalPackage = $request->additional_package;
@@ -2038,7 +2069,7 @@ class SettingController extends Controller
                 $additionalPackage => $additionalItems
             ]
         ];
-                $existingValue = $settings['additional_items'] ?? '';
+        $existingValue = $settings['additional_items'] ?? '';
         // Decode existing JSON string into an array
         $existingArray = json_decode($existingValue, true);
 
@@ -2049,11 +2080,46 @@ class SettingController extends Controller
         // Merge the new data with the existing array
         $existingArray = array_merge_recursive($existingArray, $resultArray);
         $jsonData = json_encode($existingArray);
+        if (isset($settings['additional_items']) && !empty($settings['additional_items'])) {
+            DB::table('settings')
+                ->where('name', 'additional_items')
+                ->update([
+                    'value' => $jsonData,
+                    'created_by' => $user->id,
+                    'created_at' => $created_at,
+                    'updated_at' => $updated_at
+                ]);
+        } else {
+            \DB::insert(
+                'INSERT INTO settings (`value`, `name`,`created_by`,`created_at`,`updated_at`) values (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`), `updated_at` = VALUES(`updated_at`) ',
+                [
+                    $jsonData,
+                    'additional_items',
+                    $user->id,
+                    $created_at,
+                    $updated_at,
+                ]
+            );
+        }
+        return redirect()->back()->with('success', __('Additional Items Added.'));
+    }
+    public function editadditionalcost(Request $request)
+    {
+        $user = \Auth::user();
+        $settings = Utility::settings();
+        $created_at = $updated_at = date('Y-m-d H:i:s');
+        $additionalItems = json_decode($settings['additional_items'], true);
+        // print_r($additionalItems);
+
+        // // print_r(json_decode($settings['additional_items'],true));   
+        $additional =  self::updateValue($additionalItems, $request->package_name, $request->function_name, $request->item_name, $request->cost);
+        $additional = json_encode($additional);
+        // print_r($additional);
         if(isset($settings['additional_items']) && !empty($settings['additional_items'])){
             DB::table('settings')
                 ->where('name','additional_items')
                 ->update([
-                    'value' => $jsonData,
+                    'value' => $additional,
                     'created_by'=> $user->id,
                     'created_at' =>$created_at,
                     'updated_at'=>$updated_at
@@ -2063,28 +2129,21 @@ class SettingController extends Controller
             \DB::insert(
                 'INSERT INTO settings (`value`, `name`,`created_by`,`created_at`,`updated_at`) values (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`), `updated_at` = VALUES(`updated_at`) ',
                 [
-                    $jsonData,
+                    $additional,
                     'additional_items',
                     $user->id,
                     $created_at,
                     $updated_at,
                 ]);
         }
-        return redirect()->back()->with('success', __('Additional Items Added.'));
+        return true;
     }
-    public function editadditionalcost(Request $request){
-        // print_r($request->all()); 
-        $settings = Utility::settings();
-        $additionalItems = json_decode($settings['additional_items'],true);
-        // print_r(json_decode($settings['additional_items'],true));   
-        self::updateValue($additionalItems,$request->function_name,$request->package_name ,$request->item_name, $request->cost);
-        $additionalItems = json_encode($additionalItems);
-        print_r($additionalItems); 
-    }
-    function updateValue(&$array, $functionName, $packageName, $itemName, $newCost) {
+    function updateValue($array, $functionName, $packageName, $itemName, $newCost)
+    {
         if (isset($array[$functionName][$packageName][$itemName])) {
             $array[$functionName][$packageName][$itemName] = $newCost;
         }
+        return $array;
     }
 }
 function get_device_type($user_agent)
