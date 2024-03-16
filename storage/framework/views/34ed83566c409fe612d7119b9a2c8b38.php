@@ -24,7 +24,7 @@ if(!empty($settings['barpackage'])){
 $bar =json_decode($settings['barpackage']);
 }
 if(!empty($settings['fixed_billing'])){
-$billing =json_decode($settings['fixed_billing']);
+$billing =json_decode($settings['fixed_billing'],true);
 }
 
 $campaign = explode(',',$settings['campaign_type']);
@@ -1228,6 +1228,13 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                             </div>
                         </div>
                     </div>
+                    <?php
+
+                    echo '<pre>';
+                    print_r($billing);
+                    echo '</pre>';
+
+                    ?>
                     <div id="billing-setting" class="card">
                         <div class="col-md-12">
                             <div class="card-header">
@@ -1242,129 +1249,87 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                     <?php echo e(Form::open(['route' => 'billing.setting', 'method' => 'post'])); ?>
 
                                     <?php echo csrf_field(); ?>
-                                    <div class="row form-group ">
-                                        <div class="col-md-6">
-                                            <?php echo e(Form::label('venue',__('Venue'),['class'=>'form-label'])); ?>
-
-                                            <?php echo Form::select('venue',$venue, null,['class' => 'form-control ', 'placeholder' => __('Select Venue'), 'required' => 'required']); ?>
-
-                                        </div>
-                                        <div class=" col-md-6">
-                                            <?php echo e(Form::label('venue_cost', __('Venue Cost'), ['class' => 'form-label'])); ?>
-
-                                            <?php echo e(Form::number('venue_cost',null,['class' => 'form-control ', 'placeholder' => __('Enter Venue Rental Cost'), 'required' => 'required'])); ?>
-
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="  form-group col-md-6">
-                                            <?php echo e(Form::label('function',__('Function'),['class'=>'form-label'])); ?>
-
-                                            <select name="function" id="function_names" class="form-select">
-                                                <option selected disabled>Select Function</option>
-                                                <?php if(isset($function) && !empty($function)): ?>
-                                                <?php $__currentLoopData = $function; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key =>$value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                <option value="<?php echo e($key); ?>"><?php echo e($value->function); ?></option>
+                                    <div class="row cst-border">
+                                        <div class="col-sm-6 venue">
+                                            <table class="table table-responsive table-bordered" style="width:100%">
+                                                <tr>
+                                                    <th><?php echo e(__('Venue')); ?></th>
+                                                    <th><?php echo e(__('Venue Cost')); ?></th>
+                                                </tr>
+                                                <?php $__currentLoopData = $venue; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $venueKey => $venueValue): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <tr>
+                                                    <td><?php echo e(__($venueKey)); ?></td>
+                                                    <td><input type="number" class="form-control" name="venue[<?php echo e($venueKey); ?>]" id="venue_<?php echo e($venueKey); ?>" value="<?php echo e($billing['venue'][$venueKey]); ?>" placeholder="<?php echo e(__($venueKey)); ?>"></td>
+                                                </tr>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                <?php endif; ?>
-                                            </select>
+                                            </table>
                                         </div>
-                                    </div>
-                                    <div class="row function_cost form-group" style="display:none;">
-                                        <?php echo e(Form::label('packages',__('Package'),['class'=>'form-label'])); ?>
+                                        <div class="col-sm-6 function">
+                                            <table class="table table-responsive table-bordered" style="width:100%">
+                                                <tr>
+                                                    <th><?php echo e(__('Function')); ?></th>
+                                                    <th><?php echo e(__('Function Cost')); ?></th>
+                                                </tr>
+                                                <?php $__currentLoopData = $function; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $functionKey => $functionValue): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <tr>
+                                                    <td><?php echo e(__($functionValue->function)); ?></td>
+                                                    <td>
+                                                        <?php $__currentLoopData = $functionValue->package; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $packageKey => $packageValue): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <?php echo e(Form::label($packageValue, __($packageValue), ['class' => 'form-label'])); ?>
 
-                                        <div id="package_inputs"></div>
-                                    </div>
-
-                                    <!-- <div class="row function_cost form-group " style="display:none;">
-                                            <div class="col-md-6">
-                                                <?php echo e(Form::label('packages',__('Package'),['class'=>'form-label'])); ?>
-
-                                                <select name="packages" id="packages_name" class="form-select">
-                                                </select>
-                                            </div>
-                                            <div class="col-md-6 ">
-                                                <?php echo e(Form::label('package_cost', __('Function Package Cost'), ['class' => 'form-label'])); ?>
-
-                                                <?php echo e(Form::number('package_cost',null,['class' => 'form-control ', 'placeholder' => __('Enter Package Cost'), 'required' => 'required' , 'min' =>0])); ?>
-
-                                            </div>
-
-                                        </div> -->
-                                    <div class="row">
-                                        <div class="  form-group col-md-6">
-                                            <?php echo e(Form::label('bar_package',__('Bar'),['class'=>'form-label'])); ?>
-
-                                            <select name="bar_package" id="bar_names" class="form-select" required>
-                                                <option selected disabled>Select Bar</option>
-                                                <?php if(isset($bar) && !empty($bar)): ?>
-                                                <?php $__currentLoopData = $bar; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key =>$value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                <option value="<?php echo e($key); ?>"><?php echo e($value->bar); ?></option>
+                                                        <input type="number" class="form-control" name="package[<?php echo e($packageValue); ?>]" id="package_<?php echo e($packageKey); ?>" value="<?php echo e($billing['package'][$packageValue]); ?>" placeholder="<?php echo e($packageValue); ?>">
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                    </td>
+                                                </tr>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                <?php endif; ?>
-                                            </select>
+                                            </table>
                                         </div>
-                                    </div>
-                                    <div class="row bar_cost form-group" style="display:none;">
-                                        <?php echo e(Form::label('bar_packages',__('Bar Package'),['class'=>'form-label'])); ?>
+                                        <div class="col-sm-6 bar mt-3">
+                                            <table class="table table-responsive table-bordered" style="width:100%">
+                                                <tr>
+                                                    <th><?php echo e(__('Bar')); ?></th>
+                                                    <th><?php echo e(__('Bar Cost')); ?></th>
+                                                </tr>
+                                                <?php $__currentLoopData = $bar; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $barKey => $barValue): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <tr>
+                                                    <td><?php echo e(__($barValue->bar)); ?></td>
+                                                    <td>
+                                                        <?php $__currentLoopData = $barValue->barpackage; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $barpackageKey => $barpackageValue): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <?php echo e(Form::label($barpackageValue, __($barpackageValue), ['class' => 'form-label'])); ?>
 
-                                        <div id="bar_package_inputs"></div>
-                                    </div>
-                                    <!-- <div class="row bar_cost form-group " style="display:none;">
-                                            <div class="col-md-6">
-                                                <?php echo e(Form::label('bar_packages',__('Bar Package'),['class'=>'form-label'])); ?>
+                                                        <input type="number" class="form-control" name="barpackage[<?php echo e($barpackageValue); ?>]" id="barpackage_<?php echo e($barpackageKey); ?>" value="<?php echo e($billing['barpackage'][$barpackageValue]); ?>" placeholder="<?php echo e($barpackageValue); ?>">
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                    </td>
+                                                </tr>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                            </table>
+                                        </div>
+                                        <div class="col-sm-6 equipment">
+                                            <div class="form-group">
+                                                <?php echo e(Form::label('equipment', __('Equipment'), ['class' => 'form-label'])); ?>
 
-                                                <select name="bar_packages" id="barpackages_name" class="form-select">
-                                                </select>
+                                                <input type="number" name="equipment" id="" class="form-control" value="<?= (isset($billing['equipment'])) ?? $billing['equipment'] ?>" placeholder="Enter Equipments Cost (eg. Tent, Tables, Chairs)" required>
                                             </div>
-                                            <div class="col-md-6 ">
-                                                <?php echo e(Form::label('barpackage_cost', __('Bar Package Cost'), ['class' => 'form-label'])); ?>
+                                            <div class="form-group">
+                                                <?php echo e(Form::label('welcomesetup', __('Welcome Setup'), ['class' => 'form-label'])); ?>
 
-                                                <?php echo e(Form::number('barpackage_cost',null,['class' => 'form-control ', 'placeholder' => __('Enter Package Cost'), 'required' => 'required' , 'min' =>0])); ?>
-
+                                                <input type="number" name="welcomesetup" id="" class="form-control" value="<?= isset($billing['welcomesetup']) ?? $billing['welcomesetup'] ?>" placeholder="Enter Welcome Setup Cost" required>
                                             </div>
+                                            <div class="form-group">
+                                                <?php echo e(Form::label('rehearsalsetup', __('Rehearsel Setup'), ['class' => 'form-label'])); ?>
 
-                                        </div> -->
-                                    <div class="row form-group">
-                                        <div class="col-md-6">
-                                            <?php echo e(Form::label('equipment', __('Equipment'), ['class' => 'form-label'])); ?>
+                                                <input type="number" name="rehearsalsetup" class="form-control" value="<?= (isset($billing['rehearsalsetup'])) ?? $billing['rehearsalsetup'] ?>" placeholder="Enter Rehearsel Setup Cost" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <?php echo e(Form::label('hotel_rooms', __('Hotel Rooms'), ['class' => 'form-label'])); ?>
 
-                                            <input type="number" name="equipment" id="" class="form-control" value="<?php if (isset($billing)) {
-                                                                                                                        echo $billing->equipment;
-                                                                                                                    } ?>" placeholder="Enter Equipments Cost (eg. Tent, Tables, Chairs)" required>
-                                        </div>
-                                        <div class=" col-md-6">
-                                            <?php echo e(Form::label('welcomesetup', __('Welcome Setup'), ['class' => 'form-label'])); ?>
+                                                <input type="number" name="hotel_rooms" class="form-control" value="<?= (isset($billing['hotel_rooms'])) ?? $billing['hotel_rooms'] ?>" placeholder="Enter Hotel Rooms Cost" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <?php echo e(Form::label('special_req', __('Special Request/Others'), ['class' => 'form-label'])); ?>
 
-                                            <input type="number" name="welcomesetup" id="" class="form-control" value="<?php if (isset($billing)) {
-                                                                                                                            echo $billing->welcomesetup;
-                                                                                                                        } ?>" placeholder="Enter Welcome Setup Cost" required>
-                                        </div>
-                                    </div>
-                                    <div class="row ">
-                                        <div class=" col-md-6 form-group">
-                                            <?php echo e(Form::label('rehearsalsetup', __('Rehearsel Setup'), ['class' => 'form-label'])); ?>
-
-                                            <input type="number" name="rehearsalsetup" class="form-control" value="<?php if (isset($billing)) {
-                                                                                                                        echo $billing->rehearsalsetup;
-                                                                                                                    } ?>" placeholder="Enter Rehearsel Setup Cost" required>
-                                        </div>
-
-                                    </div>
-                                    <div class="row form-group ">
-                                        <div class=" col-md-6">
-                                            <?php echo e(Form::label('hotel_rooms', __('Hotel Rooms'), ['class' => 'form-label'])); ?>
-
-                                            <input type="number" name="hotel_rooms" class="form-control" value="<?php if (isset($billing)) {
-                                                                                                                    echo $billing->hotel_rooms;
-                                                                                                                } ?>" placeholder="Enter Hotel Rooms Cost" required>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <?php echo e(Form::label('special_req', __('Special Request/Others'), ['class' => 'form-label'])); ?>
-
-                                            <input type="number" name="special_req" class="form-control" value="<?php if (isset($billing)) {
-                                                                                                                    echo $billing->special_req;
-                                                                                                                } ?>" placeholder="Enter  Cost" required>
+                                                <input type="number" name="special_req" class="form-control" value="<?= (isset($billing['special_req'])) ?? $billing['special_req'] ?>" placeholder="Enter  Cost" required>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="text-end">
@@ -1592,11 +1557,11 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                     <td class="cost"><?php echo e($cost); ?></td>
                                                     <td data-function="<?php echo e($functionName); ?>" data-package="<?php echo e($packageName); ?>">
                                                         <button class="btn btn-sm edit-cost-btn bg-info"> <i class="ti ti-edit"></i></button>
-                                                        <a href="#!" class="mx-3 btn btn-sm  align-items-center bg-info text-white additional_show_confirm" data-bs-toggle="tooltip" title='Delete'data-function="<?php echo e($functionName); ?>"data-package="<?php echo e($packageName); ?>" data-item="<?php echo e($itemName); ?>" data-url="<?php echo e(route('additionaldelete.setting')); ?>" data-token="<?php echo e(csrf_token()); ?>">
+                                                        <a href="#!" class="mx-3 btn btn-sm  align-items-center bg-info text-white additional_show_confirm" data-bs-toggle="tooltip" title='Delete' data-function="<?php echo e($functionName); ?>" data-package="<?php echo e($packageName); ?>" data-item="<?php echo e($itemName); ?>" data-url="<?php echo e(route('additionaldelete.setting')); ?>" data-token="<?php echo e(csrf_token()); ?>">
                                                             <i class="ti ti-trash"></i>
                                                         </a>
                                                     </td>
-                                                    
+
                                                     <?php $firstItem = false; ?>
                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </tr>
@@ -3931,20 +3896,15 @@ unset($__errorArgs, $__bag); ?>
 <?php $__env->startPush('script-page'); ?>
 <script>
     $(document).ready(function() {
-        $('#additional_function').change(function() {
-            var selectedFunction = $(this).val();
-            var packages = []; // Array to store packages corresponding to the selected function
-            var selectedFunctionObj = <?php (isset($function) && !empty($function)) ? json_encode($function) : 'null'?>[selectedFunction];
-           
-            if (selectedFunctionObj) {
-                packages = selectedFunctionObj.package; // Get the packages for the selected function
-            }
+        $("select#additional_function").change(function() {
+            let val = $(this).val();
+            const functionData = <?= json_encode($function) ?>[val];
+            let packages = functionData.package;
             $('#additional_package').empty();
-            // Populate 'aditional_package' select box with corresponding packages
             $.each(packages, function(index, package) {
                 $('#additional_package').append('<option value="' + package + '">' + package + '</option>');
             });
-        });
+        })
     });
 </script>
 <script>

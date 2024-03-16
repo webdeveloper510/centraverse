@@ -24,7 +24,7 @@ if(!empty($settings['barpackage'])){
 $bar =json_decode($settings['barpackage']);
 }
 if(!empty($settings['fixed_billing'])){
-$billing =json_decode($settings['fixed_billing']);
+$billing =json_decode($settings['fixed_billing'],true);
 }
 
 $campaign = explode(',',$settings['campaign_type']);
@@ -1169,6 +1169,13 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                             </div>
                         </div>
                     </div>
+                    <?php
+
+                    echo '<pre>';
+                    print_r($billing);
+                    echo '</pre>';
+
+                    ?>
                     <div id="billing-setting" class="card">
                         <div class="col-md-12">
                             <div class="card-header">
@@ -1182,110 +1189,80 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                 <div class="row mt-3">
                                     {{ Form::open(['route' => 'billing.setting', 'method' => 'post']) }}
                                     @csrf
-                                    <div class="row form-group ">
-                                        <div class="col-md-6">
-                                            {{Form::label('venue',__('Venue'),['class'=>'form-label']) }}
-                                            {!! Form::select('venue',$venue, null,['class' => 'form-control ', 'placeholder' => __('Select Venue'), 'required' => 'required']) !!}
-                                        </div>
-                                        <div class=" col-md-6">
-                                            {{ Form::label('venue_cost', __('Venue Cost'), ['class' => 'form-label']) }}
-                                            {{ Form::number('venue_cost',null,['class' => 'form-control ', 'placeholder' => __('Enter Venue Rental Cost'), 'required' => 'required']) }}
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="  form-group col-md-6">
-                                            {{Form::label('function',__('Function'),['class'=>'form-label']) }}
-                                            <select name="function" id="function_names" class="form-select">
-                                                <option selected disabled>Select Function</option>
-                                                @if(isset($function) && !empty($function))
-                                                @foreach($function as $key =>$value)
-                                                <option value="{{$key}}">{{$value->function}}</option>
+                                    <div class="row cst-border">
+                                        <div class="col-sm-6 venue">
+                                            <table class="table table-responsive table-bordered" style="width:100%">
+                                                <tr>
+                                                    <th>{{__('Venue')}}</th>
+                                                    <th>{{__('Venue Cost')}}</th>
+                                                </tr>
+                                                @foreach($venue as $venueKey => $venueValue)
+                                                <tr>
+                                                    <td>{{__($venueKey)}}</td>
+                                                    <td><input type="number" class="form-control" name="venue[{{$venueKey}}]" id="venue_{{$venueKey}}" value="{{$billing['venue'][$venueKey]}}" placeholder="{{__($venueKey)}}"></td>
+                                                </tr>
                                                 @endforeach
-                                                @endif
-                                            </select>
+                                            </table>
                                         </div>
-                                    </div>
-                                    <div class="row function_cost form-group" style="display:none;">
-                                        {{Form::label('packages',__('Package'),['class'=>'form-label']) }}
-                                        <div id="package_inputs"></div>
-                                    </div>
-
-                                    <!-- <div class="row function_cost form-group " style="display:none;">
-                                            <div class="col-md-6">
-                                                {{Form::label('packages',__('Package'),['class'=>'form-label']) }}
-                                                <select name="packages" id="packages_name" class="form-select">
-                                                </select>
-                                            </div>
-                                            <div class="col-md-6 ">
-                                                {{ Form::label('package_cost', __('Function Package Cost'), ['class' => 'form-label']) }}
-                                                {{ Form::number('package_cost',null,['class' => 'form-control ', 'placeholder' => __('Enter Package Cost'), 'required' => 'required' , 'min' =>0]) }}
-                                            </div>
-
-                                        </div> -->
-                                    <div class="row">
-                                        <div class="  form-group col-md-6">
-                                            {{Form::label('bar_package',__('Bar'),['class'=>'form-label']) }}
-                                            <select name="bar_package" id="bar_names" class="form-select" required>
-                                                <option selected disabled>Select Bar</option>
-                                                @if(isset($bar) && !empty($bar))
-                                                @foreach($bar as $key =>$value)
-                                                <option value="{{$key}}">{{$value->bar}}</option>
+                                        <div class="col-sm-6 function">
+                                            <table class="table table-responsive table-bordered" style="width:100%">
+                                                <tr>
+                                                    <th>{{__('Function')}}</th>
+                                                    <th>{{__('Function Cost')}}</th>
+                                                </tr>
+                                                @foreach($function as $functionKey => $functionValue)
+                                                <tr>
+                                                    <td>{{__($functionValue->function)}}</td>
+                                                    <td>
+                                                        @foreach($functionValue->package as $packageKey => $packageValue)
+                                                        {{ Form::label($packageValue, __($packageValue), ['class' => 'form-label']) }}
+                                                        <input type="number" class="form-control" name="package[{{$packageValue}}]" id="package_{{$packageKey}}" value="{{$billing['package'][$packageValue]}}" placeholder="{{$packageValue}}">
+                                                        @endforeach
+                                                    </td>
+                                                </tr>
                                                 @endforeach
-                                                @endif
-                                            </select>
+                                            </table>
                                         </div>
-                                    </div>
-                                    <div class="row bar_cost form-group" style="display:none;">
-                                        {{Form::label('bar_packages',__('Bar Package'),['class'=>'form-label']) }}
-                                        <div id="bar_package_inputs"></div>
-                                    </div>
-                                    <!-- <div class="row bar_cost form-group " style="display:none;">
-                                            <div class="col-md-6">
-                                                {{Form::label('bar_packages',__('Bar Package'),['class'=>'form-label']) }}
-                                                <select name="bar_packages" id="barpackages_name" class="form-select">
-                                                </select>
+                                        <div class="col-sm-6 bar mt-3">
+                                            <table class="table table-responsive table-bordered" style="width:100%">
+                                                <tr>
+                                                    <th>{{__('Bar')}}</th>
+                                                    <th>{{__('Bar Cost')}}</th>
+                                                </tr>
+                                                @foreach($bar as $barKey => $barValue)
+                                                <tr>
+                                                    <td>{{__($barValue->bar)}}</td>
+                                                    <td>
+                                                        @foreach($barValue->barpackage as $barpackageKey => $barpackageValue)
+                                                        {{ Form::label($barpackageValue, __($barpackageValue), ['class' => 'form-label']) }}
+                                                        <input type="number" class="form-control" name="barpackage[{{$barpackageValue}}]" id="barpackage_{{$barpackageKey}}" value="{{$billing['barpackage'][$barpackageValue]}}" placeholder="{{$barpackageValue}}">
+                                                        @endforeach
+                                                    </td>
+                                                </tr>
+                                                @endforeach
+                                            </table>
+                                        </div>
+                                        <div class="col-sm-6 equipment">
+                                            <div class="form-group">
+                                                {{ Form::label('equipment', __('Equipment'), ['class' => 'form-label']) }}
+                                                <input type="number" name="equipment" id="" class="form-control" value="<?= (isset($billing['equipment'])) ?? $billing['equipment'] ?>" placeholder="Enter Equipments Cost (eg. Tent, Tables, Chairs)" required>
                                             </div>
-                                            <div class="col-md-6 ">
-                                                {{ Form::label('barpackage_cost', __('Bar Package Cost'), ['class' => 'form-label']) }}
-                                                {{ Form::number('barpackage_cost',null,['class' => 'form-control ', 'placeholder' => __('Enter Package Cost'), 'required' => 'required' , 'min' =>0]) }}
+                                            <div class="form-group">
+                                                {{ Form::label('welcomesetup', __('Welcome Setup'), ['class' => 'form-label']) }}
+                                                <input type="number" name="welcomesetup" id="" class="form-control" value="<?= isset($billing['welcomesetup']) ?? $billing['welcomesetup'] ?>" placeholder="Enter Welcome Setup Cost" required>
                                             </div>
-
-                                        </div> -->
-                                    <div class="row form-group">
-                                        <div class="col-md-6">
-                                            {{ Form::label('equipment', __('Equipment'), ['class' => 'form-label']) }}
-                                            <input type="number" name="equipment" id="" class="form-control" value="<?php if (isset($billing)) {
-                                                                                                                        echo $billing->equipment;
-                                                                                                                    } ?>" placeholder="Enter Equipments Cost (eg. Tent, Tables, Chairs)" required>
-                                        </div>
-                                        <div class=" col-md-6">
-                                            {{ Form::label('welcomesetup', __('Welcome Setup'), ['class' => 'form-label']) }}
-                                            <input type="number" name="welcomesetup" id="" class="form-control" value="<?php if (isset($billing)) {
-                                                                                                                            echo $billing->welcomesetup;
-                                                                                                                        } ?>" placeholder="Enter Welcome Setup Cost" required>
-                                        </div>
-                                    </div>
-                                    <div class="row ">
-                                        <div class=" col-md-6 form-group">
-                                            {{ Form::label('rehearsalsetup', __('Rehearsel Setup'), ['class' => 'form-label']) }}
-                                            <input type="number" name="rehearsalsetup" class="form-control" value="<?php if (isset($billing)) {
-                                                                                                                        echo $billing->rehearsalsetup;
-                                                                                                                    } ?>" placeholder="Enter Rehearsel Setup Cost" required>
-                                        </div>
-
-                                    </div>
-                                    <div class="row form-group ">
-                                        <div class=" col-md-6">
-                                            {{ Form::label('hotel_rooms', __('Hotel Rooms'), ['class' => 'form-label']) }}
-                                            <input type="number" name="hotel_rooms" class="form-control" value="<?php if (isset($billing)) {
-                                                                                                                    echo $billing->hotel_rooms;
-                                                                                                                } ?>" placeholder="Enter Hotel Rooms Cost" required>
-                                        </div>
-                                        <div class="col-md-6">
-                                            {{ Form::label('special_req', __('Special Request/Others'), ['class' => 'form-label']) }}
-                                            <input type="number" name="special_req" class="form-control" value="<?php if (isset($billing)) {
-                                                                                                                    echo $billing->special_req;
-                                                                                                                } ?>" placeholder="Enter  Cost" required>
+                                            <div class="form-group">
+                                                {{ Form::label('rehearsalsetup', __('Rehearsel Setup'), ['class' => 'form-label']) }}
+                                                <input type="number" name="rehearsalsetup" class="form-control" value="<?= (isset($billing['rehearsalsetup'])) ?? $billing['rehearsalsetup'] ?>" placeholder="Enter Rehearsel Setup Cost" required>
+                                            </div>
+                                            <div class="form-group">
+                                                {{ Form::label('hotel_rooms', __('Hotel Rooms'), ['class' => 'form-label']) }}
+                                                <input type="number" name="hotel_rooms" class="form-control" value="<?= (isset($billing['hotel_rooms'])) ?? $billing['hotel_rooms'] ?>" placeholder="Enter Hotel Rooms Cost" required>
+                                            </div>
+                                            <div class="form-group">
+                                                {{ Form::label('special_req', __('Special Request/Others'), ['class' => 'form-label']) }}
+                                                <input type="number" name="special_req" class="form-control" value="<?= (isset($billing['special_req'])) ?? $billing['special_req'] ?>" placeholder="Enter  Cost" required>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="text-end">
@@ -1495,11 +1472,11 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                     <td class="cost">{{ $cost }}</td>
                                                     <td data-function="{{ $functionName }}" data-package="{{ $packageName }}">
                                                         <button class="btn btn-sm edit-cost-btn bg-info"> <i class="ti ti-edit"></i></button>
-                                                        <a href="#!" class="mx-3 btn btn-sm  align-items-center bg-info text-white additional_show_confirm" data-bs-toggle="tooltip" title='Delete'data-function="{{ $functionName }}"data-package="{{ $packageName }}" data-item="{{$itemName}}" data-url="{{ route('additionaldelete.setting') }}" data-token="{{ csrf_token() }}">
+                                                        <a href="#!" class="mx-3 btn btn-sm  align-items-center bg-info text-white additional_show_confirm" data-bs-toggle="tooltip" title='Delete' data-function="{{ $functionName }}" data-package="{{ $packageName }}" data-item="{{$itemName}}" data-url="{{ route('additionaldelete.setting') }}" data-token="{{ csrf_token() }}">
                                                             <i class="ti ti-trash"></i>
                                                         </a>
                                                     </td>
-                                                    
+
                                                     @php $firstItem = false; @endphp
                                                     @endforeach
                                                 </tr>
@@ -3678,20 +3655,15 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
 @push('script-page')
 <script>
     $(document).ready(function() {
-        $('#additional_function').change(function() {
-            var selectedFunction = $(this).val();
-            var packages = []; // Array to store packages corresponding to the selected function
-            var selectedFunctionObj = <?php (isset($function) && !empty($function)) ? json_encode($function) : 'null'?>[selectedFunction];
-           
-            if (selectedFunctionObj) {
-                packages = selectedFunctionObj.package; // Get the packages for the selected function
-            }
+        $("select#additional_function").change(function() {
+            let val = $(this).val();
+            const functionData = <?= json_encode($function) ?>[val];
+            let packages = functionData.package;
             $('#additional_package').empty();
-            // Populate 'aditional_package' select box with corresponding packages
             $.each(packages, function(index, package) {
                 $('#additional_package').append('<option value="' + package + '">' + package + '</option>');
             });
-        });
+        })
     });
 </script>
 <script>
