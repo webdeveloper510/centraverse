@@ -516,7 +516,7 @@
                                 No Personal Checks are accepted for final payment. <br><br>
                                 The Rules and Conditions for Usage are incorporated herein and are made a part hereof. <br><br>
                 
-                                Please return signed contract with deposit no later than <b><?php echo e(\Carbon\Carbon::parse($meeting->start_date)->format('d M, Y')); ?></b> or this contract is no longer valid.<br>
+                                Please return signed contract with deposit no later than <b><?php echo e(\Carbon\Carbon::parse($meeting->start_date)->subDays($settings['buffer_day'])->format('d M, Y')); ?></b> or this contract is no longer valid.<br>
                                 </p>
                              
                             </div>

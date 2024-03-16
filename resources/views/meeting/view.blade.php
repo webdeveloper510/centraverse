@@ -44,9 +44,9 @@
     </div>
 
     <div class="w-100 text-end pr-2">
-    @if($meeting->start_date >= now())
+    <!-- @if($meeting->start_date >= now())
     <a href="{{ url('/meeting-download/' . $meeting->id) }}"><i class="fa fa-download action-btn bg-info ms-1" style="cursor:pointer;"></i></a>
-    @endif
+    @endif -->
     @can('Edit Meeting')
         <div class="action-btn bg-info ms-2">
             <a href="{{ route('meeting.edit',$meeting->id) }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white" data-bs-toggle="tooltip"data-title="{{__('Edit Call')}}" title="{{__('Edit')}}"><i class="ti ti-edit"></i>

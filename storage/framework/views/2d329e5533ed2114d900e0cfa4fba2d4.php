@@ -5,7 +5,10 @@
     $type_arr = array_combine($type_arr, $type_arr);
     $venue = explode(',',$settings['venue']);
     if(isset($settings['function']) && !empty($settings['function'])){
-        $function = json_decode($settings['function']);
+        $function = json_decode($settings['function'],true);
+    }
+    if(isset($settings['barpackage']) && !empty($settings['barpackage'])){
+        $bar_package = json_decode($settings['barpackage'],true);
     }
     $bar = ['Open Bar', 'Cash Bar', 'Package Choice'];
     $platinum = ['Platinum - 4 Hours', 'Platinum - 3 Hours', 'Platinum - 2 Hours'];
@@ -98,18 +101,22 @@ unset($__errorArgs, $__bag); ?>
 
             </div>
         </div>
+        <?php if(isset($venue) && !empty($venue)): ?>
         <div class="col-6">
             <div class="form-group">
                 <?php echo e(Form::label('venue_selection', __('Venue'), ['class' => 'form-label'])); ?>
 
+                <div>
                 <?php $__currentLoopData = $venue; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $label): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <?php echo e(Form::checkbox('venue[]', $label, false, ['id' => 'venue' . ($key + 1)])); ?>
 
                         <?php echo e(Form::label($label, $label)); ?>
 
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>  
+                </div>
             </div>
         </div>
+        <?php endif; ?>
         <div class="col-6">
             <div class="form-group">
                 <?php echo e(Form::label('start_date', __('Start Date'), ['class' => 'form-label'])); ?>
@@ -135,22 +142,24 @@ unset($__errorArgs, $__bag); ?>
 
             </div>
         </div>
-        
+       <?php if(isset($function) && !empty($function)): ?>
         <div class="col-6">
             <div class="form-group">
                 <?php echo e(Form::label('function', __('Function'), ['class' => 'form-label'])); ?>
 
+                <div style="    display: flex;">
                 <?php $__currentLoopData = $function; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <div class="form-check">
-                        <?php echo Form::checkbox('function[]', $value->function, null, ['class' => 'form-check-input', 'id' => 'function_' . $key]); ?>
+                    <div class="form-check" style="    padding-left: 2.75em !important;">
+                        <?php echo Form::checkbox('function[]', $value['function'], null, ['class' => 'form-check-input', 'id' => 'function_' . $key]); ?>
 
-                        <?php echo e(Form::label($value->function, $value->function, ['class' => 'form-check-label'])); ?>
+                        <?php echo e(Form::label($value['function'], $value['function'], ['class' => 'form-check-label'])); ?>
 
                     </div>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
+                </div>
             </div>
         </div>
+        <?php endif; ?>
         <div class="col-6">
             <div class="form-group">
                 <?php echo e(Form::label('Assign Staff',__('Assign Staff'),['class'=>'form-label'])); ?>

@@ -18,11 +18,10 @@ if(isset($setting['additional_items']) && !empty($setting['additional_items'])){
 $additional_items = json_decode($setting['additional_items'],true);
 }
 $meal = ['Formal Plated' ,'Buffet Style' , 'Family Style'];
-$bar = ['Open Bar', 'Cash Bar', 'Package Choice'];
-$platinum = ['Platinum - 4 Hours', 'Platinum - 3 Hours', 'Platinum - 2 Hours'];
-$gold = ['Gold - 4 Hours', 'Gold - 3 Hours', 'Gold - 2 Hours'];
-$silver = ['Silver - 4 Hours', 'Silver - 3 Hours', 'Silver - 2 Hours'];
-$beer = ['Beer & Wine - 4 Hours', 'Beer & Wine - 3 Hours', 'Beer & Wine - 2 Hours'];
+$baropt = ['Open Bar', 'Cash Bar', 'Package Choice'];
+if(isset($setting['barpackage']) && !empty($setting['barpackage'])){
+$bar_package = json_decode($setting['barpackage'],true);
+}
 @endphp
 @section('content')
 <style>
@@ -329,7 +328,7 @@ $beer = ['Beer & Wine - 4 Hours', 'Beer & Wine - 3 Hours', 'Beer & Wine - 2 Hour
                                                     {{ Form::label('package', __($value['function']), ['class' => 'form-label']) }}
                                                     @foreach($value['package'] as $k => $package)
                                                     <div class="form-check" data-main-index="{{$k}}" data-main-package="{{$package}}">
-                                                        {!! Form::checkbox('package_'.str_replace(' ', '_', strtolower($value['function'])).'[]',$package, null, ['id' => 'package_' . $key.$k, 'data-function' => $value['function'], 'class' => 'form-check-input']) !!}
+                                                        {!! Form::checkbox('package_'.str_replace(' ', '', strtolower($value['function'])).'[]',$package, null, ['id' => 'package_' . $key.$k, 'data-function' => $value['function'], 'class' => 'form-check-input']) !!}
                                                         {{ Form::label($package, $package, ['class' => 'form-check-label']) }}
                                                     </div>
                                                     @endforeach
@@ -346,7 +345,7 @@ $beer = ['Beer & Wine - 4 Hours', 'Beer & Wine - 3 Hours', 'Beer & Wine - 2 Hour
                                                     {{ Form::label('additional', __($fun_key), ['class' => 'form-label']) }}
                                                     @foreach($packageVal as $pac_key =>$item)
                                                     <div class="form-check" data-additional-index="{{$pac_key}}" data-additional-package="{{$pac_key}}">
-                                                        {!! Form::checkbox('additional_'.str_replace(' ', '_', strtolower($ad_key)).'_'.str_replace(' ', '_', strtolower($fun_key)).'[]',$pac_key, null, ['data-function' => $fun_key, 'class' => 'form-check-input']) !!}
+                                                        {!! Form::checkbox('additional_'.str_replace(' ', '_', strtolower($fun_key)).'[]',$pac_key, null, ['data-function' => $fun_key, 'class' => 'form-check-input']) !!}
                                                         {{ Form::label($pac_key, $pac_key, ['class' => 'form-check-label']) }}
                                                     </div>
                                                     @endforeach
@@ -407,61 +406,29 @@ $beer = ['Beer & Wine - 4 Hours', 'Beer & Wine - 3 Hours', 'Beer & Wine - 2 Hour
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    {!! Form::label('bar', 'Bar') !!}
-                                                    @foreach($bar as $key => $label)
+                                                    {!! Form::label('baropt', 'Bar') !!}
+                                                    @foreach($baropt as $key => $label)
                                                     <div>
-                                                        {{ Form::radio('bar', $label, false, ['id' => $label]) }}
-                                                        {{ Form::label('bar' . ($key + 1), $label) }}
+                                                        {{ Form::radio('baropt', $label, false, ['id' => $label]) }}
+                                                        {{ Form::label('baropt' . ($key + 1), $label) }}
                                                     </div>
                                                     @endforeach
                                                 </div>
                                             </div>
-                                            <div class="row" id="package" style="display:none">
-                                                {{ Form::label('bar_package', __('Bar Packages'), ['class' => 'form-label']) }}
-                                                <div class="col-6">
-                                                    <div class="form-group">
-                                                        {{ Form::label('platinum_package', __('Platinum Package'), ['class' => 'form-label']) }}
-                                                        @foreach($platinum as $key => $label)
-                                                        <div>
-                                                            {{ Form::radio('bar_package', 'platinum_package' . ($key + 1), false) }}
-                                                            {{ Form::label('platinum_package' . ($key + 1), $label) }}
-                                                        </div>
-                                                        @endforeach
+                                            <div class="col-6" id="barpacakgeoptions" style="display: none;">
+                                                @if(isset($bar_package) && !empty($bar_package))
+                                                @foreach($bar_package as $key =>$value)
+                                                <div class="form-group" data-main-index="{{$key}}" data-main-value="{{$value['bar']}}">
+                                                    {{ Form::label('bar', __($value['bar']), ['class' => 'form-label']) }}
+                                                    @foreach($value['barpackage'] as $k => $bar)
+                                                    <div class="form-check" data-main-index="{{$k}}" data-main-package="{{$bar}}">
+                                                        {!! Form::radio('bar'.'_'.str_replace(' ', '', strtolower($value['bar'])), $bar, false, ['id' => 'bar_' . $key.$k, 'data-function' => $value['bar'], 'class' => 'form-check-input']) !!}
+                                                        {{ Form::label($bar, $bar, ['class' => 'form-check-label']) }}
                                                     </div>
+                                                    @endforeach
                                                 </div>
-                                                <div class="col-6">
-                                                    <div class="form-group">
-                                                        {{ Form::label('gold_package', __('Gold Package'), ['class' => 'form-label']) }}
-                                                        @foreach($gold as $key => $label)
-                                                        <div>
-                                                            {{ Form::radio('bar_package', 'gold_package' . ($key + 1), false) }}
-                                                            {{ Form::label('gold_package' . ($key + 1), $label) }}
-                                                        </div>
-                                                        @endforeach
-                                                    </div>
-                                                </div>
-                                                <div class="col-6">
-                                                    <div class="form-group">
-                                                        {{ Form::label('silver_package', __('Silver Package'), ['class' => 'form-label']) }}
-                                                        @foreach($silver as $key => $label)
-                                                        <div>
-                                                            {{ Form::radio('bar_package', 'silver_package' . ($key + 1), false) }}
-                                                            {{ Form::label('silver_package' . ($key + 1), $label) }}
-                                                        </div>
-                                                        @endforeach
-                                                    </div>
-                                                </div>
-                                                <div class="col-6">
-                                                    <div class="form-group">
-                                                        {{ Form::label('beer_package', __('Beer & Wine'), ['class' => 'form-label']) }}
-                                                        @foreach($beer as $key => $label)
-                                                        <div>
-                                                            {{ Form::radio('bar_package', 'beer_package' . ($key + 1), false) }}
-                                                            {{ Form::label('beer_package' . ($key + 1), $label) }}
-                                                        </div>
-                                                        @endforeach
-                                                    </div>
-                                                </div>
+                                                @endforeach
+                                                @endif
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-group">
@@ -613,13 +580,13 @@ $beer = ['Beer & Wine - 4 Hours', 'Beer & Wine - 3 Hours', 'Beer & Wine - 2 Hour
                 }
             });
         });
-        $('input[type=radio][name=bar]').change(function() {
-            $('#package').hide();
-            var val = $(this).val();
-            if (val == 'Package Choice') {
-                $('#package').show();
-            }
-        })
+        // $('input[type=radio][name=bar]').change(function() {
+        //     $('#package').hide();
+        //     var val = $(this).val();
+        //     if (val == 'Package Choice') {
+        //         $('#package').show();
+        //     }
+        // })
         jQuery(function() {
             $('input[name="function[]"]').change(function() {
                 $('div#mailFunctionSection > div').hide();
@@ -646,6 +613,15 @@ $beer = ['Beer & Wine - 4 Hours', 'Beer & Wine - 3 Hours', 'Beer & Wine - 2 Hour
                         }
                     });
                 });
+            });
+        });
+        jQuery(function() {
+            $('input[type=radio][name = baropt]').change(function() {
+                $('div#barpacakgeoptions').hide();
+                var value = $(this).val();
+               if(value == 'Package Choice'){
+                    $('div#barpacakgeoptions').show();
+               }
             });
         });
     });

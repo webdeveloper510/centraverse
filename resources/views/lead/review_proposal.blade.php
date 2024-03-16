@@ -8,11 +8,10 @@
     $type_arr= explode(',',$setting['event_type']);
     $type_arr = array_combine($type_arr, $type_arr);
     $venue = explode(',',$setting['venue']);
-    $bar = ['Open Bar', 'Cash Bar', 'Package Choice'];
-    $platinum = ['Platinum - 4 Hours', 'Platinum - 3 Hours', 'Platinum - 2 Hours'];
-    $gold = ['Gold - 4 Hours', 'Gold - 3 Hours', 'Gold - 2 Hours'];
-    $silver = ['Silver - 4 Hours', 'Silver - 3 Hours', 'Silver - 2 Hours'];
-    $beer = ['Beer & Wine - 4 Hours', 'Beer & Wine - 3 Hours', 'Beer & Wine - 2 Hours'];
+    if(isset($setting['function']) && !empty($setting['function'])){
+$function = json_decode($setting['function'],true);
+}
+$bar = ['Open Bar', 'Cash Bar', 'Package Choice'];
 @endphp
 @section('title')
     <div class="page-header-title">
@@ -120,25 +119,22 @@
                                         {!! Form::number('guest_count', null,array('class' => 'form-control','min'=> 0)) !!}
                                     </div>
                                 </div>
-                                <div class="col-6">
-                                    <div class="form-group">
-                                        {{ Form::label('function', __('Function'), ['class' => 'form-label']) }}
-                                        <div class="checkbox-group">
-                                            @foreach($function as $key => $value)
+                               
+                                @if(isset($function) && !empty($function))
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            {{ Form::label('function', __('Function'), ['class' => 'form-label']) }}
+                                            <div class="checkbox-group">
+                                                @foreach($function as $key => $value)
                                                 <label>
-                                                    <input type="checkbox" id="{{ $value }}" name="function[]" value="{{ $value }}" class="function-checkbox" {{ in_array($value, $function_package) ? 'checked' : '' }}>
-                                                    {{ $value }}
+                                                    <input type="checkbox" id="{{ $value['function'] }}" name="function[]" value="{{  $value['function'] }}" class="function-checkbox" {{ in_array( $value['function'], $function_package) ? 'checked' : '' }}>
+                                                    {{ $value['function'] }}
                                                 </label><br>
-                                            @endforeach
+                                                @endforeach
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <!--<div class="col-6">-->
-                                <!--    <div class="form-group">-->
-                                <!--        {{Form::label('status',__('Status'),['class'=>'form-label']) }}-->
-                                <!--        {!! Form::select('status',$status, null,array('class' => 'form-control','required'=>'required')) !!}-->
-                                <!--    </div>-->
-                                <!--</div> -->
+                                    @endif
                                 <div class="col-6">
                                     <div class="form-group">
                                         {{Form::label('Assign Staff',__('Assign Staff'),['class'=>'form-label']) }}

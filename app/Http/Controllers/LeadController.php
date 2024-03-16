@@ -125,20 +125,7 @@ class LeadController extends Controller
             $lead['rooms']              = $request->rooms;
             $lead['created_by']         = \Auth::user()->creatorId();
             $lead->save();
-            Stream::create(
-                [
-                    'user_id' => \Auth::user()->id, 'created_by' => \Auth::user()->creatorId(),
-                    'log_type' => 'created',
-                    'remark' => json_encode(
-                        [
-                            'owner_name' => \Auth::user()->username,
-                            'title' => 'lead',
-                            'stream_comment' => '',
-                            'user_name' => $lead->name,
-                        ]
-                    ),
-                ]
-            );
+          
             $uArr = [
                 'lead_name' => $lead->name,
                 'lead_email' => $lead->email,
@@ -147,15 +134,7 @@ class LeadController extends Controller
 
             //webhook
             $module = 'New Lead';
-            // $webhook =  Utility::webhookSetting($module);
-            // if ($webhook) {
-            //     $parameter = json_encode($lead);
-            //     // 1 parameter is  URL , 2 parameter is data , 3 parameter is method
-            //     $status = Utility::WebhookCall($webhook['url'], $parameter, $webhook['method']);
-            //     if ($status != true) {
-            //         $msg = "Webhook call failed.";
-            //     }
-            // }
+           
             
             $Assign_user_phone = User::where('id', $request->user)->first();
             $setting  = Utility::settings(\Auth::user()->creatorId());
@@ -215,11 +194,7 @@ class LeadController extends Controller
         $function_package =  explode(',', $lead->function);
         if (\Auth::user()->can('Edit Lead')) {
             $status   = Lead::$status;
-            // $source   = LeadSource::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $users     = User::where('created_by', \Auth::user()->creatorId())->get();             
-           
-            // $campaign = Campaign::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            // $campaign->prepend('--', 0);
             return view('lead.edit', compact('venue_function','function_package','lead','users', 'status'));
         } else {
             return redirect()->back()->with('error', 'permission Denied');
@@ -270,7 +245,6 @@ class LeadController extends Controller
             $lead['type']               = $request->type;
             $lead['venue_selection']    = $venue_function;
             $lead['function']           = $function;
-            // $lead['status']             = $request->status;
             $lead['guest_count']        = $request->guest_count;
             $lead['description']        = $request->description;
             $lead['spcl_req']        = $request->spcl_req;
@@ -282,20 +256,6 @@ class LeadController extends Controller
             $lead['created_by']         = \Auth::user()->creatorId();
             $lead->update();
 
-            Stream::create(
-                [
-                    'user_id' => \Auth::user()->id, 'created_by' => \Auth::user()->creatorId(),
-                    'log_type' => 'updated',
-                    'remark' => json_encode(
-                        [
-                            'owner_name' => \Auth::user()->username,
-                            'title' => 'lead',
-                            'stream_comment' => '',
-                            'user_name' => $lead->name,
-                        ]
-                    ),
-                ]
-            );
 
             return redirect()->back()->with('success', __('Lead  Updated.'));
         } else {
@@ -544,8 +504,7 @@ class LeadController extends Controller
         $function_package =  explode(',', $lead->function);
         $status   = Lead::$status;
         $users     = User::where('created_by', \Auth::user()->creatorId())->get();             
-        $function = Lead::$function;
-        return view('lead.review_proposal',compact('lead','venue_function','function_package','users','function','status'));
+        return view('lead.review_proposal',compact('lead','venue_function','function_package','users','status'));
     }
     public function review_proposal_data(Request $request, $id){
         $settings = Utility::settings();

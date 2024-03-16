@@ -67,6 +67,7 @@
                 </dd>
             </dl>
         </div>
+        @if($lead->status != 2)
         <div class="w-100 text-end pr-2">
             @can('Edit Lead')
             <div class="action-btn bg-info ms-2">
@@ -75,5 +76,6 @@
             </div>
             @endcan
         </div>
+        @endif
 </div>
 

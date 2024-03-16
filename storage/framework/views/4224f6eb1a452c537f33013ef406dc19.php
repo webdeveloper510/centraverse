@@ -9,11 +9,10 @@
     $type_arr= explode(',',$setting['event_type']);
     $type_arr = array_combine($type_arr, $type_arr);
     $venue = explode(',',$setting['venue']);
-    $bar = ['Open Bar', 'Cash Bar', 'Package Choice'];
-    $platinum = ['Platinum - 4 Hours', 'Platinum - 3 Hours', 'Platinum - 2 Hours'];
-    $gold = ['Gold - 4 Hours', 'Gold - 3 Hours', 'Gold - 2 Hours'];
-    $silver = ['Silver - 4 Hours', 'Silver - 3 Hours', 'Silver - 2 Hours'];
-    $beer = ['Beer & Wine - 4 Hours', 'Beer & Wine - 3 Hours', 'Beer & Wine - 2 Hours'];
+    if(isset($setting['function']) && !empty($setting['function'])){
+$function = json_decode($setting['function'],true);
+}
+$bar = ['Open Bar', 'Cash Bar', 'Package Choice'];
 ?>
 <?php $__env->startSection('title'); ?>
     <div class="page-header-title">
@@ -143,27 +142,24 @@
 
                                     </div>
                                 </div>
-                                <div class="col-6">
-                                    <div class="form-group">
-                                        <?php echo e(Form::label('function', __('Function'), ['class' => 'form-label'])); ?>
+                               
+                                <?php if(isset($function) && !empty($function)): ?>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <?php echo e(Form::label('function', __('Function'), ['class' => 'form-label'])); ?>
 
-                                        <div class="checkbox-group">
-                                            <?php $__currentLoopData = $function; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <div class="checkbox-group">
+                                                <?php $__currentLoopData = $function; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <label>
-                                                    <input type="checkbox" id="<?php echo e($value); ?>" name="function[]" value="<?php echo e($value); ?>" class="function-checkbox" <?php echo e(in_array($value, $function_package) ? 'checked' : ''); ?>>
-                                                    <?php echo e($value); ?>
+                                                    <input type="checkbox" id="<?php echo e($value['function']); ?>" name="function[]" value="<?php echo e($value['function']); ?>" class="function-checkbox" <?php echo e(in_array( $value['function'], $function_package) ? 'checked' : ''); ?>>
+                                                    <?php echo e($value['function']); ?>
 
                                                 </label><br>
-                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <!--<div class="col-6">-->
-                                <!--    <div class="form-group">-->
-                                <!--        <?php echo e(Form::label('status',__('Status'),['class'=>'form-label'])); ?>-->
-                                <!--        <?php echo Form::select('status',$status, null,array('class' => 'form-control','required'=>'required')); ?>-->
-                                <!--    </div>-->
-                                <!--</div> -->
+                                    <?php endif; ?>
                                 <div class="col-6">
                                     <div class="form-group">
                                         <?php echo e(Form::label('Assign Staff',__('Assign Staff'),['class'=>'form-label'])); ?>

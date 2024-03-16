@@ -5,7 +5,10 @@
     $type_arr = array_combine($type_arr, $type_arr);
     $venue = explode(',',$settings['venue']);
     if(isset($settings['function']) && !empty($settings['function'])){
-        $function = json_decode($settings['function']);
+        $function = json_decode($settings['function'],true);
+    }
+    if(isset($settings['barpackage']) && !empty($settings['barpackage'])){
+        $bar_package = json_decode($settings['barpackage'],true);
     }
     $bar = ['Open Bar', 'Cash Bar', 'Package Choice'];
     $platinum = ['Platinum - 4 Hours', 'Platinum - 3 Hours', 'Platinum - 2 Hours'];
@@ -110,13 +113,14 @@
         <div class="col-6">
             <div class="form-group">
                 {{ Form::label('function', __('Function'), ['class' => 'form-label']) }}
+                <div style="    display: flex;">
                 @foreach($function as $key => $value)
-                    <div class="form-check">
-                        {!! Form::checkbox('function[]', $value->function, null, ['class' => 'form-check-input', 'id' => 'function_' . $key]) !!}
-                        {{ Form::label($value->function, $value->function, ['class' => 'form-check-label']) }}
+                    <div class="form-check" style="    padding-left: 2.75em !important;">
+                        {!! Form::checkbox('function[]', $value['function'], null, ['class' => 'form-check-input', 'id' => 'function_' . $key]) !!}
+                        {{ Form::label($value['function'], $value['function'], ['class' => 'form-check-label']) }}
                     </div>
                 @endforeach
-
+                </div>
             </div>
         </div>
         @endif
