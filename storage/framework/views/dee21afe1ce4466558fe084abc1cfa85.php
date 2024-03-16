@@ -44,9 +44,9 @@
     </div>
 
     <div class="w-100 text-end pr-2">
-    <?php if($meeting->start_date >= now()): ?>
+    <!-- <?php if($meeting->start_date >= now()): ?>
     <a href="<?php echo e(url('/meeting-download/' . $meeting->id)); ?>"><i class="fa fa-download action-btn bg-info ms-1" style="cursor:pointer;"></i></a>
-    <?php endif; ?>
+    <?php endif; ?> -->
     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Edit Meeting')): ?>
         <div class="action-btn bg-info ms-2">
             <a href="<?php echo e(route('meeting.edit',$meeting->id)); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white" data-bs-toggle="tooltip"data-title="<?php echo e(__('Edit Call')); ?>" title="<?php echo e(__('Edit')); ?>"><i class="ti ti-edit"></i>

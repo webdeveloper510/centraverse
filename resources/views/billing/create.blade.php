@@ -6,7 +6,6 @@ $billings = json_decode($settings['fixed_billing'],true);
 if(isset($settings['additional_items'])&& !empty($settings['additional_items'])){
 $additional_items = json_decode($settings['additional_items'],true);
 }
-
 $labels =
 [
 'venue_rental' => 'Venue',
@@ -18,18 +17,20 @@ $labels =
 'food_package'=>'Food Package',
 'additional_items' =>'Additional Items'
 ];
+$breakpck = json_decode($event->bar_package,true);
+$foodpck = json_decode($event->func_package,true);
+
 $meetingData = [
 'venue_rental' => $event->venue_selection,
 'hotel_rooms'=>$event->room,
 'equipment' =>$event->spcl_request,
-'bar_package' => $event->bar . ((isset($event->bar_package) && !empty($event->bar_package)) ? ('(' . $event->bar_package . ')') : ''),
-'food_package' => ((isset($event->func_package) && !empty($event->func_package)) ? ( $event->func_package ) : ''),
-'additional_items' => $event->ad_opts,
+'bar_package' => $event->bar . (isset($event->bar_package) && !empty($event->bar_package)) ?   key($breakpck) : '',
+'food_package' => (isset($event->func_package) && !empty($event->func_package)) ? key($foodpck) : '',
+'additional_items' => (isset($event->ad_opts) && !empty($event->ad_opts)) ? $event->ad_opts :'',
 'setup' =>''
 ];
 // Split the 'food_package' string into an array of items
 $foodItems = explode(',', $meetingData['food_package']);
-
 // Initialize the total cost
 $totalFoodPackageCost = 0;
 if(isset($billings) && !empty($billings)){
@@ -65,7 +66,6 @@ $venueRentalCost = 0;
 foreach ($subcategories as $subcategory) {
     $venueRentalCost += $billings['venue'][$subcategory] ?? 0;
 }
-
 $meetingData['venue_rental_cost'] = $venueRentalCost;
 $meetingData['hotel_rooms_cost'] = $billings['hotel_rooms'] ?? '';
 $meetingData['equipment_cost'] = $billings['equipment'] ?? '';

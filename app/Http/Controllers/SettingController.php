@@ -1721,51 +1721,58 @@ class SettingController extends Controller
     }
     public function billing_cost(Request $request)
     {
+        unset($_REQUEST['_token']);
+        $jsonString = json_encode($_REQUEST);
+        /* echo '<pre>';
+        print_r($_REQUEST);
+        print_r($jsonString);
+        echo '</pre>';
+        die(); */
         $settings = Utility::settings();
         $user = \Auth::user();
         $created_at = $updated_at = date('Y-m-d H:i:s');
         $existingValue = $settings['fixed_billing'] ?? '';
 
-        $function_arr = json_decode($settings['function']);
-        $function = $function_arr[$request->function]->function;
-        $function_package = $function_arr[$request->function]->package;
-        $packages = array_combine($function_package, $request->package_cost);
+        // $function_arr = json_decode($settings['function']);
+        // $function = $function_arr[$request->function]->function;
+        // $function_package = $function_arr[$request->function]->package;
+        // $packages = array_combine($function_package, $request->package_cost);
 
-        $bar_arr = json_decode($settings['barpackage']);
-        $bar = $bar_arr[$request->bar_package]->bar;
-        $bar_package = $bar_arr[$request->bar_package]->barpackage;
-        $barpackages = array_combine($bar_package, $request->bar_package_cost);
+        // $bar_arr = json_decode($settings['barpackage']);
+        // $bar = $bar_arr[$request->bar_package]->bar;
+        // $bar_package = $bar_arr[$request->bar_package]->barpackage;
+        // $barpackages = array_combine($bar_package, $request->bar_package_cost);
 
-        // $bar_package = $bar_package[$request->bar_packages];
+        // // $bar_package = $bar_package[$request->bar_packages];
 
-        $data = $request->all();
-        $jsonData = [
-            'venue' => [
-                $data['venue'] => $request->venue_cost,
-            ],
-            $function => $packages,
-            $bar => $barpackages,
-            'equipment' => $request->equipment,
-            'hotel_rooms' => $request->hotel_rooms,
-            'special_req' => $request->special_req,
-            'rehearsalsetup' => $request->rehearsalsetup,
-            'welcomesetup' => $request->welcomesetup
-        ];
-        $existingData = json_decode($existingValue, true);
-        foreach ($jsonData as $key => $value) {
-            if (isset($existingData[$key])) {
-                if (is_array($value)) {
-                    foreach ($value as $nestedKey => $nestedValue) {
-                        $existingData[$key][$nestedKey] = $nestedValue;
-                    }
-                } else {
-                    $existingData[$key] = $value;
-                }
-            } else {
-                $existingData[$key] = $value;
-            }
-        }
-        $jsonString = json_encode($existingData);
+        // $data = $request->all();
+        // $jsonData = [
+        //     'venue' => [
+        //         $data['venue'] => $request->venue_cost,
+        //     ],
+        //     $function => $packages,
+        //     $bar => $barpackages,
+        //     'equipment' => $request->equipment,
+        //     'hotel_rooms' => $request->hotel_rooms,
+        //     'special_req' => $request->special_req,
+        //     'rehearsalsetup' => $request->rehearsalsetup,
+        //     'welcomesetup' => $request->welcomesetup
+        // ];
+        // $existingData = json_decode($existingValue, true);
+        // foreach ($jsonData as $key => $value) {
+        //     if (isset($existingData[$key])) {
+        //         if (is_array($value)) {
+        //             foreach ($value as $nestedKey => $nestedValue) {
+        //                 $existingData[$key][$nestedKey] = $nestedValue;
+        //             }
+        //         } else {
+        //             $existingData[$key] = $value;
+        //         }
+        //     } else {
+        //         $existingData[$key] = $value;
+        //     }
+        // }
+        // $jsonString = json_encode($existingData);
         if (isset($settings['fixed_billing']) && !empty($settings['fixed_billing'])) {
             DB::table('settings')
                 ->where('name', 'fixed_billing')

@@ -50,17 +50,6 @@ class BillingController extends Controller
      */
     public function store(Request $request ,$id)
     {
-        // $validator = \Validator::make(
-        //     $request->all(),
-        //     [
-        //         'event' => 'required|unique:billing,event_id',
-        //     ],
-        // );
-        // if ($validator->fails()) {
-        //     $messages = $validator->getMessageBag();
-
-        //     return redirect()->back()->with('error', $messages->first());
-        // }
         $billing = new Billing();
         $billing['event_id'] = $id;
         $billing['data'] = serialize($request->billing);

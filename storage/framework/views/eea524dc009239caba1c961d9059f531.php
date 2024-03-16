@@ -67,6 +67,7 @@
                 </dd>
             </dl>
         </div>
+        <?php if($lead->status != 2): ?>
         <div class="w-100 text-end pr-2">
             <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Edit Lead')): ?>
             <div class="action-btn bg-info ms-2">
@@ -75,6 +76,7 @@
             </div>
             <?php endif; ?>
         </div>
+        <?php endif; ?>
 </div>
 
 <?php /**PATH C:\xampp\htdocs\centraverse\resources\views/lead/view.blade.php ENDPATH**/ ?>
