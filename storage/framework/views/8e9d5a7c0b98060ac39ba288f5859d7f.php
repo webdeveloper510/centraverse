@@ -1,11 +1,10 @@
 <?php
-$billing = App\Models\Billingdetail::where('event_id',$meeting->id)->exists();
+$billing = App\Models\Billing::where('event_id',$meeting->id)->exists();
 ?>
 <?php if($billing): ?>
     <div class="row">
         <div class="col-lg-12">
             <div id="notification" class="alert alert-success mt-1">Link copied to clipboard!</div>
-
             <div class="">
                 <?php echo e(Form::model($meeting, ['route' => ['meeting.event_info', urlencode(encrypt($meeting->id))], 'method' => 'POST'])); ?>
 

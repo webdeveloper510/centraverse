@@ -56,8 +56,8 @@
             @can('Manage Payment')
             <div class="action-btn bg-warning ms-2">
                 <a href="{{ route('billing.estimateview',urlencode(encrypt($event->id)))}}"> 
-                <button  data-bs-toggle="tooltip"title="{{ __('Create') }}" class="btn btn-sm btn-primary btn-icon m-1">
-                <i class="ti ti-plus"></i></button>
+                <button  data-bs-toggle="tooltip"title="{{ __('View Billing') }}" class="btn btn-sm btn-secondary btn-icon m-1">
+                <i class="ti ti-eye"></i></button>
             </a>
             </div>
             @endcan

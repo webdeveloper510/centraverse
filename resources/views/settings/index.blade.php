@@ -258,6 +258,11 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
 </style>
 @endif
 <style>
+li:has(> a.active) {
+    border-color: #2980b9;
+    box-shadow: 0 0 15px rgba(41, 128, 185, 0.8);
+}
+
     input[type="radio"] {
         display: none;
     }
@@ -1182,6 +1187,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                 <div class="row mt-3">
                                     {{ Form::open(['route' => 'billing.setting', 'method' => 'post']) }}
                                     @csrf
+                                   
                                     <div class="row cst-border">
                                         <div class="col-sm-6 venue">
                                             <table class="table table-responsive table-bordered" style="width:100%">
@@ -1192,7 +1198,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                 @foreach($venue as $venueKey => $venueValue)
                                                 <tr>
                                                     <td>{{__($venueKey)}}</td>
-                                                    <td><input type="number" class="form-control" name="venue[{{ isset($venueKey) ? $venueKey : '' }}]" id="venue_{{$venueKey}}" value="{{ isset($billing['venue'][$venueKey]) ? $billing['venue'][$venueKey] : '' }}" placeholder="{{__($venueKey)}}"></td>
+                                                    <td><input type="number" class="form-control" name="venue[{{ isset($venueKey) ? $venueKey : '' }}]" id="venue_{{$venueKey}}" value="{{ isset($billing['venue'][$venueKey]) ? $billing['venue'][$venueKey] : '' }}" placeholder="{{__($venueKey)}}" min ="0"></td>
                                                 </tr>
                                                 @endforeach
                                             </table>
@@ -1200,8 +1206,8 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                         <div class="col-sm-6 function">
                                             <table class="table table-responsive table-bordered" style="width:100%">
                                                 <tr>
-                                                    <th>{{__('Function')}}</th>
-                                                    <th>{{__('Function Cost')}}</th>
+                                                    <th>{{__('Package')}}</th>
+                                                    <th>{{__('Package Cost')}}</th>
                                                 </tr>
                                                 @foreach($function as $functionKey => $functionValue)
                                                 <tr>
@@ -1209,7 +1215,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                     <td>
                                                         @foreach($functionValue->package as $packageKey => $packageValue)
                                                         {{ Form::label($packageValue, __($packageValue), ['class' => 'form-label']) }}
-                                                        <input type="number" class="form-control" name="package[{{ isset($packageValue) ? $packageValue : '' }}]" id="package_{{isset($packageKey)? $packageKey :''}}" value="{{ isset($billing['package'][$packageValue]) ? $billing['package'][$packageValue] : '' }}" placeholder="{{ isset($packageValue) ? $packageValue :''}}">
+                                                        <input type="number" class="form-control" name="package[{{isset($functionValue->function)? $functionValue->function :''}}][{{ isset($packageValue) ? $packageValue : '' }}]" id="package_{{isset($packageKey)? $packageKey :''}}" value="{{ isset($billing['package'][$functionValue->function][$packageValue]) ? $billing['package'][$functionValue->function][$packageValue] : '' }}" placeholder="Enter {{ isset($packageValue) ? $packageValue :''}} Cost" min ="0">
                                                         @endforeach
                                                     </td>
                                                 </tr>
@@ -1228,7 +1234,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                     <td>
                                                         @foreach($barValue->barpackage as $barpackageKey => $barpackageValue)
                                                         {{ Form::label($barpackageValue, __($barpackageValue), ['class' => 'form-label']) }}
-                                                        <input type="number" class="form-control" name="barpackage[{{ isset($barpackageValue) ? $barpackageValue : '' }}]" id="barpackage_{{isset($barpackageKey)? $barpackageKey :''}}" value="{{ isset($billing['barpackage'][$barpackageValue]) ? $billing['barpackage'][$barpackageValue] : '' }}" placeholder="{{ isset($barpackageValue) ? $barpackageValue :''}}">
+                                                        <input type="number" class="form-control" name="barpackage[{{ isset($barValue->bar) ? $barValue->bar : '' }}][{{ isset($barpackageValue) ? $barpackageValue : '' }}]" id="barpackage_{{ isset($barpackageKey) ? $barpackageKey : '' }}" value="{{ isset($billing['barpackage'][isset($barValue->bar) ? $barValue->bar : ''][$barpackageValue]) ? $billing['barpackage'][isset($barValue->bar) ? $barValue->bar : ''][$barpackageValue] : '' }}" placeholder="{{ isset($barpackageValue) ? $barpackageValue : '' }}" min="0">
                                                         @endforeach
                                                     </td>
                                                 </tr>
@@ -1238,23 +1244,23 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                         <div class="col-sm-6 equipment">
                                             <div class="form-group">
                                                 {{ Form::label('equipment', __('Equipment'), ['class' => 'form-label']) }}
-                                                <input type="number" name="equipment" id="" class="form-control" value="<?= (isset($billing['equipment'])) ?? $billing['equipment'] ?>" placeholder="Enter Equipments Cost (eg. Tent, Tables, Chairs)" required>
+                                                <input type="number" name="equipment" id="" class="form-control" value="{{ isset($billing['equipment']) ? $billing['equipment'] : ''}}" placeholder="Enter Equipments Cost (eg. Tent, Tables, Chairs)" required>
                                             </div>
                                             <div class="form-group">
                                                 {{ Form::label('welcomesetup', __('Welcome Setup'), ['class' => 'form-label']) }}
-                                                <input type="number" name="welcomesetup" id="" class="form-control" value="<?= isset($billing['welcomesetup']) ?? $billing['welcomesetup'] ?>" placeholder="Enter Welcome Setup Cost" required>
+                                                <input type="number" name="welcomesetup" id="" class="form-control" value="{{ isset($billing['welcomesetup']) ? $billing['welcomesetup'] : ''}}" placeholder="Enter Welcome Setup Cost" required>
                                             </div>
                                             <div class="form-group">
                                                 {{ Form::label('rehearsalsetup', __('Rehearsel Setup'), ['class' => 'form-label']) }}
-                                                <input type="number" name="rehearsalsetup" class="form-control" value="<?= (isset($billing['rehearsalsetup'])) ?? $billing['rehearsalsetup'] ?>" placeholder="Enter Rehearsel Setup Cost" required>
+                                                <input type="number" name="rehearsalsetup" class="form-control" value="{{ isset($billing['rehearsalsetup']) ? $billing['rehearsalsetup'] : ''}}" placeholder="Enter Rehearsel Setup Cost" required>
                                             </div>
                                             <div class="form-group">
                                                 {{ Form::label('hotel_rooms', __('Hotel Rooms'), ['class' => 'form-label']) }}
-                                                <input type="number" name="hotel_rooms" class="form-control" value="<?= (isset($billing['hotel_rooms'])) ?? $billing['hotel_rooms'] ?>" placeholder="Enter Hotel Rooms Cost" required>
+                                                <input type="number" name="hotel_rooms" class="form-control" value="{{ isset($billing['hotel_rooms']) ? $billing['hotel_rooms'] : ''}}" placeholder="Enter Hotel Rooms Cost" required>
                                             </div>
                                             <div class="form-group">
                                                 {{ Form::label('special_req', __('Special Request/Others'), ['class' => 'form-label']) }}
-                                                <input type="number" name="special_req" class="form-control" value="<?= (isset($billing['special_req'])) ?? $billing['special_req'] ?>" placeholder="Enter  Cost" required>
+                                                <input type="number" name="special_req" class="form-control" value="{{ isset($billing['special_req']) ? $billing['special_req'] : ''}}" placeholder="Enter  Cost" required>
                                             </div>
                                         </div>
                                     </div>

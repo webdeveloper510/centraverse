@@ -3,6 +3,7 @@
   $imagePath = public_path('upload/signature/autorised_signature.png');
   $imageData = base64_encode(file_get_contents($imagePath));
   $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base64,' . $imageData;
+  $bar_pck = json_decode($meeting['bar_package'], true);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -186,115 +187,129 @@
                                             <th style="color:#ffffff; font-size:13px;padding:5px 5px;margin-left :5px;font-size:13px">Notes</th>
                                         </tr>
                                     </thead>
-                                    <tbody>    
-                                        <tr>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Venue Rental</td>
-                                            <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                            
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$fixed_cost->venue_rental}}</td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">1</td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$total[] =$fixed_cost->venue_rental * 1}}</td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$meeting->venue_selection}}</td>
-                                        </tr>
-                                        
-                                        <tr>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Brunch / Lunch / Dinner Package</td>
-                                            <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$fixed_cost->classic_brunch}}</td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$meeting->guest_count}}</td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$total[] = $fixed_cost->classic_brunch * $meeting->guest_count}}</td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$meeting->function}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Bar Package</td>
-                                            <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$fixed_cost->platinum_3hrs}}</td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$meeting->guest_count/2}}</td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$total[] = $fixed_cost->platinum_3hrs * ($meeting->guest_count/2)}}</td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$meeting->bar}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Hotel Rooms</td>
-                                            <td colspan = "2" style="padding:5px 5px; margin-left:5px;"></td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$fixed_cost->hotel_rooms}}</td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$meeting->room}}</td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$total[] = $fixed_cost->hotel_rooms * $meeting->rooms}}</td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                        </tr>
-                                        <tr>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Tent, Tables, Chairs, AV Equipment</td>
-                                            <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$fixed_cost->equipment}}</td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$meeting->guest_count}}</td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$total[] = $fixed_cost->equipment * $meeting->guest_count}}</td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Chairs</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Welcome / Rehearsal / Special Setup</td>
-                                            <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px"></td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$fixed_cost->setup}}</td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">1</td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$total[] = $fixed_cost->setup * 1}}</td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                        </tr>
-                                        <tr>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Special Requests / Others</td>
-                                            <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$fixed_cost->special_req}}</td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">1</td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$total[] = $fixed_cost->special_req * 1}}</td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Bartender Fee ,@if($meeting->spcl_request){{$meeting->spcl_request}}@endif</td>
-                                            
-                                        </tr>
-                                        <tr>
-                                            <td>-</td>
-                                            <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                            <td colspan = "3" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                            
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                        </tr>
-                                        <tr>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Total</td>
-                                            <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                            <td colspan = "3" style="padding:5px 5px; margin-left:5px;font-size:13px;">${{ array_sum($total) }}</td>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                        </tr>
-                                        <tr>
-                                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Sales, Occupancy Tax</td>
-                                            <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                            <td colspan = "3" style="padding:5px 5px; margin-left:5px;font-size:13px;"> ${{ 7* array_sum($total)/100 }}</td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td style="text-align:left;text-align:left; padding:5px 5px; margin-left:5px;font-size:13px;">Service Charges & Gratuity</td>
-                                            <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                            <td colspan = "3" style="padding:5px 5px; margin-left:5px;font-size:13px;">${{ 20* array_sum($total)/100 }}</td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td>-</td>
-                                            <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                            <td colspan = "3" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td style="background-color:#ffff00; padding:5px 5px; margin-left:5px;font-size:13px;">Grand Total / Estimated Total</td>
-                                            <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                            <td colspan = "3" style="padding:5px 5px; margin-left:5px;font-size:13px;">$ {{$grandtotal=  array_sum($total) + 20* array_sum($total)/100 + 7* array_sum($total)/100}}</td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td style="background-color:#d7e7d7; padding:5px 5px; margin-left:5px;font-size:13px;">Deposits on file</td>
-                                            <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                            <td colspan = "3" style="background-color:#d7e7d7;padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                            <td></td>
-                                        </tr> <tr>
-                                            <td style="background-color:#ffff00;text-align:left; padding:5px 5px; margin-left:5px;font-size:13px;">balance due</td>
-                                            <td colspan = "2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                            <td colspan = "3" style="padding:5px 5px; margin-left:5px;font-size:13px;background-color:#9fdb9f;">${{$grandtotal}}</td>
-                                            <td></td>
-                                        </tr>
-                                    </tbody>
+                                    <tbody>
+                    <tr>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Venue Rental</td>
+                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">${{$billing_data['venue_rental']['cost']}}</td>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$billing_data['venue_rental']['quantity']}}</td>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">${{$total[] = $billing_data['venue_rental']['cost'] * $billing_data['venue_rental']['quantity']}}</td>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$meeting['venue_selection']}}</td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Brunch / Lunch / Dinner Package</td>
+                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"> ${{$billing_data['food_package']['cost']}}</td>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$billing_data['food_package']['quantity']}}</td>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">${{$total[] =$billing_data['food_package']['cost'] * $billing_data['food_package']['quantity']}}</td>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$meeting['function']}}</td>
+
+                    </tr>
+                    <tr>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Bar Package</td>
+                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">${{$billing_data['bar_package']['cost']}}</td>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$billing_data['bar_package']['quantity']}}</td>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">${{$total[] = $billing_data['bar_package']['cost']* $billing_data['bar_package']['quantity']}}</td>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{implode(',',$bar_pck)}}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Hotel Rooms</td>
+                        <td colspan="2" style="padding:5px 5px; margin-left:5px;"></td>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">${{$billing_data['hotel_rooms']['cost']}}</td>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$billing_data['hotel_rooms']['quantity']}}</td>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">${{$total[] = $billing_data['hotel_rooms']['cost'] * $billing_data['hotel_rooms']['quantity']}}</td>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                    </tr>
+                    <tr>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Tent, Tables, Chairs, AV Equipment</td>
+                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">${{$billing_data['equipment']['cost']}}</td>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$billing_data['equipment']['quantity']}}</td>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">${{$total[] = $billing_data['equipment']['cost'] * $billing_data['equipment']['quantity']}}</td>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                    </tr>
+
+                    @if(!$billing_data['setup']['cost'] == '')
+                    <tr>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Welcome / Rehearsal / Special Setup</td>
+                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px"></td>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">${{$billing_data['setup']['cost']}}</td>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$billing_data['setup']['quantity']}}</td>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">${{$total[] =$billing_data['setup']['cost'] * $billing_data['setup']['quantity']}}</td>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                    </tr>
+                    @endif
+                    <tr>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Special Requests / Others</td>
+                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">${{$billing_data['additional_items']['cost']}}</td>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$billing_data['additional_items']['quantity']}}</td>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">${{$total[] =$billing_data['additional_items']['cost'] * $billing_data['additional_items']['quantity']}}</td>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Bartender Fee</td>
+
+                    </tr>
+                    <tr>
+                        <td>-</td>
+                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                        <td colspan="3" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                    </tr>
+                    <tr>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Total</td>
+                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">${{array_sum($total)}}</td>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                    </tr>
+                    <tr>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Sales, Occupancy Tax</td>
+                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"> </td>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">${{ 7* array_sum($total)/100 }}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left;text-align:left; padding:5px 5px; margin-left:5px;font-size:13px;">Service Charges & Gratuity</td>
+                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">${{ 20 * array_sum($total)/100 }}</td>
+
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>-</td>
+                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="background-color:#ffff00; padding:5px 5px; margin-left:5px;font-size:13px;">Grand Total / Estimated Total</td>
+                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">${{$grandtotal= array_sum($total) + 20* array_sum($total)/100 + 7* array_sum($total)/100}}</td>
+
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="background-color:#d7e7d7; padding:5px 5px; margin-left:5px;font-size:13px;">Deposits on file</td>
+                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                        <td colspan="2" style="background-color:#d7e7d7;padding:5px 5px; margin-left:5px;font-size:13px;">${{$deposit= $billing->deposits}}</td>
+                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                    </tr>
+                    <tr>
+                        <td style="background-color:#ffff00;text-align:left; padding:5px 5px; margin-left:5px;font-size:13px;">balance due</td>
+                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                        <td colspan="3" style="padding:5px 5px; margin-left:5px;font-size:13px;background-color:#9fdb9f;">${{$grandtotal - $deposit}}</td>
+                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                    </tr>
+                </tbody>
+
                                 </table>
                                 <input type= "hidden" value = "{{$grandtotal}}" name= "grandtotal">
                                 <h3 style = "text-align:center">TERMS AND CONDITIONS</h3>

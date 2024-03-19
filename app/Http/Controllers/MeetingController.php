@@ -418,12 +418,9 @@ class MeetingController extends Controller
                     $bar_pack[$newKey] = $values;
                 }
             }
-
-
             $package = json_encode($package);
             $additional = json_encode($additional);
             $bar_pack = json_encode($bar_pack);
-
             $meeting['user_id']           = implode(',', $request->user);
             $meeting['name']              = $request->name;
             $meeting['start_date']        = $request->start_date;
@@ -689,12 +686,13 @@ class MeetingController extends Controller
     {
         $decryptedId = decrypt(urldecode($id));
         $meeting = Meeting::find($decryptedId);
-        $fixed_cost = Billing::first();
+        $fixed_cost = Billing::where('event_id',$decryptedId)->first();
         $agreement = Agreement::where('event_id', $decryptedId)->first();
         $data = [
             'agreement' => $agreement,
             'meeting' => $meeting,
             'billing' => $fixed_cost,
+            'billing_data' => unserialize($fixed_cost->data),
         ];
         $pdf = Pdf::loadView('meeting.agreement.view', $data);
         return $pdf->stream('agreement.pdf');
@@ -708,9 +706,10 @@ class MeetingController extends Controller
         } else {
             $meeting = Meeting::find($id);
             $settings = Utility::settings();
-            $fixed_cost = Billing::first();
+            $billing = Billing::where('event_id',$id)->first();
+            $billing_data = unserialize($billing->data);
             $venue = explode(',', $settings['venue']);
-            return view('meeting.agreement.signedagreement', compact('meeting', 'venue', 'fixed_cost', 'settings'));
+            return view('meeting.agreement.signedagreement', compact('meeting', 'venue', 'billing', 'settings','billing_data'));
         }
     }
     public function signedagreementresponse(Request $request, $id)
@@ -724,13 +723,14 @@ class MeetingController extends Controller
         }
         $meeting = Meeting::find($id);
         $settings = Utility::settings();
-        $fixed_cost = Billing::first();
+        $fixed_cost = Billing::where('event_id',$id)->first();
         $agreement = Agreement::where('event_id', $id)->first();
         $data = [
             'agreement' => $agreement,
             'meeting' => $meeting,
             'billing' => $fixed_cost,
-            'settings' => $settings
+            'settings' => $settings,
+            'billing_data' => unserialize($fixed_cost->data),
         ];
         $pdf = Pdf::loadView('meeting.agreement.view', $data);
         $existagreement = Agreement::where('event_id', $id)->exists();
