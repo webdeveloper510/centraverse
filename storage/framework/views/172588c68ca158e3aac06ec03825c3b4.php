@@ -746,26 +746,6 @@ unset($__errorArgs, $__bag); ?>
                         if (attr_value == funVal) {
                             $(this).show();
                         }
-<<<<<<< HEAD:storage/framework/views/172588c68ca158e3aac06ec03825c3b4.php
-                        $(this).children('.form-check').change(function() {
-                            asdfsaf = $(this).data('main-package');
-                            console.log(`asdfsaf: ${asdfsaf}`);
-                            nsdmsd = $(this).children('input').attr('name');
-                            // alert(nsdmsd);
-                            // $('div#additionalSection > div').hide();
-                            $(`${nsdmsd}:checked`).each(function() {
-                                gsdgfg = $(this).data('additional-index');
-                                if (asdfsaf == gsdgfg) {
-                                    $(this).show();
-                                    // alert('yes');
-                                } else {
-                                    $(this).hide();
-                                    // alert('no');
-                                }
-                            })
-                        })
-=======
->>>>>>> 4d4979892586514d403816deef57e65816c03c8d:storage/framework/views/0aa9503b1102b508ef4e2e50a7900954.php
                     });
                 });
             });

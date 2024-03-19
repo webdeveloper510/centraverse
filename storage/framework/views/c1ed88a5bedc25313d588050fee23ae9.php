@@ -1,37 +1,43 @@
 <?php
 $billing = App\Models\Billingdetail::where('event_id',$meeting->id)->exists();
 ?>
-
+<?php if($billing): ?>
     <div class="row">
         <div class="col-lg-12">
-        <div id="notification" class="alert alert-success mt-1">Link copied to clipboard!</div>         
+            <div id="notification" class="alert alert-success mt-1">Link copied to clipboard!</div>
 
-                <div class="">
-            <?php echo e(Form::model($meeting, ['route' => ['meeting.event_info', urlencode(encrypt($meeting->id))], 'method' => 'POST'])); ?>
+            <div class="">
+                <?php echo e(Form::model($meeting, ['route' => ['meeting.event_info', urlencode(encrypt($meeting->id))], 'method' => 'POST'])); ?>
 
-                    <dl class="row">
-                        <dt class="col-md-6"><span class="h6 text-md mb-0"><?php echo e(__('Name')); ?></span></dt>
-                        <dd class="col-md-6"> 
-                            <input type = "text" name="name" class="form-control" value = "<?php echo e($meeting->name); ?>" readonly >
-                        </dd>
-                        <dt class="col-md-6"><span class="h6 text-md mb-0"><?php echo e(__('Email')); ?></span></dt>
-                        <dd class="col-md-6">
-                            <input type = "text" name="email" class="form-control" value = "<?php echo e($meeting->email); ?>" >
-                        </dd>
-                        <div class= "row">
-                            <div class= "col-md-12">
-                                <button type="button" class = " btn btn-success " onclick="getDataUrlAndCopy(this)" data-url = "<?php echo e(route('meeting.signedagreement',urlencode(encrypt($meeting->id)))); ?>" title = 'Copy Link'> 
-                                 <i class="ti ti-copy"></i>
-                             </button>                 
-                              <?php echo e(Form::submit(__('Share via mail'),array('class'=>'btn btn-primary'))); ?> 
-                            </div>
+                <dl class="row">
+                    <dt class="col-md-6"><span class="h6 text-md mb-0"><?php echo e(__('Name')); ?></span></dt>
+                    <dd class="col-md-6">
+                        <input type="text" name="name" class="form-control" value="<?php echo e($meeting->name); ?>" readonly>
+                    </dd>
+                    <dt class="col-md-6"><span class="h6 text-md mb-0"><?php echo e(__('Email')); ?></span></dt>
+                    <dd class="col-md-6">
+                        <input type="text" name="email" class="form-control" value="<?php echo e($meeting->email); ?>">
+                    </dd>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button type="button" class=" btn btn-success " onclick="getDataUrlAndCopy(this)" data-url="<?php echo e(route('meeting.signedagreement',urlencode(encrypt($meeting->id)))); ?>" title='Copy Link'>
+                                <i class="ti ti-copy"></i>
+                            </button>
+                            <?php echo e(Form::submit(__('Share via mail'),array('class'=>'btn btn-primary'))); ?>
+
                         </div>
-                    </dl>
-                </div>
-                <?php echo e(Form::close()); ?>
+                    </div>
+                </dl>
+            </div>
+            <?php echo e(Form::close()); ?>
 
         </div>
     </div>
+<?php else: ?>
+<div class="alert alert-danger mt-1">Create Billing For the event!
+    <a href="<?php echo e(route('billing.index')); ?>"><i class="fa fa-arrow-right" style=" float: inline-end;"></i></a>
+</div>
+<?php endif; ?>
 <style>
     /* input.btn.btn-primary {
     float: right;
@@ -40,47 +46,46 @@ $billing = App\Models\Billingdetail::where('event_id',$meeting->id)->exists();
     #notification {
         display: none;
     }
+
     .section {
-    margin:10px;
-    } 
-
+        margin: 10px;
+    }
 </style>
-    <script>
-        function getDataUrlAndCopy(button) {
-            var dataUrl = button.getAttribute('data-url');
-            copyToClipboard(dataUrl);
-            // alert("Copied the data URL: " + dataUrl);
-        }
+<script>
+    function getDataUrlAndCopy(button) {
+        var dataUrl = button.getAttribute('data-url');
+        copyToClipboard(dataUrl);
+        // alert("Copied the data URL: " + dataUrl);
+    }
 
-        function copyToClipboard(text) {
-            /* Create a temporary input element */
-            var tempInput = document.createElement("input");
+    function copyToClipboard(text) {
+        /* Create a temporary input element */
+        var tempInput = document.createElement("input");
 
-            /* Set the value of the input element to the text to be copied */
-            tempInput.value = text;
+        /* Set the value of the input element to the text to be copied */
+        tempInput.value = text;
 
-            document.body.appendChild(tempInput);
+        document.body.appendChild(tempInput);
 
-            /* Select the text in the input element */
-            tempInput.select();
+        /* Select the text in the input element */
+        tempInput.select();
 
-            /* Copy the selected text to the clipboard */
-            document.execCommand("copy");
+        /* Copy the selected text to the clipboard */
+        document.execCommand("copy");
 
-            /* Remove the temporary input element from the DOM */
-            document.body.removeChild(tempInput);
-            showNotification();
-            setTimeout(hideNotification, 2000);
-        }
-        function showNotification() {
-            var notification = document.getElementById('notification');
-            notification.style.display = 'block';
-        }
+        /* Remove the temporary input element from the DOM */
+        document.body.removeChild(tempInput);
+        showNotification();
+        setTimeout(hideNotification, 2000);
+    }
 
-        function hideNotification() {
-            var notification = document.getElementById('notification');
-            notification.style.display = 'none';
-        }
-    </script>
+    function showNotification() {
+        var notification = document.getElementById('notification');
+        notification.style.display = 'block';
+    }
 
-<?php /**PATH /home/crmcentraverse/public_html/centraverse/resources/views/meeting/shareview.blade.php ENDPATH**/ ?>
+    function hideNotification() {
+        var notification = document.getElementById('notification');
+        notification.style.display = 'none';
+    }
+</script><?php /**PATH /home/crmcentraverse/public_html/centraverse/resources/views/meeting/shareview.blade.php ENDPATH**/ ?>

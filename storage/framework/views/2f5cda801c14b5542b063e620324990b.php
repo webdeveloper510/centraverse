@@ -1251,7 +1251,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                 <?php $__currentLoopData = $venue; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $venueKey => $venueValue): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <tr>
                                                     <td><?php echo e(__($venueKey)); ?></td>
-                                                    <td><input type="number" class="form-control" name="venue[<?php echo e($venueKey); ?>]" id="venue_<?php echo e($venueKey); ?>" value="<?php echo e($billing['venue'][$venueKey]); ?>" placeholder="<?php echo e(__($venueKey)); ?>"></td>
+                                                    <td><input type="number" class="form-control" name="venue[<?php echo e(isset($venueKey) ? $venueKey : ''); ?>]" id="venue_<?php echo e($venueKey); ?>" value="<?php echo e(isset($billing['venue'][$venueKey]) ? $billing['venue'][$venueKey] : ''); ?>" placeholder="<?php echo e(__($venueKey)); ?>"></td>
                                                 </tr>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </table>
@@ -1269,7 +1269,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                         <?php $__currentLoopData = $functionValue->package; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $packageKey => $packageValue): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                         <?php echo e(Form::label($packageValue, __($packageValue), ['class' => 'form-label'])); ?>
 
-                                                        <input type="number" class="form-control" name="package[<?php echo e($packageValue); ?>]" id="package_<?php echo e($packageKey); ?>" value="<?php echo e($billing['package'][$packageValue]); ?>" placeholder="<?php echo e($packageValue); ?>">
+                                                        <input type="number" class="form-control" name="package[<?php echo e(isset($packageValue) ? $packageValue : ''); ?>]" id="package_<?php echo e(isset($packageKey)? $packageKey :''); ?>" value="<?php echo e(isset($billing['package'][$packageValue]) ? $billing['package'][$packageValue] : ''); ?>" placeholder="<?php echo e(isset($packageValue) ? $packageValue :''); ?>">
                                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </td>
                                                 </tr>
@@ -1289,7 +1289,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                         <?php $__currentLoopData = $barValue->barpackage; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $barpackageKey => $barpackageValue): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                         <?php echo e(Form::label($barpackageValue, __($barpackageValue), ['class' => 'form-label'])); ?>
 
-                                                        <input type="number" class="form-control" name="barpackage[<?php echo e($barpackageValue); ?>]" id="barpackage_<?php echo e($barpackageKey); ?>" value="<?php echo e($billing['barpackage'][$barpackageValue]); ?>" placeholder="<?php echo e($barpackageValue); ?>">
+                                                        <input type="number" class="form-control" name="barpackage[<?php echo e(isset($barpackageValue) ? $barpackageValue : ''); ?>]" id="barpackage_<?php echo e(isset($barpackageKey)? $barpackageKey :''); ?>" value="<?php echo e(isset($billing['barpackage'][$barpackageValue]) ? $billing['barpackage'][$barpackageValue] : ''); ?>" placeholder="<?php echo e(isset($barpackageValue) ? $barpackageValue :''); ?>">
                                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </td>
                                                 </tr>
