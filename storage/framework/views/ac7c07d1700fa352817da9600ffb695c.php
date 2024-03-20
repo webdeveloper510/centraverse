@@ -187,7 +187,7 @@
         function getparent(bid) {
 
             $.ajax({
-                url: '<?php echo e(route('meeting.getparent')); ?>',
+                url: '<?php echo e(route("meeting.getparent")); ?>',
                 type: 'POST',
                 data: {
                     "parent": bid,

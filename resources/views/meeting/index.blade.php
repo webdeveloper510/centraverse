@@ -182,7 +182,7 @@
         function getparent(bid) {
 
             $.ajax({
-                url: '{{ route('meeting.getparent') }}',
+                url: '{{ route("meeting.getparent") }}',
                 type: 'POST',
                 data: {
                     "parent": bid,

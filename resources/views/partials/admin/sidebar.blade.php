@@ -8,16 +8,18 @@
             </div>
 
             <div class="scrollbar">
-            @if(\Request::route()->getName() == 'lead.review')
-                            <a href="#useradd-1" class="list-group-item list-group-item-action border-0">{{ __('Review Lead') }} <div
-                                    class="float-end"><i class="ti ti-chevron-right"></i></div></a>
-                        @endif
+                @if(\Request::route()->getName() == 'lead.review')
+                <a href="#useradd-1" class="list-group-item list-group-item-action border-0">{{ __('Review Lead') }}
+                    <div class="float-end"><i class="ti ti-chevron-right"></i></div>
+                </a>
+                @endif
                 @if(\Request::route()->getName() == 'dashboard')
-                   <a href="#useradd-1" class="list-group-item list-group-item-action"><span class="fa-stack fa-lg pull-left"><i class="ti ti-home-2"></i></span>
-                        <span class="dash-mtext">{{ __('Dashboard') }} </span></a>
-                    </a>
+                <a href="#useradd-1" class="list-group-item list-group-item-action"><span class="fa-stack fa-lg pull-left"><i class="ti ti-home-2"></i></span>
+                    <span class="dash-mtext">{{ __('Dashboard') }} </span></a>
+                </a>
                 @endif
                 @if(\Request::route()->getName() == 'settings')
+                @if (\Auth::user()->type == 'owner')
                 <a href="#company-email-setting" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-cog"></i></span>
                     <span class="dash-mtext">{{ __('Email Settings') }} </span></a>
@@ -26,21 +28,26 @@
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-cog"></i></span>
                     <span class="dash-mtext">{{ __('Twilio Settings') }}</span>
                 </a>
+                @endif
                 @if (\Auth::user()->type == 'super admin')
                 <a href="#recaptcha-settings" class="list-group-item list-group-item-action border-0">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-cog"></i></span>
                     <span class="dash-mtext">{{ __('Recaptcha Settings') }}</span>
                 </a>
                 @endif
+                @can('Manage User')
                 <a href="#user-settings" class="list-group-item list-group-item-action border-0">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-cog"></i></span>
                     <span class="dash-mtext">{{ __('Staff Settings') }}</span>
                 </a>
+                @endcan
+                @can('Manage Role')
                 <a href="#role-settings" class="list-group-item list-group-item-action border-0">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-cog"></i></span>
                     <span class="dash-mtext">{{ __('Role Settings') }}</span>
                 </a>
-
+                @endif
+                @if(Gate::check('Manage Lead') || Gate::check('Manage Meeting'))
                 <a href="#eventtype-settings" class="list-group-item list-group-item-action border-0">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-cog"></i></span>
                     <span class="dash-mtext">{{ __('Event-Type Settings') }}</span>
@@ -62,10 +69,14 @@
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-cog"></i></span>
                     <span class="dash-mtext">{{ __('Setup Settings') }}</span>
                 </a>
+                @endif
+                @can('Manage Billing')
                 <a href="#billing-setting" class="list-group-item list-group-item-action border-0">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-cog"></i></span>
                     <span class="dash-mtext">{{ __('Billing Settings') }}</span>
                 </a>
+                @endcan
+                @if (\Auth::user()->type == 'owner')
                 <a href="#buffer-settings" class="list-group-item list-group-item-action border-0">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-cog"></i></span>
                     <span class="dash-mtext">{{ __('Buffer Settings') }}</span>
@@ -82,6 +93,7 @@
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-cog"></i></span>
                     <span class="dash-mtext">{{ __('Additional Settings') }}</span>
                 </a>
+                @endif
                 @endif
                 @if(\Request::route()->getName() == 'billing.index')
                 <a href="#useradd-1" class="list-group-item list-group-item-action">
@@ -139,10 +151,9 @@
                 </a>
                 @endif
                 @if(\Request::route()->getName() == 'lead.edit' )
-                    <a href="#useradd-1" class="list-group-item list-group-item-action"><span class="fa-stack fa-lg pull-left"><i class="ti ti-home-2"></i></span>
-                        <span class="dash-mtext">{{ __('Edit Lead') }} </span></a>
-
-                    </a>
+                <a href="#useradd-1" class="list-group-item list-group-item-action"><span class="fa-stack fa-lg pull-left"><i class="ti ti-home-2"></i></span>
+                    <span class="dash-mtext">{{ __('Edit Lead') }} </span></a>
+                </a>
                 @endif
             </div>
         </div>
