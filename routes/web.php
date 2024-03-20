@@ -1246,7 +1246,7 @@ Route::group(['middleware' => ['verified']], function () {
      Route::post('setting/delete-bar-function',[SettingController::class,'delete_bar_package'])->name('baredit.setting');
      Route::post('setting/additional-items',[SettingController::class,'additional_items'])->name('additional.setting');
 
-
+    
      
     //=======================================Floor Plans=======================//
     Route::post('/floor-images',[SettingController::class,'storeImage']);
@@ -1364,4 +1364,5 @@ Route::post('/calender-meeting-data', [CalenderNewController::class, 'get_event_
 Route::get('/calender-new', [CalenderNewController::class, 'index'])->name('calendernew.index');
 Route::post('/edit-addittional-items',[SettingController::class,'editadditionalcost'])->name('additionalitems.edit');
 Route::post('/function-packages', [MeetingController::class, 'getpackages'])->name('function.packages');
+Route::get('/event-info',[CalenderNewController::class,'eventinfo'])->name('eventinformation');
 

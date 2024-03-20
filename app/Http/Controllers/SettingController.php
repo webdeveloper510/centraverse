@@ -2012,7 +2012,6 @@ class SettingController extends Controller
     }
     public function additional_items(Request $request)
     {
-
         $user = \Auth::user();
         $settings = Utility::settings();
         $created_at = $updated_at = date('Y-m-d H:i:s');
@@ -2020,15 +2019,13 @@ class SettingController extends Controller
         $additionalFunction = $function[$request->additional_function]->function;
         $additionalPackage = $request->additional_package;
         $additionalItems = [];
-        for ($i = 0; $i < count($request->additional_items); $i++) {
-            $additionalItems[$request->additional_items[$i]] = $request->additional_items_cost[$i];
+        foreach ($additionalPackage as $package) {
+            $items = [];
+            for ($i = 0; $i < count($request->additional_items); $i++) {
+                $items[$request->additional_items[$i]] = $request->additional_items_cost[$i];
+            }
+            $resultArray[$additionalFunction][$package] = $items;
         }
-
-        $resultArray = [
-            $additionalFunction => [
-                $additionalPackage => $additionalItems
-            ]
-        ];
         $existingValue = $settings['additional_items'] ?? '';
         // Decode existing JSON string into an array
         $existingArray = json_decode($existingValue, true);
