@@ -54,6 +54,7 @@
             initialView: 'dayGridMonth',
             themeSystem: 'bootstrap',
             selectable: true,
+            eventDisplay: 'block',
             select: function(start, end, allDay, info) {
 
                 var selectedStartDate = start.startStr;
@@ -84,19 +85,19 @@
                             JSON.forEach((event, index, array) => {
                                 lists = `
                             <li class="list-group-item card mb-3" data-index="${index}">
-                            <div class="row align-items-center justify-content-between">
-                                <div class="col-auto mb-3 mb-sm-0">
-                                    <div class="d-flex align-items-center">
-                                        <div class="theme-avtar bg-info">
-                                            <i class="ti ti-calendar-event"></i>
-                                        </div>
-                                        <div class="ms-3">
-                                            <h6 class="m-0">${event.name}</h6>
-                                            <small class="text-muted">${event.start_time} to ${event.end_time}</small>
+                                <div class="row align-items-center justify-content-between">
+                                    <div class="col-auto mb-3 mb-sm-0">
+                                        <div class="d-flex align-items-center">
+                                            <div class="theme-avtar bg-info">
+                                                <i class="ti ti-calendar-event"></i>
+                                            </div>
+                                            <div class="ms-3">
+                                                <h6 class="m-0">${event.name}</h6>
+                                                <small class="text-muted">${event.start_time} to ${event.end_time}</small>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                         </li>
                         `;
                                 Json.push(lists);
@@ -110,7 +111,7 @@
                     })
                     .catch(console.error);
             },
-        })
+        });
         calendar.render();
     })
 </script>

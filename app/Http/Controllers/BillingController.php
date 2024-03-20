@@ -56,7 +56,6 @@ class BillingController extends Controller
         $billing['status'] = 1;
         $billing['deposits'] = $request->deposits;
         $billing->save();
-      
         return redirect()->back()->with('success', __('Billing Created'));
      
     }

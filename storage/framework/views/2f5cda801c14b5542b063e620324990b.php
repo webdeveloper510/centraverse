@@ -257,6 +257,11 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
 </style>
 <?php endif; ?>
 <style>
+li:has(> a.active) {
+    border-color: #2980b9;
+    box-shadow: 0 0 15px rgba(41, 128, 185, 0.8);
+}
+
     input[type="radio"] {
         display: none;
     }
@@ -1241,6 +1246,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                     <?php echo e(Form::open(['route' => 'billing.setting', 'method' => 'post'])); ?>
 
                                     <?php echo csrf_field(); ?>
+                                   
                                     <div class="row cst-border">
                                         <div class="col-sm-6 venue">
                                             <table class="table table-responsive table-bordered" style="width:100%">
@@ -1251,7 +1257,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                 <?php $__currentLoopData = $venue; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $venueKey => $venueValue): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <tr>
                                                     <td><?php echo e(__($venueKey)); ?></td>
-                                                    <td><input type="number" class="form-control" name="venue[<?php echo e(isset($venueKey) ? $venueKey : ''); ?>]" id="venue_<?php echo e($venueKey); ?>" value="<?php echo e(isset($billing['venue'][$venueKey]) ? $billing['venue'][$venueKey] : ''); ?>" placeholder="<?php echo e(__($venueKey)); ?>"></td>
+                                                    <td><input type="number" class="form-control" name="venue[<?php echo e(isset($venueKey) ? $venueKey : ''); ?>]" id="venue_<?php echo e($venueKey); ?>" value="<?php echo e(isset($billing['venue'][$venueKey]) ? $billing['venue'][$venueKey] : ''); ?>" placeholder="<?php echo e(__($venueKey)); ?>" min ="0"></td>
                                                 </tr>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </table>
@@ -1259,8 +1265,8 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                         <div class="col-sm-6 function">
                                             <table class="table table-responsive table-bordered" style="width:100%">
                                                 <tr>
-                                                    <th><?php echo e(__('Function')); ?></th>
-                                                    <th><?php echo e(__('Function Cost')); ?></th>
+                                                    <th><?php echo e(__('Package')); ?></th>
+                                                    <th><?php echo e(__('Package Cost')); ?></th>
                                                 </tr>
                                                 <?php $__currentLoopData = $function; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $functionKey => $functionValue): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <tr>
@@ -1269,7 +1275,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                         <?php $__currentLoopData = $functionValue->package; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $packageKey => $packageValue): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                         <?php echo e(Form::label($packageValue, __($packageValue), ['class' => 'form-label'])); ?>
 
-                                                        <input type="number" class="form-control" name="package[<?php echo e(isset($packageValue) ? $packageValue : ''); ?>]" id="package_<?php echo e(isset($packageKey)? $packageKey :''); ?>" value="<?php echo e(isset($billing['package'][$packageValue]) ? $billing['package'][$packageValue] : ''); ?>" placeholder="<?php echo e(isset($packageValue) ? $packageValue :''); ?>">
+                                                        <input type="number" class="form-control" name="package[<?php echo e(isset($functionValue->function)? $functionValue->function :''); ?>][<?php echo e(isset($packageValue) ? $packageValue : ''); ?>]" id="package_<?php echo e(isset($packageKey)? $packageKey :''); ?>" value="<?php echo e(isset($billing['package'][$functionValue->function][$packageValue]) ? $billing['package'][$functionValue->function][$packageValue] : ''); ?>" placeholder="Enter <?php echo e(isset($packageValue) ? $packageValue :''); ?> Cost" min ="0">
                                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </td>
                                                 </tr>
@@ -1289,7 +1295,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                         <?php $__currentLoopData = $barValue->barpackage; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $barpackageKey => $barpackageValue): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                         <?php echo e(Form::label($barpackageValue, __($barpackageValue), ['class' => 'form-label'])); ?>
 
-                                                        <input type="number" class="form-control" name="barpackage[<?php echo e(isset($barpackageValue) ? $barpackageValue : ''); ?>]" id="barpackage_<?php echo e(isset($barpackageKey)? $barpackageKey :''); ?>" value="<?php echo e(isset($billing['barpackage'][$barpackageValue]) ? $billing['barpackage'][$barpackageValue] : ''); ?>" placeholder="<?php echo e(isset($barpackageValue) ? $barpackageValue :''); ?>">
+                                                        <input type="number" class="form-control" name="barpackage[<?php echo e(isset($barValue->bar) ? $barValue->bar : ''); ?>][<?php echo e(isset($barpackageValue) ? $barpackageValue : ''); ?>]" id="barpackage_<?php echo e(isset($barpackageKey) ? $barpackageKey : ''); ?>" value="<?php echo e(isset($billing['barpackage'][isset($barValue->bar) ? $barValue->bar : ''][$barpackageValue]) ? $billing['barpackage'][isset($barValue->bar) ? $barValue->bar : ''][$barpackageValue] : ''); ?>" placeholder="<?php echo e(isset($barpackageValue) ? $barpackageValue : ''); ?>" min="0">
                                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </td>
                                                 </tr>
@@ -1300,27 +1306,27 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                             <div class="form-group">
                                                 <?php echo e(Form::label('equipment', __('Equipment'), ['class' => 'form-label'])); ?>
 
-                                                <input type="number" name="equipment" id="" class="form-control" value="<?= (isset($billing['equipment'])) ?? $billing['equipment'] ?>" placeholder="Enter Equipments Cost (eg. Tent, Tables, Chairs)" required>
+                                                <input type="number" name="equipment" id="" class="form-control" value="<?php echo e(isset($billing['equipment']) ? $billing['equipment'] : ''); ?>" placeholder="Enter Equipments Cost (eg. Tent, Tables, Chairs)" required>
                                             </div>
                                             <div class="form-group">
                                                 <?php echo e(Form::label('welcomesetup', __('Welcome Setup'), ['class' => 'form-label'])); ?>
 
-                                                <input type="number" name="welcomesetup" id="" class="form-control" value="<?= isset($billing['welcomesetup']) ?? $billing['welcomesetup'] ?>" placeholder="Enter Welcome Setup Cost" required>
+                                                <input type="number" name="welcomesetup" id="" class="form-control" value="<?php echo e(isset($billing['welcomesetup']) ? $billing['welcomesetup'] : ''); ?>" placeholder="Enter Welcome Setup Cost" required>
                                             </div>
                                             <div class="form-group">
                                                 <?php echo e(Form::label('rehearsalsetup', __('Rehearsel Setup'), ['class' => 'form-label'])); ?>
 
-                                                <input type="number" name="rehearsalsetup" class="form-control" value="<?= (isset($billing['rehearsalsetup'])) ?? $billing['rehearsalsetup'] ?>" placeholder="Enter Rehearsel Setup Cost" required>
+                                                <input type="number" name="rehearsalsetup" class="form-control" value="<?php echo e(isset($billing['rehearsalsetup']) ? $billing['rehearsalsetup'] : ''); ?>" placeholder="Enter Rehearsel Setup Cost" required>
                                             </div>
                                             <div class="form-group">
                                                 <?php echo e(Form::label('hotel_rooms', __('Hotel Rooms'), ['class' => 'form-label'])); ?>
 
-                                                <input type="number" name="hotel_rooms" class="form-control" value="<?= (isset($billing['hotel_rooms'])) ?? $billing['hotel_rooms'] ?>" placeholder="Enter Hotel Rooms Cost" required>
+                                                <input type="number" name="hotel_rooms" class="form-control" value="<?php echo e(isset($billing['hotel_rooms']) ? $billing['hotel_rooms'] : ''); ?>" placeholder="Enter Hotel Rooms Cost" required>
                                             </div>
                                             <div class="form-group">
                                                 <?php echo e(Form::label('special_req', __('Special Request/Others'), ['class' => 'form-label'])); ?>
 
-                                                <input type="number" name="special_req" class="form-control" value="<?= (isset($billing['special_req'])) ?? $billing['special_req'] ?>" placeholder="Enter  Cost" required>
+                                                <input type="number" name="special_req" class="form-control" value="<?php echo e(isset($billing['special_req']) ? $billing['special_req'] : ''); ?>" placeholder="Enter  Cost" required>
                                             </div>
                                         </div>
                                     </div>

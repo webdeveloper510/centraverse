@@ -6,6 +6,7 @@ $billings = json_decode($settings['fixed_billing'],true);
 if(isset($settings['additional_items'])&& !empty($settings['additional_items'])){
 $additional_items = json_decode($settings['additional_items'],true);
 }
+
 $labels =
 [
 'venue_rental' => 'Venue',
@@ -17,49 +18,75 @@ $labels =
 'food_package'=>'Food Package',
 'additional_items' =>'Additional Items'
 ];
-$breakpck = json_decode($event->bar_package,true);
-$foodpck = json_decode($event->func_package,true);
-
+$barpcks = json_decode($event->bar_package,true);
+$foodpcks = json_decode($event->func_package,true);
+$addpcks = json_decode($event->ad_opts,true);
+$food = [];
+$bar = [];
+$add = [];
+foreach($foodpcks as $key => $foodpck){
+foreach($foodpck as $foods){
+$food[]= $foods;
+}
+}
+$foodpckge = implode(',',$food);
+foreach($barpcks as $key => $barpck){
+$bar[]= $barpck;
+}
+$barpckge = implode(',',$bar);
+foreach($addpcks as $key => $adpck){
+foreach($adpck as $ad){
+$add[] = $ad;
+}
+}
+$addpckge = implode(',',$add);
 $meetingData = [
 'venue_rental' => $event->venue_selection,
 'hotel_rooms'=>$event->room,
 'equipment' =>$event->spcl_request,
-'bar_package' => $event->bar . (isset($event->bar_package) && !empty($event->bar_package)) ?   key($breakpck) : '',
-'food_package' => (isset($event->func_package) && !empty($event->func_package)) ? key($foodpck) : '',
-'additional_items' => (isset($event->ad_opts) && !empty($event->ad_opts)) ? $event->ad_opts :'',
+'bar_package' => (isset($event->bar_package) && !empty($event->bar_package)) ? $barpckge : '',
+'food_package' => (isset($event->func_package) && !empty($event->func_package)) ? $foodpckge: '',
+'additional_items' => (isset($event->ad_opts) && !empty($event->ad_opts)) ? $addpckge :'',
 'setup' =>''
 ];
-// Split the 'food_package' string into an array of items
-$foodItems = explode(',', $meetingData['food_package']);
-// Initialize the total cost
 $totalFoodPackageCost = 0;
+$totalbarPackageCost = 0;
 if(isset($billings) && !empty($billings)){
-// Check dynamically for each item in 'food_package'
-    foreach ($foodItems as $foodItem) {
-        // Remove any extra spaces
-        $foodItem = trim($foodItem);
-
-        // Check if the item exists in the billingObject and has a cost
-        foreach ($billings as $category => $categoryItems) {
-            if (is_array($categoryItems) && isset($categoryItems[$foodItem])) {
+    foreach ($food as $foodItem) {
+        foreach ($billings['package'] as $category => $categoryItems) {
+            if (isset($categoryItems[$foodItem])) {
                 $totalFoodPackageCost += $categoryItems[$foodItem];
-                break; // Break out of the inner loop once a match is found
+                break;
             }
         }
-    }
+    } 
+    foreach ($bar as $barItem) {
+        foreach ($billings['barpackage'] as $category => $categoryItems) {
+            if (isset($categoryItems[$barItem])) {
+                $totalbarPackageCost += $categoryItems[$barItem];
+                break;
+            }
+        }
+    } 
     $meetingData['food_package_cost'] = $totalFoodPackageCost;
 }
 $additionalItemsCost = 0;
-if(isset($billings) && !empty($billings)){
-foreach ($additional_items as $item) {
-    foreach ($item as $itemName => $itemCost) {
-        if (in_array($itemName, explode(',', $meetingData['additional_items']))) {
-            $additionalItemsCost += $itemCost;
+if(isset($additional_items) && !empty($additional_items)){
+   
+    foreach ($additional_items as $category => $categoryItems) {
+    foreach ($categoryItems as $item => $subItems) {
+        foreach ($subItems as $key => $value) {
+            if (in_array($key, $add)) {
+                // Add the value to the total cost
+                $additionalItemsCost += $value;
+            }
         }
     }
 }
-$meetingData['additional_items_cost'] = $additionalItemsCost;
+
 }
+
+
 // Get the value for 'Patio' from the 'venue' array
 $subcategories = array_map('trim', explode(',', $meetingData['venue_rental']));
 $venueRentalCost = 0;
@@ -69,9 +96,9 @@ foreach ($subcategories as $subcategory) {
 $meetingData['venue_rental_cost'] = $venueRentalCost;
 $meetingData['hotel_rooms_cost'] = $billings['hotel_rooms'] ?? '';
 $meetingData['equipment_cost'] = $billings['equipment'] ?? '';
-$meetingData['bar_package_cost'] = 8;
+$meetingData['bar_package_cost'] = $totalbarPackageCost;
 $meetingData['food_package_cost'] = $totalFoodPackageCost;
-$meetingData['additional_items_cost'] = $additionalItemsCost ;
+$meetingData['additional_items_cost'] = $additionalItemsCost ?? '';
 $meetingData['special_req_cost'] =  $billings['special_req'] ?? '';
 $meetingData['setup_cost'] = '';
 @endphp
@@ -92,7 +119,7 @@ $meetingData['setup_cost'] = '';
                 <tr>
                     <td>{{ucfirst($label)}}</td>
                     <td>
-                        <input type="text" name="billing[{{$key}}][cost]" value="${{ isset($meetingData[$key.'_cost']) ? $meetingData[$key.'_cost'] : '' }}" class="form-control dlr">
+                        <input type="text" name="billing[{{$key}}][cost]" value="{{ isset($meetingData[$key.'_cost']) ? $meetingData[$key.'_cost'] : '' }}" class="form-control dlr">
                     </td>
                     <td>
                         <input type="number" name="billing[{{$key}}][quantity]" min='0' class="form-control" value="{{$meetingData[$key] ?? ''}}" required>

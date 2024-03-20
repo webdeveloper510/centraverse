@@ -6,15 +6,15 @@ $campaign_type = explode(',',$settings['campaign_type'])
     <div class="badges">
         <ul class="nav nav-tabs tabActive" style="border-bottom: none">
             <li class="badge rounded p-2 m-1 px-3 bg-primary">
-                <a style="color: white" data-toggle="tab" href="#barmenu0" class="active">Customer insert</a>
+                <a style="color: white;font-size: larger;" data-toggle="tab" href="#barmenu0" class="active">Individual Customer</a>
             </li>
             <li class="badge rounded p-2 m-1 px-3 bg-primary">
-                <a style="color: white" data-toggle="tab" href="#barmenu1" class="">Import file</a>
+                <a style="color: white;    font-size: larger;" data-toggle="tab" href="#barmenu1" class="">Bulk Customer</a>
             </li>
         </ul>
 
         <div class="tab-content">
-            <div id="barmenu0" class="tab-pane fade in active show">
+            <div id="barmenu0" class="tab-pane fade in active show mt-5">
                 {{Form::open(array('route'=>['importuser'],'method'=>'post','enctype'=>'multipart/form-data'))}}
                 <div class="row">
                     <div class="col-6">
@@ -71,7 +71,7 @@ $campaign_type = explode(',',$settings['campaign_type'])
                 </div>
                 {{Form::close()}}
             </div>
-            <div id="barmenu1" class="tab-pane fade">
+            <div id="barmenu1" class="tab-pane fade mt-5" >
                 {{Form::open(array('route'=>['importuser'],'method'=>'post','enctype'=>'multipart/form-data'))}}
                 <div class="row">
                     <input type="hidden" name="customerType" value="uploadFile" />
@@ -162,3 +162,11 @@ $campaign_type = explode(',',$settings['campaign_type'])
 </div>
 {{Form::close()}}
 --}}
+<style>
+li:has(> a.active) {
+    border-color: #2980b9;
+    box-shadow: 0 0 15px rgba(41, 128, 185, 0.8);
+}
+
+</style>
+
