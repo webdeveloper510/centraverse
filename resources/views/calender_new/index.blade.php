@@ -58,33 +58,31 @@
             dataType: 'json',
             success: function(response) {
                 var eventDates = {};
-            // Count the number of events for each date
-            response.forEach(function(event) {
-                var startDate = moment(event.start_date).format('YYYY-MM-DD');
-                if (eventDates[startDate]) {
-                    eventDates[startDate]++;
-                } else {
-                    eventDates[startDate] = 1;
-                }
-            });
-            // Convert the event counts into background event objects
-            var backgroundEvents = [];
-            for (var date in eventDates) {
-                backgroundEvents.push({
-                    title:  eventDates[date],
-                    start: date,
-                    // rendering: 'display',
-                    textColor:'#fff',
-                    display:'background',
+                // Count the number of events for each date
+                response.forEach(function(event) {
+                    var startDate = moment(event.start_date).format('YYYY-MM-DD');
+                    if (eventDates[startDate]) {
+                        eventDates[startDate]++;
+                    } else {
+                        eventDates[startDate] = 1;
+                    }
                 });
-            }
+                // Convert the event counts into background event objects
+                var backgroundEvents = [];
+                for (var date in eventDates) {
+                    backgroundEvents.push({
+                        title: eventDates[date],
+                        start: date,
+                        textColor: '#fff',
+                        display: 'background',
+                    });
+                }
                 let calendarEl = document.getElementById('calendar');
                 var calendar = new FullCalendar.Calendar(calendarEl, {
                     initialView: 'dayGridMonth',
                     themeSystem: 'bootstrap',
                     selectable: true,
                     eventDisplay: 'block',
-
                     select: function(start, end, allDay, info) {
 
                         var selectedStartDate = start.startStr;
@@ -151,34 +149,7 @@
                             })
                             .catch(console.error);
                     },
-                //     dayCellDidMount: function(info) {
-                //     var date = info.dateStr;
-                //     var cell = info.el;
-                //     if (eventDates[date]) {
-                //         var eventCount = document.createElement('div');
-                //         eventCount.className = 'event-count';
-                //         eventCount.textContent = eventDates[date];
-                //         cell.appendChild(eventCount);
-                //     }
-                // },
                     events: backgroundEvents
-                //     eventDidMount: function(info) {
-                //     // Customize the display of background events
-                //     if (info.event.rendering === 'background') {
-                //         info.el.style.backgroundColor = 'lightgrey';
-                //     }
-                // },
-                // Display the background events
-                // dayRender: function(info) {
-                //     var cell = info.el;
-                //     var date = info.date;
-                //     var dateString = moment(date).format('YYYY-MM-DD');
-                //     backgroundEvents.forEach(function(event) {
-                //         if (event.start === dateString) {
-                //             cell.innerHTML += '<div class="event-count">' + event.title + '</div>';
-                //         }
-                //     });
-                // }
                 });
                 calendar.render();
             }

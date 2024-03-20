@@ -24,5 +24,6 @@ class CalenderNewController extends Controller
     public function eventinfo(){
         $event = Meeting::all();
         return $event;
+
     }
 }

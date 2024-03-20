@@ -75,13 +75,14 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                 class="dash-mtext">{{ __('Campaigns') }}</span></a>
                             </li>
                             @endcan
-                            @can('Manage User')
+                            @if(Gate::check('Manage Lead') || Gate::check('Manage Meeting') || Gate::check('Manage User'))
                             <li class="dash-item {{ \Request::route()->getName() == 'customer-list' ? ' active' : '' }}">
                                 <a href="{{route('userlist')}}" class="dash-link">
                                     <span class="dash-mtext">{{ __('Customers') }}</span>
                                 </a>
                             </li>
-                            @endcan
+                            
+                            @endif
                             @if(\Auth::user()->type!='super admin')
                     <li class="dash-item {{ \Request::route()->getName() == 'calendar-new' || \Request::route()->getName() == 'calendernew.index' ? ' active' : '' }}">
                         <a href="{{ route('calendernew.index') }}" class="dash-link">

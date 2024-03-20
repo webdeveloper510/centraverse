@@ -75,12 +75,13 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                 class="dash-mtext"><?php echo e(__('Campaigns')); ?></span></a>
                             </li>
                             <?php endif; ?>
-                            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage User')): ?>
+                            <?php if(Gate::check('Manage Lead') || Gate::check('Manage Meeting') || Gate::check('Manage User')): ?>
                             <li class="dash-item <?php echo e(\Request::route()->getName() == 'customer-list' ? ' active' : ''); ?>">
                                 <a href="<?php echo e(route('userlist')); ?>" class="dash-link">
                                     <span class="dash-mtext"><?php echo e(__('Customers')); ?></span>
                                 </a>
                             </li>
+                            
                             <?php endif; ?>
                             <?php if(\Auth::user()->type!='super admin'): ?>
                     <li class="dash-item <?php echo e(\Request::route()->getName() == 'calendar-new' || \Request::route()->getName() == 'calendernew.index' ? ' active' : ''); ?>">
