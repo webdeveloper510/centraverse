@@ -317,9 +317,7 @@ $bar_package = json_decode($setting['barpackage'],true);
                                                     @endforeach
                                                     @endif
                                                 </div>
-                                                @error('function')
-                                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                                                @enderror
+                                              
                                             </div>
                                             <div class="col-6" id="mailFunctionSection">
                                                 @if(isset($function) && !empty($function))

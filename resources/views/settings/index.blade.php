@@ -258,10 +258,10 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
 </style>
 @endif
 <style>
-li:has(> a.active) {
-    border-color: #2980b9;
-    box-shadow: 0 0 15px rgba(41, 128, 185, 0.8);
-}
+    li:has(> a.active) {
+        border-color: #2980b9;
+        box-shadow: 0 0 15px rgba(41, 128, 185, 0.8);
+    }
 
     input[type="radio"] {
         display: none;
@@ -1173,7 +1173,7 @@ li:has(> a.active) {
                             </div>
                         </div>
                     </div>
-                   
+
                     <div id="billing-setting" class="card">
                         <div class="col-md-12">
                             <div class="card-header">
@@ -1187,7 +1187,7 @@ li:has(> a.active) {
                                 <div class="row mt-3">
                                     {{ Form::open(['route' => 'billing.setting', 'method' => 'post']) }}
                                     @csrf
-                                   
+
                                     <div class="row cst-border">
                                         <div class="col-sm-6 venue">
                                             <table class="table table-responsive table-bordered" style="width:100%">
@@ -1198,7 +1198,7 @@ li:has(> a.active) {
                                                 @foreach($venue as $venueKey => $venueValue)
                                                 <tr>
                                                     <td>{{__($venueKey)}}</td>
-                                                    <td><input type="number" class="form-control" name="venue[{{ isset($venueKey) ? $venueKey : '' }}]" id="venue_{{$venueKey}}" value="{{ isset($billing['venue'][$venueKey]) ? $billing['venue'][$venueKey] : '' }}" placeholder="{{__($venueKey)}}" min ="0"></td>
+                                                    <td><input type="number" class="form-control" name="venue[{{ isset($venueKey) ? $venueKey : '' }}]" id="venue_{{$venueKey}}" value="{{ isset($billing['venue'][$venueKey]) ? $billing['venue'][$venueKey] : '' }}" placeholder="{{__($venueKey)}}" min="0"></td>
                                                 </tr>
                                                 @endforeach
                                             </table>
@@ -1215,7 +1215,7 @@ li:has(> a.active) {
                                                     <td>
                                                         @foreach($functionValue->package as $packageKey => $packageValue)
                                                         {{ Form::label($packageValue, __($packageValue), ['class' => 'form-label']) }}
-                                                        <input type="number" class="form-control" name="package[{{isset($functionValue->function)? $functionValue->function :''}}][{{ isset($packageValue) ? $packageValue : '' }}]" id="package_{{isset($packageKey)? $packageKey :''}}" value="{{ isset($billing['package'][$functionValue->function][$packageValue]) ? $billing['package'][$functionValue->function][$packageValue] : '' }}" placeholder="Enter {{ isset($packageValue) ? $packageValue :''}} Cost" min ="0">
+                                                        <input type="number" class="form-control" name="package[{{isset($functionValue->function)? $functionValue->function :''}}][{{ isset($packageValue) ? $packageValue : '' }}]" id="package_{{isset($packageKey)? $packageKey :''}}" value="{{ isset($billing['package'][$functionValue->function][$packageValue]) ? $billing['package'][$functionValue->function][$packageValue] : '' }}" placeholder="Enter {{ isset($packageValue) ? $packageValue :''}} Cost" min="0">
                                                         @endforeach
                                                     </td>
                                                 </tr>
@@ -1401,7 +1401,7 @@ li:has(> a.active) {
                                     @csrf
                                     <div id="additional-items-container">
                                         <div class="row form-group">
-                                            <label for 'additional_function'>Select Package</label>
+                                            <label for='additional_function'>Select Package</label>
 
                                             <div class="col-md-6">
                                                 @if(isset($function) && !empty($function))
@@ -1413,11 +1413,7 @@ li:has(> a.active) {
                                                 </select>
                                             </div>
                                             <div class="col-md-6">
-
-                                                <select name="additional_package" id="additional_package" class="form-select">
-                                                    <option value="0" selected disabled>Select Package</option>
-                                                </select>
-
+                                                <div id="additional_packages_checkboxes"></div>
                                                 @endif
                                             </div>
                                         </div>
@@ -3658,9 +3654,11 @@ li:has(> a.active) {
             let val = $(this).val();
             const functionData = <?= json_encode($function) ?>[val];
             let packages = functionData.package;
-            $('#additional_package').empty();
+            $('#additional_packages_checkboxes').empty();
             $.each(packages, function(index, package) {
-                $('#additional_package').append('<option value="' + package + '">' + package + '</option>');
+                $('#additional_packages_checkboxes').append('<label><input type="checkbox" name="additional_package[]" value="' + package + '"> ' + package + '</label><br>');
+
+                // $('#additional_package').append('<option value="' + package + '">' + package + '</option>');
             });
         })
     });
@@ -3870,12 +3868,8 @@ li:has(> a.active) {
                 const costElement = this.closest('tr').querySelector('.cost');
                 let currentCost = costElement.textContent.trim();
                 const itemName = this.closest('tr').querySelector('.item').textContent.trim();
-
                 const packageName = this.closest('td').getAttribute('data-function').trim();
                 const functionname = this.closest('td').getAttribute('data-package').trim();
-                // const functionname = this.closest('tr').querySelector('.functionname').textContent.trim();
-
-                // Prompt the user to enter a new cost value
                 const newCost = prompt('Enter new cost:', currentCost);
 
                 // Update the cost if the user provided a new value

@@ -21,4 +21,8 @@ class CalenderNewController extends Controller
         $events = Meeting::where('start_date', $request->start)->get();
         return response()->json(["events" => $events]);
     }
+    public function eventinfo(){
+        $event = Meeting::all();
+        return $event;
+    }
 }

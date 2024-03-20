@@ -257,10 +257,10 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
 </style>
 <?php endif; ?>
 <style>
-li:has(> a.active) {
-    border-color: #2980b9;
-    box-shadow: 0 0 15px rgba(41, 128, 185, 0.8);
-}
+    li:has(> a.active) {
+        border-color: #2980b9;
+        box-shadow: 0 0 15px rgba(41, 128, 185, 0.8);
+    }
 
     input[type="radio"] {
         display: none;
@@ -1231,7 +1231,7 @@ li:has(> a.active) {
                             </div>
                         </div>
                     </div>
-                   
+
                     <div id="billing-setting" class="card">
                         <div class="col-md-12">
                             <div class="card-header">
@@ -1246,7 +1246,7 @@ li:has(> a.active) {
                                     <?php echo e(Form::open(['route' => 'billing.setting', 'method' => 'post'])); ?>
 
                                     <?php echo csrf_field(); ?>
-                                   
+
                                     <div class="row cst-border">
                                         <div class="col-sm-6 venue">
                                             <table class="table table-responsive table-bordered" style="width:100%">
@@ -1257,7 +1257,7 @@ li:has(> a.active) {
                                                 <?php $__currentLoopData = $venue; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $venueKey => $venueValue): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <tr>
                                                     <td><?php echo e(__($venueKey)); ?></td>
-                                                    <td><input type="number" class="form-control" name="venue[<?php echo e(isset($venueKey) ? $venueKey : ''); ?>]" id="venue_<?php echo e($venueKey); ?>" value="<?php echo e(isset($billing['venue'][$venueKey]) ? $billing['venue'][$venueKey] : ''); ?>" placeholder="<?php echo e(__($venueKey)); ?>" min ="0"></td>
+                                                    <td><input type="number" class="form-control" name="venue[<?php echo e(isset($venueKey) ? $venueKey : ''); ?>]" id="venue_<?php echo e($venueKey); ?>" value="<?php echo e(isset($billing['venue'][$venueKey]) ? $billing['venue'][$venueKey] : ''); ?>" placeholder="<?php echo e(__($venueKey)); ?>" min="0"></td>
                                                 </tr>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </table>
@@ -1275,7 +1275,7 @@ li:has(> a.active) {
                                                         <?php $__currentLoopData = $functionValue->package; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $packageKey => $packageValue): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                         <?php echo e(Form::label($packageValue, __($packageValue), ['class' => 'form-label'])); ?>
 
-                                                        <input type="number" class="form-control" name="package[<?php echo e(isset($functionValue->function)? $functionValue->function :''); ?>][<?php echo e(isset($packageValue) ? $packageValue : ''); ?>]" id="package_<?php echo e(isset($packageKey)? $packageKey :''); ?>" value="<?php echo e(isset($billing['package'][$functionValue->function][$packageValue]) ? $billing['package'][$functionValue->function][$packageValue] : ''); ?>" placeholder="Enter <?php echo e(isset($packageValue) ? $packageValue :''); ?> Cost" min ="0">
+                                                        <input type="number" class="form-control" name="package[<?php echo e(isset($functionValue->function)? $functionValue->function :''); ?>][<?php echo e(isset($packageValue) ? $packageValue : ''); ?>]" id="package_<?php echo e(isset($packageKey)? $packageKey :''); ?>" value="<?php echo e(isset($billing['package'][$functionValue->function][$packageValue]) ? $billing['package'][$functionValue->function][$packageValue] : ''); ?>" placeholder="Enter <?php echo e(isset($packageValue) ? $packageValue :''); ?> Cost" min="0">
                                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </td>
                                                 </tr>
@@ -1480,7 +1480,7 @@ li:has(> a.active) {
                                     <?php echo csrf_field(); ?>
                                     <div id="additional-items-container">
                                         <div class="row form-group">
-                                            <label for 'additional_function'>Select Package</label>
+                                            <label for='additional_function'>Select Package</label>
 
                                             <div class="col-md-6">
                                                 <?php if(isset($function) && !empty($function)): ?>
@@ -1492,11 +1492,7 @@ li:has(> a.active) {
                                                 </select>
                                             </div>
                                             <div class="col-md-6">
-
-                                                <select name="additional_package" id="additional_package" class="form-select">
-                                                    <option value="0" selected disabled>Select Package</option>
-                                                </select>
-
+                                                <div id="additional_packages_checkboxes"></div>
                                                 <?php endif; ?>
                                             </div>
                                         </div>
@@ -3898,9 +3894,11 @@ unset($__errorArgs, $__bag); ?>
             let val = $(this).val();
             const functionData = <?= json_encode($function) ?>[val];
             let packages = functionData.package;
-            $('#additional_package').empty();
+            $('#additional_packages_checkboxes').empty();
             $.each(packages, function(index, package) {
-                $('#additional_package').append('<option value="' + package + '">' + package + '</option>');
+                $('#additional_packages_checkboxes').append('<label><input type="checkbox" name="additional_package[]" value="' + package + '"> ' + package + '</label><br>');
+
+                // $('#additional_package').append('<option value="' + package + '">' + package + '</option>');
             });
         })
     });
@@ -4110,12 +4108,8 @@ unset($__errorArgs, $__bag); ?>
                 const costElement = this.closest('tr').querySelector('.cost');
                 let currentCost = costElement.textContent.trim();
                 const itemName = this.closest('tr').querySelector('.item').textContent.trim();
-
                 const packageName = this.closest('td').getAttribute('data-function').trim();
                 const functionname = this.closest('td').getAttribute('data-package').trim();
-                // const functionname = this.closest('tr').querySelector('.functionname').textContent.trim();
-
-                // Prompt the user to enter a new cost value
                 const newCost = prompt('Enter new cost:', currentCost);
 
                 // Update the cost if the user provided a new value

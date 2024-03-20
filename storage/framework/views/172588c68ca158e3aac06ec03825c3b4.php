@@ -429,16 +429,7 @@ unset($__errorArgs, $__bag); ?>
                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     <?php endif; ?>
                                                 </div>
-                                                <?php $__errorArgs = ['function'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                                <div class="alert alert-danger mt-1 mb-1"><?php echo e($message); ?></div>
-                                                <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
+                                              
                                             </div>
                                             <div class="col-6" id="mailFunctionSection">
                                                 <?php if(isset($function) && !empty($function)): ?>

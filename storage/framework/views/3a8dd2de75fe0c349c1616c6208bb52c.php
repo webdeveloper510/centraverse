@@ -47,42 +47,82 @@
 <?php $__env->startPush('script-page'); ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        let calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            themeSystem: 'bootstrap',
-            selectable: true,
-            eventDisplay: 'block',
-            select: function(start, end, allDay, info) {
+    $(document).ready(function() {
+        display_count();
+    });
 
-                var selectedStartDate = start.startStr;
-                var selectedEndDate = start.endStr;
-                var formattedStartDate = moment(selectedStartDate).format('dddd, MMMM DD, YYYY');
-                var selectedDate = moment(selectedStartDate).format('Y-MM-DD');
-                sessionStorage.setItem('selectedDate', selectedDate);
-                document.getElementById('daySelected').innerHTML = formattedStartDate;
-                document.getElementById('selectedDate').setAttribute('data-date-selected', selectedDate);
-                fetch("<?php echo e(url('/calender-meeting-data')); ?>?start=" + start.startStr, {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "X-CSRF-Token": "<?php echo e(csrf_token()); ?>",
-                        },
-                        body: JSON.stringify({
-                            request_type: 'viewMeeting',
-                            start: start.startStr,
-                            end: start.endStr,
-                        }),
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        const JSON = data.events;
-                        console.log(JSON);
-                        if (JSON.length != 0) {
-                            Json = [];
-                            JSON.forEach((event, index, array) => {
-                                lists = `
+    function display_count() {
+        var events = new Array();
+        $.ajax({
+            url: '<?php echo e(route("eventinformation")); ?>',
+            method: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                var eventDates = {};
+            // Count the number of events for each date
+            response.forEach(function(event) {
+                var startDate = moment(event.start_date).format('YYYY-MM-DD');
+                if (eventDates[startDate]) {
+                    eventDates[startDate]++;
+                } else {
+                    eventDates[startDate] = 1;
+                }
+            });
+            // Convert the event counts into background event objects
+            var backgroundEvents = [];
+            for (var date in eventDates) {
+                backgroundEvents.push({
+                    title:  eventDates[date],
+                    start: date,
+                    // rendering: 'display',
+                    textColor:'#fff',
+                    display:'background',
+                });
+            }
+                let calendarEl = document.getElementById('calendar');
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridMonth',
+                    themeSystem: 'bootstrap',
+                    selectable: true,
+                    eventDisplay: 'block',
+
+                    select: function(start, end, allDay, info) {
+
+                        var selectedStartDate = start.startStr;
+                        var selectedEndDate = start.endStr;
+                        var formattedStartDate = moment(selectedStartDate).format('dddd, MMMM DD, YYYY');
+                        var selectedDate = moment(selectedStartDate).format('Y-MM-DD');
+                        sessionStorage.setItem('selectedDate', selectedDate);
+                        document.getElementById('daySelected').innerHTML = formattedStartDate;
+                        document.getElementById('selectedDate').setAttribute('data-date-selected', selectedDate);
+                        fetch("<?php echo e(url('/calender-meeting-data')); ?>?start=" + start.startStr, {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    "X-CSRF-Token": "<?php echo e(csrf_token()); ?>",
+                                },
+                                body: JSON.stringify({
+                                    request_type: 'viewMeeting',
+                                    start: start.startStr,
+                                    end: start.endStr,
+                                }),
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                const JSON = data.events;
+                                console.log(JSON);
+
+                                if (JSON.length != 0) {
+                                    Json = [];
+                                    JSON.forEach((event, index, array) => {
+                                        var start = event.start_time;
+                                        var start_time = moment(start, 'HH:mm:ss').format('h:mm A');
+                                        var end = event.end_time;
+                                        var end_time = moment(end, 'HH:mm:ss').format('h:mm A');
+                                        if (event.attendees_lead == 0) {
+                                            eventname = event.eventname;
+                                        }
+                                        lists = `
                             <li class="list-group-item card mb-3" data-index="${index}">
                                 <div class="row align-items-center justify-content-between">
                                     <div class="col-auto mb-3 mb-sm-0">
@@ -91,28 +131,60 @@
                                                 <i class="ti ti-calendar-event"></i>
                                             </div>
                                             <div class="ms-3">
-                                                <h6 class="m-0">${event.name}</h6>
-                                                <small class="text-muted">${event.start_time} to ${event.end_time}</small>
+                                                <h6 class="m-0">${eventname} (${event.name})</h6>
+                                                <small class="text-muted">${start_time} - ${end_time}</small>
                                             </div>
+                                           
                                         </div>
+                                      
                                     </div>
                                 </div>
                         </li>
                         `;
-                                Json.push(lists);
-                            });
-                            document.getElementById('listEvent').innerHTML = Json.join('');
-                        } else {
-                            lists = `<h6 class="m-0">No event found!</h6>`;
-                            document.getElementById('listEvent').innerHTML = lists;
-                        }
-                        calendar.refetchEvents();
-                    })
-                    .catch(console.error);
-            },
-        });
-        calendar.render();
-    })
+                                        Json.push(lists);
+                                    });
+                                    document.getElementById('listEvent').innerHTML = Json.join('');
+                                } else {
+                                    lists = `<h6 class="m-0">No event found!</h6>`;
+                                    document.getElementById('listEvent').innerHTML = lists;
+                                }
+                                calendar.refetchEvents();
+                            })
+                            .catch(console.error);
+                    },
+                //     dayCellDidMount: function(info) {
+                //     var date = info.dateStr;
+                //     var cell = info.el;
+                //     if (eventDates[date]) {
+                //         var eventCount = document.createElement('div');
+                //         eventCount.className = 'event-count';
+                //         eventCount.textContent = eventDates[date];
+                //         cell.appendChild(eventCount);
+                //     }
+                // },
+                    events: backgroundEvents
+                //     eventDidMount: function(info) {
+                //     // Customize the display of background events
+                //     if (info.event.rendering === 'background') {
+                //         info.el.style.backgroundColor = 'lightgrey';
+                //     }
+                // },
+                // Display the background events
+                // dayRender: function(info) {
+                //     var cell = info.el;
+                //     var date = info.date;
+                //     var dateString = moment(date).format('YYYY-MM-DD');
+                //     backgroundEvents.forEach(function(event) {
+                //         if (event.start === dateString) {
+                //             cell.innerHTML += '<div class="event-count">' + event.title + '</div>';
+                //         }
+                //     });
+                // }
+                });
+                calendar.render();
+            }
+        })
+    }
 </script>
 <?php $__env->stopPush(); ?>
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/crmcentraverse/public_html/centraverse/resources/views/calender_new/index.blade.php ENDPATH**/ ?>
