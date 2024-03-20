@@ -71,7 +71,7 @@
                     <span class="dash-mtext"><?php echo e(__('Setup Settings')); ?></span>
                 </a>
                 <?php endif; ?>
-                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Billing')): ?>
+                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Payment')): ?>
                 <a href="#billing-setting" class="list-group-item list-group-item-action border-0">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-cog"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Billing Settings')); ?></span>
@@ -154,7 +154,6 @@
                 <?php if(\Request::route()->getName() == 'lead.edit' ): ?>
                 <a href="#useradd-1" class="list-group-item list-group-item-action"><span class="fa-stack fa-lg pull-left"><i class="ti ti-home-2"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Edit Lead')); ?> </span></a>
-
                 </a>
                 <?php endif; ?>
             </div>
