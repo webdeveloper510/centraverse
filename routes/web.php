@@ -128,27 +128,25 @@ Route::any('/all-data', [DashboardController::class, 'get_data'])->middleware(
         'XSS',
     ]
 );
+
 Route::get('payment-view/{id}',[BillingController::class,'payviamode'])->name('payviamode');
 Route::get('/stripe/billing/payment/{meeting}',[BillingController::class,'stripe_payment_view'])->name('billing.payview');
 Route::get('/paypal/billing/payment/{meeting}',[BillingController::class,'paypal_payment_view'])->name('billing.payview');
 
-// Route::get('billing/paymenturl/{id}',[CalenderController::class,'payment_view'])->name('billing.payview');
 // UPCOMING EVENTS AND COMPLETED EVENTS ROUTES //   <
-Route::get('/meeting-upcoming',[DashboardController::class,'upcomingevents']);    
 
+Route::get('/meeting-upcoming',[DashboardController::class,'upcomingevents']);    
 Route::get('/meeting-completed',[DashboardController::class,'completedevents']);
+
 // UPCOMING EVENTS AND COMPLETED EVENTS ROUTES //   >
+
 Route::get('lead/proposal-signed/{id}',[LeadController::class,'proposalview'])->name('lead.signedproposal');
 Route::post('lead/proposal-signed/{id}',[LeadController::class,'proposal_resp'])->name('lead.proposalresponse');
-
 Route::get('event/signed-agreement/{id}',[MeetingController::class,'signedagreementview'])->name('meeting.signedagreement');
 Route::post('event/signed-agreement/{id}',[MeetingController::class,'signedagreementresponse'])->name('meeting.signedagreementresp');
-
-
 Route::resource('plan', PlanController::class)->middleware(['XSS']);
 Route::get('quote/pdf/{id}', [QuoteController::class, 'pdf'])->name('quote.pdf')->middleware(['XSS']);
 Route::get('salesorder/pdf/{id}', [SalesOrderController::class, 'pdf'])->name('salesorder.pdf')->middleware(['XSS']);
-
 Route::resource('form_builder', FormBuilderController::class)->middleware(
     [
         'auth',

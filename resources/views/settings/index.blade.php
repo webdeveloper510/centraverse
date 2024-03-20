@@ -457,175 +457,175 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                 <div class="row">
                     <div class="col-lg-12">
                         @if (\Auth::user()->type == 'owner')
-                            <div id="company-email-setting" class="card">
-                                <div class="card-header">
-                                    <h5>{{ __('Email Settings') }}</h5>
-                                    <small class="text-muted">{{ __('Edit your email details') }}</small>
-                                </div>
-                                {{ Form::open(['route' => 'email.setting', 'method' => 'post']) }}
-                                <div class="card-body">
-                                    <div class="row mt-4">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="mail_driver" class="col-form-label text-dark">{{ __('Mail Driver') }}</label>
-                                                <input type="text" name="mail_driver" id="mail_driver" class="form-control {{ $errors->has('mail_driver') ? 'is-invalid' : '' }}" value="{{ !isset($settings['mail_driver']) || is_null($settings['mail_driver']) ? '' : $settings['mail_driver'] }}" placeholder="{{ trans('installer_messages.environment.wizard.form.app_tabs.mail_driver_placeholder') }}" />
-                                                @if ($errors->has('mail_driver'))
-                                                <span class="invalid-feedback text-danger text-xs">
-                                                    {{ $errors->first('mail_driver') }}
-                                                </span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="mail_host" class="col-form-label text-dark">{{ __('Mail Host') }}</label>
-                                                <input type="text" name="mail_host" id="mail_host" class="form-control {{ $errors->has('mail_host') ? 'is-invalid' : '' }}" value="{{ !isset($settings['mail_host']) || is_null($settings['mail_host']) ? '' : $settings['mail_host'] }}" placeholder="{{ trans('installer_messages.environment.wizard.form.app_tabs.mail_host_placeholder') }}" />
-                                                @if ($errors->has('mail_host'))
-                                                <span class="invalid-feedback text-danger text-xs">
-                                                    {{ $errors->first('mail_host') }}
-                                                </span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="mail_port" class="col-form-label text-dark">{{ __('Mail Port') }}</label>
-                                                <input type="number" name="mail_port" id="mail_port" class="form-control {{ $errors->has('mail_port') ? 'is-invalid' : '' }}" value="{{ !isset($settings['mail_port']) || is_null($settings['mail_port']) ? '' : $settings['mail_port'] }}" placeholder="{{ trans('installer_messages.environment.wizard.form.app_tabs.mail_port_placeholder') }}" />
-                                                @if ($errors->has('mail_port'))
-                                                <span class="invalid-feedback text-danger text-xs">
-                                                    {{ $errors->first('mail_port') }}
-                                                </span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="mail_username" class="col-form-label text-dark">{{ __('Mail Username') }}</label>
-                                                <input type="text" name="mail_username" id="mail_username" class="form-control {{ $errors->has('mail_username') ? 'is-invalid' : '' }}" value="{{ !isset($settings['mail_username']) || is_null($settings['mail_username']) ? '' : $settings['mail_username'] }}" placeholder="{{ trans('installer_messages.environment.wizard.form.app_tabs.mail_username_placeholder') }}" />
-                                                @if ($errors->has('mail_username'))
-                                                <span class="invalid-feedback text-danger text-xs">
-                                                    {{ $errors->first('mail_username') }}
-                                                </span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="mail_password" class="col-form-label text-dark">{{ __('Mail Password') }}</label>
-                                                <input type="text" name="mail_password" id="mail_password" class="form-control {{ $errors->has('mail_password') ? 'is-invalid' : '' }}" value="{{ !isset($settings['mail_password']) || is_null($settings['mail_password']) ? '' : $settings['mail_password'] }}" placeholder="{{ trans('installer_messages.environment.wizard.form.app_tabs.mail_password_placeholder') }}" />
-                                                @if ($errors->has('mail_password'))
-                                                <span class="invalid-feedback text-danger text-xs">
-                                                    {{ $errors->first('mail_password') }}
-                                                </span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="mail_encryption" class="col-form-label text-dark">{{ __('Mail Encryption') }}</label>
-                                                <input type="text" name="mail_encryption" id="mail_encryption" class="form-control {{ $errors->has('mail_encryption') ? 'is-invalid' : '' }}" value="{{ !isset($settings['mail_encryption']) || is_null($settings['mail_encryption']) ? '' : $settings['mail_encryption'] }}" placeholder="{{ trans('installer_messages.environment.wizard.form.app_tabs.mail_encryption_placeholder') }}" />
-                                                @if ($errors->has('mail_encryption'))
-                                                <span class="invalid-feedback text-danger text-xs">
-                                                    {{ $errors->first('mail_encryption') }}
-                                                </span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="mail_from_address" class="col-form-label text-dark">{{ __('Mail From Address') }}</label>
-                                                <input type="text" name="mail_from_address" id="mail_from_address" class="form-control {{ $errors->has('mail_from_address') ? 'is-invalid' : '' }}" value="{{ !isset($settings['mail_from_address']) || is_null($settings['mail_from_address']) ? '' : $settings['mail_from_address'] }}" placeholder="{{ __('Enter Mail From Address') }}" />
-                                                @if ($errors->has('mail_from_address'))
-                                                <span class="invalid-feedback text-danger text-xs">
-                                                    {{ $errors->first('mail_from_address') }}
-                                                </span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="mail_from_name" class="col-form-label text-dark">{{ __('Mail From Name') }}</label>
-                                                <input type="text" name="mail_from_name" id="mail_from_name" class="form-control {{ $errors->has('mail_from_name') ? 'is-invalid' : '' }}" value="{{ !isset($settings['mail_from_name']) || is_null($settings['mail_from_name']) ? '' : $settings['mail_from_name'] }}" placeholder="{{ __('Enter Mail From Name') }}" />
-                                                @if ($errors->has('mail_from_name'))
-                                                <span class="invalid-feedback text-danger text-xs">
-                                                    {{ $errors->first('mail_from_name') }}
-                                                </span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="footer-row justify-content-end felx-wrap d-flex">
-
-                                            <input type="submit" value="{{ __('Save Changes') }}" class="btn btn-print-invoice  btn-primary m-r-10 mb-2">
-                                        </div>
-                                    </div>
-                                </div>
-                                {{ Form::close() }}
+                        <div id="company-email-setting" class="card">
+                            <div class="card-header">
+                                <h5>{{ __('Email Settings') }}</h5>
+                                <small class="text-muted">{{ __('Edit your email details') }}</small>
                             </div>
-                            <div id="twilio-settings" class="card">
-                                <div class="card-header">
-                                    <h5>{{ __('Twilio Settings') }}</h5>
-                                    <small class="text-muted">{{ __('Edit your twilio details') }}</small>
+                            {{ Form::open(['route' => 'email.setting', 'method' => 'post']) }}
+                            <div class="card-body">
+                                <div class="row mt-4">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="mail_driver" class="col-form-label text-dark">{{ __('Mail Driver') }}</label>
+                                            <input type="text" name="mail_driver" id="mail_driver" class="form-control {{ $errors->has('mail_driver') ? 'is-invalid' : '' }}" value="{{ !isset($settings['mail_driver']) || is_null($settings['mail_driver']) ? '' : $settings['mail_driver'] }}" placeholder="{{ trans('installer_messages.environment.wizard.form.app_tabs.mail_driver_placeholder') }}" />
+                                            @if ($errors->has('mail_driver'))
+                                            <span class="invalid-feedback text-danger text-xs">
+                                                {{ $errors->first('mail_driver') }}
+                                            </span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="mail_host" class="col-form-label text-dark">{{ __('Mail Host') }}</label>
+                                            <input type="text" name="mail_host" id="mail_host" class="form-control {{ $errors->has('mail_host') ? 'is-invalid' : '' }}" value="{{ !isset($settings['mail_host']) || is_null($settings['mail_host']) ? '' : $settings['mail_host'] }}" placeholder="{{ trans('installer_messages.environment.wizard.form.app_tabs.mail_host_placeholder') }}" />
+                                            @if ($errors->has('mail_host'))
+                                            <span class="invalid-feedback text-danger text-xs">
+                                                {{ $errors->first('mail_host') }}
+                                            </span>
+                                            @endif
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="card-body">
-                                    <h4 class="small-title">{{ __('Twilio') }}</h4>
-                                    {{ Form::model($settings, ['route' => 'twilio.setting', 'method' => 'post']) }}
-                                    @csrf
-                                    <div class="row mt-3">
-                                        <div class="form-group col-md-4">
-                                            {{ Form::label('SID', __('SID'), ['class' => 'form-label']) }}
-                                            {{ Form::text('twilio_sid', isset($settings['twilio_sid']) ? $settings['twilio_sid'] : '', ['class' => 'form-control ', 'placeholder' => __('Enter Twilio Sid'), 'required' => 'required']) }}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="mail_port" class="col-form-label text-dark">{{ __('Mail Port') }}</label>
+                                            <input type="number" name="mail_port" id="mail_port" class="form-control {{ $errors->has('mail_port') ? 'is-invalid' : '' }}" value="{{ !isset($settings['mail_port']) || is_null($settings['mail_port']) ? '' : $settings['mail_port'] }}" placeholder="{{ trans('installer_messages.environment.wizard.form.app_tabs.mail_port_placeholder') }}" />
+                                            @if ($errors->has('mail_port'))
+                                            <span class="invalid-feedback text-danger text-xs">
+                                                {{ $errors->first('mail_port') }}
+                                            </span>
+                                            @endif
                                         </div>
-                                        <div class="form-group col-md-4">
-                                            {{ Form::label('Token', __('Token'), ['class' => 'form-label']) }}
-                                            {{ Form::text('twilio_token', isset($settings['twilio_token']) ? $settings['twilio_token'] : '', ['class' => 'form-control ', 'placeholder' => __('Enter Twilio Token'), 'required' => 'required']) }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="mail_username" class="col-form-label text-dark">{{ __('Mail Username') }}</label>
+                                            <input type="text" name="mail_username" id="mail_username" class="form-control {{ $errors->has('mail_username') ? 'is-invalid' : '' }}" value="{{ !isset($settings['mail_username']) || is_null($settings['mail_username']) ? '' : $settings['mail_username'] }}" placeholder="{{ trans('installer_messages.environment.wizard.form.app_tabs.mail_username_placeholder') }}" />
+                                            @if ($errors->has('mail_username'))
+                                            <span class="invalid-feedback text-danger text-xs">
+                                                {{ $errors->first('mail_username') }}
+                                            </span>
+                                            @endif
                                         </div>
-                                        <div class="form-group col-md-4">
-                                            {{ Form::label('From', __('From'), ['class' => 'form-label']) }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="mail_password" class="col-form-label text-dark">{{ __('Mail Password') }}</label>
+                                            <input type="text" name="mail_password" id="mail_password" class="form-control {{ $errors->has('mail_password') ? 'is-invalid' : '' }}" value="{{ !isset($settings['mail_password']) || is_null($settings['mail_password']) ? '' : $settings['mail_password'] }}" placeholder="{{ trans('installer_messages.environment.wizard.form.app_tabs.mail_password_placeholder') }}" />
+                                            @if ($errors->has('mail_password'))
+                                            <span class="invalid-feedback text-danger text-xs">
+                                                {{ $errors->first('mail_password') }}
+                                            </span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="mail_encryption" class="col-form-label text-dark">{{ __('Mail Encryption') }}</label>
+                                            <input type="text" name="mail_encryption" id="mail_encryption" class="form-control {{ $errors->has('mail_encryption') ? 'is-invalid' : '' }}" value="{{ !isset($settings['mail_encryption']) || is_null($settings['mail_encryption']) ? '' : $settings['mail_encryption'] }}" placeholder="{{ trans('installer_messages.environment.wizard.form.app_tabs.mail_encryption_placeholder') }}" />
+                                            @if ($errors->has('mail_encryption'))
+                                            <span class="invalid-feedback text-danger text-xs">
+                                                {{ $errors->first('mail_encryption') }}
+                                            </span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="mail_from_address" class="col-form-label text-dark">{{ __('Mail From Address') }}</label>
+                                            <input type="text" name="mail_from_address" id="mail_from_address" class="form-control {{ $errors->has('mail_from_address') ? 'is-invalid' : '' }}" value="{{ !isset($settings['mail_from_address']) || is_null($settings['mail_from_address']) ? '' : $settings['mail_from_address'] }}" placeholder="{{ __('Enter Mail From Address') }}" />
+                                            @if ($errors->has('mail_from_address'))
+                                            <span class="invalid-feedback text-danger text-xs">
+                                                {{ $errors->first('mail_from_address') }}
+                                            </span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="mail_from_name" class="col-form-label text-dark">{{ __('Mail From Name') }}</label>
+                                            <input type="text" name="mail_from_name" id="mail_from_name" class="form-control {{ $errors->has('mail_from_name') ? 'is-invalid' : '' }}" value="{{ !isset($settings['mail_from_name']) || is_null($settings['mail_from_name']) ? '' : $settings['mail_from_name'] }}" placeholder="{{ __('Enter Mail From Name') }}" />
+                                            @if ($errors->has('mail_from_name'))
+                                            <span class="invalid-feedback text-danger text-xs">
+                                                {{ $errors->first('mail_from_name') }}
+                                            </span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="footer-row justify-content-end felx-wrap d-flex">
 
-                                            {{ Form::text('twilio_from', isset($settings['twilio_from']) ? $settings['twilio_from'] : '', ['class' => 'form-control ', 'placeholder' => __('Enter Twilio From'), 'required' => 'required']) }}
-                                        </div>
-                                        <div class="col-md-12 mt-4 mb-2">
-                                            <h4 class="small-title">{{ __('Module Settings') }}</h4>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <ul class="list-group">
-                                                <li class="list-group-item">
-                                                    <span>{{ __('New User') }}</span>
-                                                    <div class="form-check form-switch float-end">
-                                                        {{ Form::checkbox('twilio_user_create', '1', isset($settings['twilio_user_create']) && $settings['twilio_user_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_user_create']) }}
-                                                        <label class="form-check-label" for="twilio_user_create"></label>
-                                                    </div>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <span>{{ __('New Lead') }}</span>
-                                                    <div class="form-check form-switch float-end">
-                                                        {{ Form::checkbox('twilio_lead_create', '1', isset($settings['twilio_lead_create']) && $settings['twilio_lead_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_lead_create']) }}
-                                                        <label class="form-check-label" for="twilio_lead_create"></label>
-                                                    </div>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <span>{{ __('New Meeting') }}</span>
-                                                    <div class="form-check form-switch float-end">
-                                                        {{ Form::checkbox('twilio_meeting_create', '1', isset($settings['twilio_meeting_create']) && $settings['twilio_meeting_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_meeting_create']) }}
-                                                        <label class="form-check-label" for="twilio_meeting_create"></label>
-                                                    </div>
-                                                </li>
-                                                <!-- <li class="list-group-item">
+                                        <input type="submit" value="{{ __('Save Changes') }}" class="btn btn-print-invoice  btn-primary m-r-10 mb-2">
+                                    </div>
+                                </div>
+                            </div>
+                            {{ Form::close() }}
+                        </div>
+                        <div id="twilio-settings" class="card">
+                            <div class="card-header">
+                                <h5>{{ __('Twilio Settings') }}</h5>
+                                <small class="text-muted">{{ __('Edit your twilio details') }}</small>
+                            </div>
+                            <div class="card-body">
+                                <h4 class="small-title">{{ __('Twilio') }}</h4>
+                                {{ Form::model($settings, ['route' => 'twilio.setting', 'method' => 'post']) }}
+                                @csrf
+                                <div class="row mt-3">
+                                    <div class="form-group col-md-4">
+                                        {{ Form::label('SID', __('SID'), ['class' => 'form-label']) }}
+                                        {{ Form::text('twilio_sid', isset($settings['twilio_sid']) ? $settings['twilio_sid'] : '', ['class' => 'form-control ', 'placeholder' => __('Enter Twilio Sid'), 'required' => 'required']) }}
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        {{ Form::label('Token', __('Token'), ['class' => 'form-label']) }}
+                                        {{ Form::text('twilio_token', isset($settings['twilio_token']) ? $settings['twilio_token'] : '', ['class' => 'form-control ', 'placeholder' => __('Enter Twilio Token'), 'required' => 'required']) }}
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        {{ Form::label('From', __('From'), ['class' => 'form-label']) }}
+
+                                        {{ Form::text('twilio_from', isset($settings['twilio_from']) ? $settings['twilio_from'] : '', ['class' => 'form-control ', 'placeholder' => __('Enter Twilio From'), 'required' => 'required']) }}
+                                    </div>
+                                    <div class="col-md-12 mt-4 mb-2">
+                                        <h4 class="small-title">{{ __('Module Settings') }}</h4>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <ul class="list-group">
+                                            <li class="list-group-item">
+                                                <span>{{ __('New User') }}</span>
+                                                <div class="form-check form-switch float-end">
+                                                    {{ Form::checkbox('twilio_user_create', '1', isset($settings['twilio_user_create']) && $settings['twilio_user_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_user_create']) }}
+                                                    <label class="form-check-label" for="twilio_user_create"></label>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <span>{{ __('New Lead') }}</span>
+                                                <div class="form-check form-switch float-end">
+                                                    {{ Form::checkbox('twilio_lead_create', '1', isset($settings['twilio_lead_create']) && $settings['twilio_lead_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_lead_create']) }}
+                                                    <label class="form-check-label" for="twilio_lead_create"></label>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <span>{{ __('New Meeting') }}</span>
+                                                <div class="form-check form-switch float-end">
+                                                    {{ Form::checkbox('twilio_meeting_create', '1', isset($settings['twilio_meeting_create']) && $settings['twilio_meeting_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_meeting_create']) }}
+                                                    <label class="form-check-label" for="twilio_meeting_create"></label>
+                                                </div>
+                                            </li>
+                                            <!-- <li class="list-group-item">
                                                                                 <span>{{ __('New Quotes') }}</span>
                                                                                 <div class="form-check form-switch float-end">
                                                                                     {{ Form::checkbox('twilio_quotes_create', '1', isset($settings['twilio_quotes_create']) && $settings['twilio_quotes_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_quotes_create']) }}
                                                                                     <label class="form-check-label" for="twilio_quotes_create"></label>
                                                                                 </div>
                                                                             </li> -->
-                                            </ul>
-                                        </div>
-                                        <!-- <div class="col-md-4">
+                                        </ul>
+                                    </div>
+                                    <!-- <div class="col-md-4">
                                                     <ul class="list-group">
                                                         <li class="list-group-item">
                                                             <span>{{ __('New Sales Order') }}</span>
@@ -668,375 +668,456 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                         </li>
                                                     </ul>
                                                 </div> -->
-                                        <div class="text-end">
-                                            {{ Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary']) }}
-                                        </div>
+                                    <div class="text-end">
+                                        {{ Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary']) }}
                                     </div>
-                                    {{ Form::close() }}
                                 </div>
+                                {{ Form::close() }}
                             </div>
+                        </div>
                         @endif
                         @can('Manage User')
-                            <div id="user-settings" class="card">
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <div class="row">
-                                                    <div class="col-lg-12 col-md-12 col-sm-12">
-                                                        <h5>{{ __('Staff Settings') }}</h5>
-                                                        @can('Create User')
-                                                        <div class="action-btn bg-warning ms-2" style="float: inline-end;">
-                                                            <a href="javascript:void(0);" data-url="{{ route('user.create') }}" data-size="md" data-ajax-popup="true" data-bs-toggle="tooltip" title="{{ __('Create Staff') }}" data-title="{{ __('Create Staff Member') }}" class="btn btn-sm btn-primary btn-icon">
-                                                                <i class="ti ti-plus"></i>
-                                                            </a>
-                                                        </div>
-                                                        @endcan
+                        <div id="user-settings" class="card">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                                    <h5>{{ __('Staff Settings') }}</h5>
+                                                    @can('Create User')
+                                                    <div class="action-btn bg-warning ms-2" style="float: inline-end;">
+                                                        <a href="javascript:void(0);" data-url="{{ route('user.create') }}" data-size="md" data-ajax-popup="true" data-bs-toggle="tooltip" title="{{ __('Create Staff') }}" data-title="{{ __('Create Staff Member') }}" class="btn btn-sm btn-primary btn-icon">
+                                                            <i class="ti ti-plus"></i>
+                                                        </a>
                                                     </div>
+                                                    @endcan
                                                 </div>
                                             </div>
-                                            <div class="card-body table-border-style">
-                                                <div class="table-responsive overflow_hidden">
-                                                    <table id="datatable" class="table align-items-center datatable">
-                                                        <thead class="thead-light">
-                                                            <tr>
-                                                                <th scope="col" class="sort" data-sort="username">{{ __('Avatar') }}</th>
-                                                                <!-- <th scope="col" class="sort" data-sort="username">{{ __('User Name') }}</th> -->
-                                                                <th scope="col" class="sort" data-sort="name">{{ __('Name') }}</th>
-                                                                <th scope="col" class="sort" data-sort="email">{{ __('Email') }}</th>
-                                                                @if (\Auth::user()->type != 'super admin')
-                                                                <th scope="col" class="sort" data-sort="title">{{ __('Type') }}</th>
-                                                                <th scope="col" class="sort" data-sort="isactive">{{ __('Status') }}</th>
-                                                                @endif
-                                                                @if (Gate::check('Edit User') || Gate::check('Delete User'))
-                                                                <th class="text-end" scope="col">{{ __('Action') }}</th>
-                                                                @endif
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @php
-                                                            $profile = \App\Models\Utility::get_file('upload/profile/');
-                                                            @endphp
+                                        </div>
+                                        <div class="card-body table-border-style">
+                                            <div class="table-responsive overflow_hidden">
+                                                <table id="datatable" class="table align-items-center datatable">
+                                                    <thead class="thead-light">
+                                                        <tr>
+                                                            <th scope="col" class="sort" data-sort="username">{{ __('Avatar') }}</th>
+                                                            <!-- <th scope="col" class="sort" data-sort="username">{{ __('User Name') }}</th> -->
+                                                            <th scope="col" class="sort" data-sort="name">{{ __('Name') }}</th>
+                                                            <th scope="col" class="sort" data-sort="email">{{ __('Email') }}</th>
+                                                            @if (\Auth::user()->type != 'super admin')
+                                                            <th scope="col" class="sort" data-sort="title">{{ __('Type') }}</th>
+                                                            <th scope="col" class="sort" data-sort="isactive">{{ __('Status') }}</th>
+                                                            @endif
+                                                            @if (Gate::check('Edit User') || Gate::check('Delete User'))
+                                                            <th class="text-end" scope="col">{{ __('Action') }}</th>
+                                                            @endif
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @php
+                                                        $profile = \App\Models\Utility::get_file('upload/profile/');
+                                                        @endphp
 
-                                                            @foreach ($users as $user)
-                                                            <tr>
-                                                                <td>
-                                                                    <span class="avatar">
-                                                                        <a href="{{ $profile }}{{ !empty($user->avatar) ? $user->avatar : 'avatar.png' }}" target="_blank">
-                                                                            <img class="rounded-circle" width="25%" @if ($user->avatar) src="{{ $profile }}{{ !empty($user->avatar) ? $user->avatar : 'avatar.png' }}" @else src="{{ $profile . 'avatar.png' }}" @endif
-                                                                            alt="{{ $user->name }}">
-                                                                        </a>
-                                                                    </span>
-                                                                </td>
+                                                        @foreach ($users as $user)
+                                                        <tr>
+                                                            <td>
+                                                                <span class="avatar">
+                                                                    <a href="{{ $profile }}{{ !empty($user->avatar) ? $user->avatar : 'avatar.png' }}" target="_blank">
+                                                                        <img class="rounded-circle" width="25%" @if ($user->avatar) src="{{ $profile }}{{ !empty($user->avatar) ? $user->avatar : 'avatar.png' }}" @else src="{{ $profile . 'avatar.png' }}" @endif
+                                                                        alt="{{ $user->name }}">
+                                                                    </a>
+                                                                </span>
+                                                            </td>
 
-                                                                <td>
-                                                                    <span class="budget"> {{ ucfirst($user->name) }} </span>
-                                                                </td>
-                                                                <td>
-                                                                    <span class="budget">{{ $user->email }}</span>
-                                                                </td>
-                                                                @if (\Auth::user()->type != 'super admin')
-                                                                <td>
-                                                                    {{ ucfirst($user->type) }}
-                                                                </td>
-                                                                <td>
-                                                                    @if ($user->is_active == 1)
-                                                                    <span class="badge bg-success p-2 px-3 rounded">{{ __('Active') }}</span>
-                                                                    @else
-                                                                    <span class="badge bg-danger p-2 px-3 rounded">{{ __('In Active') }}</span>
-                                                                    @endif
-                                                                </td>
+                                                            <td>
+                                                                <span class="budget"> {{ ucfirst($user->name) }} </span>
+                                                            </td>
+                                                            <td>
+                                                                <span class="budget">{{ $user->email }}</span>
+                                                            </td>
+                                                            @if (\Auth::user()->type != 'super admin')
+                                                            <td>
+                                                                {{ ucfirst($user->type) }}
+                                                            </td>
+                                                            <td>
+                                                                @if ($user->is_active == 1)
+                                                                <span class="badge bg-success p-2 px-3 rounded">{{ __('Active') }}</span>
+                                                                @else
+                                                                <span class="badge bg-danger p-2 px-3 rounded">{{ __('In Active') }}</span>
                                                                 @endif
-                                                                @if (Gate::check('Edit User') || Gate::check('Delete User'))
-                                                                <td class="text-end">
-                                                                    @can('Show User')
-                                                                    <div class="action-btn bg-warning ms-2">
-                                                                        <a href="#" data-size="md" data-url="{{ route('user.show', $user->id) }}" data-bs-toggle="tooltip" title="{{ __('Details') }}" data-ajax-popup="true" data-title="{{ __('User Details') }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white">
-                                                                            <i class="ti ti-eye"></i>
-                                                                        </a>
-                                                                    </div>
-                                                                    @endcan
-                                                                    @can('Edit User')
-                                                                    <div class="action-btn bg-info ms-2">
-                                                                        <a href="{{ route('user.edit', $user->id) }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white" data-bs-toggle="tooltip" title="{{ __('Edit') }}" data-title="{{ __('Edit User') }}"><i class="ti ti-edit"></i></a>
-                                                                    </div>
-                                                                    @endcan
-                                                                    @can('Delete User')
-                                                                    <div class="action-btn bg-danger ms-2">
-                                                                        {!! Form::open(['method' => 'DELETE', 'route' => ['user.destroy', $user->id]]) !!}
-                                                                        <a href="#!" class="mx-3 btn btn-sm align-items-center text-white show_confirm" data-bs-toggle="tooltip" title='Delete'>
-                                                                            <i class="ti ti-trash"></i>
-                                                                        </a>
-                                                                        {!! Form::close() !!}
-                                                                    </div>
-                                                                    @endcan
-                                                                </td>
-                                                                @endif
-                                                            </tr>
-                                                            @endforeach
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                                            </td>
+                                                            @endif
+                                                            @if (Gate::check('Edit User') || Gate::check('Delete User'))
+                                                            <td class="text-end">
+                                                                @can('Show User')
+                                                                <div class="action-btn bg-warning ms-2">
+                                                                    <a href="#" data-size="md" data-url="{{ route('user.show', $user->id) }}" data-bs-toggle="tooltip" title="{{ __('Details') }}" data-ajax-popup="true" data-title="{{ __('User Details') }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white">
+                                                                        <i class="ti ti-eye"></i>
+                                                                    </a>
+                                                                </div>
+                                                                @endcan
+                                                                @can('Edit User')
+                                                                <div class="action-btn bg-info ms-2">
+                                                                    <a href="{{ route('user.edit', $user->id) }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white" data-bs-toggle="tooltip" title="{{ __('Edit') }}" data-title="{{ __('Edit User') }}"><i class="ti ti-edit"></i></a>
+                                                                </div>
+                                                                @endcan
+                                                                @can('Delete User')
+                                                                <div class="action-btn bg-danger ms-2">
+                                                                    {!! Form::open(['method' => 'DELETE', 'route' => ['user.destroy', $user->id]]) !!}
+                                                                    <a href="#!" class="mx-3 btn btn-sm align-items-center text-white show_confirm" data-bs-toggle="tooltip" title='Delete'>
+                                                                        <i class="ti ti-trash"></i>
+                                                                    </a>
+                                                                    {!! Form::close() !!}
+                                                                </div>
+                                                                @endcan
+                                                            </td>
+                                                            @endif
+                                                        </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
                         @endcan
                         @can('Manage Role')
-                            <div id="role-settings" class="card">
-                                <div class="row">
-                                    <div class="col-xl-12">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <div class="row">
-                                                    <div class="col-lg-12 col-md-12 col-sm-12">
-                                                        <h5>{{ __('Role Settings') }}</h5>
-                                                        @can('Create Role')
-                                                        <div class="action-btn bg-warning ms-2" style="float: inline-end;">
-                                                            <a href="javascript:void(0);" data-url="{{ route('role.create') }}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" title="{{__(' Create Role')}}" data-title="{{__('Create New Role')}}" class="btn btn-sm btn-primary btn-icon m-1">
-                                                                <i class="ti ti-plus"></i>
-                                                            </a>
-                                                        </div>
-                                                        @endcan
+                        <div id="role-settings" class="card">
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                                    <h5>{{ __('Role Settings') }}</h5>
+                                                    @can('Create Role')
+                                                    <div class="action-btn bg-warning ms-2" style="float: inline-end;">
+                                                        <a href="javascript:void(0);" data-url="{{ route('role.create') }}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" title="{{__(' Create Role')}}" data-title="{{__('Create New Role')}}" class="btn btn-sm btn-primary btn-icon m-1">
+                                                            <i class="ti ti-plus"></i>
+                                                        </a>
                                                     </div>
+                                                    @endcan
                                                 </div>
                                             </div>
-                                            <div class="card-body table-border-style">
-                                                <div class="table-responsive">
-                                                    <table class="table datatable" id="datatable1">
-                                                        <thead>
-                                                            <tr>
-                                                                <th width="150">{{__('Role')}} </th>
-                                                                <th>{{__('Permissions')}} </th>
-                                                                @if(Gate::check('Edit Role') || Gate::check('Delete Role'))
-                                                                <th width="150" class="text-end">{{__('Action')}} </th>
-                                                                @endif
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
+                                        </div>
+                                        <div class="card-body table-border-style">
+                                            <div class="table-responsive">
+                                                <table class="table datatable" id="datatable1">
+                                                    <thead>
+                                                        <tr>
+                                                            <th width="150">{{__('Role')}} </th>
+                                                            <th>{{__('Permissions')}} </th>
+                                                            @if(Gate::check('Edit Role') || Gate::check('Delete Role'))
+                                                            <th width="150" class="text-end">{{__('Action')}} </th>
+                                                            @endif
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
 
-                                                            @foreach ($roles as $role)
-                                                            <tr>
-                                                                <td width="150">{{ $role->name }}</td>
-                                                                <td class="Permission mt-10">
-                                                                    <div class="badges">
-                                                                        {{-- @for($j=0;$j<count($role->permissions()->pluck('name'));$j++)
+                                                        @foreach ($roles as $role)
+                                                        <tr>
+                                                            <td width="150">{{ $role->name }}</td>
+                                                            <td class="Permission mt-10">
+                                                                <div class="badges">
+                                                                    {{-- @for($j=0;$j<count($role->permissions()->pluck('name'));$j++)
                                                                                         <span class="badge bg-primary p-1 px-2 rounded ">{{$role->permissions()->pluck('name')[$j]}}</span>
-                                                                        @endfor --}}
-                                                                        @foreach ($role->permissions as $permission)
-                                                                        <span class="badge rounded p-2 m-1 px-3 bg-primary">
-                                                                            <a href="#" class="text-white">{{ $permission->name }}</a>
-                                                                        </span>
-                                                                        @endforeach
-                                                                    </div>
-                                                                </td>
-                                                                @if(Gate::check('Edit Role') || Gate::check('Delete Role'))
-                                                                <td class="text-end">
-                                                                    @can('Edit Role')
-                                                                    <div class="action-btn bg-info ms-2">
-                                                                        <a href="#" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white" data-url="{{ route('role.edit',$role->id) }}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" title="{{__('Edit')}}" data-title="{{__('Edit Role')}}">
-                                                                            <i class="ti ti-edit"></i>
-                                                                        </a>
-                                                                    </div>
-                                                                    @endcan
+                                                                    @endfor --}}
+                                                                    @foreach ($role->permissions as $permission)
+                                                                    <span class="badge rounded p-2 m-1 px-3 bg-primary">
+                                                                        <a href="#" class="text-white">{{ $permission->name }}</a>
+                                                                    </span>
+                                                                    @endforeach
+                                                                </div>
+                                                            </td>
+                                                            @if(Gate::check('Edit Role') || Gate::check('Delete Role'))
+                                                            <td class="text-end">
+                                                                @can('Edit Role')
+                                                                <div class="action-btn bg-info ms-2">
+                                                                    <a href="#" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white" data-url="{{ route('role.edit',$role->id) }}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" title="{{__('Edit')}}" data-title="{{__('Edit Role')}}">
+                                                                        <i class="ti ti-edit"></i>
+                                                                    </a>
+                                                                </div>
+                                                                @endcan
 
-                                                                    @can('Delete Role')
-                                                                    <div class="action-btn bg-danger ms-2">
-                                                                        {!! Form::open(['method' => 'DELETE', 'route' => ['role.destroy', $role->id]]) !!}
-                                                                        <a href="#!" class="mx-3 btn btn-sm  align-items-center text-white show_confirm" data-bs-toggle="tooltip" title='Delete'>
-                                                                            <i class="ti ti-trash"></i>
-                                                                        </a>
-                                                                        {!! Form::close() !!}
-                                                                    </div>
-                                                                    @endcan
-                                                                </td>
-                                                                @endif
-                                                            </tr>
-                                                            @endforeach
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                                                @can('Delete Role')
+                                                                <div class="action-btn bg-danger ms-2">
+                                                                    {!! Form::open(['method' => 'DELETE', 'route' => ['role.destroy', $role->id]]) !!}
+                                                                    <a href="#!" class="mx-3 btn btn-sm  align-items-center text-white show_confirm" data-bs-toggle="tooltip" title='Delete'>
+                                                                        <i class="ti ti-trash"></i>
+                                                                    </a>
+                                                                    {!! Form::close() !!}
+                                                                </div>
+                                                                @endcan
+                                                            </td>
+                                                            @endif
+                                                        </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
                         @endcan
                         @if(Gate::check('Manage Lead') || Gate::check('Manage Meeting'))
-                            <div id="eventtype-settings" class="card">
-                                <div class="col-md-12">
-                                    <div class="card-header">
-                                        <div class="row">
-                                            <div class="col-lg-8 col-md-8 col-sm-8">
-                                                <h5>{{ __('Event Type Settings') }}</h5>
-                                            </div>
+                        <div id="eventtype-settings" class="card">
+                            <div class="col-md-12">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-lg-8 col-md-8 col-sm-8">
+                                            <h5>{{ __('Event Type Settings') }}</h5>
                                         </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row mt-3">
-                                            {{ Form::open(['route' => 'event_type.setting', 'method' => 'post']) }}
-                                            @csrf
-                                            <div class="form-group col-md-12">
-                                                {{ Form::label('event_type', __('Event Type'), ['class' => 'form-label']) }}
-                                                {{ Form::text('event_type',null,['class' => 'form-control ', 'placeholder' => __('Enter Event Type'), 'required' => 'required']) }}
-                                            </div>
-                                            <div class="text-end">
-                                                {{ Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary']) }}
-                                            </div>
-                                            {{ Form::close() }}
-                                        </div>
-                                        @if(isset($eventtypes) && !empty($eventtypes))
-                                        <div class="row mt-3">
-                                            <div class="form-group col-md-12">
-                                                <label class="form-label">Events List</label>
-                                                <div class="badges">
-                                                    @foreach ($eventtypes as $types)
-                                                    <span class="badge rounded p-2 m-1 px-3 bg-primary" style="cursor:pointer">
-                                                        {{ $types }}
-                                                        @if(Gate::check('Delete Role'))
-                                                        @can('Delete Role')
-                                                        <div class="action-btn  ms-2">
-                                                            <a href="#!" class="mx-3 btn btn-sm  align-items-center text-white event_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="{{ route('eventedit.setting') }}" data-token="{{ csrf_token() }}">
-                                                                <i class="ti ti-trash"></i>
-                                                            </a>
-                                                        </div>
-                                                        @endcan
-                                                        @endif
-                                                    </span>
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                        </div>
-                                        @endif
                                     </div>
                                 </div>
-                            </div>
-                            <div id="venue-settings" class="card">
-                                <div class="col-md-12">
-                                    <div class="card-header">
-                                        <div class="row">
-                                            <div class="col-lg-8 col-md-8 col-sm-8">
-                                                <h5>{{ __('Venue Settings') }}</h5>
-                                            </div>
+                                <div class="card-body">
+                                    <div class="row mt-3">
+                                        {{ Form::open(['route' => 'event_type.setting', 'method' => 'post']) }}
+                                        @csrf
+                                        <div class="form-group col-md-12">
+                                            {{ Form::label('event_type', __('Event Type'), ['class' => 'form-label']) }}
+                                            {{ Form::text('event_type',null,['class' => 'form-control ', 'placeholder' => __('Enter Event Type'), 'required' => 'required']) }}
                                         </div>
+                                        <div class="text-end">
+                                            {{ Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary']) }}
+                                        </div>
+                                        {{ Form::close() }}
                                     </div>
-                                    <div class="card-body">
-                                        <div class="row mt-3">
-                                            {{ Form::open(['route' => 'venue.setting', 'method' => 'post']) }}
-                                            @csrf
-                                            <div class="form-group col-md-12">
-                                                {{ Form::label('venue', __('Venue'), ['class' => 'form-label']) }}
-                                                {{ Form::text('venue',null,['class' => 'form-control ', 'placeholder' => __('Enter Venue'), 'required' => 'required']) }}
-                                            </div>
-                                            <div class="text-end">
-                                                {{ Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary']) }}
-                                            </div>
-                                            {{ Form::close() }}
-                                        </div>
-                                        @if(isset($venue) && !empty($venue))
-                                        <div class="row mt-3">
-                                            <div class="form-group col-md-12">
-                                                <label class="form-label">Venue</label>
-                                                <div class="badges">
-                                                    @foreach ($venue as $value)
-                                                    <span class="badge rounded p-2 m-1 px-3 bg-primary" style="cursor:pointer">
-                                                        {{ $value }}
-                                                        @if(Gate::check('Delete Role'))
-                                                        @can('Delete Role')
-                                                        <div class="action-btn  ms-2">
-                                                            <a href="#!" class="mx-3 btn btn-sm  align-items-center text-white venue_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="{{ route('venueedit.setting') }}" data-token="{{ csrf_token() }}">
-                                                                <i class="ti ti-trash"></i>
-                                                            </a>
-                                                        </div>
-                                                        @endcan
-                                                        @endif
-                                                    </span>
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                        </div>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="function-settings" class="card">
-                                <div class="col-md-12">
-                                    <div class="card-header">
-                                        <div class="row">
-                                            <div class="col-lg-8 col-md-8 col-sm-8">
-                                                <h5>{{ __('Function Settings') }}</h5>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row mt-3">
-                                            {{ Form::open(['route' => 'function.setting', 'method' => 'post']) }}
-                                            @csrf
-                                            <div class="form-group col-md-12">
-                                                {{ Form::label('function', __('Function'), ['class' => 'form-label']) }}
-                                                {{ Form::text('function',null,['class' => 'form-control ', 'placeholder' => __('Enter Function'), 'required' => 'required']) }}
-                                            </div>
-                                            <div class="form-group col-md-12">
-                                                {{ Form::label('package', __('Package'), ['class' => 'form-label']) }}
-                                                <span class="btn btn-sm btn-primary btn-icon m-1 add" style="border-radius: 20px !important;    font-size: 12px;
-                                                        "><i class="fa fa-plus "></i></span>
-                                                <div class="appending_div">
-                                                    <div class="appending_item" style="display:flex">
-                                                        <input type="text" name="package[]" class="form-control" placeholder="Enter Package">
-                                                        <span class="btn btn-sm btn-danger btn-icon m-1 delete"><i class="fa fa-times"></i></span>
+                                    @if(isset($eventtypes) && !empty($eventtypes))
+                                    <div class="row mt-3">
+                                        <div class="form-group col-md-12">
+                                            <label class="form-label">Events List</label>
+                                            <div class="badges">
+                                                @foreach ($eventtypes as $types)
+                                                <span class="badge rounded p-2 m-1 px-3 bg-primary" style="cursor:pointer">
+                                                    {{ $types }}
+                                                    @if(Gate::check('Delete Role'))
+                                                    @can('Delete Role')
+                                                    <div class="action-btn  ms-2">
+                                                        <a href="#!" class="mx-3 btn btn-sm  align-items-center text-white event_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="{{ route('eventedit.setting') }}" data-token="{{ csrf_token() }}">
+                                                            <i class="ti ti-trash"></i>
+                                                        </a>
                                                     </div>
+                                                    @endcan
+                                                    @endif
+                                                </span>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        <div id="venue-settings" class="card">
+                            <div class="col-md-12">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-lg-8 col-md-8 col-sm-8">
+                                            <h5>{{ __('Venue Settings') }}</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row mt-3">
+                                        {{ Form::open(['route' => 'venue.setting', 'method' => 'post']) }}
+                                        @csrf
+                                        <div class="form-group col-md-12">
+                                            {{ Form::label('venue', __('Venue'), ['class' => 'form-label']) }}
+                                            {{ Form::text('venue',null,['class' => 'form-control ', 'placeholder' => __('Enter Venue'), 'required' => 'required']) }}
+                                        </div>
+                                        <div class="text-end">
+                                            {{ Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary']) }}
+                                        </div>
+                                        {{ Form::close() }}
+                                    </div>
+                                    @if(isset($venue) && !empty($venue))
+                                    <div class="row mt-3">
+                                        <div class="form-group col-md-12">
+                                            <label class="form-label">Venue</label>
+                                            <div class="badges">
+                                                @foreach ($venue as $value)
+                                                <span class="badge rounded p-2 m-1 px-3 bg-primary" style="cursor:pointer">
+                                                    {{ $value }}
+                                                    @if(Gate::check('Delete Role'))
+                                                    @can('Delete Role')
+                                                    <div class="action-btn  ms-2">
+                                                        <a href="#!" class="mx-3 btn btn-sm  align-items-center text-white venue_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="{{ route('venueedit.setting') }}" data-token="{{ csrf_token() }}">
+                                                            <i class="ti ti-trash"></i>
+                                                        </a>
+                                                    </div>
+                                                    @endcan
+                                                    @endif
+                                                </span>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        <div id="function-settings" class="card">
+                            <div class="col-md-12">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-lg-8 col-md-8 col-sm-8">
+                                            <h5>{{ __('Function Settings') }}</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row mt-3">
+                                        {{ Form::open(['route' => 'function.setting', 'method' => 'post']) }}
+                                        @csrf
+                                        <div class="form-group col-md-12">
+                                            {{ Form::label('function', __('Function'), ['class' => 'form-label']) }}
+                                            {{ Form::text('function',null,['class' => 'form-control ', 'placeholder' => __('Enter Function'), 'required' => 'required']) }}
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            {{ Form::label('package', __('Package'), ['class' => 'form-label']) }}
+                                            <span class="btn btn-sm btn-primary btn-icon m-1 add" style="border-radius: 20px !important;    font-size: 12px;
+                                                        "><i class="fa fa-plus "></i></span>
+                                            <div class="appending_div">
+                                                <div class="appending_item" style="display:flex">
+                                                    <input type="text" name="package[]" class="form-control" placeholder="Enter Package">
+                                                    <span class="btn btn-sm btn-danger btn-icon m-1 delete"><i class="fa fa-times"></i></span>
                                                 </div>
                                             </div>
-                                            <div class="text-end">
-                                                {{ Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary']) }}
-                                            </div>
-
-                                            <style>
-                                                .add {
-                                                    cursor: pointer;
-                                                }
-                                            </style>
-                                            {{ Form::close() }}
                                         </div>
-                                        @if(isset($function) && !empty($function))
-                                        <div class="row mt-3">
-                                            <div class="form-group col-md-12">
-                                                <label class="form-label">Function</label>
-                                                <div class="badges">
-                                                    <ul class="nav nav-tabs tabActive" style="border-bottom:none;">
-                                                        @foreach ($function as $key=> $value)
-                                                        <li class="badge rounded p-2 m-1 px-3 bg-primary ">
-                                                            <a style="color: white;" data-toggle="tab" href="#menu{{$key}}" class="<?= $key == 0 ? 'active' : ''; ?>">{{$value->function}} </a>
+                                        <div class="text-end">
+                                            {{ Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary']) }}
+                                        </div>
 
-                                                            <div class="action-btn  ms-2">
-                                                                <a href="javascript:void(0);" class="mx-3 btn btn-sm  align-items-center text-white function_show_confirm" data-bs-toggle="tooltip" data-id="{{$key}}" title='Delete' data-url="{{ route('functionpackage.setting') }}" data-token="{{ csrf_token() }}">
+                                        <style>
+                                            .add {
+                                                cursor: pointer;
+                                            }
+                                        </style>
+                                        {{ Form::close() }}
+                                    </div>
+                                    @if(isset($function) && !empty($function))
+                                    <div class="row mt-3">
+                                        <div class="form-group col-md-12">
+                                            <label class="form-label">Function</label>
+                                            <div class="badges">
+                                                <ul class="nav nav-tabs tabActive" style="border-bottom:none;">
+                                                    @foreach ($function as $key=> $value)
+                                                    <li class="badge rounded p-2 m-1 px-3 bg-primary ">
+                                                        <a style="color: white;" data-toggle="tab" href="#menu{{$key}}" class="<?= $key == 0 ? 'active' : ''; ?> fxnnames">{{$value->function}} </a>
+
+                                                        <div class="action-btn  ms-2">
+                                                            <a href="javascript:void(0);" class="mx-3 btn btn-sm  align-items-center text-white function_show_confirm" data-bs-toggle="tooltip" data-id="{{$key}}" title='Delete' data-url="{{ route('functionpackage.setting') }}" data-token="{{ csrf_token() }}">
+                                                                <i class="ti ti-trash"></i>
+                                                            </a>
+                                                        </div>
+
+                                                    </li>
+                                                    @endforeach
+                                                </ul>
+                                                <div class="tab-content">
+                                                    <label class="form-label mt-3"><b>Package</b></label><br>
+                                                    @foreach ($function as $key=> $value)
+                                                    <div id="menu{{$key}}" class="tab-pane fade <?= $key == 0 ? 'in active show' : ''; ?>">
+                                                        @foreach($value->package as $package)
+                                                        <span class="badge rounded p-2 m-1 px-3 bg-info" style="cursor:pointer">
+                                                            {{$package}}
+                                                            <div class="action-btn ms-2">
+                                                                <a href="javascript:void(0);" class="mx-3 btn btn-sm  align-items-center text-white function_package_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="{{ route('functionedit.setting') }}" data-id="{{$key}}" data-token="{{ csrf_token() }}">
                                                                     <i class="ti ti-trash"></i>
                                                                 </a>
                                                             </div>
-
-                                                        </li>
-                                                        @endforeach
-                                                    </ul>
-                                                    <div class="tab-content">
-                                                        <label class="form-label mt-3"><b>Package</b></label><br>
-                                                        @foreach ($function as $key=> $value)
-                                                        <div id="menu{{$key}}" class="tab-pane fade <?= $key == 0 ? 'in active show' : ''; ?>">
-                                                            @foreach($value->package as $package)
-                                                            <span class="badge rounded p-2 m-1 px-3 bg-info" style="cursor:pointer">
-                                                                {{$package}}
-
-                                                                <div class="action-btn ms-2">
-                                                                    <a href="javascript:void(0);" class="mx-3 btn btn-sm  align-items-center text-white function_package_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="{{ route('functionedit.setting') }}" data-id="{{$key}}" data-token="{{ csrf_token() }}">
-                                                                        <i class="ti ti-trash"></i>
-                                                                    </a>
-                                                                </div>
-
-                                                            </span>
-                                                            @endforeach
-                                                        </div>
+                                                        </span>
                                                         @endforeach
                                                     </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
+                            </div>
+                        </div>
+                        <div id="bar-settings" class="card">
+                            <div class="col-md-12">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-lg-8 col-md-8 col-sm-8">
+                                            <h5>{{ __('Bar Settings') }}</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row mt-3">
+                                        {{ Form::open(['route' => 'bar.setting', 'method' => 'post']) }}
+                                        @csrf
+                                        <div class="form-group col-md-12">
+                                            {{ Form::label('bar', __('Bar'), ['class' => 'form-label']) }}
+                                            {{ Form::text('bar',null,['class' => 'form-control ', 'placeholder' => __('Enter Bar'), 'required' => 'required']) }}
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            {{ Form::label('barpackage', __('Bar Package'), ['class' => 'form-label']) }}
+                                            <span class="btn btn-sm btn-primary btn-icon m-1 addbar" style="border-radius: 20px !important;    font-size: 12px;
+                                                        "><i class="fa fa-plus "></i></span>
+                                            <div class="appending_div_for_bar">
+                                                <div class="appending_item_for_bar" style="display:flex">
+                                                    <input type="text" name="barpackage[]" class="form-control" placeholder="Enter Bar Package">
+                                                    <span class="btn btn-sm btn-danger btn-icon m-1 deletebar"><i class="fa fa-times"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="text-end">
+                                            {{ Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary']) }}
+                                        </div>
+
+                                        <style>
+                                            .add {
+                                                cursor: pointer;
+                                            }
+                                        </style>
+                                        {{ Form::close() }}
+                                    </div>
+                                    @if(isset($bar) && !empty($bar))
+                                    <div class="row mt-3">
+                                        <div class="form-group col-md-12">
+                                            <label class="form-label">Bar</label>
+                                            <div class="badges">
+                                                <ul class="nav nav-tabs tabActive" style="border-bottom:none;">
+                                                    @foreach ($bar as $key=> $value)
+                                                    <li class="badge rounded p-2 m-1 px-3 bg-primary ">
+                                                        <a style="color: white;" data-toggle="tab" href="#barmenu{{$key}}" class="<?= $key == 0 ? 'active' : ''; ?>">{{$value->bar}} </a>
+
+                                                        <div class="action-btn  ms-2">
+                                                            <a href="javascript:void(0);" class="mx-3 btn btn-sm  align-items-center text-white bar_show_confirm" data-bs-toggle="tooltip" data-id="{{$key}}" title='Delete' data-url="{{ route('barpackage.setting') }}" data-token="{{ csrf_token() }}">
+                                                                <i class="ti ti-trash"></i>
+                                                            </a>
+                                                        </div>
+                                                    </li>
+                                                    @endforeach
+                                                </ul>
+
+                                                <div class="tab-content">
+                                                    <label class="form-label mt-3"><b>Package</b></label><br>
+                                                    @foreach ($bar as $key=> $value)
+                                                    <div id="barmenu{{$key}}" class="tab-pane fade <?= $key == 0 ? 'in active show' : ''; ?>">
+                                                        @foreach($value->barpackage as $package)
+                                                        @if(!empty($package))
+                                                        <span class="badge rounded p-2 m-1 px-3 bg-info" style="cursor:pointer">
+                                                            {{$package}}
+                                                            <div class="action-btn ms-2">
+                                                                <a href="javascript:void(0);" class="mx-3 btn btn-sm  align-items-center text-white bar_package_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="{{ route('baredit.setting') }}" data-id="{{$key}}" data-token="{{ csrf_token() }}">
+                                                                    <i class="ti ti-trash"></i>
+                                                                </a>
+                                                            </div>
+                                                        </span>
+                                                        @endif
+                                                        @endforeach
+                                                    </div>
+                                                    @endforeach
                                                 </div>
                                             </div>
                                         </div>
@@ -1044,143 +1125,60 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                     @endif
                                 </div>
                             </div>
-                            <div id="bar-settings" class="card">
-                                <div class="col-md-12">
-                                    <div class="card-header">
-                                        <div class="row">
-                                            <div class="col-lg-8 col-md-8 col-sm-8">
-                                                <h5>{{ __('Bar Settings') }}</h5>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row mt-3">
-                                            {{ Form::open(['route' => 'bar.setting', 'method' => 'post']) }}
-                                            @csrf
-                                            <div class="form-group col-md-12">
-                                                {{ Form::label('bar', __('Bar'), ['class' => 'form-label']) }}
-                                                {{ Form::text('bar',null,['class' => 'form-control ', 'placeholder' => __('Enter Bar'), 'required' => 'required']) }}
-                                            </div>
-                                            <div class="form-group col-md-12">
-                                                {{ Form::label('barpackage', __('Bar Package'), ['class' => 'form-label']) }}
-                                                <span class="btn btn-sm btn-primary btn-icon m-1 addbar" style="border-radius: 20px !important;    font-size: 12px;
-                                                        "><i class="fa fa-plus "></i></span>
-                                                <div class="appending_div_for_bar">
-                                                    <div class="appending_item_for_bar" style="display:flex">
-                                                        <input type="text" name="barpackage[]" class="form-control" placeholder="Enter Bar Package">
-                                                        <span class="btn btn-sm btn-danger btn-icon m-1 deletebar"><i class="fa fa-times"></i></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="text-end">
-                                                {{ Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary']) }}
-                                            </div>
-
-                                            <style>
-                                                .add {
-                                                    cursor: pointer;
-                                                }
-                                            </style>
-                                            {{ Form::close() }}
-                                        </div>
-                                        @if(isset($bar) && !empty($bar))
-                                        <div class="row mt-3">
-                                            <div class="form-group col-md-12">
-                                                <label class="form-label">Bar</label>
-                                                <div class="badges">
-                                                    <ul class="nav nav-tabs tabActive" style="border-bottom:none;">
-                                                        @foreach ($bar as $key=> $value)
-                                                        <li class="badge rounded p-2 m-1 px-3 bg-primary ">
-                                                            <a style="color: white;" data-toggle="tab" href="#barmenu{{$key}}" class="<?= $key == 0 ? 'active' : ''; ?>">{{$value->bar}} </a>
-
-                                                            <div class="action-btn  ms-2">
-                                                                <a href="javascript:void(0);" class="mx-3 btn btn-sm  align-items-center text-white bar_show_confirm" data-bs-toggle="tooltip" data-id="{{$key}}" title='Delete' data-url="{{ route('barpackage.setting') }}" data-token="{{ csrf_token() }}">
-                                                                    <i class="ti ti-trash"></i>
-                                                                </a>
-                                                            </div>
-                                                        </li>
-                                                        @endforeach
-                                                    </ul>
-
-                                                    <div class="tab-content">
-                                                        <label class="form-label mt-3"><b>Package</b></label><br>
-                                                        @foreach ($bar as $key=> $value)
-                                                        <div id="barmenu{{$key}}" class="tab-pane fade <?= $key == 0 ? 'in active show' : ''; ?>">
-                                                            @foreach($value->barpackage as $package)
-                                                            @if(!empty($package))
-                                                            <span class="badge rounded p-2 m-1 px-3 bg-info" style="cursor:pointer">
-                                                                {{$package}}
-                                                                <div class="action-btn ms-2">
-                                                                    <a href="javascript:void(0);" class="mx-3 btn btn-sm  align-items-center text-white bar_package_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="{{ route('baredit.setting') }}" data-id="{{$key}}" data-token="{{ csrf_token() }}">
-                                                                        <i class="ti ti-trash"></i>
-                                                                    </a>
-                                                                </div>
-                                                            </span>
-                                                            @endif
-                                                            @endforeach
-                                                        </div>
-                                                        @endforeach
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        @endif
+                        </div>
+                    </div>
+                    <div id="floor-plan-setting" class="card">
+                        <div class="col-md-12">
+                            <div class="card-header">
+                                <div class="row">
+                                    <div id="floor-plan-setting" class="col-lg-8 col-md-8 col-sm-8">
+                                        <h5>{{ __('Upload Setup') }}</h5>
                                     </div>
                                 </div>
                             </div>
-                    </div>
-                        <div id="floor-plan-setting" class="card">
-                            <div class="col-md-12">
-                                <div class="card-header">
-                                    <div class="row">
-                                        <div id="floor-plan-setting" class="col-lg-8 col-md-8 col-sm-8">
-                                            <h5>{{ __('Upload Setup') }}</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row mt-3">
-                                        <form method="POST" action="{{ url('/floor-images') }}" enctype="multipart/form-data">
-                                            @csrf
-                                            <div class="row">
-                                                <div class="form-group col-md-6">
-                                                    <label for="setup" class="form-label">Choose Image</label></br>
-                                                    <input type="file" name="setup" class="form-control" required />
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <label for="title" class="form-label">Title</label></br>
-                                                    <input type="text" class="form-control" name="title" required>
-                                                </div>
+                            <div class="card-body">
+                                <div class="row mt-3">
+                                    <form method="POST" action="{{ url('/floor-images') }}" enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="row">
+                                            <div class="form-group col-md-6">
+                                                <label for="setup" class="form-label">Choose Image</label></br>
+                                                <input type="file" name="setup" class="form-control" required />
                                             </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="title" class="form-label">Title</label></br>
+                                                <input type="text" class="form-control" name="title" required>
+                                            </div>
+                                        </div>
 
-                                            <div class="form-group col-md-12">
-                                                <label for="description" class="form-label">Description</label></br>
-                                                <!-- <input type="textarea" class="form-control" name="description" rows="3" >      -->
-                                                <textarea name="description" id="description" class="form-control" rows="3"></textarea>
-                                            </div>
-                                            <div class="text-end">
-                                                <button type="submit" class="btn-submit btn btn-primary">Submit</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="row">
-                                        @foreach($setup as $s)
-                                        <div class="col-6">
-                                            <input type="radio" id="image_{{ $loop->index }}" name="uploadedImage" class="form-check-input" value="{{ asset('floor_images/' . $s->image) }}">
-                                            <label for="image_{{ $loop->index }}" class="form-check-label">
-                                                <img src="{{asset('floor_images/'.$s->image)}}" alt="Uploaded Image" class="img-thumbnail floorimages zoom">
-                                                <span class=" rounded p-2 m-1 px-3 bg-danger text-white" style="float: inline-end;"><i class="ti ti-trash " data-image="{{ $s->image }}" onclick="deleteImage(this)"></i></span>
-                                            </label>
+                                        <div class="form-group col-md-12">
+                                            <label for="description" class="form-label">Description</label></br>
+                                            <!-- <input type="textarea" class="form-control" name="description" rows="3" >      -->
+                                            <textarea name="description" id="description" class="form-control" rows="3"></textarea>
                                         </div>
-                                        @endforeach
+                                        <div class="text-end">
+                                            <button type="submit" class="btn-submit btn btn-primary">Submit</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="row">
+                                    @foreach($setup as $s)
+                                    <div class="col-6">
+                                        <input type="radio" id="image_{{ $loop->index }}" name="uploadedImage" class="form-check-input" value="{{ asset('floor_images/' . $s->image) }}">
+                                        <label for="image_{{ $loop->index }}" class="form-check-label">
+                                            <img src="{{asset('floor_images/'.$s->image)}}" alt="Uploaded Image" class="img-thumbnail floorimages zoom">
+                                            <span class=" rounded p-2 m-1 px-3 bg-danger text-white" style="float: inline-end;"><i class="ti ti-trash " data-image="{{ $s->image }}" onclick="deleteImage(this)"></i></span>
+                                        </label>
                                     </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
-                        @endif
-                        @can('Manage Billing')
+                    </div>
+                    @endif
+                    @can('Manage Payment')
                     <div id="billing-setting" class="card">
                         <div class="col-md-12">
                             <div class="card-header">
@@ -1218,7 +1216,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                 </tr>
                                                 @foreach($function as $functionKey => $functionValue)
                                                 <tr>
-                                                    <td>{{__($functionValue->function)}}</td>
+                                                    <td><b>{{__($functionValue->function)}}</b></td>
                                                     <td>
                                                         @foreach($functionValue->package as $packageKey => $packageValue)
                                                         {{ Form::label($packageValue, __($packageValue), ['class' => 'form-label']) }}
@@ -1237,7 +1235,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                 </tr>
                                                 @foreach($bar as $barKey => $barValue)
                                                 <tr>
-                                                    <td>{{__($barValue->bar)}}</td>
+                                                    <td><b>{{__($barValue->bar)}}</b></td>
                                                     <td>
                                                         @foreach($barValue->barpackage as $barpackageKey => $barpackageValue)
                                                         {{ Form::label($barpackageValue, __($barpackageValue), ['class' => 'form-label']) }}
@@ -3657,252 +3655,264 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
 </div>
 @endsection
 @push('script-page')
-    <script>
-        $(document).ready(function() {
-            $("select#additional_function").change(function() {
-                let val = $(this).val();
-                const functionData = <?= json_encode($function) ?>[val];
-                let packages = functionData.package;
-                $('#additional_packages_checkboxes').empty();
-                $.each(packages, function(index, package) {
-                    $('#additional_packages_checkboxes').append('<label><input type="checkbox" name="additional_package[]" value="' + package + '"> ' + package + '</label><br>');
-
-                    // $('#additional_package').append('<option value="' + package + '">' + package + '</option>');
-                });
-            })
+<script>
+    $('.fxnnames').click(function(){
+        var value = $(this).text();
+        const funcData = <?= json_encode($function) ?>;
+        var funrr = <?= (isset($function) && !empty($function)) ? json_encode($function) : 'null' ?>;
+        $.each(funrr,function(item,val){
+            console.log(item,val.function,value);
+            // if(val.function == value){
+            //     $('input[name = "function"]').val(value);
+            // }
         });
-    </script>
-    <script>
-        var additionalItemCount = 2;
+    })
+</script>
+<script>
+    $(document).ready(function() {
+        $("select#additional_function").change(function() {
+            let val = $(this).val();
+            
+            const functionData = <?= json_encode($function) ?>[val];
+            let packages = functionData.package;
+            $('#additional_packages_checkboxes').empty();
+            $.each(packages, function(index, package) {
+                $('#additional_packages_checkboxes').append('<label><input type="checkbox" name="additional_package[]" value="' + package + '"> ' + package + '</label><br>');
+            });
+        })
+    });
+</script>
+<script>
+    var additionalItemCount = 2;
 
-        function addAdditionalItem() {
-            var container = document.getElementById('additional-items-container');
+    function addAdditionalItem() {
+        var container = document.getElementById('additional-items-container');
 
-            // Create a new row
-            var newRow = document.createElement('div');
-            newRow.classList.add('row', 'form-group');
-            newRow.id = 'additional-row-' + additionalItemCount;
+        // Create a new row
+        var newRow = document.createElement('div');
+        newRow.classList.add('row', 'form-group');
+        newRow.id = 'additional-row-' + additionalItemCount;
 
-            // Create name input
-            newRow.innerHTML += `
+        // Create name input
+        newRow.innerHTML += `
                     <div class="col-md-5">
                         <label for="additional_items_${additionalItemCount}">Additional Item ${additionalItemCount}</label>
                         <input type="text" name="additional_items[]" id="additional_items_${additionalItemCount}" class="form-control" placeholder="Enter Additional Item" required>
                     </div>
                 `;
-            newRow.innerHTML += `
+        newRow.innerHTML += `
                     <div class="col-md-6">
                         <label for="additional_items_cost_${additionalItemCount}">Cost</label>
                         <input type="number" name="additional_items_cost[]" id="additional_items_cost_${additionalItemCount}" class="form-control" placeholder="Enter Cost" required>
                     </div>
                 `;
-            newRow.innerHTML += `
+        newRow.innerHTML += `
             <div class="col-md-1 mt-3">
                 <button type="button" class="btn btn-danger" style="    margin-top: 4px;
             " onclick="removeAdditionalItem(${additionalItemCount})"><i class="fa fa-times"></i></button>
                     </div>
                 `;
-            additionalItemCount++;
-            container.appendChild(newRow);
-        }
+        additionalItemCount++;
+        container.appendChild(newRow);
+    }
 
-        function removeAdditionalItem(rowId) {
-            var rowToRemove = document.getElementById('additional-row-' + rowId);
-            rowToRemove.remove();
-        }
-    </script>
-    <script>
-        $('#function_names').change(function() {
-            $('#package_inputs').empty();
-            var value = $(this).val();
-            if (value) {
-                $('.function_cost').show();
-                var functionarr = <?= (isset($function) && !empty($function)) ? json_encode($function) : 'null' ?>;
-                $.each(functionarr, function(index, function_val) {
-                    if (index == value) {
-                        var packagevalue = function_val.package;
-                        $.each(packagevalue, function(index, val) {
-                            // Dynamically generate input fields for each package
-                            var inputField = '<div class = "form-group"><label for="package_' + index + '">' + val + ' Cost:</label>';
-                            inputField += '<input type="number" name="package_cost[' + index + ']" class="form-control" placeholder="Enter ' + val + ' Cost"  min="0"></div>';
+    function removeAdditionalItem(rowId) {
+        var rowToRemove = document.getElementById('additional-row-' + rowId);
+        rowToRemove.remove();
+    }
+</script>
+<script>
+    $('#function_names').change(function() {
+        $('#package_inputs').empty();
+        var value = $(this).val();
+        if (value) {
+            $('.function_cost').show();
+            var functionarr = <?= (isset($function) && !empty($function)) ? json_encode($function) : 'null' ?>;
+            $.each(functionarr, function(index, function_val) {
+                if (index == value) {
+                    var packagevalue = function_val.package;
+                    $.each(packagevalue, function(index, val) {
+                        // Dynamically generate input fields for each package
+                        var inputField = '<div class = "form-group"><label for="package_' + index + '">' + val + ' Cost:</label>';
+                        inputField += '<input type="number" name="package_cost[' + index + ']" class="form-control" placeholder="Enter ' + val + ' Cost"  min="0"></div>';
 
-                            $('#package_inputs').append(inputField);
-                        });
-                    }
-                });
-            } else {
-                $('.function_cost').hide();
-            }
-        });
-        $('#bar_names').change(function() {
-            $('#bar_package_inputs').empty();
-            var value = $(this).val();
-            if (value) {
-                $('.bar_cost').show();
-                var bararr = <?= (isset($bar) && !empty($bar)) ? json_encode($bar) : 'null' ?>;
-                $.each(bararr, function(index, val) {
-                    if (index == value) {
-                        var packagevalue = val.barpackage;
-                        $.each(packagevalue, function(index, val) {
-                            // Dynamically generate input fields for each package
-                            var inputField = '<div class = "form-group"><label for="barpackage_' + index + '">' + val + ' Cost:</label>';
-                            inputField += '<input type="number" name="bar_package_cost[' + index + ']" class="form-control" placeholder="Enter ' + val + ' Cost"  min="0"></div>';
-
-                            $('#bar_package_inputs').append(inputField);
-                        });
-                    }
-                });
-            } else {
-                $('.bar_cost').hide();
-            }
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
-            $('.add').on('click', function() {
-                var field = '<br><div class="appending_item" style="display:flex"><input type="text" name="package[]" class="form-control" placeholder ="Enter Package">';
-                field += '<span class="btn btn-sm btn-danger btn-icon m-1 delete"><i class="fa fa-times"></i></span></div>';
-                $('.appending_div').append(field);
-            })
-            $('.appending_div').on('click', '.delete', function() {
-                $(this).closest('.appending_item').remove();
+                        $('#package_inputs').append(inputField);
+                    });
+                }
             });
-            $('.addbar').on('click', function() {
-                var field = '<br><div class="appending_item_for_bar" style="display:flex"><input type="text" name="barpackage[]" class="form-control" placeholder ="Enter Package">';
-                field += '<span class="btn btn-sm btn-danger btn-icon m-1 deletebar"><i class="fa fa-times"></i></span></div>';
-                $('.appending_div_for_bar').append(field);
-            })
-            $('.appending_div_for_bar').on('click', '.deletebar', function() {
-                $(this).closest('.appending_item_for_bar').remove();
+        } else {
+            $('.function_cost').hide();
+        }
+    });
+    $('#bar_names').change(function() {
+        $('#bar_package_inputs').empty();
+        var value = $(this).val();
+        if (value) {
+            $('.bar_cost').show();
+            var bararr = <?= (isset($bar) && !empty($bar)) ? json_encode($bar) : 'null' ?>;
+            $.each(bararr, function(index, val) {
+                if (index == value) {
+                    var packagevalue = val.barpackage;
+                    $.each(packagevalue, function(index, val) {
+                        // Dynamically generate input fields for each package
+                        var inputField = '<div class = "form-group"><label for="barpackage_' + index + '">' + val + ' Cost:</label>';
+                        inputField += '<input type="number" name="bar_package_cost[' + index + ']" class="form-control" placeholder="Enter ' + val + ' Cost"  min="0"></div>';
+
+                        $('#bar_package_inputs').append(inputField);
+                    });
+                }
             });
+        } else {
+            $('.bar_cost').hide();
+        }
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('.add').on('click', function() {
+            var field = '<br><div class="appending_item" style="display:flex"><input type="text" name="package[]" class="form-control" placeholder ="Enter Package">';
+            field += '<span class="btn btn-sm btn-danger btn-icon m-1 delete"><i class="fa fa-times"></i></span></div>';
+            $('.appending_div').append(field);
         })
-    </script>
-    <script>
-        $(document).ready(function() {
-            $("#checkall").click(function() {
-                $('input:checkbox').not(this).prop('checked', this.checked);
-            });
-            $(".ischeck").click(function() {
-                var ischeck = $(this).data('id');
-                $('.isscheck_' + ischeck).prop('checked', this.checked);
-
-            });
+        $('.appending_div').on('click', '.delete', function() {
+            $(this).closest('.appending_item').remove();
         });
-    </script>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script>
-        function deleteImage(icon) {
-            var imageName = icon.getAttribute('data-image');
-            var url = "{{ url('/delete-image') }}";
-            const swalWithBootstrapButtons = Swal.mixin({
-                customClass: {
-                    confirmButton: 'btn btn-success',
-                    cancelButton: 'btn btn-danger'
-                },
-                buttonsStyling: false
-            })
-            swalWithBootstrapButtons.fire({
-                title: 'Are you sure?',
-                text: "This action can not be undone. Do you want to continue?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes',
-                cancelButtonText: 'No',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        type: 'POST',
-                        url: url,
-                        data: {
-                            "imageName": imageName,
-                            "_token": "{{ csrf_token() }}",
-                        },
-                        success: function(result) {
-                            if (result.success == true) {
-                                swal.fire("Done!", result.message, "success");
-                                setTimeout(function() {
-                                    location.reload();
-                                }, 1000);
-                            } else {
-                                swal.fire("Error!", result.message, "error");
-                            }
-                        }
-                    });
-                }
-            })
-        }
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var canvas = document.getElementById('signatureCanvas');
-            var signaturePad = new SignaturePad(canvas);
-
-            function clearCanvas() {
-                signaturePad.clear();
-            }
-            document.getElementById('clearButton').addEventListener('click', function(e) {
-                e.preventDefault();
-                clearCanvas();
-            });
-            // Access the data (image or coordinates) from the signature pad on form submit
-            document.getElementById('sign').addEventListener('submit', function(event) {
-                event.preventDefault();
-                if (signaturePad.isEmpty()) {
-                    alert('Please provide your signature before submitting.');
-                } else {
-                    var signatureData = signaturePad.toDataURL();
-                    document.getElementById('imageData').value = signatureData;
-                    $.ajax({
-                        url: "{{ route('authorised.signature') }}",
-                        type: 'POST',
-                        data: {
-                            "signature": signatureData,
-                            "_token": "{{ csrf_token() }}",
-                        },
-                        success: function(data) {
-                            location.reload();
-                        }
-                    });
-                }
-            });
+        $('.addbar').on('click', function() {
+            var field = '<br><div class="appending_item_for_bar" style="display:flex"><input type="text" name="barpackage[]" class="form-control" placeholder ="Enter Package">';
+            field += '<span class="btn btn-sm btn-danger btn-icon m-1 deletebar"><i class="fa fa-times"></i></span></div>';
+            $('.appending_div_for_bar').append(field);
+        })
+        $('.appending_div_for_bar').on('click', '.deletebar', function() {
+            $(this).closest('.appending_item_for_bar').remove();
         });
-    </script>
-    <script>
-        $(document).ready(function() {
-            document.querySelectorAll('.edit-cost-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    // Get the current cost value
-                    console.log(button);
-                    const costElement = this.closest('tr').querySelector('.cost');
-                    let currentCost = costElement.textContent.trim();
-                    const itemName = this.closest('tr').querySelector('.item').textContent.trim();
-                    const packageName = this.closest('td').getAttribute('data-function').trim();
-                    const functionname = this.closest('td').getAttribute('data-package').trim();
-                    const newCost = prompt('Enter new cost:', currentCost);
+    })
+</script>
+<script>
+    $(document).ready(function() {
+        $("#checkall").click(function() {
+            $('input:checkbox').not(this).prop('checked', this.checked);
+        });
+        $(".ischeck").click(function() {
+            var ischeck = $(this).data('id');
+            $('.isscheck_' + ischeck).prop('checked', this.checked);
 
-                    // Update the cost if the user provided a new value
-                    if (newCost !== null && newCost !== '' && !isNaN(newCost)) {
-                        costElement.textContent = newCost;
+        });
+    });
+</script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    function deleteImage(icon) {
+        var imageName = icon.getAttribute('data-image');
+        var url = "{{ url('/delete-image') }}";
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success',
+                cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
+        })
+        swalWithBootstrapButtons.fire({
+            title: 'Are you sure?',
+            text: "This action can not be undone. Do you want to continue?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: {
+                        "imageName": imageName,
+                        "_token": "{{ csrf_token() }}",
+                    },
+                    success: function(result) {
+                        if (result.success == true) {
+                            swal.fire("Done!", result.message, "success");
+                            setTimeout(function() {
+                                location.reload();
+                            }, 1000);
+                        } else {
+                            swal.fire("Error!", result.message, "error");
+                        }
                     }
-                    $.ajax({
-                        url: "{{route('additionalitems.edit')}}",
-                        type: 'POST',
-                        data: {
-                            function_name: functionname,
-                            package_name: packageName,
-                            item_name: itemName,
-                            cost: newCost,
-                            _token: "{{ csrf_token() }}",
-                        },
-                        success: function(data) {
-                            console.log(data);
-                        },
-                    });
+                });
+            }
+        })
+    }
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var canvas = document.getElementById('signatureCanvas');
+        var signaturePad = new SignaturePad(canvas);
+
+        function clearCanvas() {
+            signaturePad.clear();
+        }
+        document.getElementById('clearButton').addEventListener('click', function(e) {
+            e.preventDefault();
+            clearCanvas();
+        });
+        // Access the data (image or coordinates) from the signature pad on form submit
+        document.getElementById('sign').addEventListener('submit', function(event) {
+            event.preventDefault();
+            if (signaturePad.isEmpty()) {
+                alert('Please provide your signature before submitting.');
+            } else {
+                var signatureData = signaturePad.toDataURL();
+                document.getElementById('imageData').value = signatureData;
+                $.ajax({
+                    url: "{{ route('authorised.signature') }}",
+                    type: 'POST',
+                    data: {
+                        "signature": signatureData,
+                        "_token": "{{ csrf_token() }}",
+                    },
+                    success: function(data) {
+                        location.reload();
+                    }
+                });
+            }
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        document.querySelectorAll('.edit-cost-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                // Get the current cost value
+                console.log(button);
+                const costElement = this.closest('tr').querySelector('.cost');
+                let currentCost = costElement.textContent.trim();
+                const itemName = this.closest('tr').querySelector('.item').textContent.trim();
+                const packageName = this.closest('td').getAttribute('data-function').trim();
+                const functionname = this.closest('td').getAttribute('data-package').trim();
+                const newCost = prompt('Enter new cost:', currentCost);
+
+                // Update the cost if the user provided a new value
+                if (newCost !== null && newCost !== '' && !isNaN(newCost)) {
+                    costElement.textContent = newCost;
+                }
+                $.ajax({
+                    url: "{{route('additionalitems.edit')}}",
+                    type: 'POST',
+                    data: {
+                        function_name: functionname,
+                        package_name: packageName,
+                        item_name: itemName,
+                        cost: newCost,
+                        _token: "{{ csrf_token() }}",
+                    },
+                    success: function(data) {
+                        console.log(data);
+                    },
                 });
             });
-            // Get the modal
-
         });
-    </script>
+        // Get the modal
+
+    });
+</script>
 @endpush

@@ -1,21 +1,16 @@
 
 <?php $__env->startSection('page-title'); ?>
-    <?php echo e(__('Billing')); ?>
+<?php echo e(__('Billing')); ?>
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('title'); ?>
-    <?php echo e(__('Billing')); ?>
+<?php echo e(__('Billing')); ?>
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('breadcrumb'); ?>
-    <li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Home')); ?></a></li>
-    <li class="breadcrumb-item"><?php echo e(__('Billing')); ?></li>
+<li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Home')); ?></a></li>
+<li class="breadcrumb-item"><?php echo e(__('Billing')); ?></li>
 <?php $__env->stopSection(); ?>
-<?php $__env->startSection('action-btn'); ?>
-<?php $__env->stopSection(); ?>
-<?php $__env->startSection('filter'); ?>
-<?php $__env->stopSection(); ?>
-
 <?php $__env->startSection('content'); ?>
 <div class="container-field">
     <div id="wrapper">
@@ -23,25 +18,24 @@
             <div class="container-fluid xyz">
                 <div class="row">
                     <div class="col-lg-12">
-                    <div class="card" id ="useradd-1">
-                        <div class="card-body table-border-style">
-                            <div class="table-responsive overflow_hidden">
-                                <table id="datatable" class="table datatable align-items-center">
-                                    <thead class="thead-light">
-                                        <tr>
-                                            <th scope="col" class="sort" data-sort="name"><?php echo e(__('Name')); ?></th>
-                                            <th scope="col" class="sort" data-sort="status"><?php echo e(__('Event')); ?></th>
-                                            <th scope="col" class="sort" data-sort="completion"><?php echo e(__('Event Date')); ?></th>
-                                            <th scope="col" class="sort" data-sort="completion"><?php echo e(__('Payment Status')); ?></th>
-                                            <th scope="col" class="text-end"><?php echo e(__('Action')); ?></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php $__currentLoopData = $events; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $event): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <div class="card" id="useradd-1">
+                            <div class="card-body table-border-style">
+                                <div class="table-responsive overflow_hidden">
+                                    <table id="datatable" class="table datatable align-items-center">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Name')); ?></th>
+                                                <th scope="col" class="sort" data-sort="status"><?php echo e(__('Event')); ?></th>
+                                                <th scope="col" class="sort" data-sort="completion"><?php echo e(__('Event Date')); ?></th>
+                                                <th scope="col" class="sort" data-sort="completion"><?php echo e(__('Payment Status')); ?></th>
+                                                <th scope="col" class="text-end"><?php echo e(__('Action')); ?></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php $__currentLoopData = $events; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $event): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <tr>
                                                 <td>
-                                                    <a href="" data-size="md"
-                                                        data-title="<?php echo e(__('Billing Details')); ?>" class="action-item text-primary">
+                                                    <a href="" data-size="md" data-title="<?php echo e(__('Billing Details')); ?>" class="action-item text-primary">
                                                         <?php echo e(ucfirst($event->name)); ?>
 
                                                     </a>
@@ -53,13 +47,24 @@
                                                     <?php if($event->start_date == $event->end_date): ?>
                                                     <span class="budget"><?php echo e(\Auth::user()->dateFormat($event->start_date)); ?></span>
                                                     <?php elseif($event->start_date != $event->end_date): ?>
-                                                    <span class="budget"><?php echo e(Carbon\Carbon::parse($event->start_date)->format('M d')); ?> -<?php echo e(\Auth::user()->dateFormat($event->end_date)); ?></span>
+                                                    <span class="budget"><?php echo e(Carbon\Carbon::parse($event->start_date)->format('M d')); ?> - <?php echo e(\Auth::user()->dateFormat($event->end_date)); ?></span>
                                                     <?php endif; ?>
                                                 </td>
                                                 <td>
-                                                    <span class="badge bg-info p-2 px-3 rounded">Create Bill</span>
+                                                    <?php if(\App\Models\Billing::where('event_id',$event->id)->exists()): ?>
+                                                        <?php $bill = \App\Models\Billing::where('event_id', $event->id)->pluck('status')->first() ?>
+                                                        <?php if($bill == 1): ?>
+                                                        <span class="badge bg-info p-2 px-3 rounded"><?php echo e(__(\App\Models\Billing::$status[$bill])); ?></span>
+                                                        <?php elseif($bill == 2): ?>
+                                                        <span class="badge bg-warning p-2 px-3 rounded"><?php echo e(__(\App\Models\Billing::$status[$bill])); ?></span>
+                                                        <?php else: ?>
+                                                        <span class="badge bg-success p-2 px-3 rounded"><?php echo e(__(\App\Models\Billing::$status[$bill])); ?></span>
+                                                        <?php endif; ?>
+                                                    <?php else: ?>
+                                                    <span class="badge bg-primary p-2 px-3 rounded"><?php echo e(__(\App\Models\Billing::$status[0])); ?></span>
+                                                    <?php endif; ?>
                                                 </td>
-                                               
+
                                                 <td class="text-end">
                                                     <?php if(!(\App\Models\Billing::where('event_id',$event->id)->exists())): ?>
                                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Payment')): ?>
@@ -88,17 +93,17 @@
                                                     <?php endif; ?>
                                                 </td>
                                             </tr>
-                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                    </tbody>
-                                </table>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div> 
+</div>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/billing/index.blade.php ENDPATH**/ ?>

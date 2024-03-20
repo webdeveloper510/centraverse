@@ -70,7 +70,7 @@
                     <span class="dash-mtext">{{ __('Setup Settings') }}</span>
                 </a>
                 @endif
-                @can('Manage Billing')
+                @can('Manage Payment')
                 <a href="#billing-setting" class="list-group-item list-group-item-action border-0">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-cog"></i></span>
                     <span class="dash-mtext">{{ __('Billing Settings') }}</span>

@@ -90,11 +90,6 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                         </a>
                     </li>
                 @endif
-                            <!-- @can('Manage Contract')
-                                <li class="dash-item  {{ (Request::route()->getName() == 'contract.index' || Request::route()->getName() == 'contract.show') ? 'active' : '' }}">
-                                    <a href="{{route('contract.index')}}" class="dash-link"><span class="dash-mtext">{{__('Contracts')}}</span></a>
-                                </li>
-                            @endcan -->
                         @can('Manage Payment')
                             <li class="dash-item {{ \Request::route()->getName() == 'billing' || \Request::route()->getName() == 'billing.index' ? ' active' : '' }}">
                                 <a href="{{ route('billing.index') }}" class="dash-link">

@@ -1,19 +1,14 @@
 @extends('layouts.admin')
 @section('page-title')
-    {{ __('Billing') }}
+{{ __('Billing') }}
 @endsection
 @section('title')
-    {{ __('Billing') }}
+{{ __('Billing') }}
 @endsection
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Home') }}</a></li>
-    <li class="breadcrumb-item">{{ __('Billing') }}</li>
+<li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Home') }}</a></li>
+<li class="breadcrumb-item">{{ __('Billing') }}</li>
 @endsection
-@section('action-btn')
-@endsection
-@section('filter')
-@endsection
-
 @section('content')
 <div class="container-field">
     <div id="wrapper">
@@ -21,25 +16,24 @@
             <div class="container-fluid xyz">
                 <div class="row">
                     <div class="col-lg-12">
-                    <div class="card" id ="useradd-1">
-                        <div class="card-body table-border-style">
-                            <div class="table-responsive overflow_hidden">
-                                <table id="datatable" class="table datatable align-items-center">
-                                    <thead class="thead-light">
-                                        <tr>
-                                            <th scope="col" class="sort" data-sort="name">{{ __('Name') }}</th>
-                                            <th scope="col" class="sort" data-sort="status">{{ __('Event') }}</th>
-                                            <th scope="col" class="sort" data-sort="completion">{{ __('Event Date') }}</th>
-                                            <th scope="col" class="sort" data-sort="completion">{{ __('Payment Status') }}</th>
-                                            <th scope="col" class="text-end">{{ __('Action') }}</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($events as $event)
+                        <div class="card" id="useradd-1">
+                            <div class="card-body table-border-style">
+                                <div class="table-responsive overflow_hidden">
+                                    <table id="datatable" class="table datatable align-items-center">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col" class="sort" data-sort="name">{{ __('Name') }}</th>
+                                                <th scope="col" class="sort" data-sort="status">{{ __('Event') }}</th>
+                                                <th scope="col" class="sort" data-sort="completion">{{ __('Event Date') }}</th>
+                                                <th scope="col" class="sort" data-sort="completion">{{ __('Payment Status') }}</th>
+                                                <th scope="col" class="text-end">{{ __('Action') }}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($events as $event)
                                             <tr>
                                                 <td>
-                                                    <a href="" data-size="md"
-                                                        data-title="{{ __('Billing Details') }}" class="action-item text-primary">
+                                                    <a href="" data-size="md" data-title="{{ __('Billing Details') }}" class="action-item text-primary">
                                                         {{ ucfirst($event->name)}}
                                                     </a>
                                                 </td>
@@ -50,13 +44,24 @@
                                                     @if($event->start_date == $event->end_date)
                                                     <span class="budget">{{\Auth::user()->dateFormat($event->start_date)}}</span>
                                                     @elseif($event->start_date != $event->end_date)
-                                                    <span class="budget">{{ Carbon\Carbon::parse($event->start_date)->format('M d')}} -{{\Auth::user()->dateFormat($event->end_date)}}</span>
+                                                    <span class="budget">{{ Carbon\Carbon::parse($event->start_date)->format('M d')}} - {{\Auth::user()->dateFormat($event->end_date)}}</span>
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <span class="badge bg-info p-2 px-3 rounded">Create Bill</span>
+                                                    @if(\App\Models\Billing::where('event_id',$event->id)->exists())
+                                                        <?php $bill = \App\Models\Billing::where('event_id', $event->id)->pluck('status')->first() ?>
+                                                        @if($bill == 1)
+                                                        <span class="badge bg-info p-2 px-3 rounded">{{__(\App\Models\Billing::$status[$bill]) }}</span>
+                                                        @elseif($bill == 2)
+                                                        <span class="badge bg-warning p-2 px-3 rounded">{{__(\App\Models\Billing::$status[$bill]) }}</span>
+                                                        @else($bill == 3)
+                                                        <span class="badge bg-success p-2 px-3 rounded">{{__(\App\Models\Billing::$status[$bill]) }}</span>
+                                                        @endif
+                                                    @else
+                                                    <span class="badge bg-primary p-2 px-3 rounded">{{__(\App\Models\Billing::$status[0]) }}</span>
+                                                    @endif
                                                 </td>
-                                               
+
                                                 <td class="text-end">
                                                     @if(!(\App\Models\Billing::where('event_id',$event->id)->exists()))
                                                     @can('Create Payment')
@@ -85,16 +90,16 @@
                                                     @endcan
                                                 </td>
                                             </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div> 
+</div>
 @endsection
