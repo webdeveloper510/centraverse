@@ -458,186 +458,186 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                 <div class="row">
                     <div class="col-lg-12">
                         <?php if(\Auth::user()->type == 'owner'): ?>
-                            <div id="company-email-setting" class="card">
-                                <div class="card-header">
-                                    <h5><?php echo e(__('Email Settings')); ?></h5>
-                                    <small class="text-muted"><?php echo e(__('Edit your email details')); ?></small>
-                                </div>
-                                <?php echo e(Form::open(['route' => 'email.setting', 'method' => 'post'])); ?>
-
-                                <div class="card-body">
-                                    <div class="row mt-4">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="mail_driver" class="col-form-label text-dark"><?php echo e(__('Mail Driver')); ?></label>
-                                                <input type="text" name="mail_driver" id="mail_driver" class="form-control <?php echo e($errors->has('mail_driver') ? 'is-invalid' : ''); ?>" value="<?php echo e(!isset($settings['mail_driver']) || is_null($settings['mail_driver']) ? '' : $settings['mail_driver']); ?>" placeholder="<?php echo e(trans('installer_messages.environment.wizard.form.app_tabs.mail_driver_placeholder')); ?>" />
-                                                <?php if($errors->has('mail_driver')): ?>
-                                                <span class="invalid-feedback text-danger text-xs">
-                                                    <?php echo e($errors->first('mail_driver')); ?>
-
-                                                </span>
-                                                <?php endif; ?>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="mail_host" class="col-form-label text-dark"><?php echo e(__('Mail Host')); ?></label>
-                                                <input type="text" name="mail_host" id="mail_host" class="form-control <?php echo e($errors->has('mail_host') ? 'is-invalid' : ''); ?>" value="<?php echo e(!isset($settings['mail_host']) || is_null($settings['mail_host']) ? '' : $settings['mail_host']); ?>" placeholder="<?php echo e(trans('installer_messages.environment.wizard.form.app_tabs.mail_host_placeholder')); ?>" />
-                                                <?php if($errors->has('mail_host')): ?>
-                                                <span class="invalid-feedback text-danger text-xs">
-                                                    <?php echo e($errors->first('mail_host')); ?>
-
-                                                </span>
-                                                <?php endif; ?>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="mail_port" class="col-form-label text-dark"><?php echo e(__('Mail Port')); ?></label>
-                                                <input type="number" name="mail_port" id="mail_port" class="form-control <?php echo e($errors->has('mail_port') ? 'is-invalid' : ''); ?>" value="<?php echo e(!isset($settings['mail_port']) || is_null($settings['mail_port']) ? '' : $settings['mail_port']); ?>" placeholder="<?php echo e(trans('installer_messages.environment.wizard.form.app_tabs.mail_port_placeholder')); ?>" />
-                                                <?php if($errors->has('mail_port')): ?>
-                                                <span class="invalid-feedback text-danger text-xs">
-                                                    <?php echo e($errors->first('mail_port')); ?>
-
-                                                </span>
-                                                <?php endif; ?>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="mail_username" class="col-form-label text-dark"><?php echo e(__('Mail Username')); ?></label>
-                                                <input type="text" name="mail_username" id="mail_username" class="form-control <?php echo e($errors->has('mail_username') ? 'is-invalid' : ''); ?>" value="<?php echo e(!isset($settings['mail_username']) || is_null($settings['mail_username']) ? '' : $settings['mail_username']); ?>" placeholder="<?php echo e(trans('installer_messages.environment.wizard.form.app_tabs.mail_username_placeholder')); ?>" />
-                                                <?php if($errors->has('mail_username')): ?>
-                                                <span class="invalid-feedback text-danger text-xs">
-                                                    <?php echo e($errors->first('mail_username')); ?>
-
-                                                </span>
-                                                <?php endif; ?>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="mail_password" class="col-form-label text-dark"><?php echo e(__('Mail Password')); ?></label>
-                                                <input type="text" name="mail_password" id="mail_password" class="form-control <?php echo e($errors->has('mail_password') ? 'is-invalid' : ''); ?>" value="<?php echo e(!isset($settings['mail_password']) || is_null($settings['mail_password']) ? '' : $settings['mail_password']); ?>" placeholder="<?php echo e(trans('installer_messages.environment.wizard.form.app_tabs.mail_password_placeholder')); ?>" />
-                                                <?php if($errors->has('mail_password')): ?>
-                                                <span class="invalid-feedback text-danger text-xs">
-                                                    <?php echo e($errors->first('mail_password')); ?>
-
-                                                </span>
-                                                <?php endif; ?>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="mail_encryption" class="col-form-label text-dark"><?php echo e(__('Mail Encryption')); ?></label>
-                                                <input type="text" name="mail_encryption" id="mail_encryption" class="form-control <?php echo e($errors->has('mail_encryption') ? 'is-invalid' : ''); ?>" value="<?php echo e(!isset($settings['mail_encryption']) || is_null($settings['mail_encryption']) ? '' : $settings['mail_encryption']); ?>" placeholder="<?php echo e(trans('installer_messages.environment.wizard.form.app_tabs.mail_encryption_placeholder')); ?>" />
-                                                <?php if($errors->has('mail_encryption')): ?>
-                                                <span class="invalid-feedback text-danger text-xs">
-                                                    <?php echo e($errors->first('mail_encryption')); ?>
-
-                                                </span>
-                                                <?php endif; ?>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="mail_from_address" class="col-form-label text-dark"><?php echo e(__('Mail From Address')); ?></label>
-                                                <input type="text" name="mail_from_address" id="mail_from_address" class="form-control <?php echo e($errors->has('mail_from_address') ? 'is-invalid' : ''); ?>" value="<?php echo e(!isset($settings['mail_from_address']) || is_null($settings['mail_from_address']) ? '' : $settings['mail_from_address']); ?>" placeholder="<?php echo e(__('Enter Mail From Address')); ?>" />
-                                                <?php if($errors->has('mail_from_address')): ?>
-                                                <span class="invalid-feedback text-danger text-xs">
-                                                    <?php echo e($errors->first('mail_from_address')); ?>
-
-                                                </span>
-                                                <?php endif; ?>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="mail_from_name" class="col-form-label text-dark"><?php echo e(__('Mail From Name')); ?></label>
-                                                <input type="text" name="mail_from_name" id="mail_from_name" class="form-control <?php echo e($errors->has('mail_from_name') ? 'is-invalid' : ''); ?>" value="<?php echo e(!isset($settings['mail_from_name']) || is_null($settings['mail_from_name']) ? '' : $settings['mail_from_name']); ?>" placeholder="<?php echo e(__('Enter Mail From Name')); ?>" />
-                                                <?php if($errors->has('mail_from_name')): ?>
-                                                <span class="invalid-feedback text-danger text-xs">
-                                                    <?php echo e($errors->first('mail_from_name')); ?>
-
-                                                </span>
-                                                <?php endif; ?>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="footer-row justify-content-end felx-wrap d-flex">
-
-                                            <input type="submit" value="<?php echo e(__('Save Changes')); ?>" class="btn btn-print-invoice  btn-primary m-r-10 mb-2">
-                                        </div>
-                                    </div>
-                                </div>
-                                <?php echo e(Form::close()); ?>
-
+                        <div id="company-email-setting" class="card">
+                            <div class="card-header">
+                                <h5><?php echo e(__('Email Settings')); ?></h5>
+                                <small class="text-muted"><?php echo e(__('Edit your email details')); ?></small>
                             </div>
-                            <div id="twilio-settings" class="card">
-                                <div class="card-header">
-                                    <h5><?php echo e(__('Twilio Settings')); ?></h5>
-                                    <small class="text-muted"><?php echo e(__('Edit your twilio details')); ?></small>
+                            <?php echo e(Form::open(['route' => 'email.setting', 'method' => 'post'])); ?>
+
+                            <div class="card-body">
+                                <div class="row mt-4">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="mail_driver" class="col-form-label text-dark"><?php echo e(__('Mail Driver')); ?></label>
+                                            <input type="text" name="mail_driver" id="mail_driver" class="form-control <?php echo e($errors->has('mail_driver') ? 'is-invalid' : ''); ?>" value="<?php echo e(!isset($settings['mail_driver']) || is_null($settings['mail_driver']) ? '' : $settings['mail_driver']); ?>" placeholder="<?php echo e(trans('installer_messages.environment.wizard.form.app_tabs.mail_driver_placeholder')); ?>" />
+                                            <?php if($errors->has('mail_driver')): ?>
+                                            <span class="invalid-feedback text-danger text-xs">
+                                                <?php echo e($errors->first('mail_driver')); ?>
+
+                                            </span>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="mail_host" class="col-form-label text-dark"><?php echo e(__('Mail Host')); ?></label>
+                                            <input type="text" name="mail_host" id="mail_host" class="form-control <?php echo e($errors->has('mail_host') ? 'is-invalid' : ''); ?>" value="<?php echo e(!isset($settings['mail_host']) || is_null($settings['mail_host']) ? '' : $settings['mail_host']); ?>" placeholder="<?php echo e(trans('installer_messages.environment.wizard.form.app_tabs.mail_host_placeholder')); ?>" />
+                                            <?php if($errors->has('mail_host')): ?>
+                                            <span class="invalid-feedback text-danger text-xs">
+                                                <?php echo e($errors->first('mail_host')); ?>
+
+                                            </span>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="card-body">
-                                    <h4 class="small-title"><?php echo e(__('Twilio')); ?></h4>
-                                    <?php echo e(Form::model($settings, ['route' => 'twilio.setting', 'method' => 'post'])); ?>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="mail_port" class="col-form-label text-dark"><?php echo e(__('Mail Port')); ?></label>
+                                            <input type="number" name="mail_port" id="mail_port" class="form-control <?php echo e($errors->has('mail_port') ? 'is-invalid' : ''); ?>" value="<?php echo e(!isset($settings['mail_port']) || is_null($settings['mail_port']) ? '' : $settings['mail_port']); ?>" placeholder="<?php echo e(trans('installer_messages.environment.wizard.form.app_tabs.mail_port_placeholder')); ?>" />
+                                            <?php if($errors->has('mail_port')): ?>
+                                            <span class="invalid-feedback text-danger text-xs">
+                                                <?php echo e($errors->first('mail_port')); ?>
 
-                                    <?php echo csrf_field(); ?>
-                                    <div class="row mt-3">
-                                        <div class="form-group col-md-4">
-                                            <?php echo e(Form::label('SID', __('SID'), ['class' => 'form-label'])); ?>
-
-                                            <?php echo e(Form::text('twilio_sid', isset($settings['twilio_sid']) ? $settings['twilio_sid'] : '', ['class' => 'form-control ', 'placeholder' => __('Enter Twilio Sid'), 'required' => 'required'])); ?>
-
+                                            </span>
+                                            <?php endif; ?>
                                         </div>
-                                        <div class="form-group col-md-4">
-                                            <?php echo e(Form::label('Token', __('Token'), ['class' => 'form-label'])); ?>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="mail_username" class="col-form-label text-dark"><?php echo e(__('Mail Username')); ?></label>
+                                            <input type="text" name="mail_username" id="mail_username" class="form-control <?php echo e($errors->has('mail_username') ? 'is-invalid' : ''); ?>" value="<?php echo e(!isset($settings['mail_username']) || is_null($settings['mail_username']) ? '' : $settings['mail_username']); ?>" placeholder="<?php echo e(trans('installer_messages.environment.wizard.form.app_tabs.mail_username_placeholder')); ?>" />
+                                            <?php if($errors->has('mail_username')): ?>
+                                            <span class="invalid-feedback text-danger text-xs">
+                                                <?php echo e($errors->first('mail_username')); ?>
 
-                                            <?php echo e(Form::text('twilio_token', isset($settings['twilio_token']) ? $settings['twilio_token'] : '', ['class' => 'form-control ', 'placeholder' => __('Enter Twilio Token'), 'required' => 'required'])); ?>
-
+                                            </span>
+                                            <?php endif; ?>
                                         </div>
-                                        <div class="form-group col-md-4">
-                                            <?php echo e(Form::label('From', __('From'), ['class' => 'form-label'])); ?>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="mail_password" class="col-form-label text-dark"><?php echo e(__('Mail Password')); ?></label>
+                                            <input type="text" name="mail_password" id="mail_password" class="form-control <?php echo e($errors->has('mail_password') ? 'is-invalid' : ''); ?>" value="<?php echo e(!isset($settings['mail_password']) || is_null($settings['mail_password']) ? '' : $settings['mail_password']); ?>" placeholder="<?php echo e(trans('installer_messages.environment.wizard.form.app_tabs.mail_password_placeholder')); ?>" />
+                                            <?php if($errors->has('mail_password')): ?>
+                                            <span class="invalid-feedback text-danger text-xs">
+                                                <?php echo e($errors->first('mail_password')); ?>
 
-
-                                            <?php echo e(Form::text('twilio_from', isset($settings['twilio_from']) ? $settings['twilio_from'] : '', ['class' => 'form-control ', 'placeholder' => __('Enter Twilio From'), 'required' => 'required'])); ?>
-
+                                            </span>
+                                            <?php endif; ?>
                                         </div>
-                                        <div class="col-md-12 mt-4 mb-2">
-                                            <h4 class="small-title"><?php echo e(__('Module Settings')); ?></h4>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="mail_encryption" class="col-form-label text-dark"><?php echo e(__('Mail Encryption')); ?></label>
+                                            <input type="text" name="mail_encryption" id="mail_encryption" class="form-control <?php echo e($errors->has('mail_encryption') ? 'is-invalid' : ''); ?>" value="<?php echo e(!isset($settings['mail_encryption']) || is_null($settings['mail_encryption']) ? '' : $settings['mail_encryption']); ?>" placeholder="<?php echo e(trans('installer_messages.environment.wizard.form.app_tabs.mail_encryption_placeholder')); ?>" />
+                                            <?php if($errors->has('mail_encryption')): ?>
+                                            <span class="invalid-feedback text-danger text-xs">
+                                                <?php echo e($errors->first('mail_encryption')); ?>
+
+                                            </span>
+                                            <?php endif; ?>
                                         </div>
-                                        <div class="col-md-4">
-                                            <ul class="list-group">
-                                                <li class="list-group-item">
-                                                    <span><?php echo e(__('New User')); ?></span>
-                                                    <div class="form-check form-switch float-end">
-                                                        <?php echo e(Form::checkbox('twilio_user_create', '1', isset($settings['twilio_user_create']) && $settings['twilio_user_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_user_create'])); ?>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="mail_from_address" class="col-form-label text-dark"><?php echo e(__('Mail From Address')); ?></label>
+                                            <input type="text" name="mail_from_address" id="mail_from_address" class="form-control <?php echo e($errors->has('mail_from_address') ? 'is-invalid' : ''); ?>" value="<?php echo e(!isset($settings['mail_from_address']) || is_null($settings['mail_from_address']) ? '' : $settings['mail_from_address']); ?>" placeholder="<?php echo e(__('Enter Mail From Address')); ?>" />
+                                            <?php if($errors->has('mail_from_address')): ?>
+                                            <span class="invalid-feedback text-danger text-xs">
+                                                <?php echo e($errors->first('mail_from_address')); ?>
 
-                                                        <label class="form-check-label" for="twilio_user_create"></label>
-                                                    </div>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <span><?php echo e(__('New Lead')); ?></span>
-                                                    <div class="form-check form-switch float-end">
-                                                        <?php echo e(Form::checkbox('twilio_lead_create', '1', isset($settings['twilio_lead_create']) && $settings['twilio_lead_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_lead_create'])); ?>
+                                            </span>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="mail_from_name" class="col-form-label text-dark"><?php echo e(__('Mail From Name')); ?></label>
+                                            <input type="text" name="mail_from_name" id="mail_from_name" class="form-control <?php echo e($errors->has('mail_from_name') ? 'is-invalid' : ''); ?>" value="<?php echo e(!isset($settings['mail_from_name']) || is_null($settings['mail_from_name']) ? '' : $settings['mail_from_name']); ?>" placeholder="<?php echo e(__('Enter Mail From Name')); ?>" />
+                                            <?php if($errors->has('mail_from_name')): ?>
+                                            <span class="invalid-feedback text-danger text-xs">
+                                                <?php echo e($errors->first('mail_from_name')); ?>
 
-                                                        <label class="form-check-label" for="twilio_lead_create"></label>
-                                                    </div>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <span><?php echo e(__('New Meeting')); ?></span>
-                                                    <div class="form-check form-switch float-end">
-                                                        <?php echo e(Form::checkbox('twilio_meeting_create', '1', isset($settings['twilio_meeting_create']) && $settings['twilio_meeting_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_meeting_create'])); ?>
+                                            </span>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="footer-row justify-content-end felx-wrap d-flex">
 
-                                                        <label class="form-check-label" for="twilio_meeting_create"></label>
-                                                    </div>
-                                                </li>
-                                                <!-- <li class="list-group-item">
+                                        <input type="submit" value="<?php echo e(__('Save Changes')); ?>" class="btn btn-print-invoice  btn-primary m-r-10 mb-2">
+                                    </div>
+                                </div>
+                            </div>
+                            <?php echo e(Form::close()); ?>
+
+                        </div>
+                        <div id="twilio-settings" class="card">
+                            <div class="card-header">
+                                <h5><?php echo e(__('Twilio Settings')); ?></h5>
+                                <small class="text-muted"><?php echo e(__('Edit your twilio details')); ?></small>
+                            </div>
+                            <div class="card-body">
+                                <h4 class="small-title"><?php echo e(__('Twilio')); ?></h4>
+                                <?php echo e(Form::model($settings, ['route' => 'twilio.setting', 'method' => 'post'])); ?>
+
+                                <?php echo csrf_field(); ?>
+                                <div class="row mt-3">
+                                    <div class="form-group col-md-4">
+                                        <?php echo e(Form::label('SID', __('SID'), ['class' => 'form-label'])); ?>
+
+                                        <?php echo e(Form::text('twilio_sid', isset($settings['twilio_sid']) ? $settings['twilio_sid'] : '', ['class' => 'form-control ', 'placeholder' => __('Enter Twilio Sid'), 'required' => 'required'])); ?>
+
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <?php echo e(Form::label('Token', __('Token'), ['class' => 'form-label'])); ?>
+
+                                        <?php echo e(Form::text('twilio_token', isset($settings['twilio_token']) ? $settings['twilio_token'] : '', ['class' => 'form-control ', 'placeholder' => __('Enter Twilio Token'), 'required' => 'required'])); ?>
+
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <?php echo e(Form::label('From', __('From'), ['class' => 'form-label'])); ?>
+
+
+                                        <?php echo e(Form::text('twilio_from', isset($settings['twilio_from']) ? $settings['twilio_from'] : '', ['class' => 'form-control ', 'placeholder' => __('Enter Twilio From'), 'required' => 'required'])); ?>
+
+                                    </div>
+                                    <div class="col-md-12 mt-4 mb-2">
+                                        <h4 class="small-title"><?php echo e(__('Module Settings')); ?></h4>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <ul class="list-group">
+                                            <li class="list-group-item">
+                                                <span><?php echo e(__('New User')); ?></span>
+                                                <div class="form-check form-switch float-end">
+                                                    <?php echo e(Form::checkbox('twilio_user_create', '1', isset($settings['twilio_user_create']) && $settings['twilio_user_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_user_create'])); ?>
+
+                                                    <label class="form-check-label" for="twilio_user_create"></label>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <span><?php echo e(__('New Lead')); ?></span>
+                                                <div class="form-check form-switch float-end">
+                                                    <?php echo e(Form::checkbox('twilio_lead_create', '1', isset($settings['twilio_lead_create']) && $settings['twilio_lead_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_lead_create'])); ?>
+
+                                                    <label class="form-check-label" for="twilio_lead_create"></label>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <span><?php echo e(__('New Meeting')); ?></span>
+                                                <div class="form-check form-switch float-end">
+                                                    <?php echo e(Form::checkbox('twilio_meeting_create', '1', isset($settings['twilio_meeting_create']) && $settings['twilio_meeting_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_meeting_create'])); ?>
+
+                                                    <label class="form-check-label" for="twilio_meeting_create"></label>
+                                                </div>
+                                            </li>
+                                            <!-- <li class="list-group-item">
                                                                                 <span><?php echo e(__('New Quotes')); ?></span>
                                                                                 <div class="form-check form-switch float-end">
                                                                                     <?php echo e(Form::checkbox('twilio_quotes_create', '1', isset($settings['twilio_quotes_create']) && $settings['twilio_quotes_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_quotes_create'])); ?>
@@ -645,9 +645,9 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                                                     <label class="form-check-label" for="twilio_quotes_create"></label>
                                                                                 </div>
                                                                             </li> -->
-                                            </ul>
-                                        </div>
-                                        <!-- <div class="col-md-4">
+                                        </ul>
+                                    </div>
+                                    <!-- <div class="col-md-4">
                                                     <ul class="list-group">
                                                         <li class="list-group-item">
                                                             <span><?php echo e(__('New Sales Order')); ?></span>
@@ -695,399 +695,487 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                         </li>
                                                     </ul>
                                                 </div> -->
-                                        <div class="text-end">
-                                            <?php echo e(Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary'])); ?>
+                                    <div class="text-end">
+                                        <?php echo e(Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary'])); ?>
 
-                                        </div>
                                     </div>
-                                    <?php echo e(Form::close()); ?>
-
                                 </div>
+                                <?php echo e(Form::close()); ?>
+
                             </div>
+                        </div>
                         <?php endif; ?>
                         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage User')): ?>
-                            <div id="user-settings" class="card">
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <div class="row">
-                                                    <div class="col-lg-12 col-md-12 col-sm-12">
-                                                        <h5><?php echo e(__('Staff Settings')); ?></h5>
-                                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create User')): ?>
-                                                        <div class="action-btn bg-warning ms-2" style="float: inline-end;">
-                                                            <a href="javascript:void(0);" data-url="<?php echo e(route('user.create')); ?>" data-size="md" data-ajax-popup="true" data-bs-toggle="tooltip" title="<?php echo e(__('Create Staff')); ?>" data-title="<?php echo e(__('Create Staff Member')); ?>" class="btn btn-sm btn-primary btn-icon">
-                                                                <i class="ti ti-plus"></i>
-                                                            </a>
-                                                        </div>
-                                                        <?php endif; ?>
+                        <div id="user-settings" class="card">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                                    <h5><?php echo e(__('Staff Settings')); ?></h5>
+                                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create User')): ?>
+                                                    <div class="action-btn bg-warning ms-2" style="float: inline-end;">
+                                                        <a href="javascript:void(0);" data-url="<?php echo e(route('user.create')); ?>" data-size="md" data-ajax-popup="true" data-bs-toggle="tooltip" title="<?php echo e(__('Create Staff')); ?>" data-title="<?php echo e(__('Create Staff Member')); ?>" class="btn btn-sm btn-primary btn-icon">
+                                                            <i class="ti ti-plus"></i>
+                                                        </a>
                                                     </div>
+                                                    <?php endif; ?>
                                                 </div>
                                             </div>
-                                            <div class="card-body table-border-style">
-                                                <div class="table-responsive overflow_hidden">
-                                                    <table id="datatable" class="table align-items-center datatable">
-                                                        <thead class="thead-light">
-                                                            <tr>
-                                                                <th scope="col" class="sort" data-sort="username"><?php echo e(__('Avatar')); ?></th>
-                                                                <!-- <th scope="col" class="sort" data-sort="username"><?php echo e(__('User Name')); ?></th> -->
-                                                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Name')); ?></th>
-                                                                <th scope="col" class="sort" data-sort="email"><?php echo e(__('Email')); ?></th>
-                                                                <?php if(\Auth::user()->type != 'super admin'): ?>
-                                                                <th scope="col" class="sort" data-sort="title"><?php echo e(__('Type')); ?></th>
-                                                                <th scope="col" class="sort" data-sort="isactive"><?php echo e(__('Status')); ?></th>
+                                        </div>
+                                        <div class="card-body table-border-style">
+                                            <div class="table-responsive overflow_hidden">
+                                                <table id="datatable" class="table align-items-center datatable">
+                                                    <thead class="thead-light">
+                                                        <tr>
+                                                            <th scope="col" class="sort" data-sort="username"><?php echo e(__('Avatar')); ?></th>
+                                                            <!-- <th scope="col" class="sort" data-sort="username"><?php echo e(__('User Name')); ?></th> -->
+                                                            <th scope="col" class="sort" data-sort="name"><?php echo e(__('Name')); ?></th>
+                                                            <th scope="col" class="sort" data-sort="email"><?php echo e(__('Email')); ?></th>
+                                                            <?php if(\Auth::user()->type != 'super admin'): ?>
+                                                            <th scope="col" class="sort" data-sort="title"><?php echo e(__('Type')); ?></th>
+                                                            <th scope="col" class="sort" data-sort="isactive"><?php echo e(__('Status')); ?></th>
+                                                            <?php endif; ?>
+                                                            <?php if(Gate::check('Edit User') || Gate::check('Delete User')): ?>
+                                                            <th class="text-end" scope="col"><?php echo e(__('Action')); ?></th>
+                                                            <?php endif; ?>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php
+                                                        $profile = \App\Models\Utility::get_file('upload/profile/');
+                                                        ?>
+
+                                                        <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <tr>
+                                                            <td>
+                                                                <span class="avatar">
+                                                                    <a href="<?php echo e($profile); ?><?php echo e(!empty($user->avatar) ? $user->avatar : 'avatar.png'); ?>" target="_blank">
+                                                                        <img class="rounded-circle" width="25%" <?php if($user->avatar): ?> src="<?php echo e($profile); ?><?php echo e(!empty($user->avatar) ? $user->avatar : 'avatar.png'); ?>" <?php else: ?> src="<?php echo e($profile . 'avatar.png'); ?>" <?php endif; ?>
+                                                                        alt="<?php echo e($user->name); ?>">
+                                                                    </a>
+                                                                </span>
+                                                            </td>
+
+                                                            <td>
+                                                                <span class="budget"> <?php echo e(ucfirst($user->name)); ?> </span>
+                                                            </td>
+                                                            <td>
+                                                                <span class="budget"><?php echo e($user->email); ?></span>
+                                                            </td>
+                                                            <?php if(\Auth::user()->type != 'super admin'): ?>
+                                                            <td>
+                                                                <?php echo e(ucfirst($user->type)); ?>
+
+                                                            </td>
+                                                            <td>
+                                                                <?php if($user->is_active == 1): ?>
+                                                                <span class="badge bg-success p-2 px-3 rounded"><?php echo e(__('Active')); ?></span>
+                                                                <?php else: ?>
+                                                                <span class="badge bg-danger p-2 px-3 rounded"><?php echo e(__('In Active')); ?></span>
                                                                 <?php endif; ?>
-                                                                <?php if(Gate::check('Edit User') || Gate::check('Delete User')): ?>
-                                                                <th class="text-end" scope="col"><?php echo e(__('Action')); ?></th>
+                                                            </td>
+                                                            <?php endif; ?>
+                                                            <?php if(Gate::check('Edit User') || Gate::check('Delete User')): ?>
+                                                            <td class="text-end">
+                                                                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show User')): ?>
+                                                                <div class="action-btn bg-warning ms-2">
+                                                                    <a href="#" data-size="md" data-url="<?php echo e(route('user.show', $user->id)); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Details')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('User Details')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white">
+                                                                        <i class="ti ti-eye"></i>
+                                                                    </a>
+                                                                </div>
                                                                 <?php endif; ?>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <?php
-                                                            $profile = \App\Models\Utility::get_file('upload/profile/');
-                                                            ?>
-
-                                                            <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                            <tr>
-                                                                <td>
-                                                                    <span class="avatar">
-                                                                        <a href="<?php echo e($profile); ?><?php echo e(!empty($user->avatar) ? $user->avatar : 'avatar.png'); ?>" target="_blank">
-                                                                            <img class="rounded-circle" width="25%" <?php if($user->avatar): ?> src="<?php echo e($profile); ?><?php echo e(!empty($user->avatar) ? $user->avatar : 'avatar.png'); ?>" <?php else: ?> src="<?php echo e($profile . 'avatar.png'); ?>" <?php endif; ?>
-                                                                            alt="<?php echo e($user->name); ?>">
-                                                                        </a>
-                                                                    </span>
-                                                                </td>
-
-                                                                <td>
-                                                                    <span class="budget"> <?php echo e(ucfirst($user->name)); ?> </span>
-                                                                </td>
-                                                                <td>
-                                                                    <span class="budget"><?php echo e($user->email); ?></span>
-                                                                </td>
-                                                                <?php if(\Auth::user()->type != 'super admin'): ?>
-                                                                <td>
-                                                                    <?php echo e(ucfirst($user->type)); ?>
-
-                                                                </td>
-                                                                <td>
-                                                                    <?php if($user->is_active == 1): ?>
-                                                                    <span class="badge bg-success p-2 px-3 rounded"><?php echo e(__('Active')); ?></span>
-                                                                    <?php else: ?>
-                                                                    <span class="badge bg-danger p-2 px-3 rounded"><?php echo e(__('In Active')); ?></span>
-                                                                    <?php endif; ?>
-                                                                </td>
+                                                                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Edit User')): ?>
+                                                                <div class="action-btn bg-info ms-2">
+                                                                    <a href="<?php echo e(route('user.edit', $user->id)); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white" data-bs-toggle="tooltip" title="<?php echo e(__('Edit')); ?>" data-title="<?php echo e(__('Edit User')); ?>"><i class="ti ti-edit"></i></a>
+                                                                </div>
                                                                 <?php endif; ?>
-                                                                <?php if(Gate::check('Edit User') || Gate::check('Delete User')): ?>
-                                                                <td class="text-end">
-                                                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show User')): ?>
-                                                                    <div class="action-btn bg-warning ms-2">
-                                                                        <a href="#" data-size="md" data-url="<?php echo e(route('user.show', $user->id)); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Details')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('User Details')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white">
-                                                                            <i class="ti ti-eye"></i>
-                                                                        </a>
-                                                                    </div>
-                                                                    <?php endif; ?>
-                                                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Edit User')): ?>
-                                                                    <div class="action-btn bg-info ms-2">
-                                                                        <a href="<?php echo e(route('user.edit', $user->id)); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white" data-bs-toggle="tooltip" title="<?php echo e(__('Edit')); ?>" data-title="<?php echo e(__('Edit User')); ?>"><i class="ti ti-edit"></i></a>
-                                                                    </div>
-                                                                    <?php endif; ?>
-                                                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Delete User')): ?>
-                                                                    <div class="action-btn bg-danger ms-2">
-                                                                        <?php echo Form::open(['method' => 'DELETE', 'route' => ['user.destroy', $user->id]]); ?>
+                                                                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Delete User')): ?>
+                                                                <div class="action-btn bg-danger ms-2">
+                                                                    <?php echo Form::open(['method' => 'DELETE', 'route' => ['user.destroy', $user->id]]); ?>
 
-                                                                        <a href="#!" class="mx-3 btn btn-sm align-items-center text-white show_confirm" data-bs-toggle="tooltip" title='Delete'>
-                                                                            <i class="ti ti-trash"></i>
-                                                                        </a>
-                                                                        <?php echo Form::close(); ?>
+                                                                    <a href="#!" class="mx-3 btn btn-sm align-items-center text-white show_confirm" data-bs-toggle="tooltip" title='Delete'>
+                                                                        <i class="ti ti-trash"></i>
+                                                                    </a>
+                                                                    <?php echo Form::close(); ?>
 
-                                                                    </div>
-                                                                    <?php endif; ?>
-                                                                </td>
+                                                                </div>
                                                                 <?php endif; ?>
-                                                            </tr>
-                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                                            </td>
+                                                            <?php endif; ?>
+                                                        </tr>
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
                         <?php endif; ?>
                         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Role')): ?>
-                            <div id="role-settings" class="card">
-                                <div class="row">
-                                    <div class="col-xl-12">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <div class="row">
-                                                    <div class="col-lg-12 col-md-12 col-sm-12">
-                                                        <h5><?php echo e(__('Role Settings')); ?></h5>
-                                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Role')): ?>
-                                                        <div class="action-btn bg-warning ms-2" style="float: inline-end;">
-                                                            <a href="javascript:void(0);" data-url="<?php echo e(route('role.create')); ?>" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" title="<?php echo e(__(' Create Role')); ?>" data-title="<?php echo e(__('Create New Role')); ?>" class="btn btn-sm btn-primary btn-icon m-1">
-                                                                <i class="ti ti-plus"></i>
-                                                            </a>
-                                                        </div>
-                                                        <?php endif; ?>
+                        <div id="role-settings" class="card">
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                                    <h5><?php echo e(__('Role Settings')); ?></h5>
+                                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Role')): ?>
+                                                    <div class="action-btn bg-warning ms-2" style="float: inline-end;">
+                                                        <a href="javascript:void(0);" data-url="<?php echo e(route('role.create')); ?>" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" title="<?php echo e(__(' Create Role')); ?>" data-title="<?php echo e(__('Create New Role')); ?>" class="btn btn-sm btn-primary btn-icon m-1">
+                                                            <i class="ti ti-plus"></i>
+                                                        </a>
                                                     </div>
+                                                    <?php endif; ?>
                                                 </div>
                                             </div>
-                                            <div class="card-body table-border-style">
-                                                <div class="table-responsive">
-                                                    <table class="table datatable" id="datatable1">
-                                                        <thead>
-                                                            <tr>
-                                                                <th width="150"><?php echo e(__('Role')); ?> </th>
-                                                                <th><?php echo e(__('Permissions')); ?> </th>
-                                                                <?php if(Gate::check('Edit Role') || Gate::check('Delete Role')): ?>
-                                                                <th width="150" class="text-end"><?php echo e(__('Action')); ?> </th>
+                                        </div>
+                                        <div class="card-body table-border-style">
+                                            <div class="table-responsive">
+                                                <table class="table datatable" id="datatable1">
+                                                    <thead>
+                                                        <tr>
+                                                            <th width="150"><?php echo e(__('Role')); ?> </th>
+                                                            <th><?php echo e(__('Permissions')); ?> </th>
+                                                            <?php if(Gate::check('Edit Role') || Gate::check('Delete Role')): ?>
+                                                            <th width="150" class="text-end"><?php echo e(__('Action')); ?> </th>
+                                                            <?php endif; ?>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+
+                                                        <?php $__currentLoopData = $roles; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $role): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <tr>
+                                                            <td width="150"><?php echo e($role->name); ?></td>
+                                                            <td class="Permission mt-10">
+                                                                <div class="badges">
+                                                                    
+                                                                    <?php $__currentLoopData = $role->permissions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $permission): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                    <span class="badge rounded p-2 m-1 px-3 bg-primary">
+                                                                        <a href="#" class="text-white"><?php echo e($permission->name); ?></a>
+                                                                    </span>
+                                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                                </div>
+                                                            </td>
+                                                            <?php if(Gate::check('Edit Role') || Gate::check('Delete Role')): ?>
+                                                            <td class="text-end">
+                                                                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Edit Role')): ?>
+                                                                <div class="action-btn bg-info ms-2">
+                                                                    <a href="#" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white" data-url="<?php echo e(route('role.edit',$role->id)); ?>" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" title="<?php echo e(__('Edit')); ?>" data-title="<?php echo e(__('Edit Role')); ?>">
+                                                                        <i class="ti ti-edit"></i>
+                                                                    </a>
+                                                                </div>
                                                                 <?php endif; ?>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
 
-                                                            <?php $__currentLoopData = $roles; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $role): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                            <tr>
-                                                                <td width="150"><?php echo e($role->name); ?></td>
-                                                                <td class="Permission mt-10">
-                                                                    <div class="badges">
-                                                                        
-                                                                        <?php $__currentLoopData = $role->permissions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $permission): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                                        <span class="badge rounded p-2 m-1 px-3 bg-primary">
-                                                                            <a href="#" class="text-white"><?php echo e($permission->name); ?></a>
-                                                                        </span>
-                                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                                    </div>
-                                                                </td>
-                                                                <?php if(Gate::check('Edit Role') || Gate::check('Delete Role')): ?>
-                                                                <td class="text-end">
-                                                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Edit Role')): ?>
-                                                                    <div class="action-btn bg-info ms-2">
-                                                                        <a href="#" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white" data-url="<?php echo e(route('role.edit',$role->id)); ?>" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" title="<?php echo e(__('Edit')); ?>" data-title="<?php echo e(__('Edit Role')); ?>">
-                                                                            <i class="ti ti-edit"></i>
-                                                                        </a>
-                                                                    </div>
-                                                                    <?php endif; ?>
+                                                                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Delete Role')): ?>
+                                                                <div class="action-btn bg-danger ms-2">
+                                                                    <?php echo Form::open(['method' => 'DELETE', 'route' => ['role.destroy', $role->id]]); ?>
 
-                                                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Delete Role')): ?>
-                                                                    <div class="action-btn bg-danger ms-2">
-                                                                        <?php echo Form::open(['method' => 'DELETE', 'route' => ['role.destroy', $role->id]]); ?>
+                                                                    <a href="#!" class="mx-3 btn btn-sm  align-items-center text-white show_confirm" data-bs-toggle="tooltip" title='Delete'>
+                                                                        <i class="ti ti-trash"></i>
+                                                                    </a>
+                                                                    <?php echo Form::close(); ?>
 
-                                                                        <a href="#!" class="mx-3 btn btn-sm  align-items-center text-white show_confirm" data-bs-toggle="tooltip" title='Delete'>
-                                                                            <i class="ti ti-trash"></i>
-                                                                        </a>
-                                                                        <?php echo Form::close(); ?>
-
-                                                                    </div>
-                                                                    <?php endif; ?>
-                                                                </td>
+                                                                </div>
                                                                 <?php endif; ?>
-                                                            </tr>
-                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                                            </td>
+                                                            <?php endif; ?>
+                                                        </tr>
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
                         <?php endif; ?>
                         <?php if(Gate::check('Manage Lead') || Gate::check('Manage Meeting')): ?>
-                            <div id="eventtype-settings" class="card">
-                                <div class="col-md-12">
-                                    <div class="card-header">
-                                        <div class="row">
-                                            <div class="col-lg-8 col-md-8 col-sm-8">
-                                                <h5><?php echo e(__('Event Type Settings')); ?></h5>
-                                            </div>
+                        <div id="eventtype-settings" class="card">
+                            <div class="col-md-12">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-lg-8 col-md-8 col-sm-8">
+                                            <h5><?php echo e(__('Event Type Settings')); ?></h5>
                                         </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row mt-3">
-                                            <?php echo e(Form::open(['route' => 'event_type.setting', 'method' => 'post'])); ?>
-
-                                            <?php echo csrf_field(); ?>
-                                            <div class="form-group col-md-12">
-                                                <?php echo e(Form::label('event_type', __('Event Type'), ['class' => 'form-label'])); ?>
-
-                                                <?php echo e(Form::text('event_type',null,['class' => 'form-control ', 'placeholder' => __('Enter Event Type'), 'required' => 'required'])); ?>
-
-                                            </div>
-                                            <div class="text-end">
-                                                <?php echo e(Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary'])); ?>
-
-                                            </div>
-                                            <?php echo e(Form::close()); ?>
-
-                                        </div>
-                                        <?php if(isset($eventtypes) && !empty($eventtypes)): ?>
-                                        <div class="row mt-3">
-                                            <div class="form-group col-md-12">
-                                                <label class="form-label">Events List</label>
-                                                <div class="badges">
-                                                    <?php $__currentLoopData = $eventtypes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $types): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                    <span class="badge rounded p-2 m-1 px-3 bg-primary" style="cursor:pointer">
-                                                        <?php echo e($types); ?>
-
-                                                        <?php if(Gate::check('Delete Role')): ?>
-                                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Delete Role')): ?>
-                                                        <div class="action-btn  ms-2">
-                                                            <a href="#!" class="mx-3 btn btn-sm  align-items-center text-white event_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="<?php echo e(route('eventedit.setting')); ?>" data-token="<?php echo e(csrf_token()); ?>">
-                                                                <i class="ti ti-trash"></i>
-                                                            </a>
-                                                        </div>
-                                                        <?php endif; ?>
-                                                        <?php endif; ?>
-                                                    </span>
-                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <?php endif; ?>
                                     </div>
                                 </div>
-                            </div>
-                            <div id="venue-settings" class="card">
-                                <div class="col-md-12">
-                                    <div class="card-header">
-                                        <div class="row">
-                                            <div class="col-lg-8 col-md-8 col-sm-8">
-                                                <h5><?php echo e(__('Venue Settings')); ?></h5>
-                                            </div>
+                                <div class="card-body">
+                                    <div class="row mt-3">
+                                        <?php echo e(Form::open(['route' => 'event_type.setting', 'method' => 'post'])); ?>
+
+                                        <?php echo csrf_field(); ?>
+                                        <div class="form-group col-md-12">
+                                            <?php echo e(Form::label('event_type', __('Event Type'), ['class' => 'form-label'])); ?>
+
+                                            <?php echo e(Form::text('event_type',null,['class' => 'form-control ', 'placeholder' => __('Enter Event Type'), 'required' => 'required'])); ?>
+
                                         </div>
+                                        <div class="text-end">
+                                            <?php echo e(Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary'])); ?>
+
+                                        </div>
+                                        <?php echo e(Form::close()); ?>
+
                                     </div>
-                                    <div class="card-body">
-                                        <div class="row mt-3">
-                                            <?php echo e(Form::open(['route' => 'venue.setting', 'method' => 'post'])); ?>
+                                    <?php if(isset($eventtypes) && !empty($eventtypes)): ?>
+                                    <div class="row mt-3">
+                                        <div class="form-group col-md-12">
+                                            <label class="form-label">Events List</label>
+                                            <div class="badges">
+                                                <?php $__currentLoopData = $eventtypes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $types): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <span class="badge rounded p-2 m-1 px-3 bg-primary" style="cursor:pointer">
+                                                    <?php echo e($types); ?>
 
-                                            <?php echo csrf_field(); ?>
-                                            <div class="form-group col-md-12">
-                                                <?php echo e(Form::label('venue', __('Venue'), ['class' => 'form-label'])); ?>
-
-                                                <?php echo e(Form::text('venue',null,['class' => 'form-control ', 'placeholder' => __('Enter Venue'), 'required' => 'required'])); ?>
-
-                                            </div>
-                                            <div class="text-end">
-                                                <?php echo e(Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary'])); ?>
-
-                                            </div>
-                                            <?php echo e(Form::close()); ?>
-
-                                        </div>
-                                        <?php if(isset($venue) && !empty($venue)): ?>
-                                        <div class="row mt-3">
-                                            <div class="form-group col-md-12">
-                                                <label class="form-label">Venue</label>
-                                                <div class="badges">
-                                                    <?php $__currentLoopData = $venue; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                    <span class="badge rounded p-2 m-1 px-3 bg-primary" style="cursor:pointer">
-                                                        <?php echo e($value); ?>
-
-                                                        <?php if(Gate::check('Delete Role')): ?>
-                                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Delete Role')): ?>
-                                                        <div class="action-btn  ms-2">
-                                                            <a href="#!" class="mx-3 btn btn-sm  align-items-center text-white venue_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="<?php echo e(route('venueedit.setting')); ?>" data-token="<?php echo e(csrf_token()); ?>">
-                                                                <i class="ti ti-trash"></i>
-                                                            </a>
-                                                        </div>
-                                                        <?php endif; ?>
-                                                        <?php endif; ?>
-                                                    </span>
-                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <?php endif; ?>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="function-settings" class="card">
-                                <div class="col-md-12">
-                                    <div class="card-header">
-                                        <div class="row">
-                                            <div class="col-lg-8 col-md-8 col-sm-8">
-                                                <h5><?php echo e(__('Function Settings')); ?></h5>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row mt-3">
-                                            <?php echo e(Form::open(['route' => 'function.setting', 'method' => 'post'])); ?>
-
-                                            <?php echo csrf_field(); ?>
-                                            <div class="form-group col-md-12">
-                                                <?php echo e(Form::label('function', __('Function'), ['class' => 'form-label'])); ?>
-
-                                                <?php echo e(Form::text('function',null,['class' => 'form-control ', 'placeholder' => __('Enter Function'), 'required' => 'required'])); ?>
-
-                                            </div>
-                                            <div class="form-group col-md-12">
-                                                <?php echo e(Form::label('package', __('Package'), ['class' => 'form-label'])); ?>
-
-                                                <span class="btn btn-sm btn-primary btn-icon m-1 add" style="border-radius: 20px !important;    font-size: 12px;
-                                                        "><i class="fa fa-plus "></i></span>
-                                                <div class="appending_div">
-                                                    <div class="appending_item" style="display:flex">
-                                                        <input type="text" name="package[]" class="form-control" placeholder="Enter Package">
-                                                        <span class="btn btn-sm btn-danger btn-icon m-1 delete"><i class="fa fa-times"></i></span>
+                                                    <?php if(Gate::check('Delete Role')): ?>
+                                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Delete Role')): ?>
+                                                    <div class="action-btn  ms-2">
+                                                        <a href="#!" class="mx-3 btn btn-sm  align-items-center text-white event_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="<?php echo e(route('eventedit.setting')); ?>" data-token="<?php echo e(csrf_token()); ?>">
+                                                            <i class="ti ti-trash"></i>
+                                                        </a>
                                                     </div>
-                                                </div>
+                                                    <?php endif; ?>
+                                                    <?php endif; ?>
+                                                </span>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </div>
-                                            <div class="text-end">
-                                                <?php echo e(Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary'])); ?>
+                                        </div>
+                                    </div>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="venue-settings" class="card">
+                            <div class="col-md-12">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-lg-8 col-md-8 col-sm-8">
+                                            <h5><?php echo e(__('Venue Settings')); ?></h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row mt-3">
+                                        <?php echo e(Form::open(['route' => 'venue.setting', 'method' => 'post'])); ?>
 
-                                            </div>
+                                        <?php echo csrf_field(); ?>
+                                        <div class="form-group col-md-12">
+                                            <?php echo e(Form::label('venue', __('Venue'), ['class' => 'form-label'])); ?>
 
-                                            <style>
-                                                .add {
-                                                    cursor: pointer;
-                                                }
-                                            </style>
-                                            <?php echo e(Form::close()); ?>
+                                            <?php echo e(Form::text('venue',null,['class' => 'form-control ', 'placeholder' => __('Enter Venue'), 'required' => 'required'])); ?>
 
                                         </div>
-                                        <?php if(isset($function) && !empty($function)): ?>
-                                        <div class="row mt-3">
-                                            <div class="form-group col-md-12">
-                                                <label class="form-label">Function</label>
-                                                <div class="badges">
-                                                    <ul class="nav nav-tabs tabActive" style="border-bottom:none;">
-                                                        <?php $__currentLoopData = $function; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                        <li class="badge rounded p-2 m-1 px-3 bg-primary ">
-                                                            <a style="color: white;" data-toggle="tab" href="#menu<?php echo e($key); ?>" class="<?= $key == 0 ? 'active' : ''; ?>"><?php echo e($value->function); ?> </a>
+                                        <div class="text-end">
+                                            <?php echo e(Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary'])); ?>
 
-                                                            <div class="action-btn  ms-2">
-                                                                <a href="javascript:void(0);" class="mx-3 btn btn-sm  align-items-center text-white function_show_confirm" data-bs-toggle="tooltip" data-id="<?php echo e($key); ?>" title='Delete' data-url="<?php echo e(route('functionpackage.setting')); ?>" data-token="<?php echo e(csrf_token()); ?>">
+                                        </div>
+                                        <?php echo e(Form::close()); ?>
+
+                                    </div>
+                                    <?php if(isset($venue) && !empty($venue)): ?>
+                                    <div class="row mt-3">
+                                        <div class="form-group col-md-12">
+                                            <label class="form-label">Venue</label>
+                                            <div class="badges">
+                                                <?php $__currentLoopData = $venue; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <span class="badge rounded p-2 m-1 px-3 bg-primary" style="cursor:pointer">
+                                                    <?php echo e($value); ?>
+
+                                                    <?php if(Gate::check('Delete Role')): ?>
+                                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Delete Role')): ?>
+                                                    <div class="action-btn  ms-2">
+                                                        <a href="#!" class="mx-3 btn btn-sm  align-items-center text-white venue_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="<?php echo e(route('venueedit.setting')); ?>" data-token="<?php echo e(csrf_token()); ?>">
+                                                            <i class="ti ti-trash"></i>
+                                                        </a>
+                                                    </div>
+                                                    <?php endif; ?>
+                                                    <?php endif; ?>
+                                                </span>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="function-settings" class="card">
+                            <div class="col-md-12">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-lg-8 col-md-8 col-sm-8">
+                                            <h5><?php echo e(__('Function Settings')); ?></h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row mt-3">
+                                        <?php echo e(Form::open(['route' => 'function.setting', 'method' => 'post'])); ?>
+
+                                        <?php echo csrf_field(); ?>
+                                        <div class="form-group col-md-12">
+                                            <?php echo e(Form::label('function', __('Function'), ['class' => 'form-label'])); ?>
+
+                                            <?php echo e(Form::text('function',null,['class' => 'form-control ', 'placeholder' => __('Enter Function'), 'required' => 'required'])); ?>
+
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <?php echo e(Form::label('package', __('Package'), ['class' => 'form-label'])); ?>
+
+                                            <span class="btn btn-sm btn-primary btn-icon m-1 add" style="border-radius: 20px !important;    font-size: 12px;
+                                                        "><i class="fa fa-plus "></i></span>
+                                            <div class="appending_div">
+                                                <div class="appending_item" style="display:flex">
+                                                    <input type="text" name="package[]" class="form-control" placeholder="Enter Package">
+                                                    <span class="btn btn-sm btn-danger btn-icon m-1 delete"><i class="fa fa-times"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="text-end">
+                                            <?php echo e(Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary'])); ?>
+
+                                        </div>
+
+                                        <style>
+                                            .add {
+                                                cursor: pointer;
+                                            }
+                                        </style>
+                                        <?php echo e(Form::close()); ?>
+
+                                    </div>
+                                    <?php if(isset($function) && !empty($function)): ?>
+                                    <div class="row mt-3">
+                                        <div class="form-group col-md-12">
+                                            <label class="form-label">Function</label>
+                                            <div class="badges">
+                                                <ul class="nav nav-tabs tabActive" style="border-bottom:none;">
+                                                    <?php $__currentLoopData = $function; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <li class="badge rounded p-2 m-1 px-3 bg-primary ">
+                                                        <a style="color: white;" data-toggle="tab" href="#menu<?php echo e($key); ?>" class="<?= $key == 0 ? 'active' : ''; ?> fxnnames"><?php echo e($value->function); ?> </a>
+
+                                                        <div class="action-btn  ms-2">
+                                                            <a href="javascript:void(0);" class="mx-3 btn btn-sm  align-items-center text-white function_show_confirm" data-bs-toggle="tooltip" data-id="<?php echo e($key); ?>" title='Delete' data-url="<?php echo e(route('functionpackage.setting')); ?>" data-token="<?php echo e(csrf_token()); ?>">
+                                                                <i class="ti ti-trash"></i>
+                                                            </a>
+                                                        </div>
+
+                                                    </li>
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                </ul>
+                                                <div class="tab-content">
+                                                    <label class="form-label mt-3"><b>Package</b></label><br>
+                                                    <?php $__currentLoopData = $function; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <div id="menu<?php echo e($key); ?>" class="tab-pane fade <?= $key == 0 ? 'in active show' : ''; ?>">
+                                                        <?php $__currentLoopData = $value->package; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $package): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <span class="badge rounded p-2 m-1 px-3 bg-info" style="cursor:pointer">
+                                                            <?php echo e($package); ?>
+
+                                                            <div class="action-btn ms-2">
+                                                                <a href="javascript:void(0);" class="mx-3 btn btn-sm  align-items-center text-white function_package_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="<?php echo e(route('functionedit.setting')); ?>" data-id="<?php echo e($key); ?>" data-token="<?php echo e(csrf_token()); ?>">
                                                                     <i class="ti ti-trash"></i>
                                                                 </a>
                                                             </div>
-
-                                                        </li>
-                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                    </ul>
-                                                    <div class="tab-content">
-                                                        <label class="form-label mt-3"><b>Package</b></label><br>
-                                                        <?php $__currentLoopData = $function; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                        <div id="menu<?php echo e($key); ?>" class="tab-pane fade <?= $key == 0 ? 'in active show' : ''; ?>">
-                                                            <?php $__currentLoopData = $value->package; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $package): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                            <span class="badge rounded p-2 m-1 px-3 bg-info" style="cursor:pointer">
-                                                                <?php echo e($package); ?>
-
-
-                                                                <div class="action-btn ms-2">
-                                                                    <a href="javascript:void(0);" class="mx-3 btn btn-sm  align-items-center text-white function_package_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="<?php echo e(route('functionedit.setting')); ?>" data-id="<?php echo e($key); ?>" data-token="<?php echo e(csrf_token()); ?>">
-                                                                        <i class="ti ti-trash"></i>
-                                                                    </a>
-                                                                </div>
-
-                                                            </span>
-                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                        </div>
+                                                        </span>
                                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </div>
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                        <div id="bar-settings" class="card">
+                            <div class="col-md-12">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-lg-8 col-md-8 col-sm-8">
+                                            <h5><?php echo e(__('Bar Settings')); ?></h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row mt-3">
+                                        <?php echo e(Form::open(['route' => 'bar.setting', 'method' => 'post'])); ?>
+
+                                        <?php echo csrf_field(); ?>
+                                        <div class="form-group col-md-12">
+                                            <?php echo e(Form::label('bar', __('Bar'), ['class' => 'form-label'])); ?>
+
+                                            <?php echo e(Form::text('bar',null,['class' => 'form-control ', 'placeholder' => __('Enter Bar'), 'required' => 'required'])); ?>
+
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <?php echo e(Form::label('barpackage', __('Bar Package'), ['class' => 'form-label'])); ?>
+
+                                            <span class="btn btn-sm btn-primary btn-icon m-1 addbar" style="border-radius: 20px !important;    font-size: 12px;
+                                                        "><i class="fa fa-plus "></i></span>
+                                            <div class="appending_div_for_bar">
+                                                <div class="appending_item_for_bar" style="display:flex">
+                                                    <input type="text" name="barpackage[]" class="form-control" placeholder="Enter Bar Package">
+                                                    <span class="btn btn-sm btn-danger btn-icon m-1 deletebar"><i class="fa fa-times"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="text-end">
+                                            <?php echo e(Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary'])); ?>
+
+                                        </div>
+
+                                        <style>
+                                            .add {
+                                                cursor: pointer;
+                                            }
+                                        </style>
+                                        <?php echo e(Form::close()); ?>
+
+                                    </div>
+                                    <?php if(isset($bar) && !empty($bar)): ?>
+                                    <div class="row mt-3">
+                                        <div class="form-group col-md-12">
+                                            <label class="form-label">Bar</label>
+                                            <div class="badges">
+                                                <ul class="nav nav-tabs tabActive" style="border-bottom:none;">
+                                                    <?php $__currentLoopData = $bar; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <li class="badge rounded p-2 m-1 px-3 bg-primary ">
+                                                        <a style="color: white;" data-toggle="tab" href="#barmenu<?php echo e($key); ?>" class="<?= $key == 0 ? 'active' : ''; ?>"><?php echo e($value->bar); ?> </a>
+
+                                                        <div class="action-btn  ms-2">
+                                                            <a href="javascript:void(0);" class="mx-3 btn btn-sm  align-items-center text-white bar_show_confirm" data-bs-toggle="tooltip" data-id="<?php echo e($key); ?>" title='Delete' data-url="<?php echo e(route('barpackage.setting')); ?>" data-token="<?php echo e(csrf_token()); ?>">
+                                                                <i class="ti ti-trash"></i>
+                                                            </a>
+                                                        </div>
+                                                    </li>
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                </ul>
+
+                                                <div class="tab-content">
+                                                    <label class="form-label mt-3"><b>Package</b></label><br>
+                                                    <?php $__currentLoopData = $bar; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <div id="barmenu<?php echo e($key); ?>" class="tab-pane fade <?= $key == 0 ? 'in active show' : ''; ?>">
+                                                        <?php $__currentLoopData = $value->barpackage; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $package): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <?php if(!empty($package)): ?>
+                                                        <span class="badge rounded p-2 m-1 px-3 bg-info" style="cursor:pointer">
+                                                            <?php echo e($package); ?>
+
+                                                            <div class="action-btn ms-2">
+                                                                <a href="javascript:void(0);" class="mx-3 btn btn-sm  align-items-center text-white bar_package_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="<?php echo e(route('baredit.setting')); ?>" data-id="<?php echo e($key); ?>" data-token="<?php echo e(csrf_token()); ?>">
+                                                                    <i class="ti ti-trash"></i>
+                                                                </a>
+                                                            </div>
+                                                        </span>
+                                                        <?php endif; ?>
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                    </div>
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </div>
                                             </div>
                                         </div>
@@ -1095,150 +1183,60 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                     <?php endif; ?>
                                 </div>
                             </div>
-                            <div id="bar-settings" class="card">
-                                <div class="col-md-12">
-                                    <div class="card-header">
-                                        <div class="row">
-                                            <div class="col-lg-8 col-md-8 col-sm-8">
-                                                <h5><?php echo e(__('Bar Settings')); ?></h5>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row mt-3">
-                                            <?php echo e(Form::open(['route' => 'bar.setting', 'method' => 'post'])); ?>
-
-                                            <?php echo csrf_field(); ?>
-                                            <div class="form-group col-md-12">
-                                                <?php echo e(Form::label('bar', __('Bar'), ['class' => 'form-label'])); ?>
-
-                                                <?php echo e(Form::text('bar',null,['class' => 'form-control ', 'placeholder' => __('Enter Bar'), 'required' => 'required'])); ?>
-
-                                            </div>
-                                            <div class="form-group col-md-12">
-                                                <?php echo e(Form::label('barpackage', __('Bar Package'), ['class' => 'form-label'])); ?>
-
-                                                <span class="btn btn-sm btn-primary btn-icon m-1 addbar" style="border-radius: 20px !important;    font-size: 12px;
-                                                        "><i class="fa fa-plus "></i></span>
-                                                <div class="appending_div_for_bar">
-                                                    <div class="appending_item_for_bar" style="display:flex">
-                                                        <input type="text" name="barpackage[]" class="form-control" placeholder="Enter Bar Package">
-                                                        <span class="btn btn-sm btn-danger btn-icon m-1 deletebar"><i class="fa fa-times"></i></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="text-end">
-                                                <?php echo e(Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary'])); ?>
-
-                                            </div>
-
-                                            <style>
-                                                .add {
-                                                    cursor: pointer;
-                                                }
-                                            </style>
-                                            <?php echo e(Form::close()); ?>
-
-                                        </div>
-                                        <?php if(isset($bar) && !empty($bar)): ?>
-                                        <div class="row mt-3">
-                                            <div class="form-group col-md-12">
-                                                <label class="form-label">Bar</label>
-                                                <div class="badges">
-                                                    <ul class="nav nav-tabs tabActive" style="border-bottom:none;">
-                                                        <?php $__currentLoopData = $bar; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                        <li class="badge rounded p-2 m-1 px-3 bg-primary ">
-                                                            <a style="color: white;" data-toggle="tab" href="#barmenu<?php echo e($key); ?>" class="<?= $key == 0 ? 'active' : ''; ?>"><?php echo e($value->bar); ?> </a>
-
-                                                            <div class="action-btn  ms-2">
-                                                                <a href="javascript:void(0);" class="mx-3 btn btn-sm  align-items-center text-white bar_show_confirm" data-bs-toggle="tooltip" data-id="<?php echo e($key); ?>" title='Delete' data-url="<?php echo e(route('barpackage.setting')); ?>" data-token="<?php echo e(csrf_token()); ?>">
-                                                                    <i class="ti ti-trash"></i>
-                                                                </a>
-                                                            </div>
-                                                        </li>
-                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                    </ul>
-
-                                                    <div class="tab-content">
-                                                        <label class="form-label mt-3"><b>Package</b></label><br>
-                                                        <?php $__currentLoopData = $bar; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                        <div id="barmenu<?php echo e($key); ?>" class="tab-pane fade <?= $key == 0 ? 'in active show' : ''; ?>">
-                                                            <?php $__currentLoopData = $value->barpackage; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $package): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                            <?php if(!empty($package)): ?>
-                                                            <span class="badge rounded p-2 m-1 px-3 bg-info" style="cursor:pointer">
-                                                                <?php echo e($package); ?>
-
-                                                                <div class="action-btn ms-2">
-                                                                    <a href="javascript:void(0);" class="mx-3 btn btn-sm  align-items-center text-white bar_package_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="<?php echo e(route('baredit.setting')); ?>" data-id="<?php echo e($key); ?>" data-token="<?php echo e(csrf_token()); ?>">
-                                                                        <i class="ti ti-trash"></i>
-                                                                    </a>
-                                                                </div>
-                                                            </span>
-                                                            <?php endif; ?>
-                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                        </div>
-                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <?php endif; ?>
+                        </div>
+                    </div>
+                    <div id="floor-plan-setting" class="card">
+                        <div class="col-md-12">
+                            <div class="card-header">
+                                <div class="row">
+                                    <div id="floor-plan-setting" class="col-lg-8 col-md-8 col-sm-8">
+                                        <h5><?php echo e(__('Upload Setup')); ?></h5>
                                     </div>
                                 </div>
                             </div>
-                    </div>
-                        <div id="floor-plan-setting" class="card">
-                            <div class="col-md-12">
-                                <div class="card-header">
-                                    <div class="row">
-                                        <div id="floor-plan-setting" class="col-lg-8 col-md-8 col-sm-8">
-                                            <h5><?php echo e(__('Upload Setup')); ?></h5>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row mt-3">
-                                        <form method="POST" action="<?php echo e(url('/floor-images')); ?>" enctype="multipart/form-data">
-                                            <?php echo csrf_field(); ?>
-                                            <div class="row">
-                                                <div class="form-group col-md-6">
-                                                    <label for="setup" class="form-label">Choose Image</label></br>
-                                                    <input type="file" name="setup" class="form-control" required />
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <label for="title" class="form-label">Title</label></br>
-                                                    <input type="text" class="form-control" name="title" required>
-                                                </div>
+                            <div class="card-body">
+                                <div class="row mt-3">
+                                    <form method="POST" action="<?php echo e(url('/floor-images')); ?>" enctype="multipart/form-data">
+                                        <?php echo csrf_field(); ?>
+                                        <div class="row">
+                                            <div class="form-group col-md-6">
+                                                <label for="setup" class="form-label">Choose Image</label></br>
+                                                <input type="file" name="setup" class="form-control" required />
                                             </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="title" class="form-label">Title</label></br>
+                                                <input type="text" class="form-control" name="title" required>
+                                            </div>
+                                        </div>
 
-                                            <div class="form-group col-md-12">
-                                                <label for="description" class="form-label">Description</label></br>
-                                                <!-- <input type="textarea" class="form-control" name="description" rows="3" >      -->
-                                                <textarea name="description" id="description" class="form-control" rows="3"></textarea>
-                                            </div>
-                                            <div class="text-end">
-                                                <button type="submit" class="btn-submit btn btn-primary">Submit</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="row">
-                                        <?php $__currentLoopData = $setup; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $s): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <div class="col-6">
-                                            <input type="radio" id="image_<?php echo e($loop->index); ?>" name="uploadedImage" class="form-check-input" value="<?php echo e(asset('floor_images/' . $s->image)); ?>">
-                                            <label for="image_<?php echo e($loop->index); ?>" class="form-check-label">
-                                                <img src="<?php echo e(asset('floor_images/'.$s->image)); ?>" alt="Uploaded Image" class="img-thumbnail floorimages zoom">
-                                                <span class=" rounded p-2 m-1 px-3 bg-danger text-white" style="float: inline-end;"><i class="ti ti-trash " data-image="<?php echo e($s->image); ?>" onclick="deleteImage(this)"></i></span>
-                                            </label>
+                                        <div class="form-group col-md-12">
+                                            <label for="description" class="form-label">Description</label></br>
+                                            <!-- <input type="textarea" class="form-control" name="description" rows="3" >      -->
+                                            <textarea name="description" id="description" class="form-control" rows="3"></textarea>
                                         </div>
-                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        <div class="text-end">
+                                            <button type="submit" class="btn-submit btn btn-primary">Submit</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="row">
+                                    <?php $__currentLoopData = $setup; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $s): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <div class="col-6">
+                                        <input type="radio" id="image_<?php echo e($loop->index); ?>" name="uploadedImage" class="form-check-input" value="<?php echo e(asset('floor_images/' . $s->image)); ?>">
+                                        <label for="image_<?php echo e($loop->index); ?>" class="form-check-label">
+                                            <img src="<?php echo e(asset('floor_images/'.$s->image)); ?>" alt="Uploaded Image" class="img-thumbnail floorimages zoom">
+                                            <span class=" rounded p-2 m-1 px-3 bg-danger text-white" style="float: inline-end;"><i class="ti ti-trash " data-image="<?php echo e($s->image); ?>" onclick="deleteImage(this)"></i></span>
+                                        </label>
                                     </div>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </div>
                             </div>
                         </div>
-                        <?php endif; ?>
-                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Billing')): ?>
+                    </div>
+                    <?php endif; ?>
+                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Payment')): ?>
                     <div id="billing-setting" class="card">
                         <div class="col-md-12">
                             <div class="card-header">
@@ -1277,7 +1275,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                 </tr>
                                                 <?php $__currentLoopData = $function; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $functionKey => $functionValue): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <tr>
-                                                    <td><?php echo e(__($functionValue->function)); ?></td>
+                                                    <td><b><?php echo e(__($functionValue->function)); ?></b></td>
                                                     <td>
                                                         <?php $__currentLoopData = $functionValue->package; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $packageKey => $packageValue): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                         <?php echo e(Form::label($packageValue, __($packageValue), ['class' => 'form-label'])); ?>
@@ -1297,7 +1295,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                 </tr>
                                                 <?php $__currentLoopData = $bar; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $barKey => $barValue): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <tr>
-                                                    <td><?php echo e(__($barValue->bar)); ?></td>
+                                                    <td><b><?php echo e(__($barValue->bar)); ?></b></td>
                                                     <td>
                                                         <?php $__currentLoopData = $barValue->barpackage; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $barpackageKey => $barpackageValue): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                         <?php echo e(Form::label($barpackageValue, __($barpackageValue), ['class' => 'form-label'])); ?>
@@ -3897,253 +3895,265 @@ unset($__errorArgs, $__bag); ?>
 </div>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script-page'); ?>
-    <script>
-        $(document).ready(function() {
-            $("select#additional_function").change(function() {
-                let val = $(this).val();
-                const functionData = <?= json_encode($function) ?>[val];
-                let packages = functionData.package;
-                $('#additional_packages_checkboxes').empty();
-                $.each(packages, function(index, package) {
-                    $('#additional_packages_checkboxes').append('<label><input type="checkbox" name="additional_package[]" value="' + package + '"> ' + package + '</label><br>');
-
-                    // $('#additional_package').append('<option value="' + package + '">' + package + '</option>');
-                });
-            })
+<script>
+    $('.fxnnames').click(function(){
+        var value = $(this).text();
+        const funcData = <?= json_encode($function) ?>;
+        var funrr = <?= (isset($function) && !empty($function)) ? json_encode($function) : 'null' ?>;
+        $.each(funrr,function(item,val){
+            console.log(item,val.function,value);
+            // if(val.function == value){
+            //     $('input[name = "function"]').val(value);
+            // }
         });
-    </script>
-    <script>
-        var additionalItemCount = 2;
+    })
+</script>
+<script>
+    $(document).ready(function() {
+        $("select#additional_function").change(function() {
+            let val = $(this).val();
+            
+            const functionData = <?= json_encode($function) ?>[val];
+            let packages = functionData.package;
+            $('#additional_packages_checkboxes').empty();
+            $.each(packages, function(index, package) {
+                $('#additional_packages_checkboxes').append('<label><input type="checkbox" name="additional_package[]" value="' + package + '"> ' + package + '</label><br>');
+            });
+        })
+    });
+</script>
+<script>
+    var additionalItemCount = 2;
 
-        function addAdditionalItem() {
-            var container = document.getElementById('additional-items-container');
+    function addAdditionalItem() {
+        var container = document.getElementById('additional-items-container');
 
-            // Create a new row
-            var newRow = document.createElement('div');
-            newRow.classList.add('row', 'form-group');
-            newRow.id = 'additional-row-' + additionalItemCount;
+        // Create a new row
+        var newRow = document.createElement('div');
+        newRow.classList.add('row', 'form-group');
+        newRow.id = 'additional-row-' + additionalItemCount;
 
-            // Create name input
-            newRow.innerHTML += `
+        // Create name input
+        newRow.innerHTML += `
                     <div class="col-md-5">
                         <label for="additional_items_${additionalItemCount}">Additional Item ${additionalItemCount}</label>
                         <input type="text" name="additional_items[]" id="additional_items_${additionalItemCount}" class="form-control" placeholder="Enter Additional Item" required>
                     </div>
                 `;
-            newRow.innerHTML += `
+        newRow.innerHTML += `
                     <div class="col-md-6">
                         <label for="additional_items_cost_${additionalItemCount}">Cost</label>
                         <input type="number" name="additional_items_cost[]" id="additional_items_cost_${additionalItemCount}" class="form-control" placeholder="Enter Cost" required>
                     </div>
                 `;
-            newRow.innerHTML += `
+        newRow.innerHTML += `
             <div class="col-md-1 mt-3">
                 <button type="button" class="btn btn-danger" style="    margin-top: 4px;
             " onclick="removeAdditionalItem(${additionalItemCount})"><i class="fa fa-times"></i></button>
                     </div>
                 `;
-            additionalItemCount++;
-            container.appendChild(newRow);
-        }
+        additionalItemCount++;
+        container.appendChild(newRow);
+    }
 
-        function removeAdditionalItem(rowId) {
-            var rowToRemove = document.getElementById('additional-row-' + rowId);
-            rowToRemove.remove();
-        }
-    </script>
-    <script>
-        $('#function_names').change(function() {
-            $('#package_inputs').empty();
-            var value = $(this).val();
-            if (value) {
-                $('.function_cost').show();
-                var functionarr = <?= (isset($function) && !empty($function)) ? json_encode($function) : 'null' ?>;
-                $.each(functionarr, function(index, function_val) {
-                    if (index == value) {
-                        var packagevalue = function_val.package;
-                        $.each(packagevalue, function(index, val) {
-                            // Dynamically generate input fields for each package
-                            var inputField = '<div class = "form-group"><label for="package_' + index + '">' + val + ' Cost:</label>';
-                            inputField += '<input type="number" name="package_cost[' + index + ']" class="form-control" placeholder="Enter ' + val + ' Cost"  min="0"></div>';
+    function removeAdditionalItem(rowId) {
+        var rowToRemove = document.getElementById('additional-row-' + rowId);
+        rowToRemove.remove();
+    }
+</script>
+<script>
+    $('#function_names').change(function() {
+        $('#package_inputs').empty();
+        var value = $(this).val();
+        if (value) {
+            $('.function_cost').show();
+            var functionarr = <?= (isset($function) && !empty($function)) ? json_encode($function) : 'null' ?>;
+            $.each(functionarr, function(index, function_val) {
+                if (index == value) {
+                    var packagevalue = function_val.package;
+                    $.each(packagevalue, function(index, val) {
+                        // Dynamically generate input fields for each package
+                        var inputField = '<div class = "form-group"><label for="package_' + index + '">' + val + ' Cost:</label>';
+                        inputField += '<input type="number" name="package_cost[' + index + ']" class="form-control" placeholder="Enter ' + val + ' Cost"  min="0"></div>';
 
-                            $('#package_inputs').append(inputField);
-                        });
-                    }
-                });
-            } else {
-                $('.function_cost').hide();
-            }
-        });
-        $('#bar_names').change(function() {
-            $('#bar_package_inputs').empty();
-            var value = $(this).val();
-            if (value) {
-                $('.bar_cost').show();
-                var bararr = <?= (isset($bar) && !empty($bar)) ? json_encode($bar) : 'null' ?>;
-                $.each(bararr, function(index, val) {
-                    if (index == value) {
-                        var packagevalue = val.barpackage;
-                        $.each(packagevalue, function(index, val) {
-                            // Dynamically generate input fields for each package
-                            var inputField = '<div class = "form-group"><label for="barpackage_' + index + '">' + val + ' Cost:</label>';
-                            inputField += '<input type="number" name="bar_package_cost[' + index + ']" class="form-control" placeholder="Enter ' + val + ' Cost"  min="0"></div>';
-
-                            $('#bar_package_inputs').append(inputField);
-                        });
-                    }
-                });
-            } else {
-                $('.bar_cost').hide();
-            }
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
-            $('.add').on('click', function() {
-                var field = '<br><div class="appending_item" style="display:flex"><input type="text" name="package[]" class="form-control" placeholder ="Enter Package">';
-                field += '<span class="btn btn-sm btn-danger btn-icon m-1 delete"><i class="fa fa-times"></i></span></div>';
-                $('.appending_div').append(field);
-            })
-            $('.appending_div').on('click', '.delete', function() {
-                $(this).closest('.appending_item').remove();
+                        $('#package_inputs').append(inputField);
+                    });
+                }
             });
-            $('.addbar').on('click', function() {
-                var field = '<br><div class="appending_item_for_bar" style="display:flex"><input type="text" name="barpackage[]" class="form-control" placeholder ="Enter Package">';
-                field += '<span class="btn btn-sm btn-danger btn-icon m-1 deletebar"><i class="fa fa-times"></i></span></div>';
-                $('.appending_div_for_bar').append(field);
-            })
-            $('.appending_div_for_bar').on('click', '.deletebar', function() {
-                $(this).closest('.appending_item_for_bar').remove();
+        } else {
+            $('.function_cost').hide();
+        }
+    });
+    $('#bar_names').change(function() {
+        $('#bar_package_inputs').empty();
+        var value = $(this).val();
+        if (value) {
+            $('.bar_cost').show();
+            var bararr = <?= (isset($bar) && !empty($bar)) ? json_encode($bar) : 'null' ?>;
+            $.each(bararr, function(index, val) {
+                if (index == value) {
+                    var packagevalue = val.barpackage;
+                    $.each(packagevalue, function(index, val) {
+                        // Dynamically generate input fields for each package
+                        var inputField = '<div class = "form-group"><label for="barpackage_' + index + '">' + val + ' Cost:</label>';
+                        inputField += '<input type="number" name="bar_package_cost[' + index + ']" class="form-control" placeholder="Enter ' + val + ' Cost"  min="0"></div>';
+
+                        $('#bar_package_inputs').append(inputField);
+                    });
+                }
             });
+        } else {
+            $('.bar_cost').hide();
+        }
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('.add').on('click', function() {
+            var field = '<br><div class="appending_item" style="display:flex"><input type="text" name="package[]" class="form-control" placeholder ="Enter Package">';
+            field += '<span class="btn btn-sm btn-danger btn-icon m-1 delete"><i class="fa fa-times"></i></span></div>';
+            $('.appending_div').append(field);
         })
-    </script>
-    <script>
-        $(document).ready(function() {
-            $("#checkall").click(function() {
-                $('input:checkbox').not(this).prop('checked', this.checked);
-            });
-            $(".ischeck").click(function() {
-                var ischeck = $(this).data('id');
-                $('.isscheck_' + ischeck).prop('checked', this.checked);
-
-            });
+        $('.appending_div').on('click', '.delete', function() {
+            $(this).closest('.appending_item').remove();
         });
-    </script>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script>
-        function deleteImage(icon) {
-            var imageName = icon.getAttribute('data-image');
-            var url = "<?php echo e(url('/delete-image')); ?>";
-            const swalWithBootstrapButtons = Swal.mixin({
-                customClass: {
-                    confirmButton: 'btn btn-success',
-                    cancelButton: 'btn btn-danger'
-                },
-                buttonsStyling: false
-            })
-            swalWithBootstrapButtons.fire({
-                title: 'Are you sure?',
-                text: "This action can not be undone. Do you want to continue?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes',
-                cancelButtonText: 'No',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        type: 'POST',
-                        url: url,
-                        data: {
-                            "imageName": imageName,
-                            "_token": "<?php echo e(csrf_token()); ?>",
-                        },
-                        success: function(result) {
-                            if (result.success == true) {
-                                swal.fire("Done!", result.message, "success");
-                                setTimeout(function() {
-                                    location.reload();
-                                }, 1000);
-                            } else {
-                                swal.fire("Error!", result.message, "error");
-                            }
-                        }
-                    });
-                }
-            })
-        }
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var canvas = document.getElementById('signatureCanvas');
-            var signaturePad = new SignaturePad(canvas);
-
-            function clearCanvas() {
-                signaturePad.clear();
-            }
-            document.getElementById('clearButton').addEventListener('click', function(e) {
-                e.preventDefault();
-                clearCanvas();
-            });
-            // Access the data (image or coordinates) from the signature pad on form submit
-            document.getElementById('sign').addEventListener('submit', function(event) {
-                event.preventDefault();
-                if (signaturePad.isEmpty()) {
-                    alert('Please provide your signature before submitting.');
-                } else {
-                    var signatureData = signaturePad.toDataURL();
-                    document.getElementById('imageData').value = signatureData;
-                    $.ajax({
-                        url: "<?php echo e(route('authorised.signature')); ?>",
-                        type: 'POST',
-                        data: {
-                            "signature": signatureData,
-                            "_token": "<?php echo e(csrf_token()); ?>",
-                        },
-                        success: function(data) {
-                            location.reload();
-                        }
-                    });
-                }
-            });
+        $('.addbar').on('click', function() {
+            var field = '<br><div class="appending_item_for_bar" style="display:flex"><input type="text" name="barpackage[]" class="form-control" placeholder ="Enter Package">';
+            field += '<span class="btn btn-sm btn-danger btn-icon m-1 deletebar"><i class="fa fa-times"></i></span></div>';
+            $('.appending_div_for_bar').append(field);
+        })
+        $('.appending_div_for_bar').on('click', '.deletebar', function() {
+            $(this).closest('.appending_item_for_bar').remove();
         });
-    </script>
-    <script>
-        $(document).ready(function() {
-            document.querySelectorAll('.edit-cost-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    // Get the current cost value
-                    console.log(button);
-                    const costElement = this.closest('tr').querySelector('.cost');
-                    let currentCost = costElement.textContent.trim();
-                    const itemName = this.closest('tr').querySelector('.item').textContent.trim();
-                    const packageName = this.closest('td').getAttribute('data-function').trim();
-                    const functionname = this.closest('td').getAttribute('data-package').trim();
-                    const newCost = prompt('Enter new cost:', currentCost);
+    })
+</script>
+<script>
+    $(document).ready(function() {
+        $("#checkall").click(function() {
+            $('input:checkbox').not(this).prop('checked', this.checked);
+        });
+        $(".ischeck").click(function() {
+            var ischeck = $(this).data('id');
+            $('.isscheck_' + ischeck).prop('checked', this.checked);
 
-                    // Update the cost if the user provided a new value
-                    if (newCost !== null && newCost !== '' && !isNaN(newCost)) {
-                        costElement.textContent = newCost;
+        });
+    });
+</script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    function deleteImage(icon) {
+        var imageName = icon.getAttribute('data-image');
+        var url = "<?php echo e(url('/delete-image')); ?>";
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success',
+                cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
+        })
+        swalWithBootstrapButtons.fire({
+            title: 'Are you sure?',
+            text: "This action can not be undone. Do you want to continue?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: {
+                        "imageName": imageName,
+                        "_token": "<?php echo e(csrf_token()); ?>",
+                    },
+                    success: function(result) {
+                        if (result.success == true) {
+                            swal.fire("Done!", result.message, "success");
+                            setTimeout(function() {
+                                location.reload();
+                            }, 1000);
+                        } else {
+                            swal.fire("Error!", result.message, "error");
+                        }
                     }
-                    $.ajax({
-                        url: "<?php echo e(route('additionalitems.edit')); ?>",
-                        type: 'POST',
-                        data: {
-                            function_name: functionname,
-                            package_name: packageName,
-                            item_name: itemName,
-                            cost: newCost,
-                            _token: "<?php echo e(csrf_token()); ?>",
-                        },
-                        success: function(data) {
-                            console.log(data);
-                        },
-                    });
+                });
+            }
+        })
+    }
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var canvas = document.getElementById('signatureCanvas');
+        var signaturePad = new SignaturePad(canvas);
+
+        function clearCanvas() {
+            signaturePad.clear();
+        }
+        document.getElementById('clearButton').addEventListener('click', function(e) {
+            e.preventDefault();
+            clearCanvas();
+        });
+        // Access the data (image or coordinates) from the signature pad on form submit
+        document.getElementById('sign').addEventListener('submit', function(event) {
+            event.preventDefault();
+            if (signaturePad.isEmpty()) {
+                alert('Please provide your signature before submitting.');
+            } else {
+                var signatureData = signaturePad.toDataURL();
+                document.getElementById('imageData').value = signatureData;
+                $.ajax({
+                    url: "<?php echo e(route('authorised.signature')); ?>",
+                    type: 'POST',
+                    data: {
+                        "signature": signatureData,
+                        "_token": "<?php echo e(csrf_token()); ?>",
+                    },
+                    success: function(data) {
+                        location.reload();
+                    }
+                });
+            }
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        document.querySelectorAll('.edit-cost-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                // Get the current cost value
+                console.log(button);
+                const costElement = this.closest('tr').querySelector('.cost');
+                let currentCost = costElement.textContent.trim();
+                const itemName = this.closest('tr').querySelector('.item').textContent.trim();
+                const packageName = this.closest('td').getAttribute('data-function').trim();
+                const functionname = this.closest('td').getAttribute('data-package').trim();
+                const newCost = prompt('Enter new cost:', currentCost);
+
+                // Update the cost if the user provided a new value
+                if (newCost !== null && newCost !== '' && !isNaN(newCost)) {
+                    costElement.textContent = newCost;
+                }
+                $.ajax({
+                    url: "<?php echo e(route('additionalitems.edit')); ?>",
+                    type: 'POST',
+                    data: {
+                        function_name: functionname,
+                        package_name: packageName,
+                        item_name: itemName,
+                        cost: newCost,
+                        _token: "<?php echo e(csrf_token()); ?>",
+                    },
+                    success: function(data) {
+                        console.log(data);
+                    },
                 });
             });
-            // Get the modal
-
         });
-    </script>
+        // Get the modal
+
+    });
+</script>
 <?php $__env->stopPush(); ?>
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/crmcentraverse/public_html/centraverse/resources/views/settings/index.blade.php ENDPATH**/ ?>

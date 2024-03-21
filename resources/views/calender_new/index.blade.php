@@ -108,7 +108,7 @@
                             .then(data => {
                                 const JSON = data.events;
                                 console.log(JSON);
-
+                                  
                                 if (JSON.length != 0) {
                                     Json = [];
                                     JSON.forEach((event, index, array) => {
@@ -118,6 +118,8 @@
                                         var end_time = moment(end, 'HH:mm:ss').format('h:mm A');
                                         if (event.attendees_lead == 0) {
                                             eventname = event.eventname;
+                                        }else{
+                                            eventname = 'event';
                                         }
                                         lists = `
                             <li class="list-group-item card mb-3" data-index="${index}">
