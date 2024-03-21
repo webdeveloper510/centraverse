@@ -1836,7 +1836,6 @@ class SettingController extends Controller
             $existingArray = array();
         }
         $barExists = false;
-
         foreach ($existingArray as &$bar) {
             if ($bar['bar'] === $data['bar']) {
                 // Function already exists, overwrite the package
@@ -1845,7 +1844,6 @@ class SettingController extends Controller
                 break;
             }
         }
-        
         if (!$barExists) {
             $existingArray[] = $data;
         }
