@@ -1772,7 +1772,6 @@ class SettingController extends Controller
         $settings = Utility::settings();
         $data['function'] = $request->function;
         $data['package'] = $request->package;
-        $data = json_encode($data);
         $user = \Auth::user();
         $settings = Utility::settings();
         $created_at = $updated_at = date('Y-m-d H:i:s');
@@ -1782,11 +1781,21 @@ class SettingController extends Controller
             // If no existing data, initialize an empty array
             $existingArray = array();
         }
+        $functionExists = false;
 
-        // Append the new data to the existing array
-        $existingArray[] = json_decode($data, true);
-
-        // Encode the entire array as JSON
+        foreach ($existingArray as &$func) {
+            if ($func['function'] === $data['function']) {
+                // Function already exists, overwrite the package
+                $func['package'] = $data['package'];
+                $functionExists = true;
+                break;
+            }
+        }
+        
+        if (!$functionExists) {
+            // Function doesn't exist, add it to the array
+            $existingArray[] = $data;
+        }
         $jsonData = json_encode($existingArray);
         if (isset($settings['function']) && !empty($settings['function'])) {
             DB::table('settings')
@@ -1817,7 +1826,7 @@ class SettingController extends Controller
 
         $data['bar'] = $request->bar;
         $data['barpackage'] = $request->barpackage;
-        $data = json_encode($data);
+        // $data = json_encode($data);
         $user = \Auth::user();
         $settings = Utility::settings();
         $created_at = $updated_at = date('Y-m-d H:i:s');
@@ -1826,7 +1835,20 @@ class SettingController extends Controller
         if ($existingArray === null) {
             $existingArray = array();
         }
-        $existingArray[] = json_decode($data, true);
+        $barExists = false;
+
+        foreach ($existingArray as &$bar) {
+            if ($bar['bar'] === $data['bar']) {
+                // Function already exists, overwrite the package
+                $bar['barpackage'] = $data['barpackage'];
+                $barExists = true;
+                break;
+            }
+        }
+        
+        if (!$barExists) {
+            $existingArray[] = $data;
+        }
         $jsonData = json_encode($existingArray);
 
         if (isset($settings['barpackage']) && !empty($settings['barpackage'])) {
