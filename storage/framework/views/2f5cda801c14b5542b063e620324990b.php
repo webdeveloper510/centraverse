@@ -1040,7 +1040,6 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                             <?php echo e(Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary'])); ?>
 
                                         </div>
-
                                         <style>
                                             .add {
                                                 cursor: pointer;
@@ -1146,7 +1145,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                 <ul class="nav nav-tabs tabActive" style="border-bottom:none;">
                                                     <?php $__currentLoopData = $bar; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <li class="badge rounded p-2 m-1 px-3 bg-primary ">
-                                                        <a style="color: white;" data-toggle="tab" href="#barmenu<?php echo e($key); ?>" class="<?= $key == 0 ? 'active' : ''; ?>"><?php echo e($value->bar); ?> </a>
+                                                        <a style="color: white;" data-toggle="tab" href="#barmenu<?php echo e($key); ?>" class="<?= $key == 0 ? 'active' : ''; ?> barnmes"><?php echo e($value->bar); ?> </a>
 
                                                         <div class="action-btn  ms-2">
                                                             <a href="javascript:void(0);" class="mx-3 btn btn-sm  align-items-center text-white bar_show_confirm" data-bs-toggle="tooltip" data-id="<?php echo e($key); ?>" title='Delete' data-url="<?php echo e(route('barpackage.setting')); ?>" data-token="<?php echo e(csrf_token()); ?>">
@@ -3896,15 +3895,43 @@ unset($__errorArgs, $__bag); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script-page'); ?>
 <script>
-    $('.fxnnames').click(function(){
+    $('.fxnnames').click(function() {
         var value = $(this).text();
-        const funcData = <?= json_encode($function) ?>;
         var funrr = <?= (isset($function) && !empty($function)) ? json_encode($function) : 'null' ?>;
-        $.each(funrr,function(item,val){
-            console.log(item,val.function,value);
-            // if(val.function == value){
-            //     $('input[name = "function"]').val(value);
-            // }
+        $.each(funrr, function(item, valueee) {
+            if (value.toLowerCase().indexOf(valueee.function.trim().toLowerCase()) !== -1) {
+                $('input[name="function"]').val(valueee.function);
+                var packages = valueee.package;
+                $('.appending_div .appending_item').remove();
+                packages.forEach(function(packageName) {
+                    var inputField = '<div class="appending_item" style="margin-bottom: 21px;display: flex;margin-top: 5px;">' +
+                        '<input type="text" name="package[]" class="form-control" value="' + packageName + '" placeholder="Enter Package">' +
+                        '<span class="btn btn-sm btn-danger btn-icon m-1 delete"><i class="fa fa-times"></i></span>' +
+                        '</div>';
+                    $('.appending_div').append(inputField);
+                });
+                return false; // Exit the loop once a match is found
+            }
+        });
+    })
+    $('.barnmes').click(function() {
+        var value = $(this).text();
+        var bararr = <?= (isset($bar) && !empty($bar)) ? json_encode($bar) : 'null' ?>;
+        console.log(bararr);
+        $.each(bararr, function(item, valueee) {
+            if (value.toLowerCase().indexOf(valueee.bar.trim().toLowerCase()) !== -1) {
+                $('input[name="bar"]').val(valueee.bar);
+                var packages = valueee.barpackage;
+                $('.appending_div_for_bar .appending_item_for_bar').remove();
+                packages.forEach(function(packageName) {
+                    var inputField = '<div class="appending_item_for_bar" style="margin-bottom: 21px;display: flex;margin-top: 5px;">' +
+                        '<input type="text" name="barpackage[]" class="form-control" value="' + packageName + '" placeholder="Enter Package">' +
+                        '<span class="btn btn-sm btn-danger btn-icon m-1 delete"><i class="fa fa-times"></i></span>' +
+                        '</div>';
+                    $('.appending_div_for_bar').append(inputField);
+                });
+                return false; // Exit the loop once a match is found
+            }
         });
     })
 </script>
@@ -3912,7 +3939,6 @@ unset($__errorArgs, $__bag); ?>
     $(document).ready(function() {
         $("select#additional_function").change(function() {
             let val = $(this).val();
-            
             const functionData = <?= json_encode($function) ?>[val];
             let packages = functionData.package;
             $('#additional_packages_checkboxes').empty();
@@ -3972,10 +3998,8 @@ unset($__errorArgs, $__bag); ?>
                 if (index == value) {
                     var packagevalue = function_val.package;
                     $.each(packagevalue, function(index, val) {
-                        // Dynamically generate input fields for each package
                         var inputField = '<div class = "form-group"><label for="package_' + index + '">' + val + ' Cost:</label>';
                         inputField += '<input type="number" name="package_cost[' + index + ']" class="form-control" placeholder="Enter ' + val + ' Cost"  min="0"></div>';
-
                         $('#package_inputs').append(inputField);
                     });
                 }
