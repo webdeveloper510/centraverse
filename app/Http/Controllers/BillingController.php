@@ -82,7 +82,7 @@ class BillingController extends Controller
      */
     public function destroy(string $id)
     {
-        $billing = Billing::find($id);
+        $billing = Billing::where('event_id',$id)->first();
 
         $billing->delete();
         return redirect()->back()->with('success', 'Bill Deleted!');

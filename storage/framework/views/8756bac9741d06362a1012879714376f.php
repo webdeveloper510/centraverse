@@ -86,9 +86,14 @@
                                                     <?php endif; ?>
                                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Delete Payment')): ?>
                                                     <div class="action-btn bg-danger ms-2">
+                                                    <?php echo Form::open(['method' => 'DELETE', 'route' => ['billing.destroy', $event->id]]); ?>
+
+
                                                         <a href="#!" class="mx-3 btn btn-sm  align-items-center text-white show_confirm" data-bs-toggle="tooltip" title='Delete'>
                                                             <i class="ti ti-trash"></i>
                                                         </a>
+                                                        <?php echo Form::close(); ?>
+
                                                     </div>
                                                     <?php endif; ?>
                                                 </td>
