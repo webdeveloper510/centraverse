@@ -720,13 +720,7 @@ unset($__errorArgs, $__bag); ?>
                 }
             });
         });
-        // $('input[type=radio][name=bar]').change(function() {
-        //     $('#package').hide();
-        //     var val = $(this).val();
-        //     if (val == 'Package Choice') {
-        //         $('#package').show();
-        //     }
-        // })
+        
         jQuery(function() {
             $('input[name="function[]"]').change(function() {
                 $('div#mailFunctionSection > div').hide();
