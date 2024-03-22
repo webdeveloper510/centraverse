@@ -96,7 +96,9 @@ class LeadController extends Controller
                 ]);
             if ($validator->fails()) {
                 $messages = $validator->getMessageBag();
-                return redirect()->back()->with('error', $messages->first());
+                return redirect()->back()->with('error', $messages->first()) 
+                ->withErrors($validator)
+                ->withInput();
             }
             $data = $request->all();
             $package = [];
@@ -266,6 +268,39 @@ class LeadController extends Controller
 
                 return redirect()->back()->with('error', $messages->first());
             }
+            $data = $request->all();
+            $package = [];
+            $additional = [];
+            $bar_pack = [];
+            foreach ($data as $key => $values) {
+                if (strpos($key, 'package_') === 0) {
+                    $newKey = strtolower(str_replace('package_', '', $key));
+                    $package[$newKey] = $values;
+                }
+                if (strpos($key, 'additional_') === 0) {
+                    // Extract the suffix from the key
+                    $newKey = strtolower(str_replace('additional_', '', $key));
+                    // Check if the key exists in the output array, if not, initialize it
+                    if (!isset($additional[$newKey])) {
+                        $additional[$newKey] = [];
+                    }
+                    $additional[$newKey] = $values;
+                }
+                if (strpos($key, 'bar_') === 0) {
+                    // Extract the suffix from the key
+                    $newKey = ucfirst(strtolower(str_replace('bar_', '', $key)));
+                    // Check if the key exists in the output array, if not, initialize it
+                    if (!isset($bar_pack[$newKey])) {
+                        $bar_pack[$newKey] = [];
+                    }
+                    // Assign the values to the new key in the output array
+                    $bar_pack[$newKey] = $values;
+                }
+            }
+            $package = json_encode($package);
+            $additional = json_encode($additional);
+            $bar_pack = json_encode($bar_pack);
+           
             $lead['user_id']            = $request->user;
             $lead['name']               = $request->name;
             $lead['leadname']          = $request->lead_name;
@@ -285,12 +320,13 @@ class LeadController extends Controller
             $lead['allergies']        = $request->allergies;
             $lead['start_time']         = $request->start_time;
             $lead['end_time']        = $request->end_time;
+            $lead['func_package']       = $package;
+            $lead['bar_package']         = $bar_pack;
+            $lead['ad_opts']             = $additional;
             $lead['bar']        =   $request->bar;
             $lead['rooms']          = $request->rooms;
             $lead['created_by']         = \Auth::user()->creatorId();
             $lead->update();
-
-
             return redirect()->back()->with('success', __('Lead  Updated.'));
         } else {
             return redirect()->back()->with('error', 'permission Denied');

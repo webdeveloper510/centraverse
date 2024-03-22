@@ -109,14 +109,14 @@ $additional_items = json_decode($settings['additional_items'],true);
     <div class="col-6">
         <div class="form-group">
             {{Form::label('guest_count',__('Guest Count'),['class'=>'form-label']) }}
-            {!! Form::number('guest_count', null,array('class' => 'form-control','min'=> 0)) !!}
+            {!! Form::number('guest_count',old('guest_count'),array('class' => 'form-control','min'=> 0)) !!}
         </div>
     </div>
     @if(isset($function) && !empty($function))
     <div class="col-6">
         <div class="form-group">
             {{ Form::label('function', __('Function'), ['class' => 'form-label']) }}
-            <div style="    display: flex;">
+            <div>
                 @foreach($function as $key => $value)
                 <div class="form-check" style="    padding-left: 2.75em !important;">
                     {!! Form::checkbox('function[]', $value['function'], null, ['class' => 'form-check-input', 'id' =>
@@ -236,7 +236,7 @@ $additional_items = json_decode($settings['additional_items'],true);
         <div class="form-group">
             {{Form::label('rooms',__('Room'),['class'=>'form-label']) }}
             <input type="number" name="rooms" id="" placeholder="Enter No. of Room(if required)" min='0'
-                class="form-control" required>
+                class="form-control" value="{{old('guest_count')}}" required>
         </div>
     </div>
     <div class="col-6">

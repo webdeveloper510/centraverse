@@ -102,13 +102,13 @@ class MeetingController extends Controller
                     'guest_count' => 'required',
                     'start_time' => 'required',
                     'end_time' => 'required',
-                    'meal' => 'required'
                 ]
             );
         // If validation fails
         if ($validator->fails()) {
+            $messages = $validator->getMessageBag();
             return redirect()
-                ->back()
+                ->back()->with('error', $messages->first())
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -333,7 +333,9 @@ class MeetingController extends Controller
             );
             if ($validator->fails()) {
                 $messages = $validator->getMessageBag();
-                return redirect()->back()->with('error', $messages->first());
+                return redirect()->back()->with('error', $messages->first())
+                ->withErrors($validator)
+                ->withInput();
             }
             $start_date = $request->input('start_date');
             $end_date = $request->input('end_date');

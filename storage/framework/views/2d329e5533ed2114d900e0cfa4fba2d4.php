@@ -141,7 +141,7 @@ unset($__errorArgs, $__bag); ?>
         <div class="form-group">
             <?php echo e(Form::label('guest_count',__('Guest Count'),['class'=>'form-label'])); ?>
 
-            <?php echo Form::number('guest_count', null,array('class' => 'form-control','min'=> 0)); ?>
+            <?php echo Form::number('guest_count',old('guest_count'),array('class' => 'form-control','min'=> 0)); ?>
 
         </div>
     </div>
@@ -150,7 +150,7 @@ unset($__errorArgs, $__bag); ?>
         <div class="form-group">
             <?php echo e(Form::label('function', __('Function'), ['class' => 'form-label'])); ?>
 
-            <div style="    display: flex;">
+            <div>
                 <?php $__currentLoopData = $function; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <div class="form-check" style="    padding-left: 2.75em !important;">
                     <?php echo Form::checkbox('function[]', $value['function'], null, ['class' => 'form-check-input', 'id' =>
@@ -292,7 +292,7 @@ unset($__errorArgs, $__bag); ?>
             <?php echo e(Form::label('rooms',__('Room'),['class'=>'form-label'])); ?>
 
             <input type="number" name="rooms" id="" placeholder="Enter No. of Room(if required)" min='0'
-                class="form-control" required>
+                class="form-control" value="<?php echo e(old('guest_count')); ?>" required>
         </div>
     </div>
     <div class="col-6">
