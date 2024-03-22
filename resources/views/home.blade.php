@@ -10,6 +10,7 @@
 @section('action-btn')
 @endsection
 @section('content')
+
 <div class="container-field">
     <div id="wrapper">
         <div id="page-content-wrapper">
@@ -74,11 +75,13 @@
                     $setting = App\Models\Utility::settings();
                     @endphp
                 </div>
+
                 <div class="row">
                     <div class="col-sm">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Active Leads</h5>
                             @foreach($activeLeads as $lead)
+
                             <div class="card">
                                 <div class="card-body new_bottomcard">
                                     <h5 class="card-text">{{ $lead['leadname'] }}
@@ -109,11 +112,13 @@
                             </div>
                             @endcan
                         </div>
+
                     </div>
                     <div class="col-sm">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Active/Upcoming Events</h5>
                             @foreach($activeEvent as $event)
+                            
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-text">{{ $event['name'] }}
@@ -149,6 +154,7 @@
                             </div>
                             @endcan
                         </div>
+                      
                     </div>
                     <div class="col-sm">
                         <div class="inner_col">
@@ -182,6 +188,7 @@
                             @endforeach
                         </div>
                     </div>
+
                     <div class="col-sm">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Lost Leads</h5>
@@ -191,7 +198,7 @@
                                     <h5 class="card-text">{{ $lead['leadname'] }}
                                         <span>{{ $lead['type'] }}</span>
                                     </h5>
-                                    @if($event['start_date'] == $event['end_date'])
+                                    @if($lead['start_date'] == $lead['end_date'])
                                     <p>{{ Carbon\Carbon::parse($lead['start_date'])->format('M d')}}</p>
                                     @else
                                     <p>{{ Carbon\Carbon::parse($lead['start_date'])->format('M d')}} -
@@ -207,6 +214,7 @@
             </div>
         </div>
     </div>
+
 </div>
 @endsection
 @push('script-page')

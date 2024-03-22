@@ -11,6 +11,7 @@
 <?php $__env->startSection('action-btn'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
+
 <div class="container-field">
     <div id="wrapper">
         <div id="page-content-wrapper">
@@ -75,11 +76,13 @@
                     $setting = App\Models\Utility::settings();
                     ?>
                 </div>
+
                 <div class="row">
                     <div class="col-sm">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Active Leads</h5>
                             <?php $__currentLoopData = $activeLeads; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $lead): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+
                             <div class="card">
                                 <div class="card-body new_bottomcard">
                                     <h5 class="card-text"><?php echo e($lead['leadname']); ?>
@@ -112,11 +115,13 @@
                             </div>
                             <?php endif; ?>
                         </div>
+
                     </div>
                     <div class="col-sm">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Active/Upcoming Events</h5>
                             <?php $__currentLoopData = $activeEvent; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $event): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-text"><?php echo e($event['name']); ?>
@@ -154,6 +159,7 @@
                             </div>
                             <?php endif; ?>
                         </div>
+                      
                     </div>
                     <div class="col-sm">
                         <div class="inner_col">
@@ -189,6 +195,7 @@
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </div>
                     </div>
+
                     <div class="col-sm">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Lost Leads</h5>
@@ -199,7 +206,7 @@
 
                                         <span><?php echo e($lead['type']); ?></span>
                                     </h5>
-                                    <?php if($event['start_date'] == $event['end_date']): ?>
+                                    <?php if($lead['start_date'] == $lead['end_date']): ?>
                                     <p><?php echo e(Carbon\Carbon::parse($lead['start_date'])->format('M d')); ?></p>
                                     <?php else: ?>
                                     <p><?php echo e(Carbon\Carbon::parse($lead['start_date'])->format('M d')); ?> -
@@ -216,6 +223,7 @@
             </div>
         </div>
     </div>
+
 </div>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script-page'); ?>
