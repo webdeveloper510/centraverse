@@ -116,7 +116,11 @@ $bar_package = json_decode($setting['barpackage'],true);
                                                         </label>
                                                     </div>
                                                     @endforeach
-
+                                                    @if ($errors->has('user'))
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $errors->first('user') }}</strong>
+            </span>
+        @endif
                                                 </div>
                                             </div>
                                             <div class="col-6">
@@ -124,13 +128,22 @@ $bar_package = json_decode($setting['barpackage'],true);
                                                     {{Form::label('type',__('Event Type'),['class'=>'form-label']) }}
                                                     {!! Form::select('type', $type_arr, null,array('class' => 'form-control')) !!}
                                                 </div>
+                                                @if ($errors->has('type'))
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $errors->first('type') }}</strong>
+                                                    </span>
+                                                @endif
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     {{Form::label('company_name',__('Company Name'),['class'=>'form-label']) }}
                                                     {{Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Company Name'),'required'=>'required'))}}
                                                 </div>
-
+                                                @if ($errors->has('company_name'))
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $errors->first('company_name') }}</strong>
+                                                    </span>
+                                                @endif
                                             </div>
                                             <div class="col-12  p-0 modaltitle pb-3 mb-3">
                                                 <h5 style="margin-left: 14px;">{{ __('Contact Information') }}</h5>
@@ -140,33 +153,36 @@ $bar_package = json_decode($setting['barpackage'],true);
                                                     {{Form::label('name',__('Name'),['class'=>'form-label']) }}
                                                     {{Form::text('name',null,array('class'=>'form-control','placeholder'=>__('Enter Name'),'required'=>'required'))}}
                                                 </div>
+                                                @if ($errors->has('name'))
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $errors->first('name') }}</strong>
+                                                    </span>
+                                                @endif
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     {{Form::label('phone',__('Phone'),['class'=>'form-label']) }}
                                                     {{Form::text('phone',null,array('class'=>'form-control','placeholder'=>__('Enter Phone'),'required'=>'required'))}}
                                                 </div>
-                                                @error('phone')
-                                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                                                @enderror
+                                              
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     {{Form::label('email',__('Email'),['class'=>'form-label']) }}
                                                     {{Form::text('email',null,array('class'=>'form-control','placeholder'=>__('Enter Email'),'required'=>'required'))}}
                                                 </div>
-                                                @error('email')
-                                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                                                @enderror
+                                                @if ($errors->has('email'))
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $errors->first('email') }}</strong>
+                                                    </span>
+                                                @endif
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     {{Form::label('lead_address',__('Address'),['class'=>'form-label']) }}
                                                     {{Form::text('lead_address',null,array('class'=>'form-control','placeholder'=>__('Address'),'required'=>'required'))}}
                                                 </div>
-                                                @error('lead_address')
-                                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                                                @enderror
+                                               
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
@@ -248,9 +264,11 @@ $bar_package = json_decode($setting['barpackage'],true);
                                                     {{Form::label('guest_count',__('Guest Count'),['class'=>'form-label']) }}
                                                     {!! Form::number('guest_count', null,array('class' => 'form-control','min'=> 0)) !!}
                                                 </div>
-                                                @error('guest_count')
-                                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                                                @enderror
+                                                @if ($errors->has('guest_count'))
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $errors->first('guest_count') }}</strong>
+                                                    </span>
+                                                @endif
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
@@ -262,9 +280,11 @@ $bar_package = json_decode($setting['barpackage'],true);
                                                     </div>
                                                     @endforeach
                                                 </div>
-                                                @error('venue')
-                                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                                                @enderror
+                                                @if ($errors->has('venue'))
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $errors->first('venue') }}</strong>
+                                                    </span>
+                                                @endif
                                             </div>
 
 
@@ -274,36 +294,47 @@ $bar_package = json_decode($setting['barpackage'],true);
                                                     {{ Form::label('start_date', __('Start Date'), ['class' => 'form-label']) }}
                                                     {!! Form::date('start_date', null, ['class' => 'form-control', 'required' => 'required']) !!}
                                                 </div>
-                                                @error('start_date')
-                                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                                                @enderror
+                                                @if ($errors->has('start_date'))
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $errors->first('start_date') }}</strong>
+                                                    </span>
+                                                @endif
+
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     {{ Form::label('end_date', __('End Date'), ['class' => 'form-label']) }}
                                                     {!! Form::date('end_date',null, ['class' => 'form-control', 'required' => 'required']) !!}
                                                 </div>
-                                                @error('end_date')
-                                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                                                @enderror
+                                                @if ($errors->has('end_date'))
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $errors->first('end_date') }}</strong>
+                                                    </span>
+                                                @endif
+
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     {{ Form::label('start_time', __('Start Time'), ['class' => 'form-label']) }}
                                                     {!! Form::input('time', 'start_time', null, ['class' => 'form-control', 'required' => 'required']) !!}
                                                 </div>
-                                                @error('start_time')
-                                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                                                @enderror
+                                                @if ($errors->has('start_time'))
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $errors->first('start_time') }}</strong>
+                                                    </span>
+                                                @endif
+
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     {{ Form::label('end_time', __('End Time'), ['class' => 'form-label']) }}
                                                     {!! Form::input('time', 'end_time', null, ['class' => 'form-control', 'required' => 'required']) !!}
                                                 </div>
-                                                @error('end_time')
-                                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                                                @enderror
+                                                @if ($errors->has('end_time'))
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $errors->first('end_time') }}</strong>
+                                                    </span>
+                                                @endif
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
@@ -317,7 +348,11 @@ $bar_package = json_decode($setting['barpackage'],true);
                                                     @endforeach
                                                     @endif
                                                 </div>
-                                              
+                                                @if ($errors->has('function'))
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $errors->first('end_time') }}</strong>
+                                                    </span>
+                                                @endif
                                             </div>
                                             <div class="col-6" id="mailFunctionSection">
                                                 @if(isset($function) && !empty($function))

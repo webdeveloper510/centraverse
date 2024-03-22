@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('lead', function (Blueprint $table) {
+        Schema::create('leads', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id')->default(0);
             $table->string('leadname')->nullable();
@@ -28,6 +28,8 @@ return new class extends Migration
             $table->integer('proposal_status')->default(0);
             $table->integer('status')->default(0);
             $table->date('end_date');
+            $table->string('func_package')->nullable();
+            $table->string('bar_package')->nullable();
             $table->text('lead_address')->nullable();
             $table->string('description')->nullable();
             $table->string('spcl_req')->nullable();
@@ -37,17 +39,17 @@ return new class extends Migration
             $table->string('bar')->nullable();
             $table->time('start_time');
             $table->time('end_time');
+            $table->string('ad_opts')->nullable();
             $table->integer('created_by')->default(0);
             $table->timestamps();
             $table->softDeletes(); 
         });
     }
-
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('lead');
+        Schema::dropIfExists('leads');
     }
 };

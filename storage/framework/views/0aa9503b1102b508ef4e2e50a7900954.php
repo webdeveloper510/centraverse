@@ -167,16 +167,7 @@ $bar_package = json_decode($setting['barpackage'],true);
                                                     <?php echo e(Form::text('phone',null,array('class'=>'form-control','placeholder'=>__('Enter Phone'),'required'=>'required'))); ?>
 
                                                 </div>
-                                                <?php $__errorArgs = ['phone'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                                <div class="alert alert-danger mt-1 mb-1"><?php echo e($message); ?></div>
-                                                <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
+                                               
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
@@ -185,16 +176,7 @@ unset($__errorArgs, $__bag); ?>
                                                     <?php echo e(Form::text('email',null,array('class'=>'form-control','placeholder'=>__('Enter Email'),'required'=>'required'))); ?>
 
                                                 </div>
-                                                <?php $__errorArgs = ['email'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                                <div class="alert alert-danger mt-1 mb-1"><?php echo e($message); ?></div>
-                                                <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
+                                               
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
@@ -721,13 +703,7 @@ unset($__errorArgs, $__bag); ?>
                 }
             });
         });
-        // $('input[type=radio][name=bar]').change(function() {
-        //     $('#package').hide();
-        //     var val = $(this).val();
-        //     if (val == 'Package Choice') {
-        //         $('#package').show();
-        //     }
-        // })
+        
         jQuery(function() {
             $('input[name="function[]"]').change(function() {
                 $('div#mailFunctionSection > div').hide();

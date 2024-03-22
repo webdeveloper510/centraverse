@@ -80,7 +80,6 @@ class LeadController extends Controller
      */
     public function store(Request $request)
     {
-        
         if (\Auth::user()->can('Create Lead')) {
             $validator = \Validator::make(
                 $request->all(),
@@ -99,7 +98,39 @@ class LeadController extends Controller
                 $messages = $validator->getMessageBag();
                 return redirect()->back()->with('error', $messages->first());
             }
-
+            $data = $request->all();
+            $package = [];
+            $additional = [];
+            $bar_pack = [];
+            foreach ($data as $key => $values) {
+                if (strpos($key, 'package_') === 0) {
+                    $newKey = strtolower(str_replace('package_', '', $key));
+                    $package[$newKey] = $values;
+                }
+                if (strpos($key, 'additional_') === 0) {
+                    // Extract the suffix from the key
+                    $newKey = strtolower(str_replace('additional_', '', $key));
+                    // Check if the key exists in the output array, if not, initialize it
+                    if (!isset($additional[$newKey])) {
+                        $additional[$newKey] = [];
+                    }
+                    $additional[$newKey] = $values;
+                }
+                if (strpos($key, 'bar_') === 0) {
+                    // Extract the suffix from the key
+                    $newKey = ucfirst(strtolower(str_replace('bar_', '', $key)));
+                    // Check if the key exists in the output array, if not, initialize it
+                    if (!isset($bar_pack[$newKey])) {
+                        $bar_pack[$newKey] = [];
+                    }
+                    // Assign the values to the new key in the output array
+                    $bar_pack[$newKey] = $values;
+                }
+            }
+            $package = json_encode($package);
+            $additional = json_encode($additional);
+            $bar_pack = json_encode($bar_pack);
+           
             $lead                       = new Lead();
             $lead['user_id']            = Auth::user()->id;
             $lead['name']               = $request->name;
@@ -115,13 +146,16 @@ class LeadController extends Controller
             $lead['type']               = $request->type;
             $lead['venue_selection']    = implode(',',$request->venue);
             $lead['function']           = implode(',',$request->function);
+            $lead['func_package']       = $package;
             $lead['guest_count']        = $request->guest_count;
             $lead['description']        = $request->description;
             $lead['spcl_req']           = $request->spcl_req;
             $lead['allergies']          = $request->allergies;
             $lead['start_time']         = $request->start_time;
             $lead['end_time']           = $request->end_time;
-            $lead['bar']                =   $request->bar;
+            $lead['bar']                =   $request->baropt;
+                $lead['bar_package']         = $bar_pack;
+                $lead['ad_opts']             = $additional;
             $lead['rooms']              = $request->rooms;
             $lead['created_by']         = \Auth::user()->creatorId();
             $lead->save();
