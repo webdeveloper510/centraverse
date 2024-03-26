@@ -72,17 +72,8 @@
                                                     @endif
                                                 </td>
                                                 <td class="text-end">
-                                                    <div class="action-btn bg-info ms-2">
-                                                            <a href="#" data-size="md"
-                                                                data-url="{{ route('billing.paymentinfo',$event->id) }}"
-                                                                data-bs-toggle="tooltip" title="{{__('Payment Details')}}"
-                                                                data-ajax-popup="true"
-                                                                data-title="{{__('Payment Information')}}"
-                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                                <i class=" fa fa-credit-card "></i>
-                                                            </a>
-                                                        </div>
-                                                    @if(!(\App\Models\Billing::where('event_id',$event->id)->exists()))
+                                                @if(!(\App\Models\Billing::where('event_id',$event->id)->exists()))
+                                                
                                                         @can('Create Payment')
                                                         <div class="action-btn bg-primary ms-2">
                                                             <a href="#" data-size="md"
@@ -98,6 +89,19 @@
                                                     @endif
                                                     @if(\App\Models\Billing::where('event_id',$event->id)->exists())
                                                     @can('Manage Payment')
+                                                    <div class="action-btn bg-info ms-2">
+                                                            <a href="#" data-size="md"
+                                                                data-url="{{ route('billing.paymentinfo',$event->id) }}"
+                                                                data-bs-toggle="tooltip" title="{{__('Payment Details')}}"
+                                                                data-ajax-popup="true"
+                                                                data-title="{{__('Payment Information')}}"
+                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                                <i class=" fa fa-credit-card "></i>
+                                                            </a>
+                                                        </div>
+                                                        @endcan
+                                                    @can('Manage Payment')
+                                                    
                                                     <div class="action-btn bg-warning ms-2">
                                                         <a href="#" data-size="md"
                                                             data-url="{{ route('billing.show',$event->id) }}"
