@@ -24,16 +24,13 @@ $additional_items = json_decode($settings['additional_items'],true);
     <div class="col-6">
         <div class="form-group">
             {{Form::label('lead_name',__('Lead Name'),['class'=>'form-label']) }}
-            {{Form::text('lead_name',old('lead_name') ,array('class'=>'form-control','placeholder'=>__('Enter Lead Name')))}}
-            @error('lead_name')
-            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-            @enderror
+            {{Form::text('lead_name',null,array('class'=>'form-control','placeholder'=>__('Enter Lead Name'),'required'=>'required'))}}
         </div>
     </div>
     <div class="col-6">
         <div class="form-group">
             {{Form::label('company_name',__('Company Name'),['class'=>'form-label']) }}
-            {{Form::text('company_name',old('company_name'),array('class'=>'form-control','placeholder'=>__('Enter Company Name'),'required'=>'required'))}}
+            {{Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Company Name')))}}
         </div>
     </div>
     <div class="col-12  p-0 modaltitle pb-3 mb-3">
@@ -67,7 +64,7 @@ $additional_items = json_decode($settings['additional_items'],true);
     <div class="col-6">
         <div class="form-group">
             {{Form::label('relationship',__('Relationship'),['class'=>'form-label']) }}
-            {{Form::text('relationship',null,array('class'=>'form-control','placeholder'=>__('Enter Relationship'),'required'=>'required'))}}
+            {{Form::text('relationship',null,array('class'=>'form-control','placeholder'=>__('Enter Relationship')))}}
         </div>
     </div>
     <div class="col-12  p-0 modaltitle pb-3 mb-3">
@@ -109,14 +106,14 @@ $additional_items = json_decode($settings['additional_items'],true);
     <div class="col-6">
         <div class="form-group">
             {{Form::label('guest_count',__('Guest Count'),['class'=>'form-label']) }}
-            {!! Form::number('guest_count', null,array('class' => 'form-control','min'=> 0)) !!}
+            {!! Form::number('guest_count',old('guest_count'),array('class' => 'form-control','min'=> 0)) !!}
         </div>
     </div>
     @if(isset($function) && !empty($function))
     <div class="col-6">
         <div class="form-group">
             {{ Form::label('function', __('Function'), ['class' => 'form-label']) }}
-            <div style="    display: flex;">
+            <div>
                 @foreach($function as $key => $value)
                 <div class="form-check" style="    padding-left: 2.75em !important;">
                     {!! Form::checkbox('function[]', $value['function'], null, ['class' => 'form-check-input', 'id' =>
@@ -171,8 +168,8 @@ $additional_items = json_decode($settings['additional_items'],true);
     <div class="col-6">
         <div class="form-group">
             {{Form::label('Assign Staff',__('Assign Staff'),['class'=>'form-label']) }}
-            <select class="form-control" name='user'>
-                <option class="form-control" selected disabled>Select Staff</option>
+            <select class="form-control" name='user' required>
+                <option class="form-control"  disabled>Select Staff</option>
                 @foreach($users as $user)
                 <option class="form-control" value="{{$user->id}}">{{$user->name}} ({{$user->type}})</option>
                 @endforeach
@@ -236,7 +233,7 @@ $additional_items = json_decode($settings['additional_items'],true);
         <div class="form-group">
             {{Form::label('rooms',__('Room'),['class'=>'form-label']) }}
             <input type="number" name="rooms" id="" placeholder="Enter No. of Room(if required)" min='0'
-                class="form-control" required>
+                class="form-control" value="{{old('guest_count')}}">
         </div>
     </div>
     <div class="col-6">

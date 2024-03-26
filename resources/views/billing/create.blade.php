@@ -52,36 +52,36 @@ $meetingData = [
 $totalFoodPackageCost = 0;
 $totalbarPackageCost = 0;
 if(isset($billings) && !empty($billings)){
-    foreach ($food as $foodItem) {
-        foreach ($billings['package'] as $category => $categoryItems) {
-            if (isset($categoryItems[$foodItem])) {
-                $totalFoodPackageCost += $categoryItems[$foodItem];
-                break;
-            }
-        }
-    } 
-    foreach ($bar as $barItem) {
-        foreach ($billings['barpackage'] as $category => $categoryItems) {
-            if (isset($categoryItems[$barItem])) {
-                $totalbarPackageCost += $categoryItems[$barItem];
-                break;
-            }
-        }
-    } 
-    $meetingData['food_package_cost'] = $totalFoodPackageCost;
+foreach ($food as $foodItem) {
+foreach ($billings['package'] as $category => $categoryItems) {
+if (isset($categoryItems[$foodItem])) {
+$totalFoodPackageCost += $categoryItems[$foodItem];
+break;
+}
+}
+}
+foreach ($bar as $barItem) {
+foreach ($billings['barpackage'] as $category => $categoryItems) {
+if (isset($categoryItems[$barItem])) {
+$totalbarPackageCost += $categoryItems[$barItem];
+break;
+}
+}
+}
+$meetingData['food_package_cost'] = $totalFoodPackageCost;
 }
 $additionalItemsCost = 0;
 if(isset($additional_items) && !empty($additional_items)){
-   
-    foreach ($additional_items as $category => $categoryItems) {
-    foreach ($categoryItems as $item => $subItems) {
-        foreach ($subItems as $key => $value) {
-            if (in_array($key, $add)) {
-                // Add the value to the total cost
-                $additionalItemsCost += $value;
-            }
-        }
-    }
+
+foreach ($additional_items as $category => $categoryItems) {
+foreach ($categoryItems as $item => $subItems) {
+foreach ($subItems as $key => $value) {
+if (in_array($key, $add)) {
+// Add the value to the total cost
+$additionalItemsCost += $value;
+}
+}
+}
 }
 
 }
@@ -91,7 +91,7 @@ if(isset($additional_items) && !empty($additional_items)){
 $subcategories = array_map('trim', explode(',', $meetingData['venue_rental']));
 $venueRentalCost = 0;
 foreach ($subcategories as $subcategory) {
-    $venueRentalCost += $billings['venue'][$subcategory] ?? 0;
+$venueRentalCost += $billings['venue'][$subcategory] ?? 0;
 }
 $meetingData['venue_rental_cost'] = $venueRentalCost;
 $meetingData['hotel_rooms_cost'] = $billings['hotel_rooms'] ?? '';
@@ -99,7 +99,7 @@ $meetingData['equipment_cost'] = $billings['equipment'] ?? '';
 $meetingData['bar_package_cost'] = $totalbarPackageCost;
 $meetingData['food_package_cost'] = $totalFoodPackageCost;
 $meetingData['additional_items_cost'] = $additionalItemsCost ?? '';
-$meetingData['special_req_cost'] =  $billings['special_req'] ?? '';
+$meetingData['special_req_cost'] = $billings['special_req'] ?? '';
 $meetingData['setup_cost'] = '';
 @endphp
 {{Form::open(array('route' => ['billing.addbilling', $id],'method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))}}
@@ -119,29 +119,50 @@ $meetingData['setup_cost'] = '';
                 <tr>
                     <td>{{ucfirst($label)}}</td>
                     <td>
-                        <input type="text" name="billing[{{$key}}][cost]" value="{{ isset($meetingData[$key.'_cost']) ? $meetingData[$key.'_cost'] : '' }}" class="form-control dlr">
+                        <input type="text" name="billing[{{$key}}][cost]"
+                            value="{{ isset($meetingData[$key.'_cost']) ? $meetingData[$key.'_cost'] : '' }}"
+                            class="form-control dlr">
                     </td>
                     <td>
-                        <input type="number" name="billing[{{$key}}][quantity]" min='0' class="form-control" value="{{$meetingData[$key] ?? ''}}" required>
+                        <input type="number" name="billing[{{$key}}][quantity]" min='0' class="form-control"
+                            value="{{$meetingData[$key] ?? ''}}" required>
                     </td>
                     <td>
-                        <input type="text" name="billing[{{$key}}][notes]" class="form-control" value="{{ ($key !== 'hotel_rooms') ? $meetingData[$key] ?? '' : '' }}">
+                        <input type="text" name="billing[{{$key}}][notes]" class="form-control"
+                            value="{{ ($key !== 'hotel_rooms') ? $meetingData[$key] ?? '' : '' }}">
                     </td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
-
-    <div class="form-group">
-        <label class="form-label"> Deposit on file: </label>
-        <input type="number" name="deposits" min='0' class="form-control" required>
+    <div class="row form-group">
+        <div class="col-md-6">
+            <label class="form-label"> Deposit on file: </label>
+            <input type="number" name="deposits" min='0' class="form-control" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label"> Late Fee: </label>
+            <input type="number" name="latefee" min='0' class="form-control" required>
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-md-12">
+            <label class="form-label"> Adjustments: </label>
+            <input type="number" name="adjustments" class="form-control" required>
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-md-12">
+            <label class="form-label"> Comments: </label>
+            <textarea name="comments" class="form-control" id="comments" cols="30" rows="5"></textarea>
+        </div>
     </div>
 </div>
 {{Form::submit(__('Save'),array('class'=>'btn btn-primary '))}}
-{{ Form::close() }}    
+{{ Form::close() }}
 <style>
-    .modal-dialog.modal-md {
-        max-width: max-content;
-    }
+.modal-dialog.modal-md {
+    max-width: max-content;
+}
 </style>
