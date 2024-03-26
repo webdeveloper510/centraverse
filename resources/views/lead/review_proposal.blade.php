@@ -39,12 +39,18 @@ $bar = ['Open Bar', 'Cash Bar', 'Package Choice'];
                         </div>
                         <div class="card-body"> 
                                 <div class="row">
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        {{Form::label('company_name',__('Company Name'),['class'=>'form-label']) }}
-                                        {{Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Company Name'),'required'=>'required'))}}
-                                    </div>
+                                <div class="col-6">
+                                <div class="form-group">
+                                    {{Form::label('lead_name',__('Lead Name'),['class'=>'form-label']) }}
+                                    {{Form::text('lead_name',$lead->leadname,array('class'=>'form-control','placeholder'=>__('Enter Lead Name'),'required'=>'required'))}}
                                 </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    {{Form::label('company_name',__('Company Name'),['class'=>'form-label']) }}
+                                    {{Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Company Name')))}}
+                                </div>
+                            </div>
                                 <div class="col-12  p-0 modaltitle pb-3 mb-3">
                                     <h5 style="margin-left: 14px;">{{ __('Contact Information') }}</h5>
                                 </div>
@@ -76,7 +82,7 @@ $bar = ['Open Bar', 'Cash Bar', 'Package Choice'];
                                 <div class="col-6">
                                     <div class="form-group">
                                         {{Form::label('relationship',__('Relationship'),['class'=>'form-label']) }}
-                                        {{Form::text('relationship',null,array('class'=>'form-control','placeholder'=>__('Enter Relationship'),'required'=>'required'))}}
+                                        {{Form::text('relationship',null,array('class'=>'form-control','placeholder'=>__('Enter Relationship')))}}
                                     </div>
                                 </div>
                                 <div class="col-12  p-0 modaltitle pb-3 mb-3">

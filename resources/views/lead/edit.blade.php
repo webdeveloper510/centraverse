@@ -49,16 +49,13 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     {{Form::label('lead_name',__('Lead Name'),['class'=>'form-label']) }}
-                                    {{Form::text('lead_name',$lead->leadname,array('class'=>'form-control','placeholder'=>__('Enter Lead Name')))}}
-                                    @error('lead_name')
-                                        <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                                    @enderror
+                                    {{Form::text('lead_name',$lead->leadname,array('class'=>'form-control','placeholder'=>__('Enter Lead Name'),'required'=>'required'))}}
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
                                     {{Form::label('company_name',__('Company Name'),['class'=>'form-label']) }}
-                                    {{Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Company Name'),'required'=>'required'))}}
+                                    {{Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Company Name')))}}
                                 </div>
                             </div>
                             <div class="col-12  p-0 modaltitle pb-3 mb-3">
@@ -92,7 +89,7 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     {{Form::label('relationship',__('Relationship'),['class'=>'form-label']) }}
-                                    {{Form::text('relationship',null,array('class'=>'form-control','placeholder'=>__('Enter Relationship'),'required'=>'required'))}}
+                                    {{Form::text('relationship',null,array('class'=>'form-control','placeholder'=>__('Enter Relationship')))}}
                                 </div>
                             </div>
                             <div class="col-12  p-0 modaltitle pb-3 mb-3">

@@ -26,25 +26,15 @@ $additional_items = json_decode($settings['additional_items'],true);
         <div class="form-group">
             <?php echo e(Form::label('lead_name',__('Lead Name'),['class'=>'form-label'])); ?>
 
-            <?php echo e(Form::text('lead_name',old('lead_name') ,array('class'=>'form-control','placeholder'=>__('Enter Lead Name')))); ?>
+            <?php echo e(Form::text('lead_name',null,array('class'=>'form-control','placeholder'=>__('Enter Lead Name'),'required'=>'required'))); ?>
 
-            <?php $__errorArgs = ['lead_name'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-            <div class="alert alert-danger mt-1 mb-1"><?php echo e($message); ?></div>
-            <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
         </div>
     </div>
     <div class="col-6">
         <div class="form-group">
             <?php echo e(Form::label('company_name',__('Company Name'),['class'=>'form-label'])); ?>
 
-            <?php echo e(Form::text('company_name',old('company_name'),array('class'=>'form-control','placeholder'=>__('Enter Company Name'),'required'=>'required'))); ?>
+            <?php echo e(Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Company Name')))); ?>
 
         </div>
     </div>
@@ -88,7 +78,7 @@ unset($__errorArgs, $__bag); ?>
         <div class="form-group">
             <?php echo e(Form::label('relationship',__('Relationship'),['class'=>'form-label'])); ?>
 
-            <?php echo e(Form::text('relationship',null,array('class'=>'form-control','placeholder'=>__('Enter Relationship'),'required'=>'required'))); ?>
+            <?php echo e(Form::text('relationship',null,array('class'=>'form-control','placeholder'=>__('Enter Relationship')))); ?>
 
         </div>
     </div>
@@ -214,8 +204,8 @@ unset($__errorArgs, $__bag); ?>
         <div class="form-group">
             <?php echo e(Form::label('Assign Staff',__('Assign Staff'),['class'=>'form-label'])); ?>
 
-            <select class="form-control" name='user'>
-                <option class="form-control" selected disabled>Select Staff</option>
+            <select class="form-control" name='user' required>
+                <option class="form-control"  disabled>Select Staff</option>
                 <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <option class="form-control" value="<?php echo e($user->id); ?>"><?php echo e($user->name); ?> (<?php echo e($user->type); ?>)</option>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -292,7 +282,7 @@ unset($__errorArgs, $__bag); ?>
             <?php echo e(Form::label('rooms',__('Room'),['class'=>'form-label'])); ?>
 
             <input type="number" name="rooms" id="" placeholder="Enter No. of Room(if required)" min='0'
-                class="form-control" value="<?php echo e(old('guest_count')); ?>" required>
+                class="form-control" value="<?php echo e(old('guest_count')); ?>">
         </div>
     </div>
     <div class="col-6">

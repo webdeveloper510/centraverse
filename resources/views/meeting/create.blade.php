@@ -137,7 +137,7 @@ $bar_package = json_decode($setting['barpackage'],true);
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     {{Form::label('company_name',__('Company Name'),['class'=>'form-label']) }}
-                                                    {{Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Company Name'),'required'=>'required'))}}
+                                                    {{Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Company Name')))}}
                                                 </div>
                                                 @if ($errors->has('company_name'))
                                                     <span class="invalid-feedback" role="alert">

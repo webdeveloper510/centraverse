@@ -53,7 +53,7 @@
                                 <div class="form-group">
                                     <?php echo e(Form::label('lead_name',__('Lead Name'),['class'=>'form-label'])); ?>
 
-                                    <?php echo e(Form::text('lead_name',$lead->leadname,array('class'=>'form-control','placeholder'=>__('Enter Lead Name')))); ?>
+                                    <?php echo e(Form::text('lead_name',$lead->leadname,array('class'=>'form-control','placeholder'=>__('Enter Lead Name'),'required'=>'required'))); ?>
 
                                     <?php $__errorArgs = ['lead_name'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -71,7 +71,7 @@ unset($__errorArgs, $__bag); ?>
                                 <div class="form-group">
                                     <?php echo e(Form::label('company_name',__('Company Name'),['class'=>'form-label'])); ?>
 
-                                    <?php echo e(Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Company Name'),'required'=>'required'))); ?>
+                                    <?php echo e(Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Company Name')))); ?>
 
                                 </div>
                             </div>
@@ -115,7 +115,7 @@ unset($__errorArgs, $__bag); ?>
                                 <div class="form-group">
                                     <?php echo e(Form::label('relationship',__('Relationship'),['class'=>'form-label'])); ?>
 
-                                    <?php echo e(Form::text('relationship',null,array('class'=>'form-control','placeholder'=>__('Enter Relationship'),'required'=>'required'))); ?>
+                                    <?php echo e(Form::text('relationship',null,array('class'=>'form-control','placeholder'=>__('Enter Relationship')))); ?>
 
                                 </div>
                             </div>

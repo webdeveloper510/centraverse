@@ -152,7 +152,7 @@ $bar_package = json_decode($setting['barpackage'],true);
                                                 <div class="form-group">
                                                     <?php echo e(Form::label('company_name',__('Company Name'),['class'=>'form-label'])); ?>
 
-                                                    <?php echo e(Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Company Name'),'required'=>'required'))); ?>
+                                                    <?php echo e(Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Company Name')))); ?>
 
                                                 </div>
                                                 <?php if($errors->has('company_name')): ?>
