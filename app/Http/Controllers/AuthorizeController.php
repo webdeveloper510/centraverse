@@ -105,7 +105,7 @@ class AuthorizeController extends Controller
             // Since the API request was successful, look for a transaction response
             // and parse it to display the results of authorizing the card
             $tresponse = $response->getTransactionResponse();
-            echo"<pre>";print_r($tresponse);die;
+            // echo"<pre>";print_r($tresponse);die;
             if ($tresponse != null && $tresponse->getMessages() != null) {
                 echo " Successfully created transaction with Transaction ID: " . $tresponse->getTransId() . "\n";
                 echo " Transaction Response Code: " . $tresponse->getResponseCode() . "\n";

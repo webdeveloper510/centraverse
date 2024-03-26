@@ -17,9 +17,6 @@ return new class extends Migration
             $table->foreign('event_id')->references('id')->on('meetings');
             $table->text('data');
             $table->integer('deposits')->default(0);
-            $table->integer('latefee')->default(0);
-            $table->integer('adjustments')->default(0);
-            $table->text('comments')->nullable();
             $table->boolean('status')->default(0);
             $table->timestamps();
         });

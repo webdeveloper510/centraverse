@@ -206,7 +206,7 @@ class MeetingController extends Controller
             $meeting['func_package']       = $package;
             $meeting['function']            = implode(',', $request->function);
             $meeting['guest_count']         = $request->guest_count;
-            $meeting['room']                = $request->rooms;
+            $meeting['room']                = $request->rooms ?? 0;
             $meeting['meal']                = $request->meal;
             $meeting['bar']                 = $request->bar;
             $meeting['bar_package']         = $bar_pack;
