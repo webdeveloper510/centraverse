@@ -128,7 +128,11 @@ $bar_package = json_decode($setting['barpackage'],true);
                                                         </label>
                                                     </div>
                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
+                                                    <?php if($errors->has('user')): ?>
+            <span class="invalid-feedback" role="alert">
+                <strong><?php echo e($errors->first('user')); ?></strong>
+            </span>
+        <?php endif; ?>
                                                 </div>
                                             </div>
                                             <div class="col-6">
@@ -138,6 +142,11 @@ $bar_package = json_decode($setting['barpackage'],true);
                                                     <?php echo Form::select('type', $type_arr, null,array('class' => 'form-control')); ?>
 
                                                 </div>
+                                                <?php if($errors->has('type')): ?>
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong><?php echo e($errors->first('type')); ?></strong>
+                                                    </span>
+                                                <?php endif; ?>
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
@@ -146,7 +155,11 @@ $bar_package = json_decode($setting['barpackage'],true);
                                                     <?php echo e(Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Company Name'),'required'=>'required'))); ?>
 
                                                 </div>
-
+                                                <?php if($errors->has('company_name')): ?>
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong><?php echo e($errors->first('company_name')); ?></strong>
+                                                    </span>
+                                                <?php endif; ?>
                                             </div>
                                             <div class="col-12  p-0 modaltitle pb-3 mb-3">
                                                 <h5 style="margin-left: 14px;"><?php echo e(__('Contact Information')); ?></h5>
@@ -158,6 +171,11 @@ $bar_package = json_decode($setting['barpackage'],true);
                                                     <?php echo e(Form::text('name',null,array('class'=>'form-control','placeholder'=>__('Enter Name'),'required'=>'required'))); ?>
 
                                                 </div>
+                                                <?php if($errors->has('name')): ?>
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong><?php echo e($errors->first('name')); ?></strong>
+                                                    </span>
+                                                <?php endif; ?>
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
@@ -166,7 +184,7 @@ $bar_package = json_decode($setting['barpackage'],true);
                                                     <?php echo e(Form::text('phone',null,array('class'=>'form-control','placeholder'=>__('Enter Phone'),'required'=>'required'))); ?>
 
                                                 </div>
-                                               
+                                              
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
@@ -175,7 +193,11 @@ $bar_package = json_decode($setting['barpackage'],true);
                                                     <?php echo e(Form::text('email',null,array('class'=>'form-control','placeholder'=>__('Enter Email'),'required'=>'required'))); ?>
 
                                                 </div>
-                                               
+                                                <?php if($errors->has('email')): ?>
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong><?php echo e($errors->first('email')); ?></strong>
+                                                    </span>
+                                                <?php endif; ?>
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
@@ -184,16 +206,7 @@ $bar_package = json_decode($setting['barpackage'],true);
                                                     <?php echo e(Form::text('lead_address',null,array('class'=>'form-control','placeholder'=>__('Address'),'required'=>'required'))); ?>
 
                                                 </div>
-                                                <?php $__errorArgs = ['lead_address'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                                <div class="alert alert-danger mt-1 mb-1"><?php echo e($message); ?></div>
-                                                <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
+                                               
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
@@ -289,16 +302,11 @@ unset($__errorArgs, $__bag); ?>
                                                     <?php echo Form::number('guest_count', null,array('class' => 'form-control','min'=> 0)); ?>
 
                                                 </div>
-                                                <?php $__errorArgs = ['guest_count'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                                <div class="alert alert-danger mt-1 mb-1"><?php echo e($message); ?></div>
-                                                <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
+                                                <?php if($errors->has('guest_count')): ?>
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong><?php echo e($errors->first('guest_count')); ?></strong>
+                                                    </span>
+                                                <?php endif; ?>
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
@@ -310,16 +318,11 @@ unset($__errorArgs, $__bag); ?>
                                                     </div>
                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </div>
-                                                <?php $__errorArgs = ['venue'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                                <div class="alert alert-danger mt-1 mb-1"><?php echo e($message); ?></div>
-                                                <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
+                                                <?php if($errors->has('venue')): ?>
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong><?php echo e($errors->first('venue')); ?></strong>
+                                                    </span>
+                                                <?php endif; ?>
                                             </div>
 
 
@@ -331,16 +334,12 @@ unset($__errorArgs, $__bag); ?>
                                                     <?php echo Form::date('start_date', null, ['class' => 'form-control', 'required' => 'required']); ?>
 
                                                 </div>
-                                                <?php $__errorArgs = ['start_date'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                                <div class="alert alert-danger mt-1 mb-1"><?php echo e($message); ?></div>
-                                                <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
+                                                <?php if($errors->has('start_date')): ?>
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong><?php echo e($errors->first('start_date')); ?></strong>
+                                                    </span>
+                                                <?php endif; ?>
+
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
@@ -349,16 +348,12 @@ unset($__errorArgs, $__bag); ?>
                                                     <?php echo Form::date('end_date',null, ['class' => 'form-control', 'required' => 'required']); ?>
 
                                                 </div>
-                                                <?php $__errorArgs = ['end_date'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                                <div class="alert alert-danger mt-1 mb-1"><?php echo e($message); ?></div>
-                                                <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
+                                                <?php if($errors->has('end_date')): ?>
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong><?php echo e($errors->first('end_date')); ?></strong>
+                                                    </span>
+                                                <?php endif; ?>
+
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
@@ -367,16 +362,12 @@ unset($__errorArgs, $__bag); ?>
                                                     <?php echo Form::input('time', 'start_time', null, ['class' => 'form-control', 'required' => 'required']); ?>
 
                                                 </div>
-                                                <?php $__errorArgs = ['start_time'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                                <div class="alert alert-danger mt-1 mb-1"><?php echo e($message); ?></div>
-                                                <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
+                                                <?php if($errors->has('start_time')): ?>
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong><?php echo e($errors->first('start_time')); ?></strong>
+                                                    </span>
+                                                <?php endif; ?>
+
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
@@ -385,16 +376,11 @@ unset($__errorArgs, $__bag); ?>
                                                     <?php echo Form::input('time', 'end_time', null, ['class' => 'form-control', 'required' => 'required']); ?>
 
                                                 </div>
-                                                <?php $__errorArgs = ['end_time'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                                <div class="alert alert-danger mt-1 mb-1"><?php echo e($message); ?></div>
-                                                <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
+                                                <?php if($errors->has('end_time')): ?>
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong><?php echo e($errors->first('end_time')); ?></strong>
+                                                    </span>
+                                                <?php endif; ?>
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
@@ -411,7 +397,11 @@ unset($__errorArgs, $__bag); ?>
                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     <?php endif; ?>
                                                 </div>
-                                              
+                                                <?php if($errors->has('function')): ?>
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong><?php echo e($errors->first('end_time')); ?></strong>
+                                                    </span>
+                                                <?php endif; ?>
                                             </div>
                                             <div class="col-6" id="mailFunctionSection">
                                                 <?php if(isset($function) && !empty($function)): ?>
