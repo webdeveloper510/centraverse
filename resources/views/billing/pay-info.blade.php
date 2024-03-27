@@ -17,7 +17,7 @@ foreach($pay as $p){
     <div class="col-6">
         <div class="form-group">
             {{Form::label('date',__('Date'),['class'=>'form-label']) }}
-            <input type="date" name="date" id="date" class="form-control" value="{{$payment->date ?? ''}}">
+            <input type="date" name="date" id="date" class="form-control" value="{{$payment->date ?? date('Y-m-d')}}">
         </div>
     </div>
     <div class="col-6">
