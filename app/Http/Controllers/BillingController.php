@@ -49,22 +49,17 @@ class BillingController extends Controller
      */
     public function store(Request $request ,$id)
     {
-     
         $items = $request->billing;
         $totalCost = 0;
         foreach ($items as $item) {
             $totalCost += $item['cost'] * $item['quantity'];
         }
-
         $totalCost = $totalCost + 7* ($totalCost)/100 + 20 * ($totalCost)/100 - $request->deposits;
         $billing = new Billing();
         $billing['event_id'] = $id;
         $billing['data'] = serialize($items);
         $billing['status'] = 1;
         $billing['deposits'] = $request->deposits;
-        $billing['latefee'] = $request->latefee;
-        $billing['adjustments'] = $request->adjustments;
-        $billing['comments'] = $request->comments;
         $billing->save();
         Meeting::where('id',$id)->update(['total' => $totalCost ,'status' => 2]);
         return redirect()->back()->with('success', __('Billing Created'));

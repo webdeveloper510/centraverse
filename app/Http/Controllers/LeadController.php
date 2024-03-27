@@ -87,10 +87,7 @@ class LeadController extends Controller
                 [
                     'lead_name'=>'required',
                     'name' => 'required|max:120',
-                    'email' => 'required',
-                    'start_date'=>'required',
-                    'end_date'=>'required',
-                    'user'=>'required'
+                    'phone'=>'required|numeric',
                 ]);
             if ($validator->fails()) {
                 $messages = $validator->getMessageBag();
@@ -137,7 +134,7 @@ class LeadController extends Controller
             $lead['name']               = $request->name;
             $lead['leadname']          = $request->lead_name;
             $lead['assigned_user']      = $request->user;
-            $lead['email']              = $request->email;
+            $lead['email']              = $request->email ?? '';
             $lead['phone']              = $request->phone;
             $lead['lead_address']       = $request->lead_address;
             $lead['company_name']       = $request->company_name;
@@ -145,15 +142,15 @@ class LeadController extends Controller
             $lead['start_date']         = $request->start_date;
             $lead['end_date']           = $request->end_date;
             $lead['type']               = $request->type;
-            $lead['venue_selection']    = implode(',',$request->venue);
+            $lead['venue_selection']    = isset($request->venue)?implode(',',$request->venue) :'';
             $lead['function']           = isset($request->function)? implode(',',$request->function) :'';
             $lead['func_package']       = $package ?? '';
             $lead['guest_count']        = $request->guest_count ?? 0;
             $lead['description']        = $request->description;
             $lead['spcl_req']           = $request->spcl_req;
             $lead['allergies']          = $request->allergies;
-            $lead['start_time']         = $request->start_time;
-            $lead['end_time']           = $request->end_time;
+            $lead['start_time']         = $request->start_time ?? '';
+            $lead['end_time']           = $request->end_time ?? '';
             $lead['bar']                =   $request->baropt;
             $lead['bar_package']         = $bar_pack  ?? '';
             $lead['ad_opts']             = $additional  ?? '';
@@ -247,17 +244,14 @@ class LeadController extends Controller
     public function update(Request $request, Lead $lead)
     {
         $venue_function = implode(',',$_REQUEST['venue']);
-        $function = isset($request->funcion) ? implode(',',$_REQUEST['function']) : '';
+        $function = isset($request->function) ? implode(',',$_REQUEST['function']) : '';
         if (\Auth::user()->can('Edit Lead')) {
             $validator = \Validator::make(
                 $request->all(),
                 [
                     'name' => 'required|max:120',
-                    'email' => 'required',
-                    'start_date'=>'required',
-                    'end_date'=>'required',
-                    'venue'=>'required',                    
-                    'user'=>'required'
+                    'phone' => 'required|numeric',
+                   
                 ]
             );
             if ($validator->fails()) {

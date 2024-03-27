@@ -61,50 +61,50 @@
                                                     <?php $bill = \App\Models\Billing::where('event_id', $event->id)->pluck('status')->first() ?>
                                                     <?php if($bill == 1): ?>
                                                     <span
-                                                        class="badge bg-info p-2 px-3 rounded"><?php echo e(__(\App\Models\Billing::$status[$bill])); ?></span>
+                                                        class=" text-info"><?php echo e(__(\App\Models\Billing::$status[$bill])); ?></span>
                                                     <?php elseif($bill == 2): ?>
                                                     <span
-                                                        class="badge bg-warning p-2 px-3 rounded"><?php echo e(__(\App\Models\Billing::$status[$bill])); ?></span>
+                                                        class=" text-warning "><?php echo e(__(\App\Models\Billing::$status[$bill])); ?></span>
                                                     <?php else: ?>
                                                     <span
-                                                        class="badge bg-success p-2 px-3 rounded"><?php echo e(__(\App\Models\Billing::$status[$bill])); ?></span>
+                                                        class=" text-success"><?php echo e(__(\App\Models\Billing::$status[$bill])); ?></span>
                                                     <?php endif; ?>
                                                     <?php else: ?>
                                                     <span
-                                                        class="badge bg-secondary p-2 px-3 rounded"><?php echo e(__(\App\Models\Billing::$status[0])); ?></span>
+                                                        class=" text-danger "><?php echo e(__(\App\Models\Billing::$status[0])); ?></span>
                                                     <?php endif; ?>
                                                 </td>
                                                 <td class="text-end">
-                                                <?php if(!(\App\Models\Billing::where('event_id',$event->id)->exists())): ?>
-                                                
-                                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Payment')): ?>
-                                                        <div class="action-btn bg-primary ms-2">
-                                                            <a href="#" data-size="md"
-                                                                data-url="<?php echo e(route('billing.create',['billing',$event->id])); ?>"
-                                                                data-bs-toggle="tooltip" title="<?php echo e(__('Create')); ?>"
-                                                                data-ajax-popup="true"
-                                                                data-title="<?php echo e(__('Billing Details')); ?>"
-                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                                <i class="ti ti-plus"></i>
-                                                            </a>
-                                                        </div>
-                                                        <?php endif; ?>
+                                                    <?php if(!(\App\Models\Billing::where('event_id',$event->id)->exists())): ?>
+
+                                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Payment')): ?>
+                                                    <div class="action-btn bg-primary ms-2">
+                                                        <a href="#" data-size="md"
+                                                            data-url="<?php echo e(route('billing.create',['billing',$event->id])); ?>"
+                                                            data-bs-toggle="tooltip" title="<?php echo e(__('Create')); ?>"
+                                                            data-ajax-popup="true"
+                                                            data-title="<?php echo e(__('Billing Details')); ?>"
+                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                            <i class="ti ti-plus"></i>
+                                                        </a>
+                                                    </div>
+                                                    <?php endif; ?>
                                                     <?php endif; ?>
                                                     <?php if(\App\Models\Billing::where('event_id',$event->id)->exists()): ?>
                                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Payment')): ?>
                                                     <div class="action-btn bg-info ms-2">
-                                                            <a href="#" data-size="md"
-                                                                data-url="<?php echo e(route('billing.paymentinfo',$event->id)); ?>"
-                                                                data-bs-toggle="tooltip" title="<?php echo e(__('Payment Details')); ?>"
-                                                                data-ajax-popup="true"
-                                                                data-title="<?php echo e(__('Payment Information')); ?>"
-                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                                <i class=" fa fa-credit-card "></i>
-                                                            </a>
-                                                        </div>
-                                                        <?php endif; ?>
+                                                        <a href="#" data-size="md"
+                                                            data-url="<?php echo e(route('billing.paymentinfo',$event->id)); ?>"
+                                                            data-bs-toggle="tooltip" title="<?php echo e(__('Payment Details')); ?>"
+                                                            data-ajax-popup="true"
+                                                            data-title="<?php echo e(__('Payment Information')); ?>"
+                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                            <i class=" fa fa-credit-card "></i>
+                                                        </a>
+                                                    </div>
+                                                    <?php endif; ?>
                                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Payment')): ?>
-                                                    
+
                                                     <div class="action-btn bg-warning ms-2">
                                                         <a href="#" data-size="md"
                                                             data-url="<?php echo e(route('billing.show',$event->id)); ?>"

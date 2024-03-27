@@ -58,50 +58,50 @@
                                                     <?php $bill = \App\Models\Billing::where('event_id', $event->id)->pluck('status')->first() ?>
                                                     @if($bill == 1)
                                                     <span
-                                                        class="badge bg-info p-2 px-3 rounded">{{__(\App\Models\Billing::$status[$bill]) }}</span>
+                                                        class=" text-info">{{__(\App\Models\Billing::$status[$bill]) }}</span>
                                                     @elseif($bill == 2)
                                                     <span
-                                                        class="badge bg-warning p-2 px-3 rounded">{{__(\App\Models\Billing::$status[$bill]) }}</span>
+                                                        class=" text-warning ">{{__(\App\Models\Billing::$status[$bill]) }}</span>
                                                     @else($bill == 3)
                                                     <span
-                                                        class="badge bg-success p-2 px-3 rounded">{{__(\App\Models\Billing::$status[$bill]) }}</span>
+                                                        class=" text-success">{{__(\App\Models\Billing::$status[$bill]) }}</span>
                                                     @endif
                                                     @else
                                                     <span
-                                                        class="badge bg-secondary p-2 px-3 rounded">{{__(\App\Models\Billing::$status[0]) }}</span>
+                                                        class=" text-danger ">{{__(\App\Models\Billing::$status[0]) }}</span>
                                                     @endif
                                                 </td>
                                                 <td class="text-end">
-                                                @if(!(\App\Models\Billing::where('event_id',$event->id)->exists()))
-                                                
-                                                        @can('Create Payment')
-                                                        <div class="action-btn bg-primary ms-2">
-                                                            <a href="#" data-size="md"
-                                                                data-url="{{ route('billing.create',['billing',$event->id]) }}"
-                                                                data-bs-toggle="tooltip" title="{{__('Create')}}"
-                                                                data-ajax-popup="true"
-                                                                data-title="{{__('Billing Details')}}"
-                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                                <i class="ti ti-plus"></i>
-                                                            </a>
-                                                        </div>
-                                                        @endcan
+                                                    @if(!(\App\Models\Billing::where('event_id',$event->id)->exists()))
+
+                                                    @can('Create Payment')
+                                                    <div class="action-btn bg-primary ms-2">
+                                                        <a href="#" data-size="md"
+                                                            data-url="{{ route('billing.create',['billing',$event->id]) }}"
+                                                            data-bs-toggle="tooltip" title="{{__('Create')}}"
+                                                            data-ajax-popup="true"
+                                                            data-title="{{__('Billing Details')}}"
+                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                            <i class="ti ti-plus"></i>
+                                                        </a>
+                                                    </div>
+                                                    @endcan
                                                     @endif
                                                     @if(\App\Models\Billing::where('event_id',$event->id)->exists())
                                                     @can('Manage Payment')
                                                     <div class="action-btn bg-info ms-2">
-                                                            <a href="#" data-size="md"
-                                                                data-url="{{ route('billing.paymentinfo',$event->id) }}"
-                                                                data-bs-toggle="tooltip" title="{{__('Payment Details')}}"
-                                                                data-ajax-popup="true"
-                                                                data-title="{{__('Payment Information')}}"
-                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                                <i class=" fa fa-credit-card "></i>
-                                                            </a>
-                                                        </div>
-                                                        @endcan
+                                                        <a href="#" data-size="md"
+                                                            data-url="{{ route('billing.paymentinfo',$event->id) }}"
+                                                            data-bs-toggle="tooltip" title="{{__('Payment Details')}}"
+                                                            data-ajax-popup="true"
+                                                            data-title="{{__('Payment Information')}}"
+                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                            <i class=" fa fa-credit-card "></i>
+                                                        </a>
+                                                    </div>
+                                                    @endcan
                                                     @can('Manage Payment')
-                                                    
+
                                                     <div class="action-btn bg-warning ms-2">
                                                         <a href="#" data-size="md"
                                                             data-url="{{ route('billing.show',$event->id) }}"

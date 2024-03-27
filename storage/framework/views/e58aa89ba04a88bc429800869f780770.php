@@ -62,7 +62,7 @@ $additional_items = json_decode($settings['additional_items'],true);
         <div class="form-group">
             <?php echo e(Form::label('email',__('Email'),['class'=>'form-label'])); ?>
 
-            <?php echo e(Form::text('email',null,array('class'=>'form-control','placeholder'=>__('Enter Email'),'required'=>'required'))); ?>
+            <?php echo e(Form::text('email',null,array('class'=>'form-control','placeholder'=>__('Enter Email')))); ?>
 
         </div>
     </div>
@@ -70,7 +70,7 @@ $additional_items = json_decode($settings['additional_items'],true);
         <div class="form-group">
             <?php echo e(Form::label('lead_address',__('Address'),['class'=>'form-label'])); ?>
 
-            <?php echo e(Form::text('lead_address',null,array('class'=>'form-control','placeholder'=>__('Address'),'required'=>'required'))); ?>
+            <?php echo e(Form::text('lead_address',null,array('class'=>'form-control','placeholder'=>__('Address')))); ?>
 
         </div>
     </div>
@@ -90,7 +90,7 @@ $additional_items = json_decode($settings['additional_items'],true);
             <?php echo e(Form::label('type',__('Event Type'),['class'=>'form-label'])); ?>
 
             <?php echo Form::select('type', isset($type_arr) ? $type_arr : '', null,array('class' =>
-            'form-control','required'=>'required')); ?>
+            'form-control')); ?>
 
         </div>
     </div>
@@ -114,7 +114,7 @@ $additional_items = json_decode($settings['additional_items'],true);
         <div class="form-group">
             <?php echo e(Form::label('start_date', __('Start Date'), ['class' => 'form-label'])); ?>
 
-            <?php echo Form::date('start_date', date('Y-m-d'), ['class' => 'form-control', 'required' => 'required']); ?>
+            <?php echo Form::date('start_date', date('Y-m-d'), ['class' => 'form-control']); ?>
 
         </div>
     </div>
@@ -122,7 +122,7 @@ $additional_items = json_decode($settings['additional_items'],true);
         <div class="form-group">
             <?php echo e(Form::label('end_date', __('End Date'), ['class' => 'form-label'])); ?>
 
-            <?php echo Form::date('end_date', date('Y-m-d'), ['class' => 'form-control', 'required' => 'required']); ?>
+            <?php echo Form::date('end_date', date('Y-m-d'), ['class' => 'form-control']); ?>
 
         </div>
     </div>
@@ -204,7 +204,7 @@ $additional_items = json_decode($settings['additional_items'],true);
         <div class="form-group">
             <?php echo e(Form::label('Assign Staff',__('Assign Staff'),['class'=>'form-label'])); ?>
 
-            <select class="form-control" name='user' required>
+            <select class="form-control" name='user'>
                 <option class="form-control"  disabled>Select Staff</option>
                 <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <option class="form-control" value="<?php echo e($user->id); ?>"><?php echo e($user->name); ?> (<?php echo e($user->type); ?>)</option>
@@ -289,7 +289,7 @@ $additional_items = json_decode($settings['additional_items'],true);
         <div class="form-group">
             <?php echo e(Form::label('start_time', __('Estimated Start Time (24-Hour Format)'), ['class' => 'form-label'])); ?>
 
-            <?php echo Form::input('time', 'start_time', 'null', ['class' => 'form-control', 'required' => 'required']); ?>
+            <?php echo Form::input('time', 'start_time', 'null', ['class' => 'form-control']); ?>
 
         </div>
     </div>
@@ -297,7 +297,7 @@ $additional_items = json_decode($settings['additional_items'],true);
         <div class="form-group">
             <?php echo e(Form::label('end_time', __('Estimated End Time (24-Hour Format)'), ['class' => 'form-label'])); ?>
 
-            <?php echo Form::input('time', 'end_time', 'null', ['class' => 'form-control', 'required' => 'required']); ?>
+            <?php echo Form::input('time', 'end_time', 'null', ['class' => 'form-control']); ?>
 
         </div>
     </div>
