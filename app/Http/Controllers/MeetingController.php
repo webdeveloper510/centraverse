@@ -100,8 +100,6 @@ class MeetingController extends Controller
                     'venue' => 'required|max:120',
                     'function' => 'required|max:120',
                     'guest_count' => 'required',
-                    'start_time' => 'required',
-                    'end_time' => 'required',
                 ]
             );
         // If validation fails

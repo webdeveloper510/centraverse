@@ -11,6 +11,7 @@ class Billing extends Model
         'Create Estimated Invoice',
         'Invoice created',
         'Payment Pending',
+        'Partially Paid',
         'Payment Completed',
     ];
 }
