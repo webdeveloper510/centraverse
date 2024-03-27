@@ -138,27 +138,13 @@ $meetingData['setup_cost'] = '';
         </table>
     </div>
     <div class="row form-group">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <label class="form-label"> Deposit on file: </label>
             <input type="number" name="deposits" min='0' class="form-control" required>
         </div>
-        <div class="col-md-6">
-            <label class="form-label"> Late Fee: </label>
-            <input type="number" name="latefee" min='0' class="form-control" required>
-        </div>
+    
     </div>
-    <div class="row form-group">
-        <div class="col-md-12">
-            <label class="form-label"> Adjustments: </label>
-            <input type="number" name="adjustments" class="form-control" required>
-        </div>
-    </div>
-    <div class="row form-group">
-        <div class="col-md-12">
-            <label class="form-label"> Comments: </label>
-            <textarea name="comments" class="form-control" id="comments" cols="30" rows="5"></textarea>
-        </div>
-    </div>
+   
 </div>
 <?php echo e(Form::submit(__('Save'),array('class'=>'btn btn-primary '))); ?>
 

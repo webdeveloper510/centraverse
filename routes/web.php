@@ -423,6 +423,7 @@ Route::group(['middleware' => ['verified']], function () {
           Route::post('billing/payment',[BillingController::class,'billpaymenturl'])->name('billing.paymenturl');
           Route::get('billing/estimate-view/{id}',[BillingController::class,'estimationview'])->name('billing.estimateview');
           Route::get('billing/payment-info/{id}',[BillingController::class,'paymentinformation'])->name('billing.paymentinfo');
+          Route::post('billing/payment-info/{id}',[BillingController::class,'paymentupdate'])->name('billing.paymentinfoupdate');
         }
     );
     Route::group(

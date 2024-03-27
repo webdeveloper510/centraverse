@@ -13,13 +13,15 @@ use Stripe\Stripe;
 use Stripe\PaymentIntent;
 use Stripe\Checkout\Session;
 use Barryvdh\DomPDF\Facade\Pdf;
+Use App\Models\PaymentInfo;
+use App\Models\PaymentLogs;
 
 class BillingController extends Controller
 {
     public $paypalClient;
     /**
      * Display a listing of the resource.
-     */
+    */
     public function index()
     {
         if (\Auth::user()->type == 'owner') {
@@ -74,19 +76,7 @@ class BillingController extends Controller
         $event = Meeting::where('id',$id)->first();
         return view('billing.view',compact('billing','event'));
     }
-    /**
-     * Show the form for editing the specified resource.
-     */
-   
-    /**
-     * Update the specified resource in storage.
-    */
-    // public function update(Request $request, string $id)
-    // {
-    // }
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(string $id)
     {
         $billing = Billing::where('event_id',$id)->first();
@@ -106,7 +96,35 @@ class BillingController extends Controller
     }
     public function paymentinformation($id){
         $event = Meeting ::find($id);
-        return view('billing.pay-info',compact('event'));
+        $payment = PaymentInfo::where('event_id',$id)->orderBy('id', 'DESC')->first();
+        return view('billing.pay-info',compact('event','payment'));
+    }
+    public function paymentupdate(Request $request, $id){
+        $payment = new PaymentInfo();
+        $payment->event_id = $id;
+        $payment->amount = $request->amount;
+        $payment->date = $request->date;
+        $payment->deposits = $request->deposits;
+        $payment->adjustments = $request->adjustments;
+        $payment->latefee = $request->latefee;
+        $payment->adjustmentnotes = $request->adjustmentnotes;
+        $payment->paymentref = $request->paymentref;
+        $payment->modeofpayment = $request->mode;
+        $payment->notes = $request->notes;
+        $balance = $request->balance;
+        $event = Meeting::find($id);
+        $payment->save();
+        if($request->mode == 'credit'){
+            return view('payments.pay',compact('balance','event'));
+        }else{
+            PaymentLogs::create([
+                'amount' => $balance,
+                'transaction_id' => $request->paymentref,
+                'name_of_card' => $event->name,
+                'event_id' =>$id
+            ]);
+        }
+         return redirect()->back()->with('success','Payment Information Updated Sucessfully');
     }
     // public function stripe_payment_view($meeting)
     // {
