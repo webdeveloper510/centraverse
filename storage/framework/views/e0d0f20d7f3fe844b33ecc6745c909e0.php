@@ -21,7 +21,7 @@ foreach($pay as $p){
         <div class="form-group">
             <?php echo e(Form::label('date',__('Date'),['class'=>'form-label'])); ?>
 
-            <input type="date" name="date" id="date" class="form-control" value="<?php echo e($payment->date ?? ''); ?>">
+            <input type="date" name="date" id="date" class="form-control" value="<?php echo e($payment->date ?? date('Y-m-d')); ?>">
         </div>
     </div>
     <div class="col-6">
