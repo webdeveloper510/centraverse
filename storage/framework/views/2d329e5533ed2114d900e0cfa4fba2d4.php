@@ -26,7 +26,7 @@ $additional_items = json_decode($settings['additional_items'],true);
         <div class="form-group">
             <?php echo e(Form::label('lead_name',__('Lead Name'),['class'=>'form-label'])); ?>
 
-            <?php echo e(Form::text('lead_name',old('lead_name') ,array('class'=>'form-control','placeholder'=>__('Enter Lead Name')))); ?>
+            <?php echo e(Form::text('lead_name',old('lead_name') ,array('class'=>'form-control','placeholder'=>__('Enter Lead Name'),'required'=>'required'))); ?>
 
             <?php $__errorArgs = ['lead_name'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -141,7 +141,7 @@ unset($__errorArgs, $__bag); ?>
         <div class="form-group">
             <?php echo e(Form::label('guest_count',__('Guest Count'),['class'=>'form-label'])); ?>
 
-            <?php echo Form::number('guest_count',old('guest_count'),array('class' => 'form-control','min'=> 0)); ?>
+            <?php echo Form::number('guest_count',old('guest_count'),array('class' => 'form-control','min'=> 0, 'required' => 'required')); ?>
 
         </div>
     </div>

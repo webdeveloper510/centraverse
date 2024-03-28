@@ -14,7 +14,6 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Proposal</title>
 </head>
-
 <body>
     <div class="container">
         <div class="row">

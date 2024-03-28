@@ -328,7 +328,6 @@ class MeetingController extends Controller
                     'guest_count' => 'required',
                     'start_time' => 'required',
                     'end_time' => 'required',
-                    'meal' => 'required'
                 ]
             );
             if ($validator->fails()) {
@@ -869,7 +868,7 @@ class MeetingController extends Controller
         $meeting['func_package']       = $packagesArray;
         $meeting['guest_count']        = $request->guest_count;
         $meeting['room']                = $request->rooms;
-        $meeting['meal']                = $meal;
+        $meeting['meal']                = $meal??'';
         $meeting['bar']                 = $request->bar;
         $meeting['spcl_request']        = $request->spcl_request;
         $meeting['alter_name']          = $request->alter_name;

@@ -92,11 +92,11 @@ class BillingController extends Controller
         $event_info = Meeting::where('id', $request->id)->get();
         return $event_info;
     }
-    // public function payviamode($id)
-    // {
-    //     $new_id = decrypt(urldecode($id));
-    //     return view('billing.paymentview', compact('new_id'));
-    // }
+    public function payviamode($id)
+    {
+        $new_id = decrypt(urldecode($id));
+        return view('billing.paymentview', compact('new_id'));
+    }
 
     // public function stripe_payment_view($meeting)
     // {
