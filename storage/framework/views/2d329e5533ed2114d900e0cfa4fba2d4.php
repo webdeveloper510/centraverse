@@ -26,25 +26,15 @@ $additional_items = json_decode($settings['additional_items'],true);
         <div class="form-group">
             <?php echo e(Form::label('lead_name',__('Lead Name'),['class'=>'form-label'])); ?>
 
-            <?php echo e(Form::text('lead_name',old('lead_name') ,array('class'=>'form-control','placeholder'=>__('Enter Lead Name'),'required'=>'required'))); ?>
+            <?php echo e(Form::text('lead_name',null,array('class'=>'form-control','placeholder'=>__('Enter Lead Name'),'required'=>'required'))); ?>
 
-            <?php $__errorArgs = ['lead_name'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-            <div class="alert alert-danger mt-1 mb-1"><?php echo e($message); ?></div>
-            <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
         </div>
     </div>
     <div class="col-6">
         <div class="form-group">
             <?php echo e(Form::label('company_name',__('Company Name'),['class'=>'form-label'])); ?>
 
-            <?php echo e(Form::text('company_name',old('company_name'),array('class'=>'form-control','placeholder'=>__('Enter Company Name'),'required'=>'required'))); ?>
+            <?php echo e(Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Company Name')))); ?>
 
         </div>
     </div>
@@ -72,7 +62,7 @@ unset($__errorArgs, $__bag); ?>
         <div class="form-group">
             <?php echo e(Form::label('email',__('Email'),['class'=>'form-label'])); ?>
 
-            <?php echo e(Form::text('email',null,array('class'=>'form-control','placeholder'=>__('Enter Email'),'required'=>'required'))); ?>
+            <?php echo e(Form::text('email',null,array('class'=>'form-control','placeholder'=>__('Enter Email')))); ?>
 
         </div>
     </div>
@@ -80,7 +70,7 @@ unset($__errorArgs, $__bag); ?>
         <div class="form-group">
             <?php echo e(Form::label('lead_address',__('Address'),['class'=>'form-label'])); ?>
 
-            <?php echo e(Form::text('lead_address',null,array('class'=>'form-control','placeholder'=>__('Address'),'required'=>'required'))); ?>
+            <?php echo e(Form::text('lead_address',null,array('class'=>'form-control','placeholder'=>__('Address')))); ?>
 
         </div>
     </div>
@@ -88,7 +78,7 @@ unset($__errorArgs, $__bag); ?>
         <div class="form-group">
             <?php echo e(Form::label('relationship',__('Relationship'),['class'=>'form-label'])); ?>
 
-            <?php echo e(Form::text('relationship',null,array('class'=>'form-control','placeholder'=>__('Enter Relationship'),'required'=>'required'))); ?>
+            <?php echo e(Form::text('relationship',null,array('class'=>'form-control','placeholder'=>__('Enter Relationship')))); ?>
 
         </div>
     </div>
@@ -100,7 +90,7 @@ unset($__errorArgs, $__bag); ?>
             <?php echo e(Form::label('type',__('Event Type'),['class'=>'form-label'])); ?>
 
             <?php echo Form::select('type', isset($type_arr) ? $type_arr : '', null,array('class' =>
-            'form-control','required'=>'required')); ?>
+            'form-control')); ?>
 
         </div>
     </div>
@@ -124,7 +114,7 @@ unset($__errorArgs, $__bag); ?>
         <div class="form-group">
             <?php echo e(Form::label('start_date', __('Start Date'), ['class' => 'form-label'])); ?>
 
-            <?php echo Form::date('start_date', date('Y-m-d'), ['class' => 'form-control', 'required' => 'required']); ?>
+            <?php echo Form::date('start_date', date('Y-m-d'), ['class' => 'form-control']); ?>
 
         </div>
     </div>
@@ -132,7 +122,7 @@ unset($__errorArgs, $__bag); ?>
         <div class="form-group">
             <?php echo e(Form::label('end_date', __('End Date'), ['class' => 'form-label'])); ?>
 
-            <?php echo Form::date('end_date', date('Y-m-d'), ['class' => 'form-control', 'required' => 'required']); ?>
+            <?php echo Form::date('end_date', date('Y-m-d'), ['class' => 'form-control']); ?>
 
         </div>
     </div>
@@ -141,7 +131,8 @@ unset($__errorArgs, $__bag); ?>
         <div class="form-group">
             <?php echo e(Form::label('guest_count',__('Guest Count'),['class'=>'form-label'])); ?>
 
-            <?php echo Form::number('guest_count',old('guest_count'),array('class' => 'form-control','min'=> 0, 'required' => 'required')); ?>
+            <?php echo Form::number('guest_count',old('guest_count'),array('class' => 'form-control','min'=> 0, 'required' =>
+            'required')); ?>
 
         </div>
     </div>
@@ -215,7 +206,7 @@ unset($__errorArgs, $__bag); ?>
             <?php echo e(Form::label('Assign Staff',__('Assign Staff'),['class'=>'form-label'])); ?>
 
             <select class="form-control" name='user'>
-                <option class="form-control" selected disabled>Select Staff</option>
+                <option class="form-control" disabled>Select Staff</option>
                 <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <option class="form-control" value="<?php echo e($user->id); ?>"><?php echo e($user->name); ?> (<?php echo e($user->type); ?>)</option>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -292,14 +283,14 @@ unset($__errorArgs, $__bag); ?>
             <?php echo e(Form::label('rooms',__('Room'),['class'=>'form-label'])); ?>
 
             <input type="number" name="rooms" id="" placeholder="Enter No. of Room(if required)" min='0'
-                class="form-control" value="<?php echo e(old('guest_count')); ?>" required>
+                class="form-control" value="<?php echo e(old('guest_count')); ?>">
         </div>
     </div>
     <div class="col-6">
         <div class="form-group">
             <?php echo e(Form::label('start_time', __('Estimated Start Time (24-Hour Format)'), ['class' => 'form-label'])); ?>
 
-            <?php echo Form::input('time', 'start_time', 'null', ['class' => 'form-control', 'required' => 'required']); ?>
+            <?php echo Form::input('time', 'start_time', 'null', ['class' => 'form-control']); ?>
 
         </div>
     </div>
@@ -307,7 +298,7 @@ unset($__errorArgs, $__bag); ?>
         <div class="form-group">
             <?php echo e(Form::label('end_time', __('Estimated End Time (24-Hour Format)'), ['class' => 'form-label'])); ?>
 
-            <?php echo Form::input('time', 'end_time', 'null', ['class' => 'form-control', 'required' => 'required']); ?>
+            <?php echo Form::input('time', 'end_time', 'null', ['class' => 'form-control']); ?>
 
         </div>
     </div>
@@ -318,6 +309,12 @@ unset($__errorArgs, $__bag); ?>
 
 </div>
 <script>
+jQuery(function() {
+    $('input[name = lead_name]').keyup(function() {
+        var value = $(this).val();
+        $('input[name = "name"]').val(value);
+    });
+});
 jQuery(function() {
     $('input[name="function[]"]').change(function() {
         $('div#mailFunctionSection > div').hide();
@@ -374,7 +371,5 @@ $(document).ready(function() {
         }
     });
 })
-
-//   $('input[name = "storedid"]').val(storedId);
 </script>
 <?php echo e(Form::close()); ?><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/lead/create.blade.php ENDPATH**/ ?>

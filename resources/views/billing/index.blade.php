@@ -24,8 +24,10 @@
                                             <tr>
                                                 <th scope="col" class="sort" data-sort="name">{{ __('Name') }}</th>
                                                 <th scope="col" class="sort" data-sort="status">{{ __('Event') }}</th>
-                                                <th scope="col" class="sort" data-sort="completion">{{ __('Event Date') }}</th>
-                                                <th scope="col" class="sort" data-sort="completion">{{ __('Payment Status') }}</th>
+                                                <th scope="col" class="sort" data-sort="completion">
+                                                    {{ __('Event Date') }}</th>
+                                                <th scope="col" class="sort" data-sort="completion">
+                                                    {{ __('Payment Status') }}</th>
                                                 <th scope="col" class="text-end">{{ __('Action') }}</th>
                                             </tr>
                                         </thead>
@@ -33,7 +35,8 @@
                                             @foreach ($events as $event)
                                             <tr>
                                                 <td>
-                                                    <a href="" data-size="md" data-title="{{ __('Billing Details') }}" class="action-item text-primary">
+                                                    <a href="" data-size="md" data-title="{{ __('Billing Details') }}"
+                                                        class="action-item text-primary">
                                                         {{ ucfirst($event->name)}}
                                                     </a>
                                                 </td>
@@ -42,31 +45,43 @@
                                                 </td>
                                                 <td>
                                                     @if($event->start_date == $event->end_date)
-                                                    <span class="budget">{{\Auth::user()->dateFormat($event->start_date)}}</span>
+                                                    <span
+                                                        class="budget">{{\Auth::user()->dateFormat($event->start_date)}}</span>
                                                     @elseif($event->start_date != $event->end_date)
-                                                    <span class="budget">{{ Carbon\Carbon::parse($event->start_date)->format('M d')}} - {{\Auth::user()->dateFormat($event->end_date)}}</span>
+                                                    <span
+                                                        class="budget">{{ Carbon\Carbon::parse($event->start_date)->format('M d')}}
+                                                        - {{\Auth::user()->dateFormat($event->end_date)}}</span>
                                                     @endif
                                                 </td>
                                                 <td>
                                                     @if(\App\Models\Billing::where('event_id',$event->id)->exists())
-                                                        <?php $bill = \App\Models\Billing::where('event_id', $event->id)->pluck('status')->first() ?>
-                                                        @if($bill == 1)
-                                                        <span class="badge bg-info p-2 px-3 rounded">{{__(\App\Models\Billing::$status[$bill]) }}</span>
-                                                        @elseif($bill == 2)
-                                                        <span class="badge bg-warning p-2 px-3 rounded">{{__(\App\Models\Billing::$status[$bill]) }}</span>
-                                                        @else($bill == 3)
-                                                        <span class="badge bg-success p-2 px-3 rounded">{{__(\App\Models\Billing::$status[$bill]) }}</span>
-                                                        @endif
+                                                    <?php $bill = \App\Models\Billing::where('event_id', $event->id)->pluck('status')->first() ?>
+                                                    @if($bill == 1)
+                                                    <span
+                                                        class=" text-info">{{__(\App\Models\Billing::$status[$bill]) }}</span>
+                                                    @elseif($bill == 2)
+                                                    <span
+                                                        class=" text-warning ">{{__(\App\Models\Billing::$status[$bill]) }}</span>
+                                                    @else($bill == 3)
+                                                    <span
+                                                        class=" text-success">{{__(\App\Models\Billing::$status[$bill]) }}</span>
+                                                    @endif
                                                     @else
-                                                    <span class="badge bg-primary p-2 px-3 rounded">{{__(\App\Models\Billing::$status[0]) }}</span>
+                                                    <span
+                                                        class=" text-danger ">{{__(\App\Models\Billing::$status[0]) }}</span>
                                                     @endif
                                                 </td>
-
                                                 <td class="text-end">
                                                     @if(!(\App\Models\Billing::where('event_id',$event->id)->exists()))
+
                                                     @can('Create Payment')
                                                     <div class="action-btn bg-primary ms-2">
-                                                        <a href="#" data-size="md" data-url="{{ route('billing.create',['billing',$event->id]) }}" data-bs-toggle="tooltip" title="{{__('Create')}}" data-ajax-popup="true" data-title="{{__('Billing Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                        <a href="#" data-size="md"
+                                                            data-url="{{ route('billing.create',['billing',$event->id]) }}"
+                                                            data-bs-toggle="tooltip" title="{{__('Create')}}"
+                                                            data-ajax-popup="true"
+                                                            data-title="{{__('Billing Details')}}"
+                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-plus"></i>
                                                         </a>
                                                     </div>
@@ -74,8 +89,26 @@
                                                     @endif
                                                     @if(\App\Models\Billing::where('event_id',$event->id)->exists())
                                                     @can('Manage Payment')
+                                                    <div class="action-btn bg-info ms-2">
+                                                        <a href="#" data-size="md"
+                                                            data-url="{{ route('billing.paymentinfo',$event->id) }}"
+                                                            data-bs-toggle="tooltip" title="{{__('Payment Details')}}"
+                                                            data-ajax-popup="true"
+                                                            data-title="{{__('Payment Information')}}"
+                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                            <i class=" fa fa-credit-card "></i>
+                                                        </a>
+                                                    </div>
+                                                    @endcan
+                                                    @can('Manage Payment')
+
                                                     <div class="action-btn bg-warning ms-2">
-                                                        <a href="#" data-size="md" data-url="{{ route('billing.show',$event->id) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Billing Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                        <a href="#" data-size="md"
+                                                            data-url="{{ route('billing.show',$event->id) }}"
+                                                            data-bs-toggle="tooltip" title="{{__('Quick View')}}"
+                                                            data-ajax-popup="true"
+                                                            data-title="{{__('Billing Details')}}"
+                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-eye"></i>
                                                         </a>
                                                     </div>
@@ -83,9 +116,12 @@
                                                     @endif
                                                     @can('Delete Payment')
                                                     <div class="action-btn bg-danger ms-2">
-                                                    {!! Form::open(['method' => 'DELETE', 'route' => ['billing.destroy', $event->id]]) !!}
+                                                        {!! Form::open(['method' => 'DELETE', 'route' =>
+                                                        ['billing.destroy', $event->id]]) !!}
 
-                                                        <a href="#!" class="mx-3 btn btn-sm  align-items-center text-white show_confirm" data-bs-toggle="tooltip" title='Delete'>
+                                                        <a href="#!"
+                                                            class="mx-3 btn btn-sm  align-items-center text-white show_confirm"
+                                                            data-bs-toggle="tooltip" title='Delete'>
                                                             <i class="ti ti-trash"></i>
                                                         </a>
                                                         {!! Form::close() !!}

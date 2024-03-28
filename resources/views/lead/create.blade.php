@@ -24,16 +24,13 @@ $additional_items = json_decode($settings['additional_items'],true);
     <div class="col-6">
         <div class="form-group">
             {{Form::label('lead_name',__('Lead Name'),['class'=>'form-label']) }}
-            {{Form::text('lead_name',old('lead_name') ,array('class'=>'form-control','placeholder'=>__('Enter Lead Name'),'required'=>'required'))}}
-            @error('lead_name')
-            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-            @enderror
+            {{Form::text('lead_name',null,array('class'=>'form-control','placeholder'=>__('Enter Lead Name'),'required'=>'required'))}}
         </div>
     </div>
     <div class="col-6">
         <div class="form-group">
             {{Form::label('company_name',__('Company Name'),['class'=>'form-label']) }}
-            {{Form::text('company_name',old('company_name'),array('class'=>'form-control','placeholder'=>__('Enter Company Name'),'required'=>'required'))}}
+            {{Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Company Name')))}}
         </div>
     </div>
     <div class="col-12  p-0 modaltitle pb-3 mb-3">
@@ -55,19 +52,19 @@ $additional_items = json_decode($settings['additional_items'],true);
     <div class="col-6">
         <div class="form-group">
             {{Form::label('email',__('Email'),['class'=>'form-label']) }}
-            {{Form::text('email',null,array('class'=>'form-control','placeholder'=>__('Enter Email'),'required'=>'required'))}}
+            {{Form::text('email',null,array('class'=>'form-control','placeholder'=>__('Enter Email')))}}
         </div>
     </div>
     <div class="col-6">
         <div class="form-group">
             {{Form::label('lead_address',__('Address'),['class'=>'form-label']) }}
-            {{Form::text('lead_address',null,array('class'=>'form-control','placeholder'=>__('Address'),'required'=>'required'))}}
+            {{Form::text('lead_address',null,array('class'=>'form-control','placeholder'=>__('Address')))}}
         </div>
     </div>
     <div class="col-6">
         <div class="form-group">
             {{Form::label('relationship',__('Relationship'),['class'=>'form-label']) }}
-            {{Form::text('relationship',null,array('class'=>'form-control','placeholder'=>__('Enter Relationship'),'required'=>'required'))}}
+            {{Form::text('relationship',null,array('class'=>'form-control','placeholder'=>__('Enter Relationship')))}}
         </div>
     </div>
     <div class="col-12  p-0 modaltitle pb-3 mb-3">
@@ -77,7 +74,7 @@ $additional_items = json_decode($settings['additional_items'],true);
         <div class="form-group">
             {{Form::label('type',__('Event Type'),['class'=>'form-label']) }}
             {!! Form::select('type', isset($type_arr) ? $type_arr : '', null,array('class' =>
-            'form-control','required'=>'required')) !!}
+            'form-control')) !!}
         </div>
     </div>
     @if(isset($venue) && !empty($venue))
@@ -96,20 +93,21 @@ $additional_items = json_decode($settings['additional_items'],true);
     <div class="col-6">
         <div class="form-group">
             {{ Form::label('start_date', __('Start Date'), ['class' => 'form-label']) }}
-            {!! Form::date('start_date', date('Y-m-d'), ['class' => 'form-control', 'required' => 'required']) !!}
+            {!! Form::date('start_date', date('Y-m-d'), ['class' => 'form-control']) !!}
         </div>
     </div>
     <div class="col-6">
         <div class="form-group">
             {{ Form::label('end_date', __('End Date'), ['class' => 'form-label']) }}
-            {!! Form::date('end_date', date('Y-m-d'), ['class' => 'form-control', 'required' => 'required']) !!}
+            {!! Form::date('end_date', date('Y-m-d'), ['class' => 'form-control']) !!}
         </div>
     </div>
 
     <div class="col-6">
         <div class="form-group">
             {{Form::label('guest_count',__('Guest Count'),['class'=>'form-label']) }}
-            {!! Form::number('guest_count',old('guest_count'),array('class' => 'form-control','min'=> 0, 'required' => 'required')) !!}
+            {!! Form::number('guest_count',old('guest_count'),array('class' => 'form-control','min'=> 0, 'required' =>
+            'required')) !!}
         </div>
     </div>
     @if(isset($function) && !empty($function))
@@ -172,7 +170,7 @@ $additional_items = json_decode($settings['additional_items'],true);
         <div class="form-group">
             {{Form::label('Assign Staff',__('Assign Staff'),['class'=>'form-label']) }}
             <select class="form-control" name='user'>
-                <option class="form-control" selected disabled>Select Staff</option>
+                <option class="form-control" disabled>Select Staff</option>
                 @foreach($users as $user)
                 <option class="form-control" value="{{$user->id}}">{{$user->name}} ({{$user->type}})</option>
                 @endforeach
@@ -236,19 +234,19 @@ $additional_items = json_decode($settings['additional_items'],true);
         <div class="form-group">
             {{Form::label('rooms',__('Room'),['class'=>'form-label']) }}
             <input type="number" name="rooms" id="" placeholder="Enter No. of Room(if required)" min='0'
-                class="form-control" value="{{old('guest_count')}}" required>
+                class="form-control" value="{{old('guest_count')}}">
         </div>
     </div>
     <div class="col-6">
         <div class="form-group">
             {{ Form::label('start_time', __('Estimated Start Time (24-Hour Format)'), ['class' => 'form-label']) }}
-            {!! Form::input('time', 'start_time', 'null', ['class' => 'form-control', 'required' => 'required']) !!}
+            {!! Form::input('time', 'start_time', 'null', ['class' => 'form-control']) !!}
         </div>
     </div>
     <div class="col-6">
         <div class="form-group">
             {{ Form::label('end_time', __('Estimated End Time (24-Hour Format)'), ['class' => 'form-label']) }}
-            {!! Form::input('time', 'end_time', 'null', ['class' => 'form-control', 'required' => 'required']) !!}
+            {!! Form::input('time', 'end_time', 'null', ['class' => 'form-control']) !!}
         </div>
     </div>
 </div>
@@ -257,6 +255,12 @@ $additional_items = json_decode($settings['additional_items'],true);
     {{Form::submit(__('Save'),array('class'=>'btn btn-primary '))}}
 </div>
 <script>
+jQuery(function() {
+    $('input[name = lead_name]').keyup(function() {
+        var value = $(this).val();
+        $('input[name = "name"]').val(value);
+    });
+});
 jQuery(function() {
     $('input[name="function[]"]').change(function() {
         $('div#mailFunctionSection > div').hide();
@@ -313,7 +317,5 @@ $(document).ready(function() {
         }
     });
 })
-
-//   $('input[name = "storedid"]').val(storedId);
 </script>
 {{Form::close()}}

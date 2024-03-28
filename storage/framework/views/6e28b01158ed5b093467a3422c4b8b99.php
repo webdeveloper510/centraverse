@@ -459,6 +459,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                 <div class="row">
                     <div class="col-lg-12">
                         <?php if(\Auth::user()->type == 'owner'): ?>
+                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Email')): ?>
                         <div id="company-email-setting" class="card">
                             <div class="card-header">
                                 <h5><?php echo e(__('Email Settings')); ?></h5>
@@ -579,6 +580,8 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                             <?php echo e(Form::close()); ?>
 
                         </div>
+                        <?php endif; ?>
+                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Twilio')): ?>
                         <div id="twilio-settings" class="card">
                             <div class="card-header">
                                 <h5><?php echo e(__('Twilio Settings')); ?></h5>
@@ -705,6 +708,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
 
                             </div>
                         </div>
+                        <?php endif; ?>
                         <?php endif; ?>
                         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage User')): ?>
                         <div id="user-settings" class="card">

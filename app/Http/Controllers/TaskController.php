@@ -344,9 +344,11 @@ class TaskController extends Controller
     {
         if ($request->parent == 'Account') {
             $parent = Account::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id')->toArray();
-        } elseif ($request->parent == 'Lead') {
-            $parent = Lead::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id')->toArray();
-        } elseif ($request->parent == 'Contact') {
+        } 
+        // elseif ($request->parent == 'Lead') {
+        //     $parent = Lead::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id')->toArray();
+        // }
+         elseif ($request->parent == 'Contact') {
             $parent = Contact::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id')->toArray();
         } elseif ($request->parent == 'Opportunities') {
             $parent = Opportunities::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id')->toArray();

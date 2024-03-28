@@ -405,7 +405,7 @@ Route::group(['middleware' => ['verified']], function () {
             Route::get('lead/withdraw_proposal/{id}',[LeadController::class,'withdraw'])->name('lead.withdraw');
             Route::get('lead/resend_proposal/{id}',[LeadController::class,'resend'])->name('lead.resend');
             Route::get('lead/clone/{id}',[LeadController::class,'duplicate'])->name('lead.clone');
-            
+            Route::get('lead/information/{id}',[LeadController::class,'lead_info'])->name('lead.info');
         });
 
     Route::group(
@@ -422,7 +422,8 @@ Route::group(['middleware' => ['verified']], function () {
           Route::post('billing/event',[BillingController::class,'get_event_info'])->name('billing.eventdetail');
           Route::post('billing/payment',[BillingController::class,'billpaymenturl'])->name('billing.paymenturl');
           Route::get('billing/estimate-view/{id}',[BillingController::class,'estimationview'])->name('billing.estimateview');
-
+          Route::get('billing/payment-info/{id}',[BillingController::class,'paymentinformation'])->name('billing.paymentinfo');
+          Route::post('billing/payment-info/{id}',[BillingController::class,'paymentupdate'])->name('billing.paymentinfoupdate');
         }
     );
     Route::group(

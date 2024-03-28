@@ -20,7 +20,7 @@ class Report extends Model
         'users' => 'User',
         'accounts' => 'Account',
         'contacts' => 'Contact',
-        'lead' => 'Lead',
+        // 'lead' => 'Lead',
         'opportunities' => 'Opportunities',
         'invoices' => 'Invoice',
         'cases' => 'Case',

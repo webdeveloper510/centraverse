@@ -1,5 +1,10 @@
 <?php
     $months = array(1 => 'Jan', 2 => 'Feb', 3 => 'Mar', 4 => 'Apr', 5 => 'May', 6 => 'Jun', 7 => 'Jul', 8 => 'Aug', 9 => 'Sep', 10 => 'Oct', 11 => 'Nov', 12 => 'Dec');
+    $pay =  App\Models\PaymentLogs::where('event_id',$event->id)->get();
+    $total = 0;
+    foreach($pay as $p){
+        $total += $p->amount;
+    }
     ?> 
 <!DOCTYPE html>
 <html lang="en">
@@ -9,10 +14,9 @@
     <title>Document</title>
 </head>
 <?php echo $__env->make('partials.admin.head', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-<body>
-        <div class="container mt-5">
-          <h3 style="text-center">Fill details for further payment</h3>
-          <div class="row mt-5">
+<body style = "min-height: 0vh;">
+        <div class="container mt-5 ">
+          <div class="row">
             <div class="col-md-12">
               <?php if(session('success_msg')): ?>
               <div class="alert alert-success"><?php echo e(session('success_msg')); ?></div>
@@ -21,15 +25,16 @@
               <div class="alert alert-danger"><?php echo e(session('error_msg')); ?></div>
               <?php endif; ?>
             </div>
-            <div class="col-md-12" style="padding: 10px;">
+            <div class="col-md-12" style="border-radius: 5px;padding: 10px;">
+            <h4 class="text-center">Fill Details for further payment</h4>
               <div class="panel panel-primary">
                 <div>
                   <form method="post" action="<?php echo e(route('dopay.online',$event->id)); ?>">
                     <?php echo csrf_field(); ?>
-                    <div class="row form-group">
-                      <div class=" col-md-6">
-                        <label>Owner Name</label>
-                        <input type="text" name="owner" class="form-control" required>
+                    <div class="row form-group ">
+                      <div class="col-md-6">
+                        <label>Owner</label>
+                        <input type="text" name="owner" class="form-control"  value="<?php echo e($event->name); ?>"required>
                       </div>
                       <div class= "col-md-6">
                         <label>CVV</label>
@@ -44,7 +49,7 @@
                       </div>
                       <div class="col-md-6">
                         <label>Amount</label>
-                        <input type="number" name="amount" class="form-control" value="<?php echo e($event->total); ?>">
+                        <input type="number" name="amount" class="form-control" value="<?php echo e($balance); ?>">
                       </div>
 </div>
                     <div class="row form-group">
@@ -79,6 +84,17 @@
         </div>
 </body>
 </html>
+<style>
+    .container{
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        max-width: 550px;
+        width: 100%;
+        animation: fadeInUp 0.6s ease;
+    } 
+</style>
 <?php echo $__env->make('partials.admin.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
 <?php /**PATH C:\xampp\htdocs\centraverse\resources\views/payments/pay.blade.php ENDPATH**/ ?>

@@ -126,8 +126,8 @@
                                                             <i class="ti ti-receipt"></i>
                                                         </a>
                                                     </div>
-                                                    <?php endif; ?>
-                                                        
+                                                    
+                                                        <?php endif; ?>
                                                         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Meeting')): ?>
                                                             <div class="action-btn bg-warning ms-2">
                                                                 <a href="#" data-size="md"

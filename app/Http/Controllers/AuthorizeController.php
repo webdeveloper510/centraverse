@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Billingdetail;
 use App\Models\Meeting;
 use App\Models\PaymentLogs;
+use App\Models\PaymentInfo;
+use App\Models\Billing;
 use Illuminate\Http\Request;
 use net\authorize\api\contract\v1 as AnetAPI;
 use net\authorize\api\controller as AnetController;
@@ -105,12 +107,13 @@ class AuthorizeController extends Controller
             // Since the API request was successful, look for a transaction response
             // and parse it to display the results of authorizing the card
             $tresponse = $response->getTransactionResponse();
+            // echo"<pre>";print_r($tresponse);die;
             if ($tresponse != null && $tresponse->getMessages() != null) {
-                echo " Successfully created transaction with Transaction ID: " . $tresponse->getTransId() . "\n";
-                echo " Transaction Response Code: " . $tresponse->getResponseCode() . "\n";
-                echo " Message Code: " . $tresponse->getMessages()[0]->getCode() . "\n";
-                echo " Auth Code: " . $tresponse->getAuthCode() . "\n";
-                echo " Description: " . $tresponse->getMessages()[0]->getDescription() . "\n";
+                // echo " Successfully created transaction with Transaction ID: " . $tresponse->getTransId() . "\n";
+                // echo " Transaction Response Code: " . $tresponse->getResponseCode() . "\n";
+                // echo " Message Code: " . $tresponse->getMessages()[0]->getCode() . "\n";
+                // echo " Auth Code: " . $tresponse->getAuthCode() . "\n";
+                // echo " Description: " . $tresponse->getMessages()[0]->getDescription() . "\n";
 
                     $msg_type = 'success_msg';
                     $message_text = $tresponse->getMessages()[0]->getDescription().' Transaction ID:'.$tresponse->getTransId();
@@ -122,9 +125,26 @@ class AuthorizeController extends Controller
                         'auth_id' =>  $tresponse->getAuthCode(),
                         'message_code' =>  $tresponse->getMessages()[0]->getCode(),
                         'name_of_card' =>  $input['owner'],
-                        'qty' =>  1,
+                        'event_id' =>$id
                     ]);
-                    Billingdetail::where('event_id', $id)->update(['status' => 2]);
+                    $payinfo = PaymentInfo::where('event_id',$id)->first();
+                    $halfpay = $payinfo->amount/2;
+                    $amountpaid = 0 ;
+                    $payment = PaymentLogs::where('event_id',$id)->get();
+                    foreach($payment as $pay){
+                        $amountpaid += $pay->amount;
+                    }
+                    $amountlefttobepaid = $payinfo->amount - $amountpaid;
+                    if($amountlefttobepaid == 0 || $amountlefttobepaid <= 0){
+                        Billing::where('event_id',$id)->update(['status' => 4]);
+                    }elseif($amountlefttobepaid ==  $halfpay || $amountlefttobepaid >=  $halfpay){
+                        Billing::where('event_id',$id)->update(['status' => 3]);
+                    }elseif($amountlefttobepaid <= $halfpay  ){
+                        Billing::where('event_id',$id)->update(['status' => 2]);
+                    }
+                    $data =  Billing::where('event_id',$id)->get();
+                    // Billingdetail::where('event_id', $id)->update(['status' => 2]);
+                    // Billingdetail::where('event_id', $id)->update(['status' => 2]);
                     return view('calendar.welcome')->with('success',$message_text);
             } else {
                 echo "Transaction Failed \n";

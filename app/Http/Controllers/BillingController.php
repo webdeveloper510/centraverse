@@ -13,13 +13,15 @@ use Stripe\Stripe;
 use Stripe\PaymentIntent;
 use Stripe\Checkout\Session;
 use Barryvdh\DomPDF\Facade\Pdf;
+Use App\Models\PaymentInfo;
+use App\Models\PaymentLogs;
 
 class BillingController extends Controller
 {
     public $paypalClient;
     /**
      * Display a listing of the resource.
-     */
+    */
     public function index()
     {
         if (\Auth::user()->type == 'owner') {
@@ -40,22 +42,29 @@ class BillingController extends Controller
             return view('billing.create', compact('type','id','event'));
         }
     }
-    public function createbill($type,$id){
+    // public function createbill($type,$id){
       
-        return view('billing.a',compact('type','id','event'));
-    }
+    //     return view('billing.a',compact('type','id','event'));
+    // }
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request ,$id)
     {
+        $items = $request->billing;
+        $totalCost = 0;
+        foreach ($items as $item) {
+            $totalCost += $item['cost'] * $item['quantity'];
+        }
+        $totalCost = $totalCost + 7* ($totalCost)/100 + 20 * ($totalCost)/100 - $request->deposits;
         $billing = new Billing();
         $billing['event_id'] = $id;
-        $billing['data'] = serialize($request->billing);
+        $billing['data'] = serialize($items);
         $billing['status'] = 1;
         $billing['deposits'] = $request->deposits;
         $billing->save();
-        return redirect()->back()->with('success', __('Billing Created'));
+        Meeting::where('id',$id)->update(['total' => $totalCost ,'status' => 2]);
+        return redirect()->back()->with('success', __('Estimated Invoice Created Successfully'));
      
     }
     /**
@@ -67,19 +76,7 @@ class BillingController extends Controller
         $event = Meeting::where('id',$id)->first();
         return view('billing.view',compact('billing','event'));
     }
-    /**
-     * Show the form for editing the specified resource.
-     */
-   
-    /**
-     * Update the specified resource in storage.
-    */
-    // public function update(Request $request, string $id)
-    // {
-    // }
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(string $id)
     {
         $billing = Billing::where('event_id',$id)->first();
@@ -97,7 +94,39 @@ class BillingController extends Controller
         $new_id = decrypt(urldecode($id));
         return view('billing.paymentview', compact('new_id'));
     }
-
+    public function paymentinformation($id){
+        $event = Meeting ::find($id);
+        $payment = PaymentInfo::where('event_id',$id)->orderBy('id', 'DESC')->first();
+        return view('billing.pay-info',compact('event','payment'));
+    }
+    public function paymentupdate(Request $request, $id){
+        $payment = new PaymentInfo();
+        $payment->event_id = $id;
+        $payment->amount = $request->amount;
+        $payment->date = $request->date;
+        $payment->deposits = $request->deposits;
+        $payment->adjustments = $request->adjustments;
+        $payment->latefee = $request->latefee;
+        $payment->adjustmentnotes = $request->adjustmentnotes;
+        $payment->paymentref = $request->paymentref;
+        $payment->amounttobepaid = $request->amounttobepaid;
+        $payment->modeofpayment = $request->mode;
+        $payment->notes = $request->notes;
+        $balance = $request->balance;
+        $event = Meeting::find($id);
+        $payment->save();
+        if($request->mode == 'credit'){
+            return view('payments.pay',compact('balance','event'));
+        }else{
+            PaymentLogs::create([
+                'amount' => $balance,
+                'transaction_id' => $request->paymentref,
+                'name_of_card' => $event->name,
+                'event_id' =>$id
+            ]);
+        }
+         return redirect()->back()->with('success','Payment Information Updated Sucessfully');
+    }
     // public function stripe_payment_view($meeting)
     // {
     //     $id = decrypt(urldecode($meeting));

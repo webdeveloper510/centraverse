@@ -35,7 +35,7 @@ class Task extends Model
     public static $parent   = [
         '' => '--',
         'Account' => 'Account',
-        'Lead' => 'Lead',
+        // 'Lead' => 'Lead',
         'Contact' => 'Contact',
         'Opportunities' => 'Opportunities',
         'Case' => 'Case',

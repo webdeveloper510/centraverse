@@ -8,20 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class PaymentLogs extends Model
 {
     use HasFactory;
-    protected $table = 'payment_logs';
-    
+    protected $table = 'payments_log';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
+        'event_id',
         'name_of_card',
         'amount',
         'response_code',
         'transaction_id',
         'auth_id',
         'message_code',
-        'qty'
     ];
 }

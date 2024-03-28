@@ -11,13 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('billing', function (Blueprint $table) {
+        Schema::create('payments_log', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('event_id')->unique();
+            $table->unsignedBigInteger('event_id');
             $table->foreign('event_id')->references('id')->on('meetings');
-            $table->text('data');
-            $table->integer('deposits')->default(0);
-            $table->boolean('status')->default(0);
+            $table->float('amount');
+            $table->string('name_of_card')->nullable();
+            $table->string('response_code')->nullable();
+            $table->string('transaction_id')->nullable();
+            $table->string('auth_id')->nullable();
+            $table->string('message_code')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('billing');
+        Schema::dropIfExists('payments_log');
     }
 };

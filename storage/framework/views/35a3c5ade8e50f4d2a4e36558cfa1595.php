@@ -52,10 +52,14 @@
                                                     <span class="budget"><b><?php echo e(ucfirst($lead->leadname)); ?></b></span>
                                                 </td>
                                                 <td>
-                                                    <a href="<?php echo e(route('lead.edit',$lead->id)); ?>" data-size="md" data-title="<?php echo e(__('Lead Details')); ?>" class="action-item text-primary">
+                                                <a href="#" data-size="md" data-url="<?php echo e(route('lead.info',urlencode(encrypt($lead->id)))); ?>" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('Lead Details')); ?>" title="<?php echo e(__('Lead Details')); ?>"  class="action-item text-primary">
+                                                <?php echo e(ucfirst($lead->name)); ?>
+
+                                                        </a>
+                                                    <!-- <a href="<?php echo e(route('lead.edit',$lead->id)); ?>" data-size="md" data-title="<?php echo e(__('Lead Details')); ?>" class="action-item text-primary">
                                                         <?php echo e(ucfirst($lead->name)); ?>
 
-                                                    </a>
+                                                    </a> -->
                                                 </td>
                                                 <td>
                                                     <span class="budget"><?php echo e($lead->email); ?></span>

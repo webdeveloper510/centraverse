@@ -457,6 +457,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                 <div class="row">
                     <div class="col-lg-12">
                         @if (\Auth::user()->type == 'owner')
+                        @can('Manage Email')
                         <div id="company-email-setting" class="card">
                             <div class="card-header">
                                 <h5>{{ __('Email Settings') }}</h5>
@@ -567,6 +568,8 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                             </div>
                             {{ Form::close() }}
                         </div>
+                        @endcan
+                        @can('Manage Twilio')
                         <div id="twilio-settings" class="card">
                             <div class="card-header">
                                 <h5>{{ __('Twilio Settings') }}</h5>
@@ -675,6 +678,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                 {{ Form::close() }}
                             </div>
                         </div>
+                        @endcan
                         @endif
                         @can('Manage User')
                         <div id="user-settings" class="card">

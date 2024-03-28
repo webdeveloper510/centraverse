@@ -27,11 +27,7 @@ class ChangePostalCodeType extends Migration
         );
 
 
-        Schema::table(
-            'lead', function (Blueprint $table){
-            $table->string('lead_postalcode')->nullable()->change();
-        }
-        );
+       
 
 
         Schema::table(
@@ -71,11 +67,7 @@ class ChangePostalCodeType extends Migration
         }
         );
 
-        Schema::table(
-            'lead', function (Blueprint $table){
-            $table->dropColumn('lead_postalcode');
-        }
-        );
+       
 
         Schema::table(
             'quotes', function (Blueprint $table){

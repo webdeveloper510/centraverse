@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Mail\SendPdfEmail;
+use App\Mail\LeadWithrawMail;
 use Mail;
 
 class LeadController extends Controller
@@ -86,13 +87,7 @@ class LeadController extends Controller
                 [
                     'lead_name'=>'required',
                     'name' => 'required|max:120',
-                    'email' => 'required',
-                    'venue' => 'required',
-                    'guest_count' => 'required|numeric',
-                    'start_date'=>'required',
-                    'end_date'=>'required',
-                    'function' => 'required',
-                    'user'=>'required'
+                    'phone'=>'required|numeric',
                 ]);
             if ($validator->fails()) {
                 $messages = $validator->getMessageBag();
@@ -132,13 +127,14 @@ class LeadController extends Controller
             $package = json_encode($package);
             $additional = json_encode($additional);
             $bar_pack = json_encode($bar_pack);
-           
+
+
             $lead                       = new Lead();
             $lead['user_id']            = Auth::user()->id;
             $lead['name']               = $request->name;
             $lead['leadname']          = $request->lead_name;
             $lead['assigned_user']      = $request->user;
-            $lead['email']              = $request->email;
+            $lead['email']              = $request->email ?? '';
             $lead['phone']              = $request->phone;
             $lead['lead_address']       = $request->lead_address;
             $lead['company_name']       = $request->company_name;
@@ -146,19 +142,19 @@ class LeadController extends Controller
             $lead['start_date']         = $request->start_date;
             $lead['end_date']           = $request->end_date;
             $lead['type']               = $request->type;
-            $lead['venue_selection']    = implode(',',$request->venue);
-            $lead['function']           = implode(',',$request->function);
-            $lead['func_package']       = $package;
-            $lead['guest_count']        = $request->guest_count;
+            $lead['venue_selection']    = isset($request->venue)?implode(',',$request->venue) :'';
+            $lead['function']           = isset($request->function)? implode(',',$request->function) :'';
+            $lead['func_package']       = $package ?? '';
+            $lead['guest_count']        = $request->guest_count ?? 0;
             $lead['description']        = $request->description;
             $lead['spcl_req']           = $request->spcl_req;
             $lead['allergies']          = $request->allergies;
-            $lead['start_time']         = $request->start_time;
-            $lead['end_time']           = $request->end_time;
+            $lead['start_time']         = $request->start_time ?? '';
+            $lead['end_time']           = $request->end_time ?? '';
             $lead['bar']                =   $request->baropt;
-                $lead['bar_package']         = $bar_pack;
-                $lead['ad_opts']             = $additional;
-            $lead['rooms']              = $request->rooms;
+            $lead['bar_package']         = $bar_pack  ?? '';
+            $lead['ad_opts']             = $additional  ?? '';
+            $lead['rooms']              = $request->rooms ?? 0;
             $lead['created_by']         = \Auth::user()->creatorId();
             $lead->save();
           
@@ -248,19 +244,14 @@ class LeadController extends Controller
     public function update(Request $request, Lead $lead)
     {
         $venue_function = implode(',',$_REQUEST['venue']);
-        $function = implode(',',$_REQUEST['function']);
+        $function = isset($request->function) ? implode(',',$_REQUEST['function']) : '';
         if (\Auth::user()->can('Edit Lead')) {
             $validator = \Validator::make(
                 $request->all(),
                 [
                     'name' => 'required|max:120',
-                    'email' => 'required',
-                    'guest_count' => 'required|numeric',
-                    'start_date'=>'required',
-                    'end_date'=>'required',
-                    'venue'=>'required',
-                    'function'=>'required',
-                    'user'=>'required'
+                    'phone' => 'required|numeric',
+                   
                 ]
             );
             if ($validator->fails()) {
@@ -314,17 +305,17 @@ class LeadController extends Controller
             $lead['type']               = $request->type;
             $lead['venue_selection']    = $venue_function;
             $lead['function']           = $function;
-            $lead['guest_count']        = $request->guest_count;
+            $lead['guest_count']        = $request->guest_count ?? 0;
             $lead['description']        = $request->description;
             $lead['spcl_req']        = $request->spcl_req;
             $lead['allergies']        = $request->allergies;
             $lead['start_time']         = $request->start_time;
             $lead['end_time']        = $request->end_time;
-            $lead['func_package']       = $package;
-            $lead['bar_package']         = $bar_pack;
-            $lead['ad_opts']             = $additional;
+            $lead['func_package']       = $package ?? '';
+            $lead['bar_package']         = $bar_pack ?? '';
+            $lead['ad_opts']             = $additional ?? '';
             $lead['bar']        =   $request->bar;
-            $lead['rooms']          = $request->rooms;
+            $lead['rooms']          = $request->rooms ?? 0;
             $lead['created_by']         = \Auth::user()->creatorId();
             $lead->update();
             return redirect()->back()->with('success', __('Lead  Updated.'));
@@ -590,7 +581,7 @@ class LeadController extends Controller
 
         $lead = Lead::find($id);
         $venue_function = implode(',',$_REQUEST['venue']);
-        $function = implode(',',$_REQUEST['function']);
+        $function =  isset($request->function) ? implode(',',$_REQUEST['function']) :'';
           
             if($request->status == 'Approve'){                
                 $status = 2;
@@ -645,15 +636,15 @@ class LeadController extends Controller
                         ]
                     );
         
-                    Mail::to($lead->email)->send(new SendPdfEmail($lead));
+                    Mail::to($lead->email)->send(new LeadWithrawMail($lead));
                 } catch (\Exception $e) {
-                    return response()->json(
-                        [
-                            'is_success' => false,
-                            'message' => $e->getMessage(),
-                        ]
-                    );
-                    //   return redirect()->back()->with('success', 'Email Not Sent');
+                    // return response()->json(
+                    //     [
+                    //         'is_success' => false,
+                    //         'message' => $e->getMessage(),
+                    //     ]
+                    // );
+                      return redirect()->back()->with('success', 'Email Not Sent');
                 }
                 return redirect()->back()->with('success', __('Lead  Resent.'));
             }elseif($status == 3){
@@ -676,5 +667,11 @@ class LeadController extends Controller
         $newlead['created_by']         = \Auth::user()->creatorId();
         $newlead->save();
         return redirect()->back()->with('Success','Lead Cloned successfully');
+    }
+    public function lead_info($id){
+        $id = decrypt(urldecode($id));
+        $lead = Lead::find($id);
+        $leads = Lead::where('email',$lead->email)->orwhere('phone',$lead->phone)->get();
+        return view('lead.leadinfo',compact('leads','lead'));
     }
 }
