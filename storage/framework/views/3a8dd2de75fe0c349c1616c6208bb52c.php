@@ -12,28 +12,31 @@
 <?php $__env->stopSection(); ?>
 
 <style>
-    li.item-event {
-        display: flex;
-        /* justify-content: space-between; */
-    }
+li.item-event {
+    display: flex;
+    /* justify-content: space-between; */
+}
 
-    li.item-event>p:nth-child(2) {
-        margin-left: 35%;
-    }
+li.item-event>p:nth-child(2) {
+    margin-left: 35%;
+}
 </style>
 
 <?php $__env->startSection('content'); ?>
 <div class="container">
     <div class="row">
-    <div class="col-sm-6">
+        <div class="col-sm-6">
             <div id="calendar"></div>
         </div>
         <div class="col-lg-4">
             <div class="card">
                 <div class="card-body">
                     <h3 class="mb-4">Event lists
-                        <a href="<?php echo e(route('meeting.create',['meeting',0])); ?>" style="float: right;" data-date-selected="" id="selectedDate">
-                            <button data-bs-toggle="tooltip" title="<?php echo e(__('Create')); ?>" class="btn btn-sm btn-primary btn-icon m-1" data-bs-original-title="Create"><i class="ti ti-plus"></i></button>
+                        <a href="<?php echo e(route('meeting.create',['meeting',0])); ?>" style="float: right;"
+                            data-date-selected="" id="selectedDate">
+                            <button data-bs-toggle="tooltip" title="<?php echo e(__('Create')); ?>"
+                                class="btn btn-sm btn-primary btn-icon m-1" data-bs-original-title="Create"><i
+                                    class="ti ti-plus"></i></button>
                         </a>
                     </h3>
                     <p class="text-muted" id="daySelected"></p>
@@ -41,90 +44,94 @@
                 </div>
             </div>
         </div>
-        
-       
+
+
     </div>
 </div>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script-page'); ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script>
-    $(document).ready(function() {
-        display_count();
-    });
+$(document).ready(function() {
+    display_count();
+});
 
-    function display_count() {
-        var events = new Array();
-        $.ajax({
-            url: '<?php echo e(route("eventinformation")); ?>',
-            method: 'GET',
-            dataType: 'json',
-            success: function(response) {
-                var eventDates = {};
-                // Count the number of events for each date
-                response.forEach(function(event) {
-                    var startDate = moment(event.start_date).format('YYYY-MM-DD');
-                    if (eventDates[startDate]) {
-                        eventDates[startDate]++;
-                    } else {
-                        eventDates[startDate] = 1;
-                    }
-                });
-                // Convert the event counts into background event objects
-                var backgroundEvents = [];
-                for (var date in eventDates) {
-                    backgroundEvents.push({
-                        title: eventDates[date],
-                        start: date,
-                        textColor: '#fff',
-                        display: 'background',
-                    });
+function display_count() {
+    var events = new Array();
+    $.ajax({
+        url: '<?php echo e(route("eventinformation")); ?>',
+        method: 'GET',
+        dataType: 'json',
+        success: function(response) {
+            var eventDates = {};
+            // Count the number of events for each date
+            response.forEach(function(event) {
+                var startDate = moment(event.start_date).format('YYYY-MM-DD');
+                if (eventDates[startDate]) {
+                    eventDates[startDate]++;
+                } else {
+                    eventDates[startDate] = 1;
                 }
-                let calendarEl = document.getElementById('calendar');
-                var calendar = new FullCalendar.Calendar(calendarEl, {
-                    initialView: 'dayGridMonth',
-                    themeSystem: 'bootstrap',
-                    selectable: true,
-                    eventDisplay: 'block',
-                    select: function(start, end, allDay, info) {
+            });
+            // Convert the event counts into background event objects
+            var backgroundEvents = [];
+            for (var date in eventDates) {
+                backgroundEvents.push({
+                    title: eventDates[date],
+                    start: date,
+                    textColor: '#fff',
+                    display: 'background',
+                });
+            }
+            let calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                themeSystem: 'bootstrap',
+                selectable: true,
+                eventDisplay: 'block',
+                select: function(start, end, allDay, info) {
 
-                        var selectedStartDate = start.startStr;
-                        var selectedEndDate = start.endStr;
-                        var formattedStartDate = moment(selectedStartDate).format('dddd, MMMM DD, YYYY');
-                        var selectedDate = moment(selectedStartDate).format('Y-MM-DD');
-                        sessionStorage.setItem('selectedDate', selectedDate);
-                        document.getElementById('daySelected').innerHTML = formattedStartDate;
-                        document.getElementById('selectedDate').setAttribute('data-date-selected', selectedDate);
-                        fetch("<?php echo e(url('/calender-meeting-data')); ?>?start=" + start.startStr, {
-                                method: "POST",
-                                headers: {
-                                    "Content-Type": "application/json",
-                                    "X-CSRF-Token": "<?php echo e(csrf_token()); ?>",
-                                },
-                                body: JSON.stringify({
-                                    request_type: 'viewMeeting',
-                                    start: start.startStr,
-                                    end: start.endStr,
-                                }),
-                            })
-                            .then(response => response.json())
-                            .then(data => {
-                                const JSON = data.events;
-                                console.log(JSON);
-                                  
-                                if (JSON.length != 0) {
-                                    Json = [];
-                                    JSON.forEach((event, index, array) => {
-                                        var start = event.start_time;
-                                        var start_time = moment(start, 'HH:mm:ss').format('h:mm A');
-                                        var end = event.end_time;
-                                        var end_time = moment(end, 'HH:mm:ss').format('h:mm A');
-                                        if (event.attendees_lead == 0) {
-                                            eventname = event.eventname;
-                                        }else{
-                                            eventname = 'event';
-                                        }
-                                        lists = `
+                    var selectedStartDate = start.startStr;
+                    var selectedEndDate = start.endStr;
+                    var formattedStartDate = moment(selectedStartDate).format(
+                        'dddd, MMMM DD, YYYY');
+                    var selectedDate = moment(selectedStartDate).format('Y-MM-DD');
+                    sessionStorage.setItem('selectedDate', selectedDate);
+                    document.getElementById('daySelected').innerHTML = formattedStartDate;
+                    document.getElementById('selectedDate').setAttribute('data-date-selected',
+                        selectedDate);
+                    fetch("<?php echo e(url('/calender-meeting-data')); ?>?start=" + start.startStr, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "X-CSRF-Token": "<?php echo e(csrf_token()); ?>",
+                            },
+                            body: JSON.stringify({
+                                request_type: 'viewMeeting',
+                                start: start.startStr,
+                                end: start.endStr,
+                            }),
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            const JSON = data.events;
+                            console.log(JSON);
+
+                            if (JSON.length != 0) {
+                                Json = [];
+                                JSON.forEach((event, index, array) => {
+                                    var start = event.start_time;
+                                    var start_time = moment(start, 'HH:mm:ss')
+                                        .format('h:mm A');
+                                    var end = event.end_time;
+                                    var end_time = moment(end, 'HH:mm:ss').format(
+                                        'h:mm A');
+                                    if (event.attendees_lead == 0) {
+                                        eventname = event.eventname;
+                                    } else {
+                                        eventname = 'event';
+                                    }
+                                    lists = `
                             <li class="list-group-item card mb-3" data-index="${index}">
                                 <div class="row align-items-center justify-content-between">
                                     <div class="col-auto mb-3 mb-sm-0">
@@ -143,23 +150,24 @@
                                 </div>
                         </li>
                         `;
-                                        Json.push(lists);
-                                    });
-                                    document.getElementById('listEvent').innerHTML = Json.join('');
-                                } else {
-                                    lists = `<h6 class="m-0">No event found!</h6>`;
-                                    document.getElementById('listEvent').innerHTML = lists;
-                                }
-                                calendar.refetchEvents();
-                            })
-                            .catch(console.error);
-                    },
-                    events: backgroundEvents
-                });
-                calendar.render();
-            }
-        })
-    }
+                                    Json.push(lists);
+                                });
+                                document.getElementById('listEvent').innerHTML = Json.join(
+                                    '');
+                            } else {
+                                lists = `<h6 class="m-0">No event found!</h6>`;
+                                document.getElementById('listEvent').innerHTML = lists;
+                            }
+                            calendar.refetchEvents();
+                        })
+                        .catch(console.error);
+                },
+                events: backgroundEvents
+            });
+            calendar.render();
+        }
+    })
+}
 </script>
 <?php $__env->stopPush(); ?>
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/crmcentraverse/public_html/centraverse/resources/views/calender_new/index.blade.php ENDPATH**/ ?>

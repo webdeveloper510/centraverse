@@ -20,6 +20,15 @@ $logo = URL::asset('storage/uploads/logo/');
         height: 100vh;
     }
 
+<<<<<<< HEAD
+        .container {
+            text-align: center;
+            /* background-color: #fff; */
+            padding: 20px;
+            /* border-radius: 10px; */
+            /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+        }
+=======
     .container {
         text-align: center;
         background-color: #fff;
@@ -27,6 +36,7 @@ $logo = URL::asset('storage/uploads/logo/');
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
+>>>>>>> 9adff564d58c3ee5d814da33f665f57e283b8831
 
     .payment-options img {
         width: 100px;

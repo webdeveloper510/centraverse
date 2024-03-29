@@ -1032,7 +1032,18 @@ class UsersTableSeeder extends Seeder
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ],
-
+            [
+                'name' => 'Manage Twilio',
+                'guard_name' => 'web',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
+            [
+                'name' => 'Manage Email',
+                'guard_name' => 'web',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
 
         ];
 
@@ -1041,7 +1052,7 @@ class UsersTableSeeder extends Seeder
 
 
         // Super admin
-        $superAdminRole        = Role::create(
+        $superAdminRole  = Role::create(
             [
                 'name' => 'super admin',
                 'created_by' => 0,
@@ -1060,6 +1071,8 @@ class UsersTableSeeder extends Seeder
             ['name' => 'Manage Coupon'],
             ['name' => 'Create Coupon'],
             ['name' => 'Edit Coupon'],
+            ['name' => 'Manage Twilio'],
+            ['name' => 'Manage Email'],
         ];
 
         $superAdminRole->givePermissionTo($superAdminPermissions);
@@ -1251,6 +1264,8 @@ class UsersTableSeeder extends Seeder
             ['name' => 'Delete Contract'],
             ['name' => 'copy contract'],
             ['name' => 'Show Contract'],
+            ['name' => 'Manage Twilio'],
+            ['name' => 'Manage Email'],
         ];
         $ownerRole->givePermissionTo($ownerPermissions);
 

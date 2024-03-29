@@ -131,7 +131,8 @@ $additional_items = json_decode($settings['additional_items'],true);
         <div class="form-group">
             <?php echo e(Form::label('guest_count',__('Guest Count'),['class'=>'form-label'])); ?>
 
-            <?php echo Form::number('guest_count',old('guest_count'),array('class' => 'form-control','min'=> 0)); ?>
+            <?php echo Form::number('guest_count',old('guest_count'),array('class' => 'form-control','min'=> 0, 'required' =>
+            'required')); ?>
 
         </div>
     </div>
@@ -205,7 +206,7 @@ $additional_items = json_decode($settings['additional_items'],true);
             <?php echo e(Form::label('Assign Staff',__('Assign Staff'),['class'=>'form-label'])); ?>
 
             <select class="form-control" name='user'>
-                <option class="form-control"  disabled>Select Staff</option>
+                <option class="form-control" disabled>Select Staff</option>
                 <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <option class="form-control" value="<?php echo e($user->id); ?>"><?php echo e($user->name); ?> (<?php echo e($user->type); ?>)</option>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -309,6 +310,12 @@ $additional_items = json_decode($settings['additional_items'],true);
 </div>
 <script>
 jQuery(function() {
+    $('input[name = lead_name]').keyup(function() {
+        var value = $(this).val();
+        $('input[name = "name"]').val(value);
+    });
+});
+jQuery(function() {
     $('input[name="function[]"]').change(function() {
         $('div#mailFunctionSection > div').hide();
         $('input[name="function[]"]:checked').each(function() {
@@ -364,7 +371,5 @@ $(document).ready(function() {
         }
     });
 })
-
-//   $('input[name = "storedid"]').val(storedId);
 </script>
 <?php echo e(Form::close()); ?><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/lead/create.blade.php ENDPATH**/ ?>

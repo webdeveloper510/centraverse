@@ -106,7 +106,8 @@ $additional_items = json_decode($settings['additional_items'],true);
     <div class="col-6">
         <div class="form-group">
             {{Form::label('guest_count',__('Guest Count'),['class'=>'form-label']) }}
-            {!! Form::number('guest_count',old('guest_count'),array('class' => 'form-control','min'=> 0)) !!}
+            {!! Form::number('guest_count',old('guest_count'),array('class' => 'form-control','min'=> 0, 'required' =>
+            'required')) !!}
         </div>
     </div>
     @if(isset($function) && !empty($function))
@@ -169,7 +170,7 @@ $additional_items = json_decode($settings['additional_items'],true);
         <div class="form-group">
             {{Form::label('Assign Staff',__('Assign Staff'),['class'=>'form-label']) }}
             <select class="form-control" name='user'>
-                <option class="form-control"  disabled>Select Staff</option>
+                <option class="form-control" disabled>Select Staff</option>
                 @foreach($users as $user)
                 <option class="form-control" value="{{$user->id}}">{{$user->name}} ({{$user->type}})</option>
                 @endforeach
@@ -255,6 +256,12 @@ $additional_items = json_decode($settings['additional_items'],true);
 </div>
 <script>
 jQuery(function() {
+    $('input[name = lead_name]').keyup(function() {
+        var value = $(this).val();
+        $('input[name = "name"]').val(value);
+    });
+});
+jQuery(function() {
     $('input[name="function[]"]').change(function() {
         $('div#mailFunctionSection > div').hide();
         $('input[name="function[]"]:checked').each(function() {
@@ -310,7 +317,5 @@ $(document).ready(function() {
         }
     });
 })
-
-//   $('input[name = "storedid"]').val(storedId);
 </script>
 {{Form::close()}}

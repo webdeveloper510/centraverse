@@ -115,7 +115,6 @@
                                                         </div>
                                                     @endif
                                                     @if(App\Models\Billing::where('event_id',$meeting->id)->exists())
-
                                                     <div class="action-btn bg-success ms-2">
                                                         <a href="{{route('meeting.agreement',urlencode(encrypt($meeting->id))) }}" 
                                                         data-bs-toggle="tooltip"

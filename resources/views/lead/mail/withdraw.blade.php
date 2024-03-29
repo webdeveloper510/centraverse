@@ -6,10 +6,10 @@
     <title>Proposal</title>
 </head>
 <body>
-Dear {{ $lead->name }},<br>
+Dear {{ $lead->name }},
+<br>
 
 <h3 class="text-center">Your Lead has been withdrawn.</h3>
-
 
 Thank you for your time and collaboration.<br>
 Best regards

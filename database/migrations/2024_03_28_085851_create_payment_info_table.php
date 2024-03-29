@@ -19,6 +19,7 @@ return new class extends Migration
             $table->float('deposits');
             $table->float('adjustments');
             $table->float('latefee');
+            $table->float('amounttobepaid');
             $table->string('adjustmentnotes')->nullable();
             $table->string('paymentref')->nullable();
             $table->string('modeofpayment')->nullable();
@@ -37,3 +38,4 @@ return new class extends Migration
         Schema::dropIfExists('payment_info');
     }
 };
+ 

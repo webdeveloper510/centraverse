@@ -31,36 +31,29 @@
                 <div>
                   <form method="post" action="<?php echo e(route('dopay.online',$event->id)); ?>">
                     <?php echo csrf_field(); ?>
-                    <div class="row">
-                      <div class="form-group col-md-8">
+                    <div class="row form-group ">
+                      <div class="col-md-6">
                         <label>Owner</label>
                         <input type="text" name="owner" class="form-control"  value="<?php echo e($event->name); ?>"required>
                       </div>
-                      <div class="form-group col-md-4">
+                      <div class= "col-md-6">
                         <label>CVV</label>
                         <input type="number" name="cvv" class="form-control" required >
                       </div>
                     </div>
 
-                    <div class="row">
-                      <div class="form-group col-md-8">
+                    <div class="row form-group">
+                      <div class=" col-md-6">
                         <label>Card Number</label>
                         <input type="number" name="cardNumber" class="form-control" required>
                       </div>
-                      <div class="form-group col-md-4">
+                      <div class="col-md-6">
                         <label>Amount</label>
                         <input type="number" name="amount" class="form-control" value="<?php echo e($balance); ?>">
                       </div>
-                    </div>
-
-
-                    <div class="row">
-                      <?php
-                      $months = ['1' => 'Jan','2' => 'Feb','3' => 'March','4' => 'April','5' => 'May','6'
-                      => 'Jun','7' => 'July','8' => 'Aug','9' => 'Sep','10' => 'OCT','11' => 'Nov','12' =>
-                      'Dec'];
-                      ?>
-                      <div class="form-group col-md-6">
+</div>
+                    <div class="row form-group">
+                      <div class=" col-md-6">
                         <label>Exp Date</label>
                         <select class="form-control" name="expiration-month">
                           <?php $__currentLoopData = $months; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $k => $v): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -68,7 +61,7 @@
                           <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </select>
                       </div>
-                      <div class="form-group col-md-6">
+                      <div class="col-md-6">
                         <label>Exp Year</label>
                         <select class="form-control" name="expiration-year">
                           <?php for($i = date('Y'); $i <= (date('Y') + 15); $i++): ?> <option value="<?php echo e($i); ?>">
@@ -92,26 +85,15 @@
 </body>
 </html>
 <style>
-  /* body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: linear-gradient(45deg, #3498db, #2ecc71);
-        } */
-
-        .container{
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-            max-width: 550px;
-            width: 100%;
-            animation: fadeInUp 0.6s ease;
-        } 
+    .container{
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        max-width: 550px;
+        width: 100%;
+        animation: fadeInUp 0.6s ease;
+    } 
 </style>
 <?php echo $__env->make('partials.admin.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 

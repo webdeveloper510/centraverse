@@ -92,13 +92,16 @@ foreach($pay as $p){
                     <?php  echo isset($payment->modeofpayment) ?($payment->modeofpayment == 'cheque') ?'selected' :'' : ''?>>
                     Cheque</option>
             </select>
+            <div class="mt-4">
+            <span class="msg text-primary"></span>
+            </div>
         </div>
     </div>
     <div class="col-6">
         <div class="form-group">
             <?php echo e(Form::label('reference',__('Payment Reference'),['class'=>'form-label'])); ?>
 
-            <?php echo e(Form::text('reference',$payment->reference ?? '',array('class'=>'form-control','placeholder'=>__('Enter Reference')))); ?>
+            <?php echo e(Form::text('reference',$payment->reference ?? '',array('class'=>'form-control','placeholder'=>__('Enter Reference Id ')))); ?>
 
         </div>
     </div>
@@ -160,5 +163,16 @@ jQuery(function() {
 
             console.log('total', balance);
         });
+        $('select[name = "mode"]').change(function(){
+            $('.msg').html('');
+            $('input[name="reference"]').removeAttr('required');
+            var value = $(this).val();
+            if(value == 'credit'){
+                    $('.msg').html('Pay Amount after form submission')
+            }else{
+                    $('input[name="reference"]').attr('required');
+            }
+            alert($(this).val());
+        })
 });
 </script><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/billing/pay-info.blade.php ENDPATH**/ ?>

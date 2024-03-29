@@ -75,12 +75,15 @@ foreach($pay as $p){
                     <?php  echo isset($payment->modeofpayment) ?($payment->modeofpayment == 'cheque') ?'selected' :'' : ''?>>
                     Cheque</option>
             </select>
+            <div class="mt-4">
+            <span class="msg text-primary"></span>
+            </div>
         </div>
     </div>
     <div class="col-6">
         <div class="form-group">
             {{Form::label('reference',__('Payment Reference'),['class'=>'form-label']) }}
-            {{Form::text('reference',$payment->reference ?? '',array('class'=>'form-control','placeholder'=>__('Enter Reference')))}}
+            {{Form::text('reference',$payment->reference ?? '',array('class'=>'form-control','placeholder'=>__('Enter Reference Id ')))}}
         </div>
     </div>
     <div class="col-6">
@@ -136,5 +139,16 @@ jQuery(function() {
 
             console.log('total', balance);
         });
+        $('select[name = "mode"]').change(function(){
+            $('.msg').html('');
+            $('input[name="reference"]').removeAttr('required');
+            var value = $(this).val();
+            if(value == 'credit'){
+                    $('.msg').html('Pay Amount after form submission')
+            }else{
+                    $('input[name="reference"]').attr('required');
+            }
+            alert($(this).val());
+        })
 });
 </script>

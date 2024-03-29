@@ -64,7 +64,7 @@ class BillingController extends Controller
         $billing['deposits'] = $request->deposits;
         $billing->save();
         Meeting::where('id',$id)->update(['total' => $totalCost ,'status' => 2]);
-        return redirect()->back()->with('success', __('Billing Created'));
+        return redirect()->back()->with('success', __('Estimated Invoice Created Successfully'));
      
     }
     /**
@@ -109,6 +109,7 @@ class BillingController extends Controller
         $payment->latefee = $request->latefee;
         $payment->adjustmentnotes = $request->adjustmentnotes;
         $payment->paymentref = $request->paymentref;
+        $payment->amounttobepaid = $request->amounttobepaid;
         $payment->modeofpayment = $request->mode;
         $payment->notes = $request->notes;
         $balance = $request->balance;

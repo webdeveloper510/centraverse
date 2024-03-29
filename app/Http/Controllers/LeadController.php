@@ -668,4 +668,10 @@ class LeadController extends Controller
         $newlead->save();
         return redirect()->back()->with('Success','Lead Cloned successfully');
     }
+    public function lead_info($id){
+        $id = decrypt(urldecode($id));
+        $lead = Lead::find($id);
+        $leads = Lead::where('email',$lead->email)->orwhere('phone',$lead->phone)->get();
+        return view('lead.leadinfo',compact('leads','lead'));
+    }
 }
