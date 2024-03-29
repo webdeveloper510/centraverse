@@ -163,6 +163,7 @@ class CustomerInformation extends Controller
     }
     public function importuser(Request $request)
     {
+            
         if ($request->customerType == 'uploadFile') {
             $category = [
                 'category' => $request->input('category'),
@@ -170,6 +171,19 @@ class CustomerInformation extends Controller
             Excel::import(new UsersImport($category), request()->file('users'));
             return redirect()->back()->with('success', 'Data  imported successfully');
         } elseif ($request->customerType == 'addForm') {
+            $validator = \Validator::make(
+                $request->all(),
+                [
+                    'name'=>'required',
+                    'phone' => 'required|unique:import_users',
+                    'email'=>'required|email|unique:import_users'
+                ]);
+            if ($validator->fails()) {
+                $messages = $validator->getMessageBag();
+                return redirect()->back()->with('error', $messages->first()) 
+                ->withErrors($validator)
+                ->withInput();
+            }
             $UsersImports = new UserImport();
             $UsersImports->name = $request->name;
             $UsersImports->phone = $request->phone;
@@ -177,11 +191,12 @@ class CustomerInformation extends Controller
             $UsersImports->address = $request->address;
             $UsersImports->organization = $request->organization;
             $UsersImports->category = $request->category;
+            $UsersImports->status =  ($request->is_active == 'on') ? 0 : 1;
             $UsersImports->save();
             return redirect()->back()->with('success', 'Insert successfully');
         }
     }
-    public function mailformatting()
+    public function mailformatting() 
     {
         return view('customer.editor');
     }

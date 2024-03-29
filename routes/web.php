@@ -406,6 +406,12 @@ Route::group(['middleware' => ['verified']], function () {
             Route::get('lead/resend_proposal/{id}',[LeadController::class,'resend'])->name('lead.resend');
             Route::get('lead/clone/{id}',[LeadController::class,'duplicate'])->name('lead.clone');
             Route::get('lead/information/{id}',[LeadController::class,'lead_info'])->name('lead.info');
+            Route::get('lead/upload_attachment/{id}',[LeadController::class,'lead_upload'])->name('lead.uploads');
+            Route::post('lead/upload_doc/{id}',[LeadController::class,'lead_upload_doc'])->name('lead.uploaddoc');
+            Route::get('lead/billinfo/{id}',[LeadController::class,'lead_billinfo'])->name('lead.billinfo');
+            Route::get('lead/uploaded_docs/{id}',[LeadController::class,'uploaded_docs'])->name('lead.uploaded_docs');
+
+            
         });
 
     Route::group(

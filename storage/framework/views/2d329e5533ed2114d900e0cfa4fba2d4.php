@@ -131,8 +131,7 @@ $additional_items = json_decode($settings['additional_items'],true);
         <div class="form-group">
             <?php echo e(Form::label('guest_count',__('Guest Count'),['class'=>'form-label'])); ?>
 
-            <?php echo Form::number('guest_count',old('guest_count'),array('class' => 'form-control','min'=> 0, 'required' =>
-            'required')); ?>
+            <?php echo Form::number('guest_count',old('guest_count'),array('class' => 'form-control','min'=> 0)); ?>
 
         </div>
     </div>
@@ -363,6 +362,7 @@ $(document).ready(function() {
         },
         success: function(data) {
             localStorage.removeItem('clickedLinkId');
+            $('input[name="lead_name"]').val(data[0].name);
             $('input[name="name"]').val(data[0].name);
             $('input[name="phone"]').val(data[0].phone);
             $('input[name="email"]').val(data[0].email);

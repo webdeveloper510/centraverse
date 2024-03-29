@@ -18,7 +18,6 @@ use App\Models\Blockdate;
 use App\Models\Setup;
 use App\Models\Billing;
 use App\Models\Agreement;
-use App\Models\Billingdetail;
 use App\Mail\SendBillingMail;
 use App\Mail\AgreementMail;
 use DateTime;
@@ -41,7 +40,6 @@ class MeetingController extends Controller
     public function index()
     {
         if (\Auth::user()->can('Manage Meeting')) {
-            $billing = Billingdetail::get();
             if (\Auth::user()->type == 'owner') {
                 $meetings = Meeting::with('assign_user')->where('created_by', \Auth::user()->creatorId())->get();
                 $defualtView         = new UserDefualtView();
@@ -56,7 +54,7 @@ class MeetingController extends Controller
                 $defualtView->module = 'meeting';
                 $defualtView->view   = 'list';
             }
-            return view('meeting.index', compact('meetings', 'billing'));
+            return view('meeting.index', compact('meetings'));
         } else {
             return redirect()->back()->with('error', 'permission Denied');
         }
@@ -467,7 +465,7 @@ class MeetingController extends Controller
     {
         if (\Auth::user()->can('Delete Meeting')) {
             $meeting->delete();
-            Billingdetail::where('event_id', $meeting->id)->delete();
+            // Billingdetail::where('event_id', $meeting->id)->delete();
             Agreement::where('event_id', $meeting->id)->delete();
             return redirect()->back()->with('success', 'Event Deleted!');
         } else {
@@ -717,7 +715,7 @@ class MeetingController extends Controller
         $id = decrypt(urldecode($id));
         if (!empty($request->imageData)) {
             $image = $this->uploadSignature($request->imageData);
-            Billingdetail::where('event_id', $id)->update(['status' => 1]);
+            // Billingdetail::where('event_id', $id)->update(['status' => 1]);
         } else {
             return redirect()->back()->with('error', ('Please Sign agreement for confirmation'));
         }
