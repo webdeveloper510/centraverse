@@ -997,6 +997,8 @@ Route::group(['middleware' => ['verified']], function () {
     );
 
     Route::get('/change/mode', [UserController::class, 'changeMode'])->name('change.mode');
+    Route::get('user/documents/{id}',[UserController::class,'view_docs'])->name('user.docs');
+    Route::delete('user/documents/delete/{id}/{filename}',[UserController::class,'user_docs_delete'])->name('user.docs.delete');
 
 
     Route::post('plan-pay-with-paypal', [PaypalController::class, 'planPayWithPaypal'])->name('plan.pay.with.paypal')->middleware(

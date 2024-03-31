@@ -1,21 +1,21 @@
 <?php
-    $setting = Utility::settings();
+$setting = Utility::settings();
 
-    $color = !empty($setting['color']) ? $setting['color'] : 'theme-3';
-    $logo = \App\Models\Utility::get_file('uploads/logo/');
-    $company_favicon = $setting['company_favicon'] ?? '';
-    $company_logo = \App\Models\Utility::GetLogo();
-    $users = \Auth::user();
+$color = !empty($setting['color']) ? $setting['color'] : 'theme-3';
+$logo = \App\Models\Utility::get_file('uploads/logo/');
+$company_favicon = $setting['company_favicon'] ?? '';
+$company_logo = \App\Models\Utility::GetLogo();
+$users = \Auth::user();
 
-    $lang = \App::getLocale('lang');
-    if ($lang == 'ar' || $lang == 'he') {
-        $setting['SITE_RTL'] = 'on';
-    }
-    $LangName = \App\Models\Languages::where('code', $lang)->first();
-    if (empty($LangName)) {
-        $LangName = new App\Models\Utility();
-        $LangName->fullName = 'English';
-    }
+$lang = \App::getLocale('lang');
+if ($lang == 'ar' || $lang == 'he') {
+$setting['SITE_RTL'] = 'on';
+}
+$LangName = \App\Models\Languages::where('code', $lang)->first();
+if (empty($LangName)) {
+$LangName = new App\Models\Utility();
+$LangName->fullName = 'English';
+}
 ?>
 
 <!DOCTYPE html>
@@ -54,42 +54,42 @@
     <link rel="icon" href="<?php echo e($logo . '/favicon.png'); ?>" type="image/png">
 
     <?php if($setting['cust_darklayout'] == 'on'): ?>
-        <style>
-            .g-recaptcha {
-                filter: invert(1) hue-rotate(180deg) !important;
-            }
-        </style>
+    <style>
+    .g-recaptcha {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
+    </style>
     <?php endif; ?>
     <?php if($setting['cust_darklayout'] == 'on'): ?>
-        <?php if(isset($setting['SITE_RTL']) && $setting['SITE_RTL'] == 'on'): ?>
-            <link rel="stylesheet" href="<?php echo e(asset('assets/css/style-rtl.css')); ?>" id="main-style-link">
-        <?php endif; ?>
-        <link rel="stylesheet" href="<?php echo e(asset('assets/css/style-dark.css')); ?>">
+    <?php if(isset($setting['SITE_RTL']) && $setting['SITE_RTL'] == 'on'): ?>
+    <link rel="stylesheet" href="<?php echo e(asset('assets/css/style-rtl.css')); ?>" id="main-style-link">
+    <?php endif; ?>
+    <link rel="stylesheet" href="<?php echo e(asset('assets/css/style-dark.css')); ?>">
     <?php else: ?>
-        <?php if(isset($setting['SITE_RTL']) && $setting['SITE_RTL'] == 'on'): ?>
-            <link rel="stylesheet" href="<?php echo e(asset('assets/css/style-rtl.css')); ?>" id="main-style-link">
-        <?php else: ?>
-            <link rel="stylesheet" href="<?php echo e(asset('assets/css/style.css')); ?>" id="main-style-link">
-        <?php endif; ?>
+    <?php if(isset($setting['SITE_RTL']) && $setting['SITE_RTL'] == 'on'): ?>
+    <link rel="stylesheet" href="<?php echo e(asset('assets/css/style-rtl.css')); ?>" id="main-style-link">
+    <?php else: ?>
+    <link rel="stylesheet" href="<?php echo e(asset('assets/css/style.css')); ?>" id="main-style-link">
+    <?php endif; ?>
     <?php endif; ?>
 
     <?php if(isset($setting['SITE_RTL']) && $setting['SITE_RTL'] == 'on'): ?>
-        <link rel="stylesheet" href="<?php echo e(asset('assets/css/custom-auth-rtl.css')); ?>" id="main-style-link">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/css/custom-auth-rtl.css')); ?>" id="main-style-link">
     <?php else: ?>
-        <link rel="stylesheet" href="<?php echo e(asset('assets/css/custom-auth.css')); ?>" id="main-style-link">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/css/custom-auth.css')); ?>" id="main-style-link">
     <?php endif; ?>
     <?php if($setting['cust_darklayout'] == 'on'): ?>
-        <link rel="stylesheet" href="<?php echo e(asset('assets/css/custom-auth-dark.css')); ?>" id="main-style-link">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/css/custom-auth-dark.css')); ?>" id="main-style-link">
     <?php endif; ?>
 </head>
 
 <body class="<?php echo e($color); ?>">
     <div class="custom-login">
-        <div class="login-bg-img">
+        <!-- <div class="login-bg-img">
             <img src="<?php echo e(asset('assets/images/auth/'.$color.'.svg')); ?>" class="login-bg-1">
             <img src="<?php echo e(asset('assets/images/auth/common.svg')); ?>" class="login-bg-2">
-        </div>
-        <div class="bg-login bg-primary"></div>
+        </div> -->
+        <!-- <div class="bg-login bg-primary"></div> -->
         <div class="custom-login-inner">
             <main class="custom-wrapper">
                 <div class="custom-row">
@@ -109,9 +109,14 @@
 <?php echo $__env->yieldPushContent('custom-scripts'); ?>
 
 <?php if($setting['enable_cookie'] == 'on'): ?>
-    <?php echo $__env->make('layouts.cookie_consent', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('layouts.cookie_consent', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <?php endif; ?>
 
+<style>
+.custom-login {
+    background-image: url(<?php echo Storage::url('uploads/background_img/image.jpg'); ?>);
+    background-size: cover;
+}
+</style>
 
-</html>
-<?php /**PATH C:\xampp\htdocs\centraverse\resources\views/layouts/auth.blade.php ENDPATH**/ ?>
+</html><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/layouts/auth.blade.php ENDPATH**/ ?>

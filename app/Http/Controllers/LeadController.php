@@ -692,20 +692,17 @@ class LeadController extends Controller
         }
         $file =  $request->file('lead_file');
         $filename = Str::random(7) . '.' . $file->getClientOriginalExtension();
-        // Dynamically form the folder path within the public directory
         $folder = 'leadInfo/' . $id; // Example: uploads/1
-        // Store the file in the specified folder
         try {
             $path = $file->storeAs($folder, $filename, 'public');
         } catch (\Exception $e) {
             Log::error('File upload failed: ' . $e->getMessage());
             return redirect()->back()->with('error', 'File upload failed');
         }
-        // $path = $file->storeAs($folder, $filename, 'public');
-        // Store the file name in the database
+      
         $document = new LeadDoc();
         $document->lead_id = $id; // Assuming you have a user_id field
-        $document->filename = $file->getClientOriginalName(); // Store original file name
+        $document->filename = $filename; // Store original file name
         $document->filepath = $path; // Store file path
         $document->save();
         return redirect()->back()->with('success','Document Uploaded Successfully');
