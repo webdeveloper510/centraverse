@@ -53,6 +53,7 @@ class AuthenticatedSessionController extends Controller
 
     public function store(LoginRequest $request)
     {
+
         $user = User::where('email',$request->email)->first();
         if(!$user){
             return redirect()->back()->with('error', 'Invalid Credentials');

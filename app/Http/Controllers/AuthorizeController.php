@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Billingdetail;
 use App\Models\Meeting;
 use App\Models\PaymentLogs;
 use App\Models\PaymentInfo;
@@ -143,8 +142,7 @@ class AuthorizeController extends Controller
                         Billing::where('event_id',$id)->update(['status' => 2]);
                     }
                     $data =  Billing::where('event_id',$id)->get();
-                    // Billingdetail::where('event_id', $id)->update(['status' => 2]);
-                    // Billingdetail::where('event_id', $id)->update(['status' => 2]);
+                  
                     return view('calendar.welcome')->with('success',$message_text);
             } else {
                 echo "Transaction Failed \n";
@@ -184,8 +182,5 @@ class AuthorizeController extends Controller
         $message_text = 'No reponse returned';
     }
     return view('calendar.paymentfailed')->with($msg_type, $message_text);
-    // return back()->with($msg_type,$message_text);
     }
 }
-// Billingdetail::where('event_id', $event_id)->update(['status' => 2]);
-// return view('calendar.welcome');

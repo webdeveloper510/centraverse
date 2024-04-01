@@ -169,7 +169,7 @@ $additional_items = json_decode($settings['additional_items'],true);
         <div class="form-group">
             {{Form::label('Assign Staff',__('Assign Staff'),['class'=>'form-label']) }}
             <select class="form-control" name='user'>
-                <option class="form-control"  disabled>Select Staff</option>
+                <option class="form-control" disabled>Select Staff</option>
                 @foreach($users as $user)
                 <option class="form-control" value="{{$user->id}}">{{$user->name}} ({{$user->type}})</option>
                 @endforeach
@@ -255,6 +255,12 @@ $additional_items = json_decode($settings['additional_items'],true);
 </div>
 <script>
 jQuery(function() {
+    $('input[name = lead_name]').keyup(function() {
+        var value = $(this).val();
+        $('input[name = "name"]').val(value);
+    });
+});
+jQuery(function() {
     $('input[name="function[]"]').change(function() {
         $('div#mailFunctionSection > div').hide();
         $('input[name="function[]"]:checked').each(function() {
@@ -302,6 +308,7 @@ $(document).ready(function() {
         },
         success: function(data) {
             localStorage.removeItem('clickedLinkId');
+            $('input[name="lead_name"]').val(data[0].name);
             $('input[name="name"]').val(data[0].name);
             $('input[name="phone"]').val(data[0].phone);
             $('input[name="email"]').val(data[0].email);
@@ -310,7 +317,5 @@ $(document).ready(function() {
         }
     });
 })
-
-//   $('input[name = "storedid"]').val(storedId);
 </script>
 {{Form::close()}}

@@ -50,9 +50,12 @@
                                                     <span class="budget"><b>{{ ucfirst($lead->leadname)}}</b></span>
                                                 </td>
                                                 <td>
-                                                    <a href="{{ route('lead.edit',$lead->id) }}" data-size="md" data-title="{{__('Lead Details')}}" class="action-item text-primary">
+                                                <a href="#" data-size="md" data-url="{{ route('lead.info',urlencode(encrypt($lead->id))) }}" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{ __('Lead Details') }}" title="{{ __('Lead Details') }}"  class="action-item text-primary">
+                                                {{ ucfirst($lead->name) }}
+                                                        </a>
+                                                    <!-- <a href="{{ route('lead.edit',$lead->id) }}" data-size="md" data-title="{{__('Lead Details')}}" class="action-item text-primary">
                                                         {{ ucfirst($lead->name) }}
-                                                    </a>
+                                                    </a> -->
                                                 </td>
                                                 <td>
                                                     <span class="budget">{{ $lead->email }}</span>

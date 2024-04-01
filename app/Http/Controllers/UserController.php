@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use Str;
+use Storage;
 
 
 class UserController extends Controller
@@ -62,7 +64,6 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        $phone= $request->countrycode.preg_replace('/\D/', '', $request->input('phone'));
         if (\Auth::user()->can('Create User')){
             $default_language = DB::table('settings')->select('value')->where('name', 'default_language')->first();
             if (\Auth::user()->type == 'super admin') {
@@ -135,13 +136,15 @@ class UserController extends Controller
                         'password' => 'required|min:6',
                         'avatar' => ['image', 'mimes:jpeg,png,jpg'],
                         'phone'=>'required',
-                        'user_roles'=>'required'
+                        'user_roles'=>'required',
+                        'details'=>'nullable|mimes:doc,docx,pdf'
                     ]
                 );
                 if ($validator->fails()) {
                     $messages = $validator->getMessageBag();
                     return redirect()->back()->with('error', $messages->first());
                 }
+                $phone= $request->countrycode.preg_replace('/\D/', '', $request->input('phone'));
                 $setting  = Utility::settingsById(\Auth::user()->id);
                 $objUser    = User::find(\Auth::user()->creatorId());
                 $total_user = $objUser->countUsers();
@@ -185,8 +188,20 @@ class UserController extends Controller
                             }
                         }
                     }
+                   
                     $user['created_by'] = \Auth::user()->creatorId();
                     $user->save();
+                    if (!empty($request->file('details'))){
+                    $file =  $request->file('details');
+                    $filename = Str::random(7) . '.' . $file->getClientOriginalExtension();
+                    $folder = 'UserInfo/' . $user->id; // Example: uploads/1
+                    try {
+                        $path = $file->storeAs($folder, $filename, 'public');
+                    } catch (\Exception $e) {
+                        Log::error('File upload failed: ' . $e->getMessage());
+                        return redirect()->back()->with('error', 'File upload failed');
+                    }
+                    }
                     // $userstatus = User::where('email',$request->email)->get();
                     $user->assignRole($role_r);
 
@@ -306,6 +321,7 @@ class UserController extends Controller
                 [
                     // 'username' => 'required|max:120',
                     'name' => 'required|max:120',
+                    'phone'=>'required',
                 ]
             );
             if ($validator->fails()) {
@@ -327,7 +343,17 @@ class UserController extends Controller
             //     $user['email_sent'] == true; 
             // }
             $user->update();
-            
+            if (!empty($request->file('details'))){
+            $file =  $request->file('details');
+            $filename = Str::random(7) . '.' . $file->getClientOriginalExtension();
+            $folder = 'UserInfo/' . $id; // Example: uploads/1
+            try {
+                $path = $file->storeAs($folder, $filename, 'public');
+            } catch (\Exception $e) {
+                Log::error('File upload failed: ' . $e->getMessage());
+                return redirect()->back()->with('error', 'File upload failed');
+            }
+        }
             $user->assignRole($role_r);
             Stream::create(
                 [
@@ -561,5 +587,15 @@ class UserController extends Controller
             'success',
             'Staff Password  updated.'
         );
+    }
+    public function view_docs($id){
+        $user = User::find($id);
+        return view('user.view_doc',compact('user'));
+    }
+    public function user_docs_delete($id,$filename){
+        // print_r($id);
+        Storage::delete('app/public/UserInfo/'.$id.'/'.$filename);
+        return back()->with('success', 'File deleted successfully.');
+
     }
 }

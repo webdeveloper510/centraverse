@@ -405,6 +405,12 @@ Route::group(['middleware' => ['verified']], function () {
             Route::get('lead/withdraw_proposal/{id}',[LeadController::class,'withdraw'])->name('lead.withdraw');
             Route::get('lead/resend_proposal/{id}',[LeadController::class,'resend'])->name('lead.resend');
             Route::get('lead/clone/{id}',[LeadController::class,'duplicate'])->name('lead.clone');
+            Route::get('lead/information/{id}',[LeadController::class,'lead_info'])->name('lead.info');
+            Route::get('lead/upload_attachment/{id}',[LeadController::class,'lead_upload'])->name('lead.uploads');
+            Route::post('lead/upload_doc/{id}',[LeadController::class,'lead_upload_doc'])->name('lead.uploaddoc');
+            Route::get('lead/billinfo/{id}',[LeadController::class,'lead_billinfo'])->name('lead.billinfo');
+            Route::get('lead/uploaded_docs/{id}',[LeadController::class,'uploaded_docs'])->name('lead.uploaded_docs');
+
             
         });
 
@@ -510,6 +516,7 @@ Route::group(['middleware' => ['verified']], function () {
             Route::get('/meeting-download/{meeting}', [MeetingController::class, 'download_meeting']);
             Route::get('event/review-proposal/{id}', [MeetingController::class, 'review_agreement'])->name('meeting.review');
             Route::post('event/review-agreement/update/{id}', [MeetingController::class, 'review_agreement_data'])->name('meeting.review_agreement.update');
+            Route::get('event/detailed-view/{id}', [MeetingController::class, 'detailed_info'])->name('meeting.detailview');
         }
     );
   
@@ -991,6 +998,8 @@ Route::group(['middleware' => ['verified']], function () {
     );
 
     Route::get('/change/mode', [UserController::class, 'changeMode'])->name('change.mode');
+    Route::get('user/documents/{id}',[UserController::class,'view_docs'])->name('user.docs');
+    Route::delete('user/documents/delete/{id}/{filename}',[UserController::class,'user_docs_delete'])->name('user.docs.delete');
 
 
     Route::post('plan-pay-with-paypal', [PaypalController::class, 'planPayWithPaypal'])->name('plan.pay.with.paypal')->middleware(

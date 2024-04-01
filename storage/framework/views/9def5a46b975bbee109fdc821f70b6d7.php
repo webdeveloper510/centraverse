@@ -37,8 +37,8 @@
                                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Email')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Phone')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Category')); ?></th>
-                                                <th scope="col" class="sort"><?php echo e(__('Address')); ?></th>
-                                                <th scope="col" class="sort"><?php echo e(__('Organization')); ?></th>
+                                                <th scope="col" class="sort"><?php echo e(__('Status')); ?></th>
+                                                <!-- <th scope="col" class="sort"><?php echo e(__('Organization')); ?></th> -->
                                                 <th scope="col" class="sort"><?php echo e(__('Actions')); ?></th>
                                             </tr>
                                         </thead>
@@ -49,8 +49,17 @@
                                                 <td><span><?php echo e($user->email); ?></span></td>
                                                 <td><span><?php echo e($user->phone); ?></span></td>
                                                 <td><span><?php echo e(ucfirst($user->category)); ?></span></td>
-                                                <td><span><?php echo e(ucfirst($user->address)); ?></span></td>
-                                                <td><span><?php echo e(ucfirst($user->organization)); ?></span></td>
+                                                <!-- <td><span><?php echo e(ucfirst($user->address)); ?></span></td> -->
+                                                <td>
+                                                <?php if($user->status == 0): ?>
+                                                    <span
+                                                        class="badge bg-success p-2 px-3 rounded"><?php echo e(App\Models\UserImport::$status[$user->status]); ?></span>
+                                                <?php else: ?>
+                                                    <span
+                                                        class="badge bg-danger p-2 px-3 rounded"><?php echo e(App\Models\UserImport::$status[$user->status]); ?></span>
+                                                <?php endif; ?>
+                                            </td>
+                                                <!-- <td><span><?php echo e(ucfirst($user->organization)); ?></span></td> -->
                                                 <td>
                                                     <div class="action-btn bg-info ms-2">
                                                         <a href="#" data-url="<?php echo e(route('lead.create',['lead',0])); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " id="<?php echo e($user->id); ?>" onclick="storeIdInLocalStorage(this)" data-bs-toggle="tooltip" title="<?php echo e(__('Convert Lead')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('Create Lead')); ?>"><i class="fas fa-exchange-alt"></i></a>

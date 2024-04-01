@@ -2,7 +2,7 @@
 $imagePath = public_path('upload/signature/autorised_signature.png');
 $imageData = base64_encode(file_get_contents($imagePath));
 $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base64,' . $imageData;
-if($proposal && ($proposal['image'] != null)){
+if(isset($proposal) && ($proposal['image'] != null)){
 $signed = base64_encode(file_get_contents($proposal['image']));
 $sign = 'data:image/' . pathinfo($proposal['image'], PATHINFO_EXTENSION) . ';base64,' . $signed;
 }

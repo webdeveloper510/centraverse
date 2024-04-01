@@ -112,6 +112,18 @@
             <div class="attachment"></div>
         </div>
     </div>
+    <hr>
+    <div class="col-12 p-0 modaltitle pb-3 mb-3">
+        <h5 style="margin-left: 14px;">{{__('Attachments(If Any)')}}</h5>
+        <!-- <hr class ="mb-4"> -->
+    </div>
+    <div class="col-12">
+    <div class=" form-group" >
+            {{Form::label('details',__('Upload Attachments'),['class'=>'form-label']) }}
+            <input type="file" name="details" id="details" class="form-control">
+    </div>
+    </div>
+  
     <div class="modal-footer">
         <button type="button" class="btn btn-light"
             data-bs-dismiss="modal">Close</button>

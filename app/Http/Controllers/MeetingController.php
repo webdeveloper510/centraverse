@@ -18,7 +18,6 @@ use App\Models\Blockdate;
 use App\Models\Setup;
 use App\Models\Billing;
 use App\Models\Agreement;
-use App\Models\Billingdetail;
 use App\Mail\SendBillingMail;
 use App\Mail\AgreementMail;
 use DateTime;
@@ -30,6 +29,7 @@ use Illuminate\Support\Facades\Storage;
 use DB;
 use App\Mail\SendEventMail;
 use App\Mail\TestingMail;
+use Str;
 
 class MeetingController extends Controller
 {
@@ -41,7 +41,6 @@ class MeetingController extends Controller
     public function index()
     {
         if (\Auth::user()->can('Manage Meeting')) {
-            $billing = Billingdetail::get();
             if (\Auth::user()->type == 'owner') {
                 $meetings = Meeting::with('assign_user')->where('created_by', \Auth::user()->creatorId())->get();
                 $defualtView         = new UserDefualtView();
@@ -56,7 +55,7 @@ class MeetingController extends Controller
                 $defualtView->module = 'meeting';
                 $defualtView->view   = 'list';
             }
-            return view('meeting.index', compact('meetings', 'billing'));
+            return view('meeting.index', compact('meetings'));
         } else {
             return redirect()->back()->with('error', 'permission Denied');
         }
@@ -214,7 +213,7 @@ class MeetingController extends Controller
             $meeting['alter_relationship']  = $request->alter_relationship;
             $meeting['alter_lead_address']  = $request->alter_lead_address;
             $meeting['attendees_lead']      = $request->lead;
-            $meeting['eventname']            = $request->eventname;
+            $meeting['eventname']            = $request->eventname ?? $request->name ;
             $meeting['phone']               = $request->phone;
             $meeting['start_time']          = $request->start_time;
             $meeting['end_time']            = $request->end_time;
@@ -223,6 +222,17 @@ class MeetingController extends Controller
             $meeting['created_by']          = \Auth::user()->creatorId();
 
             $meeting->save();
+            if (!empty($request->file('atttachment'))){
+                $file =  $request->file('atttachment');
+                $filename = 'Event'.Str::random(7) . '.' . $file->getClientOriginalExtension();
+                $folder = 'Event/' . $meeting->id; 
+                try {
+                    $path = $file->storeAs($folder, $filename, 'public');
+                } catch (\Exception $e) {
+                    Log::error('File upload failed: ' . $e->getMessage());
+                    return redirect()->back()->with('error', 'File upload failed');
+                }
+                }
             $Assign_user_phone = User::where('id', $request->user)->first();
             $setting  = Utility::settings(\Auth::user()->creatorId());
             $uArr = [
@@ -326,7 +336,6 @@ class MeetingController extends Controller
                     'guest_count' => 'required',
                     'start_time' => 'required',
                     'end_time' => 'required',
-                    'meal' => 'required'
                 ]
             );
             if ($validator->fails()) {
@@ -468,7 +477,7 @@ class MeetingController extends Controller
     {
         if (\Auth::user()->can('Delete Meeting')) {
             $meeting->delete();
-            Billingdetail::where('event_id', $meeting->id)->delete();
+            // Billingdetail::where('event_id', $meeting->id)->delete();
             Agreement::where('event_id', $meeting->id)->delete();
             return redirect()->back()->with('success', 'Event Deleted!');
         } else {
@@ -718,7 +727,7 @@ class MeetingController extends Controller
         $id = decrypt(urldecode($id));
         if (!empty($request->imageData)) {
             $image = $this->uploadSignature($request->imageData);
-            Billingdetail::where('event_id', $id)->update(['status' => 1]);
+            // Billingdetail::where('event_id', $id)->update(['status' => 1]);
         } else {
             return redirect()->back()->with('error', ('Please Sign agreement for confirmation'));
         }
@@ -867,7 +876,7 @@ class MeetingController extends Controller
         $meeting['func_package']       = $packagesArray;
         $meeting['guest_count']        = $request->guest_count;
         $meeting['room']                = $request->rooms;
-        $meeting['meal']                = $meal;
+        $meeting['meal']                = $meal??'';
         $meeting['bar']                 = $request->bar;
         $meeting['spcl_request']        = $request->spcl_request;
         $meeting['alter_name']          = $request->alter_name;
@@ -981,5 +990,10 @@ class MeetingController extends Controller
                 echo "'$selectedFunction' meal type not found.\n";
             }
         }
+    }
+    public function detailed_info($id){
+        $id= decrypt(urldecode($id));
+        $event = Meeting::find($id);
+        return view('meeting.detailed_view',compact('event'));
     }
 }

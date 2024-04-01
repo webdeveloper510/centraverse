@@ -1,0 +1,1 @@
+<?php echo e($id); ?><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/lead/bill_information.blade.php ENDPATH**/ ?>

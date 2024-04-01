@@ -34,7 +34,7 @@ class Meeting extends Model
     public static $parent   = [
         '' => '--',
         'account' => 'Account',
-        'lead' => 'Lead',
+        // 'lead' => 'Lead',
         'contact' => 'Contact',
         'opportunities' => 'Opportunities',
         'case' => 'Case',
