@@ -457,7 +457,7 @@ function enablecookie() {
                 <div class="row">
                     <div class="col-lg-12">
                         @if (\Auth::user()->type == 'owner')
-                        <div id="brand-settings" class="card">
+                        <!-- <div id="brand-settings" class="card">
                             <div class="card-header">
                                 <h5>{{ __('Brand Settings') }}</h5>
                                 <small class="text-muted">{{ __('Edit your brand details') }}</small>
@@ -818,7 +818,7 @@ function enablecookie() {
                                 {{ Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary']) }}
                             </div>
                             {{ Form::close() }}
-                        </div> 
+                        </div> -->
                         @can('Manage Email')
                         <div id="company-email-setting" class="card">
                             <div class="card-header">
