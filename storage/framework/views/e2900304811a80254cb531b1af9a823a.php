@@ -147,6 +147,19 @@ unset($__errorArgs, $__bag); ?> -->
             <div class="attachment"></div>
         </div>
     </div>
+    <hr>
+    <div class="col-12 p-0 modaltitle pb-3 mb-3">
+        <h5 style="margin-left: 14px;"><?php echo e(__('Attachments(If Any)')); ?></h5>
+        <!-- <hr class ="mb-4"> -->
+    </div>
+    <div class="col-12">
+    <div class=" form-group" >
+            <?php echo e(Form::label('details',__('Upload Attachments'),['class'=>'form-label'])); ?>
+
+            <input type="file" name="details" id="details" class="form-control">
+    </div>
+    </div>
+  
     <div class="modal-footer">
         <button type="button" class="btn btn-light"
             data-bs-dismiss="modal">Close</button>
