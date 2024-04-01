@@ -410,7 +410,7 @@ Route::group(['middleware' => ['verified']], function () {
             Route::post('lead/upload_doc/{id}',[LeadController::class,'lead_upload_doc'])->name('lead.uploaddoc');
             Route::get('lead/billinfo/{id}',[LeadController::class,'lead_billinfo'])->name('lead.billinfo');
             Route::get('lead/uploaded_docs/{id}',[LeadController::class,'uploaded_docs'])->name('lead.uploaded_docs');
-
+            Route::post('lead/change_status/',[LeadController::class,'status'])->name('lead.changeleadstat');
             
         });
 

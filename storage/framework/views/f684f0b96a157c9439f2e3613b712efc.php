@@ -34,9 +34,10 @@
                                         <thead>
                                             <tr>
                                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Lead')); ?></th>
-                                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Name')); ?></th>
+                                                <!-- <th scope="col" class="sort" data-sort="name"><?php echo e(__('Name')); ?></th> -->
                                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Email')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Assigned Staff')); ?></th>
+                                                <th scope="col" class="sort"><?php echo e(__('Status')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Proposal Status')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Admin Approval')); ?></th>
                                                 <?php if(Gate::check('Show Lead') || Gate::check('Edit Lead') || Gate::check('Delete Lead')): ?>
@@ -50,22 +51,23 @@
                                                 <td>
                                                     <span class="budget"><b><?php echo e(ucfirst($lead->leadname)); ?></b></span>
                                                 </td>
-                                                <td>
+                                                <!-- <td>
                                                 <a href="#" data-size="md" data-url="<?php echo e(route('lead.info',urlencode(encrypt($lead->id)))); ?>" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('Lead Details')); ?>" title="<?php echo e(__('Lead Details')); ?>"  class="action-item text-primary">
                                                 <?php echo e(ucfirst($lead->name)); ?>
 
                                                         </a>
-                                                    <!-- <a href="<?php echo e(route('lead.edit',$lead->id)); ?>" data-size="md" data-title="<?php echo e(__('Lead Details')); ?>" class="action-item text-primary">
-                                                        <?php echo e(ucfirst($lead->name)); ?>
-
-                                                    </a> -->
-                                                </td>
+                                                  
+                                                </td> -->
                                                 <td>
                                                     <span class="budget"><?php echo e($lead->email); ?></span>
                                                 </td>
                                                 <td>
                                                     <span class="col-sm-12"><span class="text-sm"><?php echo e(ucfirst(!empty($lead->assign_user)?$lead->assign_user->name:'')); ?> (<?php echo e($lead->assign_user->type); ?>)</span></span>
                                                 </td>
+                                                <td><select name="lead_status" id="lead_status" class="form-select" data-id = "<?php echo e($lead->id); ?>">
+                                                    <?php $__currentLoopData = $statuss; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $stat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <option value="<?php echo e($key); ?>"<?php echo e(isset($lead->lead_status) && $lead->lead_status == $key ? "selected" : ""); ?>><?php echo e($stat); ?></option>
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 <td>
                                                     <?php if($lead->proposal_status == 0): ?>
                                                     <span class="badge bg-info p-2 px-3 rounded"><?php echo e(__(\App\Models\Lead::$status[$lead->proposal_status])); ?></span>
@@ -208,7 +210,6 @@
                 $('input[name ="relationship"]').val(data.relationship);
                 $('input[name ="start_date"]').val(data.start_date);
                 $('input[name ="end_date"]').val(data.end_date);
-
                 $('input[name ="start_time"]').val(data.start_time);
                 $('input[name ="end_time"]').val(data.end_time);
                 $('input[name ="rooms"]').val(data.rooms);
@@ -249,6 +250,23 @@
             }
         });          
     });
+    $('select[name = "lead_status"]').on('change',function(){
+        var val = $(this).val();
+        var id = $(this).attr('data-id');
+        var url = "<?php echo e(route('lead.changeleadstat')); ?>";
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: {
+                "status": val,
+                'id':id,
+                "_token": "<?php echo e(csrf_token()); ?>"
+            },
+            success: function(data) {
+                console.log(data);
+            }
+        });
+    })
 </script>
 <?php $__env->stopPush(); ?>
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/crmcentraverse/public_html/centraverse/resources/views/lead/index.blade.php ENDPATH**/ ?>

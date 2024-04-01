@@ -248,74 +248,80 @@ $additional_items = json_decode($settings['additional_items'],true);
             {!! Form::input('time', 'end_time', 'null', ['class' => 'form-control']) !!}
         </div>
     </div>
+    <div class="col-6">
+        <div class="form-group">
+            {{Form::label('is_active',__('Active'),['class'=>'form-label']) }}
+                <input type="checkbox" class="form-check-input" name="is_active" checked>
+        </div>
+    </div>
 </div>
 <div class="modal-footer">
     <button type="button" class="btn  btn-light" data-bs-dismiss="modal">Close</button>
     {{Form::submit(__('Save'),array('class'=>'btn btn-primary '))}}
 </div>
 <script>
-jQuery(function() {
-    $('input[name = lead_name]').keyup(function() {
-        var value = $(this).val();
-        $('input[name = "name"]').val(value);
+    jQuery(function() {
+        $('input[name = lead_name]').keyup(function() {
+            var value = $(this).val();
+            $('input[name = "name"]').val(value);
+        });
     });
-});
-jQuery(function() {
-    $('input[name="function[]"]').change(function() {
-        $('div#mailFunctionSection > div').hide();
-        $('input[name="function[]"]:checked').each(function() {
-            var funVal = $(this).val();
-            $('div#mailFunctionSection > div').each(function() {
-                var attr_value = $(this).data('main-value');
-                if (attr_value == funVal) {
-                    $(this).show();
-                }
+    jQuery(function() {
+        $('input[name="function[]"]').change(function() {
+            $('div#mailFunctionSection > div').hide();
+            $('input[name="function[]"]:checked').each(function() {
+                var funVal = $(this).val();
+                $('div#mailFunctionSection > div').each(function() {
+                    var attr_value = $(this).data('main-value');
+                    if (attr_value == funVal) {
+                        $(this).show();
+                    }
+                });
             });
         });
     });
-});
-jQuery(function() {
-    $('div#mailFunctionSection input[type=checkbox]').change(function() {
-        $('div#additionalSection > div').hide();
-        $('div#mailFunctionSection input[type=checkbox]:checked').each(function() {
-            var funcValue = $(this).val();
-            $('div#additionalSection > div').each(function() {
-                var ad_val = $(this).data('additional-index');
-                if (funcValue == ad_val) {
-                    $(this).show();
-                }
+    jQuery(function() {
+        $('div#mailFunctionSection input[type=checkbox]').change(function() {
+            $('div#additionalSection > div').hide();
+            $('div#mailFunctionSection input[type=checkbox]:checked').each(function() {
+                var funcValue = $(this).val();
+                $('div#additionalSection > div').each(function() {
+                    var ad_val = $(this).data('additional-index');
+                    if (funcValue == ad_val) {
+                        $(this).show();
+                    }
+                });
             });
         });
     });
-});
-jQuery(function() {
-    $('input[type=radio][name = baropt]').change(function() {
-        $('div#barpacakgeoptions').hide();
-        var value = $(this).val();
-        if (value == 'Package Choice') {
-            $('div#barpacakgeoptions').show();
-        }
+    jQuery(function() {
+        $('input[type=radio][name = baropt]').change(function() {
+            $('div#barpacakgeoptions').hide();
+            var value = $(this).val();
+            if (value == 'Package Choice') {
+                $('div#barpacakgeoptions').show();
+            }
+        });
     });
-});
-$(document).ready(function() {
-    var storedId = localStorage.getItem('clickedLinkId');
-    $.ajax({
-        url: "{{ route('getcontactinfo') }}",
-        type: 'POST',
-        data: {
-            "customerid": storedId,
-            "_token": "{{ csrf_token() }}",
-        },
-        success: function(data) {
-            localStorage.removeItem('clickedLinkId');
-            $('input[name="lead_name"]').val(data[0].name);
-            $('input[name="name"]').val(data[0].name);
-            $('input[name="phone"]').val(data[0].phone);
-            $('input[name="email"]').val(data[0].email);
-            $('input[name="lead_address"]').val(data[0].address);
-            $('input[name="company_name"]').val(data[0].organization);
-        }
-    });
-})
+    $(document).ready(function() {
+        var storedId = localStorage.getItem('clickedLinkId');
+        $.ajax({
+            url: "{{ route('getcontactinfo') }}",
+            type: 'POST',
+            data: {
+                "customerid": storedId,
+                "_token": "{{ csrf_token() }}",
+            },
+            success: function(data) {
+                localStorage.removeItem('clickedLinkId');
+                $('input[name="lead_name"]').val(data[0].name);
+                $('input[name="name"]').val(data[0].name);
+                $('input[name="phone"]').val(data[0].phone);
+                $('input[name="email"]').val(data[0].email);
+                $('input[name="lead_address"]').val(data[0].address);
+                $('input[name="company_name"]').val(data[0].organization);
+            }
+        });
+    })
 </script>
 {{Form::close()}}

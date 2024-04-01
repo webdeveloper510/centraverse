@@ -33,9 +33,10 @@
                                         <thead>
                                             <tr>
                                                 <th scope="col" class="sort" data-sort="name">{{__('Lead')}}</th>
-                                                <th scope="col" class="sort" data-sort="name">{{__('Name')}}</th>
+                                                <!-- <th scope="col" class="sort" data-sort="name">{{__('Name')}}</th> -->
                                                 <th scope="col" class="sort" data-sort="budget">{{__('Email')}}</th>
                                                 <th scope="col" class="sort">{{__('Assigned Staff')}}</th>
+                                                <th scope="col" class="sort">{{__('Status')}}</th>
                                                 <th scope="col" class="sort">{{__('Proposal Status')}}</th>
                                                 <th scope="col" class="sort">{{__('Admin Approval')}}</th>
                                                 @if(Gate::check('Show Lead') || Gate::check('Edit Lead') || Gate::check('Delete Lead'))
@@ -49,20 +50,22 @@
                                                 <td>
                                                     <span class="budget"><b>{{ ucfirst($lead->leadname)}}</b></span>
                                                 </td>
-                                                <td>
+                                                <!-- <td>
                                                 <a href="#" data-size="md" data-url="{{ route('lead.info',urlencode(encrypt($lead->id))) }}" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{ __('Lead Details') }}" title="{{ __('Lead Details') }}"  class="action-item text-primary">
                                                 {{ ucfirst($lead->name) }}
                                                         </a>
-                                                    <!-- <a href="{{ route('lead.edit',$lead->id) }}" data-size="md" data-title="{{__('Lead Details')}}" class="action-item text-primary">
-                                                        {{ ucfirst($lead->name) }}
-                                                    </a> -->
-                                                </td>
+                                                  
+                                                </td> -->
                                                 <td>
                                                     <span class="budget">{{ $lead->email }}</span>
                                                 </td>
                                                 <td>
                                                     <span class="col-sm-12"><span class="text-sm">{{ ucfirst(!empty($lead->assign_user)?$lead->assign_user->name:'')}} ({{$lead->assign_user->type}})</span></span>
                                                 </td>
+                                                <td><select name="lead_status" id="lead_status" class="form-select" data-id = "{{$lead->id}}">
+                                                    @foreach($statuss as $key => $stat)
+                                                    <option value="{{ $key }}"{{ isset($lead->lead_status) && $lead->lead_status == $key ? "selected" : "" }}>{{ $stat }}</option>
+                                                    @endforeach
                                                 <td>
                                                     @if($lead->proposal_status == 0)
                                                     <span class="badge bg-info p-2 px-3 rounded">{{ __(\App\Models\Lead::$status[$lead->proposal_status]) }}</span>
@@ -203,7 +206,6 @@
                 $('input[name ="relationship"]').val(data.relationship);
                 $('input[name ="start_date"]').val(data.start_date);
                 $('input[name ="end_date"]').val(data.end_date);
-
                 $('input[name ="start_time"]').val(data.start_time);
                 $('input[name ="end_time"]').val(data.end_time);
                 $('input[name ="rooms"]').val(data.rooms);
@@ -244,5 +246,22 @@
             }
         });          
     });
+    $('select[name = "lead_status"]').on('change',function(){
+        var val = $(this).val();
+        var id = $(this).attr('data-id');
+        var url = "{{route('lead.changeleadstat')}}";
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: {
+                "status": val,
+                'id':id,
+                "_token": "{{ csrf_token() }}"
+            },
+            success: function(data) {
+                console.log(data);
+            }
+        });
+    })
 </script>
 @endpush

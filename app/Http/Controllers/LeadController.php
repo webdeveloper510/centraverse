@@ -39,6 +39,8 @@ class LeadController extends Controller
     public function index()
     {
             if (\Auth::user()->can('Manage Lead')) {
+                $statuss = Lead::$stat;
+
                 if(\Auth::user()->type == 'owner'){
                 $leads = Lead::with('accounts','assign_user')->where('created_by', \Auth::user()->creatorId())->get();
                 $defualtView         = new UserDefualtView();
@@ -54,7 +56,7 @@ class LeadController extends Controller
                 $defualtView->module = 'lead';
                 $defualtView->view   = 'list';
                 }
-                return view('lead.index', compact('leads'));
+                return view('lead.index', compact('leads','statuss'));
             } else {
                 return redirect()->back()->with('error', 'permission Denied');
             }
@@ -158,6 +160,7 @@ class LeadController extends Controller
             $lead['bar_package']         = $bar_pack  ?? '';
             $lead['ad_opts']             = $additional  ?? '';
             $lead['rooms']              = $request->rooms ?? 0;
+            $lead['lead_status']  = ($request->is_active == 'on') ? 1 : 0;
             $lead['created_by']         = \Auth::user()->creatorId();
             $lead->save();
           
@@ -319,6 +322,7 @@ class LeadController extends Controller
             $lead['ad_opts']             = $additional ?? '';
             $lead['bar']        =   $request->bar;
             $lead['rooms']          = $request->rooms ?? 0;
+            $lead['lead_status']  = ($request->is_active == 'on') ? 1 : 0;
             $lead['created_by']         = \Auth::user()->creatorId();
             $lead->update();
             return redirect()->back()->with('success', __('Lead  Updated.'));
@@ -731,5 +735,12 @@ class LeadController extends Controller
             //     echo "Folder is empty.";
             // }
         // }
+    }
+    public function status(Request $request){
+        $id = $request->id;
+        Lead::where('id',$id)->update([
+            'lead_status' => $request->status
+        ]);
+       return true;
     }
 }

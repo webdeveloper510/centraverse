@@ -224,7 +224,7 @@ class MeetingController extends Controller
             $meeting->save();
             if (!empty($request->file('atttachment'))){
                 $file =  $request->file('atttachment');
-                $filename = 'Event'.Str::random(7) . '.' . $file->getClientOriginalExtension();
+                $filename = 'Event_'.Str::random(7) . '.' . $file->getClientOriginalExtension();
                 $folder = 'Event/' . $meeting->id; 
                 try {
                     $path = $file->storeAs($folder, $filename, 'public');
@@ -460,6 +460,17 @@ class MeetingController extends Controller
             $meeting['floor_plan']          = $request->uploadedImage;
             $meeting['created_by']        = \Auth::user()->creatorId();
             $meeting->update();
+            if (!empty($request->file('attachment'))){
+                $file =  $request->file('attachment');
+                $filename = 'Event_'.Str::random(7) . '.' . $file->getClientOriginalExtension();
+                $folder = 'Event/' . $id; // Example: uploads/1
+                try {
+                    $path = $file->storeAs($folder, $filename, 'public');
+                } catch (\Exception $e) {
+                    Log::error('File upload failed: ' . $e->getMessage());
+                    return redirect()->back()->with('error', 'File upload failed');
+                }
+            }
             return redirect()->back()->with('success', __('Event Updated.'));
         } else {
             return redirect()->back()->with('error', 'Permission Denied');

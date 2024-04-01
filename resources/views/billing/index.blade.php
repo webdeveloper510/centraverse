@@ -113,7 +113,6 @@
                                                         </a>
                                                     </div>
                                                     @endcan
-                                                    @endif
                                                     @can('Delete Payment')
                                                     <div class="action-btn bg-danger ms-2">
                                                         {!! Form::open(['method' => 'DELETE', 'route' =>
@@ -127,6 +126,8 @@
                                                         {!! Form::close() !!}
                                                     </div>
                                                     @endcan
+                                                    @endif
+                                                   
                                                 </td>
                                             </tr>
                                             @endforeach

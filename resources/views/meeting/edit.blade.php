@@ -409,7 +409,13 @@ $bar_package = json_decode($setting['barpackage'],true);
                                                 {{Form::text('allergies',null,array('class'=>'form-control','placeholder'=>__('Enter Allergies(if any)')))}}
                                             </div>
                                         </div>
+                                        <div class="col-12">
+                                                <div class="form-group">
+                                                    {{Form::label('atttachment',__('Attachments (If Any)'),['class'=>'form-label']) }}
+                                                    <input type="file" name="atttachment" id="atttachment" class="form-control">
 
+                                                </div>
+                                            </div>
                                     </div>
                                 </div>
                                 <div class="card-footer text-end">

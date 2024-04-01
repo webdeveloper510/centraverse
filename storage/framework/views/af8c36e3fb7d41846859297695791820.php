@@ -340,6 +340,17 @@ $bar_package = json_decode($setting['barpackage'],true);
 
                                         </div>
                                     </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <?php echo e(Form::label('name', __('Active'), ['class' => 'form-label'])); ?>
+
+                                            <div>
+                                                <input type="checkbox" class="form-check-input" name="is_active"
+                                                    <?php echo e($lead->lead_status == 1 ? 'checked' : ''); ?>>
+                                            </div>
+                                        </div>
+                                    </div>
+                            <hr>
                                     <div class="text-end">
                                         <?php echo e(Form::submit(__('Update'), ['class' => 'btn-submit btn btn-primary'])); ?>
 

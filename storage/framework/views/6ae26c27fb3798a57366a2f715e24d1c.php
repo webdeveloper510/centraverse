@@ -25,7 +25,7 @@
                                         <i class="fas fa-address-card"></i>
                                     </div>
                                     <div class="right_side">
-                                        <h6 class="mb-3"><?php echo e(__('Total Lead')); ?></h6>
+                                        <h6 class="mb-3"><?php echo e(__('Active Lead')); ?></h6>
                                         <h3 class="mb-0"><?php echo e($data['totalLead']); ?></h3>
                                     </div>
                                 </div>
@@ -38,7 +38,7 @@
                                         <i class="ti ti-user"></i>
                                     </div>
                                     <div class="right_side">
-                                        <h6 class="mb-3"><?php echo e(__('Total Events')); ?></h6>
+                                        <h6 class="mb-3"><?php echo e(__('Active Events')); ?></h6>
                                         <h3 class="mb-0"><?php echo e(@$totalevent); ?> </h3>
                                     </div>
                                 </div>
