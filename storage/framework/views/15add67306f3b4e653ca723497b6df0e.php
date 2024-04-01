@@ -172,7 +172,6 @@ jQuery(function() {
             }else{
                     $('input[name="reference"]').attr('required');
             }
-            alert($(this).val());
         })
 });
 </script><?php /**PATH /home/crmcentraverse/public_html/centraverse/resources/views/billing/pay-info.blade.php ENDPATH**/ ?>

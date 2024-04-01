@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('importusers', function (Blueprint $table) {
+        Schema::create('lead_document', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('phone');
-            $table->string('email');
-            $table->string('address')->nullable();
-            $table->string('organization')->nullable();
-            $table->string('category');
+            $table->unsignedBigInteger('lead_id');
+            $table->foreign('lead_id')->references('id')->on('leads');
+            $table->text('filename');
+            $table->text('filepath');
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('importusers');
+        Schema::dropIfExists('lead_document');
     }
 };

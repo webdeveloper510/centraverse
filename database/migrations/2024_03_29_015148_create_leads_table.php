@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer('user_id')->default(0);
             $table->string('leadname')->nullable();
             $table->string('name')->nullable();
-            $table->string('email')->unique();
+            $table->string('email');
             $table->string('phone')->nullable();
             $table->string('company_name')->nullable();
             $table->string('relationship')->nullable();
@@ -27,6 +27,7 @@ return new class extends Migration
             $table->date('start_date');
             $table->integer('proposal_status')->default(0);
             $table->integer('status')->default(0);
+            $table->integer('lead_status')->default(0);
             $table->date('end_date');
             $table->string('func_package')->nullable();
             $table->string('bar_package')->nullable();

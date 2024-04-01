@@ -89,7 +89,7 @@ $bar = ['Open Bar', 'Cash Bar', 'Package Choice'];
                                     <div class="form-group">
                                         <?php echo e(Form::label('lead_address',__('Address'),['class'=>'form-label'])); ?>
 
-                                        <?php echo e(Form::text('lead_address',null,array('class'=>'form-control','placeholder'=>__('Address'),'required'=>'required'))); ?>
+                                        <?php echo e(Form::text('lead_address',null,array('class'=>'form-control','placeholder'=>__('Address')))); ?>
 
                                     </div>
                                 </div>

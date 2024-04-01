@@ -6,13 +6,14 @@ $campaign_type = explode(',',$settings['campaign_type'])
     <div class="badges">
         <ul class="nav nav-tabs tabActive" style="border-bottom: none">
             <li class="badge rounded p-2 m-1 px-3 bg-primary">
-                <a style="color: white;font-size: larger;" data-toggle="tab" href="#barmenu0" class="active">Individual Customer</a>
+                <a style="color: white;font-size: larger;" data-toggle="tab" href="#barmenu0" class="active">Individual
+                    Customer</a>
             </li>
             <li class="badge rounded p-2 m-1 px-3 bg-primary">
-                <a style="color: white;    font-size: larger;" data-toggle="tab" href="#barmenu1" class="">Bulk Customer</a>
+                <a style="color: white;    font-size: larger;" data-toggle="tab" href="#barmenu1" class="">Bulk
+                    Customer</a>
             </li>
         </ul>
-
         <div class="tab-content">
             <div id="barmenu0" class="tab-pane fade in active show mt-5">
                 <?php echo e(Form::open(array('route'=>['importuser'],'method'=>'post','enctype'=>'multipart/form-data'))); ?>
@@ -32,7 +33,8 @@ $campaign_type = explode(',',$settings['campaign_type'])
                             <?php echo e(Form::label('phone',__('Phone'),['class'=>'form-label'])); ?>
 
                             <div class="intl-tel-input">
-                                <input type="tel" id="phone-input" name="phone" class="phone-input form-control" placeholder="Enter Phone" maxlength="16" required>
+                                <input type="tel" id="phone-input" name="phone" class="phone-input form-control"
+                                    placeholder="Enter Phone" maxlength="16" required>
                                 <input type="hidden" name="countrycode" id="country-code">
                             </div>
                         </div>
@@ -72,6 +74,13 @@ $campaign_type = explode(',',$settings['campaign_type'])
                             </select>
                         </div>
                     </div>
+                    <div class="col-6">
+                        <div class="form-group" style="margin-top: 35px;">
+                            <?php echo e(Form::label('name',__('Active'),['class'=>'form-label'])); ?>
+
+                            <input type="checkbox" class="form-check-input" name="is_active" checked>
+                        </div>
+                    </div>
                     <div class="col-12">
                         <div class="modal-footer">
                             <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
@@ -83,7 +92,7 @@ $campaign_type = explode(',',$settings['campaign_type'])
                 <?php echo e(Form::close()); ?>
 
             </div>
-            <div id="barmenu1" class="tab-pane fade mt-5" >
+            <div id="barmenu1" class="tab-pane fade mt-5">
                 <?php echo e(Form::open(array('route'=>['importuser'],'method'=>'post','enctype'=>'multipart/form-data'))); ?>
 
                 <div class="row">
@@ -117,13 +126,9 @@ $campaign_type = explode(',',$settings['campaign_type'])
         </div>
     </div>
 </div>
-
 <style>
-li:has(> a.active) {
-    border-color: #2980b9;
-    box-shadow: 0 0 15px rgba(41, 128, 185, 0.8);
-}
-
-</style>
-
-<?php /**PATH /home/crmcentraverse/public_html/centraverse/resources/views/customer/uploaduserinfo.blade.php ENDPATH**/ ?>
+    li:has(> a.active) {
+        border-color: #2980b9;
+        box-shadow: 0 0 15px rgba(41, 128, 185, 0.8);
+    }
+</style><?php /**PATH /home/crmcentraverse/public_html/centraverse/resources/views/customer/uploaduserinfo.blade.php ENDPATH**/ ?>

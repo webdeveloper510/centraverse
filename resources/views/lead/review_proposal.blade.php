@@ -76,7 +76,7 @@ $bar = ['Open Bar', 'Cash Bar', 'Package Choice'];
                                 <div class="col-6">
                                     <div class="form-group">
                                         {{Form::label('lead_address',__('Address'),['class'=>'form-label']) }}
-                                        {{Form::text('lead_address',null,array('class'=>'form-control','placeholder'=>__('Address'),'required'=>'required'))}}
+                                        {{Form::text('lead_address',null,array('class'=>'form-control','placeholder'=>__('Address')))}}
                                     </div>
                                 </div>
                                 <div class="col-6">

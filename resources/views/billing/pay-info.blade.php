@@ -148,7 +148,6 @@ jQuery(function() {
             }else{
                     $('input[name="reference"]').attr('required');
             }
-            alert($(this).val());
         })
 });
 </script>

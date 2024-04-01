@@ -25,6 +25,9 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Mail\SendPdfEmail;
 use App\Mail\LeadWithrawMail;
 use Mail;
+use Str;
+use App\Models\LeadDoc;
+use Storage;
 
 class LeadController extends Controller
 {
@@ -87,7 +90,7 @@ class LeadController extends Controller
                 [
                     'lead_name'=>'required',
                     'name' => 'required|max:120',
-                    'phone'=>'required|numeric',
+                    'phone'=>'required|numeric'
                 ]);
             if ($validator->fails()) {
                 $messages = $validator->getMessageBag();
@@ -580,7 +583,7 @@ class LeadController extends Controller
         }
 
         $lead = Lead::find($id);
-        $venue_function = implode(',',$_REQUEST['venue']);
+        $venue_function = isset($request->venue) ? implode(',',$_REQUEST['venue']) :'';
         $function =  isset($request->function) ? implode(',',$_REQUEST['function']) :'';
           
             if($request->status == 'Approve'){                
@@ -673,5 +676,63 @@ class LeadController extends Controller
         $lead = Lead::find($id);
         $leads = Lead::where('email',$lead->email)->orwhere('phone',$lead->phone)->get();
         return view('lead.leadinfo',compact('leads','lead'));
+    }
+    public function lead_upload($id){
+        return view('lead.uploaddoc',compact('id'));
+    }
+    public function lead_upload_doc(Request $request,$id){
+        $validator = \Validator::make(
+            $request->all(),
+            [
+                'lead_file'=>'required|mimes:doc,docx,pdf',
+            ]);
+        if ($validator->fails()) {
+            $messages = $validator->getMessageBag();
+            return redirect()->back()->with('error', $messages->first()) ;
+        }
+        $file =  $request->file('lead_file');
+        $filename = Str::random(7) . '.' . $file->getClientOriginalExtension();
+        // Dynamically form the folder path within the public directory
+        $folder = 'leadInfo/' . $id; // Example: uploads/1
+        // Store the file in the specified folder
+        try {
+            $path = $file->storeAs($folder, $filename, 'public');
+        } catch (\Exception $e) {
+            Log::error('File upload failed: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'File upload failed');
+        }
+        // $path = $file->storeAs($folder, $filename, 'public');
+        // Store the file name in the database
+        $document = new LeadDoc();
+        $document->lead_id = $id; // Assuming you have a user_id field
+        $document->filename = $file->getClientOriginalName(); // Store original file name
+        $document->filepath = $path; // Store file path
+        $document->save();
+        return redirect()->back()->with('success','Document Uploaded Successfully');
+    }
+    public function lead_billinfo($id){
+        return view('lead.bill_information') ;
+    }
+    public function uploaded_docs($id){
+        $docs = LeadDoc::where('lead_id',$id)->get();
+        // foreach($docs as $doc){
+        //     $folder = $doc->filepath;
+        //     if (Storage::disk('public')->exists($folder)) {
+        //         // File exists
+        //         echo "File exists.";
+                return view('lead.viewdocument',compact('docs'));
+            // } else {
+            //     // File doesn't exist
+            //     echo "File doesn't exist.";
+            // }
+
+            // if (count($files) > 0) {
+            //     // Folder is not empty
+            //     echo "Folder contains files.";
+            // } else {
+            //     // Folder is empty
+            //     echo "Folder is empty.";
+            // }
+        // }
     }
 }
