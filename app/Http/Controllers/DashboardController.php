@@ -47,7 +47,7 @@ class DashboardController extends Controller
                 $data['totalUser']          = User::where('created_by', \Auth::user()->creatorId())->count();
                 $data['totalAccount']       = Account::where('created_by', \Auth::user()->creatorId())->count();
                 $data['totalContact']       = Contact::where('created_by', \Auth::user()->creatorId())->count();
-                $data['totalLead']          = Lead::where('created_by', \Auth::user()->creatorId())->count();                 
+                $data['totalLead']          = Lead::where('created_by', \Auth::user()->creatorId())->where('lead_status',1)->count();                 
                 $data['totalSalesorder']    = $totalSalesOrder = SalesOrder::where('created_by', \Auth::user()->creatorId())->count();
                 $data['totalInvoice']       = $totalInvoice = Invoice::where('created_by', \Auth::user()->creatorId())->count();
                 $data['totalQuote']         = $totalQuote = Quote::where('created_by', \Auth::user()->creatorId())->count();
@@ -58,7 +58,8 @@ class DashboardController extends Controller
                 $date = today()->format('Y-m-d');
 
                 $activeLeads = Lead::where('created_by', \Auth::user()->creatorId())->
-                where('start_date', '>=', $date)->get();
+                where('lead_status', 1)->get();
+                
                 $lostLeads = Lead::where('proposal_status', '==',3)->take(4)->get(); 
                 $activeEvent = Meeting::where('start_date', '>=', $date)->take(4)->get();
                 $pastEvents = Meeting::where('start_date', '<', $date)->take(4)->get();

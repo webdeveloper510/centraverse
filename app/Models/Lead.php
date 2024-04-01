@@ -51,6 +51,10 @@ class Lead extends Model
         'Approved',
         'Withdrawn',
     ];
+    public static $stat = [
+        'In Active',
+        'Active'
+    ];
     public static  $function = [
         'Breakfast',
         'Brunch',

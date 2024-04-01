@@ -7,6 +7,7 @@ use App\Models\PaymentLogs;
 use App\Models\PaymentInfo;
 use App\Models\Billing;
 use Illuminate\Http\Request;
+use App\Mail\InvoicePaymentMail;
 use net\authorize\api\contract\v1 as AnetAPI;
 use net\authorize\api\controller as AnetController;
 
@@ -18,8 +19,8 @@ class AuthorizeController extends Controller
         return view('payments.pay',compact('event'));
     }
     public function handleonlinepay(Request $request ,$id) {
-        $input = $request->all();
 
+    $input = $request->all();
     /* Create a merchantAuthenticationType object with authentication details
     retrieved from the constants file */
     $merchantAuthentication = new AnetAPI\MerchantAuthenticationType();
@@ -99,14 +100,14 @@ class AuthorizeController extends Controller
     $response = $controller->executeWithApiResponse(\net\authorize\api\constants\ANetEnvironment::SANDBOX);
     
     // dd($response);
-
     if ($response != null) {
         // Check to see if the API request was successfully received and acted upon
         if ($response->getMessages()->getResultCode() == "Ok") {
             // Since the API request was successful, look for a transaction response
             // and parse it to display the results of authorizing the card
             $tresponse = $response->getTransactionResponse();
-            // echo"<pre>";print_r($tresponse);die;
+           
+
             if ($tresponse != null && $tresponse->getMessages() != null) {
                 // echo " Successfully created transaction with Transaction ID: " . $tresponse->getTransId() . "\n";
                 // echo " Transaction Response Code: " . $tresponse->getResponseCode() . "\n";
@@ -126,6 +127,30 @@ class AuthorizeController extends Controller
                         'name_of_card' =>  $input['owner'],
                         'event_id' =>$id
                     ]);
+                    $payinformaton = PaymentLogs::latest()->first();
+                    try {
+                        config(
+                            [
+                                'mail.driver'       => $settings['mail_driver'],
+                                'mail.host'         => $settings['mail_host'],
+                                'mail.port'         => $settings['mail_port'],
+                                'mail.username'     => $settings['mail_username'],
+                                'mail.password'     => $settings['mail_password'],
+                                'mail.from.address' => $settings['mail_from_address'],
+                                'mail.from.name'    => $settings['mail_from_name'],
+                            ]
+                        );
+                        Mail::to('sonali@codenomad.net')->send(new InvoicePaymentMail($payinformaton));
+                    } catch (\Exception $e) {
+                        //   return response()->json(
+                        //             [
+                        //                 'is_success' => false,
+                        //                 'message' => $e->getMessage(),
+                        //             ]
+                        //         );
+                          return redirect()->back()->with('success', 'Email Not Sent');
+                  
+                    }
                     $payinfo = PaymentInfo::where('event_id',$id)->first();
                     $halfpay = $payinfo->amount/2;
                     $amountpaid = 0 ;

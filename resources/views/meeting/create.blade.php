@@ -529,7 +529,6 @@ $bar_package = json_decode($setting['barpackage'],true);
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     {{Form::label('atttachment',__('Attachments (If Any)'),['class'=>'form-label']) }}
-                                                    <!-- {{Form::text('atttachment',null,array('class'=>'form-control','placeholder'=>__('Enter Allergies(if any)')))}} -->
                                                     <input type="file" name="atttachment" id="atttachment" class="form-control">
 
                                                 </div>

@@ -24,7 +24,7 @@
                                         <i class="fas fa-address-card"></i>
                                     </div>
                                     <div class="right_side">
-                                        <h6 class="mb-3">{{ __('Total Lead') }}</h6>
+                                        <h6 class="mb-3">{{ __('Active Lead') }}</h6>
                                         <h3 class="mb-0">{{ $data['totalLead'] }}</h3>
                                     </div>
                                 </div>
@@ -37,7 +37,7 @@
                                         <i class="ti ti-user"></i>
                                     </div>
                                     <div class="right_side">
-                                        <h6 class="mb-3">{{ __('Total Events') }}</h6>
+                                        <h6 class="mb-3">{{ __('Active Events') }}</h6>
                                         <h3 class="mb-0">{{ @$totalevent }} </h3>
                                     </div>
                                 </div>
