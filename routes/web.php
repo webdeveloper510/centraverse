@@ -516,6 +516,7 @@ Route::group(['middleware' => ['verified']], function () {
             Route::get('/meeting-download/{meeting}', [MeetingController::class, 'download_meeting']);
             Route::get('event/review-proposal/{id}', [MeetingController::class, 'review_agreement'])->name('meeting.review');
             Route::post('event/review-agreement/update/{id}', [MeetingController::class, 'review_agreement_data'])->name('meeting.review_agreement.update');
+            Route::get('event/detailed-view/{id}', [MeetingController::class, 'detailed_info'])->name('meeting.detailview');
         }
     );
   
@@ -997,6 +998,8 @@ Route::group(['middleware' => ['verified']], function () {
     );
 
     Route::get('/change/mode', [UserController::class, 'changeMode'])->name('change.mode');
+    Route::get('user/documents/{id}',[UserController::class,'view_docs'])->name('user.docs');
+    Route::delete('user/documents/delete/{id}/{filename}',[UserController::class,'user_docs_delete'])->name('user.docs.delete');
 
 
     Route::post('plan-pay-with-paypal', [PaypalController::class, 'planPayWithPaypal'])->name('plan.pay.with.paypal')->middleware(

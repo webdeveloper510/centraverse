@@ -29,6 +29,7 @@ use Illuminate\Support\Facades\Storage;
 use DB;
 use App\Mail\SendEventMail;
 use App\Mail\TestingMail;
+use Str;
 
 class MeetingController extends Controller
 {
@@ -212,7 +213,7 @@ class MeetingController extends Controller
             $meeting['alter_relationship']  = $request->alter_relationship;
             $meeting['alter_lead_address']  = $request->alter_lead_address;
             $meeting['attendees_lead']      = $request->lead;
-            $meeting['eventname']            = $request->eventname;
+            $meeting['eventname']            = $request->eventname ?? $request->name ;
             $meeting['phone']               = $request->phone;
             $meeting['start_time']          = $request->start_time;
             $meeting['end_time']            = $request->end_time;
@@ -221,6 +222,17 @@ class MeetingController extends Controller
             $meeting['created_by']          = \Auth::user()->creatorId();
 
             $meeting->save();
+            if (!empty($request->file('atttachment'))){
+                $file =  $request->file('atttachment');
+                $filename = 'Event'.Str::random(7) . '.' . $file->getClientOriginalExtension();
+                $folder = 'Event/' . $meeting->id; 
+                try {
+                    $path = $file->storeAs($folder, $filename, 'public');
+                } catch (\Exception $e) {
+                    Log::error('File upload failed: ' . $e->getMessage());
+                    return redirect()->back()->with('error', 'File upload failed');
+                }
+                }
             $Assign_user_phone = User::where('id', $request->user)->first();
             $setting  = Utility::settings(\Auth::user()->creatorId());
             $uArr = [
@@ -978,5 +990,10 @@ class MeetingController extends Controller
                 echo "'$selectedFunction' meal type not found.\n";
             }
         }
+    }
+    public function detailed_info($id){
+        $id= decrypt(urldecode($id));
+        $event = Meeting::find($id);
+        return view('meeting.detailed_view',compact('event'));
     }
 }

@@ -3,7 +3,7 @@
         <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
             <div class="navbar-brand-box">
                 <a href="#" class="navbar-brand">
-                    <img src="<?php echo e($logo.'logo.svg'); ?>" alt="<?php echo e(config('app.name', 'Centraverse')); ?>" class="logo logo-lg nav-sidebar-logo" height="50" />
+                    <img src="<?php echo e($logo.'logo-light.png'); ?>" alt="<?php echo e(config('app.name', 'Centraverse')); ?>" class="logo logo-lg nav-sidebar-logo" height="50" />
                 </a>
             </div>
 

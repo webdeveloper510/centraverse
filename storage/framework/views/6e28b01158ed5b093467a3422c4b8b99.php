@@ -53,72 +53,8 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
 ?>
 
 <?php $__env->startPush('css-page'); ?>
-<?php if($color == 'theme-1'): ?>
 <style>
-/* ul>li>a.active {
-        border: 4px solid #fff;
-        filter: drop-shadow(5px 6px 6px #145388);
-    } */
-/* Popup container */
-/* .popup {
-        position: relative;
-        display: inline-block;
-        cursor: pointer;
-    }
-
-    .popup .popuptext {
-        visibility: hidden;
-        width: 160px;
-        background-color: #555;
-        color: #fff;
-        text-align: center;
-        border-radius: 6px;
-        padding: 8px 0;
-        position: absolute;
-        z-index: 1;
-        bottom: 125%;
-        left: 50%;
-        margin-left: -80px;
-    }
-
-    .popup .popuptext::after {
-        content: "";
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        margin-left: -5px;
-        border-width: 5px;
-        border-style: solid;
-        border-color: #555 transparent transparent transparent;
-    }
-
-    .popup .show {
-        visibility: visible;
-        -webkit-animation: fadeIn 1s;
-        animation: fadeIn 1s
-    }
-
-    @-webkit-keyframes fadeIn {
-        from {
-            opacity: 0;
-        }
-
-        to {
-            opacity: 1;
-        }
-    }
-
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-        }
-
-        to {
-            opacity: 1;
-        }
-    } */
-/* Style the modal */
-.modal {
+    .modal {
     display: none;
     position: fixed;
     z-index: 1;
@@ -155,9 +91,13 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
 }
 
 ul>li.active {
-    border: 4px solid #fff;
-    filter: drop-shadow(5px 6px 6px #145388);
+    /* border: 4px solid #fff; */
+    /* filter: drop-shadow(5px 6px 6px #145388); */
 }
+
+</style>
+<?php if($color == 'theme-1'): ?>
+<style>
 
 .btn-check:checked+.btn-outline-success,
 .btn-check:active+.btn-outline-success,
@@ -183,79 +123,79 @@ ul>li.active {
 </style>
 <?php endif; ?>
 <?php if($color == 'theme-2'): ?>
-<style>
-.btn-check:checked+.btn-outline-success,
-.btn-check:active+.btn-outline-success,
-.btn-outline-success:active,
-.btn-outline-success.active,
-.btn-outline-success.dropdown-toggle.show {
-    color: #ffffff;
-    background: linear-gradient(141.55deg, rgba(240, 244, 243, 0) 3.46%, #4ebbd3 99.86%)#1f3996 !important;
-    border-color: #1F3996 !important;
+    <style>
+        .btn-check:checked+.btn-outline-success,
+        .btn-check:active+.btn-outline-success,
+        .btn-outline-success:active,
+        .btn-outline-success.active,
+        .btn-outline-success.dropdown-toggle.show {
+            color: #ffffff;
+            background: linear-gradient(141.55deg, rgba(240, 244, 243, 0) 3.46%, #4ebbd3 99.86%)#1f3996 !important;
+            border-color: #1F3996 !important;
 
-}
+        }
 
-.btn-outline-success:hover {
-    color: #ffffff;
-    background: linear-gradient(141.55deg, rgba(240, 244, 243, 0) 3.46%, #4ebbd3 99.86%)#1f3996 !important;
-    border-color: #1F3996 !important;
-}
+        .btn-outline-success:hover {
+            color: #ffffff;
+            background: linear-gradient(141.55deg, rgba(240, 244, 243, 0) 3.46%, #4ebbd3 99.86%)#1f3996 !important;
+            border-color: #1F3996 !important;
+        }
 
-.btn.btn-outline-success {
-    color: #1F3996;
-    border-color: #1F3996 !important;
-}
-</style>
+        .btn.btn-outline-success {
+            color: #1F3996;
+            border-color: #1F3996 !important;
+        }
+    </style>
 <?php endif; ?>
 <?php if($color == 'theme-4'): ?>
-<style>
-.btn-check:checked+.btn-outline-success,
-.btn-check:active+.btn-outline-success,
-.btn-outline-success:active,
-.btn-outline-success.active,
-.btn-outline-success.dropdown-toggle.show {
-    color: #ffffff;
-    background-color: #584ed2 !important;
-    border-color: #584ed2 !important;
+    <style>
+        .btn-check:checked+.btn-outline-success,
+        .btn-check:active+.btn-outline-success,
+        .btn-outline-success:active,
+        .btn-outline-success.active,
+        .btn-outline-success.dropdown-toggle.show {
+            color: #ffffff;
+            background-color: #584ed2 !important;
+            border-color: #584ed2 !important;
 
-}
+        }
 
-.btn-outline-success:hover {
-    color: #ffffff;
-    background-color: #584ed2 !important;
-    border-color: #584ed2 !important;
-}
+        .btn-outline-success:hover {
+            color: #ffffff;
+            background-color: #584ed2 !important;
+            border-color: #584ed2 !important;
+        }
 
-.btn.btn-outline-success {
-    color: #584ed2;
-    border-color: #584ed2 !important;
-}
-</style>
+        .btn.btn-outline-success {
+            color: #584ed2;
+            border-color: #584ed2 !important;
+        }
+    </style>
 <?php endif; ?>
 <?php if($color == 'theme-3'): ?>
-<style>
-.btn-check:checked+.btn-outline-success,
-.btn-check:active+.btn-outline-success,
-.btn-outline-success:active,
-.btn-outline-success.active,
-.btn-outline-success.dropdown-toggle.show {
-    color: #ffffff;
-    background-color: #6fd943 !important;
-    border-color: #6fd943 !important;
+    <style>
+        .btn-check:checked+.btn-outline-success,
+        .btn-check:active+.btn-outline-success,
+        .btn-outline-success:active,
+        .btn-outline-success.active,
+        .btn-outline-success.dropdown-toggle.show {
+            color: #ffffff;
+            background-color: #6fd943 !important;
+            border-color: #6fd943 !important;
 
-}
+        }
 
-.btn-outline-success:hover {
-    color: #ffffff;
-    background-color: #6fd943 !important;
-    border-color: #6fd943 !important;
-}
+        .btn-outline-success:hover {
+            color: #ffffff;
+            background-color: #6fd943 !important;
+            border-color: #6fd943 !important;
+        }
 
-.btn.btn-outline-success {
-    color: #6fd943;
-    border-color: #6fd943 !important;
-}
-</style>
+        .btn.btn-outline-success {
+            color: #6fd943;
+            border-color: #6fd943 !important;
+        }
+    </style>
 <?php endif; ?>
 <style>
 li:has(> a.active) {
@@ -281,163 +221,6 @@ canvas#signatureCanvas {
 }
 </style>
 <?php $__env->stopPush(); ?>
-<?php $__env->startPush('script-page'); ?>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
-<script>
-// When the user clicks on <div>, open the popup
-function myFunction() {
-    var popup = document.getElementById("myPopup");
-    popup.classList.toggle("show");
-}
-</script>
-<script>
-function check_theme(color_val) {
-    $('#theme_color').prop('checked', false);
-    $('input[value="' + color_val + '"]').prop('checked', true);
-}
-var scrollSpy = new bootstrap.ScrollSpy(document.body, {
-    target: '#useradd-sidenav',
-    offset: 300
-})
-</script>
-<script>
-$(document).ready(function() {
-    $('.list-group-item').on('click', function() {
-        var href = $(this).attr('data-href');
-        $('.tabs-card').addClass('d-none');
-        $(href).removeClass('d-none');
-        $('#tabs .list-group-item').removeClass('text-primary');
-    });
-});
-
-function check_theme(color_val) {
-    $('#theme_color').prop('checked', false);
-    $('input[value="' + color_val + '"]').prop('checked', true);
-}
-</script>
-<script>
-$(document).on("change", "select[name='quote_template'], input[name='quote_color']", function() {
-    var template = $("select[name='quote_template']").val();
-    var color = $("input[name='quote_color']:checked").val();
-    $('#quote_frame').attr('src', '<?php echo e(url("/quote/preview")); ?>' + template + '/' + color);
-});
-$(document).on("change", "select[name='invoice_template'], input[name='invoice_color']", function() {
-    var template = $("select[name='invoice_template']").val();
-    var color = $("input[name='invoice_color']:checked").val();
-    $('#invoice_frame').attr('src', '<?php echo e(url("/invoice/preview")); ?>' + template + '/' + color);
-});
-$(document).on("change", "select[name='salesorder_template'], input[name='salesorder_color']", function() {
-    var template = $("select[name='salesorder_template']").val();
-    var color = $("input[name='salesorder_color']:checked").val();
-    $('#salesorder_frame').attr('src', '<?php echo e(url("/salesorder/preview")); ?>' + template + '/' + color);
-});
-</script>
-
-<script>
-$(document).on("click", '.send_email', function(e) {
-    e.preventDefault();
-    var title = $(this).attr('data-title');
-
-    var size = 'md';
-    var url = $(this).attr('data-url');
-    if (typeof url != 'undefined') {
-        $("#commonModal .modal-title").html(title);
-        $("#commonModal .modal-dialog").addClass('modal-' + size);
-        $("#commonModal").modal('show');
-
-        $.post(url, {
-            _token: '<?php echo e(csrf_token()); ?>',
-            mail_driver: $("#mail_driver").val(),
-            mail_host: $("#mail_host").val(),
-            mail_port: $("#mail_port").val(),
-            mail_username: $("#mail_username").val(),
-            mail_password: $("#mail_password").val(),
-            mail_encryption: $("#mail_encryption").val(),
-            mail_from_address: $("#mail_from_address").val(),
-            mail_from_name: $("#mail_from_name").val(),
-
-        }, function(data) {
-            $('#commonModal .modal-body').html(data);
-        });
-    }
-});
-
-
-$(document).on('submit', '#test_email', function(e) {
-
-    e.preventDefault();
-    $("#email_sending").show();
-    var post = $(this).serialize();
-    var url = $(this).attr('action');
-    $.ajax({
-        type: "post",
-        url: url,
-        data: post,
-        cache: false,
-
-        success: function(data) {
-
-
-            if (data.is_success) {
-                show_toastr('Success', data.message, 'success');
-            } else {
-                show_toastr('Error', data.message, 'error');
-            }
-            $("#email_sending").hide();
-            $('#commonModal').modal('hide');
-        },
-        complete: function() {
-            $('#test_email .btn-create').removeAttr('disabled');
-        },
-    });
-});
-</script>
-<script>
-var scrollSpy = new bootstrap.ScrollSpy(document.body, {
-    target: '#useradd-sidenav',
-    offset: 300,
-})
-$(".list-group-item").click(function() {
-    $('.list-group-item').filter(function() {
-        return this.href == id;
-    }).parent().removeClass('text-primary');
-});
-
-function check_theme(color_val) {
-    $('#theme_color').prop('checked', false);
-    $('input[value="' + color_val + '"]').prop('checked', true);
-}
-
-$(document).on('change', '[name=storage_setting]', function() {
-    if ($(this).val() == 's3') {
-        $('.s3-setting').removeClass('d-none');
-        $('.wasabi-setting').addClass('d-none');
-        $('.local-setting').addClass('d-none');
-    } else if ($(this).val() == 'wasabi') {
-        $('.s3-setting').addClass('d-none');
-        $('.wasabi-setting').removeClass('d-none');
-        $('.local-setting').addClass('d-none');
-    } else {
-        $('.s3-setting').addClass('d-none');
-        $('.wasabi-setting').addClass('d-none');
-        $('.local-setting').removeClass('d-none');
-    }
-});
-</script>
-<script type="text/javascript">
-function enablecookie() {
-    const element = $('#enable_cookie').is(':checked');
-    $('.cookieDiv').addClass('disabledCookie');
-    if (element == true) {
-        $('.cookieDiv').removeClass('disabledCookie');
-        $("#cookie_logging").attr('checked', true);
-    } else {
-        $('.cookieDiv').addClass('disabledCookie');
-        $("#cookie_logging").attr('checked', false);
-    }
-}
-</script>
-<?php $__env->stopPush(); ?>
 <?php $__env->startSection('page-title'); ?>
 <?php echo e(__('Settings')); ?>
 
@@ -458,8 +241,381 @@ function enablecookie() {
             <div class="container-fluid xyz">
                 <div class="row">
                     <div class="col-lg-12">
-                        <?php if(\Auth::user()->type == 'owner'): ?>
-                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Email')): ?>
+                        <!-- <div id="brand-settings" class="card">
+                            <div class="card-header">
+                                <h5><?php echo e(__('Brand Settings')); ?></h5>
+                                <small class="text-muted"><?php echo e(__('Edit your brand details')); ?></small>
+                            </div>
+                            <?php echo e(Form::model($settings, ['route' => 'business.setting', 'method' => 'POST', 'enctype' => 'multipart/form-data'])); ?>
+
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="small-title"><?php echo e(__('Dark Logo')); ?></h5>
+                                            </div>
+                                            <div class="card-body setting-card setting-logo-box p-3">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="logo-content logo-set-bg py-2" style="height:65px">
+                                                            
+                                                            <a href="<?php echo e($logo . 'logo-dark.png' . '?' . time()); ?>"
+                                                                target="_blank" style="height: 50px; width:150px;">
+                                                                <img id="blah4" alt="your image"
+                                                                    src="<?php echo e($logo . 'logo-dark.png' . '?' . time()); ?>"
+                                                                    style="height: 50px; width:150px;" class="big-logo">
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+
+                                                        <div class="choose-files mt-5">
+                                                            <label for="logo_dark">
+                                                                <div class=" bg-primary"> <i
+                                                                        class="ti ti-upload px-1"></i><?php echo e(__('Choose file here')); ?>
+
+                                                                </div>
+                                                                <input type="file" name="logo_dark" id="logo_dark"
+                                                                    class="form-control file"
+                                                                    data-filename="company_logo_update"
+                                                                    onchange="document.getElementById('blah4').src = window.URL.createObjectURL(this.files[0])">
+
+                                                                
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="small-title"><?php echo e(__('Light Logo')); ?></h5>
+                                            </div>
+                                            <div class="card-body setting-card setting-logo-box p-3">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="logo-content logo-set-bg py-2" style="height:65px">
+                                                            
+                                                            <a href="<?php echo e($logo . 'logo-light.png' . '?' . time()); ?>"
+                                                                target="_blank" style="height: 50px; width:150px;">
+                                                                <img id="blah5" alt="your image"
+                                                                    src="<?php echo e($logo . 'logo-light.png' . '?' . time()); ?>"
+                                                                    style="height: 50px; width:150px;"
+                                                                    class="img_setting">
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+
+                                                        <div class="choose-files mt-5">
+                                                            <label for="logo_light">
+                                                                <div class=" bg-primary"> <i
+                                                                        class="ti ti-upload px-1"></i><?php echo e(__('Choose file here')); ?>
+
+                                                                </div>
+                                                                <input type="file" name="logo_light" id="logo_light"
+                                                                    class="form-control file"
+                                                                    data-filename="company_logo_update"
+                                                                    onchange="document.getElementById('blah5').src = window.URL.createObjectURL(this.files[0])">
+
+                                                                
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="small-title"><?php echo e(__('Favicon')); ?></h5>
+                                            </div>
+                                            <div class="card-body setting-card setting-logo-box p-3">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="logo-content logo-set-bg py-2" style="height:65px">
+                                                            
+                                                            <a href="<?php echo e($logo . 'favicon.png' . '?' . time()); ?>"
+                                                                target="_blank">
+                                                                <img id="blah6" alt="your image"
+                                                                    src="<?php echo e($logo . 'favicon.png' . '?' . time()); ?>"
+                                                                    width="50px" class="img_setting">
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="choose-files mt-5">
+                                                            <label for="favicon">
+                                                                <div class=" bg-primary"> <i
+                                                                        class="ti ti-upload px-1"></i><?php echo e(__('Choose file here')); ?>
+
+                                                                </div>
+                                                                <input type="file" name="favicon" id="favicon"
+                                                                    class="form-control file"
+                                                                    data-filename="company_logo_update"
+                                                                    onchange="document.getElementById('blah6').src = window.URL.createObjectURL(this.files[0])">
+                                                                
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="row">
+                                        <div class="form-group col-md-4">
+                                            <?php echo e(Form::label('title_text', __('Title Text'), ['class' => 'form-label'])); ?>
+
+                                            <?php echo e(Form::text('title_text', null, ['class' => 'form-control', 'placeholder' => __('Title Text')])); ?>
+
+                                            <?php $__errorArgs = ['title_text'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                            <span class="invalid-title_text" role="alert">
+                                                <strong class="text-danger"><?php echo e($message); ?></strong>
+                                            </span>
+                                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                        </div>
+                                        <?php if(\Auth::user()->type == 'super admin'): ?>
+                                        <div class="form-group col-md-4">
+                                            <?php echo e(Form::label('footer_text', __('Footer Text'), ['class' => 'form-label'])); ?>
+
+                                            <?php echo e(Form::text('footer_text', null, ['class' => 'form-control', 'placeholder' => __('Footer Text')])); ?>
+
+                                            <?php $__errorArgs = ['footer_text'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                            <span class="invalid-footer_text" role="alert">
+                                                <strong class="text-danger"><?php echo e($message); ?></strong>
+                                            </span>
+                                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <?php echo e(Form::label('default_language', __('Default Language'), ['class' => 'form-label'])); ?>
+
+                                            <div class="changeLanguage">
+                                                <select name="default_language" id="default_language"
+                                                    class="form-control custom-select">
+                                                    <?php $__currentLoopData = \App\Models\Utility::languages(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $code => $language): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <option <?php if($lang==$code): ?> selected <?php endif; ?> value="<?php echo e($code); ?>">
+                                                        <?php echo e(ucfirst($language)); ?>
+
+                                                    </option>
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="col switch-width">
+                                                <div class="form-group ml-2 mr-3">
+                                                    <label
+                                                        class="form-label mb-1"><?php echo e(__('Enable Landing Page')); ?></label>
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" data-toggle="switchbutton"
+                                                            data-onstyle="primary" class="" name="display_landing_page"
+                                                            id="display_landing_page"
+                                                            <?php echo e($settings['display_landing_page'] == 'on' ? 'checked="checked"' : ''); ?>>
+                                                        <label class="custom-control-label mb-1"
+                                                            for="display_landing_page"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <div class="col switch-width">
+                                                <div class="form-group ml-2 mr-3 ">
+
+                                                    <?php echo e(Form::label('verified_button', __('Email Verification'), ['class' => 'form-label'])); ?>
+
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" data-toggle="switchbutton"
+                                                            data-onstyle="primary" class="" name="verified_button"
+                                                            id="verified_button"
+                                                            <?php echo e(Utility::getValByName('verified_button') == 'on' ? 'checked="checked"' : ''); ?>>
+                                                        <label class="custom-control-label"
+                                                            for="verified_button"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <div class="col switch-width">
+                                                <div class="form-group ml-2 mr-3 ">
+                                                    <?php echo e(Form::label('SITE_RTL', __('Enable RTL'), ['class' => 'form-label'])); ?>
+
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" data-toggle="switchbutton"
+                                                            data-onstyle="primary" class="" name="SITE_RTL"
+                                                            id="SITE_RTL"
+                                                            <?php echo e($settings['SITE_RTL'] == 'on' ? 'checked="checked"' : ''); ?>>
+                                                        <label class="custom-control-label" for="SITE_RTL"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="col-4">
+                                            <div class="col switch-width">
+                                                <div class="form-group ml-2 mr-3 ">
+                                                    <?php echo e(Form::label('signup_button', __('Enable Sign-Up Page'), ['class' => 'form-label'])); ?>
+
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" data-toggle="switchbutton"
+                                                            data-onstyle="primary" class="" name="signup_button"
+                                                            id="signup_button"
+                                                            <?php echo e(Utility::getValByName('signup_button') == 'on' ? 'checked="checked"' : ''); ?>>
+                                                        <label class="custom-control-label" for="signup_button"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="row">
+                                        <h4 class="small-title"><?php echo e(__('Theme Customizer')); ?></h4>
+                                        <div class="setting-card setting-logo-box p-3">
+                                            <div class="row">
+                                                <div class="pct-body">
+                                                    <div class="row">
+                                                        <div class="col-lg-4 col-xl-4 col-md-4">
+                                                            <h6>
+                                                                <i data-feather="credit-card"
+                                                                    class="me-2"></i><?php echo e(__('Primary color settings')); ?>
+
+                                                            </h6>
+                                                            <hr class="my-2" />
+                                                            <div class="theme-color themes-color">
+                                                                <a href="#!"
+                                                                    class="<?php echo e($settings['color'] == 'theme-1' ? 'active_color' : ''); ?>"
+                                                                    data-value="theme-1"
+                                                                    onclick="check_theme('theme-1')"></a>
+                                                                <input type="radio" class="theme_color" name="color"
+                                                                    value="theme-1" style="display: none;">
+                                                                <a href="#!"
+                                                                    class="<?php echo e($settings['color'] == 'theme-2' ? 'active_color' : ''); ?> "
+                                                                    data-value="theme-2"
+                                                                    onclick="check_theme('theme-2')"></a>
+                                                                <input type="radio" class="theme_color" name="color"
+                                                                    value="theme-2" style="display: none;">
+                                                                <a href="#!"
+                                                                    class="<?php echo e($settings['color'] == 'theme-3' ? 'active_color' : ''); ?>"
+                                                                    data-value="theme-3"
+                                                                    onclick="check_theme('theme-3')"></a>
+                                                                <input type="radio" class="theme_color" name="color"
+                                                                    value="theme-3" style="display: none;">
+                                                                <a href="#!"
+                                                                    class="<?php echo e($settings['color'] == 'theme-4' ? 'active_color' : ''); ?>"
+                                                                    data-value="theme-4"
+                                                                    onclick="check_theme('theme-4')"></a>
+                                                                <input type="radio" class="theme_color" name="color"
+                                                                    value="theme-4" style="display: none;">
+                                                                <a href="#!"
+                                                                    class="<?php echo e($settings['color'] == 'theme-5' ? 'active_color' : ''); ?>"
+                                                                    data-value="theme-5"
+                                                                    onclick="check_theme('theme-5')"></a>
+                                                                <input type="radio" class="theme_color" name="color"
+                                                                    value="theme-5" style="display: none;">
+                                                                <br>
+                                                                <a href="#!"
+                                                                    class="<?php echo e($settings['color'] == 'theme-6' ? 'active_color' : ''); ?>"
+                                                                    data-value="theme-6"
+                                                                    onclick="check_theme('theme-6')"></a>
+                                                                <input type="radio" class="theme_color" name="color"
+                                                                    value="theme-6" style="display: none;">
+                                                                <a href="#!"
+                                                                    class="<?php echo e($settings['color'] == 'theme-7' ? 'active_color' : ''); ?>"
+                                                                    data-value="theme-7"
+                                                                    onclick="check_theme('theme-7')"></a>
+                                                                <input type="radio" class="theme_color" name="color"
+                                                                    value="theme-7" style="display: none;">
+                                                                <a href="#!"
+                                                                    class="<?php echo e($settings['color'] == 'theme-8' ? 'active_color' : ''); ?>"
+                                                                    data-value="theme-8"
+                                                                    onclick="check_theme('theme-8')"></a>
+                                                                <input type="radio" class="theme_color" name="color"
+                                                                    value="theme-8" style="display: none;">
+                                                                <a href="#!"
+                                                                    class="<?php echo e($settings['color'] == 'theme-9' ? 'active_color' : ''); ?>"
+                                                                    data-value="theme-9"
+                                                                    onclick="check_theme('theme-9')"></a>
+                                                                <input type="radio" class="theme_color" name="color"
+                                                                    value="theme-9" style="display: none;">
+                                                                <a href="#!"
+                                                                    class="<?php echo e($settings['color'] == 'theme-10' ? 'active_color' : ''); ?>"
+                                                                    data-value="theme-10"
+                                                                    onclick="check_theme('theme-10')"></a>
+                                                                <input type="radio" class="theme_color" name="color"
+                                                                    value="theme-10" style="display: none;">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <h6>
+                                                                <i data-feather="layout"
+                                                                    class="me-2"></i><?php echo e(__('Sidebar Settings')); ?>
+
+                                                            </h6>
+                                                            <hr class="my-2" />
+                                                            <div class="form-check form-switch">
+                                                                <input type="checkbox" class="form-check-input"
+                                                                    id="cust-theme-bg" name="cust_theme_bg"
+                                                                    <?php echo e(Utility::getValByName('cust_theme_bg') == 'on' ? 'checked' : ''); ?> />
+                                                                <label class="form-check-label f-w-600 pl-1"
+                                                                    for="cust-theme-bg"><?php echo e(__('Transparent layout')); ?></label>
+
+                                                                
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <h6>
+                                                                <i data-feather="sun"
+                                                                    class=""></i><?php echo e(__('Layout settings')); ?>
+
+                                                            </h6>
+                                                            <hr class=" my-2" />
+                                                            <div class="form-check form-switch">
+                                                                <input type="checkbox" class="form-check-input"
+                                                                    id="cust-darklayout" name="cust_darklayout"
+                                                                    <?php echo e(Utility::getValByName('cust_darklayout') == 'on' ? 'checked' : ''); ?> />
+                                                                <label class="form-check-label f-w-600 pl-1"
+                                                                    for="cust-darklayout"><?php echo e(__('Dark Layout')); ?></label>
+
+                                                                
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer text-end">
+                                <?php echo e(Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary'])); ?>
+
+                            </div>
+                            <?php echo e(Form::close()); ?>
+
+                        </div> -->
                         <div id="company-email-setting" class="card">
                             <div class="card-header">
                                 <h5><?php echo e(__('Email Settings')); ?></h5>
@@ -613,8 +769,7 @@ function enablecookie() {
                             <?php echo e(Form::close()); ?>
 
                         </div>
-                        <?php endif; ?>
-                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Twilio')): ?>
+                       
                         <div id="twilio-settings" class="card">
                             <div class="card-header">
                                 <h5><?php echo e(__('Twilio Settings')); ?></h5>
@@ -741,8 +896,6 @@ function enablecookie() {
 
                             </div>
                         </div>
-                        <?php endif; ?>
-                        <?php endif; ?>
                         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage User')): ?>
                         <div id="user-settings" class="card">
                             <div class="row">
@@ -801,9 +954,11 @@ function enablecookie() {
                                                                 <span class="avatar">
                                                                     <a href="<?php echo e($profile); ?><?php echo e(!empty($user->avatar) ? $user->avatar : 'avatar.png'); ?>"
                                                                         target="_blank">
-                                                                        <img class="rounded-circle" width="25%"
-                                                    <?php if($user->avatar): ?> src="<?php echo e($profile); ?><?php echo e(!empty($user->avatar) ? $user->avatar : 'avatar.png'); ?>" <?php else: ?> src="<?php echo e($profile . 'avatar.png'); ?>" <?php endif; ?>
-                                                    alt="<?php echo e($user->name); ?>">
+                                                                        <img class="rounded-circle" width="25%" 
+                                                                        <?php if($user->avatar): ?> src="<?php echo e($profile); ?><?php echo e(!empty($user->avatar) ? $user->avatar : 'avatar.png'); ?>"
+                                                                        <?php else: ?> src="<?php echo e($profile . 'avatar.png'); ?>" 
+                                                                        <?php endif; ?>
+                                                                        alt="<?php echo e($user->name); ?>">
                                                                     </a>
                                                                 </span>
                                                             </td>
@@ -831,6 +986,16 @@ function enablecookie() {
                                                             <?php endif; ?>
                                                             <?php if(Gate::check('Edit User') || Gate::check('Delete User')): ?>
                                                             <td class="text-end">
+                                                                <?php if(Storage::disk('public')->exists('UserInfo/' . $user->id)): ?>
+                                                                <div class="action-btn bg-secondary ms-2" style="float: right;">
+                                                                    <a href="#" data-size="md" data-url="<?php echo e(route('user.docs',$user->id)); ?>"
+                                                                        data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('Attachments')); ?>"
+                                                                        title="<?php echo e(__('Attachments')); ?>"
+                                                                        class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                                        <i class="ti ti-eye"></i>
+                                                                    </a>
+                                                                </div>
+                                                                <?php endif; ?>
                                                                 <div class="action-btn bg-success ms-2">
                                                                     <a href="javascript:void(0);"
                                                                         class="mx-3 btn btn-sm d-inline-flex align-items-center text-white"
@@ -1513,6 +1678,7 @@ function enablecookie() {
                         </div>
                     </div>
                     <?php endif; ?>
+
                     <?php if(\Auth::user()->type == 'owner'): ?>
                     <div id="buffer-settings" class="card">
                         <div class="col-md-12">
@@ -1772,7 +1938,7 @@ function enablecookie() {
                     </div>
                     <?php endif; ?>
                     <?php if(\Auth::user()->type == 'super admin'): ?>
-                    <!-- <div id="brand-settings" class="card">
+                   <div id="brand-settings" class="card">
                                         <div class="card-header">
                                             <h5><?php echo e(__('Brand Settings')); ?></h5>
                                             <small class="text-muted"><?php echo e(__('Edit your brand details')); ?></small>
@@ -4562,6 +4728,161 @@ unset($__errorArgs, $__bag); ?>
 </div>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script-page'); ?>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
+<script>
+// When the user clicks on <div>, open the popup
+function myFunction() {
+    var popup = document.getElementById("myPopup");
+    popup.classList.toggle("show");
+}
+</script>
+<script>
+function check_theme(color_val) {
+    $('#theme_color').prop('checked', false);
+    $('input[value="' + color_val + '"]').prop('checked', true);
+}
+var scrollSpy = new bootstrap.ScrollSpy(document.body, {
+    target: '#useradd-sidenav',
+    offset: 300
+})
+</script>
+<script>
+$(document).ready(function() {
+    $('.list-group-item').on('click', function() {
+        var href = $(this).attr('data-href');
+        $('.tabs-card').addClass('d-none');
+        $(href).removeClass('d-none');
+        $('#tabs .list-group-item').removeClass('text-primary');
+    });
+});
+
+function check_theme(color_val) {
+    $('#theme_color').prop('checked', false);
+    $('input[value="' + color_val + '"]').prop('checked', true);
+}
+</script>
+<script>
+$(document).on("change", "select[name='quote_template'], input[name='quote_color']", function() {
+    var template = $("select[name='quote_template']").val();
+    var color = $("input[name='quote_color']:checked").val();
+    $('#quote_frame').attr('src', '<?php echo e(url("/quote/preview")); ?>' + template + '/' + color);
+});
+$(document).on("change", "select[name='invoice_template'], input[name='invoice_color']", function() {
+    var template = $("select[name='invoice_template']").val();
+    var color = $("input[name='invoice_color']:checked").val();
+    $('#invoice_frame').attr('src', '<?php echo e(url("/invoice/preview")); ?>' + template + '/' + color);
+});
+$(document).on("change", "select[name='salesorder_template'], input[name='salesorder_color']", function() {
+    var template = $("select[name='salesorder_template']").val();
+    var color = $("input[name='salesorder_color']:checked").val();
+    $('#salesorder_frame').attr('src', '<?php echo e(url("/salesorder/preview")); ?>' + template + '/' + color);
+});
+</script>
+
+<script>
+$(document).on("click", '.send_email', function(e) {
+    e.preventDefault();
+    var title = $(this).attr('data-title');
+
+    var size = 'md';
+    var url = $(this).attr('data-url');
+    if (typeof url != 'undefined') {
+        $("#commonModal .modal-title").html(title);
+        $("#commonModal .modal-dialog").addClass('modal-' + size);
+        $("#commonModal").modal('show');
+
+        $.post(url, {
+            _token: '<?php echo e(csrf_token()); ?>',
+            mail_driver: $("#mail_driver").val(),
+            mail_host: $("#mail_host").val(),
+            mail_port: $("#mail_port").val(),
+            mail_username: $("#mail_username").val(),
+            mail_password: $("#mail_password").val(),
+            mail_encryption: $("#mail_encryption").val(),
+            mail_from_address: $("#mail_from_address").val(),
+            mail_from_name: $("#mail_from_name").val(),
+
+        }, function(data) {
+            $('#commonModal .modal-body').html(data);
+        });
+    }
+});
+
+
+$(document).on('submit', '#test_email', function(e) {
+
+    e.preventDefault();
+    $("#email_sending").show();
+    var post = $(this).serialize();
+    var url = $(this).attr('action');
+    $.ajax({
+        type: "post",
+        url: url,
+        data: post,
+        cache: false,
+
+        success: function(data) {
+
+
+            if (data.is_success) {
+                show_toastr('Success', data.message, 'success');
+            } else {
+                show_toastr('Error', data.message, 'error');
+            }
+            $("#email_sending").hide();
+            $('#commonModal').modal('hide');
+        },
+        complete: function() {
+            $('#test_email .btn-create').removeAttr('disabled');
+        },
+    });
+});
+</script>
+<script>
+var scrollSpy = new bootstrap.ScrollSpy(document.body, {
+    target: '#useradd-sidenav',
+    offset: 300,
+})
+$(".list-group-item").click(function() {
+    $('.list-group-item').filter(function() {
+        return this.href == id;
+    }).parent().removeClass('text-primary');
+});
+
+function check_theme(color_val) {
+    $('#theme_color').prop('checked', false);
+    $('input[value="' + color_val + '"]').prop('checked', true);
+}
+
+$(document).on('change', '[name=storage_setting]', function() {
+    if ($(this).val() == 's3') {
+        $('.s3-setting').removeClass('d-none');
+        $('.wasabi-setting').addClass('d-none');
+        $('.local-setting').addClass('d-none');
+    } else if ($(this).val() == 'wasabi') {
+        $('.s3-setting').addClass('d-none');
+        $('.wasabi-setting').removeClass('d-none');
+        $('.local-setting').addClass('d-none');
+    } else {
+        $('.s3-setting').addClass('d-none');
+        $('.wasabi-setting').addClass('d-none');
+        $('.local-setting').removeClass('d-none');
+    }
+});
+</script>
+<script type="text/javascript">
+function enablecookie() {
+    const element = $('#enable_cookie').is(':checked');
+    $('.cookieDiv').addClass('disabledCookie');
+    if (element == true) {
+        $('.cookieDiv').removeClass('disabledCookie');
+        $("#cookie_logging").attr('checked', true);
+    } else {
+        $('.cookieDiv').addClass('disabledCookie');
+        $("#cookie_logging").attr('checked', false);
+    }
+}
+</script>
 <script>
 $('.fxnnames').click(function() {
     var value = $(this).text();
@@ -4611,7 +4932,7 @@ $('.barnmes').click(function() {
 $(document).ready(function() {
     $("select#additional_function").change(function() {
         let val = $(this).val();
-        const functionData = <?= json_encode($function) ?>[val];
+        const functionData = <?= (isset($function) && !empty($function)) ? json_encode($function) : '{}' ?>[val];
         let packages = functionData.package;
         $('#additional_packages_checkboxes').empty();
         $.each(packages, function(index, package) {
@@ -4635,23 +4956,23 @@ function addAdditionalItem() {
 
     // Create name input
     newRow.innerHTML += `
-                    <div class="col-md-5">
-                        <label for="additional_items_${additionalItemCount}">Additional Item ${additionalItemCount}</label>
-                        <input type="text" name="additional_items[]" id="additional_items_${additionalItemCount}" class="form-control" placeholder="Enter Additional Item" required>
-                    </div>
-                `;
+                        <div class="col-md-5">
+                            <label for="additional_items_${additionalItemCount}">Additional Item ${additionalItemCount}</label>
+                            <input type="text" name="additional_items[]" id="additional_items_${additionalItemCount}" class="form-control" placeholder="Enter Additional Item" required>
+                        </div>
+                    `;
     newRow.innerHTML += `
-                    <div class="col-md-6">
-                        <label for="additional_items_cost_${additionalItemCount}">Cost</label>
-                        <input type="number" name="additional_items_cost[]" id="additional_items_cost_${additionalItemCount}" class="form-control" placeholder="Enter Cost" required>
-                    </div>
-                `;
+                        <div class="col-md-6">
+                            <label for="additional_items_cost_${additionalItemCount}">Cost</label>
+                            <input type="number" name="additional_items_cost[]" id="additional_items_cost_${additionalItemCount}" class="form-control" placeholder="Enter Cost" required>
+                        </div>
+                    `;
     newRow.innerHTML += `
-            <div class="col-md-1 mt-3">
-                <button type="button" class="btn btn-danger" style="    margin-top: 4px;
-            " onclick="removeAdditionalItem(${additionalItemCount})"><i class="fa fa-times"></i></button>
-                    </div>
-                `;
+                <div class="col-md-1 mt-3">
+                    <button type="button" class="btn btn-danger" style="    margin-top: 4px;
+                " onclick="removeAdditionalItem(${additionalItemCount})"><i class="fa fa-times"></i></button>
+                        </div>
+                    `;
     additionalItemCount++;
     container.appendChild(newRow);
 }

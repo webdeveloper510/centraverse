@@ -3,7 +3,7 @@
         <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
             <div class="navbar-brand-box">
                 <a href="#" class="navbar-brand">
-                    <img src="{{$logo.'logo.svg'}}" alt="{{ config('app.name', 'Centraverse') }}" class="logo logo-lg nav-sidebar-logo" height="50" />
+                    <img src="{{$logo.'logo-light.png'}}" alt="{{ config('app.name', 'Centraverse') }}" class="logo logo-lg nav-sidebar-logo" height="50" />
                 </a>
             </div>
 

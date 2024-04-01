@@ -1,16 +1,17 @@
 
 <?php $__env->startSection('page-title'); ?>
-    <?php echo e(__('User Edit')); ?>
+<?php echo e(__('User Edit')); ?>
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('breadcrumb'); ?>
-    <li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Home')); ?></a></li>
-    <li class="breadcrumb-item"><a href="<?php echo e(route('settings')); ?>"><?php echo e(__('Settings')); ?></a></li>
-    <li class="breadcrumb-item"><?php echo e(__('User')); ?></li>
-    <li class="breadcrumb-item"><?php echo e(__('Edit')); ?></li>
+<li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Home')); ?></a></li>
+<li class="breadcrumb-item"><a href="<?php echo e(route('settings')); ?>"><?php echo e(__('Settings')); ?></a></li>
+<li class="breadcrumb-item"><?php echo e(__('User')); ?></li>
+<li class="breadcrumb-item"><?php echo e(__('Edit')); ?></li>
 <?php $__env->stopSection(); ?>
+
 <?php $__env->startSection('action-btn'); ?>
-    <!-- <div class="btn-group" role="group">
+<!-- <div class="btn-group" role="group">
         <?php if(!empty($previous)): ?>
             <div class="action-btn ms-2">
                 <a href="<?php echo e(route('user.edit', $previous)); ?>" class="btn btn-sm btn-primary btn-icon m-1"
@@ -44,183 +45,176 @@
     </div> -->
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('title'); ?>
-    <div class="d-inline-block">
-        <h5 class="h4 d-inline-block font-weight-400 mb-0 "><?php echo e(__('Edit User (')); ?> <?php echo e($user->name); ?>
+<div class="d-inline-block">
+    <h5 class="h4 d-inline-block font-weight-400 mb-0 "><?php echo e(__('Edit User (')); ?> <?php echo e($user->name); ?>
 
-            <?php echo e(')'); ?></h5>
-    </div>
+        <?php echo e(')'); ?></h5>
+</div>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
-    <div class="row mt-4">
-        <!-- [ sample-page ] start -->
-        <div class="col-sm-12">
-            <div class="row">
+<div class="row mt-4">
+    <!-- [ sample-page ] start -->
+    <div class="col-sm-12">
+        <div class="row">
             <div class="col-xl-2">
-                    <div class="card sticky-top" style="top:30px">
-                        <div class="list-group list-group-flush" id="useradd-sidenav">
-                            <a href="#useradd-1" class="list-group-item list-group-item-action"><?php echo e(__('Edit User')); ?> <div
-                                    class="float-end"><i class="ti ti-chevron-right"></i></div></a>
-                        </div>
+                <div class="card sticky-top" style="top:30px">
+                    <div class="list-group list-group-flush" id="useradd-sidenav">
+                        <a href="#useradd-1" class="list-group-item list-group-item-action"><?php echo e(__('Edit User')); ?> <div
+                                class="float-end"><i class="ti ti-chevron-right"></i></div></a>
                     </div>
                 </div>
-                <div class="col-xl-10">
-                    <div id="useradd-1" class="card">
-                        <?php echo e(Form::model($user, ['route' => ['user.update', $user->id], 'method' => 'PUT'])); ?>
+            </div>
+            <div class="col-xl-10">
+                <div id="useradd-1" class="card">
+                    <?php echo e(Form::model($user, ['route' => ['user.update', $user->id], 'method' => 'PUT','enctype'=>'multipart/form-data'])); ?>
 
-                        <div class="card-header">
-                            <h5><?php echo e(__('Overview')); ?></h5>
-                            <small class="text-muted"><?php echo e(__('Edit about your user information')); ?></small>
-                        </div>
-
-                        <div class="card-body">
-                            <form>
-                                <div class="row">
-                                    <!-- <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <?php echo e(Form::label('username', __('User Name'), ['class' => 'form-label'])); ?>
-
-                                            <?php echo e(Form::text('username', null, ['class' => 'form-control', 'placeholder' => __('Enter User Name'), 'required' => 'required'])); ?>
-
-                                            <?php $__errorArgs = ['username'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                                <span class="invalid-name" role="alert">
-                                                    <strong class="text-danger"><?php echo e($message); ?></strong>
-                                                </span>
-                                            <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                                        </div>
-                                    </div> -->
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            <?php echo e(Form::label('name', __('Name'), ['class' => 'form-label'])); ?>
-
-                                            <?php echo e(Form::text('name', null, ['class' => 'form-control', 'placeholder' => __('Enter Name'), 'required' => 'required'])); ?>
-
-                                            <?php $__errorArgs = ['name'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                                <span class="invalid-name" role="alert">
-                                                    <strong class="text-danger"><?php echo e($message); ?></strong>
-                                                </span>
-                                            <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            <?php echo e(Form::label('title', __('Title'), ['class' => 'form-label'])); ?>
-
-                                            <?php echo e(Form::text('title', null, ['class' => 'form-control', 'placeholder' => __('Enter Title'), 'required' => 'required'])); ?>
-
-                                            <?php $__errorArgs = ['title'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                                <span class="invalid-title" role="alert">
-                                                    <strong class="text-danger"><?php echo e($message); ?></strong>
-                                                </span>
-                                            <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            <?php echo e(Form::label('email', __('Email'), ['class' => 'form-label'])); ?>
-
-                                            <?php echo e(Form::text('email', null, ['class' => 'form-control', 'placeholder' => __('Enter Email'), 'required' => 'required', 'disabled'])); ?>
-
-                                            <?php $__errorArgs = ['email'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                                <span class="invalid-email" role="alert">
-                                                    <strong class="text-danger"><?php echo e($message); ?></strong>
-                                                </span>
-                                            <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="form-group intl-tel-input">
-                                            <?php echo e(Form::label('phone', __('Phone'), ['class' => 'form-label'])); ?>
-
-                                            
-                                            <div class="intl-tel-input">
-                                                <input type="tel" id="phone-input" name="phone" class="phone-input form-control" placeholder="Enter Phone" maxlength="16">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <input type="hidden" name="countrycode" id="country-code">
-
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            <?php echo e(Form::label('name', __('Gender'), ['class' => 'form-label'])); ?>
-
-                                            <?php echo Form::select('gender', $gender ?? '', $user->gender, ['class' => 'form-control', 'required' => 'required']); ?>
-
-                                            <?php $__errorArgs = ['gender'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                                <span class="invalid-name" role="alert">
-                                                    <strong class="text-danger"><?php echo e($message); ?></strong>
-                                                </span>
-                                            <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            <?php echo e(Form::label('user_roles', __('Roles'), ['class' => 'form-label'])); ?>
-
-                                            <?php echo Form::select('user_roles', $roles, null, ['class' => 'form-control ', 'required' => 'required']); ?>
-
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            <?php echo e(Form::label('name', __('Active'), ['class' => 'form-label'])); ?>
-
-                                            <div>
-                                                <input type="checkbox" class="form-check-input" name="is_active"
-                                                    <?php echo e($user->is_active == 1 ? 'checked' : ''); ?>>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="text-end">
-                                        <?php echo e(Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary'])); ?>
-
-                                    </div>
-
-
-                                </div>
-                            </form>
-                        </div>
-                        <?php echo e(Form::close()); ?>
-
+                    <div class="card-header">
+                        <h5><?php echo e(__('Overview')); ?></h5>
+                        <small class="text-muted"><?php echo e(__('Edit about your user information')); ?></small>
                     </div>
 
-                    <!-- <?php if(\Auth::user()->type != 'super admin'): ?>
+                    <div class="card-body">
+                        <!-- <form> -->
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <?php echo e(Form::label('name', __('Name'), ['class' => 'form-label'])); ?>
+
+                                    <?php echo e(Form::text('name', null, ['class' => 'form-control', 'placeholder' => __('Enter Name'), 'required' => 'required'])); ?>
+
+                                    <?php $__errorArgs = ['name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                    <span class="invalid-name" role="alert">
+                                        <strong class="text-danger"><?php echo e($message); ?></strong>
+                                    </span>
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <?php echo e(Form::label('title', __('Title'), ['class' => 'form-label'])); ?>
+
+                                    <?php echo e(Form::text('title', null, ['class' => 'form-control', 'placeholder' => __('Enter Title'), 'required' => 'required'])); ?>
+
+                                    <?php $__errorArgs = ['title'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                    <span class="invalid-title" role="alert">
+                                        <strong class="text-danger"><?php echo e($message); ?></strong>
+                                    </span>
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <?php echo e(Form::label('email', __('Email'), ['class' => 'form-label'])); ?>
+
+                                    <?php echo e(Form::text('email', null, ['class' => 'form-control', 'placeholder' => __('Enter Email'), 'required' => 'required', 'disabled'])); ?>
+
+                                    <?php $__errorArgs = ['email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                    <span class="invalid-email" role="alert">
+                                        <strong class="text-danger"><?php echo e($message); ?></strong>
+                                    </span>
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group intl-tel-input">
+                                    <?php echo e(Form::label('phone', __('Phone'), ['class' => 'form-label'])); ?>
+
+
+                                    <div class="intl-tel-input">
+                                        <input type="tel" id="phone-input" name="phone" class="phone-input form-control"
+                                            placeholder="Enter Phone" maxlength="16" value="">
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="hidden" name="countrycode" id="country-code">
+
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <?php echo e(Form::label('name', __('Gender'), ['class' => 'form-label'])); ?>
+
+                                    <?php echo Form::select('gender', $gender ?? '', $user->gender, ['class' =>
+                                    'form-control', 'required' => 'required']); ?>
+
+                                    <?php $__errorArgs = ['gender'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                    <span class="invalid-name" role="alert">
+                                        <strong class="text-danger"><?php echo e($message); ?></strong>
+                                    </span>
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <?php echo e(Form::label('user_roles', __('Roles'), ['class' => 'form-label'])); ?>
+
+                                    <?php echo Form::select('user_roles', $roles, null, ['class' => 'form-control ',
+                                    'required' => 'required']); ?>
+
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <?php echo e(Form::label('name', __('Active'), ['class' => 'form-label'])); ?>
+
+                                    <div>
+                                        <input type="checkbox" class="form-check-input" name="is_active"
+                                            <?php echo e($user->is_active == 1 ? 'checked' : ''); ?>>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="col-12 p-0 modaltitle pb-3 mb-3">
+                                <h5 style="margin-left: 14px;"><?php echo e(__('Attachments(If Any)')); ?></h5>
+                                <!-- <hr class ="mb-4"> -->
+                            </div>
+                            <div class="col-12">
+                                <div class=" form-group">
+                                    <?php echo e(Form::label('details',__('Upload Attachments'),['class'=>'form-label'])); ?>
+
+                                    <input type="file" name="details" id="details" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="text-end">
+                                <?php echo e(Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary'])); ?>
+
+                            </div>  
+                        </div>
+                        <!-- </form> -->
+                    </div>
+                    <?php echo e(Form::close()); ?>
+
+                </div>
+
+                <!-- <?php if(\Auth::user()->type != 'super admin'): ?>
                         <div id="useradd-2" class="card">
                             <?php echo e(Form::open(['route' => ['streamstore', ['user', $user->name, $user->id]], 'method' => 'post', 'enctype' => 'multipart/form-data'])); ?>
 
@@ -435,123 +429,143 @@ unset($__errorArgs, $__bag); ?>
 
                         </div>
                     <?php endif; ?> -->
-                </div>
             </div>
-            <!-- [ sample-page ] end -->
         </div>
-        <!-- [ Main Content ] end -->
+        <!-- [ sample-page ] end -->
     </div>
+    <!-- [ Main Content ] end -->
+</div>
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('css-page'); ?>
 <style>
-    .iti.iti--allow-dropdown.iti--separate-dial-code {
+.iti.iti--allow-dropdown.iti--separate-dial-code {
     width: 100%;
 }
 </style>
 <?php $__env->stopPush(); ?>
 <?php $__env->startPush('script-page'); ?>
 <script>
-                        $(document).ready(function() {
-      var input = document.querySelector("#phone-input");
-      var iti = window.intlTelInput(input, {
+$(document).ready(function() {
+    var phoneNumber = "<?php echo $user->phone;?>";
+    var num = phoneNumber.trim();
+    // if (phoneNumber.trim().length < 10) {
+    //     alert('Please enter a valid phone number with at least 10 digits.');
+    //     return;
+    // }
+    var lastTenDigits = phoneNumber.substr(-10);
+    var formattedPhoneNumber = '(' + lastTenDigits.substr(0, 3) + ') ' + lastTenDigits.substr(3, 3) + '-' +
+        lastTenDigits.substr(6);
+    $('#phone-input').val(formattedPhoneNumber);
+})
+$(document).ready(function() {
+    var input = document.querySelector("#phone-input");
+    var iti = window.intlTelInput(input, {
         separateDialCode: true,
-      });
- 
-      var indiaCountryCode = iti.getSelectedCountryData().iso2;
-      var countryCode = iti.getSelectedCountryData().dialCode;
-      $('#country-code').val(countryCode);
-      if (indiaCountryCode !== 'us') {
-        iti.setCountry('us');
-      }
     });
-    </script>
+
+    var indiaCountryCode = iti.getSelectedCountryData().iso2;
+    var countryCode = iti.getSelectedCountryData().dialCode;
+    $('#country-code').val(countryCode);
+    if (indiaCountryCode !== 'us') {
+        iti.setCountry('us');
+    }
+});
+</script>
 
 <script>
-    const isNumericInput = (event) => {
-	const key = event.keyCode;
-	return ((key >= 48 && key <= 57) || // Allow number line
-		(key >= 96 && key <= 105) // Allow number pad
-	);
+const isNumericInput = (event) => {
+    const key = event.keyCode;
+    return ((key >= 48 && key <= 57) || // Allow number line
+        (key >= 96 && key <= 105) // Allow number pad
+    );
 };
 
 const isModifierKey = (event) => {
-	const key = event.keyCode;
-	return (event.shiftKey === true || key === 35 || key === 36) || // Allow Shift, Home, End
-		(key === 8 || key === 9 || key === 13 || key === 46) || // Allow Backspace, Tab, Enter, Delete
-		(key > 36 && key < 41) || // Allow left, up, right, down
-		(
-			// Allow Ctrl/Command + A,C,V,X,Z
-			(event.ctrlKey === true || event.metaKey === true) &&
-			(key === 65 || key === 67 || key === 86 || key === 88 || key === 90)
-		)
+    const key = event.keyCode;
+    return (event.shiftKey === true || key === 35 || key === 36) || // Allow Shift, Home, End
+        (key === 8 || key === 9 || key === 13 || key === 46) || // Allow Backspace, Tab, Enter, Delete
+        (key > 36 && key < 41) || // Allow left, up, right, down
+        (
+            // Allow Ctrl/Command + A,C,V,X,Z
+            (event.ctrlKey === true || event.metaKey === true) &&
+            (key === 65 || key === 67 || key === 86 || key === 88 || key === 90)
+        )
 };
 
 const enforceFormat = (event) => {
-	// Input must be of a valid number format or a modifier key, and not longer than ten digits
-	if(!isNumericInput(event) && !isModifierKey(event)){
-		event.preventDefault();
-	}
+    // Input must be of a valid number format or a modifier key, and not longer than ten digits
+    if (!isNumericInput(event) && !isModifierKey(event)) {
+        event.preventDefault();
+    }
 };
 
 const formatToPhone = (event) => {
-	if(isModifierKey(event)) {return;}
+    if (isModifierKey(event)) {
+        return;
+    }
 
-	// I am lazy and don't like to type things more than once
-	const target = event.target;
-	const input = event.target.value.replace(/\D/g,'').substring(0,10); // First ten digits of input only
-	const zip = input.substring(0,3);
-	const middle = input.substring(3,6);
-	const last = input.substring(6,10);
+    // I am lazy and don't like to type things more than once
+    const target = event.target;
+    const input = event.target.value.replace(/\D/g, '').substring(0, 10); // First ten digits of input only
+    const zip = input.substring(0, 3);
+    const middle = input.substring(3, 6);
+    const last = input.substring(6, 10);
 
-	if(input.length > 6){target.value = `(${zip}) ${middle} - ${last}`;}
-	else if(input.length > 3){target.value = `(${zip}) ${middle}`;}
-	else if(input.length > 0){target.value = `(${zip}`;}
+    if (input.length > 6) {
+        target.value = `(${zip}) ${middle} - ${last}`;
+    } else if (input.length > 3) {
+        target.value = `(${zip}) ${middle}`;
+    } else if (input.length > 0) {
+        target.value = `(${zip}`;
+    }
 };
 
 const inputElement = document.getElementById('phone-input');
-inputElement.addEventListener('keydown',enforceFormat);
-inputElement.addEventListener('keyup',formatToPhone);
-
+inputElement.addEventListener('keydown', enforceFormat);
+inputElement.addEventListener('keyup', formatToPhone);
 </script>
-    <script>
-        var scrollSpy = new bootstrap.ScrollSpy(document.body, {
-            target: '#useradd-sidenav',
-            offset: 300
-        })
-    </script>
+<script>
+var scrollSpy = new bootstrap.ScrollSpy(document.body, {
+    target: '#useradd-sidenav',
+    offset: 300
+})
+</script>
 
-    <script>
-        $(document).on('change', 'select[name=parent]', function() {
+<script>
+$(document).on('change', 'select[name=parent]', function() {
 
-            var parent = $(this).val();
-            getparent(parent);
-        });
+    var parent = $(this).val();
+    getparent(parent);
+});
 
-        function getparent(bid) {
-            console.log(bid);
-            $.ajax({
-                url: '<?php echo e(route("task.getparent")); ?>',
-                type: 'POST',
-                data: {
-                    "parent": bid,
-                    "_token": "<?php echo e(csrf_token()); ?>",
-                },
-                success: function(data) {
-                    console.log(data);
-                    $('#parent_id').empty();
-                    
-
-                    $.each(data, function(key, value) {
-                        $('#parent_id').append('<option value="' + key + '">' + value + '</option>');
-                    });
-                    if (data == '') {
-                        $('#parent_id').empty();
-                    }
+function getparent(bid) {
+    console.log(bid);
+    $.ajax({
+        url: '<?php echo e(route("task.getparent")); ?>',
+        type: 'POST',
+        data: {
+            "parent": bid,
+            "_token": "<?php echo e(csrf_token()); ?>",
+        },
+        success: function(data) {
+            console.log(data);
+            $('#parent_id').empty(); {
+                {
+                    --$('#parent_id').append('<option value=""><?php echo e(__("Select Parent")); ?></option>');
+                    --
                 }
-            });
-        }
-    </script>
-<?php $__env->stopPush(); ?>
+            }
 
+            $.each(data, function(key, value) {
+                $('#parent_id').append('<option value="' + key + '">' + value + '</option>');
+            });
+            if (data == '') {
+                $('#parent_id').empty();
+            }
+        }
+    });
+}
+</script>
+<?php $__env->stopPush(); ?>
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/user/edit.blade.php ENDPATH**/ ?>
