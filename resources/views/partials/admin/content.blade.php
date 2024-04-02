@@ -294,7 +294,8 @@
     position: fixed;
     top: 0;
     width:250px;
-        background: #e6ebf2;
+        /* background: #e6ebf2; */
+        background: #dbdbdb;
     }
     .navbar-brand-box {
     text-align: center;

@@ -38,7 +38,7 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                                 <ul class="nav navbar-nav">
                                     <li class="active">
-                                        <button class="navbar-toggle collapse in" data-toggle="collapse" id="menu-toggle-2" style=" background: #e8ecf3;"> <span class="navbar-toggler-icon"></span>
+                                        <button class="navbar-toggle collapse in" data-toggle="collapse" id="menu-toggle-2" style=" background: #dbdbdb;"> <span class="navbar-toggler-icon"></span>
                                         </button>
                                     </li>
                                 </ul>
@@ -93,7 +93,7 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                         @can('Manage Payment')
                             <li class="dash-item {{ \Request::route()->getName() == 'billing' || \Request::route()->getName() == 'billing.index' ? ' active' : '' }}">
                                 <a href="{{ route('billing.index') }}" class="dash-link">
-                                    <span class="dash-mtext">{{ __('Billing') }}</span>
+                                    <span class="dash-mtext">{{ __('Invoice') }}</span>
                                 </a>
                             </li>
                         @endcan

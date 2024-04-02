@@ -258,9 +258,13 @@ ul>li.active {
 </style>
 <?php endif; ?>
 <style>
-li:has(> a.active) {
+/* li:has(> a.active) {
     border-color: #2980b9;
     box-shadow: 0 0 15px rgba(41, 128, 185, 0.8);
+} */
+li:has(> a.active) {
+    border-color: #afafaf;
+    box-shadow: 0 0 15px rgb(12 12 12 / 80%);
 }
 
 input[type="radio"] {
@@ -459,7 +463,7 @@ function enablecookie() {
                 <div class="row">
                     <div class="col-lg-12">
                         <?php if(\Auth::user()->type == 'owner'): ?>
-                        <div id="brand-settings" class="card">
+                        <!-- <div id="brand-settings" class="card">
                             <div class="card-header">
                                 <h5><?php echo e(__('Brand Settings')); ?></h5>
                                 <small class="text-muted"><?php echo e(__('Edit your brand details')); ?></small>
@@ -833,8 +837,7 @@ unset($__errorArgs, $__bag); ?>
                             </div>
                             <?php echo e(Form::close()); ?>
 
-                        </div> 
-                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Email')): ?>
+                        </div>  -->
                         <div id="company-email-setting" class="card">
                             <div class="card-header">
                                 <h5><?php echo e(__('Email Settings')); ?></h5>
@@ -988,8 +991,6 @@ unset($__errorArgs, $__bag); ?>
                             <?php echo e(Form::close()); ?>
 
                         </div>
-                        <?php endif; ?>
-                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Twilio')): ?>
                         <div id="twilio-settings" class="card">
                             <div class="card-header">
                                 <h5><?php echo e(__('Twilio Settings')); ?></h5>
@@ -1117,7 +1118,6 @@ unset($__errorArgs, $__bag); ?>
                             </div>
                         </div>
                         <?php endif; ?>
-                        <?php endif; ?>
                         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage User')): ?>
                         <div id="user-settings" class="card">
                             <div class="row">
@@ -1176,9 +1176,10 @@ unset($__errorArgs, $__bag); ?>
                                                                 <span class="avatar">
                                                                     <a href="<?php echo e($profile); ?><?php echo e(!empty($user->avatar) ? $user->avatar : 'avatar.png'); ?>"
                                                                         target="_blank">
-                                                                        <img class="rounded-circle" width="25%" 
-                                                                        <?php if($user->avatar): ?> src="<?php echo e($profile); ?><?php echo e(!empty($user->avatar) ? $user->avatar : 'avatar.png'); ?>"
-                                                                        <?php else: ?> src="<?php echo e($profile . 'avatar.png'); ?>" 
+                                                                        <img class="rounded-circle" width="25%"
+                                                                            <?php if($user->avatar): ?>
+                                                                        src="<?php echo e($profile); ?><?php echo e(!empty($user->avatar) ? $user->avatar : 'avatar.png'); ?>"
+                                                                        <?php else: ?> src="<?php echo e($profile . 'avatar.png'); ?>"
                                                                         <?php endif; ?>
                                                                         alt="<?php echo e($user->name); ?>">
                                                                     </a>
@@ -1208,10 +1209,14 @@ unset($__errorArgs, $__bag); ?>
                                                             <?php endif; ?>
                                                             <?php if(Gate::check('Edit User') || Gate::check('Delete User')): ?>
                                                             <td class="text-end">
-                                                                <?php if(Storage::disk('public')->exists('UserInfo/' . $user->id)): ?>
-                                                                <div class="action-btn bg-secondary ms-2" style="float: right;">
-                                                                    <a href="#" data-size="md" data-url="<?php echo e(route('user.docs',$user->id)); ?>"
-                                                                        data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('Attachments')); ?>"
+                                                                <?php if(Storage::disk('public')->exists('UserInfo/' .
+                                                                $user->id)): ?>
+                                                                <div class="action-btn bg-secondary ms-2"
+                                                                    style="float: right;">
+                                                                    <a href="#" data-size="md"
+                                                                        data-url="<?php echo e(route('user.docs',$user->id)); ?>"
+                                                                        data-ajax-popup="true" data-bs-toggle="tooltip"
+                                                                        data-title="<?php echo e(__('Attachments')); ?>"
                                                                         title="<?php echo e(__('Attachments')); ?>"
                                                                         class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                                         <i class="ti ti-eye"></i>

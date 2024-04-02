@@ -21,11 +21,11 @@
                 @if(\Request::route()->getName() == 'settings')
                 @if (\Auth::user()->type == 'owner')
                 <a href="#company-email-setting" class="list-group-item list-group-item-action">
-                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-cog"></i></span>
+                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-envelope  "></i></span>
                     <span class="dash-mtext">{{ __('Email Settings') }} </span></a>
                 </a>
                 <a href="#twilio-settings" class="list-group-item list-group-item-action border-0">
-                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-cog"></i></span>
+                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-sms"></i></span>
                     <span class="dash-mtext">{{ __('Twilio Settings') }}</span>
                 </a>
                 @endif
@@ -37,7 +37,7 @@
                 @endif
                 @can('Manage User')
                 <a href="#user-settings" class="list-group-item list-group-item-action border-0">
-                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-cog"></i></span>
+                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-user"></i></span>
                     <span class="dash-mtext">{{ __('Staff Settings') }}</span>
                 </a>
                 @endcan
@@ -49,20 +49,20 @@
                 @endif
                 @if(Gate::check('Manage Lead') || Gate::check('Manage Meeting'))
                 <a href="#eventtype-settings" class="list-group-item list-group-item-action border-0">
-                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-cog"></i></span>
+                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-tasks"></i></span>
                     <span class="dash-mtext">{{ __('Event-Type Settings') }}</span>
                 </a>
 
                 <a href="#venue-settings" class="list-group-item list-group-item-action border-0">
-                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-cog"></i></span>
+                    <span class="fa-stack fa-lg pull-left"><i class="fa-solid fa-location-dot"></i></span>
                     <span class="dash-mtext">{{ __('Venue Settings') }}</span>
                 </a>
                 <a href="#function-settings" class="list-group-item list-group-item-action border-0">
-                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-cog"></i></span>
+                    <span class="fa-stack fa-lg pull-left"><i class="fa-solid fa-pot-food"></i></span>
                     <span class="dash-mtext">{{ __('Function Settings') }}</span>
                 </a>
                 <a href="#bar-settings" class="list-group-item list-group-item-action border-0">
-                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-cog"></i></span>
+                    <span class="fa-stack fa-lg pull-left"><i class="fas fa-cocktail"></i></span>
                     <span class="dash-mtext">{{ __('Bar Settings') }}</span>
                 </a>
                 <a href="#floor-plan-setting" class="list-group-item list-group-item-action border-0">
@@ -72,17 +72,17 @@
                 @endif
                 @can('Manage Payment')
                 <a href="#billing-setting" class="list-group-item list-group-item-action border-0">
-                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-cog"></i></span>
+                    <span class="fa-stack fa-lg pull-left"><i class="fas fa-file-invoice"></i></span>
                     <span class="dash-mtext">{{ __('Billing Settings') }}</span>
                 </a>
                 @endcan
                 @if (\Auth::user()->type == 'owner')
                 <a href="#buffer-settings" class="list-group-item list-group-item-action border-0">
-                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-cog"></i></span>
+                    <span class="fa-stack fa-lg pull-left"><i class="fa-brands fa-buffer"></i></span>
                     <span class="dash-mtext">{{ __('Buffer Settings') }}</span>
                 </a>
                 <a href="#add-signature" class="list-group-item list-group-item-action border-0">
-                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-cog"></i></span>
+                    <span class="fa-stack fa-lg pull-left"><i class="fa-solid fa-signature"></i></span>
                     <span class="dash-mtext">{{ __('Authorised Signature') }}</span>
                 </a>
                 <a href="#campaign-type" class="list-group-item list-group-item-action border-0">

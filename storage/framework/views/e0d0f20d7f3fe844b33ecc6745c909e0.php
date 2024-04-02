@@ -1,12 +1,16 @@
 <?php
+
 $bill = App\Models\Billing::where('event_id',$event->id)->first();
-$pay =  App\Models\PaymentLogs::where('event_id',$event->id)->get();
+$pay = App\Models\PaymentLogs::where('event_id',$event->id)->get();
+$paymentinfo = App\Models\PaymentInfo::where('event_id',$event->id)->orderBy('id', 'desc')->first();
+$aaaa = App\Models\PaymentInfo::where('event_id',$event->id)->get();
 $total = 0;
 foreach($pay as $p){
-    $total += $p->amount;
+$total += $p->amount;
 }
 ?>
-<?php echo e(Form::open(array('route' => ['billing.paymentinfoupdate', $event->id],'method'=>'post','enctype'=>'multipart/form-data'))); ?>
+<?php if($total != $event->total): ?>
+<?php echo e(Form::open(array('route' => ['billing.paymentinfoupdate', urlencode(encrypt($event->id))],'method'=>'post','enctype'=>'multipart/form-data'))); ?>
 
 <div class="row">
     <div class="col-6">
@@ -93,7 +97,7 @@ foreach($pay as $p){
                     Cheque</option>
             </select>
             <div class="mt-4">
-            <span class="msg text-primary"></span>
+                <span class="msg text-primary"></span>
             </div>
         </div>
     </div>
@@ -129,7 +133,75 @@ foreach($pay as $p){
     <?php echo e(Form::submit(__('Save'),array('class'=>'btn btn-primary '))); ?>
 
 </div>
+<?php else: ?>
+<div class="row">
+    <div class="col-md-12">
+        <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__(' Amount')); ?></span></dt>
+        <dd class="col-md-6"><span class="">$<?php echo e($paymentinfo->amount); ?></span></dd>
+        <dt class="col-md-6"><span class="h6 text-md mb-0"><?php echo e(__('Status')); ?></span></dt>
+        <dd class="col-md-6"><span class="text-md">
+                <?php if($bill->status == 4): ?>
+                <span
+                    class="badge bg-success p-2 px-3 rounded"><?php echo e(__(\App\Models\Billing::$status[$bill->status])); ?></span>
+                <?php endif; ?>
+        </dd>
+        <table class="table">
+            <thead>
+                <th>Date</th>
+                <th>Mode Of Payment</th>
+                <!-- <th>Amount Paid</th> -->
+                <th>Late Fee</th>
+                <th>Adjustments</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <?php $__currentLoopData = $aaaa; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $a): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <td><?php echo e(\Auth::user()->dateFormat($paymentinfo->created_at)); ?></td>
+                    <td><?php echo e($paymentinfo->modeofpayment); ?></td>
+                    <!-- <td></td> -->
+                    <td><?php echo e($paymentinfo->latefee); ?></td>
+                    <td><?php echo e($paymentinfo->adjustments); ?></td>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                </tr>
+            </tbody>
+        </table>
+        <!-- <dl class="row">
+                <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Name')); ?></span></dt>
+                <dd class="col-md-6"><span class=""><?php echo e($event->eventname); ?></span></dd>
+
+                <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Mode Of Payment')); ?></span></dt>
+                <dd class="col-md-6"><span class=""><?php echo e($paymentinfo->modeofpayment); ?></span></dd>
+                
+                <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__(' Amount')); ?></span></dt>
+                <dd class="col-md-6"><span class="">$<?php echo e($paymentinfo->amount); ?></span></dd>
+                
+                <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Deposits On file')); ?></span></dt>
+                <dd class="col-md-6"><span class="">$<?php echo e($paymentinfo->deposits); ?></span></dd>
+            
+                <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Adjustments')); ?></span></dt>
+                <dd class="col-md-6"><span class="">$<?php echo e($paymentinfo->adjustments); ?></span></dd>
+
+                <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Late Fee')); ?></span></dt>
+                <dd class="col-md-6"><span class="">$<?php echo e($paymentinfo->latefee); ?></span></dd>
+
+                <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Total Amount')); ?></span></dt>
+                <dd class="col-md-6"><span class="">$<?php echo e($paymentinfo->amounttobepaid); ?></span></dd>
+
+                <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Date')); ?></span></dt>
+                <dd class="col-md-6"><span class=""><?php echo e(\Auth::user()->dateFormat($paymentinfo->created_at)); ?></span></dd>
+
+                <dt class="col-md-6"><span class="h6 text-md mb-0"><?php echo e(__('Status')); ?></span></dt>
+                <dd class="col-md-6"><span class="text-md">
+                    <?php if($bill->status == 4): ?>
+                        <span class="badge bg-success p-2 px-3 rounded"><?php echo e(__(\App\Models\Billing::$status[$bill->status])); ?></span>
+                <?php endif; ?>
+                </dd>
+            </dl> -->
+    </div>
+</div>
+<?php endif; ?>
 <?php echo e(Form::close()); ?>
+
 
 <script>
 jQuery(function() {
@@ -140,11 +212,9 @@ jQuery(function() {
     var amountpaid = parseFloat($("input[name='amountpaid']").val()) || 0;
 
     var balance = amount - deposits + latefee - adjustments - amountpaid;
-    var amounttobepaid = amount -deposits + latefee - adjustments;
-
-    $("input[name='balance']").val(balance);
+    var amounttobepaid = amount - deposits + latefee - adjustments;
+    $("input[name='balance']").val(<?php echo $total - $event->total;?>);
     $("input[name='amounttobepaid']").val(amounttobepaid);
-
     $("input[name='amount'],input[name='deposits'], input[name='latefee'], input[name='adjustments'], input[name='amountpaid']")
         .keyup(function() {
             $("input[name='amounttobepaid']").empty();
@@ -156,22 +226,22 @@ jQuery(function() {
             var amountpaid = parseFloat($("input[name='amountpaid']").val()) || 0;
 
             var balance = amount - deposits + latefee - adjustments - amountpaid;
-            var amounttobepaid = amount -deposits + latefee -adjustments;
+            var amounttobepaid = amount - deposits + latefee - adjustments;
             // Assuming you want to store the balance in an input field with name 'balance'
             $("input[name='balance']").val(balance);
             $("input[name='amounttobepaid']").val(amounttobepaid);
 
             console.log('total', balance);
         });
-        $('select[name = "mode"]').change(function(){
-            $('.msg').html('');
-            $('input[name="reference"]').removeAttr('required');
-            var value = $(this).val();
-            if(value == 'credit'){
-                    $('.msg').html('Pay Amount after form submission')
-            }else{
-                    $('input[name="reference"]').attr('required');
-            }
-        })
+    $('select[name = "mode"]').change(function() {
+        $('.msg').html('');
+        $('input[name="reference"]').removeAttr('required');
+        var value = $(this).val();
+        if (value == 'credit') {
+            $('.msg').html('Pay Amount after form submission')
+        } else {
+            $('input[name="reference"]').attr('required');
+        }
+    })
 });
 </script><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/billing/pay-info.blade.php ENDPATH**/ ?>

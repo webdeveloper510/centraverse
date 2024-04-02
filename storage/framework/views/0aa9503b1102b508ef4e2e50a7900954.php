@@ -608,7 +608,6 @@ unset($__errorArgs, $__bag); ?>
                                                 <div class="form-group">
                                                     <?php echo e(Form::label('atttachment',__('Attachments (If Any)'),['class'=>'form-label'])); ?>
 
-                                                    <!-- <?php echo e(Form::text('atttachment',null,array('class'=>'form-control','placeholder'=>__('Enter Allergies(if any)')))); ?> -->
                                                     <input type="file" name="atttachment" id="atttachment" class="form-control">
 
                                                 </div>

@@ -1,15 +1,15 @@
 
 <?php $__env->startSection('page-title'); ?>
-<?php echo e(__('Billing')); ?>
+<?php echo e(__('Invoice')); ?>
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('title'); ?>
-<?php echo e(__('Billing')); ?>
+<?php echo e(__('Invoice')); ?>
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('breadcrumb'); ?>
 <li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Home')); ?></a></li>
-<li class="breadcrumb-item"><?php echo e(__('Billing')); ?></li>
+<li class="breadcrumb-item"><?php echo e(__('Invoice')); ?></li>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 <div class="container-field">
@@ -37,7 +37,7 @@
                                             <?php $__currentLoopData = $events; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $event): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <tr>
                                                 <td>
-                                                    <a href="" data-size="md" data-title="<?php echo e(__('Billing Details')); ?>"
+                                                    <a href="" data-size="md" data-title="<?php echo e(__('Invoice Details')); ?>"
                                                         class="action-item text-primary">
                                                         <?php echo e(ucfirst($event->name)); ?>
 
@@ -84,7 +84,7 @@
                                                             data-url="<?php echo e(route('billing.create',['billing',$event->id])); ?>"
                                                             data-bs-toggle="tooltip" title="<?php echo e(__('Create')); ?>"
                                                             data-ajax-popup="true"
-                                                            data-title="<?php echo e(__('Billing Details')); ?>"
+                                                            data-title="<?php echo e(__('Invoice Details')); ?>"
                                                             class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-plus"></i>
                                                         </a>
@@ -93,9 +93,21 @@
                                                     <?php endif; ?>
                                                     <?php if(\App\Models\Billing::where('event_id',$event->id)->exists()): ?>
                                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Payment')): ?>
+                                                    <?php if(App\Models\Billing::where('event_id',$event->id)->where('status','!=',4)->exists()): ?>
+                                                    <div class="action-btn bg-primary ms-2">
+                                                        <a href="#" data-size="md"
+                                                            data-url="<?php echo e(route('billing.paylink',$event->id)); ?>"
+                                                            data-bs-toggle="tooltip"
+                                                            title="<?php echo e(__('Share Payment Link')); ?>" data-ajax-popup="true"
+                                                            data-title="<?php echo e(__('Payment Link')); ?>"
+                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                            <i class="ti ti-share"></i>
+                                                        </a>
+                                                    </div>
+                                                    <?php endif; ?>
                                                     <div class="action-btn bg-info ms-2">
                                                         <a href="#" data-size="md"
-                                                            data-url="<?php echo e(route('billing.paymentinfo',$event->id)); ?>"
+                                                            data-url="<?php echo e(route('billing.paymentinfo',urlencode(encrypt($event->id)))); ?>"
                                                             data-bs-toggle="tooltip" title="<?php echo e(__('Payment Details')); ?>"
                                                             data-ajax-popup="true"
                                                             data-title="<?php echo e(__('Payment Information')); ?>"
@@ -111,7 +123,7 @@
                                                             data-url="<?php echo e(route('billing.show',$event->id)); ?>"
                                                             data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>"
                                                             data-ajax-popup="true"
-                                                            data-title="<?php echo e(__('Billing Details')); ?>"
+                                                            data-title="<?php echo e(__('Invoice Details')); ?>"
                                                             class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-eye"></i>
                                                         </a>
@@ -133,7 +145,7 @@
                                                     </div>
                                                     <?php endif; ?>
                                                     <?php endif; ?>
-                                                   
+
                                                 </td>
                                             </tr>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

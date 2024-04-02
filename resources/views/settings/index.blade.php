@@ -258,9 +258,13 @@ ul>li.active {
 </style>
 @endif
 <style>
-li:has(> a.active) {
+/* li:has(> a.active) {
     border-color: #2980b9;
     box-shadow: 0 0 15px rgba(41, 128, 185, 0.8);
+} */
+li:has(> a.active) {
+    border-color: #afafaf;
+    box-shadow: 0 0 15px rgb(12 12 12 / 80%);
 }
 
 input[type="radio"] {
@@ -818,8 +822,7 @@ function enablecookie() {
                                 {{ Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary']) }}
                             </div>
                             {{ Form::close() }}
-                        </div> -->
-                        @can('Manage Email')
+                        </div>  -->
                         <div id="company-email-setting" class="card">
                             <div class="card-header">
                                 <h5>{{ __('Email Settings') }}</h5>
@@ -963,8 +966,6 @@ function enablecookie() {
                             </div>
                             {{ Form::close() }}
                         </div>
-                        @endcan
-                        @can('Manage Twilio')
                         <div id="twilio-settings" class="card">
                             <div class="card-header">
                                 <h5>{{ __('Twilio Settings') }}</h5>
@@ -1073,7 +1074,6 @@ function enablecookie() {
                                 {{ Form::close() }}
                             </div>
                         </div>
-                        @endcan
                         @endif
                         @can('Manage User')
                         <div id="user-settings" class="card">
@@ -1133,9 +1133,10 @@ function enablecookie() {
                                                                 <span class="avatar">
                                                                     <a href="{{ $profile }}{{ !empty($user->avatar) ? $user->avatar : 'avatar.png' }}"
                                                                         target="_blank">
-                                                                        <img class="rounded-circle" width="25%" 
-                                                                        @if($user->avatar) src="{{ $profile }}{{ !empty($user->avatar) ? $user->avatar : 'avatar.png' }}"
-                                                                        @else src="{{ $profile . 'avatar.png' }}" 
+                                                                        <img class="rounded-circle" width="25%"
+                                                                            @if($user->avatar)
+                                                                        src="{{ $profile }}{{ !empty($user->avatar) ? $user->avatar : 'avatar.png' }}"
+                                                                        @else src="{{ $profile . 'avatar.png' }}"
                                                                         @endif
                                                                         alt="{{ $user->name }}">
                                                                     </a>
@@ -1164,10 +1165,14 @@ function enablecookie() {
                                                             @endif
                                                             @if (Gate::check('Edit User') || Gate::check('Delete User'))
                                                             <td class="text-end">
-                                                                @if(Storage::disk('public')->exists('UserInfo/' . $user->id))
-                                                                <div class="action-btn bg-secondary ms-2" style="float: right;">
-                                                                    <a href="#" data-size="md" data-url="{{route('user.docs',$user->id)}}"
-                                                                        data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{ __('Attachments') }}"
+                                                                @if(Storage::disk('public')->exists('UserInfo/' .
+                                                                $user->id))
+                                                                <div class="action-btn bg-secondary ms-2"
+                                                                    style="float: right;">
+                                                                    <a href="#" data-size="md"
+                                                                        data-url="{{route('user.docs',$user->id)}}"
+                                                                        data-ajax-popup="true" data-bs-toggle="tooltip"
+                                                                        data-title="{{ __('Attachments') }}"
                                                                         title="{{ __('Attachments') }}"
                                                                         class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                                         <i class="ti ti-eye"></i>
