@@ -117,7 +117,6 @@
                                                     </div>
                                                     <?php endif; ?>
                                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Payment')): ?>
-
                                                     <div class="action-btn bg-warning ms-2">
                                                         <a href="#" data-size="md"
                                                             data-url="<?php echo e(route('billing.show',$event->id)); ?>"

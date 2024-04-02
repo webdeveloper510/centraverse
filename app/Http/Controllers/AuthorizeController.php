@@ -23,6 +23,7 @@ class AuthorizeController extends Controller
     public function handleonlinepay(Request $request ,$id) {
    
         $id = decrypt(urldecode($id));
+        $event = Meeting::find($id);
         $input = $request->all();
         $settings = Utility::settings();
         /* Create a merchantAuthenticationType object with authentication details
@@ -144,8 +145,7 @@ class AuthorizeController extends Controller
                                     'mail.from.name'    => $settings['mail_from_name'],
                                 ]
                             );
-                            Mail::to('sonali@codenomad.net')->send(new InvoicePaymentMail($payinformaton));
-                        //     echo "done";
+                            Mail::to($event->email)->send(new InvoicePaymentMail($payinformaton));
                             $payinfo = PaymentInfo::where('event_id',$id)->first();
                             $halfpay = $payinfo->amount/2;
                             $amountpaid = 0 ;
@@ -154,14 +154,15 @@ class AuthorizeController extends Controller
                                 $amountpaid += $pay->amount;
                             }
                             $amountlefttobepaid = $payinfo->amount - $amountpaid;
-                            if($amountlefttobepaid == 0 || $amountlefttobepaid <= 0){
-                                Billing::where('event_id',$id)->update(['status' => 4]);
-                            }elseif($amountlefttobepaid ==  $halfpay || $amountlefttobepaid >=  $halfpay){
-                                Billing::where('event_id',$id)->update(['status' => 3]);
-                            }elseif($amountlefttobepaid <= $halfpay  ){
-                                Billing::where('event_id',$id)->update(['status' => 2]);
-                            }
-                            $data =  Billing::where('event_id',$id)->get();
+                            // if($amountlefttobepaid == 0 || $amountlefttobepaid <= 0){
+                            //     Billing::where('event_id',$id)->update(['status' => 4]);
+                            // }elseif($amountlefttobepaid ==  $halfpay || $amountlefttobepaid >=  $halfpay){
+                            //     Billing::where('event_id',$id)->update(['status' => 3]);
+                            // }elseif($amountlefttobepaid <= $halfpay  ){
+                            //     Billing::where('event_id',$id)->update(['status' => 2]);
+                            // }
+                            // $data =  Billing::where('event_id',$id)->get();
+                            Billing::where('event_id',$id)->update(['status' => 4]);
                         
                             return view('calendar.welcome')->with('success',$message_text);
                         } catch (\Exception $e) {

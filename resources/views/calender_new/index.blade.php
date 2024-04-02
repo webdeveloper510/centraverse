@@ -24,7 +24,7 @@ li.item-event>p:nth-child(2) {
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-8">
             <div id="calendar"></div>
         </div>
         <div class="col-lg-4">
@@ -84,9 +84,32 @@ function display_count() {
             }
             let calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
+                headerToolbar: {
+                            left: 'prev,next today',
+                            center: 'title',
+                            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                        },
+                        buttonText: {
+                            timeGridDay: "{{ __('Day') }}",
+                            timeGridWeek: "{{ __('Week') }}",
+                            dayGridMonth: "{{ __('Month') }}"
+                        },
+                        slotLabelFormat: {
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                    hour12: false,
+                                },
+                        themeSystem: 'bootstrap',
+                        navLinks: true,
+                        droppable: false,
+                        selectable: true,
+                        selectMirror: true,
+                        editable: false,
+                        dayMaxEvents: true,
+                        handleWindowResize: true,
+                        height: 'auto',
+                        timeFormat: 'H(:mm)',
                 initialView: 'dayGridMonth',
-                themeSystem: 'bootstrap',
-                selectable: true,
                 eventDisplay: 'block',
                 select: function(start, end, allDay, info) {
 

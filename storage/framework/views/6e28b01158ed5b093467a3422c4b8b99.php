@@ -837,7 +837,7 @@ unset($__errorArgs, $__bag); ?>
                             </div>
                             <?php echo e(Form::close()); ?>
 
-                        </div>  -->
+                        </div>   -->
                         <div id="company-email-setting" class="card">
                             <div class="card-header">
                                 <h5><?php echo e(__('Email Settings')); ?></h5>

@@ -113,7 +113,6 @@
                                                     </div>
                                                     @endcan
                                                     @can('Manage Payment')
-
                                                     <div class="action-btn bg-warning ms-2">
                                                         <a href="#" data-size="md"
                                                             data-url="{{ route('billing.show',$event->id) }}"

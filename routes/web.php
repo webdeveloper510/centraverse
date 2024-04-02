@@ -141,6 +141,8 @@ Route::get('/meeting-completed',[DashboardController::class,'completedevents']);
 // UPCOMING EVENTS AND COMPLETED EVENTS ROUTES //   >
 
 Route::get('lead/proposal-signed/{id}',[LeadController::class,'proposalview'])->name('lead.signedproposal');
+Route::get('billing/get-payment-link/{id}',[BillingController::class,'getpaymentlink'])->name('billing.getpaymentlink');
+
 Route::post('lead/proposal-signed/{id}',[LeadController::class,'proposal_resp'])->name('lead.proposalresponse');
 Route::get('event/signed-agreement/{id}',[MeetingController::class,'signedagreementview'])->name('meeting.signedagreement');
 Route::post('event/signed-agreement/{id}',[MeetingController::class,'signedagreementresponse'])->name('meeting.signedagreementresp');

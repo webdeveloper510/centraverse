@@ -1,3 +1,6 @@
+<?php   
+$event = App\Models\Meeting::find($id);
+?>
 <div class="row">
     <div class="col-lg-12">
         <div id="notification" class="alert alert-success mt-1">Link copied to clipboard!</div>
@@ -5,19 +8,19 @@
             <dl class="row">
                 <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('Name')}}</span></dt>
                 <dd class="col-md-6">
-                    <input type="text" name="name" class="form-control" value="">
+                    <input type="text" name="name" class="form-control" value="{{$event->name}}">
                 </dd>
                 <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('Email')}}</span></dt>
                 <dd class="col-md-6">
-                    <input type="text" name="email" class="form-control" value="">
+                    <input type="text" name="email" class="form-control" value="{{$event->email}}">
                 </dd>
             </dl>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success" data-toggle="tooltip" onclick="getDataUrlAndCopy(this)"
-                    title='Copy To Clipboard'>
+                data-url="{{route('billing.getpaymentlink',urlencode(encrypt($id)))}}"   title='Copy To Clipboard'>
                     <i class="ti ti-copy"></i>
                 </button>
-                {{Form::submit(__('Share via mail'),array('class'=>'btn btn-primary'))}}
+                <!-- {{Form::submit(__('Share via mail'),array('class'=>'btn btn-primary'))}} -->
             </div>
         </div>
         {{Form::close()}}
