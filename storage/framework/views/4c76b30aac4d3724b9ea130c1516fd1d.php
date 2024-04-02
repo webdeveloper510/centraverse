@@ -116,7 +116,6 @@
                                                         </a>
                                                     </div>
                                                     <?php endif; ?>
-                                                    <?php endif; ?>
                                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Delete Payment')): ?>
                                                     <div class="action-btn bg-danger ms-2">
                                                         <?php echo Form::open(['method' => 'DELETE', 'route' =>
@@ -132,6 +131,8 @@
 
                                                     </div>
                                                     <?php endif; ?>
+                                                    <?php endif; ?>
+                                                   
                                                 </td>
                                             </tr>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

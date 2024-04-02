@@ -1,12 +1,9 @@
 <?php 
-// echo "<pre>";print_r($event);die;
-
 $package = json_decode($event->func_package,true);
 $additional = json_decode($event->ad_opts,true);
 if(isset($event->bar_package) && !empty($event->bar_package)){
     $bar = json_decode($event->bar_package,true);
 }
-// echo "<pre>";print_r($bar);die;
 ?>
 <div class="row">
     <div class="col-lg-12">
@@ -38,6 +35,9 @@ if(isset($event->bar_package) && !empty($event->bar_package)){
 
             <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Venue')); ?></span></dt>
             <dd class="col-md-6"><span class=""><?php echo e($event->venue_selection); ?></span></dd>
+            
+            <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Room')); ?></span></dt>
+            <dd class="col-md-6"><span class=""><?php if($event->room != 0): ?><?php echo e($event->room); ?><?php else: ?> -- <?php endif; ?></span></dd>
             <?php if(isset($package) && !empty($package)): ?>
             <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Package')); ?></span></dt>
             <dd class="col-md-6"><span class=""><?php $__currentLoopData = $package; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -47,6 +47,7 @@ if(isset($event->bar_package) && !empty($event->bar_package)){
                 </span>
             </dd>
             <?php endif; ?>
+
             <?php if(isset($additional) && !empty($additional)): ?>
             <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Additional Items')); ?></span></dt>
             <dd class="col-md-6"><span class=""><?php $__currentLoopData = $additional; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -64,25 +65,57 @@ if(isset($event->bar_package) && !empty($event->bar_package)){
                 </span>
             </dd>
             <?php endif; ?>
-
-            <dt class="col-md-6"><span class="h6  mb-3"><?php echo e(__('Setup')); ?></span></dt>
+            <hr class="mt-5">
+            <div class="row">
+                <div class="col-lg-8 col-md-8 col-sm-8">
+                    <h3><?php echo e(__('Setup')); ?></h3>
+                </div>
+            </div>
+            <hr>
             <img src="<?php echo e($event->floor_plan); ?>" alt="">
         </dl>
+
         <!-- </div> -->
 
     </div>
 
-    <div class="w-100 text-end pr-2">
-        <!-- <?php if($event->start_date >= now()): ?>
-    <a href="<?php echo e(url('/event-download/' . $event->id)); ?>"><i class="fa fa-download action-btn bg-info ms-1" style="cursor:pointer;"></i></a>
-    <?php endif; ?> -->
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Edit event')): ?>
-        <div class="action-btn bg-info ms-2">
-            <a href="<?php echo e(route('event.edit',$event->id)); ?>"
-                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white" data-bs-toggle="tooltip"
-                data-title="<?php echo e(__('Edit Call')); ?>" title="<?php echo e(__('Edit')); ?>"><i class="ti ti-edit"></i>
-            </a>
+    <?php
+    $files = Storage::files('app/public/Event/'.$event->id);
+    ?>
+    <hr>
+    <div class="row">
+        <?php if(isset($files) && !empty($files)): ?>
+        <h3>Attachments</h3>
+        <hr>
+        <div class="col-md-12">
+            <?php $__currentLoopData = $files; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $file): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <div>
+                <!-- Display file name -->
+                <p><?php echo e(basename($file)); ?></p>
+                <div>
+
+                    <!-- Display preview if it's a PDF -->
+                    <?php if(pathinfo($file, PATHINFO_EXTENSION) === 'pdf'): ?>
+                    <img src="<?php echo e(asset('extension_img/images.png')); ?>" alt="File"
+                        style="max-width: 100px; max-height: 150px;">
+                    <!-- <iframe src="<?php echo e(Storage::url($file)); ?>" width="50%" height="300px"></iframe> -->
+                    <?php else: ?>
+                    <img src="<?php echo e(asset('extension_img/images.png')); ?>" alt="File"
+                        style="max-width: 100px; max-height: 150px;">
+                    <!-- Placeholder icon for non-PDF files -->
+                    <?php endif; ?>
+                    <a href="<?php echo e(Storage::url($file)); ?>" download style=" position: absolute;"> <i
+                            class="fa fa-download"></i></a>
+
+                    <!-- Download link -->
+                </div>
+
+            </div>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </div>
         <?php endif; ?>
     </div>
+
+</div>
+
 </div><?php /**PATH /home/crmcentraverse/public_html/centraverse/resources/views/meeting/detailed_view.blade.php ENDPATH**/ ?>
