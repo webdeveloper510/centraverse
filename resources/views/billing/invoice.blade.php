@@ -1,4 +1,4 @@
-<?php $event = Meeting::find($payinformaton->event_id); ?>
+<?php $event = App\Models\Meeting::find($payinformaton->event_id); ?>
 <div class="card-body">
     <table class="table dataTable">
         <tr>

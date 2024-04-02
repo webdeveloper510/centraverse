@@ -1,4 +1,3 @@
-
 <?php
 $settings = App\Models\Utility::settings();
 // $logo = asset(Storage::url('uploads/logo/'));
@@ -5256,4 +5255,4 @@ $(document).ready(function() {
 });
 </script>
 <?php $__env->stopPush(); ?>
-<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/settings/index.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/crmcentraverse/public_html/resources/views/settings/index.blade.php ENDPATH**/ ?>

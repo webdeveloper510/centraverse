@@ -95,11 +95,17 @@ class BillingController extends Controller
         return view('billing.paymentview', compact('new_id'));
     }
     public function paymentinformation($id){
+        $id = decrypt(urldecode($id));
+
+        // $paidamount = PaymentInfo::where('event_id',$id)->get();
+       
         $event = Meeting ::find($id);
+    
         $payment = PaymentInfo::where('event_id',$id)->orderBy('id', 'DESC')->first();
         return view('billing.pay-info',compact('event','payment'));
     }
     public function paymentupdate(Request $request, $id){
+        $id = decrypt(urldecode($id));
         $payment = new PaymentInfo();
         $payment->event_id = $id;
         $payment->amount = $request->amount;
@@ -115,6 +121,10 @@ class BillingController extends Controller
         $balance = $request->balance;
         $event = Meeting::find($id);
         $payment->save();
+        $paid = PaymentInfo::where('event_id',$id)->get();
+        // echo"<pre>";print_r($paid);die;
+        Meeting::find($id)->update(['total'=> $request->amounttobepaid]);
+
         if($request->mode == 'credit'){
             return view('payments.pay',compact('balance','event'));
         }else{
@@ -242,5 +252,8 @@ class BillingController extends Controller
         ];
         $pdf = Pdf::loadView('billing.estimateview', $data);
         return $pdf->stream('estimate.pdf');
+    }
+    public function paymentlink($id){
+        return view('billing.paylink',compact('id'));
     }
 }

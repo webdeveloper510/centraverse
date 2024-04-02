@@ -22,11 +22,11 @@
                 <?php if(\Request::route()->getName() == 'settings'): ?>
                 <?php if(\Auth::user()->type == 'owner'): ?>
                 <a href="#company-email-setting" class="list-group-item list-group-item-action">
-                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-cog"></i></span>
+                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-envelope  "></i></span>
                     <span class="dash-mtext"><?php echo e(__('Email Settings')); ?> </span></a>
                 </a>
                 <a href="#twilio-settings" class="list-group-item list-group-item-action border-0">
-                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-cog"></i></span>
+                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-sms"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Twilio Settings')); ?></span>
                 </a>
                 <?php endif; ?>
@@ -38,7 +38,7 @@
                 <?php endif; ?>
                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage User')): ?>
                 <a href="#user-settings" class="list-group-item list-group-item-action border-0">
-                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-cog"></i></span>
+                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-user"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Staff Settings')); ?></span>
                 </a>
                 <?php endif; ?>
@@ -50,20 +50,20 @@
                 <?php endif; ?>
                 <?php if(Gate::check('Manage Lead') || Gate::check('Manage Meeting')): ?>
                 <a href="#eventtype-settings" class="list-group-item list-group-item-action border-0">
-                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-cog"></i></span>
+                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-tasks"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Event-Type Settings')); ?></span>
                 </a>
 
                 <a href="#venue-settings" class="list-group-item list-group-item-action border-0">
-                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-cog"></i></span>
+                    <span class="fa-stack fa-lg pull-left"><i class="fa-solid fa-location-dot"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Venue Settings')); ?></span>
                 </a>
                 <a href="#function-settings" class="list-group-item list-group-item-action border-0">
-                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-cog"></i></span>
+                    <span class="fa-stack fa-lg pull-left"><i class="fa-solid fa-pot-food"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Function Settings')); ?></span>
                 </a>
                 <a href="#bar-settings" class="list-group-item list-group-item-action border-0">
-                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-cog"></i></span>
+                    <span class="fa-stack fa-lg pull-left"><i class="fas fa-cocktail"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Bar Settings')); ?></span>
                 </a>
                 <a href="#floor-plan-setting" class="list-group-item list-group-item-action border-0">
@@ -73,17 +73,17 @@
                 <?php endif; ?>
                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Payment')): ?>
                 <a href="#billing-setting" class="list-group-item list-group-item-action border-0">
-                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-cog"></i></span>
+                    <span class="fa-stack fa-lg pull-left"><i class="fas fa-file-invoice"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Billing Settings')); ?></span>
                 </a>
                 <?php endif; ?>
                 <?php if(\Auth::user()->type == 'owner'): ?>
                 <a href="#buffer-settings" class="list-group-item list-group-item-action border-0">
-                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-cog"></i></span>
+                    <span class="fa-stack fa-lg pull-left"><i class="fa-brands fa-buffer"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Buffer Settings')); ?></span>
                 </a>
                 <a href="#add-signature" class="list-group-item list-group-item-action border-0">
-                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-cog"></i></span>
+                    <span class="fa-stack fa-lg pull-left"><i class="fa-solid fa-signature"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Authorised Signature')); ?></span>
                 </a>
                 <a href="#campaign-type" class="list-group-item list-group-item-action border-0">

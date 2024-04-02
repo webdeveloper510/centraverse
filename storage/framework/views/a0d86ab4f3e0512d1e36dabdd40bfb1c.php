@@ -29,7 +29,7 @@
             <h4 class="text-center">Fill Details for further payment</h4>
               <div class="panel panel-primary">
                 <div>
-                  <form method="post" action="<?php echo e(route('dopay.online',$event->id)); ?>">
+                  <form method="post" action="<?php echo e(route('dopay.online',urlencode(encrypt($event->id)))); ?>">
                     <?php echo csrf_field(); ?>
                     <div class="row form-group ">
                       <div class="col-md-6">
