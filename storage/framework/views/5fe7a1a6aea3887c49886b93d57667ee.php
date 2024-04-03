@@ -15,7 +15,6 @@
                 <?php $__currentLoopData = $leads; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $lead): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <tr>
                     <td><?php echo e($lead->name); ?></td>
-                    <!-- <td><?php echo e($lead->email); ?></td> -->
                     <td><?php echo e($lead->phone); ?></td>
                     <td><?php echo e($lead->type); ?></td>
                     <?php if(App\Models\Meeting::where('attendees_lead',$lead->id)->exists()): ?>
@@ -63,10 +62,14 @@
     </div>
     <div class="col-md-12">
         <h5><?php echo e($lead->name); ?></h5>
-        <p><?php echo e($lead->phone); ?></p>
-        <p><?php echo e($lead->lead_address); ?></p>
-    </div>
+        <div style="float:right" class="mb-3">
+        <b>Phone :</b> <?php echo e($lead->phone); ?><br>
+<b>Address :</b> <?php echo e($lead->lead_address); ?>
 
+    </div>
+        
+    </div>
+<hr>
     <div class="col-12  p-0 modaltitle pb-3 mb-3 mt-3">
         <h5 style="margin-left: 14px;"><?php echo e(__('Billing Details')); ?></h5>
     </div>
@@ -94,7 +97,6 @@
                         
                             if(isset($lastpaid) && !empty($lastpaid)){
                             $amount = App\Models\PaymentInfo::where('event_id',$event->id)->first();
-                            // echo "<pre>";      print_r($amount);die;
                             $amountpaid = 0;
                             foreach($billing as $pay){
                                 $amountpaid += $pay->amount;

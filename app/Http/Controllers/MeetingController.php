@@ -18,6 +18,7 @@ use App\Models\Blockdate;
 use App\Models\Setup;
 use App\Models\Billing;
 use App\Models\Agreement;
+use App\Models\MasterCustomer;
 use App\Mail\SendBillingMail;
 use App\Mail\AgreementMail;
 use DateTime;
@@ -232,6 +233,16 @@ class MeetingController extends Controller
                     Log::error('File upload failed: ' . $e->getMessage());
                     return redirect()->back()->with('error', 'File upload failed');
                 }
+                }
+                $existingcustomer = MasterCustomer::where('email',$request->email)->first();
+                if(!$existingcustomer){
+                    $customer = new MasterCustomer();
+                    $customer->name = $request->name;
+                    $customer->email = $request->email;
+                    $customer->phone = $request->phone;
+                    $customer->address = $request->lead_address ?? '';
+                    $customer->category = 'event';
+                    $customer->save();
                 }
             $Assign_user_phone = User::where('id', $request->user)->first();
             $setting  = Utility::settings(\Auth::user()->creatorId());

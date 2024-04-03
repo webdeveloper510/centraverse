@@ -1,15 +1,16 @@
 <?php
 
 $bill = App\Models\Billing::where('event_id',$event->id)->first();
+
 $pay = App\Models\PaymentLogs::where('event_id',$event->id)->get();
 $paymentinfo = App\Models\PaymentInfo::where('event_id',$event->id)->orderBy('id', 'desc')->first();
-$aaaa = App\Models\PaymentInfo::where('event_id',$event->id)->get();
+$info = App\Models\PaymentInfo::where('event_id',$event->id)->get();
 $total = 0;
 foreach($pay as $p){
 $total += $p->amount;
 }
 ?>
-<?php if($total != $event->total): ?>
+<?php if($paymentinfo->amounttobepaid != $total): ?>
 <?php echo e(Form::open(array('route' => ['billing.paymentinfoupdate', urlencode(encrypt($event->id))],'method'=>'post','enctype'=>'multipart/form-data'))); ?>
 
 <div class="row">
@@ -137,35 +138,35 @@ $total += $p->amount;
 <div class="row">
     <div class="col-md-12">
         <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__(' Amount')); ?></span></dt>
-        <dd class="col-md-6"><span class="">$<?php echo e(isset($paymentinfo->amount)? $paymentinfo->amount : $event->total); ?></span></dd>
+        <dd class="col-md-6">
+            <span>$<?php echo e(isset($paymentinfo->amount) ? $paymentinfo->amount : $event->total); ?></span></dd>
         <dt class="col-md-6"><span class="h6 text-md mb-0"><?php echo e(__('Status')); ?></span></dt>
         <dd class="col-md-6"><span class="text-md">
-                <?php if($bill->status == 4): ?>
-                <span
-                    class="badge bg-success p-2 px-3 rounded"><?php echo e(__(\App\Models\Billing::$status[$bill->status])); ?></span>
-                <?php endif; ?>
+        <span class="badge bg-success p-2 px-3 rounded">Payment Completed</span>
+       
         </dd>
+        <?php if(isset($info) && !empty($info)): ?>
         <table class="table">
             <thead>
                 <th>Date</th>
                 <th>Mode Of Payment</th>
-                <!-- <th>Amount Paid</th> -->
                 <th>Late Fee</th>
                 <th>Adjustments</th>
             </thead>
             <tbody>
-                <tr>
-                    <?php $__currentLoopData = $aaaa; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $a): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+               
+                    <?php $__currentLoopData = $info; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $a): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <tr>
                     <td><?php echo e(\Auth::user()->dateFormat($paymentinfo->created_at)); ?></td>
                     <td><?php echo e($paymentinfo->modeofpayment); ?></td>
-                    <!-- <td></td> -->
                     <td><?php echo e($paymentinfo->latefee); ?></td>
                     <td><?php echo e($paymentinfo->adjustments); ?></td>
+                    <tr>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </tr>
             </tbody>
         </table>
-       
+<?php endif; ?>
     </div>
 </div>
 <?php endif; ?>
@@ -178,11 +179,11 @@ jQuery(function() {
     var deposits = parseFloat($("input[name='deposits']").val()) || 0;
     var latefee = parseFloat($("input[name='latefee']").val()) || 0;
     var adjustments = parseFloat($("input[name='adjustments']").val()) || 0;
-    var amountpaid = parseFloat($("input[name='amountpaid']").val()) || 0;
-
-    var balance = amount - deposits + latefee - adjustments - amountpaid;
+    var amountpaid = parseFloat($("input[name='amountpaid']").val()) || 0
     var amounttobepaid = amount - deposits + latefee - adjustments;
-    $("input[name='balance']").val(<?php echo $total - $event->total;?>);
+
+    var balance = amounttobepaid - amountpaid;
+    $("input[name='balance']").val(balance);
     $("input[name='amounttobepaid']").val(amounttobepaid);
     $("input[name='amount'],input[name='deposits'], input[name='latefee'], input[name='adjustments'], input[name='amountpaid']")
         .keyup(function() {
@@ -194,8 +195,9 @@ jQuery(function() {
             var adjustments = parseFloat($("input[name='adjustments']").val()) || 0;
             var amountpaid = parseFloat($("input[name='amountpaid']").val()) || 0;
 
-            var balance = amount - deposits + latefee - adjustments - amountpaid;
             var amounttobepaid = amount - deposits + latefee - adjustments;
+            var balance = amounttobepaid - amountpaid;
+
             // Assuming you want to store the balance in an input field with name 'balance'
             $("input[name='balance']").val(balance);
             $("input[name='amounttobepaid']").val(amounttobepaid);

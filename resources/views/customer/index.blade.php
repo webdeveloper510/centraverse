@@ -13,9 +13,9 @@
 {{ Form::open(array('route' => 'customer.sendmail','method' =>'post','files' => true)) }}
 <div class="container-field">
     <div id="wrapper">
-        <div id="page-content-wrapper">
+        <div id="page-content-wrapper" id="useradd-1" >
             <div class="container-fluid xyz">
-                <div class="row">
+                <div class="row" >
                     <div class="col-lg-12">
                         <div class="row">
                         <div class="col-md-4">

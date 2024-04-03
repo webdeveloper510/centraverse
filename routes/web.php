@@ -142,6 +142,7 @@ Route::get('/meeting-completed',[DashboardController::class,'completedevents']);
 
 Route::get('lead/proposal-signed/{id}',[LeadController::class,'proposalview'])->name('lead.signedproposal');
 Route::get('billing/get-payment-link/{id}',[BillingController::class,'getpaymentlink'])->name('billing.getpaymentlink');
+Route::post('billing/share-payment-link/{id}',[BillingController::class,'sharepaymentlink'])->name('billing.sharepaymentlink');
 
 Route::post('lead/proposal-signed/{id}',[LeadController::class,'proposal_resp'])->name('lead.proposalresponse');
 Route::get('event/signed-agreement/{id}',[MeetingController::class,'signedagreementview'])->name('meeting.signedagreement');
@@ -963,8 +964,8 @@ Route::group(['middleware' => ['verified']], function () {
             ],
         ],
         function(){
-            Route::get('customer', [CustomerInformation::class, 'index'])->name('customer.index')->middleware(['auth', 'XSS']);
-            Route::post('customer', [CustomerInformation::class, 'sendmail'])->name('customer.sendmail')->middleware(['auth', 'XSS']);
+            Route::get('customer', [CustomerInformation::class, 'index'])->name('customer.index');
+            Route::post('customer', [CustomerInformation::class, 'sendmail'])->name('customer.sendmail');
             Route::post('campaign-type',[CustomerInformation::class,'campaigntype'])->name('auto.campaign_type');
             Route::get('user-list',[CustomerInformation::class,'existinguserlist'])->name('campaign.existinguser'); 
             Route::get('added-user-list',[CustomerInformation::class,'addeduserlist'])->name('campaign.addeduser'); 
@@ -978,6 +979,8 @@ Route::group(['middleware' => ['verified']], function () {
             Route::post('contactinfo',[CustomerInformation::class,'contactinfo'])->name('getcontactinfo');  
             Route::post('resend-campaign',[CustomerInformation::class,'resendcampaign'])->name('resend-campaign');
             Route::get('export-user', [CustomerInformation::class, 'exportuser'])->name('exportuser');
+            Route::get('all-customers', [CustomerInformation::class, 'siteusers'])->name('siteusers');
+
          
         }
     );

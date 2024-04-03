@@ -131,6 +131,11 @@ class AuthorizeController extends Controller
                             'name_of_card' =>  $input['owner'],
                             'event_id' =>$id
                         ]);
+                        $paymentlog= PaymentLogs::where('event_id',$id)->get();
+                        foreach($paymentlog as $payments){
+                            echo "<pre>";
+                            print_r($payments);
+                        }die;
                         $payinformaton = PaymentLogs::latest()->first();
                         
                         try {
@@ -154,15 +159,15 @@ class AuthorizeController extends Controller
                                 $amountpaid += $pay->amount;
                             }
                             $amountlefttobepaid = $payinfo->amount - $amountpaid;
-                            // if($amountlefttobepaid == 0 || $amountlefttobepaid <= 0){
-                            //     Billing::where('event_id',$id)->update(['status' => 4]);
-                            // }elseif($amountlefttobepaid ==  $halfpay || $amountlefttobepaid >=  $halfpay){
-                            //     Billing::where('event_id',$id)->update(['status' => 3]);
-                            // }elseif($amountlefttobepaid <= $halfpay  ){
-                            //     Billing::where('event_id',$id)->update(['status' => 2]);
-                            // }
-                            // $data =  Billing::where('event_id',$id)->get();
-                            Billing::where('event_id',$id)->update(['status' => 4]);
+                            if($amountlefttobepaid == 0 || $amountlefttobepaid <= 0){
+                                Billing::where('event_id',$id)->update(['status' => 4]);
+                            }elseif($amountlefttobepaid ==  $halfpay || $amountlefttobepaid >=  $halfpay){
+                                Billing::where('event_id',$id)->update(['status' => 3]);
+                            }elseif($amountlefttobepaid <= $halfpay  ){
+                                Billing::where('event_id',$id)->update(['status' => 2]);
+                            }
+                            $data =  Billing::where('event_id',$id)->get();
+                            // Billing::where('event_id',$id)->update(['status' => 4]);
                         
                             return view('calendar.welcome')->with('success',$message_text);
                         } catch (\Exception $e) {

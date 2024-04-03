@@ -34,8 +34,8 @@
                                     <table class="table datatable" id="datatable">
                                         <thead>
                                             <tr>
-                                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Lead')); ?></th>
-                                                <!-- <th scope="col" class="sort" data-sort="name"><?php echo e(__('Name')); ?></th> -->
+                                                <!-- <th scope="col" class="sort" data-sort="name"><?php echo e(__('Lead')); ?></th> -->
+                                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Name')); ?></th>
                                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Email')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Assigned Staff')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Status')); ?></th>
@@ -49,16 +49,15 @@
                                         <tbody>
                                             <?php $__currentLoopData = $leads; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $lead): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <tr>
-                                                <td>
-                                                    <span class="budget"><b><?php echo e(ucfirst($lead->leadname)); ?></b></span>
-                                                </td>
                                                 <!-- <td>
-                                                <a href="#" data-size="md" data-url="<?php echo e(route('lead.info',urlencode(encrypt($lead->id)))); ?>" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('Lead Details')); ?>" title="<?php echo e(__('Lead Details')); ?>"  class="action-item text-primary">
-                                                <?php echo e(ucfirst($lead->name)); ?>
-
+                                                    <span class="budget"><b><?php echo e(ucfirst($lead->leadname)); ?></b></span>
+                                                </td> -->
+                                                <td>
+                                                <a href="#" data-size="md" data-url="<?php echo e(route('lead.info',urlencode(encrypt($lead->id)))); ?>" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('Lead Details')); ?>" title="<?php echo e(__('Lead Details')); ?>"  class="action-item text-primary" style="color:#1551c9 !important;">
+                                               <b> <?php echo e(ucfirst($lead->name)); ?></b>
                                                         </a>
                                                   
-                                                </td> -->
+                                                </td>
                                                 <td>
                                                     <span class="budget"><?php echo e($lead->email); ?></span>
                                                 </td>
