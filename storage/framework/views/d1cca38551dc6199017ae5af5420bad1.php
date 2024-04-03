@@ -44,7 +44,7 @@
                 <?php endif; ?>
                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Role')): ?>
                 <a href="#role-settings" class="list-group-item list-group-item-action border-0">
-                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-cog"></i></span>
+                    <span class="fa-stack fa-lg pull-left"><img src="<?php echo e(asset('icons/user.png')); ?>" alt="" style="    width: 22px;"></span>
                     <span class="dash-mtext"><?php echo e(__('Role Settings')); ?></span>
                 </a>
                 <?php endif; ?>
@@ -55,11 +55,11 @@
                 </a>
 
                 <a href="#venue-settings" class="list-group-item list-group-item-action border-0">
-                    <span class="fa-stack fa-lg pull-left"><i class="fa-solid fa-location-dot"></i></span>
+                    <span class="fa-stack fa-lg pull-left"><img src="<?php echo e(asset('icons/location.png')); ?>" alt="" style="    width: 22px;"></span>
                     <span class="dash-mtext"><?php echo e(__('Venue Settings')); ?></span>
                 </a>
                 <a href="#function-settings" class="list-group-item list-group-item-action border-0">
-                    <span class="fa-stack fa-lg pull-left"><i class="fa-solid fa-pot-food"></i></span>
+                    <span class="fa-stack fa-lg pull-left"><img src="<?php echo e(asset('icons/restaurant.png')); ?>" alt="" style="    width: 22px;"></span>
                     <span class="dash-mtext"><?php echo e(__('Function Settings')); ?></span>
                 </a>
                 <a href="#bar-settings" class="list-group-item list-group-item-action border-0">
@@ -67,7 +67,7 @@
                     <span class="dash-mtext"><?php echo e(__('Bar Settings')); ?></span>
                 </a>
                 <a href="#floor-plan-setting" class="list-group-item list-group-item-action border-0">
-                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-cog"></i></span>
+                    <span class="fa-stack fa-lg pull-left"><img src="<?php echo e(asset('icons/roadmap.png')); ?>" alt="" style="    width: 22px;"></span>
                     <span class="dash-mtext"><?php echo e(__('Setup Settings')); ?></span>
                 </a>
                 <?php endif; ?>
@@ -79,19 +79,19 @@
                 <?php endif; ?>
                 <?php if(\Auth::user()->type == 'owner'): ?>
                 <a href="#buffer-settings" class="list-group-item list-group-item-action border-0">
-                    <span class="fa-stack fa-lg pull-left"><i class="fa-brands fa-buffer"></i></span>
+                    <span class="fa-stack fa-lg pull-left"><img src="<?php echo e(asset('icons/loading.png')); ?>" alt="" style="    width: 22px;"></span>
                     <span class="dash-mtext"><?php echo e(__('Buffer Settings')); ?></span>
                 </a>
                 <a href="#add-signature" class="list-group-item list-group-item-action border-0">
-                    <span class="fa-stack fa-lg pull-left"><i class="fa-solid fa-signature"></i></span>
+                    <span class="fa-stack fa-lg pull-left"><img src="<?php echo e(asset('icons/signature.png')); ?>" alt="" style="    width: 22px;"></span>
                     <span class="dash-mtext"><?php echo e(__('Authorised Signature')); ?></span>
                 </a>
                 <a href="#campaign-type" class="list-group-item list-group-item-action border-0">
-                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-cog"></i></span>
+                    <span class="fa-stack fa-lg pull-left"><img src="<?php echo e(asset('icons/marketing.png')); ?>" alt="" style="    width: 22px;"></span>
                     <span class="dash-mtext"><?php echo e(__('Campaign Type')); ?></span>
                 </a>
                 <a href="#additional-settings" class="list-group-item list-group-item-action border-0">
-                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-cog"></i></span>
+                    <span class="fa-stack fa-lg pull-left"><img src="<?php echo e(asset('icons/addition-thick-symbol.png')); ?>" alt="" style="    width: 22px;"></span>
                     <span class="dash-mtext"><?php echo e(__('Additional Settings')); ?></span>
                 </a>
                 <?php endif; ?>

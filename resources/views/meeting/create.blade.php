@@ -67,19 +67,19 @@ $bar_package = json_decode($setting['barpackage'],true);
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="card-body">
+                        <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
                                     {{Form::label('Select Existing Lead/New Event',__('Select Existing Lead/New Event'),['class'=>'form-label']) }}
                                     <div class="form-group">
-                                        {{ Form::radio('newevent',__('Existing Lead'),false) }}
+                                        {{ Form::radio('newevent',__('Existing Lead'),true) }}
                                         {{ Form::label('newevent','Existing Lead') }}
                                         {{ Form::radio('newevent',__('New Event'),false) }}
                                         {{ Form::label('newevent','New Event') }}
                                     </div>
                                 </div>
                             </div>
-                        </div> -->
+                        </div>
                         <div id="event_option" >
                             {{ Form::open(['url' => 'meeting', 'method' => 'post', 'enctype' => 'multipart/form-data','id'=>'formdata'] )  }}
                             <div id="useradd-1" class="card">
@@ -719,7 +719,6 @@ document.getElementById('opencontact').addEventListener('click', function(event)
 $(document).ready(function() {
     $('input[name="uploadedImage"]').change(function() {
         $('.floorimages').removeClass('selected-image');
-
         if ($(this).is(':checked')) {
             var imageId = $(this).attr('id');
             $('label[for="' + imageId + '"] img').addClass('selected-image');

@@ -1,3 +1,6 @@
+<?php   
+$event = App\Models\Meeting::find($id);
+?>
 <div class="row">
     <div class="col-lg-12">
         <div id="notification" class="alert alert-success mt-1">Link copied to clipboard!</div>
@@ -5,20 +8,19 @@
             <dl class="row">
                 <dt class="col-md-6"><span class="h6 text-md mb-0"><?php echo e(__('Name')); ?></span></dt>
                 <dd class="col-md-6">
-                    <input type="text" name="name" class="form-control" value="">
+                    <input type="text" name="name" class="form-control" value="<?php echo e($event->name); ?>">
                 </dd>
                 <dt class="col-md-6"><span class="h6 text-md mb-0"><?php echo e(__('Email')); ?></span></dt>
                 <dd class="col-md-6">
-                    <input type="text" name="email" class="form-control" value="">
+                    <input type="text" name="email" class="form-control" value="<?php echo e($event->email); ?>">
                 </dd>
             </dl>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success" data-toggle="tooltip" onclick="getDataUrlAndCopy(this)"
-                    title='Copy To Clipboard'>
+                data-url="<?php echo e(route('billing.getpaymentlink',urlencode(encrypt($id)))); ?>"   title='Copy To Clipboard'>
                     <i class="ti ti-copy"></i>
                 </button>
-                <?php echo e(Form::submit(__('Share via mail'),array('class'=>'btn btn-primary'))); ?>
-
+                <!-- <?php echo e(Form::submit(__('Share via mail'),array('class'=>'btn btn-primary'))); ?> -->
             </div>
         </div>
         <?php echo e(Form::close()); ?>

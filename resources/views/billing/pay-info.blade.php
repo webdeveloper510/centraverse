@@ -3,7 +3,7 @@
 $bill = App\Models\Billing::where('event_id',$event->id)->first();
 $pay = App\Models\PaymentLogs::where('event_id',$event->id)->get();
 $paymentinfo = App\Models\PaymentInfo::where('event_id',$event->id)->orderBy('id', 'desc')->first();
-$aaaa = App\Models\PaymentInfo::where('event_id',$event->id)->get();
+$info = App\Models\PaymentInfo::where('event_id',$event->id)->get();
 $total = 0;
 foreach($pay as $p){
 $total += $p->amount;
@@ -114,25 +114,25 @@ $total += $p->amount;
 <div class="row">
     <div class="col-md-12">
         <dt class="col-md-6"><span class="h6  mb-0">{{__(' Amount')}}</span></dt>
-        <dd class="col-md-6"><span class="">${{ $paymentinfo->amount }}</span></dd>
+        <dd class="col-md-6">
+            <span>${{ isset($paymentinfo->amount) $paymentinfo->amount : $event->total }}</span></dd>
         <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('Status')}}</span></dt>
         <dd class="col-md-6"><span class="text-md">
-                @if($bill->status == 4)
-                <span
-                    class="badge bg-success p-2 px-3 rounded">{{__(\App\Models\Billing::$status[$bill->status]) }}</span>
-                @endif
+        @if($bill->status == 4)
+        <span class="badge bg-success p-2 px-3 rounded">{{__(\App\Models\Billing::$status[$bill->status]) }}</span>
+        @endif
         </dd>
+        @if(isset($info) && !empty($info))
         <table class="table">
             <thead>
                 <th>Date</th>
                 <th>Mode Of Payment</th>
-                <!-- <th>Amount Paid</th> -->
                 <th>Late Fee</th>
                 <th>Adjustments</th>
             </thead>
             <tbody>
                 <tr>
-                    @foreach($aaaa as $a)
+                    @foreach($info as $a)
                     <td>{{ \Auth::user()->dateFormat($paymentinfo->created_at)}}</td>
                     <td>{{ $paymentinfo->modeofpayment }}</td>
                     <!-- <td></td> -->
@@ -142,7 +142,7 @@ $total += $p->amount;
                 </tr>
             </tbody>
         </table>
-       
+@endif
     </div>
 </div>
 @endif
@@ -155,7 +155,6 @@ jQuery(function() {
     var latefee = parseFloat($("input[name='latefee']").val()) || 0;
     var adjustments = parseFloat($("input[name='adjustments']").val()) || 0;
     var amountpaid = parseFloat($("input[name='amountpaid']").val()) || 0;
-
     var balance = amount - deposits + latefee - adjustments - amountpaid;
     var amounttobepaid = amount - deposits + latefee - adjustments;
     $("input[name='balance']").val(<?php echo $total - $event->total;?>);

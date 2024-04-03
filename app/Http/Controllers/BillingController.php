@@ -256,4 +256,9 @@ class BillingController extends Controller
     public function paymentlink($id){
         return view('billing.paylink',compact('id'));
     }
+    public function getpaymentlink($id){
+        $id = decrypt(urldecode($id));
+        $event = Meeting::where('id',$id)->first();
+        return view('payments.pay',compact('event'));
+    }
 }

@@ -49,7 +49,7 @@
                       </div>
                       <div class="col-md-6">
                         <label>Amount</label>
-                        <input type="number" name="amount" class="form-control" value="{{$balance}}">
+                        <input type="number" name="amount" class="form-control" value="{{ isset($balance) ? $balance : ($event->total - $total) }}">
                       </div>
 </div>
                     <div class="row form-group">

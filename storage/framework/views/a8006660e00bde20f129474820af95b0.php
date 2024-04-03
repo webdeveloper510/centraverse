@@ -462,7 +462,7 @@ function enablecookie() {
                 <div class="row">
                     <div class="col-lg-12">
                         <?php if(\Auth::user()->type == 'owner'): ?>
-                        <div id="brand-settings" class="card">
+                        <!-- <div id="brand-settings" class="card">
                             <div class="card-header">
                                 <h5><?php echo e(__('Brand Settings')); ?></h5>
                                 <small class="text-muted"><?php echo e(__('Edit your brand details')); ?></small>
@@ -836,7 +836,7 @@ unset($__errorArgs, $__bag); ?>
                             </div>
                             <?php echo e(Form::close()); ?>
 
-                        </div>  
+                        </div>   -->
                         <div id="company-email-setting" class="card">
                             <div class="card-header">
                                 <h5><?php echo e(__('Email Settings')); ?></h5>

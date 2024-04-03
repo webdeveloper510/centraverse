@@ -137,7 +137,7 @@ $total += $p->amount;
 <div class="row">
     <div class="col-md-12">
         <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__(' Amount')); ?></span></dt>
-        <dd class="col-md-6"><span class="">$<?php echo e($paymentinfo->amount); ?></span></dd>
+        <dd class="col-md-6"><span class="">$<?php echo e(isset($paymentinfo->amount)? $paymentinfo->amount : $event->total); ?></span></dd>
         <dt class="col-md-6"><span class="h6 text-md mb-0"><?php echo e(__('Status')); ?></span></dt>
         <dd class="col-md-6"><span class="text-md">
                 <?php if($bill->status == 4): ?>
@@ -165,38 +165,7 @@ $total += $p->amount;
                 </tr>
             </tbody>
         </table>
-        <!-- <dl class="row">
-                <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Name')); ?></span></dt>
-                <dd class="col-md-6"><span class=""><?php echo e($event->eventname); ?></span></dd>
-
-                <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Mode Of Payment')); ?></span></dt>
-                <dd class="col-md-6"><span class=""><?php echo e($paymentinfo->modeofpayment); ?></span></dd>
-                
-                <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__(' Amount')); ?></span></dt>
-                <dd class="col-md-6"><span class="">$<?php echo e($paymentinfo->amount); ?></span></dd>
-                
-                <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Deposits On file')); ?></span></dt>
-                <dd class="col-md-6"><span class="">$<?php echo e($paymentinfo->deposits); ?></span></dd>
-            
-                <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Adjustments')); ?></span></dt>
-                <dd class="col-md-6"><span class="">$<?php echo e($paymentinfo->adjustments); ?></span></dd>
-
-                <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Late Fee')); ?></span></dt>
-                <dd class="col-md-6"><span class="">$<?php echo e($paymentinfo->latefee); ?></span></dd>
-
-                <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Total Amount')); ?></span></dt>
-                <dd class="col-md-6"><span class="">$<?php echo e($paymentinfo->amounttobepaid); ?></span></dd>
-
-                <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Date')); ?></span></dt>
-                <dd class="col-md-6"><span class=""><?php echo e(\Auth::user()->dateFormat($paymentinfo->created_at)); ?></span></dd>
-
-                <dt class="col-md-6"><span class="h6 text-md mb-0"><?php echo e(__('Status')); ?></span></dt>
-                <dd class="col-md-6"><span class="text-md">
-                    <?php if($bill->status == 4): ?>
-                        <span class="badge bg-success p-2 px-3 rounded"><?php echo e(__(\App\Models\Billing::$status[$bill->status])); ?></span>
-                <?php endif; ?>
-                </dd>
-            </dl> -->
+       
     </div>
 </div>
 <?php endif; ?>
