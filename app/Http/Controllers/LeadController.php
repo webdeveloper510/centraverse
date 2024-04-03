@@ -131,15 +131,15 @@ class LeadController extends Controller
                     $bar_pack[$newKey] = $values;
                 }
             }
+            
             $package = json_encode($package);
             $additional = json_encode($additional);
             $bar_pack = json_encode($bar_pack);
-
-
+           
             $lead                       = new Lead();
             $lead['user_id']            = Auth::user()->id;
             $lead['name']               = $request->name;
-            $lead['leadname']          = $request->lead_name;
+            $lead['leadname']           = $request->lead_name;
             $lead['assigned_user']      = $request->user;
             $lead['email']              = $request->email ?? '';
             $lead['phone']              = $request->phone;
@@ -151,20 +151,21 @@ class LeadController extends Controller
             $lead['type']               = $request->type;
             $lead['venue_selection']    = isset($request->venue)?implode(',',$request->venue) :'';
             $lead['function']           = isset($request->function)? implode(',',$request->function) :'';
-            $lead['func_package']       = $package ?? '';
+            $lead['func_package']       = isset($package) && (!empty($package)) ? $package : '';
             $lead['guest_count']        = $request->guest_count ?? 0;
             $lead['description']        = $request->description;
             $lead['spcl_req']           = $request->spcl_req;
             $lead['allergies']          = $request->allergies;
             $lead['start_time']         = $request->start_time ?? '';
             $lead['end_time']           = $request->end_time ?? '';
-            $lead['bar']                =   $request->baropt;
-            $lead['bar_package']         = $bar_pack  ?? '';
-            $lead['ad_opts']             = $additional  ?? '';
+            $lead['bar']                = $request->baropt;
+            $lead['bar_package']        = isset($bar_pack) && !empty($bar_pack) ? $bar_pack : '';
+            $lead['ad_opts']            = isset($additional) && !empty($additional) ? $additional : '';
             $lead['rooms']              = $request->rooms ?? 0;
-            $lead['lead_status']  = ($request->is_active == 'on') ? 1 : 0;
+            $lead['lead_status']        = ($request->is_active == 'on') ? 1 : 0;
             $lead['created_by']         = \Auth::user()->creatorId();
             $lead->save();
+
             $existingcustomer = MasterCustomer::where('email',$lead->email)->first();
             if(!$existingcustomer){
                 $customer = new MasterCustomer();
@@ -190,8 +191,7 @@ class LeadController extends Controller
             $uArr = [
                 'lead_name' => $lead->name,
                 'lead_email' => $lead->email,
-                // 'lead_assign_user' => $Assign_user_phone->name,
-            ];
+             ];
             // $resp = Utility::sendEmailTemplate('lead_assigned', [$lead->id => $Assign_user_phone->email], $uArr);
             if (isset($setting['twilio_lead_create']) && $setting['twilio_lead_create'] == 1) {
                 $uArr = [
@@ -727,25 +727,8 @@ class LeadController extends Controller
     }
     public function uploaded_docs($id){
         $docs = LeadDoc::where('lead_id',$id)->get();
-        // foreach($docs as $doc){
-        //     $folder = $doc->filepath;
-        //     if (Storage::disk('public')->exists($folder)) {
-        //         // File exists
-        //         echo "File exists.";
-                return view('lead.viewdocument',compact('docs'));
-            // } else {
-            //     // File doesn't exist
-            //     echo "File doesn't exist.";
-            // }
+        return view('lead.viewdocument',compact('docs'));
 
-            // if (count($files) > 0) {
-            //     // Folder is not empty
-            //     echo "Folder contains files.";
-            // } else {
-            //     // Folder is empty
-            //     echo "Folder is empty.";
-            // }
-        // }
     }
     public function status(Request $request){
         $id = $request->id;

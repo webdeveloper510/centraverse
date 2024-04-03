@@ -23,9 +23,8 @@
                     <td> No </td>
                     @endif
                     <td>
-                        
                         <div class="action-btn bg-info ms-2" style="float: right;">
-                            <a href="#" data-size="md" data-url="{{ route('lead.uploads',$lead->id) }}"
+                            <a href="#" data-size="md" data-url="{{route('lead.uploads',$lead->id)}}"
                                 data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{ __('Upload Document') }}"
                                 title="{{ __('Upload Document') }}"
                                 class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
@@ -34,7 +33,7 @@
                         </div>
                         @if(App\Models\LeadDoc::where('lead_id',$lead->id)->exists())
                         <div class="action-btn bg-warning ms-2" style="float: right;">
-                        <a href="#" data-size="md" data-url="{{ route('lead.uploaded_docs',$lead->id) }}"
+                            <a href="#" data-size="md" data-url="{{ route('lead.uploaded_docs',$lead->id) }}"
                                 data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{ __('View Document') }}"
                                 title="{{ __(' View Documents') }}"
                                 class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
@@ -42,9 +41,9 @@
                             </a>
                         </div>
                         @endif
-                        @if(!App\Models\Meeting::where('attendees_lead',$lead->id)->exists())
+                        @if(!App\Models\Meeting::where('attendees_lead',$lead->id)->exists() && $lead->status == 2)
                         <div class="action-btn bg-secondary ms-2" style="    float: right;">
-                            <a href="{{ route('meeting.create',['meeting',0]) }}" data-size="md" data-url="#"
+                            <a href="{{ route('meeting.create',['meeting',0]) }}?lead={{urlencode(encrypt($lead->id)) }}" data-size="md" data-url="#" data-id = "{{$lead->id}}"
                                 data-bs-toggle="tooltip" data-title="{{ __('Convert') }}"
                                 title="{{ __('Convert To Event') }}"
                                 class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
@@ -107,7 +106,6 @@
                             echo "<td>".$amount->amounttobepaid - $amountpaid."</td>";
                             echo "</tr>";
                         }
-                        
                     }
                 ?>
                 @endforeach

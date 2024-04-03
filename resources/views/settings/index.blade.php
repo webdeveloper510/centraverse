@@ -452,7 +452,6 @@ function enablecookie() {
 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Home') }}</a></li>
 <li class="breadcrumb-item">{{ __('Settings') }}</li>
 @endsection
-
 @section('content')
 <div class="container-field">
     <div id="wrapper">
@@ -461,7 +460,7 @@ function enablecookie() {
                 <div class="row">
                     <div class="col-lg-12">
                         @if (\Auth::user()->type == 'owner')
-                        <!-- <div id="brand-settings" class="card">
+                         <!-- <div id="brand-settings" class="card">
                             <div class="card-header">
                                 <h5>{{ __('Brand Settings') }}</h5>
                                 <small class="text-muted">{{ __('Edit your brand details') }}</small>
@@ -822,7 +821,7 @@ function enablecookie() {
                                 {{ Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary']) }}
                             </div>
                             {{ Form::close() }}
-                        </div>   -->
+                        </div>   
                         <div id="company-email-setting" class="card">
                             <div class="card-header">
                                 <h5>{{ __('Email Settings') }}</h5>
@@ -965,7 +964,7 @@ function enablecookie() {
                                 </div>
                             </div>
                             {{ Form::close() }}
-                        </div>
+                        </div> -->
                         <div id="twilio-settings" class="card">
                             <div class="card-header">
                                 <h5>{{ __('Twilio Settings') }}</h5>

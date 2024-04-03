@@ -112,7 +112,6 @@ function display_count() {
                 initialView: 'dayGridMonth',
                 eventDisplay: 'block',
                 select: function(start, end, allDay, info) {
-
                     var selectedStartDate = start.startStr;
                     var selectedEndDate = start.endStr;
                     var formattedStartDate = moment(selectedStartDate).format(
