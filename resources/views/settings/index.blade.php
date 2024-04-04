@@ -1709,6 +1709,7 @@ function enablecookie() {
                                     @csrf
 
                                     <div class="row cst-border">
+                                        @if(isset($venue) && !empty($venue))
                                         <div class="col-sm-6 venue">
                                             <table class="table table-responsive table-bordered" style="width:100%">
                                                 <tr>
@@ -1727,6 +1728,8 @@ function enablecookie() {
                                                 @endforeach
                                             </table>
                                         </div>
+                                        @endif
+                                        @if(isset($function) && !empty($function))
                                         <div class="col-sm-6 function">
                                             <table class="table table-responsive table-bordered" style="width:100%">
                                                 <tr>
@@ -1752,6 +1755,8 @@ function enablecookie() {
                                                 @endforeach
                                             </table>
                                         </div>
+                                        @endif
+                                        @if(isset($bar) && !empty($bar))
                                         <div class="col-sm-6 bar mt-3">
                                             <table class="table table-responsive table-bordered" style="width:100%">
                                                 <tr>
@@ -1777,6 +1782,7 @@ function enablecookie() {
                                                 @endforeach
                                             </table>
                                         </div>
+                                        @endif
                                         <div class="col-sm-6 equipment">
                                             <div class="form-group">
                                                 {{ Form::label('equipment', __('Equipment'), ['class' => 'form-label']) }}
@@ -4746,7 +4752,7 @@ $('.barnmes').click(function() {
 $(document).ready(function() {
     $("select#additional_function").change(function() {
         let val = $(this).val();
-        const functionData = <?= json_encode($function) ?>[val];
+        const functionData = <?= (isset($function) && !empty($function)) ? json_encode($function) : 'null' ?>[val];
         let packages = functionData.package;
         $('#additional_packages_checkboxes').empty();
         $.each(packages, function(index, package) {

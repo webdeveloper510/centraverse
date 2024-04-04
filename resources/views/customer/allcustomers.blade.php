@@ -28,14 +28,14 @@
                                                 <th scope="col" class="sort" data-sort="name">{{__('Name')}}</th>
                                                 <th scope="col" class="sort" data-sort="budget">{{__('Email')}}</th>
                                                 <th scope="col" class="sort">{{__('Phone')}}</th>
-                                                <th scope="col" class="sort">{{__('Address')}}</th>            
+                                                <th scope="col" class="sort">{{__('Address')}}</th>
                                                 <th scope="col" class="sort">{{__('Category')}}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach($allcustomers as $customers)
                                             <tr>
-                                                <td>{{ucfirst($customers->name)}}</td>
+                                            <td>  {{ ucfirst($customers->name) }}</td>
                                                 <td>{{ucfirst($customers->email)}}</td>
                                                 <td>{{ucfirst($customers->phone)}}</td>
                                                 <td>{{ucfirst($customers->address)}}</td>
@@ -44,7 +44,15 @@
                                             @endforeach
                                             @foreach($importedcustomers as $customers)
                                             <tr>
-                                                <td>{{ucfirst($customers->name)}}</td>
+                                                <td> {{ucfirst($customers->name)}}
+                                                    <!-- <a href="#" data-size="md" data-url="{{route('importcustomerview',$customers->id)}}"
+                                                    data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('User Details')}}"  
+                                                        title="{{ __('User Details') }}"
+                                                        class="action-item text-primary"
+                                                        style="color:#1551c9 !important;">
+                                                        <b> {{ ucfirst($customers->name) }}</b>
+                                                    </a> -->
+                                                </td>
                                                 <td>{{ucfirst($customers->email)}}</td>
                                                 <td>{{ucfirst($customers->phone)}}</td>
                                                 <td>{{ucfirst($customers->address)}}</td>

@@ -670,6 +670,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 </script>
 <script>
 $(document).ready(function() {
+    
     //$('input[name=newevent]').prop('checked', false);
     $('input[name="newevent"]').on('click', function() {
         $('#lead_select').hide();

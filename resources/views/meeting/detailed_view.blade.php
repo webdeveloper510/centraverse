@@ -1,13 +1,18 @@
 <?php 
-$package = json_decode($event->func_package,true);
-$additional = json_decode($event->ad_opts,true);
+if(isset($event->func_package) && !empty($event->func_package)){
+    $package = json_decode($event->func_package,true);
+}
+if(isset($event->ad_opts) && !empty($event->ad_opts)){
+    $additional = json_decode($event->ad_opts,true);
+}
 if(isset($event->bar_package) && !empty($event->bar_package)){
     $bar = json_decode($event->bar_package,true);
 }
+$payments = App\Models\PaymentLogs::where('event_id',$event->id)->get();
+
 ?>
 <div class="row">
     <div class="col-lg-12">
-        <!-- <div class=""> -->
         <dl class="row">
             <dt class="col-md-6"><span class="h6  mb-0">{{__('Event')}}</span></dt>
             @if($event->attendees_lead != 0)
@@ -20,11 +25,12 @@ if(isset($event->bar_package) && !empty($event->bar_package)){
             <dt class="col-md-6"><span class="h6  mb-0">{{__('Event Type')}}</span></dt>
             <dd class="col-md-6"><span class="">{{$event->type}}</span></dd>
 
-            <dt class="col-md-6"><span class="h6  mb-0">{{__('Start Date')}}</span></dt>
+            <dt class="col-md-6"><span class="h6  mb-0">{{__('Date')}}</span></dt>
+            @if($event->start_date == $event->end_date)
             <dd class="col-md-6"><span class="">{{\Auth::user()->dateFormat($event->start_date)}}</span></dd>
-
-            <dt class="col-md-6"><span class="h6  mb-0">{{__('End Date')}}</span></dt>
-            <dd class="col-md-6"><span class="">{{\Auth::user()->dateFormat($event->end_date)}}</span></dd>
+            @else
+            <dd class="col-md-6"><span class="">{{\Auth::user()->dateFormat($event->start_date)}} - {{\Auth::user()->dateFormat($event->end_date)}}</span></dd>
+            @endif
 
             <dt class="col-md-6"><span class="h6  mb-0">{{__('Time')}}</span></dt>
             <dd class="col-md-6"><span class="">{{date('h:i A', strtotime($event->start_time))}} -
@@ -35,7 +41,7 @@ if(isset($event->bar_package) && !empty($event->bar_package)){
 
             <dt class="col-md-6"><span class="h6  mb-0">{{__('Venue')}}</span></dt>
             <dd class="col-md-6"><span class="">{{$event->venue_selection}}</span></dd>
-            
+
             <dt class="col-md-6"><span class="h6  mb-0">{{__('Room')}}</span></dt>
             <dd class="col-md-6"><span class="">@if($event->room != 0){{$event->room}}@else -- @endif</span></dd>
             @if(isset($package) && !empty($package))
@@ -71,11 +77,7 @@ if(isset($event->bar_package) && !empty($event->bar_package)){
             <hr>
             <img src="{{$event->floor_plan}}" alt="">
         </dl>
-
-        <!-- </div> -->
-
     </div>
-
     @php
     $files = Storage::files('app/public/Event/'.$event->id);
     @endphp
@@ -93,11 +95,11 @@ if(isset($event->bar_package) && !empty($event->bar_package)){
 
                     <!-- Display preview if it's a PDF -->
                     @if (pathinfo($file, PATHINFO_EXTENSION) === 'pdf')
-                    <img src="{{ asset('extension_img/images.png') }}" alt="File"
+                    <img src="{{ asset('extension_img/pdf.png') }}" alt="File"
                         style="max-width: 100px; max-height: 150px;">
                     <!-- <iframe src="{{ Storage::url($file) }}" width="50%" height="300px"></iframe> -->
                     @else
-                    <img src="{{ asset('extension_img/images.png') }}" alt="File"
+                    <img src="{{ asset('extension_img/doc.png') }}" alt="File"
                         style="max-width: 100px; max-height: 150px;">
                     <!-- Placeholder icon for non-PDF files -->
                     @endif
@@ -112,7 +114,36 @@ if(isset($event->bar_package) && !empty($event->bar_package)){
         </div>
         @endif
     </div>
+    <hr>
+    <div class="row">
+    <div class="col-12  p-0 modaltitle pb-3 mb-3 mt-3">
+        <h5 style="margin-left: 14px;">{{ __('Billing Details') }}</h5>
+    </div>
+    @if(isset($payments) && !empty($payments))
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Created On</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Transaction Id</th>
+                        <th scope="col">Amount</th>
+                        <!-- <th scope="col">Converted events</th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach($payments as $payment)
+                    <td>{{Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $payment->created_at)->format('M d, Y')}}</td>
+                    <td>{{$payment->name_of_card}}</td>
+                    <td>{{$payment->transaction_id}}</td>
+                    <td>{{$payment->amount}}</td>
+                @endforeach
 
+                </tbody>
+            </table>
+        </div>
+    @endif
+    </div>
 </div>
 
 </div>

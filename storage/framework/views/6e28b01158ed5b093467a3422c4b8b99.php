@@ -454,7 +454,6 @@ function enablecookie() {
 <li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Home')); ?></a></li>
 <li class="breadcrumb-item"><?php echo e(__('Settings')); ?></li>
 <?php $__env->stopSection(); ?>
-
 <?php $__env->startSection('content'); ?>
 <div class="container-field">
     <div id="wrapper">
@@ -1785,6 +1784,7 @@ unset($__errorArgs, $__bag); ?>
                                     <?php echo csrf_field(); ?>
 
                                     <div class="row cst-border">
+                                        <?php if(isset($venue) && !empty($venue)): ?>
                                         <div class="col-sm-6 venue">
                                             <table class="table table-responsive table-bordered" style="width:100%">
                                                 <tr>
@@ -1803,6 +1803,8 @@ unset($__errorArgs, $__bag); ?>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </table>
                                         </div>
+                                        <?php endif; ?>
+                                        <?php if(isset($function) && !empty($function)): ?>
                                         <div class="col-sm-6 function">
                                             <table class="table table-responsive table-bordered" style="width:100%">
                                                 <tr>
@@ -1829,6 +1831,8 @@ unset($__errorArgs, $__bag); ?>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </table>
                                         </div>
+                                        <?php endif; ?>
+                                        <?php if(isset($bar) && !empty($bar)): ?>
                                         <div class="col-sm-6 bar mt-3">
                                             <table class="table table-responsive table-bordered" style="width:100%">
                                                 <tr>
@@ -1855,6 +1859,7 @@ unset($__errorArgs, $__bag); ?>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </table>
                                         </div>
+                                        <?php endif; ?>
                                         <div class="col-sm-6 equipment">
                                             <div class="form-group">
                                                 <?php echo e(Form::label('equipment', __('Equipment'), ['class' => 'form-label'])); ?>
@@ -5003,7 +5008,7 @@ $('.barnmes').click(function() {
 $(document).ready(function() {
     $("select#additional_function").change(function() {
         let val = $(this).val();
-        const functionData = <?= json_encode($function) ?>[val];
+        const functionData = <?= (isset($function) && !empty($function)) ? json_encode($function) : 'null' ?>[val];
         let packages = functionData.package;
         $('#additional_packages_checkboxes').empty();
         $.each(packages, function(index, package) {

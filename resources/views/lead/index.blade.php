@@ -1,15 +1,15 @@
 @extends('layouts.admin')
 @section('page-title')
-{{__('Lead')}}
+{{__('Leads')}}
 @endsection
 @section('title')
 <div class="page-header-title">
-    {{__('Lead')}}
+    {{__('Leads')}}
 </div>
 @endsection
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{__('Home')}}</a></li>
-<li class="breadcrumb-item">{{__('Lead')}}</li>
+<li class="breadcrumb-item">{{__('Leads')}}</li>
 @endsection
 @section('action-btn')
 @can('Create Lead')

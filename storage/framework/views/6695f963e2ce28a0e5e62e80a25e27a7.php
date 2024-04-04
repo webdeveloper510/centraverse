@@ -4,11 +4,11 @@
         <!-- Assuming $folder and $filename are passed to the view -->
         <?php if(Storage::disk('public')->exists($doc->filepath)): ?>
         <?php if(pathinfo($doc->filepath, PATHINFO_EXTENSION) == 'pdf'): ?>
-        <img src="<?php echo e(asset('extension_img/pdf.png')); ?>" style=" width: 5%;
-            height: 15%;">
+        <img src="<?php echo e(asset('extension_img/pdf.png')); ?>" style="    width: 10%;
+    height: auto;">
         <?php else: ?>
-        <img src="<?php echo e(asset('extension_img/doc.png')); ?>" style=" width: 5%;
-            height: 15%;">
+        <img src="<?php echo e(asset('extension_img/doc.png')); ?>" style="     width: 10%;
+    height: auto;">
         <?php endif; ?>
         <h6><?php echo e($doc->filename); ?></h6>
         <p><a href="<?php echo e(Storage::url('app/public/'.$doc->filepath)); ?>" download>Download File</a></p>

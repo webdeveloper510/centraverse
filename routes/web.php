@@ -980,8 +980,9 @@ Route::group(['middleware' => ['verified']], function () {
             Route::post('resend-campaign',[CustomerInformation::class,'resendcampaign'])->name('resend-campaign');
             Route::get('export-user', [CustomerInformation::class, 'exportuser'])->name('exportuser');
             Route::get('all-customers', [CustomerInformation::class, 'siteusers'])->name('siteusers');
-
-         
+            Route::get('event-customers', [CustomerInformation::class, 'event_customers'])->name('event_customers');
+            Route::get('lead-customers', [CustomerInformation::class, 'lead_customers'])->name('lead_customers');
+            Route::get('import-customers/{id}', [CustomerInformation::class, 'import_customers_view'])->name('importcustomerview');
         }
     );
     Route::get('/pay/{id}',[AuthorizeController::class,'pay'])->name('pay');

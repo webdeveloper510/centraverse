@@ -189,5 +189,7 @@ function display_count() {
         }
     })
 }
+
+
 </script>
 @endpush
