@@ -56,8 +56,8 @@
             <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Payment')): ?>
             <div class="action-btn bg-warning ms-2">
                 <a href="<?php echo e(route('billing.estimateview',urlencode(encrypt($event->id)))); ?>"> 
-                <button  data-bs-toggle="tooltip"title="<?php echo e(__('View Billing')); ?>" class="btn btn-sm btn-secondary btn-icon m-1">
-                <i class="ti ti-eye"></i></button>
+                <button  data-bs-toggle="tooltip"title="<?php echo e(__('View Invoice')); ?>" class="btn btn-sm btn-secondary btn-icon m-1">
+                <i class="fa fa-print"></i></button>
             </a>
             </div>
             <?php endif; ?>

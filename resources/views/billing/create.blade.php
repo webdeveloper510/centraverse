@@ -139,7 +139,7 @@ $meetingData['setup_cost'] = '';
     <div class="row form-group">
         <div class="col-md-12">
             <label class="form-label"> Deposit on file: </label>
-            <input type="number" name="deposits" min='0' class="form-control" required>
+            <input type="number" name="deposits" min='0' class="form-control">
         </div>
     
     </div>

@@ -6,7 +6,6 @@
                     <img src="<?php echo e($logo.'3_logo-light.png'); ?>" alt="<?php echo e(config('app.name', 'Centraverse')); ?>" class="logo logo-lg nav-sidebar-logo" height="50" />
                 </a>
             </div>
-
             <div class="scrollbar">
                 <?php if(\Request::route()->getName() == 'lead.review'): ?>
                 <a href="#useradd-1" class="list-group-item list-group-item-action border-0"><?php echo e(__('Review Lead')); ?>
@@ -105,15 +104,27 @@
                 <a href="#useradd-1" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Create Billing')); ?> </span></a>
-
                 <?php endif; ?>
-                <?php if(\Request::route()->getName() == 'userlist'): ?>
+                <?php if(\Request::route()->getName() == 'customer.index'): ?>
                 <a href="#useradd-1" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Campaign')); ?> </span></a>
                 <a href="<?php echo e(route('campaign-list')); ?>" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"></span>
                     <span class="dash-mtext"><?php echo e(__('View Campaigns')); ?> </span></a>
+                <?php endif; ?>
+                <?php if(\Request::route()->getName() == 'userlist'): ?>
+                <a href="#useradd-1" class="list-group-item list-group-item-action">
+                    <span class="fa-stack fa-lg pull-left"><i class="ti ti-user"></i></span>
+                    <span class="dash-mtext"><?php echo e(__('Customers')); ?> </span></a>
+                <a href="<?php echo e(route('siteusers')); ?>" class="list-group-item list-group-item-action">
+                    <span class="fa-stack fa-lg pull-left"></span>
+                    <span class="dash-mtext"><?php echo e(__('All Customers')); ?> </span></a>
+                <?php endif; ?>
+                <?php if(\Request::route()->getName() == 'siteusers'): ?>
+                <a href="#useradd-1" class="list-group-item list-group-item-action">
+                    <span class="fa-stack fa-lg pull-left"><i class="ti ti-users"></i></span>
+                    <span class="dash-mtext"><?php echo e(__('All Customers')); ?> </span></a>
                 <?php endif; ?>
                 <?php if(\Request::route()->getName() == 'campaign-list' ): ?>
                 <a href="#useradd-1" class="list-group-item list-group-item-action">

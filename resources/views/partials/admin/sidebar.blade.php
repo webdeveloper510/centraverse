@@ -6,7 +6,6 @@
                     <img src="{{$logo.'3_logo-light.png'}}" alt="{{ config('app.name', 'Centraverse') }}" class="logo logo-lg nav-sidebar-logo" height="50" />
                 </a>
             </div>
-
             <div class="scrollbar">
                 @if(\Request::route()->getName() == 'lead.review')
                 <a href="#useradd-1" class="list-group-item list-group-item-action border-0">{{ __('Review Lead') }}
@@ -104,15 +103,27 @@
                 <a href="#useradd-1" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
                     <span class="dash-mtext">{{ __('Create Billing') }} </span></a>
-
                 @endif
-                @if(\Request::route()->getName() == 'userlist')
+                @if(\Request::route()->getName() == 'customer.index')
                 <a href="#useradd-1" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
                     <span class="dash-mtext">{{ __('Campaign') }} </span></a>
                 <a href="{{route('campaign-list')}}" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"></span>
                     <span class="dash-mtext">{{ __('View Campaigns') }} </span></a>
+                @endif
+                @if(\Request::route()->getName() == 'userlist')
+                <a href="#useradd-1" class="list-group-item list-group-item-action">
+                    <span class="fa-stack fa-lg pull-left"><i class="ti ti-user"></i></span>
+                    <span class="dash-mtext">{{ __('Customers') }} </span></a>
+                <a href="{{route('siteusers')}}" class="list-group-item list-group-item-action">
+                    <span class="fa-stack fa-lg pull-left"></span>
+                    <span class="dash-mtext">{{ __('All Customers') }} </span></a>
+                @endif
+                @if(\Request::route()->getName() == 'siteusers')
+                <a href="#useradd-1" class="list-group-item list-group-item-action">
+                    <span class="fa-stack fa-lg pull-left"><i class="ti ti-users"></i></span>
+                    <span class="dash-mtext">{{ __('All Customers') }} </span></a>
                 @endif
                 @if(\Request::route()->getName() == 'campaign-list' )
                 <a href="#useradd-1" class="list-group-item list-group-item-action">

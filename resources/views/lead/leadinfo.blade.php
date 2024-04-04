@@ -15,7 +15,6 @@
                 @foreach($leads as $lead)
                 <tr>
                     <td>{{$lead->name}}</td>
-                    <!-- <td>{{$lead->email}}</td> -->
                     <td>{{$lead->phone}}</td>
                     <td>{{$lead->type}}</td>
                     @if(App\Models\Meeting::where('attendees_lead',$lead->id)->exists())
@@ -63,10 +62,13 @@
     </div>
     <div class="col-md-12">
         <h5>{{$lead->name}}</h5>
-        <p>{{$lead->phone}}</p>
-        <p>{{$lead->lead_address}}</p>
+        <div style="float:right" class="mb-3">
+        <b>Phone :</b> {{$lead->phone}}<br>
+<b>Address :</b> {{$lead->lead_address}}
     </div>
-
+        
+    </div>
+<hr>
     <div class="col-12  p-0 modaltitle pb-3 mb-3 mt-3">
         <h5 style="margin-left: 14px;">{{ __('Billing Details') }}</h5>
     </div>
@@ -94,7 +96,6 @@
                         
                             if(isset($lastpaid) && !empty($lastpaid)){
                             $amount = App\Models\PaymentInfo::where('event_id',$event->id)->first();
-                            // echo "<pre>";      print_r($amount);die;
                             $amountpaid = 0;
                             foreach($billing as $pay){
                                 $amountpaid += $pay->amount;

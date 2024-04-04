@@ -14,7 +14,6 @@ $campaign_type = explode(',',$settings['campaign_type'])
                     Customer</a>
             </li>
         </ul>
-
         <div class="tab-content">
             <div id="barmenu0" class="tab-pane fade in active show mt-5">
                 <?php echo e(Form::open(array('route'=>['importuser'],'method'=>'post','enctype'=>'multipart/form-data'))); ?>
@@ -127,10 +126,9 @@ $campaign_type = explode(',',$settings['campaign_type'])
         </div>
     </div>
 </div>
-
 <style>
-li:has(> a.active) {
-    border-color: #2980b9;
-    box-shadow: 0 0 15px rgba(41, 128, 185, 0.8);
-}
+    li:has(> a.active) {
+        border-color: #2980b9;
+        box-shadow: 0 0 15px rgba(41, 128, 185, 0.8);
+    }
 </style><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/customer/uploaduserinfo.blade.php ENDPATH**/ ?>

@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Crypt;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Mail\SendPdfEmail;
 use App\Mail\LeadWithrawMail;
+use App\Models\MasterCustomer;
 use Mail;
 use Str;
 use App\Models\LeadDoc;
@@ -86,6 +87,7 @@ class LeadController extends Controller
      */
     public function store(Request $request)
     {
+        
         if (\Auth::user()->can('Create Lead')) {
             $validator = \Validator::make(
                 $request->all(),
@@ -163,7 +165,16 @@ class LeadController extends Controller
             $lead['lead_status']  = ($request->is_active == 'on') ? 1 : 0;
             $lead['created_by']         = \Auth::user()->creatorId();
             $lead->save();
-          
+            $existingcustomer = MasterCustomer::where('email',$lead->email)->first();
+            if(!$existingcustomer){
+                $customer = new MasterCustomer();
+                $customer->name = $request->name;
+                $customer->email = $request->email;
+                $customer->phone = $request->phone;
+                $customer->address = $request->lead_address ?? '';
+                $customer->category = 'lead';
+                $customer->save();
+            }
             $uArr = [
                 'lead_name' => $lead->name,
                 'lead_email' => $lead->email,

@@ -32,8 +32,8 @@
                                     <table class="table datatable" id="datatable">
                                         <thead>
                                             <tr>
-                                                <th scope="col" class="sort" data-sort="name">{{__('Lead')}}</th>
-                                                <!-- <th scope="col" class="sort" data-sort="name">{{__('Name')}}</th> -->
+                                                <!-- <th scope="col" class="sort" data-sort="name">{{__('Lead')}}</th> -->
+                                                <th scope="col" class="sort" data-sort="name">{{__('Name')}}</th>
                                                 <th scope="col" class="sort" data-sort="budget">{{__('Email')}}</th>
                                                 <th scope="col" class="sort">{{__('Assigned Staff')}}</th>
                                                 <th scope="col" class="sort">{{__('Status')}}</th>
@@ -47,15 +47,15 @@
                                         <tbody>
                                             @foreach($leads as $lead)
                                             <tr>
-                                                <td>
-                                                    <span class="budget"><b>{{ ucfirst($lead->leadname)}}</b></span>
-                                                </td>
                                                 <!-- <td>
-                                                <a href="#" data-size="md" data-url="{{ route('lead.info',urlencode(encrypt($lead->id))) }}" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{ __('Lead Details') }}" title="{{ __('Lead Details') }}"  class="action-item text-primary">
-                                                {{ ucfirst($lead->name) }}
+                                                    <span class="budget"><b>{{ ucfirst($lead->leadname)}}</b></span>
+                                                </td> -->
+                                                <td>
+                                                <a href="#" data-size="md" data-url="{{ route('lead.info',urlencode(encrypt($lead->id))) }}" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{ __('Lead Details') }}" title="{{ __('Lead Details') }}"  class="action-item text-primary" style="color:#1551c9 !important;">
+                                               <b> {{ ucfirst($lead->name) }}</b>
                                                         </a>
                                                   
-                                                </td> -->
+                                                </td>
                                                 <td>
                                                     <span class="budget">{{ $lead->email }}</span>
                                                 </td>

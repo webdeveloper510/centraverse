@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lead;
+use App\Models\Meeting;
 use App\Models\Emailcontent;
 use App\Models\Utility;
 use Illuminate\Http\Request;
@@ -16,6 +17,7 @@ use App\Models\UserImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Campaigndata;
 use Twilio\Rest\Client;
+use App\Models\MasterCustomer;
 
 class CustomerInformation extends Controller
 {
@@ -193,6 +195,16 @@ class CustomerInformation extends Controller
             $UsersImports->category = $request->category;
             $UsersImports->status =  ($request->is_active == 'on') ? 0 : 1;
             $UsersImports->save();
+            // $existingcustomer = MasterCustomer::where('email',$request->email)->first();
+            // if(!$existingcustomer){
+            //     $customer = new MasterCustomer();
+            //     $customer->name = $request->name;
+            //     $customer->email = $request->email;
+            //     $customer->phone = $request->phone;
+            //     $customer->address = $request->lead_address ?? '';
+            //     $customer->category = $request->category;
+            //     $customer->save();
+            // }
             return redirect()->back()->with('success', 'Insert successfully');
         }
     }
@@ -293,5 +305,11 @@ class CustomerInformation extends Controller
                 }
             }
         }
+    }
+    public function siteusers(){
+       $allcustomers = MasterCustomer::all();
+       $importedcustomers = UserImport::distinct()->get();
+   
+        return view('customer.allcustomers',compact('allcustomers','importedcustomers'));
     }
 }
