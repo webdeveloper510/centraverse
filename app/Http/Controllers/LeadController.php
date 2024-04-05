@@ -474,10 +474,16 @@ class LeadController extends Controller
         }
     }
     public function proposal($id){
+    
+
         $decryptedId = decrypt(urldecode($id));
         $lead = Lead::find($decryptedId);
-        $fixed_cost = Billing::first();
+        // $fixed_cost = Billing::first();
         $settings = Utility::settings();
+        if(isset($settings['fixed_billing'])){
+            $fixed_cost= json_decode($settings['fixed_billing'],true);
+        }
+        // echo"<pre>";print_r($lead);die;
         $proposal = Proposal::where('lead_id',$decryptedId)->first();
         $data = [
                 'settings'=>$settings,
@@ -510,7 +516,9 @@ class LeadController extends Controller
                 ]
             );
             Mail::to($lead->email)->send(new SendPdfEmail($lead));
-            $upd = Lead::where('id',$id)->update(['proposal_status' => 1]);
+            // $upd = Lead::where('id',$id)->update(['proposal_status' => 1]);
+            $upd = Lead::where('id',$id)->update(['status' => 1]);
+
         } catch (\Exception $e) {
             //   return response()->json(
             //             [
@@ -540,7 +548,8 @@ class LeadController extends Controller
             $id = decrypt(urldecode($id));
             if(!empty($request->imageData)){
                 $image = $this->uploadSignature($request->imageData);
-                Lead::where('id',$id)->update(['proposal_status'=> 2,'status'=>1]);
+                Lead::where('id',$id)->update(['status'=>2]);
+                // Lead::where('id',$id)->update(['proposal_status'=> 2,'status'=>1]);
             }else{
                 return redirect()->back()->with('error',('Please Sign it for confirmation'));
             }
@@ -601,15 +610,18 @@ class LeadController extends Controller
         $venue_function = isset($request->venue) ? implode(',',$_REQUEST['venue']) :'';
         $function =  isset($request->function) ? implode(',',$_REQUEST['function']) :'';
           
-            if($request->status == 'Approve'){                
-                $status = 2;
-                $lead->proposal_status = 2;
+            if($request->status == 'Approve'){  
+                $status = 4;              
+                // $status = 2;
+                // $lead->proposal_status = 2;
             }elseif($request->status == 'Resend'){
-                $status = 0;
-                $lead->proposal_status = 1;
+                $status = 5;
+                // $status = 0;
+                // $lead->proposal_status = 1;
             }elseif($request->status == 'Withdraw'){
                 $status = 3;
-                $lead->proposal_status = 3;
+                // $status = 3;
+                // $lead->proposal_status = 3;
             }
             $data = [
                 'user_id'=> $request->user,
@@ -637,9 +649,9 @@ class LeadController extends Controller
             ];
             $lead->update($data);
 
-            if($status == 2){
+            if($status == 4){
                 return redirect()->back()->with('success', __('Lead  Approved.'));
-            }elseif($status == 0 ){
+            }elseif($status == 5 ){
                 Proposal::where('lead_id',$id)->delete();
                 try {
                     config(

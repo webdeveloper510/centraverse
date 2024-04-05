@@ -24,9 +24,9 @@ class Meeting extends Model
         'total','ad_opts'
     ];
     public static $status   = [
-        'In process',
-        'Waiting For Confirmation',
-        'Confirmed',
+        'Share Agreement',
+        'Waiting For Customer Confirmation',
+        'Customer Confirmed / Need Admin Approval',
         'Approved',
         'Resent',
         'Withdrawn'
@@ -39,32 +39,32 @@ class Meeting extends Model
         'opportunities' => 'Opportunities',
         'case' => 'Case',
     ];
-    public static  $function = [
-        'Breakfast',
-        'Brunch',
-        'Lunch',
-        'Dinner',
-        'Wedding'
-    ];
-    public static $breakfast = [
-        'Premium Breakfast',
-        'Classic Brunch',
-    ];
-    public static $lunch = [
-        'Hot Luncheon',
-        'Cold Luncheon',
-        'Barbecue',
-    ];
-    public static $dinner = [
-        'Adirondack Premium Dinner',
-        'Emerald Dinner',
-        'Elite Dinner'
-    ];
-    public static $wedding = [
-        'Premium Wedding',
-        'Elite Wedding',
-        'Plated Wedding Package'        
-    ];
+    // public static  $function = [
+    //     'Breakfast',
+    //     'Brunch',
+    //     'Lunch',
+    //     'Dinner',
+    //     'Wedding'
+    // ];
+    // public static $breakfast = [
+    //     'Premium Breakfast',
+    //     'Classic Brunch',
+    // ];
+    // public static $lunch = [
+    //     'Hot Luncheon',
+    //     'Cold Luncheon',
+    //     'Barbecue',
+    // ];
+    // public static $dinner = [
+    //     'Adirondack Premium Dinner',
+    //     'Emerald Dinner',
+    //     'Elite Dinner'
+    // ];
+    // public static $wedding = [
+    //     'Premium Wedding',
+    //     'Elite Wedding',
+    //     'Plated Wedding Package'        
+    // ];
    
     public function assign_user()
     {
@@ -79,12 +79,10 @@ class Meeting extends Model
     // {
     //     return $this->hasOne('App\Models\User', 'id', 'attendees_user');
     // }
-
     public function attendees_leads()
     {
         return $this->hasOne('App\Models\Lead', 'id', 'attendees_lead');
     }
-
     // public function getparent($type, $id)
     // {
     //     if($type == 'account')

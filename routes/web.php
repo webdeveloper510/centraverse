@@ -863,6 +863,10 @@ Route::group(['middleware' => ['verified']], function () {
             Route::get('report/invoiceanalytic', [ReportController::class, 'invoiceanalytic'])->name('report.invoiceanalytic');
             Route::get('report/salesorderanalytic', [ReportController::class, 'salesorderanalytic'])->name('report.salesorderanalytic');
             Route::get('report/quoteanalytic', [ReportController::class, 'quoteanalytic'])->name('report.quoteanalytic');
+            Route::get('report/eventanalytic', [ReportController::class, 'eventanalytic'])->name('report.eventanalytic');
+            Route::get('report/customeranalytic', [ReportController::class, 'customersanalytic'])->name('report.customersanalytic');
+
+
 
             Route::post('report/usersrate', [ReportController::class, 'usersrate'])->name('report.usersrate');
             Route::post('report/getparent', [ReportController::class, 'getparent'])->name('report.getparent');

@@ -4,13 +4,13 @@
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('title'); ?>
-<?php echo e(__('Lead Analytics')); ?>
+<?php echo e(__('Event Analytics')); ?>
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('breadcrumb'); ?>
 <li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Home')); ?></a></li>
 <li class="breadcrumb-item"><?php echo e(__('Report')); ?></li>
-<li class="breadcrumb-item"><?php echo e(__('Lead Analytics')); ?></li>
+<li class="breadcrumb-item"><?php echo e(__('Event Analytics')); ?></li>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('action-btn'); ?>
 <?php $__env->stopSection(); ?>
@@ -23,7 +23,7 @@
                    
                 <div class="collapse show float-end" id="collapseExample" style="">
                
-                    <?php echo e(Form::open(['route' => ['report.leadsanalytic'], 'method' => 'get'])); ?>
+                    <?php echo e(Form::open(['route' => ['report.eventanalytic'], 'method' => 'get'])); ?>
 
                     <div class="row filter-css">
                     
@@ -35,10 +35,7 @@
                             <?php echo e(Form::month('end_month', isset($_GET['end_month']) ? $_GET['end_month'] : date('Y-12'), ['class' => 'form-control'])); ?>
 
                         </div>
-                        <!-- <div class="col-auto">
-                            <?php echo e(Form::select('leadsource', $leadsource, isset($_GET['leadsource']) ? $_GET['leadsource'] : '', ['class' => 'form-control '])); ?>
-
-                        </div>-->
+                      
                         <div class="col-auto" style="margin-left: -29px;">
                             <?php echo e(Form::select('status', ['' => 'Select Status'] + $status, isset($_GET['status']) ? $_GET['status'] : '', ['class' => 'form-control', 'style' => 'margin-left: 29px;'])); ?>
 
@@ -83,14 +80,14 @@
                     <dl class="row">
                         <?php if(isset($report['startDateRange']) || isset($report['endDateRange'])): ?>
                         <input type="hidden"
-                            value="<?php echo e(__('Lead Report of') . ' ' . $report['startDateRange'] . ' to ' . $report['endDateRange']); ?>"
+                            value="<?php echo e(__('Event Report of') . ' ' . $report['startDateRange'] . ' to ' . $report['endDateRange']); ?>"
                             id="filesname">
                         <?php else: ?>
-                        <input type="hidden" value="<?php echo e(__('Lead Report')); ?>" id="filesname">
+                        <input type="hidden" value="<?php echo e(__('Event Report')); ?>" id="filesname">
                         <?php endif; ?>
 
                         <div class="col">
-                            <?php echo e(__('Report')); ?> : <h6><?php echo e(__('Lead Summary')); ?></h6>
+                            <?php echo e(__('Report')); ?> : <h6><?php echo e(__('Event Summary')); ?></h6>
                         </div>
                         <div class="col">
                             <?php echo e(__('Duration')); ?> : <h6>
@@ -125,7 +122,7 @@
                     
                 </div>
                 <div class="table-responsive mt-3">
-                    <table class="table" id="pc-dt-export">
+                    <table class="table">
                         <thead>
                             <tr>
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Name')); ?></th>
@@ -137,16 +134,12 @@
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Assigned Staff')); ?></th>
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Rooms required')); ?></th>
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Function')); ?></th>
-                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Converted To Event')); ?></th>
-                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__(' Lead Status')); ?></th>
-                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Status')); ?></th>
+                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__(' Status')); ?></th>
                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Created At')); ?></th>
-
-
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $__currentLoopData = $leads; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $result): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <?php $__currentLoopData = $events; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $result): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <tr>
                                 <td><?php echo e(ucfirst($result['name'])); ?></td>
                                 <td><?php echo e(ucfirst(App\Models\User::where('id',$result['created_by'])->first()->name)); ?></td>
@@ -164,14 +157,11 @@
                                 <td><?php echo e(!empty($result['assign_user'])? $result['assign_user']->name:'--'); ?>
 
                                     (<?php echo e($result['assign_user']->type); ?>)</td>
-                                <td><?php echo e($result['rooms']); ?></td>
+                                <td><?php echo e($result['room']); ?></td>
                                 <td><?php echo e(isset($result['function']) ? ucfirst($result['function']) : '--'); ?></td>
-                                <td>
-                                    <?php $event = App\Models\Meeting::where('attendees_lead',$result['id'])->exists() ?>
-                                    <?php if($event): ?> Yes <?php else: ?> No <?php endif; ?>
-                                </td>
-                                <td> <?php echo e(__(\App\Models\Lead::$status[$result['status']])); ?></td>
-                                <td><?php echo e(__(\App\Models\Lead::$stat[$result->lead_status])); ?></td>
+                               
+                                <td> <?php echo e(__(\App\Models\Meeting::$status[$result['status']])); ?></td>
+                            
                                 <td><?php echo e(__(\Auth::user()->dateFormat($result['created_at']))); ?></td>
 
                             </tr>
@@ -192,6 +182,7 @@
     <script type="text/javascript" src="<?php echo e(asset('js/vfs_fonts.js')); ?>"></script>
     <script type="text/javascript" src="<?php echo e(asset('js/buttons.html5.min.js')); ?>"></script>
     <script src="<?php echo e(asset('assets/js/plugins/simple-datatables.js')); ?>"></script>
+    
     <script>
     $(document).ready(function() {
         $('#pc-dt-export').DataTable({
@@ -260,7 +251,7 @@
     $(document).ready(function() {
         var filename = $('#filename').val();
         setTimeout(function() {
-            $('#reportTable').DataTable({
+            $('#pc-dt-export').DataTable({
                 dom: 'Bfrtip',
                 buttons: [{
                     extend: 'excelHtml5',
@@ -370,4 +361,4 @@
     })();
     </script>
     <?php $__env->stopPush(); ?>
-<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/report/leadsanalytic.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/report/eventanalytic.blade.php ENDPATH**/ ?>

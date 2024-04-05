@@ -37,8 +37,8 @@
                                                 <th scope="col" class="sort" data-sort="budget">{{__('Email')}}</th>
                                                 <th scope="col" class="sort">{{__('Assigned Staff')}}</th>
                                                 <th scope="col" class="sort">{{__('Status')}}</th>
-                                                <th scope="col" class="sort">{{__('Proposal Status')}}</th>
-                                                <th scope="col" class="sort">{{__('Admin Approval')}}</th>
+                                                <!-- <th scope="col" class="sort">{{__('Proposal Status')}}</th> -->
+                                                <th scope="col" class="sort">{{__('Lead Status')}}</th>
                                                 @if(Gate::check('Show Lead') || Gate::check('Edit Lead') || Gate::check('Delete Lead'))
                                                 <th scope="col" class="text-end">{{__('Action')}}</th>
                                                 @endif
@@ -66,55 +66,43 @@
                                                     @foreach($statuss as $key => $stat)
                                                     <option value="{{ $key }}"{{ isset($lead->lead_status) && $lead->lead_status == $key ? "selected" : "" }}>{{ $stat }}</option>
                                                     @endforeach
-                                                <td>
-                                                    @if($lead->proposal_status == 0)
-                                                    <span class="badge bg-info p-2 px-3 rounded">{{ __(\App\Models\Lead::$status[$lead->proposal_status]) }}</span>
-                                                    @elseif($lead->proposal_status == 1)
-                                                    <span class="badge bg-warning p-2 px-3 rounded">{{ __(\App\Models\Lead::$status[$lead->proposal_status]) }}</span>
-                                                    @elseif($lead->proposal_status == 2)
-                                                    <span class="badge bg-success p-2 px-3 rounded">{{ __(\App\Models\Lead::$status[$lead->proposal_status]) }}</span>
-                                                    @elseif($lead->proposal_status == 3)
-                                                    <span class="badge bg-danger p-2 px-3 rounded">{{ __(\App\Models\Lead::$status[$lead->proposal_status]) }}</span>
-                                                    @endif
-                                                </td>
+                                              
                                                 <td>
                                                     @if($lead->status == 0)
-                                                    <span class="badge bg-info p-2 px-3 rounded">{{ __(\App\Models\Lead::$lead_status[$lead->status]) }}</span>
+                                                    <span class="badge bg-info p-2 px-3 rounded">{{ __(\App\Models\Lead::$status[$lead->status]) }}</span>
                                                     @elseif($lead->status == 1)
-                                                    <span class="badge bg-warning p-2 px-3 rounded">{{ __(\App\Models\Lead::$lead_status[$lead->status]) }}</span>
+                                                    <span class="badge bg-warning p-2 px-3 rounded">{{ __(\App\Models\Lead::$status[$lead->status]) }}</span>
                                                     @elseif($lead->status == 2)
-                                                    <span class="badge bg-success p-2 px-3 rounded">{{ __(\App\Models\Lead::$lead_status[$lead->status]) }}</span>
+                                                    <span class="badge bg-secondary p-2 px-3 rounded">{{ __(\App\Models\Lead::$status[$lead->status]) }}</span>
                                                     @elseif($lead->status == 3)
-                                                    <span class="badge bg-primary p-2 px-3 rounded">{{ __(\App\Models\Lead::$lead_status[$lead->status]) }}</span>
+                                                    <span class="badge bg-danger p-2 px-3 rounded">{{ __(\App\Models\Lead::$status[$lead->status]) }}</span>
+                                                    @elseif($lead->status == 4)
+                                                    <span class="badge bg-success p-2 px-3 rounded">{{ __(\App\Models\Lead::$status[$lead->status]) }}</span>
+                                                    @elseif($lead->status == 5)
+                                                    <span class="badge bg-warning p-2 px-3 rounded">{{ __(\App\Models\Lead::$status[$lead->status]) }}</span>
                                                     @endif
                                                 </td>
                                                 @if(Gate::check('Show Lead') || Gate::check('Edit Lead') || Gate::check('Delete Lead'))
                                                 <td class="text-end">
-                                                    @if($lead->status == 2)
+                                                    @if($lead->status == 4)
                                                     <div class="action-btn bg-secondary ms-2">
                                                         <a href="{{ route('meeting.create',['meeting',0]) }}" data-size="md" data-url="#" data-bs-toggle="tooltip" data-title="{{ __('Convert') }}" title="{{ __('Convert To Event') }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="fas fa-exchange-alt"></i> </a> </a>
                                                     </div>
                                                     @endif
-                                                    @if($lead->proposal_status == 0 )
+                                                    @if($lead->status == 0 )
                                                     <div class="action-btn bg-primary ms-2">
                                                         <a href="#" data-size="md" data-url="{{ route('lead.shareproposal',urlencode(encrypt($lead->id))) }}" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{ __('Proposal') }}" title="{{ __('Share Proposal') }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-share"></i>
                                                         </a>
                                                     </div>
-                                                    @elseif($lead->proposal_status == 1)
-                                                    <div class="action-btn bg-primary ms-2">
-                                                        <a href="#" data-size="md" data-title="{{ __('Proposal') }}" title="{{ __('Proposal Sent') }}" data-bs-toggle="tooltip" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class="ti ti-clock"></i>
-                                                        </a>
-                                                    </div>
-                                                    @elseif($lead->proposal_status == 2)
-                                                    @if($lead->status != 2)
+                                                    @endif
+                                                  
+                                                    @if($lead->status == 2)
                                                     <div class="action-btn bg-info ms-2">
                                                         <a href="{{route('lead.review',urlencode(encrypt($lead->id))) }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " data-bs-toggle="tooltip" title="{{__('Review')}}" data-title="{{__('Review Lead')}}">
                                                             <i class="fas fa-pen"></i></a>
                                                     </div>
-                                                    @endif
                                                     @endif
                                                     <div class="action-btn bg-primary ms-2">
                                                         <a href="{{route('lead.clone',urlencode(encrypt($lead->id)))}}" data-size="md" data-url="#" data-bs-toggle="tooltip" title="{{ __('Clone') }}" data-title="{{ __('Clone') }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
@@ -133,13 +121,13 @@
                                                         </a>
                                                     </div>
                                                     @endcan
-                                                    @if($lead->status != 2)
+                                                
                                                         @can('Edit Lead')
                                                         <div class="action-btn bg-info ms-2">
                                                             <a href="{{ route('lead.edit',$lead->id) }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " data-bs-toggle="tooltip" title="{{__('Details')}}" data-title="{{__('Edit Lead')}}"><i class="ti ti-edit"></i></a>
                                                         </div>
                                                         @endcan
-                                                    @endif
+                                                   
                                                     @can('Delete Lead')
                                                     <div class="action-btn bg-danger ms-2">
                                                         {!! Form::open(['method' => 'DELETE', 'route' => ['lead.destroy', $lead->id]]) !!}
