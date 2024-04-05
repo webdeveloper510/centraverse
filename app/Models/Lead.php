@@ -55,13 +55,6 @@ class Lead extends Model
         'In Active',
         'Active'
     ];
-    public static  $function = [
-        'Breakfast',
-        'Brunch',
-        'Lunch',
-        'Dinner',
-        'Wedding'
-    ];
     private static $account_name = null;
     private static $campaign_name = null;
 

@@ -11,13 +11,12 @@
 <?php $__env->startSection('action-btn'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
-
 <div class="container-field">
     <div id="wrapper">
         <div id="page-content-wrapper">
             <div class="container-fluid xyz"  id="useradd-1">
                 <div class="row">
-                    <?php if(\Auth::user()->type == 'owner'): ?>
+                    <?php if(\Auth::user()->type == 'owner'||\Auth::user()->type == 'Admin'): ?>
                         <div class="col-lg-3 col-6 totallead" style="padding: 15px;">
                             <div class="card">
                                 <div class="card-body newcard_body" onclick="leads();">
@@ -45,7 +44,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-3 col-6 upcmg optionsContainer" style="padding: 15px;">
+                        <!-- <div class="col-lg-3 col-6 upcmg optionsContainer" style="padding: 15px;">
                             <div class="card option" onclick="showUpcoming()">
                                 <div class="card-body newcard_body">
                                     <div class="theme-avtar bg-info">
@@ -57,8 +56,8 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-3 col-6 cmplt optionsContainer" style="padding: 15px;">
+                        </div> -->
+                        <!-- <div class="col-lg-3 col-6 cmplt optionsContainer" style="padding: 15px;">
                             <div class="card option" onclick="showCompleted()">
                                 <div class="card-body newcard_body" style="">
                                     <div class="theme-avtar bg-info">
@@ -70,7 +69,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     <?php endif; ?>
                     <?php
                     $setting = App\Models\Utility::settings();
@@ -82,7 +81,6 @@
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Active Leads</h5>
                             <?php $__currentLoopData = $activeLeads; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $lead): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-
                             <div class="card">
                                 <div class="card-body new_bottomcard">
                                     <h5 class="card-text"><?php echo e($lead['leadname']); ?>
@@ -161,7 +159,7 @@
                         </div>
                       
                     </div>
-                    <div class="col-sm">
+                    <!-- <div class="col-sm">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Past Events</h5>
                             <?php $__currentLoopData = $pastEvents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $event): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -194,9 +192,9 @@
                             </div>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </div>
-                    </div>
+                    </div> -->
 
-                    <div class="col-sm">
+                    <!-- <div class="col-sm">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Lost Leads</h5>
                             <?php $__currentLoopData = $lostLeads; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $lead): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -218,7 +216,7 @@
                             </div>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>

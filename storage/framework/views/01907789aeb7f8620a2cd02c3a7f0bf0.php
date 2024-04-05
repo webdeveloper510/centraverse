@@ -1,16 +1,16 @@
 <?php $__env->startSection('page-title'); ?>
-<?php echo e(__('Lead')); ?>
+<?php echo e(__('Leads')); ?>
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('title'); ?>
 <div class="page-header-title">
-    <?php echo e(__('Lead')); ?>
+    <?php echo e(__('Leads')); ?>
 
 </div>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('breadcrumb'); ?>
 <li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Home')); ?></a></li>
-<li class="breadcrumb-item"><?php echo e(__('Lead')); ?></li>
+<li class="breadcrumb-item"><?php echo e(__('Leads')); ?></li>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('action-btn'); ?>
 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Lead')): ?>

@@ -767,7 +767,7 @@ class Utility extends Model
             }
         }
 
-        $ownerRole          = Role::where('name', 'LIKE', 'Owner')->where('created_by', '=', $usr->createId())->first();
+        $ownerRole          = Role::where('name', 'LIKE', 'owner')->first();
         $ownerPermissions   = $ownerRole->getPermissionNames()->toArray();
         $ownerNewPermission = [
             'Manage Form Builder',

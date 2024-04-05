@@ -23,40 +23,43 @@ $baropt = ['Open Bar', 'Cash Bar', 'Package Choice'];
 if(isset($setting['barpackage']) && !empty($setting['barpackage'])){
 $bar_package = json_decode($setting['barpackage'],true);
 }
+if(request()->has('lead')){
+    $leadId = decrypt(urldecode(request()->query('lead')));
+}
+
 ?>
 <?php $__env->startSection('content'); ?>
 <style>
-.floorimages {
-    height: 400px;
-    width: 600px;
-    margin: 26px;
-}
+    .floorimages {
+        height: 400px;
+        width: 600px;
+        margin: 26px;
+    }
 
-.selected-image {
-    border: 2px solid #3498db;
-    box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
-    transition: border-color 0.3s, box-shadow 0.3s;
-}
+    .selected-image {
+        border: 2px solid #3498db;
+        box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
 
-.selected-image:hover {
-    border-color: #2980b9;
-    box-shadow: 0 0 15px rgba(41, 128, 185, 0.8);
-}
+    .selected-image:hover {
+        border-color: #2980b9;
+        box-shadow: 0 0 15px rgba(41, 128, 185, 0.8);
+    }
 
-.zoom {
-    background-color: none;
-    transition: transform .2s;
-}
+    .zoom {
+        background-color: none;
+        transition: transform .2s;
+    }
 
-.zoom:hover {
-    -ms-transform: scale(1.5);
-    -webkit-transform: scale(1.5);
-    transform: scale(1.2);
-}
+    .zoom:hover {
+        -ms-transform: scale(1.5);
+        -webkit-transform: scale(1.5);
+        transform: scale(1.2);
+    }
 </style>
 <div class="container-field">
     <div id="wrapper">
-
         <div id="page-content-wrapper">
             <div class="container-fluid xyz">
                 <div class="row">
@@ -100,7 +103,7 @@ $bar_package = json_decode($setting['barpackage'],true);
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-6" id="lead_select" style="display: none;">
+                                            <div class="col-6" id="lead_select" >
                                                 <div class="form-group">
                                                     <?php echo e(Form::label('lead', __('Lead'), ['class' => 'form-label'])); ?>
 
@@ -666,7 +669,8 @@ document.addEventListener('DOMContentLoaded', async function() {
 </script>
 <script>
 $(document).ready(function() {
-    $('input[name=newevent]').prop('checked', false);
+    
+    //$('input[name=newevent]').prop('checked', false);
     $('input[name="newevent"]').on('click', function() {
         $('#lead_select').hide();
         $('#new_event').hide();

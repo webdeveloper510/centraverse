@@ -61,7 +61,7 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                     Gate::check('Manage User'))
                                     <li
                                         class="dash-item {{ \Request::route()->getName() == 'customer-list' ? ' active' : '' }}">
-                                        <a href="{{route('userlist')}}" class="dash-link">
+                                        <a href="{{route('siteusers')}}" class="dash-link">
                                             <span class="dash-mtext">{{ __('Customers') }}</span>
                                         </a>
                                     </li>
@@ -101,6 +101,10 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                         </a>
                                     </li>
                                     @endcan
+                                    <li class="dash-item">
+                                        <a href="{{ route('report.leadsanalytic') }}" class="dash-link">
+                                            <span class="dash-mtext">{{ __('Reports') }}</span></a>
+                                    </li>
                                     @can('Manage Campaign')
                                     <li class="dash-item">
                                         <a href="{{ route('customer.index') }}" class="dash-link">

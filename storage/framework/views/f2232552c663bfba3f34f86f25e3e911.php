@@ -29,14 +29,14 @@
                                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Name')); ?></th>
                                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Email')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Phone')); ?></th>
-                                                <th scope="col" class="sort"><?php echo e(__('Address')); ?></th>            
+                                                <th scope="col" class="sort"><?php echo e(__('Address')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Category')); ?></th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php $__currentLoopData = $allcustomers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $customers): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <tr>
-                                                <td><?php echo e(ucfirst($customers->name)); ?></td>
+                                            <td>  <?php echo e(ucfirst($customers->name)); ?></td>
                                                 <td><?php echo e(ucfirst($customers->email)); ?></td>
                                                 <td><?php echo e(ucfirst($customers->phone)); ?></td>
                                                 <td><?php echo e(ucfirst($customers->address)); ?></td>
@@ -45,7 +45,16 @@
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             <?php $__currentLoopData = $importedcustomers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $customers): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <tr>
-                                                <td><?php echo e(ucfirst($customers->name)); ?></td>
+                                                <td> <?php echo e(ucfirst($customers->name)); ?>
+
+                                                    <!-- <a href="#" data-size="md" data-url="<?php echo e(route('importcustomerview',$customers->id)); ?>"
+                                                    data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('User Details')); ?>"  
+                                                        title="<?php echo e(__('User Details')); ?>"
+                                                        class="action-item text-primary"
+                                                        style="color:#1551c9 !important;">
+                                                        <b> <?php echo e(ucfirst($customers->name)); ?></b>
+                                                    </a> -->
+                                                </td>
                                                 <td><?php echo e(ucfirst($customers->email)); ?></td>
                                                 <td><?php echo e(ucfirst($customers->phone)); ?></td>
                                                 <td><?php echo e(ucfirst($customers->address)); ?></td>

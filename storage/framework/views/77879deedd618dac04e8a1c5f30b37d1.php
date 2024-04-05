@@ -113,7 +113,6 @@ function display_count() {
                 initialView: 'dayGridMonth',
                 eventDisplay: 'block',
                 select: function(start, end, allDay, info) {
-
                     var selectedStartDate = start.startStr;
                     var selectedEndDate = start.endStr;
                     var formattedStartDate = moment(selectedStartDate).format(
@@ -191,6 +190,8 @@ function display_count() {
         }
     })
 }
+
+
 </script>
 <?php $__env->stopPush(); ?>
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/crmcentraverse/public_html/resources/views/calender_new/index.blade.php ENDPATH**/ ?>

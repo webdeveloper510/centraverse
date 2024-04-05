@@ -23,7 +23,6 @@
                     <td> No </td>
                     <?php endif; ?>
                     <td>
-                        
                         <div class="action-btn bg-info ms-2" style="float: right;">
                             <a href="#" data-size="md" data-url="<?php echo e(route('lead.uploads',$lead->id)); ?>"
                                 data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('Upload Document')); ?>"
@@ -34,7 +33,7 @@
                         </div>
                         <?php if(App\Models\LeadDoc::where('lead_id',$lead->id)->exists()): ?>
                         <div class="action-btn bg-warning ms-2" style="float: right;">
-                        <a href="#" data-size="md" data-url="<?php echo e(route('lead.uploaded_docs',$lead->id)); ?>"
+                            <a href="#" data-size="md" data-url="<?php echo e(route('lead.uploaded_docs',$lead->id)); ?>"
                                 data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('View Document')); ?>"
                                 title="<?php echo e(__(' View Documents')); ?>"
                                 class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
@@ -42,9 +41,9 @@
                             </a>
                         </div>
                         <?php endif; ?>
-                        <?php if(!App\Models\Meeting::where('attendees_lead',$lead->id)->exists()): ?>
+                        <?php if(!App\Models\Meeting::where('attendees_lead',$lead->id)->exists() && $lead->status == 2): ?>
                         <div class="action-btn bg-secondary ms-2" style="    float: right;">
-                            <a href="<?php echo e(route('meeting.create',['meeting',0])); ?>" data-size="md" data-url="#"
+                            <a href="<?php echo e(route('meeting.create',['meeting',0])); ?>?lead=<?php echo e(urlencode(encrypt($lead->id))); ?>" data-size="md" data-url="#" data-id = "<?php echo e($lead->id); ?>"
                                 data-bs-toggle="tooltip" data-title="<?php echo e(__('Convert')); ?>"
                                 title="<?php echo e(__('Convert To Event')); ?>"
                                 class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
@@ -108,7 +107,6 @@
                             echo "<td>".$amount->amounttobepaid - $amountpaid."</td>";
                             echo "</tr>";
                         }
-                        
                     }
                 ?>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

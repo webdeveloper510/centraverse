@@ -150,7 +150,7 @@ class UserController extends Controller
                 $total_user = $objUser->countUsers();
                 $plan       = Plan::find($objUser->plan);
                 if ($total_user < $plan->max_user || $plan->max_user == -1) {
-                    $role_r             = Role::findById($request->user_roles);
+                    $role_r             = Role::findById($request->user_roles);                    
                     $user               = new User();
                     $user['username']   = $request->email;
                     $user['name']       = $request->name;
@@ -162,8 +162,18 @@ class UserController extends Controller
                     $user['gender']     = $request->gender;
                     $user['is_active']  = ($request->is_active == 'on') ? 1 : 0;
                     $user['lang']       = !empty($setting['default_owner_language']) ? $setting['default_owner_language'] : 'en';
-                    $user['type']       = $role_r->name;
-                    $user['user_roles'] = $role_r->id;
+                    if($role_r->name == 'Admin'){
+                        $user['type']       = 'owner';
+                        $user['user_roles'] = '';
+                        $roleperm = Role::findByName('owner');
+                        $user->assignRole($roleperm);
+                        $user['plan'] = Plan::first()->id;
+                    }else
+                    {
+                        $user['type']       = $role_r->name;
+                        $user['user_roles'] = $role_r->id;
+                        $user->assignRole($role_r);
+                    }
                     $user['password']   = Hash::make($request->password);
                     // if($user['is_active'] == 0){$user['email_sent'] = false;}
                     if (!empty($request->avatar))
@@ -203,7 +213,7 @@ class UserController extends Controller
                     }
                     }
                     // $userstatus = User::where('email',$request->email)->get();
-                    $user->assignRole($role_r);
+                   
 
                     // Stream::create(
                     //     [

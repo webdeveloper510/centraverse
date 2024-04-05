@@ -10,13 +10,12 @@
 @section('action-btn')
 @endsection
 @section('content')
-
 <div class="container-field">
     <div id="wrapper">
         <div id="page-content-wrapper">
             <div class="container-fluid xyz"  id="useradd-1">
                 <div class="row">
-                    @if (\Auth::user()->type == 'owner')
+                    @if (\Auth::user()->type == 'owner'||\Auth::user()->type == 'Admin')
                         <div class="col-lg-3 col-6 totallead" style="padding: 15px;">
                             <div class="card">
                                 <div class="card-body newcard_body" onclick="leads();">
@@ -44,7 +43,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-3 col-6 upcmg optionsContainer" style="padding: 15px;">
+                        <!-- <div class="col-lg-3 col-6 upcmg optionsContainer" style="padding: 15px;">
                             <div class="card option" onclick="showUpcoming()">
                                 <div class="card-body newcard_body">
                                     <div class="theme-avtar bg-info">
@@ -56,8 +55,8 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-3 col-6 cmplt optionsContainer" style="padding: 15px;">
+                        </div> -->
+                        <!-- <div class="col-lg-3 col-6 cmplt optionsContainer" style="padding: 15px;">
                             <div class="card option" onclick="showCompleted()">
                                 <div class="card-body newcard_body" style="">
                                     <div class="theme-avtar bg-info">
@@ -69,7 +68,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     @endif
                     @php
                     $setting = App\Models\Utility::settings();
@@ -81,7 +80,6 @@
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Active Leads</h5>
                             @foreach($activeLeads as $lead)
-
                             <div class="card">
                                 <div class="card-body new_bottomcard">
                                     <h5 class="card-text">{{ $lead['leadname'] }}
@@ -156,7 +154,7 @@
                         </div>
                       
                     </div>
-                    <div class="col-sm">
+                    <!-- <div class="col-sm">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Past Events</h5>
                             @foreach($pastEvents as $event)
@@ -187,9 +185,9 @@
                             </div>
                             @endforeach
                         </div>
-                    </div>
+                    </div> -->
 
-                    <div class="col-sm">
+                    <!-- <div class="col-sm">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Lost Leads</h5>
                             @foreach($lostLeads as $lead)
@@ -209,7 +207,7 @@
                             </div>
                             @endforeach
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>

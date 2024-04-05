@@ -1,13 +1,18 @@
 <?php 
-$package = json_decode($event->func_package,true);
-$additional = json_decode($event->ad_opts,true);
+if(isset($event->func_package) && !empty($event->func_package)){
+    $package = json_decode($event->func_package,true);
+}
+if(isset($event->ad_opts) && !empty($event->ad_opts)){
+    $additional = json_decode($event->ad_opts,true);
+}
 if(isset($event->bar_package) && !empty($event->bar_package)){
     $bar = json_decode($event->bar_package,true);
 }
+$payments = App\Models\PaymentLogs::where('event_id',$event->id)->get();
+
 ?>
 <div class="row">
     <div class="col-lg-12">
-        <!-- <div class=""> -->
         <dl class="row">
             <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Event')); ?></span></dt>
             <?php if($event->attendees_lead != 0): ?>
@@ -20,11 +25,12 @@ if(isset($event->bar_package) && !empty($event->bar_package)){
             <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Event Type')); ?></span></dt>
             <dd class="col-md-6"><span class=""><?php echo e($event->type); ?></span></dd>
 
-            <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Start Date')); ?></span></dt>
+            <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Date')); ?></span></dt>
+            <?php if($event->start_date == $event->end_date): ?>
             <dd class="col-md-6"><span class=""><?php echo e(\Auth::user()->dateFormat($event->start_date)); ?></span></dd>
-
-            <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('End Date')); ?></span></dt>
-            <dd class="col-md-6"><span class=""><?php echo e(\Auth::user()->dateFormat($event->end_date)); ?></span></dd>
+            <?php else: ?>
+            <dd class="col-md-6"><span class=""><?php echo e(\Auth::user()->dateFormat($event->start_date)); ?> - <?php echo e(\Auth::user()->dateFormat($event->end_date)); ?></span></dd>
+            <?php endif; ?>
 
             <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Time')); ?></span></dt>
             <dd class="col-md-6"><span class=""><?php echo e(date('h:i A', strtotime($event->start_time))); ?> -
@@ -35,7 +41,7 @@ if(isset($event->bar_package) && !empty($event->bar_package)){
 
             <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Venue')); ?></span></dt>
             <dd class="col-md-6"><span class=""><?php echo e($event->venue_selection); ?></span></dd>
-            
+
             <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Room')); ?></span></dt>
             <dd class="col-md-6"><span class=""><?php if($event->room != 0): ?><?php echo e($event->room); ?><?php else: ?> -- <?php endif; ?></span></dd>
             <?php if(isset($package) && !empty($package)): ?>
@@ -74,11 +80,7 @@ if(isset($event->bar_package) && !empty($event->bar_package)){
             <hr>
             <img src="<?php echo e($event->floor_plan); ?>" alt="">
         </dl>
-
-        <!-- </div> -->
-
     </div>
-
     <?php
     $files = Storage::files('app/public/Event/'.$event->id);
     ?>
@@ -96,11 +98,11 @@ if(isset($event->bar_package) && !empty($event->bar_package)){
 
                     <!-- Display preview if it's a PDF -->
                     <?php if(pathinfo($file, PATHINFO_EXTENSION) === 'pdf'): ?>
-                    <img src="<?php echo e(asset('extension_img/images.png')); ?>" alt="File"
+                    <img src="<?php echo e(asset('extension_img/pdf.png')); ?>" alt="File"
                         style="max-width: 100px; max-height: 150px;">
                     <!-- <iframe src="<?php echo e(Storage::url($file)); ?>" width="50%" height="300px"></iframe> -->
                     <?php else: ?>
-                    <img src="<?php echo e(asset('extension_img/images.png')); ?>" alt="File"
+                    <img src="<?php echo e(asset('extension_img/doc.png')); ?>" alt="File"
                         style="max-width: 100px; max-height: 150px;">
                     <!-- Placeholder icon for non-PDF files -->
                     <?php endif; ?>
@@ -115,7 +117,36 @@ if(isset($event->bar_package) && !empty($event->bar_package)){
         </div>
         <?php endif; ?>
     </div>
+    <hr>
+    <div class="row">
+    <div class="col-12  p-0 modaltitle pb-3 mb-3 mt-3">
+        <h5 style="margin-left: 14px;"><?php echo e(__('Billing Details')); ?></h5>
+    </div>
+    <?php if(isset($payments) && !empty($payments)): ?>
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Created On</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Transaction Id</th>
+                        <th scope="col">Amount</th>
+                        <!-- <th scope="col">Converted events</th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                <?php $__currentLoopData = $payments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $payment): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <td><?php echo e(Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $payment->created_at)->format('M d, Y')); ?></td>
+                    <td><?php echo e($payment->name_of_card); ?></td>
+                    <td><?php echo e($payment->transaction_id); ?></td>
+                    <td><?php echo e($payment->amount); ?></td>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
+                </tbody>
+            </table>
+        </div>
+    <?php endif; ?>
+    </div>
 </div>
 
 </div><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/meeting/detailed_view.blade.php ENDPATH**/ ?>

@@ -452,7 +452,6 @@ function enablecookie() {
 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Home') }}</a></li>
 <li class="breadcrumb-item">{{ __('Settings') }}</li>
 @endsection
-
 @section('content')
 <div class="container-field">
     <div id="wrapper">
@@ -461,7 +460,7 @@ function enablecookie() {
                 <div class="row">
                     <div class="col-lg-12">
                         @if (\Auth::user()->type == 'owner')
-                        <!-- <div id="brand-settings" class="card">
+                         <!-- <div id="brand-settings" class="card">
                             <div class="card-header">
                                 <h5>{{ __('Brand Settings') }}</h5>
                                 <small class="text-muted">{{ __('Edit your brand details') }}</small>
@@ -822,7 +821,7 @@ function enablecookie() {
                                 {{ Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary']) }}
                             </div>
                             {{ Form::close() }}
-                        </div>   -->
+                        </div>   
                         <div id="company-email-setting" class="card">
                             <div class="card-header">
                                 <h5>{{ __('Email Settings') }}</h5>
@@ -965,7 +964,7 @@ function enablecookie() {
                                 </div>
                             </div>
                             {{ Form::close() }}
-                        </div>
+                        </div> -->
                         <div id="twilio-settings" class="card">
                             <div class="card-header">
                                 <h5>{{ __('Twilio Settings') }}</h5>
@@ -1710,6 +1709,7 @@ function enablecookie() {
                                     @csrf
 
                                     <div class="row cst-border">
+                                        @if(isset($venue) && !empty($venue))
                                         <div class="col-sm-6 venue">
                                             <table class="table table-responsive table-bordered" style="width:100%">
                                                 <tr>
@@ -1728,6 +1728,8 @@ function enablecookie() {
                                                 @endforeach
                                             </table>
                                         </div>
+                                        @endif
+                                        @if(isset($function) && !empty($function))
                                         <div class="col-sm-6 function">
                                             <table class="table table-responsive table-bordered" style="width:100%">
                                                 <tr>
@@ -1753,6 +1755,8 @@ function enablecookie() {
                                                 @endforeach
                                             </table>
                                         </div>
+                                        @endif
+                                        @if(isset($bar) && !empty($bar))
                                         <div class="col-sm-6 bar mt-3">
                                             <table class="table table-responsive table-bordered" style="width:100%">
                                                 <tr>
@@ -1778,6 +1782,7 @@ function enablecookie() {
                                                 @endforeach
                                             </table>
                                         </div>
+                                        @endif
                                         <div class="col-sm-6 equipment">
                                             <div class="form-group">
                                                 {{ Form::label('equipment', __('Equipment'), ['class' => 'form-label']) }}
@@ -4747,7 +4752,7 @@ $('.barnmes').click(function() {
 $(document).ready(function() {
     $("select#additional_function").change(function() {
         let val = $(this).val();
-        const functionData = <?= json_encode($function) ?>[val];
+        const functionData = <?= (isset($function) && !empty($function)) ? json_encode($function) : 'null' ?>[val];
         let packages = functionData.package;
         $('#additional_packages_checkboxes').empty();
         $.each(packages, function(index, package) {

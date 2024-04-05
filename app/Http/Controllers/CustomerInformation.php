@@ -312,4 +312,16 @@ class CustomerInformation extends Controller
    
         return view('customer.allcustomers',compact('allcustomers','importedcustomers'));
     }
+    public function event_customers(){
+        $eventcustomers = Meeting::withTrashed()->get();
+        return view('customer.event_customer',compact('eventcustomers'));
+    }
+    public function lead_customers(){
+        $leadcustomers = Lead::withTrashed()->get();
+        return view('customer.lead_customer',compact('leadcustomers'));
+    }
+    public function import_customers_view($id){
+        $users = UserImport::find($id);
+        return view('customer.userview',compact('users'));
+    }
 }

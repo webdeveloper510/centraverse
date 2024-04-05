@@ -61,7 +61,7 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                     Gate::check('Manage User')): ?>
                                     <li
                                         class="dash-item <?php echo e(\Request::route()->getName() == 'customer-list' ? ' active' : ''); ?>">
-                                        <a href="<?php echo e(route('userlist')); ?>" class="dash-link">
+                                        <a href="<?php echo e(route('siteusers')); ?>" class="dash-link">
                                             <span class="dash-mtext"><?php echo e(__('Customers')); ?></span>
                                         </a>
                                     </li>
@@ -101,6 +101,10 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                         </a>
                                     </li>
                                     <?php endif; ?>
+                                    <li class="dash-item">
+                                        <a href="<?php echo e(route('report.leadsanalytic')); ?>" class="dash-link">
+                                            <span class="dash-mtext"><?php echo e(__('Reports')); ?></span></a>
+                                    </li>
                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Campaign')): ?>
                                     <li class="dash-item">
                                         <a href="<?php echo e(route('customer.index')); ?>" class="dash-link">
