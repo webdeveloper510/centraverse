@@ -89,55 +89,76 @@
                                                     @endif
                                                     @if(\App\Models\Billing::where('event_id',$event->id)->exists())
                                                     @can('Manage Payment')
-                                                    @if(App\Models\Billing::where('event_id',$event->id)->where('status','!=',4)->exists())
-                                                    <div class="action-btn bg-primary ms-2">
-                                                        <a href="#" data-size="md"
-                                                            data-url="{{ route('billing.paylink',$event->id) }}"
-                                                            data-bs-toggle="tooltip"
-                                                            title="{{__('Share Payment Link')}}" data-ajax-popup="true"
-                                                            data-title="{{__('Payment Link')}}"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class="ti ti-share"></i>
-                                                        </a>
-                                                    </div>
-                                                    @endif
-                                                    <div class="action-btn bg-info ms-2">
-                                                        <a href="#" data-size="md"
-                                                            data-url="{{ route('billing.paymentinfo',urlencode(encrypt($event->id))) }}"
-                                                            data-bs-toggle="tooltip" title="{{__('Payment Details')}}"
-                                                            data-ajax-popup="true"
-                                                            data-title="{{__('Payment Information')}}"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class=" fa fa-credit-card "></i>
-                                                        </a>
-                                                    </div>
-                                                    @endcan
-                                                    @can('Manage Payment')
-                                                    <div class="action-btn bg-warning ms-2">
-                                                        <a href="#" data-size="md"
-                                                            data-url="{{ route('billing.show',$event->id) }}"
-                                                            data-bs-toggle="tooltip" title="{{__('Quick View')}}"
-                                                            data-ajax-popup="true"
-                                                            data-title="{{__('Invoice Details')}}"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class="ti ti-eye"></i>
-                                                        </a>
-                                                    </div>
-                                                    @endcan
-                                                    @can('Delete Payment')
-                                                    <div class="action-btn bg-danger ms-2">
-                                                        {!! Form::open(['method' => 'DELETE', 'route' =>
-                                                        ['billing.destroy', $event->id]]) !!}
+                                                    <?php 
+                                                         $paymentLog = App\Models\PaymentLogs::where('event_id', $event->id)->orderBy('id', 'desc')->first();
+                                                         $paymentInfo = App\Models\PaymentInfo::where('event_id',$event->id)->orderBy('id', 'desc')->first();
+                                                     ?>
+                                                    @if($paymentLog && $paymentInfo)
+                                                        @if($paymentLog->amount < $paymentInfo->amounttobepaid &&
+                                                        $paymentLog->amount != 0)
+                                                        <div class="action-btn bg-primary ms-2">
+                                                            <a href="#" data-size="md"
+                                                                data-url="{{ route('billing.paylink',$event->id) }}"
+                                                                data-bs-toggle="tooltip"
+                                                                title="{{__('Share Payment Link')}}"
+                                                                data-ajax-popup="true"
+                                                                data-title="{{__('Payment Link')}}"
+                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                                <i class="ti ti-share"></i>
+                                                            </a>
+                                                        </div>
+                                                        @endif
+                                                        @else
+                                                        <div class="action-btn bg-primary ms-2">
+                                                            <a href="#" data-size="md"
+                                                                data-url="{{ route('billing.paylink',$event->id) }}"
+                                                                data-bs-toggle="tooltip"
+                                                                title="{{__('Share Payment Link')}}"
+                                                                data-ajax-popup="true"
+                                                                data-title="{{__('Payment Link')}}"
+                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                                <i class="ti ti-share"></i>
+                                                            </a>
+                                                        </div>
+                                                        @endif
 
-                                                        <a href="#!"
-                                                            class="mx-3 btn btn-sm  align-items-center text-white show_confirm"
-                                                            data-bs-toggle="tooltip" title='Delete'>
-                                                            <i class="ti ti-trash"></i>
-                                                        </a>
-                                                        {!! Form::close() !!}
-                                                    </div>
-                                                    @endcan
-                                                    @endif
+                                                        <div class="action-btn bg-info ms-2">
+                                                            <a href="#" data-size="md"
+                                                                data-url="{{ route('billing.paymentinfo',urlencode(encrypt($event->id))) }}"
+                                                                data-bs-toggle="tooltip"
+                                                                title="{{__('Payment Details')}}" data-ajax-popup="true"
+                                                                data-title="{{__('Payment Information')}}"
+                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                                <i class=" fa fa-credit-card "></i>
+                                                            </a>
+                                                        </div>
+                                                        @endcan
+                                                        @can('Manage Payment')
+                                                        <div class="action-btn bg-warning ms-2">
+                                                            <a href="#" data-size="md"
+                                                                data-url="{{ route('billing.show',$event->id) }}"
+                                                                data-bs-toggle="tooltip" title="{{__('Quick View')}}"
+                                                                data-ajax-popup="true"
+                                                                data-title="{{__('Invoice Details')}}"
+                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                                <i class="ti ti-eye"></i>
+                                                            </a>
+                                                        </div>
+                                                        @endcan
+                                                        @can('Delete Payment')
+                                                        <div class="action-btn bg-danger ms-2">
+                                                            {!! Form::open(['method' => 'DELETE', 'route' =>
+                                                            ['billing.destroy', $event->id]]) !!}
+
+                                                            <a href="#!"
+                                                                class="mx-3 btn btn-sm  align-items-center text-white show_confirm"
+                                                                data-bs-toggle="tooltip" title='Delete'>
+                                                                <i class="ti ti-trash"></i>
+                                                            </a>
+                                                            {!! Form::close() !!}
+                                                        </div>
+                                                        @endcan
+                                                        @endif
 
                                                 </td>
                                             </tr>

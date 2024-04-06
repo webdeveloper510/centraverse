@@ -38,7 +38,8 @@ $enddate = \Carbon\Carbon::createFromFormat('Y-m-d', $lead->end_date)->format('d
             </dd>
             <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('Venue')}}</span></dt>
             <dd class="col-md-6">
-                <span class="text-md">{{  !empty($lead->venue_selection)? $lead->venue_selection :'--'}}</span></dd>
+                <span class="text-md">{{  !empty($lead->venue_selection)? $lead->venue_selection :'--'}}</span>
+            </dd>
 
             <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('Event')}}</span></dt>
             <dd class="col-md-6"><span class="text-md">{{ $lead->type }}</span></dd>
@@ -60,13 +61,22 @@ $enddate = \Carbon\Carbon::createFromFormat('Y-m-d', $lead->end_date)->format('d
             <dd class="col-md-6"><span class="text-md">
                     @if($lead->status == 0)
                     <span
-                        class="badge bg-info p-2 px-3 rounded">{{__(\App\Models\Lead::$status[$lead->status]) }}</span>
+                        class="badge bg-info p-2 px-3 rounded">{{ __(\App\Models\Lead::$status[$lead->status]) }}</span>
                     @elseif($lead->status == 1)
                     <span
-                        class="badge bg-warning p-2 px-3 rounded">{{__(\App\Models\Lead::$status[$lead->status]) }}</span>
-                    @else($lead->status == 2)
+                        class="badge bg-warning p-2 px-3 rounded">{{ __(\App\Models\Lead::$status[$lead->status]) }}</span>
+                    @elseif($lead->status == 2)
                     <span
-                        class="badge bg-success p-2 px-3 rounded">{{__(\App\Models\Lead::$status[$lead->status]) }}</span>
+                        class="badge bg-secondary p-2 px-3 rounded">{{ __(\App\Models\Lead::$status[$lead->status]) }}</span>
+                    @elseif($lead->status == 3)
+                    <span
+                        class="badge bg-danger p-2 px-3 rounded">{{ __(\App\Models\Lead::$status[$lead->status]) }}</span>
+                    @elseif($lead->status == 4)
+                    <span
+                        class="badge bg-success p-2 px-3 rounded">{{ __(\App\Models\Lead::$status[$lead->status]) }}</span>
+                    @elseif($lead->status == 5)
+                    <span
+                        class="badge bg-warning p-2 px-3 rounded">{{ __(\App\Models\Lead::$status[$lead->status]) }}</span>
                     @endif
             </dd>
         </dl>

@@ -14,27 +14,34 @@ class UsersImport implements ToModel, WithHeadingRow
     * @return \Illuminate\Database\Eloquent\Model|null
     */
     protected $category;
+    protected $userid;
 
-    public function __construct($category)
+    public function __construct($category, $userid)
     {
         $this->category = $category;
+        $this->userid = $userid;
+        // Ensure $userid is treated as an array
+        
     }
 
     public function model(array $row)
     {
         $row = array_merge($row, $this->category);
-        if (UserImport::where(['email'=> $row['email'],'category'=> $row['category']])->exists()) {
+       
+
+        if (UserImport::where(['email' => $row['email'], 'category' => $row['category']])->exists()) {
             return null;
         }
+
         $data = [
             'name'         => $row['name'],
             'email'        => $row['email'],
             'phone'        => $row['phone'],
             'address'      => $row['address'],
             'organization' => $row['organization'],
-            'category'      => $row['category']
+            'category'     => $row['category'],
+            'created_by'   => $this->userid
         ];
         return new UserImport($data);
     }
-   
 }

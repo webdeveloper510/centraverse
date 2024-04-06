@@ -114,7 +114,7 @@ $total += $p->amount;
 @else
 <div class="row">
     <div class="col-md-12">
-        <dt class="col-md-6"><span class="h6  mb-0">{{__(' Amount')}}</span></dt>
+        <dt class="col-md-6"><span class="h6  mb-0">{{__('Bill Amount')}}</span></dt>
         <dd class="col-md-6">
             <span>${{ isset($paymentinfo->amount) ? $paymentinfo->amount : $event->total }}</span></dd>
         <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('Status')}}</span></dt>
@@ -129,6 +129,7 @@ $total += $p->amount;
                 <th>Mode Of Payment</th>
                 <th>Late Fee</th>
                 <th>Adjustments</th>
+                <th>Amount Paid</th>
             </thead>
             <tbody>
                
@@ -138,6 +139,7 @@ $total += $p->amount;
                     <td>{{ $paymentinfo->modeofpayment }}</td>
                     <td>{{ $paymentinfo->latefee }}</td>
                     <td>{{ $paymentinfo->adjustments }}</td>
+                    <td>{{$total}}</td>
                     <tr>
                     @endforeach
                 </tr>

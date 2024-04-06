@@ -46,7 +46,7 @@
                                                 <td><span>{{$user->email}}</span></td>
                                                 <td><span>{{$user->phone}}</span></td>
                                                 <td><span>{{$user->lead_address}}</span></td>
-                                                <td><span>{{__('Event')}}</span></td>
+                                                <td><span>{{$user->type}}</span></td>
                                                 <td>
                                                
                                             </td>

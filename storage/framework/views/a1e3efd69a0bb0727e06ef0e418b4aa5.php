@@ -122,7 +122,7 @@
                     
                 </div>
                 <div class="table-responsive mt-3">
-                    <table class="table">
+                    <table class="table" id="pc-dt-export">
                         <thead>
                             <tr>
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Name')); ?></th>
@@ -135,11 +135,15 @@
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Rooms required')); ?></th>
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Function')); ?></th>
                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__(' Status')); ?></th>
+                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Payment Status')); ?></th>
+                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Amount Paid')); ?></th>
+                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Due Amount')); ?></th>
                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Created At')); ?></th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php $__currentLoopData = $events; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $result): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                           
                             <tr>
                                 <td><?php echo e(ucfirst($result['name'])); ?></td>
                                 <td><?php echo e(ucfirst(App\Models\User::where('id',$result['created_by'])->first()->name)); ?></td>
@@ -161,8 +165,41 @@
                                 <td><?php echo e(isset($result['function']) ? ucfirst($result['function']) : '--'); ?></td>
                                
                                 <td> <?php echo e(__(\App\Models\Meeting::$status[$result['status']])); ?></td>
-                            
-                                <td><?php echo e(__(\Auth::user()->dateFormat($result['created_at']))); ?></td>
+                                <td>
+                                <?php 
+                                    $paymentLog = App\Models\PaymentLogs::where('event_id', $result['id'])->orderBy('id', 'desc')->first();
+                                    $paymentInfo = App\Models\PaymentInfo::where('event_id', $result['id'])->orderBy('id', 'desc')->first();
+                                ?> 
+                                    <?php if($paymentLog && $paymentInfo): ?>
+                                        <?php if($paymentLog->amount < $paymentInfo->amounttobepaid && $paymentLog->amount != 0): ?>
+                                            Partially Paid
+                                        <?php else: ?>
+                                            Completed
+                                        <?php endif; ?>
+                                    <?php else: ?>
+                                        No Payment
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                <?php if($paymentLog): ?>
+                                $<?php echo e($paymentLog->amount); ?>
+
+                                       
+                                    <?php else: ?>
+                                       --
+                                    <?php endif; ?> 
+                                </td>
+                                <td> <?php if($paymentLog && $paymentInfo): ?>
+                                $<?php echo e($paymentInfo->amounttobepaid - $paymentLog->amount); ?>
+
+                                       
+                                    <?php else: ?>
+                                       --
+                                    <?php endif; ?> </td>
+                                <td><?php echo e(__(\Auth::user()->dateFormat($result['created_at']))); ?>
+
+                                   
+                                </td>
 
                             </tr>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

@@ -137,7 +137,7 @@ $total += $p->amount;
 <?php else: ?>
 <div class="row">
     <div class="col-md-12">
-        <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__(' Amount')); ?></span></dt>
+        <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Bill Amount')); ?></span></dt>
         <dd class="col-md-6">
             <span>$<?php echo e(isset($paymentinfo->amount) ? $paymentinfo->amount : $event->total); ?></span></dd>
         <dt class="col-md-6"><span class="h6 text-md mb-0"><?php echo e(__('Status')); ?></span></dt>
@@ -152,6 +152,7 @@ $total += $p->amount;
                 <th>Mode Of Payment</th>
                 <th>Late Fee</th>
                 <th>Adjustments</th>
+                <th>Amount Paid</th>
             </thead>
             <tbody>
                
@@ -161,6 +162,7 @@ $total += $p->amount;
                     <td><?php echo e($paymentinfo->modeofpayment); ?></td>
                     <td><?php echo e($paymentinfo->latefee); ?></td>
                     <td><?php echo e($paymentinfo->adjustments); ?></td>
+                    <td><?php echo e($total); ?></td>
                     <tr>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </tr>
