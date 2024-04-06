@@ -27,7 +27,7 @@ li.item-event>p:nth-child(2) {
         <div class="col-sm-8">
             <div id="calendar"></div>
         </div>
-        <div class="col-lg-4">
+        <!-- <div class="col-lg-4">
             <div class="card">
                 <div class="card-body">
                     <h3 class="mb-4">Event lists
@@ -42,10 +42,51 @@ li.item-event>p:nth-child(2) {
                     <ul class="event-cards list-group list-group-flush mt-3 w-100" id="listEvent"></ul>
                 </div>
             </div>
-        </div>
+        </div> -->
+        <div class="col-lg-4">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="mb-4">Next events</h4>
 
+                <ul class="event-cards list-group list-group-flush mt-3 w-100">
+                    @php
+                    $now = Carbon\Carbon::now();
+                    $this_month_meeting = \Auth::user()->type == 'owner'
+                    ? App\Models\meeting::where('created_by', \Auth::user()->creatorId())->get()
+                    : App\Models\meeting::where('user_id', \Auth::user()->id)->get();
+                    @endphp
+
+                    @foreach($this_month_meeting as $meeting)
+                    @php
+                    $start_date = Carbon\Carbon::parse($meeting->start_date);
+                    @endphp
+
+                    @if($start_date >= $now)
+                    <li class="list-group-item card mb-3">
+                        <div class="row align-items-center justify-content-between">
+                            <div class="col-auto mb-3 mb-sm-0">
+                                <div class="d-flex align-items-center">
+                                    <div class="theme-avtar bg-info">
+                                        <i class="ti ti-calendar-event"></i>
+                                    </div>
+                                    <div class="ms-3">
+                                        <h6 class="m-0">{{$meeting->name}}</h6>
+                                        <small class="text-muted">{{\Auth::user()->dateFormat($meeting->start_date)}} -
+                                        {{\Auth::user()->dateFormat($meeting->end_date)}}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    @endif
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+    </div>
 
     </div>
+   
 </div>
 @endsection
 @push('script-page')
@@ -85,30 +126,30 @@ function display_count() {
             let calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 headerToolbar: {
-                            left: 'prev,next today',
-                            center: 'title',
-                            right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                        },
-                        buttonText: {
-                            timeGridDay: "{{ __('Day') }}",
-                            timeGridWeek: "{{ __('Week') }}",
-                            dayGridMonth: "{{ __('Month') }}"
-                        },
-                        slotLabelFormat: {
-                                    hour: '2-digit',
-                                    minute: '2-digit',
-                                    hour12: false,
-                                },
-                        themeSystem: 'bootstrap',
-                        navLinks: true,
-                        droppable: false,
-                        selectable: true,
-                        selectMirror: true,
-                        editable: false,
-                        dayMaxEvents: true,
-                        handleWindowResize: true,
-                        height: 'auto',
-                        timeFormat: 'H(:mm)',
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                buttonText: {
+                    timeGridDay: "{{ __('Day') }}",
+                    timeGridWeek: "{{ __('Week') }}",
+                    dayGridMonth: "{{ __('Month') }}"
+                },
+                slotLabelFormat: {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false,
+                },
+                themeSystem: 'bootstrap',
+                navLinks: true,
+                droppable: false,
+                selectable: true,
+                selectMirror: true,
+                editable: false,
+                dayMaxEvents: true,
+                handleWindowResize: true,
+                height: 'auto',
+                timeFormat: 'H(:mm)',
                 initialView: 'dayGridMonth',
                 eventDisplay: 'block',
                 select: function(start, end, allDay, info) {
@@ -189,7 +230,5 @@ function display_count() {
         }
     })
 }
-
-
 </script>
 @endpush

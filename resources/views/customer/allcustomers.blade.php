@@ -7,6 +7,14 @@
     {{__('Customers')}}
 </div>
 @endsection
+@section('action-btn')
+<a href="#" data-url="{{ route('uploadusersinfo') }}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('Upload User')}}" title="{{__('Upload')}}" class="btn btn-sm btn-primary btn-icon m-1">
+    <i class="ti ti-plus"></i>
+</a>
+<a href="{{ route('exportuser') }}" data-bs-toggle="tooltip" data-title="{{__('Export User')}}" title="{{__('Export')}}" class="btn btn-sm btn-primary btn-icon m-1">
+    <i class="ti ti-table-export"></i>
+</a>
+@endsection
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{__('Home')}}</a></li>
 <li class="breadcrumb-item">{{__('All Customers')}}</li>

@@ -3,12 +3,12 @@
 {{ __('Report') }}
 @endsection
 @section('title')
-{{ __('Lead Analytics') }}
+{{ __('Event Analytics') }}
 @endsection
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Home') }}</a></li>
 <li class="breadcrumb-item">{{ __('Report') }}</li>
-<li class="breadcrumb-item">{{ __('Lead Analytics') }}</li>
+<li class="breadcrumb-item">{{ __('Event Analytics') }}</li>
 @endsection
 @section('action-btn')
 @endsection
@@ -21,7 +21,7 @@
                    
                 <div class="collapse show float-end" id="collapseExample" style="">
                
-                    {{ Form::open(['route' => ['report.leadsanalytic'], 'method' => 'get']) }}
+                    {{ Form::open(['route' => ['report.eventanalytic'], 'method' => 'get']) }}
                     <div class="row filter-css">
                     
                         <div class="col-auto">
@@ -30,9 +30,7 @@
                         <div class="col-auto">
                             {{ Form::month('end_month', isset($_GET['end_month']) ? $_GET['end_month'] : date('Y-12'), ['class' => 'form-control']) }}
                         </div>
-                        <!-- <div class="col-auto">
-                            {{ Form::select('leadsource', $leadsource, isset($_GET['leadsource']) ? $_GET['leadsource'] : '', ['class' => 'form-control ']) }}
-                        </div>-->
+                      
                         <div class="col-auto" style="margin-left: -29px;">
                             {{ Form::select('status', ['' => 'Select Status'] + $status, isset($_GET['status']) ? $_GET['status'] : '', ['class' => 'form-control', 'style' => 'margin-left: 29px;']) }}
                         </div>
@@ -75,14 +73,14 @@
                     <dl class="row">
                         @if (isset($report['startDateRange']) || isset($report['endDateRange']))
                         <input type="hidden"
-                            value="{{ __('Lead Report of') . ' ' . $report['startDateRange'] . ' to ' . $report['endDateRange'] }}"
+                            value="{{ __('Event Report of') . ' ' . $report['startDateRange'] . ' to ' . $report['endDateRange'] }}"
                             id="filesname">
                         @else
-                        <input type="hidden" value="{{ __('Lead Report') }}" id="filesname">
+                        <input type="hidden" value="{{ __('Event Report') }}" id="filesname">
                         @endif
 
                         <div class="col">
-                            {{ __('Report') }} : <h6>{{ __('Lead Summary') }}</h6>
+                            {{ __('Report') }} : <h6>{{ __('Event Summary') }}</h6>
                         </div>
                         <div class="col">
                             {{ __('Duration') }} : <h6>
@@ -114,11 +112,11 @@
                     {{-- <button class="btn btn-light-primary btn-sm sql">Export SQL</button> --}}
                     {{--<button class="btn btn-light-primary btn-sm txt">Export TXT</button> --}}
                     {{-- <button class="btn btn-light-primary btn-sm json">Export JSON</button>
-                       <button class="btn btn-light-primary btn-sm excel">Export Excel</button>
+                        <button class="btn btn-light-primary btn-sm excel">Export Excel</button>
                         <button class="btn btn-light-primary btn-sm pdf">Export pdf</button> --}}
                 </div>
                 <div class="table-responsive mt-3">
-                    <table class="table" id="pc-dt-export">
+                    <table class="table">
                         <thead>
                             <tr>
                                 <th scope="col" class="sort" data-sort="name">{{ __('Name') }}</th>
@@ -130,16 +128,12 @@
                                 <th scope="col" class="sort" data-sort="name">{{ __('Assigned Staff') }}</th>
                                 <th scope="col" class="sort" data-sort="name">{{ __('Rooms required') }}</th>
                                 <th scope="col" class="sort" data-sort="name">{{ __('Function') }}</th>
-                                <th scope="col" class="sort" data-sort="budget">{{ __('Converted To Event') }}</th>
-                                <th scope="col" class="sort" data-sort="budget">{{ __(' Lead Status') }}</th>
-                                <th scope="col" class="sort" data-sort="budget">{{ __('Status') }}</th>
+                                <th scope="col" class="sort" data-sort="budget">{{ __(' Status') }}</th>
                                 <th scope="col" class="sort" data-sort="budget">{{ __('Created At') }}</th>
-
-
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($leads as $result)
+                            @foreach ($events as $result)
                             <tr>
                                 <td>{{ ucfirst($result['name'])  }}</td>
                                 <td>{{ucfirst(App\Models\User::where('id',$result['created_by'])->first()->name)}}</td>
@@ -154,14 +148,11 @@
                                     @endif</td>
                                 <td>{{!empty($result['assign_user'])? $result['assign_user']->name:'--' }}
                                     ({{$result['assign_user']->type}})</td>
-                                <td>{{$result['rooms']}}</td>
+                                <td>{{$result['room']}}</td>
                                 <td>{{ isset($result['function']) ? ucfirst($result['function']) : '--' }}</td>
-                                <td>
-                                    <?php $event = App\Models\Meeting::where('attendees_lead',$result['id'])->exists() ?>
-                                    @if($event) Yes @else No @endif
-                                </td>
-                                <td> {{ __(\App\Models\Lead::$status[$result['status']]) }}</td>
-                                <td>{{ __(\App\Models\Lead::$stat[$result->lead_status]) }}</td>
+                               
+                                <td> {{ __(\App\Models\Meeting::$status[$result['status']]) }}</td>
+                            
                                 <td>{{ __(\Auth::user()->dateFormat($result['created_at'])) }}</td>
 
                             </tr>
@@ -182,6 +173,7 @@
     <script type="text/javascript" src="{{ asset('js/vfs_fonts.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/simple-datatables.js') }}"></script>
+    
     <script>
     $(document).ready(function() {
         $('#pc-dt-export').DataTable({
@@ -250,7 +242,7 @@
     $(document).ready(function() {
         var filename = $('#filename').val();
         setTimeout(function() {
-            $('#reportTable').DataTable({
+            $('#pc-dt-export').DataTable({
                 dom: 'Bfrtip',
                 buttons: [{
                     extend: 'excelHtml5',

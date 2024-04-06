@@ -4,25 +4,29 @@
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('title'); ?>
-<?php echo e(__('Lead Analytic')); ?>
+<?php echo e(__('Lead Analytics')); ?>
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('breadcrumb'); ?>
 <li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Home')); ?></a></li>
 <li class="breadcrumb-item"><?php echo e(__('Report')); ?></li>
-<li class="breadcrumb-item"><?php echo e(__('Lead Analytic')); ?></li>
+<li class="breadcrumb-item"><?php echo e(__('Lead Analytics')); ?></li>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('action-btn'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
-<!-- <div class="row">
+<div class="row">
     <div class="col-lg-12">
         <div class="card">
+     
             <div class="cardcard-body">
+                   
                 <div class="collapse show float-end" id="collapseExample" style="">
+               
                     <?php echo e(Form::open(['route' => ['report.leadsanalytic'], 'method' => 'get'])); ?>
 
                     <div class="row filter-css">
+                    
                         <div class="col-auto">
                             <?php echo e(Form::month('start_month', isset($_GET['start_month']) ? $_GET['start_month'] : date('Y-01'), ['class' => 'form-control'])); ?>
 
@@ -31,11 +35,10 @@
                             <?php echo e(Form::month('end_month', isset($_GET['end_month']) ? $_GET['end_month'] : date('Y-12'), ['class' => 'form-control'])); ?>
 
                         </div>
-
-                        <div class="col-auto">
+                        <!-- <div class="col-auto">
                             <?php echo e(Form::select('leadsource', $leadsource, isset($_GET['leadsource']) ? $_GET['leadsource'] : '', ['class' => 'form-control '])); ?>
 
-                        </div>
+                        </div>-->
                         <div class="col-auto" style="margin-left: -29px;">
                             <?php echo e(Form::select('status', ['' => 'Select Status'] + $status, isset($_GET['status']) ? $_GET['status'] : '', ['class' => 'form-control', 'style' => 'margin-left: 29px;'])); ?>
 
@@ -53,11 +56,11 @@
                             <div class="col-auto">
                                 <a href="<?php echo e(route('report.leadsanalytic')); ?>" data-bs-toggle="tooltip"
                                     title="<?php echo e(__('Reset')); ?>" data-title="<?php echo e(__('Reset')); ?>"
-                                    class="mx-3 btn btn-sm align-items-center text-white"><i
+                                    class=" btn btn-sm align-items-center text-white"><i
                                         class="ti ti-trash-off"></i></a>
                             </div>
                         </div>
-                        <div class="action-btn bg-primary ms-2">
+                        <!-- <div class="action-btn bg-primary ms-2">
                             <div class="col-auto">
                                 <a href="#" onclick="saveAsPDF();" class="mx-3 btn btn-sm align-items-center text-white"
                                     data-bs-toggle="tooltip" data-title="<?php echo e(__('Download')); ?>"
@@ -65,14 +68,14 @@
                                     <i class="ti ti-download"></i>
                                 </a>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div> -->
-<!-- <div id="printableArea">
+</div>
+<div id="printableArea">
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
@@ -101,22 +104,22 @@
         </div>
     </div>
 
-    <div class="col-lg-12">
+    <!-- <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
                 <div id="report-chart"></div>
             </div>
         </div>
-    </div>
+    </div> -->
 
 
-</div> -->
+</div>
 <div class="row">
     <div class="col-xl-12">
         <div class="card">
             <div class="card-body table-border-style">
                 <div>
-                    <button class="btn btn-light-primary btn-sm csv">Export CSV</button>
+                   <button class="btn btn-light-primary btn-sm csv">Export CSV</button> 
                     
                     
                     
@@ -129,54 +132,48 @@
                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Created By')); ?></th>
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Type')); ?></th>
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Phone')); ?></th>
-                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Converted')); ?></th>
-                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Proposal Status')); ?></th>
+                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Email')); ?></th>
+                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Date')); ?></th>
+                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Assigned Staff')); ?></th>
+                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Rooms required')); ?></th>
+                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Function')); ?></th>
+                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Converted To Event')); ?></th>
+                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__(' Lead Status')); ?></th>
+                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Status')); ?></th>
+                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Created At')); ?></th>
+
 
                             </tr>
                         </thead>
                         <tbody>
                             <?php $__currentLoopData = $leads; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $result): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <tr>
-                                <td>
-                                    <?php echo e($result['name']); ?>
+                                <td><?php echo e(ucfirst($result['name'])); ?></td>
+                                <td><?php echo e(ucfirst(App\Models\User::where('id',$result['created_by'])->first()->name)); ?></td>
+                                <td><?php echo e(ucfirst($result['type'])); ?></td>
+                                <td><?php echo e($result['phone']); ?></td>
+                                <td><?php echo e($result['email']); ?></td>
+                                <td> <?php if($result['start_date'] == $result['end_date']): ?>
+                                    <?php echo e(\Auth::user()->dateFormat($result['start_date'])); ?>
 
-                                </td>
-                                <td>
-                                    <?php echo e(App\Models\User::where('id',$result['created_by'])->first()->name); ?>
-
-                                </td>
-                                <td>
-                                    <?php echo e($result['type']); ?>
-
-                                </td>
-                                <td>
-                                    <?php echo e($result['phone']); ?>
-
-                                </td>
-                                <!-- <td>
-                                    <?php if($result->lead_status == 0): ?>
-                                    <span
-                                        class="badge bg-danger p-2 px-3 rounded"><?php echo e(__(\App\Models\Lead::$stat[$result->lead_status])); ?></span>
                                     <?php else: ?>
-                                    <span
-                                        class="badge bg-success p-2 px-3 rounded"><?php echo e(__(\App\Models\Lead::$stat[$result->lead_status])); ?></span>
-                                    <?php endif; ?>
-                                </td> -->
+                                    <?php echo e(\Auth::user()->dateFormat($result['start_date'])); ?> -
+                                    <?php echo e(\Auth::user()->dateFormat($result['end_date'])); ?>
+
+                                    <?php endif; ?></td>
+                                <td><?php echo e(!empty($result['assign_user'])? $result['assign_user']->name:'--'); ?>
+
+                                    (<?php echo e($result['assign_user']->type); ?>)</td>
+                                <td><?php echo e($result['rooms']); ?></td>
+                                <td><?php echo e(isset($result['function']) ? ucfirst($result['function']) : '--'); ?></td>
                                 <td>
                                     <?php $event = App\Models\Meeting::where('attendees_lead',$result['id'])->exists() ?>
-                                    <?php if($event): ?> Yes  <?php else: ?>  No  <?php endif; ?>
+                                    <?php if($event): ?> Yes <?php else: ?> No <?php endif; ?>
                                 </td>
-                                <td>
-                                <?php if($result['proposal_status'] == 0): ?>
-                                                    <span class="badge bg-info p-2 px-3 rounded"><?php echo e(__(\App\Models\Lead::$status[$result['proposal_status']])); ?></span>
-                                                    <?php elseif($result['proposal_status'] == 1): ?>
-                                                    <span class="badge bg-warning p-2 px-3 rounded"><?php echo e(__(\App\Models\Lead::$status[$result['proposal_status']])); ?></span>
-                                                    <?php elseif($result['proposal_status'] == 2): ?>
-                                                    <span class="badge bg-success p-2 px-3 rounded"><?php echo e(__(\App\Models\Lead::$status[$result['proposal_status']])); ?></span>
-                                                    <?php elseif($result['proposal_status'] == 3): ?>
-                                                    <span class="badge bg-danger p-2 px-3 rounded"><?php echo e(__(\App\Models\Lead::$status[$result['proposal_status']])); ?></span>
-                                                    <?php endif; ?>
-                                </td>
+                                <td> <?php echo e(__(\App\Models\Lead::$status[$result['status']])); ?></td>
+                                <td><?php echo e(__(\App\Models\Lead::$stat[$result->lead_status])); ?></td>
+                                <td><?php echo e(__(\Auth::user()->dateFormat($result['created_at']))); ?></td>
+
                             </tr>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </tbody>
@@ -187,14 +184,30 @@
     </div>
     <?php $__env->stopSection(); ?>
     <?php $__env->startPush('script-page'); ?>
+
     <script type="text/javascript" src="<?php echo e(asset('js/html2pdf.bundle.min.js')); ?>"></script>
     <script type="text/javascript" src="<?php echo e(asset('js/dataTables.buttons.min.js')); ?>"></script>
     <script type="text/javascript" src="<?php echo e(asset('js/jszip.min.js')); ?>"></script>
     <script type="text/javascript" src="<?php echo e(asset('js/pdfmake.min.js')); ?>"></script>
     <script type="text/javascript" src="<?php echo e(asset('js/vfs_fonts.js')); ?>"></script>
     <script type="text/javascript" src="<?php echo e(asset('js/buttons.html5.min.js')); ?>"></script>
-
     <script src="<?php echo e(asset('assets/js/plugins/simple-datatables.js')); ?>"></script>
+    <script>
+    $(document).ready(function() {
+        $('#pc-dt-export').DataTable({
+            dom: 'Bfrtip',
+            buttons: [{
+                extend: 'excelHtml5',
+                customize: function(xlsx) {
+                    var sheet = xlsx.xl.worksheets['sheet1.xml'];
+
+                    $('row c[r^="C"]', sheet).attr('s', '2');
+                }
+            }]
+        });
+    });
+    </script>
+
     <script>
     const table = new simpleDatatables.DataTable("#pc-dt-export");
     document.querySelector("button.csv").addEventListener("click", () => {
@@ -238,8 +251,6 @@
         table.export({
             type: "pdf",
             download: true,
-
-
         })
     })
     </script>

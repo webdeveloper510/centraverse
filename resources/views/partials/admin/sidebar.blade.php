@@ -196,7 +196,8 @@
                 </a>
                 @endif
                 @if( \Request::route()->getName() == 'report.index' || \Request::route()->getName() == 'report.show' ||
-                \Request::route()->getName() == 'report.edit' ? ' active ' : '')
+                \Request::route()->getName() == 'report.edit' || \Request::route()->getName() == 'report.leadsanalytic' ||
+                \Request::route()->getName() == 'report.eventanalytic' || \Request::route()->getName() == 'report.customersanalytic' ? ' active ' : '')
                 <!-- <a href="{{ route('report.index') }}" class="list-group-item list-group-item-action"><span
                         class="fa-stack fa-lg pull-left"><i class="ti ti-trending-up"></i></span>
                     <span class="dash-mtext">{{ __('Custom Report') }} </span></a>
@@ -221,6 +222,16 @@
                         class="fa-stack fa-lg pull-left"></span>
                     <span class="dash-mtext">{{ __('Quote Analytics') }} </span></a>
                 </a> -->
+                <a href="{{ route('report.eventanalytic') }}" class="list-group-item list-group-item-action"><span
+                        class="fa-stack fa-lg pull-left"></span>
+                    <span class="dash-mtext">{{ __('Event Analytics') }} </span></a>
+
+                </a>
+                <a href="{{ route('report.customersanalytic') }}" class="list-group-item list-group-item-action"><span
+                        class="fa-stack fa-lg pull-left"></span>
+                    <span class="dash-mtext">{{ __('Customers Analytics') }} </span></a>
+
+                </a>
                 @endif
                 @if(\Request::route()->getName() == 'meeting.create' ||\Request::route()->getName() == 'meeting.edit' )
                 <a href="#useradd-1" class="list-group-item list-group-item-action">

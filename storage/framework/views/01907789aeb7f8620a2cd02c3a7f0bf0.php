@@ -38,8 +38,8 @@
                                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Email')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Assigned Staff')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Status')); ?></th>
-                                                <th scope="col" class="sort"><?php echo e(__('Proposal Status')); ?></th>
-                                                <th scope="col" class="sort"><?php echo e(__('Admin Approval')); ?></th>
+                                                <!-- <th scope="col" class="sort"><?php echo e(__('Proposal Status')); ?></th> -->
+                                                <th scope="col" class="sort"><?php echo e(__('Lead Status')); ?></th>
                                                 <?php if(Gate::check('Show Lead') || Gate::check('Edit Lead') || Gate::check('Delete Lead')): ?>
                                                 <th scope="col" class="text-end"><?php echo e(__('Action')); ?></th>
                                                 <?php endif; ?>
@@ -67,55 +67,43 @@
                                                     <?php $__currentLoopData = $statuss; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $stat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <option value="<?php echo e($key); ?>"<?php echo e(isset($lead->lead_status) && $lead->lead_status == $key ? "selected" : ""); ?>><?php echo e($stat); ?></option>
                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                <td>
-                                                    <?php if($lead->proposal_status == 0): ?>
-                                                    <span class="badge bg-info p-2 px-3 rounded"><?php echo e(__(\App\Models\Lead::$status[$lead->proposal_status])); ?></span>
-                                                    <?php elseif($lead->proposal_status == 1): ?>
-                                                    <span class="badge bg-warning p-2 px-3 rounded"><?php echo e(__(\App\Models\Lead::$status[$lead->proposal_status])); ?></span>
-                                                    <?php elseif($lead->proposal_status == 2): ?>
-                                                    <span class="badge bg-success p-2 px-3 rounded"><?php echo e(__(\App\Models\Lead::$status[$lead->proposal_status])); ?></span>
-                                                    <?php elseif($lead->proposal_status == 3): ?>
-                                                    <span class="badge bg-danger p-2 px-3 rounded"><?php echo e(__(\App\Models\Lead::$status[$lead->proposal_status])); ?></span>
-                                                    <?php endif; ?>
-                                                </td>
+                                              
                                                 <td>
                                                     <?php if($lead->status == 0): ?>
-                                                    <span class="badge bg-info p-2 px-3 rounded"><?php echo e(__(\App\Models\Lead::$lead_status[$lead->status])); ?></span>
+                                                    <span class="badge bg-info p-2 px-3 rounded"><?php echo e(__(\App\Models\Lead::$status[$lead->status])); ?></span>
                                                     <?php elseif($lead->status == 1): ?>
-                                                    <span class="badge bg-warning p-2 px-3 rounded"><?php echo e(__(\App\Models\Lead::$lead_status[$lead->status])); ?></span>
+                                                    <span class="badge bg-warning p-2 px-3 rounded"><?php echo e(__(\App\Models\Lead::$status[$lead->status])); ?></span>
                                                     <?php elseif($lead->status == 2): ?>
-                                                    <span class="badge bg-success p-2 px-3 rounded"><?php echo e(__(\App\Models\Lead::$lead_status[$lead->status])); ?></span>
+                                                    <span class="badge bg-secondary p-2 px-3 rounded"><?php echo e(__(\App\Models\Lead::$status[$lead->status])); ?></span>
                                                     <?php elseif($lead->status == 3): ?>
-                                                    <span class="badge bg-primary p-2 px-3 rounded"><?php echo e(__(\App\Models\Lead::$lead_status[$lead->status])); ?></span>
+                                                    <span class="badge bg-danger p-2 px-3 rounded"><?php echo e(__(\App\Models\Lead::$status[$lead->status])); ?></span>
+                                                    <?php elseif($lead->status == 4): ?>
+                                                    <span class="badge bg-success p-2 px-3 rounded"><?php echo e(__(\App\Models\Lead::$status[$lead->status])); ?></span>
+                                                    <?php elseif($lead->status == 5): ?>
+                                                    <span class="badge bg-warning p-2 px-3 rounded"><?php echo e(__(\App\Models\Lead::$status[$lead->status])); ?></span>
                                                     <?php endif; ?>
                                                 </td>
                                                 <?php if(Gate::check('Show Lead') || Gate::check('Edit Lead') || Gate::check('Delete Lead')): ?>
                                                 <td class="text-end">
-                                                    <?php if($lead->status == 2): ?>
+                                                    <?php if($lead->status == 4): ?>
                                                     <div class="action-btn bg-secondary ms-2">
                                                         <a href="<?php echo e(route('meeting.create',['meeting',0])); ?>" data-size="md" data-url="#" data-bs-toggle="tooltip" data-title="<?php echo e(__('Convert')); ?>" title="<?php echo e(__('Convert To Event')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="fas fa-exchange-alt"></i> </a> </a>
                                                     </div>
                                                     <?php endif; ?>
-                                                    <?php if($lead->proposal_status == 0 ): ?>
+                                                    <?php if($lead->status == 0 ): ?>
                                                     <div class="action-btn bg-primary ms-2">
                                                         <a href="#" data-size="md" data-url="<?php echo e(route('lead.shareproposal',urlencode(encrypt($lead->id)))); ?>" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('Proposal')); ?>" title="<?php echo e(__('Share Proposal')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-share"></i>
                                                         </a>
                                                     </div>
-                                                    <?php elseif($lead->proposal_status == 1): ?>
-                                                    <div class="action-btn bg-primary ms-2">
-                                                        <a href="#" data-size="md" data-title="<?php echo e(__('Proposal')); ?>" title="<?php echo e(__('Proposal Sent')); ?>" data-bs-toggle="tooltip" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class="ti ti-clock"></i>
-                                                        </a>
-                                                    </div>
-                                                    <?php elseif($lead->proposal_status == 2): ?>
-                                                    <?php if($lead->status != 2): ?>
+                                                    <?php endif; ?>
+                                                  
+                                                    <?php if($lead->status == 2): ?>
                                                     <div class="action-btn bg-info ms-2">
                                                         <a href="<?php echo e(route('lead.review',urlencode(encrypt($lead->id)))); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " data-bs-toggle="tooltip" title="<?php echo e(__('Review')); ?>" data-title="<?php echo e(__('Review Lead')); ?>">
                                                             <i class="fas fa-pen"></i></a>
                                                     </div>
-                                                    <?php endif; ?>
                                                     <?php endif; ?>
                                                     <div class="action-btn bg-primary ms-2">
                                                         <a href="<?php echo e(route('lead.clone',urlencode(encrypt($lead->id)))); ?>" data-size="md" data-url="#" data-bs-toggle="tooltip" title="<?php echo e(__('Clone')); ?>" data-title="<?php echo e(__('Clone')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
@@ -134,13 +122,13 @@
                                                         </a>
                                                     </div>
                                                     <?php endif; ?>
-                                                    <?php if($lead->status != 2): ?>
+                                                
                                                         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Edit Lead')): ?>
                                                         <div class="action-btn bg-info ms-2">
                                                             <a href="<?php echo e(route('lead.edit',$lead->id)); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " data-bs-toggle="tooltip" title="<?php echo e(__('Details')); ?>" data-title="<?php echo e(__('Edit Lead')); ?>"><i class="ti ti-edit"></i></a>
                                                         </div>
                                                         <?php endif; ?>
-                                                    <?php endif; ?>
+                                                   
                                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Delete Lead')): ?>
                                                     <div class="action-btn bg-danger ms-2">
                                                         <?php echo Form::open(['method' => 'DELETE', 'route' => ['lead.destroy', $lead->id]]); ?>

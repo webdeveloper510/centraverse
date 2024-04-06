@@ -28,7 +28,7 @@ li.item-event>p:nth-child(2) {
         <div class="col-sm-8">
             <div id="calendar"></div>
         </div>
-        <div class="col-lg-4">
+        <!-- <div class="col-lg-4">
             <div class="card">
                 <div class="card-body">
                     <h3 class="mb-4">Event lists
@@ -43,10 +43,51 @@ li.item-event>p:nth-child(2) {
                     <ul class="event-cards list-group list-group-flush mt-3 w-100" id="listEvent"></ul>
                 </div>
             </div>
-        </div>
+        </div> -->
+        <div class="col-lg-4">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="mb-4">Next events</h4>
 
+                <ul class="event-cards list-group list-group-flush mt-3 w-100">
+                    <?php
+                    $now = Carbon\Carbon::now();
+                    $this_month_meeting = \Auth::user()->type == 'owner'
+                    ? App\Models\meeting::where('created_by', \Auth::user()->creatorId())->get()
+                    : App\Models\meeting::where('user_id', \Auth::user()->id)->get();
+                    ?>
+
+                    <?php $__currentLoopData = $this_month_meeting; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $meeting): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <?php
+                    $start_date = Carbon\Carbon::parse($meeting->start_date);
+                    ?>
+
+                    <?php if($start_date >= $now): ?>
+                    <li class="list-group-item card mb-3">
+                        <div class="row align-items-center justify-content-between">
+                            <div class="col-auto mb-3 mb-sm-0">
+                                <div class="d-flex align-items-center">
+                                    <div class="theme-avtar bg-info">
+                                        <i class="ti ti-calendar-event"></i>
+                                    </div>
+                                    <div class="ms-3">
+                                        <h6 class="m-0"><?php echo e($meeting->name); ?></h6>
+                                        <small class="text-muted"><?php echo e(\Auth::user()->dateFormat($meeting->start_date)); ?> -
+                                        <?php echo e(\Auth::user()->dateFormat($meeting->end_date)); ?></small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <?php endif; ?>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                </ul>
+            </div>
+        </div>
+    </div>
 
     </div>
+   
 </div>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script-page'); ?>
@@ -86,30 +127,30 @@ function display_count() {
             let calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 headerToolbar: {
-                            left: 'prev,next today',
-                            center: 'title',
-                            right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                        },
-                        buttonText: {
-                            timeGridDay: "<?php echo e(__('Day')); ?>",
-                            timeGridWeek: "<?php echo e(__('Week')); ?>",
-                            dayGridMonth: "<?php echo e(__('Month')); ?>"
-                        },
-                        slotLabelFormat: {
-                                    hour: '2-digit',
-                                    minute: '2-digit',
-                                    hour12: false,
-                                },
-                        themeSystem: 'bootstrap',
-                        navLinks: true,
-                        droppable: false,
-                        selectable: true,
-                        selectMirror: true,
-                        editable: false,
-                        dayMaxEvents: true,
-                        handleWindowResize: true,
-                        height: 'auto',
-                        timeFormat: 'H(:mm)',
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                buttonText: {
+                    timeGridDay: "<?php echo e(__('Day')); ?>",
+                    timeGridWeek: "<?php echo e(__('Week')); ?>",
+                    dayGridMonth: "<?php echo e(__('Month')); ?>"
+                },
+                slotLabelFormat: {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false,
+                },
+                themeSystem: 'bootstrap',
+                navLinks: true,
+                droppable: false,
+                selectable: true,
+                selectMirror: true,
+                editable: false,
+                dayMaxEvents: true,
+                handleWindowResize: true,
+                height: 'auto',
+                timeFormat: 'H(:mm)',
                 initialView: 'dayGridMonth',
                 eventDisplay: 'block',
                 select: function(start, end, allDay, info) {
@@ -190,8 +231,6 @@ function display_count() {
         }
     })
 }
-
-
 </script>
 <?php $__env->stopPush(); ?>
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/crmcentraverse/public_html/resources/views/calender_new/index.blade.php ENDPATH**/ ?>

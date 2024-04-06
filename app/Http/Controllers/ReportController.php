@@ -9,6 +9,7 @@ use App\Models\CommonCase;
 use App\Models\Contact;
 use App\Models\Invoice;
 use App\Models\Lead;
+use App\Models\Meeting;
 use App\Models\LeadSource;
 use App\Models\Opportunities;
 use App\Models\Product;
@@ -414,7 +415,71 @@ class ReportController extends Controller
         return view('report.leadsanalytic', compact('labels', 'data', 'report', 'leads', 'leadsource', 'status'));
 
     }
+    public function eventanalytic(Request $request){
+        $status = Meeting::$status;
 
+
+        $labels = [];
+        $data   = [];
+
+
+        if(!empty($request->start_month) && !empty($request->end_month))
+        {
+            $start = strtotime($request->start_month);
+            $end   = strtotime($request->end_month);
+        }
+        else
+        {
+            $start = strtotime(date('Y-01'));
+            $end   = strtotime(date('Y-12'));
+        }
+
+        $events = Meeting::orderBy('id');
+
+        $events->where('created_at', '>=', date('Y-m-01', $start))->where('created_at', '<=', date('Y-m-t', $end));
+        // if(!empty($request->leadsource))
+        // {
+        //     $leads->where('source', $request->leadsource);
+        // }
+        if(!empty($request->status))
+        {
+            $leads->where('status', $request->status);
+        }
+
+        $events->where('created_by', \Auth::user()->creatorId());
+        $events = $events->get();
+
+        $currentdate = $start;
+        while($currentdate <= $end)
+        {
+            $month = date('m', $currentdate);
+            $year  = date('Y', $currentdate);
+
+            $eventFilter = Meeting::where('created_by', \Auth::user()->creatorId())->whereMonth('created_at', $month)->whereYear('created_at', $year);
+            // if(!empty($request->leadsource))
+            // {
+            //     $leadFilter->where('source', $request->leadsource);
+            // }
+            if(!empty($request->status))
+            {
+                $eventFilter->where('status', $request->status);
+            }
+
+            $eventFilter->where('created_by', \Auth::user()->creatorId());
+            $eventFilter = $eventFilter->get();
+
+            $data[]      = count($eventFilter);
+            $labels[]    = date('M Y', $currentdate);
+            $currentdate = strtotime('+1 month', $currentdate);
+
+        }
+
+        $report['startDateRange'] = date('M-Y', $start);
+        $report['endDateRange']   = date('M-Y', $end);
+
+        return view('report.eventanalytic', compact('labels', 'data', 'report', 'events', 'status'));
+
+    }
     public function invoiceanalytic(Request $request)
     {
         $report['account'] = __('All');
@@ -590,6 +655,9 @@ class ReportController extends Controller
         return view('report.supportanalytic');
     }
 
+    public function customersanalytic(Request $request){
+        return view('report.customersanalytic');
+    }
     public function getparent(Request $request)
     {
 
