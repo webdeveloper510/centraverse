@@ -17,15 +17,15 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
-     
+
             <div class="cardcard-body">
-                   
+
                 <div class="collapse show float-end" id="collapseExample" style="">
-               
+
                     <?php echo e(Form::open(['route' => ['report.eventanalytic'], 'method' => 'get'])); ?>
 
                     <div class="row filter-css">
-                    
+
                         <div class="col-auto">
                             <?php echo e(Form::month('start_month', isset($_GET['start_month']) ? $_GET['start_month'] : date('Y-01'), ['class' => 'form-control'])); ?>
 
@@ -34,7 +34,7 @@
                             <?php echo e(Form::month('end_month', isset($_GET['end_month']) ? $_GET['end_month'] : date('Y-12'), ['class' => 'form-control'])); ?>
 
                         </div>
-                      
+
                         <div class="col-auto" style="margin-left: -29px;">
                             <?php echo e(Form::select('status', ['' => 'Select Status'] + $status, isset($_GET['status']) ? $_GET['status'] : '', ['class' => 'form-control', 'style' => 'margin-left: 29px;'])); ?>
 
@@ -115,13 +115,13 @@
         <div class="card">
             <div class="card-body table-border-style">
                 <div>
-                   <button class="btn btn-light-primary btn-sm csv">Export CSV</button> 
+                    <button class="btn btn-light-primary btn-sm csv">Export CSV</button>
                     
                     
                     
                 </div>
                 <div class="table-responsive mt-3">
-                    <table class="table">
+                    <table class="table" id="pc-dt-export">
                         <thead>
                             <tr>
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Name')); ?></th>
@@ -134,11 +134,15 @@
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Rooms required')); ?></th>
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Function')); ?></th>
                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__(' Status')); ?></th>
+                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Payment Status')); ?></th>
+                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Amount Paid')); ?></th>
+                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Due Amount')); ?></th>
                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Created At')); ?></th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php $__currentLoopData = $events; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $result): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+
                             <tr>
                                 <td><?php echo e(ucfirst($result['name'])); ?></td>
                                 <td><?php echo e(ucfirst(App\Models\User::where('id',$result['created_by'])->first()->name)); ?></td>
@@ -158,10 +162,43 @@
                                     (<?php echo e($result['assign_user']->type); ?>)</td>
                                 <td><?php echo e($result['room']); ?></td>
                                 <td><?php echo e(isset($result['function']) ? ucfirst($result['function']) : '--'); ?></td>
-                               
+
                                 <td> <?php echo e(__(\App\Models\Meeting::$status[$result['status']])); ?></td>
-                            
-                                <td><?php echo e(__(\Auth::user()->dateFormat($result['created_at']))); ?></td>
+                                <td>
+                                    <?php 
+                                    $paymentLog = App\Models\PaymentLogs::where('event_id', $result['id'])->orderBy('id', 'desc')->first();
+                                    $paymentInfo = App\Models\PaymentInfo::where('event_id', $result['id'])->orderBy('id', 'desc')->first();
+                                ?>
+                                    <?php if($paymentLog && $paymentInfo): ?>
+                                    <?php if($paymentLog->amount < $paymentInfo->amounttobepaid && $paymentLog->amount != 0): ?>
+                                        Partially Paid
+                                        <?php else: ?>
+                                        Completed
+                                        <?php endif; ?>
+                                        <?php else: ?>
+                                        No Payment
+                                        <?php endif; ?>
+                                </td>
+                                <td>
+                                    <?php if($paymentLog): ?>
+                                    $<?php echo e($paymentLog->amount); ?>
+
+
+                                    <?php else: ?>
+                                    --
+                                    <?php endif; ?>
+                                </td>
+                                <td> <?php if($paymentLog && $paymentInfo): ?>
+                                    $<?php echo e($paymentInfo->amounttobepaid - $paymentLog->amount); ?>
+
+
+                                    <?php else: ?>
+                                    --
+                                    <?php endif; ?> </td>
+                                <td><?php echo e(__(\Auth::user()->dateFormat($result['created_at']))); ?>
+
+
+                                </td>
 
                             </tr>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -171,7 +208,8 @@
             </div>
         </div>
     </div>
-    <?php $__env->stopSection(); ?>
+</div>
+<?php $__env->stopSection(); ?>
     <?php $__env->startPush('script-page'); ?>
 
     <script type="text/javascript" src="<?php echo e(asset('js/html2pdf.bundle.min.js')); ?>"></script>
@@ -181,7 +219,7 @@
     <script type="text/javascript" src="<?php echo e(asset('js/vfs_fonts.js')); ?>"></script>
     <script type="text/javascript" src="<?php echo e(asset('js/buttons.html5.min.js')); ?>"></script>
     <script src="<?php echo e(asset('assets/js/plugins/simple-datatables.js')); ?>"></script>
-    
+
     <script>
     $(document).ready(function() {
         $('#pc-dt-export').DataTable({

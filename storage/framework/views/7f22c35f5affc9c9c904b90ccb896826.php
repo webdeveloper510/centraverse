@@ -121,7 +121,6 @@
                    <button class="btn btn-light-primary btn-sm csv">Export CSV</button> 
                     
                     
-                    
                 </div>
                 <div class="table-responsive mt-3">
                     <table class="table" id="pc-dt-export">
@@ -184,29 +183,16 @@
     <?php $__env->stopSection(); ?>
     <?php $__env->startPush('script-page'); ?>
 
-    <script type="text/javascript" src="<?php echo e(asset('js/html2pdf.bundle.min.js')); ?>"></script>
+    <script>
+          <script type="text/javascript" src="<?php echo e(asset('js/html2pdf.bundle.min.js')); ?>"></script>
     <script type="text/javascript" src="<?php echo e(asset('js/dataTables.buttons.min.js')); ?>"></script>
     <script type="text/javascript" src="<?php echo e(asset('js/jszip.min.js')); ?>"></script>
     <script type="text/javascript" src="<?php echo e(asset('js/pdfmake.min.js')); ?>"></script>
     <script type="text/javascript" src="<?php echo e(asset('js/vfs_fonts.js')); ?>"></script>
     <script type="text/javascript" src="<?php echo e(asset('js/buttons.html5.min.js')); ?>"></script>
-    <script src="<?php echo e(asset('assets/js/plugins/simple-datatables.js')); ?>"></script>
-    <script>
-    $(document).ready(function() {
-        $('#pc-dt-export').DataTable({
-            dom: 'Bfrtip',
-            buttons: [{
-                extend: 'excelHtml5',
-                customize: function(xlsx) {
-                    var sheet = xlsx.xl.worksheets['sheet1.xml'];
 
-                    $('row c[r^="C"]', sheet).attr('s', '2');
-                }
-            }]
-        });
-    });
-    </script>
 
+    <script src="../assets/js/plugins/simple-datatables.js"></script>
     <script>
     const table = new simpleDatatables.DataTable("#pc-dt-export");
     document.querySelector("button.csv").addEventListener("click", () => {
@@ -246,63 +232,34 @@
 
         })
     })
-    document.querySelector("button.pdf").addEventListener("click", () => {
+        document.querySelector("button.pdf").addEventListener("click", () => {
         table.export({
             type: "pdf",
             download: true,
+
+
         })
     })
-    </script>
+    
+</script>
 
 
     <script>
-    $(document).ready(function() {
-        var filename = $('#filename').val();
-        setTimeout(function() {
-            $('#reportTable').DataTable({
-                dom: 'Bfrtip',
-                buttons: [{
-                    extend: 'excelHtml5',
-                    title: filename
-                }, {
-                    extend: 'csvHtml5',
-                    title: filename
-                }, {
-                    extend: 'pdfHtml5',
-                    title: filename
-                }, ],
+        var filename = $('#filesname').val();
 
-            });
-        }, 500);
-
-    });
+        function saveAsPDF() {
+            var element = document.getElementById('printableArea');
+            var opt = {
+                margin: 0.3,
+                filename: filename,
+                image: {type: 'jpeg', quality: 1},
+                html2canvas: {scale: 4, dpi: 72, letterRendering: true},
+                jsPDF: {unit: 'in', format: 'A2'}
+            };
+            html2pdf().set(opt).from(element).save();
+        }
     </script>
 
-    <script>
-    var filename = $('#filesname').val();
-
-    function saveAsPDF() {
-        var element = document.getElementById('printableArea');
-        var opt = {
-            margin: 0.3,
-            filename: filename,
-            image: {
-                type: 'jpeg',
-                quality: 1
-            },
-            html2canvas: {
-                scale: 4,
-                dpi: 72,
-                letterRendering: true
-            },
-            jsPDF: {
-                unit: 'in',
-                format: 'A2'
-            }
-        };
-        html2pdf().set(opt).from(element).save();
-    }
-    </script>
 
 
     <script src="<?php echo e(asset('assets/js/plugins/apexcharts.min.js')); ?>"></script>

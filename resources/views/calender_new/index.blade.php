@@ -52,8 +52,8 @@ li.item-event>p:nth-child(2) {
                     @php
                     $now = Carbon\Carbon::now();
                     $this_month_meeting = \Auth::user()->type == 'owner'
-                    ? App\Models\meeting::where('created_by', \Auth::user()->creatorId())->get()
-                    : App\Models\meeting::where('user_id', \Auth::user()->id)->get();
+                    ? App\Models\Meeting::where('created_by', \Auth::user()->creatorId())->get()
+                    : App\Models\Meeting::where('user_id', \Auth::user()->id)->get();
                     @endphp
 
                     @foreach($this_month_meeting as $meeting)
