@@ -9,6 +9,7 @@ if(isset($event->bar_package) && !empty($event->bar_package)){
     $bar = json_decode($event->bar_package,true);
 }
 $payments = App\Models\PaymentLogs::where('event_id',$event->id)->get();
+$payinfo = App\Models\PaymentInfo::where('event_id',$event->id)->orderby('id','desc')->first();
 
 ?>
 <div class="row">
@@ -29,7 +30,8 @@ $payments = App\Models\PaymentLogs::where('event_id',$event->id)->get();
             @if($event->start_date == $event->end_date)
             <dd class="col-md-6"><span class="">{{\Auth::user()->dateFormat($event->start_date)}}</span></dd>
             @else
-            <dd class="col-md-6"><span class="">{{\Auth::user()->dateFormat($event->start_date)}} - {{\Auth::user()->dateFormat($event->end_date)}}</span></dd>
+            <dd class="col-md-6"><span class="">{{\Auth::user()->dateFormat($event->start_date)}} -
+                    {{\Auth::user()->dateFormat($event->end_date)}}</span></dd>
             @endif
 
             <dt class="col-md-6"><span class="h6  mb-0">{{__('Time')}}</span></dt>
@@ -116,10 +118,10 @@ $payments = App\Models\PaymentLogs::where('event_id',$event->id)->get();
     </div>
     <hr>
     <div class="row">
-    <div class="col-12  p-0 modaltitle pb-3 mb-3 mt-3">
-        <h5 style="margin-left: 14px;">{{ __('Billing Details') }}</h5>
-    </div>
-    @if(isset($payments) && !empty($payments))
+        <div class="col-12  p-0 modaltitle pb-3 mb-3 mt-3">
+            <h5 style="margin-left: 14px;">{{ __('Billing Details') }}</h5>
+        </div>
+        @if(isset($payments) && !empty($payments))
         <div class="col-md-12">
             <table class="table">
                 <thead>
@@ -127,22 +129,27 @@ $payments = App\Models\PaymentLogs::where('event_id',$event->id)->get();
                         <th scope="col">Created On</th>
                         <th scope="col">Name</th>
                         <th scope="col">Transaction Id</th>
-                        <th scope="col">Amount</th>
-                        <!-- <th scope="col">Converted events</th> -->
+                        <th scope="col">Total Amount</th>
+                        <th scope="col">Amount Recieved</th>
                     </tr>
                 </thead>
                 <tbody>
-                @foreach($payments as $payment)
+                    @foreach($payments as $payment)
                     <td>{{Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $payment->created_at)->format('M d, Y')}}</td>
                     <td>{{$payment->name_of_card}}</td>
                     <td>{{$payment->transaction_id}}</td>
+                    @if($payinfo)
+                    <td>{{$payinfo->amounttobepaid}}</td>
+                    @else
+                    <td> -- </td>
+                    @endif
                     <td>{{$payment->amount}}</td>
-                @endforeach
+                    @endforeach
 
                 </tbody>
             </table>
         </div>
-    @endif
+        @endif
     </div>
 </div>
 

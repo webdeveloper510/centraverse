@@ -49,7 +49,7 @@
                                                 <td><?php echo e(ucfirst($customers->email)); ?></td>
                                                 <td><?php echo e(ucfirst($customers->phone)); ?></td>
                                                 <td><?php echo e(ucfirst($customers->address)); ?></td>
-                                                <td><?php echo e(ucfirst($customers->category)); ?></td>
+                                                <td><?php echo e(ucfirst($customers->type)); ?></td>
                                             </tr>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             <?php $__currentLoopData = $importedcustomers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $customers): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>

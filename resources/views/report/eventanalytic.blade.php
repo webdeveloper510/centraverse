@@ -16,21 +16,21 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
-     
+
             <div class="cardcard-body">
-                   
+
                 <div class="collapse show float-end" id="collapseExample" style="">
-               
+
                     {{ Form::open(['route' => ['report.eventanalytic'], 'method' => 'get']) }}
                     <div class="row filter-css">
-                    
+
                         <div class="col-auto">
                             {{ Form::month('start_month', isset($_GET['start_month']) ? $_GET['start_month'] : date('Y-01'), ['class' => 'form-control']) }}
                         </div>
                         <div class="col-auto">
                             {{ Form::month('end_month', isset($_GET['end_month']) ? $_GET['end_month'] : date('Y-12'), ['class' => 'form-control']) }}
                         </div>
-                      
+
                         <div class="col-auto" style="margin-left: -29px;">
                             {{ Form::select('status', ['' => 'Select Status'] + $status, isset($_GET['status']) ? $_GET['status'] : '', ['class' => 'form-control', 'style' => 'margin-left: 29px;']) }}
                         </div>
@@ -108,7 +108,7 @@
         <div class="card">
             <div class="card-body table-border-style">
                 <div>
-                   <button class="btn btn-light-primary btn-sm csv">Export CSV</button> 
+                    <button class="btn btn-light-primary btn-sm csv">Export CSV</button>
                     {{-- <button class="btn btn-light-primary btn-sm sql">Export SQL</button> --}}
                     {{--<button class="btn btn-light-primary btn-sm txt">Export TXT</button> --}}
                     {{-- <button class="btn btn-light-primary btn-sm json">Export JSON</button>
@@ -116,7 +116,7 @@
                         <button class="btn btn-light-primary btn-sm pdf">Export pdf</button> --}}
                 </div>
                 <div class="table-responsive mt-3">
-                    <table class="table">
+                    <table class="table" id="pc-dt-export">
                         <thead>
                             <tr>
                                 <th scope="col" class="sort" data-sort="name">{{ __('Name') }}</th>
@@ -129,11 +129,15 @@
                                 <th scope="col" class="sort" data-sort="name">{{ __('Rooms required') }}</th>
                                 <th scope="col" class="sort" data-sort="name">{{ __('Function') }}</th>
                                 <th scope="col" class="sort" data-sort="budget">{{ __(' Status') }}</th>
+                                <th scope="col" class="sort" data-sort="budget">{{ __('Payment Status') }}</th>
+                                <th scope="col" class="sort" data-sort="budget">{{ __('Amount Paid') }}</th>
+                                <th scope="col" class="sort" data-sort="budget">{{ __('Due Amount') }}</th>
                                 <th scope="col" class="sort" data-sort="budget">{{ __('Created At') }}</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($events as $result)
+
                             <tr>
                                 <td>{{ ucfirst($result['name'])  }}</td>
                                 <td>{{ucfirst(App\Models\User::where('id',$result['created_by'])->first()->name)}}</td>
@@ -150,10 +154,40 @@
                                     ({{$result['assign_user']->type}})</td>
                                 <td>{{$result['room']}}</td>
                                 <td>{{ isset($result['function']) ? ucfirst($result['function']) : '--' }}</td>
-                               
+
                                 <td> {{ __(\App\Models\Meeting::$status[$result['status']]) }}</td>
-                            
-                                <td>{{ __(\Auth::user()->dateFormat($result['created_at'])) }}</td>
+                                <td>
+                                    <?php 
+                                    $paymentLog = App\Models\PaymentLogs::where('event_id', $result['id'])->orderBy('id', 'desc')->first();
+                                    $paymentInfo = App\Models\PaymentInfo::where('event_id', $result['id'])->orderBy('id', 'desc')->first();
+                                ?>
+                                    @if($paymentLog && $paymentInfo)
+                                    @if($paymentLog->amount < $paymentInfo->amounttobepaid && $paymentLog->amount != 0)
+                                        Partially Paid
+                                        @else
+                                        Completed
+                                        @endif
+                                        @else
+                                        No Payment
+                                        @endif
+                                </td>
+                                <td>
+                                    @if($paymentLog)
+                                    ${{$paymentLog->amount}}
+
+                                    @else
+                                    --
+                                    @endif
+                                </td>
+                                <td> @if($paymentLog && $paymentInfo)
+                                    ${{ $paymentInfo->amounttobepaid - $paymentLog->amount}}
+
+                                    @else
+                                    --
+                                    @endif </td>
+                                <td>{{ __(\Auth::user()->dateFormat($result['created_at'])) }}
+
+                                </td>
 
                             </tr>
                             @endforeach
@@ -163,7 +197,8 @@
             </div>
         </div>
     </div>
-    @endsection
+</div>
+@endsection
     @push('script-page')
 
     <script type="text/javascript" src="{{ asset('js/html2pdf.bundle.min.js') }}"></script>
@@ -173,7 +208,7 @@
     <script type="text/javascript" src="{{ asset('js/vfs_fonts.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/simple-datatables.js') }}"></script>
-    
+
     <script>
     $(document).ready(function() {
         $('#pc-dt-export').DataTable({

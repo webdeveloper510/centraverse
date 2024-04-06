@@ -170,7 +170,8 @@ class CustomerInformation extends Controller
             $category = [
                 'category' => $request->input('category'),
             ];
-            Excel::import(new UsersImport($category), request()->file('users'));
+            $userid =  \Auth::user()->creatorId();
+            Excel::import(new UsersImport($category,$userid), request()->file('users'));
             return redirect()->back()->with('success', 'Data  imported successfully');
         } elseif ($request->customerType == 'addForm') {
             $validator = \Validator::make(
@@ -194,6 +195,7 @@ class CustomerInformation extends Controller
             $UsersImports->organization = $request->organization;
             $UsersImports->category = $request->category;
             $UsersImports->status =  ($request->is_active == 'on') ? 0 : 1;
+            $UsersImports->created_by = \Auth::user()->creatorId();
             $UsersImports->save();
             // $existingcustomer = MasterCustomer::where('email',$request->email)->first();
             // if(!$existingcustomer){

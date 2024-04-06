@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('status')->default(0);
             $table->string('converted_lead')->default(0);
             $table->string('category');
+            $table->integer('created_by');
             $table->timestamps();
             $table->softDeletes();
         });

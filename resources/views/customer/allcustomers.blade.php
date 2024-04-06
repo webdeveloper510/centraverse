@@ -47,7 +47,7 @@
                                                 <td>{{ucfirst($customers->email)}}</td>
                                                 <td>{{ucfirst($customers->phone)}}</td>
                                                 <td>{{ucfirst($customers->address)}}</td>
-                                                <td>{{ucfirst($customers->category)}}</td>
+                                                <td>{{ucfirst($customers->type)}}</td>
                                             </tr>
                                             @endforeach
                                             @foreach($importedcustomers as $customers)

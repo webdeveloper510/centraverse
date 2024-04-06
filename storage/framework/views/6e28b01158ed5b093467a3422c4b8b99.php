@@ -461,7 +461,10 @@ function enablecookie() {
             <div class="container-fluid xyz">
                 <div class="row">
                     <div class="col-lg-12">
+                        
+                        
                         <?php if(\Auth::user()->type == 'owner'): ?>
+                       
                          <!-- <div id="brand-settings" class="card">
                             <div class="card-header">
                                 <h5><?php echo e(__('Brand Settings')); ?></h5>
@@ -2167,6 +2170,7 @@ unset($__errorArgs, $__bag); ?>
                             </div>
                         </div>
                     </div>
+                    
                     <?php endif; ?>
                     <?php if(\Auth::user()->type == 'super admin'): ?>
                     <!-- <div id="brand-settings" class="card">

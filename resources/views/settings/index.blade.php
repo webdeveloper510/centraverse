@@ -459,7 +459,10 @@ function enablecookie() {
             <div class="container-fluid xyz">
                 <div class="row">
                     <div class="col-lg-12">
+                        
+                        
                         @if (\Auth::user()->type == 'owner')
+                       
                          <!-- <div id="brand-settings" class="card">
                             <div class="card-header">
                                 <h5>{{ __('Brand Settings') }}</h5>
@@ -2067,6 +2070,7 @@ function enablecookie() {
                             </div>
                         </div>
                     </div>
+                    
                     @endif
                     @if (\Auth::user()->type == 'super admin')
                     <!-- <div id="brand-settings" class="card">

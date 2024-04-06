@@ -14,6 +14,7 @@ use App\Models\LeadSource;
 use App\Models\Opportunities;
 use App\Models\Product;
 use App\Models\Quote;
+use App\Models\UserImport;
 use App\Models\Report;
 use App\Models\SalesOrder;
 use App\Models\Stream;
@@ -656,7 +657,66 @@ class ReportController extends Controller
     }
 
     public function customersanalytic(Request $request){
-        return view('report.customersanalytic');
+        $status = UserImport::$status;
+
+
+        $labels = [];
+        $data   = [];
+
+
+        if(!empty($request->start_month) && !empty($request->end_month))
+        {
+            $start = strtotime($request->start_month);
+            $end   = strtotime($request->end_month);
+        }
+        else
+        {
+            $start = strtotime(date('Y-01'));
+            $end   = strtotime(date('Y-12'));
+        }
+
+        $users = UserImport::orderBy('id');
+
+        $users->where('created_at', '>=', date('Y-m-01', $start))->where('created_at', '<=', date('Y-m-t', $end));
+       
+        if(!empty($request->status))
+        {
+            $users->where('status', $request->status);
+        }
+
+        $users->where('created_by', \Auth::user()->creatorId());
+        $users = $users->get();
+
+        $currentdate = $start;
+        while($currentdate <= $end)
+        {
+            $month = date('m', $currentdate);
+            $year  = date('Y', $currentdate);
+
+            $userFilter = UserImport::where('created_by', \Auth::user()->creatorId())->whereMonth('created_at', $month)->whereYear('created_at', $year);
+            // if(!empty($request->leadsource))
+            // {
+            //     $leadFilter->where('source', $request->leadsource);
+            // }
+            if(!empty($request->status))
+            {
+                $userFilter->where('status', $request->status);
+            }
+
+            $userFilter->where('created_by', \Auth::user()->creatorId());
+            $userFilter = $userFilter->get();
+
+            $data[]      = count($userFilter);
+            $labels[]    = date('M Y', $currentdate);
+            $currentdate = strtotime('+1 month', $currentdate);
+
+        }
+
+        $report['startDateRange'] = date('M-Y', $start);
+        $report['endDateRange']   = date('M-Y', $end);
+
+        return view('report.customersanalytic', compact('labels', 'data', 'report', 'users', 'status'));
+
     }
     public function getparent(Request $request)
     {

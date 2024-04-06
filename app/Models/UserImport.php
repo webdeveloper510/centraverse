@@ -10,7 +10,7 @@ class UserImport extends Model
 {
     use HasFactory;
     protected $table = 'import_users';
-    protected $fillable = ['name','email','phone','address','organization','category'];
+    protected $fillable = ['name','email','phone','address','organization','category','created_by'];
 
     public static $status = [
         'Active' ,

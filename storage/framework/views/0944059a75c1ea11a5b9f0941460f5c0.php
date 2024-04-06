@@ -9,6 +9,7 @@ if(isset($event->bar_package) && !empty($event->bar_package)){
     $bar = json_decode($event->bar_package,true);
 }
 $payments = App\Models\PaymentLogs::where('event_id',$event->id)->get();
+$payinfo = App\Models\PaymentInfo::where('event_id',$event->id)->orderby('id','desc')->first();
 
 ?>
 <div class="row">
@@ -130,8 +131,8 @@ $payments = App\Models\PaymentLogs::where('event_id',$event->id)->get();
                         <th scope="col">Created On</th>
                         <th scope="col">Name</th>
                         <th scope="col">Transaction Id</th>
-                        <th scope="col">Amount</th>
-                        <!-- <th scope="col">Converted events</th> -->
+                        <th scope="col">Total Amount</th>
+                        <th scope="col">Amount Recieved</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -139,7 +140,13 @@ $payments = App\Models\PaymentLogs::where('event_id',$event->id)->get();
                     <td><?php echo e(Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $payment->created_at)->format('M d, Y')); ?></td>
                     <td><?php echo e($payment->name_of_card); ?></td>
                     <td><?php echo e($payment->transaction_id); ?></td>
+                    <?php if($payinfo): ?>
+                            <td><?php echo e($payinfo->amounttobepaid); ?></td>
+                    <?php else: ?>
+    <td> -- </td>
+    <?php endif; ?>
                     <td><?php echo e($payment->amount); ?></td>
+                 
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                 </tbody>
