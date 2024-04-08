@@ -912,6 +912,17 @@ class MeetingController extends Controller
         $meeting['floor_plan']          = $request->uploadedImage;
         $meeting['created_by']        = \Auth::user()->creatorId();
         $meeting->update();
+        if (!empty($request->file('attachment'))){
+            $file =  $request->file('attachment');
+            $filename = 'Event_'.Str::random(7) . '.' . $file->getClientOriginalExtension();
+            $folder = 'Event/' . $id; // Example: uploads/1
+            try {
+                $path = $file->storeAs($folder, $filename, 'public');
+            } catch (\Exception $e) {
+                Log::error('File upload failed: ' . $e->getMessage());
+                return redirect()->back()->with('error', 'File upload failed');
+            }
+        }
         if ($status == 3) {
             return redirect()->back()->with('success', __('Event  Approved.'));
         } elseif ($status == 4) {

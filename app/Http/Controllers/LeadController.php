@@ -702,7 +702,8 @@ class LeadController extends Controller
         $id = decrypt(urldecode($id));
         $lead = Lead::find($id);
         $leads = Lead::where('email',$lead->email)->orwhere('phone',$lead->phone)->get();
-        return view('lead.leadinfo',compact('leads','lead'));
+        $docs = LeadDoc::where('lead_id',$id)->get();
+        return view('lead.leadinfo',compact('leads','lead','docs'));
     }
     public function lead_upload($id){
         return view('lead.uploaddoc',compact('id'));
@@ -717,22 +718,41 @@ class LeadController extends Controller
             $messages = $validator->getMessageBag();
             return redirect()->back()->with('error', $messages->first()) ;
         }
-        $file =  $request->file('lead_file');
-        $filename = Str::random(7) . '.' . $file->getClientOriginalExtension();
-        $folder = 'leadInfo/' . $id; // Example: uploads/1
-        try {
-            $path = $file->storeAs($folder, $filename, 'public');
-        } catch (\Exception $e) {
-            Log::error('File upload failed: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'File upload failed');
+        $file = $request->file('lead_file');
+
+        // Check if a file was uploaded
+        if ($file) {
+            // Get the original name of the file
+            $originalName = $file->getClientOriginalName();
+        
+            // Generate a unique filename
+            $filename = Str::random(4) . '.' . $file->getClientOriginalExtension();
+        
+            // Define the folder to store the file
+            $folder = 'leadInfo/' . $id; // Example: uploads/1
+        
+            try {
+                // Store the file with the generated filename
+                $path = $file->storeAs($folder, $filename, 'public');
+            } catch (\Exception $e) {
+                // Handle file upload failure
+                Log::error('File upload failed: ' . $e->getMessage());
+                return redirect()->back()->with('error', 'File upload failed');
+            }
+        
+            // If file upload was successful, save information to the database
+            $document = new LeadDoc();
+            $document->lead_id = $id; // Assuming you have a lead_id field
+            $document->filename = $originalName; // Store original file name
+            $document->filepath = $path; // Store file path
+            $document->save();
+        
+            return redirect()->back()->with('success', 'Document Uploaded Successfully');
+        } else {
+            // Handle the case where no file was uploaded
+            return redirect()->back()->with('error', 'No file uploaded');
         }
-      
-        $document = new LeadDoc();
-        $document->lead_id = $id; // Assuming you have a user_id field
-        $document->filename = $filename; // Store original file name
-        $document->filepath = $path; // Store file path
-        $document->save();
-        return redirect()->back()->with('success','Document Uploaded Successfully');
+        
     }
     public function lead_billinfo($id){
         return view('lead.bill_information') ;

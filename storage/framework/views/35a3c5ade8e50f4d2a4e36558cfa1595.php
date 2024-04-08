@@ -53,7 +53,7 @@
                                                     <span class="budget"><b><?php echo e(ucfirst($lead->leadname)); ?></b></span>
                                                 </td> -->
                                                 <td>
-                                                <a href="#" data-size="md" data-url="<?php echo e(route('lead.info',urlencode(encrypt($lead->id)))); ?>" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('Lead Details')); ?>" title="<?php echo e(__('Lead Details')); ?>"  class="action-item text-primary" style="color:#1551c9 !important;">
+                                                <a href="<?php echo e(route('lead.info',urlencode(encrypt($lead->id)))); ?>" data-size="md" title="<?php echo e(__('Lead Details')); ?>"  class="action-item text-primary" style="color:#1551c9 !important;">
                                                <b> <?php echo e(ucfirst($lead->name)); ?></b>
                                                         </a>
                                                   

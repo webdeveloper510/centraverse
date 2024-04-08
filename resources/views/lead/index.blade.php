@@ -51,7 +51,7 @@
                                                     <span class="budget"><b>{{ ucfirst($lead->leadname)}}</b></span>
                                                 </td> -->
                                                 <td>
-                                                <a href="#" data-size="md" data-url="{{ route('lead.info',urlencode(encrypt($lead->id))) }}" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{ __('Lead Details') }}" title="{{ __('Lead Details') }}"  class="action-item text-primary" style="color:#1551c9 !important;">
+                                                <a href="{{ route('lead.info',urlencode(encrypt($lead->id))) }}" data-size="md" title="{{ __('Lead Details') }}"  class="action-item text-primary" style="color:#1551c9 !important;">
                                                <b> {{ ucfirst($lead->name) }}</b>
                                                         </a>
                                                   
