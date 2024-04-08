@@ -679,7 +679,6 @@ a.b-brand {
 
 .setting .accordion-header .accordion-button {
     background: #F8F8F8 !important;
-    display: flex;
     justify-content: space-between;
     border-radius: 7px;
     box-shadow: none;
