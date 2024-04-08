@@ -11,47 +11,46 @@ $total += $p->amount;
 }
 @endphp
 @if(isset($paymentinfo))
-@if($paymentinfo->amounttobepaid == $total)
-<div class="row">
-    <div class="col-md-12">
-        <dt class="col-md-6"><span class="h6  mb-0">{{__('Bill Amount')}}</span></dt>
-        <dd class="col-md-6">
-            <span>${{ isset($paymentinfo->amount) ? $paymentinfo->amount : $event->total }}</span>
-        </dd>
-        <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('Status')}}</span></dt>
-        <dd class="col-md-6"><span class="text-md">
-                <span class="badge bg-success p-2 px-3 rounded">Payment Completed</span>
+    @if($paymentinfo->amounttobepaid == $total)
+    <div class="row">
+        <div class="col-md-12">
+            <dt class="col-md-6"><span class="h6  mb-0">{{__('Bill Amount')}}</span></dt>
+            <dd class="col-md-6">
+                <span>${{ isset($paymentinfo->amount) ? $paymentinfo->amount : $event->total }}</span>
+            </dd>
+            <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('Status')}}</span></dt>
+            <dd class="col-md-6"><span class="text-md">
+                    <span class="badge bg-success p-2 px-3 rounded">Payment Completed</span>
 
-        </dd>
-        @if(isset($info) && !empty($info))
-        <table class="table">
-            <thead>
-                <th>Date</th>
-                <th>Mode Of Payment</th>
-                <th>Late Fee</th>
-                <th>Adjustments</th>
-                <th>Amount Paid</th>
-            </thead>
-            <tbody>
+            </dd>
+            @if(isset($info) && !empty($info))
+            <table class="table">
+                <thead>
+                    <th>Date</th>
+                    <th>Mode Of Payment</th>
+                    <th>Late Fee</th>
+                    <th>Adjustments</th>
+                    <th>Amount Paid</th>
+                </thead>
+                <tbody>
 
-                @foreach($info as $a)
-                <tr>
-                    <td>{{ \Auth::user()->dateFormat($paymentinfo->created_at)}}</td>
-                    <td>{{ $paymentinfo->modeofpayment }}</td>
-                    <td>{{ $paymentinfo->latefee }}</td>
-                    <td>{{ $paymentinfo->adjustments }}</td>
-                    <td>{{$total}}</td>
-                <tr>
-                    @endforeach
-                </tr>
-            </tbody>
-        </table>
-        @endif
+                    @foreach($info as $a)
+                    <tr>
+                        <td>{{ \Auth::user()->dateFormat($paymentinfo->created_at)}}</td>
+                        <td>{{ $paymentinfo->modeofpayment }}</td>
+                        <td>{{ $paymentinfo->latefee }}</td>
+                        <td>{{ $paymentinfo->adjustments }}</td>
+                        <td>{{$total}}</td>
+                    <tr>
+                        @endforeach
+                    </tr>
+                </tbody>
+            </table>
+            @endif
+        </div>
     </div>
-</div>
-@endif
-@endif
-{{Form::open(array('route' => ['billing.paymentinfoupdate', urlencode(encrypt($event->id))],'method'=>'post','enctype'=>'multipart/form-data'))}}
+    @else
+    {{Form::open(array('route' => ['billing.paymentinfoupdate', urlencode(encrypt($event->id))],'method'=>'post','enctype'=>'multipart/form-data'))}}
 <div class="row">
     <div class="col-6">
         <div class="form-group">
@@ -152,6 +151,9 @@ $total += $p->amount;
     {{Form::submit(__('Save'),array('class'=>'btn btn-primary '))}}
 </div>
 {{Form::close()}}
+    @endif
+@endif
+
 
 <script>
 jQuery(function() {

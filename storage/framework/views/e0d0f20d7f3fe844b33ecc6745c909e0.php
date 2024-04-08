@@ -11,47 +11,46 @@ $total += $p->amount;
 }
 ?>
 <?php if(isset($paymentinfo)): ?>
-<?php if($paymentinfo->amounttobepaid == $total): ?>
-<div class="row">
-    <div class="col-md-12">
-        <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Bill Amount')); ?></span></dt>
-        <dd class="col-md-6">
-            <span>$<?php echo e(isset($paymentinfo->amount) ? $paymentinfo->amount : $event->total); ?></span>
-        </dd>
-        <dt class="col-md-6"><span class="h6 text-md mb-0"><?php echo e(__('Status')); ?></span></dt>
-        <dd class="col-md-6"><span class="text-md">
-                <span class="badge bg-success p-2 px-3 rounded">Payment Completed</span>
+    <?php if($paymentinfo->amounttobepaid == $total): ?>
+    <div class="row">
+        <div class="col-md-12">
+            <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Bill Amount')); ?></span></dt>
+            <dd class="col-md-6">
+                <span>$<?php echo e(isset($paymentinfo->amount) ? $paymentinfo->amount : $event->total); ?></span>
+            </dd>
+            <dt class="col-md-6"><span class="h6 text-md mb-0"><?php echo e(__('Status')); ?></span></dt>
+            <dd class="col-md-6"><span class="text-md">
+                    <span class="badge bg-success p-2 px-3 rounded">Payment Completed</span>
 
-        </dd>
-        <?php if(isset($info) && !empty($info)): ?>
-        <table class="table">
-            <thead>
-                <th>Date</th>
-                <th>Mode Of Payment</th>
-                <th>Late Fee</th>
-                <th>Adjustments</th>
-                <th>Amount Paid</th>
-            </thead>
-            <tbody>
+            </dd>
+            <?php if(isset($info) && !empty($info)): ?>
+            <table class="table">
+                <thead>
+                    <th>Date</th>
+                    <th>Mode Of Payment</th>
+                    <th>Late Fee</th>
+                    <th>Adjustments</th>
+                    <th>Amount Paid</th>
+                </thead>
+                <tbody>
 
-                <?php $__currentLoopData = $info; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $a): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <tr>
-                    <td><?php echo e(\Auth::user()->dateFormat($paymentinfo->created_at)); ?></td>
-                    <td><?php echo e($paymentinfo->modeofpayment); ?></td>
-                    <td><?php echo e($paymentinfo->latefee); ?></td>
-                    <td><?php echo e($paymentinfo->adjustments); ?></td>
-                    <td><?php echo e($total); ?></td>
-                <tr>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                </tr>
-            </tbody>
-        </table>
-        <?php endif; ?>
+                    <?php $__currentLoopData = $info; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $a): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <tr>
+                        <td><?php echo e(\Auth::user()->dateFormat($paymentinfo->created_at)); ?></td>
+                        <td><?php echo e($paymentinfo->modeofpayment); ?></td>
+                        <td><?php echo e($paymentinfo->latefee); ?></td>
+                        <td><?php echo e($paymentinfo->adjustments); ?></td>
+                        <td><?php echo e($total); ?></td>
+                    <tr>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    </tr>
+                </tbody>
+            </table>
+            <?php endif; ?>
+        </div>
     </div>
-</div>
-<?php endif; ?>
-<?php endif; ?>
-<?php echo e(Form::open(array('route' => ['billing.paymentinfoupdate', urlencode(encrypt($event->id))],'method'=>'post','enctype'=>'multipart/form-data'))); ?>
+    <?php else: ?>
+    <?php echo e(Form::open(array('route' => ['billing.paymentinfoupdate', urlencode(encrypt($event->id))],'method'=>'post','enctype'=>'multipart/form-data'))); ?>
 
 <div class="row">
     <div class="col-6">
@@ -175,6 +174,9 @@ $total += $p->amount;
 
 </div>
 <?php echo e(Form::close()); ?>
+
+    <?php endif; ?>
+<?php endif; ?>
 
 
 <script>
