@@ -11,9 +11,9 @@
 <a href="#" data-url="{{ route('uploadusersinfo') }}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('Upload User')}}" title="{{__('Upload')}}" class="btn btn-sm btn-primary btn-icon m-1">
     <i class="ti ti-plus"></i>
 </a>
-<a href="{{ route('exportuser') }}" data-bs-toggle="tooltip" data-title="{{__('Export User')}}" title="{{__('Export')}}" class="btn btn-sm btn-primary btn-icon m-1">
+<!-- <a href="{{ route('exportuser') }}" data-bs-toggle="tooltip" data-title="{{__('Export User')}}" title="{{__('Export')}}" class="btn btn-sm btn-primary btn-icon m-1">
     <i class="ti ti-table-export"></i>
-</a>
+</a> -->
 @endsection
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{__('Home')}}</a></li>
@@ -53,13 +53,13 @@
                                             @foreach($importedcustomers as $customers)
                                             <tr>
                                                 <td> {{ucfirst($customers->name)}}
-                                                    <!-- <a href="#" data-size="md" data-url="{{route('importcustomerview',$customers->id)}}"
+                                                <!-- <a href="#" data-size="md" data-url="{{route('importcustomerview',$customers->id)}}"
                                                     data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('User Details')}}"  
-                                                        title="{{ __('User Details') }}"
-                                                        class="action-item text-primary"
-                                                        style="color:#1551c9 !important;">
-                                                        <b> {{ ucfirst($customers->name) }}</b>
-                                                    </a> -->
+                                                    title="{{ __('User Details') }}"
+                                                    class="action-item text-primary"
+                                                    style="color:#1551c9 !important;">
+                                                    <b> {{ ucfirst($customers->name) }}</b>
+                                                </a> -->
                                                 </td>
                                                 <td>{{ucfirst($customers->email)}}</td>
                                                 <td>{{ucfirst($customers->phone)}}</td>
