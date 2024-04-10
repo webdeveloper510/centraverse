@@ -43,7 +43,7 @@ class MeetingController extends Controller
     {
         if (\Auth::user()->can('Manage Meeting')) {
             if (\Auth::user()->type == 'owner') {
-                $meetings = Meeting::with('assign_user')->where('created_by', \Auth::user()->creatorId())->get();
+                $meetings = Meeting::with('assign_user')->get();
                 $defualtView         = new UserDefualtView();
                 $defualtView->route  = \Request::route()->getName();
                 $defualtView->module = 'meeting';
@@ -102,7 +102,6 @@ class MeetingController extends Controller
                     'guest_count' => 'required',
                 ]
             );
-        // If validation fails
         if ($validator->fails()) {
             $messages = $validator->getMessageBag();
             return redirect()
@@ -110,10 +109,7 @@ class MeetingController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-            // if ($validator->fails()) {
-            //     $messages = $validator->getMessageBag();
-            //     return redirect()->back()->with('error', $messages->first());
-            // }
+           
             $data = $request->all();
             $package = [];
             $additional = [];
@@ -191,7 +187,7 @@ class MeetingController extends Controller
                 return redirect()->back()->with('error', 'Date is Blocked for corrosponding time and venue');
             }
             $meeting                      = new Meeting();
-            $meeting['user_id']           =  implode(',', $request->user);
+            $meeting['user_id']           = implode(',', $request->user);
             $meeting['name']              = $request->name;
             $meeting['start_date']        = $request->start_date;
             $meeting['end_date']          = $request->end_date;
@@ -206,7 +202,7 @@ class MeetingController extends Controller
             $meeting['guest_count']         = $request->guest_count;
             $meeting['room']                = $request->rooms ?? 0;
             $meeting['meal']                = $request->meal;
-            $meeting['bar']                 = $request->bar;
+            $meeting['bar']                 = $request->baropt;
             $meeting['bar_package']         = $bar_pack;
             $meeting['spcl_request']        = $request->spcl_request;
             $meeting['alter_name']          = $request->alter_name;

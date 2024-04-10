@@ -93,7 +93,7 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                         </a>
                                     </li>
                                     <?php endif; ?>
-                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Payment')): ?>
+                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Report')): ?>
                                     <li
                                         class="dash-item <?php echo e(\Request::route()->getName() == 'billing' || \Request::route()->getName() == 'billing.index' ? ' active' : ''); ?>">
                                         <a href="<?php echo e(route('billing.index')); ?>" class="dash-link">
@@ -101,10 +101,12 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                         </a>
                                     </li>
                                     <?php endif; ?>
+                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Payment')): ?>
                                     <li class="dash-item">
                                         <a href="<?php echo e(route('report.leadsanalytic')); ?>" class="dash-link">
                                             <span class="dash-mtext"><?php echo e(__('Reports')); ?></span></a>
                                     </li>
+                                    <?php endif; ?>
                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Campaign')): ?>
                                     <li class="dash-item">
                                         <a href="<?php echo e(route('customer.index')); ?>" class="dash-link">
@@ -163,7 +165,6 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                         </form>
                                     </div>
                                 </li>
-                                <!-- <a href="#" class="nav-item nav-link">Login</a> -->
                             </div>
                         </div>
                     </div>

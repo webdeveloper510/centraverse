@@ -386,6 +386,7 @@ if(request()->has('lead')){
                                                         'package_' . $key.$k, 'data-function' => $value['function'],
                                                         'class' => 'form-check-input']) !!}
                                                         {{ Form::label($package, $package, ['class' => 'form-check-label']) }}
+                                                      
                                                     </div>
                                                     @endforeach
                                                 </div>
@@ -554,6 +555,36 @@ if(request()->has('lead')){
 </div>
 @endsection
 @push('script-page')
+<script>
+$(document).ready(function() {
+    $('form').submit(function(event) {
+        var isValid = true;
+
+        // Iterate over each checked function
+        $('input[name="function[]"]:checked').each(function() {
+            var functionName = $(this).val();
+            var checkboxName = 'package_' + functionName.replace(/ /g, '').toLowerCase() + '[]';
+
+            // Check if at least one checkbox for this function is checked
+            if ($('input[name="' + checkboxName + '"]:checked').length === 0) {
+                // If no checkbox is checked for this function, set isValid to false
+                isValid = false;
+                return false; // Exit the loop
+            }
+        });
+
+        // If validation failed, prevent form submission
+        if (!isValid) {
+            event.preventDefault();
+            alert('Please select at least one package for each checked function.');
+            return false;
+        }
+    });
+});
+
+</script>
+
+
 <script>
 document.addEventListener('DOMContentLoaded', async function() {
     try {

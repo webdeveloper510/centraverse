@@ -72,7 +72,6 @@ class LeadController extends Controller
         if (\Auth::user()->can('Create Lead')){
             $users       = User::where('created_by', \Auth::user()->creatorId())->get();
             $status     = Lead::$status;
-            // $function = Lead::$function;
             return view('lead.create', compact('status', 'users', 'id','type'));
         } else {
             return redirect()->back()->with('error', 'permission Denied');
@@ -239,9 +238,9 @@ class LeadController extends Controller
      */
     public function edit(Lead $lead)
     {
-        $venue_function = explode(',', $lead->venue_selection);
-        $function_package =  explode(',', $lead->function);
         if (\Auth::user()->can('Edit Lead')) {
+            $venue_function = explode(',', $lead->venue_selection);
+            $function_package =  explode(',', $lead->function);
             $status   = Lead::$status;
             $users     = User::where('created_by', \Auth::user()->creatorId())->get();             
             return view('lead.edit', compact('venue_function','function_package','lead','users', 'status'));
@@ -260,8 +259,7 @@ class LeadController extends Controller
      */
     public function update(Request $request, Lead $lead)
     {
-        $venue_function = implode(',',$_REQUEST['venue']);
-        $function = isset($request->function) ? implode(',',$_REQUEST['function']) : '';
+     
         if (\Auth::user()->can('Edit Lead')) {
             $validator = \Validator::make(
                 $request->all(),
@@ -280,6 +278,8 @@ class LeadController extends Controller
             $package = [];
             $additional = [];
             $bar_pack = [];
+            $venue_function = implode(',',$_REQUEST['venue']);
+            $function = isset($request->function) ? implode(',',$_REQUEST['function']) : '';
             foreach ($data as $key => $values) {
                 if (strpos($key, 'package_') === 0) {
                     $newKey = strtolower(str_replace('package_', '', $key));
@@ -682,6 +682,7 @@ class LeadController extends Controller
             }
     }
     public function duplicate($id){
+        
         $id = decrypt(urldecode($id));
         $lead = Lead::find($id);
         $newlead = new Lead();

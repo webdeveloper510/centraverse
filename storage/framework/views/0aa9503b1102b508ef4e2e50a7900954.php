@@ -636,6 +636,36 @@ unset($__errorArgs, $__bag); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script-page'); ?>
 <script>
+$(document).ready(function() {
+    $('form').submit(function(event) {
+        var isValid = true;
+
+        // Iterate over each checked function
+        $('input[name="function[]"]:checked').each(function() {
+            var functionName = $(this).val();
+            var checkboxName = 'package_' + functionName.replace(/ /g, '').toLowerCase() + '[]';
+
+            // Check if at least one checkbox for this function is checked
+            if ($('input[name="' + checkboxName + '"]:checked').length === 0) {
+                // If no checkbox is checked for this function, set isValid to false
+                isValid = false;
+                return false; // Exit the loop
+            }
+        });
+
+        // If validation failed, prevent form submission
+        if (!isValid) {
+            event.preventDefault();
+            alert('Please select at least one package for each checked function.');
+            return false;
+        }
+    });
+});
+
+</script>
+
+
+<script>
 document.addEventListener('DOMContentLoaded', async function() {
     try {
         const getSessionStorage = () => {

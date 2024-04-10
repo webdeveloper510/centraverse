@@ -52,10 +52,10 @@ class UserController extends Controller
         if (\Auth::user()->can('Create User')) {
             $setting  = Utility::settingsById(\Auth::user()->id);
             // 'lang' => (\Auth::user()->type == 'admin' ) ? Utility::getValByName('default_language') : $setting['default_owner_language'],
-            $roles   =  Role::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $roles   =  Role::get()->pluck('name', 'id');
             $gender  =  User::$gender;
             $type    =  User::$type;
-
+            // echo "<pre>";print_r($roles);die;
             return view('user.create', compact('gender', 'type', 'roles'));
         } else {
             return redirect()->back()->with('error', 'permission Denied');
@@ -149,7 +149,7 @@ class UserController extends Controller
                 $objUser    = User::find(\Auth::user()->creatorId());
                 $total_user = $objUser->countUsers();
                 $plan       = Plan::find($objUser->plan);
-                if ($total_user < $plan->max_user || $plan->max_user == -1) {
+                // if ($total_user < $plan->max_user || $plan->max_user == -1) {
                     $role_r             = Role::findById($request->user_roles);                    
                     $user               = new User();
                     $user['username']   = $request->email;
@@ -272,9 +272,9 @@ class UserController extends Controller
 
 
                     return redirect()->back()->with('success', __('Staff  Inserted.'. ((isset($result) && $result!=1) ? '<br> <span class="text-danger">' . $result . '</span>' : '')));
-                } else {
-                    return redirect()->back()->with('error', __('Your staff limit is over, Please upgrade plan.'));
-                }
+                // } else {
+                //     return redirect()->back()->with('error', __('Your staff limit is over, Please upgrade plan.'));
+                // }
             }
         } else {
             return redirect()->back()->with('error', 'permission Denied');
