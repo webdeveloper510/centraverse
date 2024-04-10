@@ -47,7 +47,7 @@
                                                 <td><span><?php echo e($user->email); ?></span></td>
                                                 <td><span><?php echo e($user->phone); ?></span></td>
                                                 <td><span><?php echo e($user->lead_address); ?></span></td>
-                                                <td><span><?php echo e(__('Event')); ?></span></td>
+                                                <td><span><?php echo e($user->type); ?></span></td>
                                                 <td>
                                                
                                             </td>
