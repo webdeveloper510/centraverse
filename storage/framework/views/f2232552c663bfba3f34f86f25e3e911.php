@@ -12,9 +12,9 @@
 <a href="#" data-url="<?php echo e(route('uploadusersinfo')); ?>" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('Upload User')); ?>" title="<?php echo e(__('Upload')); ?>" class="btn btn-sm btn-primary btn-icon m-1">
     <i class="ti ti-plus"></i>
 </a>
-<a href="<?php echo e(route('exportuser')); ?>" data-bs-toggle="tooltip" data-title="<?php echo e(__('Export User')); ?>" title="<?php echo e(__('Export')); ?>" class="btn btn-sm btn-primary btn-icon m-1">
+<!-- <a href="<?php echo e(route('exportuser')); ?>" data-bs-toggle="tooltip" data-title="<?php echo e(__('Export User')); ?>" title="<?php echo e(__('Export')); ?>" class="btn btn-sm btn-primary btn-icon m-1">
     <i class="ti ti-table-export"></i>
-</a>
+</a> -->
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('breadcrumb'); ?>
 <li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Home')); ?></a></li>
@@ -55,13 +55,13 @@
                                             <tr>
                                                 <td> <?php echo e(ucfirst($customers->name)); ?>
 
-                                                    <!-- <a href="#" data-size="md" data-url="<?php echo e(route('importcustomerview',$customers->id)); ?>"
+                                                <!-- <a href="#" data-size="md" data-url="<?php echo e(route('importcustomerview',$customers->id)); ?>"
                                                     data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('User Details')); ?>"  
-                                                        title="<?php echo e(__('User Details')); ?>"
-                                                        class="action-item text-primary"
-                                                        style="color:#1551c9 !important;">
-                                                        <b> <?php echo e(ucfirst($customers->name)); ?></b>
-                                                    </a> -->
+                                                    title="<?php echo e(__('User Details')); ?>"
+                                                    class="action-item text-primary"
+                                                    style="color:#1551c9 !important;">
+                                                    <b> <?php echo e(ucfirst($customers->name)); ?></b>
+                                                </a> -->
                                                 </td>
                                                 <td><?php echo e(ucfirst($customers->email)); ?></td>
                                                 <td><?php echo e(ucfirst($customers->phone)); ?></td>

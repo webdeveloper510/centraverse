@@ -41,7 +41,8 @@ $enddate = \Carbon\Carbon::createFromFormat('Y-m-d', $lead->end_date)->format('d
             </dd>
             <dt class="col-md-6"><span class="h6 text-md mb-0"><?php echo e(__('Venue')); ?></span></dt>
             <dd class="col-md-6">
-                <span class="text-md"><?php echo e(!empty($lead->venue_selection)? $lead->venue_selection :'--'); ?></span></dd>
+                <span class="text-md"><?php echo e(!empty($lead->venue_selection)? $lead->venue_selection :'--'); ?></span>
+            </dd>
 
             <dt class="col-md-6"><span class="h6 text-md mb-0"><?php echo e(__('Event')); ?></span></dt>
             <dd class="col-md-6"><span class="text-md"><?php echo e($lead->type); ?></span></dd>
@@ -68,9 +69,18 @@ $enddate = \Carbon\Carbon::createFromFormat('Y-m-d', $lead->end_date)->format('d
                     <?php elseif($lead->status == 1): ?>
                     <span
                         class="badge bg-warning p-2 px-3 rounded"><?php echo e(__(\App\Models\Lead::$status[$lead->status])); ?></span>
-                    <?php else: ?>
+                    <?php elseif($lead->status == 2): ?>
+                    <span
+                        class="badge bg-secondary p-2 px-3 rounded"><?php echo e(__(\App\Models\Lead::$status[$lead->status])); ?></span>
+                    <?php elseif($lead->status == 3): ?>
+                    <span
+                        class="badge bg-danger p-2 px-3 rounded"><?php echo e(__(\App\Models\Lead::$status[$lead->status])); ?></span>
+                    <?php elseif($lead->status == 4): ?>
                     <span
                         class="badge bg-success p-2 px-3 rounded"><?php echo e(__(\App\Models\Lead::$status[$lead->status])); ?></span>
+                    <?php elseif($lead->status == 5): ?>
+                    <span
+                        class="badge bg-warning p-2 px-3 rounded"><?php echo e(__(\App\Models\Lead::$status[$lead->status])); ?></span>
                     <?php endif; ?>
             </dd>
         </dl>
