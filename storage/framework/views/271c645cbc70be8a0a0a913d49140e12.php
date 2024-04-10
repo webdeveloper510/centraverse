@@ -37,8 +37,7 @@
                                         <tbody>
                                             <?php $__currentLoopData = $eventcustomers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <tr>
-                                            <td> <a href="#" data-size="md" data-url="<?php echo e(route('meeting.detailview',urlencode(encrypt($user->id)))); ?>"
-                                            data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('User Details')); ?>"   
+                                            <td> <a href="<?php echo e(route('meeting.detailview',urlencode(encrypt($user->id)))); ?>" 
                                             title="<?php echo e(__('User Details')); ?>"
                                                         class="action-item text-primary"
                                                         style="color:#1551c9 !important;">

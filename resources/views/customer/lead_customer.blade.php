@@ -35,7 +35,7 @@
                                         <tbody>
                                             @foreach($leadcustomers as $user)
                                             <tr>
-                                                <td><a href="#" data-size="md"
+                                                <!-- <td><a href="#" data-size="md"
                                                         data-url="{{route('lead.show',$user->id)}}" data-size="lg"
                                                         data-ajax-popup="true" data-bs-toggle="tooltip"
                                                         data-title="{{__('User Details')}}"
@@ -44,7 +44,11 @@
                                                         style="color:#1551c9 !important;">
                                                         <b> {{ ucfirst($user->name) }}</b>
                                                     </a></td>
-                                                    <td>
+                                                    <td> -->
+                                                        <td><a href="{{ route('lead.info',urlencode(encrypt($user->id))) }}" data-size="md" title="{{ __('Lead Details') }}"  class="action-item text-primary" style="color:#1551c9 !important;">
+                                               <b> {{ ucfirst($user->name) }}</b>
+                                                        </a></td>
+                                                        <td>
                                                 @if ($user->lead_status == 1)
                                                     <span
                                                         class="badge bg-success p-2 px-3 rounded">{{App\Models\Lead::$stat[$user->lead_status]}}</span>

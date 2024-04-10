@@ -45,13 +45,16 @@
                                             <tr>
                                                 
                                                 <td>
-                                                    <a href="#" data-size="md" data-url="{{route('importcustomerview',$user->id)}}"
+                                                    <!-- <a href="#" data-size="md" data-url="{{route('importcustomerview',$user->id)}}"
                                                     data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('User Details')}}"  
                                                         title="{{ __('User Details') }}"
                                                         class="action-item text-primary"
                                                         style="color:#1551c9 !important;">
                                                         <b> {{ ucfirst($user->name) }}</b>
-                                                    </a>
+                                                    </a> -->
+                                                    <a href="{{ route('customer.info',urlencode(encrypt($user->id))) }}" data-size="md" title="{{ __('User Details') }}"  class="action-item text-primary" style="color:#1551c9 !important;">
+                                               <b> {{ ucfirst($user->name) }}</b>
+                                                        </a>
                                                 </td>
                                                 <td><span>{{$user->email}}</span></td>
                                                 <td><span>{{$user->phone}}</span></td>
