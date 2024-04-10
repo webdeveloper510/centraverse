@@ -18,9 +18,12 @@ return new class extends Migration
             $table->text('data');
             $table->integer('deposits')->default(0);
             $table->boolean('status')->default(0);
+            $table->integer('created_by')->default(0);
             $table->timestamps();
+            $table->softDeletes(); 
         });
     }
+
     /**
      * Reverse the migrations.
      */

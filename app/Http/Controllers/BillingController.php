@@ -27,10 +27,15 @@ class BillingController extends Controller
     */
     public function index()
     {
+        $status = Billing::$status;
         if (\Auth::user()->type == 'owner') {
             $billing = Billing::all();
-            $status = Billing::$status;
-            $events = Meeting::all();
+            $events = Meeting::where('status','!=',5)->get();
+            return view('billing.index', compact('billing','events'));
+        }
+        else{
+            $billing = Billing::where('created_by', \Auth::user()->creatorId())->get();
+            $events = Meeting::where('status','!=',4 )->where('created_by', \Auth::user()->id)->get();
             return view('billing.index', compact('billing','events'));
         }
     }
@@ -40,18 +45,12 @@ class BillingController extends Controller
      */
     public function create($type,$id)
     {
-        if (\Auth::user()->type == 'owner') {
+        if (\Auth::user()->can('Create Payment')) {
             $event = Meeting::find($id);
+
             return view('billing.create', compact('type','id','event'));
         }
     }
-    // public function createbill($type,$id){
-      
-    //     return view('billing.a',compact('type','id','event'));
-    // }
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request ,$id)
     {
         $items = $request->billing;
@@ -59,7 +58,7 @@ class BillingController extends Controller
         foreach ($items as $item) {
             $totalCost += $item['cost'] * $item['quantity'];
         }
-        $totalCost = $totalCost + 7* ($totalCost)/100 + 20 * ($totalCost)/100 - $request->deposits;
+        $totalCost = $totalCost + 7 * ($totalCost)/100 + 20 * ($totalCost)/100 - $request->deposits;
         $billing = new Billing();
         $billing['event_id'] = $id;
         $billing['data'] = serialize($items);
@@ -75,6 +74,7 @@ class BillingController extends Controller
     */
     public function show(string $id)
     {
+        
         $billing = Billing::where('event_id',$id)->first();
         $event = Meeting::where('id',$id)->first();
         return view('billing.view',compact('billing','event'));
@@ -82,10 +82,13 @@ class BillingController extends Controller
 
     public function destroy(string $id)
     {
+        if (\Auth::user()->can('Delete Payment')) {
         $billing = Billing::where('event_id',$id)->first();
-
         $billing->delete();
         return redirect()->back()->with('success', 'Bill Deleted!');
+        }else {
+            return redirect()->back()->with('error', 'permission Denied');
+        }
     }
     public function get_event_info(Request $request)
     {
@@ -99,11 +102,8 @@ class BillingController extends Controller
     }
     public function paymentinformation($id){
         $id = decrypt(urldecode($id));
-
         // $paidamount = PaymentInfo::where('event_id',$id)->get();
-       
         $event = Meeting ::find($id);
-    
         $payment = PaymentInfo::where('event_id',$id)->orderBy('id', 'DESC')->first();
         return view('billing.pay-info',compact('event','payment'));
     }

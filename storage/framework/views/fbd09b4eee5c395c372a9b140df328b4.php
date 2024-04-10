@@ -1,6 +1,6 @@
 <?php
 $settings = App\Models\Utility::settings();
-$campaign_type = explode(',',$settings['campaign_type'])
+$campaign_type = explode(',',$settings['campaign_type']);
 ?>
 <div class="form-group col-md-12">
     <div class="badges">

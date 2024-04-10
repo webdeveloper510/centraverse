@@ -93,7 +93,7 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                         </a>
                                     </li>
                                     @endcan
-                                    @can('Manage Payment')
+                                    @can('Manage Report')
                                     <li
                                         class="dash-item {{ \Request::route()->getName() == 'billing' || \Request::route()->getName() == 'billing.index' ? ' active' : '' }}">
                                         <a href="{{ route('billing.index') }}" class="dash-link">
@@ -101,10 +101,12 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                         </a>
                                     </li>
                                     @endcan
+                                    @can('Manage Payment')
                                     <li class="dash-item">
                                         <a href="{{ route('report.leadsanalytic') }}" class="dash-link">
                                             <span class="dash-mtext">{{ __('Reports') }}</span></a>
                                     </li>
+                                    @endcan
                                     @can('Manage Campaign')
                                     <li class="dash-item">
                                         <a href="{{ route('customer.index') }}" class="dash-link">
@@ -162,7 +164,6 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                         </form>
                                     </div>
                                 </li>
-                                <!-- <a href="#" class="nav-item nav-link">Login</a> -->
                             </div>
                         </div>
                     </div>

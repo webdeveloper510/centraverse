@@ -34,15 +34,15 @@ class Utility extends Model
     {
         $data = DB::table('settings');
 
-        if (\Auth::check()) {
-            $data = $data->where('created_by', '=', \Auth::user()->creatorId())->get();
-            if (count($data) == 0) {
-                $data = DB::table('settings')->where('created_by', '=', 1)->get();
-            }
-        } else {
-            $data->where('created_by', '=', 1);
+        // if (\Auth::check()) {
+        //     // $data = $data->where('created_by', '=', \Auth::user()->creatorId())->get();
+        //     if (count($data) == 0) {
+        //         $data = DB::table('settings')->where('created_by', '=', 1)->get();
+        //     }
+        // } else {
+        //     $data->where('created_by', '=', 1);
             $data = $data->get();
-        }
+        // }
 
         $settings = [
             "site_currency" => "USD",
@@ -182,7 +182,7 @@ class Utility extends Model
     public static function settingsById($id)
     {
         $data     = DB::table('settings');
-        $data     = $data->where('created_by', '=', $id);
+        // $data     = $data->where('created_by', '=', $id);
         $data     = $data->get();
         $settings = [
             "site_currency" => "USD",
@@ -265,7 +265,7 @@ class Utility extends Model
     public static function setting()
     {
         $data = DB::table('settings');
-        $data   = $data->where('created_by', '=', 1);
+        // $data   = $data->where('created_by', '=', 1);
         $data     = $data->get();
         $settings = [
             "cust_theme_bg" => 'on',
@@ -282,11 +282,11 @@ class Utility extends Model
     public static function payment_settings()
     {
         $data = DB::table('admin_payment_settings');
-        if (Auth::check()) {
-            $data->where('created_by', '=', Auth::user()->createId());
-        } else {
-            $data->where('created_by', '=', 1);
-        }
+        // if (Auth::check()) {
+        //     $data->where('created_by', '=', Auth::user()->createId());
+        // } else {
+        //     $data->where('created_by', '=', 1);
+        // }
         $data = $data->get();
         $res = [];
         foreach ($data as $key => $value) {
