@@ -104,6 +104,7 @@
                             <th scope="col" class="sort" data-sort="name">{{ __('Name') }}</th>
                             <th scope="col" class="sort" data-sort="budget">{{ __('Event') }}</th>
                                 <th scope="col" class="sort" data-sort="budget">{{ __('Transaction Id') }}</th>
+                                <th scope="col" class="sort" data-sort="budget">{{ __('Amount') }}</th>
                                 <th scope="col" class="sort" data-sort="name">{{ __('Phone') }}</th>
                                 <th scope="col" class="sort" data-sort="name">{{ __('Email') }}</th>
                                 <th scope="col" class="sort" data-sort="budget">{{ __('Created At') }}</th>
@@ -116,6 +117,7 @@
                             <td>{{ ucfirst($pay['name_of_card'])  }}</td>
                             <td>{{$event->type}}</td>
                             <td>{{ ($pay['transaction_id'])  }}</td>
+                            <td>{{ ($pay['amount'])  }}</td>
                             <td>{{$event->phone}}</td>
                             <td>{{$event->email}}</td>
                             <td>{{ __(\Auth::user()->dateFormat($pay['created_at'])) }}</td>
