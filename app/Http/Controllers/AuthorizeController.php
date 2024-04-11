@@ -132,10 +132,7 @@ class AuthorizeController extends Controller
                             'event_id' =>$id
                         ]);
                         $paymentlog= PaymentLogs::where('event_id',$id)->get();
-                        foreach($paymentlog as $payments){
-                            echo "<pre>";
-                            print_r($payments);
-                        }die;
+                        
                         $payinformaton = PaymentLogs::latest()->first();
                         
                         try {
