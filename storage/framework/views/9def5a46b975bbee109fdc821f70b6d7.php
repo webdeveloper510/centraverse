@@ -47,13 +47,16 @@
                                             <tr>
                                                 
                                                 <td>
-                                                    <a href="#" data-size="md" data-url="<?php echo e(route('importcustomerview',$user->id)); ?>"
+                                                    <!-- <a href="#" data-size="md" data-url="<?php echo e(route('importcustomerview',$user->id)); ?>"
                                                     data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('User Details')); ?>"  
                                                         title="<?php echo e(__('User Details')); ?>"
                                                         class="action-item text-primary"
                                                         style="color:#1551c9 !important;">
                                                         <b> <?php echo e(ucfirst($user->name)); ?></b>
-                                                    </a>
+                                                    </a> -->
+                                                    <a href="<?php echo e(route('customer.info',urlencode(encrypt($user->id)))); ?>" data-size="md" title="<?php echo e(__('User Details')); ?>"  class="action-item text-primary" style="color:#1551c9 !important;">
+                                               <b> <?php echo e(ucfirst($user->name)); ?></b>
+                                                        </a>
                                                 </td>
                                                 <td><span><?php echo e($user->email); ?></span></td>
                                                 <td><span><?php echo e($user->phone); ?></span></td>

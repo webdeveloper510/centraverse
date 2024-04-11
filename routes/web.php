@@ -987,6 +987,10 @@ Route::group(['middleware' => ['verified']], function () {
             Route::get('event-customers', [CustomerInformation::class, 'event_customers'])->name('event_customers');
             Route::get('lead-customers', [CustomerInformation::class, 'lead_customers'])->name('lead_customers');
             Route::get('import-customers/{id}', [CustomerInformation::class, 'import_customers_view'])->name('importcustomerview');
+            Route::get('customer/information/{id}',[CustomerInformation::class,'customer_info'])->name('customer.info');
+            Route::post('upload-external-customer-info/{id}',[CustomerInformation::class,'uploadcustomerattachment'])->name('upload-info');
+
+            
         }
     );
     Route::get('/pay/{id}',[AuthorizeController::class,'pay'])->name('pay');

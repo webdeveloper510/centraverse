@@ -37,7 +37,7 @@
                                         <tbody>
                                             <?php $__currentLoopData = $leadcustomers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <tr>
-                                                <td><a href="#" data-size="md"
+                                                <!-- <td><a href="#" data-size="md"
                                                         data-url="<?php echo e(route('lead.show',$user->id)); ?>" data-size="lg"
                                                         data-ajax-popup="true" data-bs-toggle="tooltip"
                                                         data-title="<?php echo e(__('User Details')); ?>"
@@ -46,7 +46,11 @@
                                                         style="color:#1551c9 !important;">
                                                         <b> <?php echo e(ucfirst($user->name)); ?></b>
                                                     </a></td>
-                                                    <td>
+                                                    <td> -->
+                                                        <td><a href="<?php echo e(route('lead.info',urlencode(encrypt($user->id)))); ?>" data-size="md" title="<?php echo e(__('Lead Details')); ?>"  class="action-item text-primary" style="color:#1551c9 !important;">
+                                               <b> <?php echo e(ucfirst($user->name)); ?></b>
+                                                        </a></td>
+                                                        <td>
                                                 <?php if($user->lead_status == 1): ?>
                                                     <span
                                                         class="badge bg-success p-2 px-3 rounded"><?php echo e(App\Models\Lead::$stat[$user->lead_status]); ?></span>

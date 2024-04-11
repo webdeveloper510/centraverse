@@ -18,6 +18,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Campaigndata;
 use Twilio\Rest\Client;
 use App\Models\MasterCustomer;
+use Str;
 
 class CustomerInformation extends Controller
 {
@@ -325,5 +326,26 @@ class CustomerInformation extends Controller
     public function import_customers_view($id){
         $users = UserImport::find($id);
         return view('customer.userview',compact('users'));
+    }
+    public function customer_info($id){
+        $id = decrypt(urldecode($id));
+        $users = UserImport::find($id);
+        return view('customer.userview',compact('users'));
+    }
+    public function uploadcustomerattachment(Request $request,$id){
+        $id = decrypt(urldecode($id));
+        // $users = UserImport::find($id);
+        if (!empty($request->file('customerattachment'))){
+            $file =  $request->file('customerattachment');
+            $filename = Str::random(7) . '.' . $file->getClientOriginalExtension();
+            $folder = 'External_customer/' . $id; 
+            try {
+                $path = $file->storeAs($folder, $filename, 'public');
+            } catch (\Exception $e) {
+                Log::error('File upload failed: ' . $e->getMessage());
+                return redirect()->back()->with('error', 'File upload failed');
+            }
+            }
+            return redirect()->back()->with('Success','File Uploaded Successfully');
     }
 }

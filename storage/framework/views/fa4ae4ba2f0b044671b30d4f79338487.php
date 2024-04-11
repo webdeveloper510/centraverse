@@ -56,13 +56,13 @@
                                             <tr>
                                                 <td> <?php echo e(ucfirst($customers->name)); ?>
 
-                                                    <!-- <a href="#" data-size="md" data-url="<?php echo e(route('importcustomerview',$customers->id)); ?>"
+                                                <!-- <a href="#" data-size="md" data-url="<?php echo e(route('importcustomerview',$customers->id)); ?>"
                                                     data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('User Details')); ?>"  
-                                                        title="<?php echo e(__('User Details')); ?>"
-                                                        class="action-item text-primary"
-                                                        style="color:#1551c9 !important;">
-                                                        <b> <?php echo e(ucfirst($customers->name)); ?></b>
-                                                    </a> -->
+                                                    title="<?php echo e(__('User Details')); ?>"
+                                                    class="action-item text-primary"
+                                                    style="color:#1551c9 !important;">
+                                                    <b> <?php echo e(ucfirst($customers->name)); ?></b>
+                                                </a> -->
                                                 </td>
                                                 <td><?php echo e(ucfirst($customers->email)); ?></td>
                                                 <td><?php echo e(ucfirst($customers->phone)); ?></td>

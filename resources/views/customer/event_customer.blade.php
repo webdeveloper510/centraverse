@@ -35,8 +35,7 @@
                                         <tbody>
                                             @foreach($eventcustomers as $user)
                                             <tr>
-                                            <td> <a href="#" data-size="md" data-url="{{route('meeting.detailview',urlencode(encrypt($user->id)))}}"
-                                            data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('User Details')}}"   
+                                            <td> <a href="{{route('meeting.detailview',urlencode(encrypt($user->id)))}}" 
                                             title="{{ __('User Details') }}"
                                                         class="action-item text-primary"
                                                         style="color:#1551c9 !important;">

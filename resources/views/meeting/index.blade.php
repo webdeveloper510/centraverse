@@ -101,12 +101,11 @@
                                                 <td class="text-end">
                                                     <div class="action-btn bg-secondary ms-2">
                                                         <a href="{{route('meeting.detailview',urlencode(encrypt($meeting->id)))}}" data-size="md"
-                                                           
                                                             title="{{ __('Detailed view ') }}"
                                                             class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="fa fa-info"></i> </a>
                                                     </div>
-                                                    @if($meeting->status == 0 )
+                                                    @if($meeting->status == 0)
                                                     <div class="action-btn bg-primary ms-2">
                                                         <a href="#" data-size="md"
                                                             data-url="{{ route('meeting.share', $meeting->id) }}"

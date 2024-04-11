@@ -105,12 +105,11 @@
                                                 <td class="text-end">
                                                     <div class="action-btn bg-secondary ms-2">
                                                         <a href="<?php echo e(route('meeting.detailview',urlencode(encrypt($meeting->id)))); ?>" data-size="md"
-                                                           
                                                             title="<?php echo e(__('Detailed view ')); ?>"
                                                             class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="fa fa-info"></i> </a>
                                                     </div>
-                                                    <?php if($meeting->status == 0 ): ?>
+                                                    <?php if($meeting->status == 0): ?>
                                                     <div class="action-btn bg-primary ms-2">
                                                         <a href="#" data-size="md"
                                                             data-url="<?php echo e(route('meeting.share', $meeting->id)); ?>"
