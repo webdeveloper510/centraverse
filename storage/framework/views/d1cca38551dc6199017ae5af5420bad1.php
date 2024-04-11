@@ -198,7 +198,7 @@
                 <?php endif; ?>
                 <?php if( \Request::route()->getName() == 'report.index' || \Request::route()->getName() == 'report.show' ||
                 \Request::route()->getName() == 'report.edit' || \Request::route()->getName() == 'report.leadsanalytic' ||
-                \Request::route()->getName() == 'report.eventanalytic' || \Request::route()->getName() == 'report.customersanalytic' ? ' active ' : ''): ?>
+                \Request::route()->getName() == 'report.eventanalytic' || \Request::route()->getName() == 'report.customersanalytic'  || \Request::route()->getName() == 'report.billinganalytic' ? ' active ' : ''): ?>
                 <!-- <a href="<?php echo e(route('report.index')); ?>" class="list-group-item list-group-item-action"><span
                         class="fa-stack fa-lg pull-left"><i class="ti ti-trending-up"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Custom Report')); ?> </span></a>
