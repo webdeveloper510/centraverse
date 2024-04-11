@@ -17,15 +17,15 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
-     
+
             <div class="cardcard-body">
-                   
+
                 <div class="collapse show float-end" id="collapseExample" style="">
-               
+
                     <?php echo e(Form::open(['route' => ['report.leadsanalytic'], 'method' => 'get'])); ?>
 
                     <div class="row filter-css">
-                    
+
                         <div class="col-auto">
                             <?php echo e(Form::month('start_month', isset($_GET['start_month']) ? $_GET['start_month'] : date('Y-01'), ['class' => 'form-control'])); ?>
 
@@ -34,13 +34,15 @@
                             <?php echo e(Form::month('end_month', isset($_GET['end_month']) ? $_GET['end_month'] : date('Y-12'), ['class' => 'form-control'])); ?>
 
                         </div>
-                        <!-- <div class="col-auto">
-                            <?php echo e(Form::select('leadsource', $leadsource, isset($_GET['leadsource']) ? $_GET['leadsource'] : '', ['class' => 'form-control '])); ?>
 
-                        </div>-->
                         <div class="col-auto" style="margin-left: -29px;">
-                            <?php echo e(Form::select('status', ['' => 'Select Status'] + $status, isset($_GET['status']) ? $_GET['status'] : '', ['class' => 'form-control', 'style' => 'margin-left: 29px;'])); ?>
-
+                            <select name="status" id="status" class="form-control" style="margin-left: 29px;">
+                                <option value="">Select Status</option>
+                                <?php $__currentLoopData = $leadstatus; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $stat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <option value="<?php echo e($stat->status); ?>"  <?php echo e(isset($_GET['status']) && $stat->status == $_GET['status'] ? 'selected' : ''); ?>><?php echo e(App\Models\Lead::$status[$stat->status]); ?></option>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            </select>
+                            <!-- <?php echo e(Form::select('status', ['' => 'Select Status'] + $status, isset($_GET['status']) ? $_GET['status'] : '', ['class' => 'form-control', 'style' => 'margin-left: 29px;'])); ?> -->
                         </div>
                         <div class="action-btn bg-primary ms-5">
                             <div class="col-auto ">
@@ -118,7 +120,7 @@
         <div class="card">
             <div class="card-body table-border-style">
                 <div>
-                   <button class="btn btn-light-primary btn-sm csv">Export CSV</button> 
+                    <button class="btn btn-light-primary btn-sm csv">Export CSV</button>
                     
                     
                 </div>
@@ -184,7 +186,7 @@
     <?php $__env->startPush('script-page'); ?>
 
     <script>
-          <script type="text/javascript" src="<?php echo e(asset('js/html2pdf.bundle.min.js')); ?>"></script>
+    < script type = "text/javascript"src = "<?php echo e(asset('js/html2pdf.bundle.min.js')); ?>" ></script>
     <script type="text/javascript" src="<?php echo e(asset('js/dataTables.buttons.min.js')); ?>"></script>
     <script type="text/javascript" src="<?php echo e(asset('js/jszip.min.js')); ?>"></script>
     <script type="text/javascript" src="<?php echo e(asset('js/pdfmake.min.js')); ?>"></script>
@@ -232,7 +234,7 @@
 
         })
     })
-        document.querySelector("button.pdf").addEventListener("click", () => {
+    document.querySelector("button.pdf").addEventListener("click", () => {
         table.export({
             type: "pdf",
             download: true,
@@ -240,24 +242,33 @@
 
         })
     })
-    
-</script>
+    </script>
 
 
     <script>
-        var filename = $('#filesname').val();
+    var filename = $('#filesname').val();
 
-        function saveAsPDF() {
-            var element = document.getElementById('printableArea');
-            var opt = {
-                margin: 0.3,
-                filename: filename,
-                image: {type: 'jpeg', quality: 1},
-                html2canvas: {scale: 4, dpi: 72, letterRendering: true},
-                jsPDF: {unit: 'in', format: 'A2'}
-            };
-            html2pdf().set(opt).from(element).save();
-        }
+    function saveAsPDF() {
+        var element = document.getElementById('printableArea');
+        var opt = {
+            margin: 0.3,
+            filename: filename,
+            image: {
+                type: 'jpeg',
+                quality: 1
+            },
+            html2canvas: {
+                scale: 4,
+                dpi: 72,
+                letterRendering: true
+            },
+            jsPDF: {
+                unit: 'in',
+                format: 'A2'
+            }
+        };
+        html2pdf().set(opt).from(element).save();
+    }
     </script>
 
 

@@ -7,6 +7,7 @@
 @endsection
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Home') }}</a></li>
+<li class="breadcrumb-item"><a href="{{ route('siteusers') }}">{{ __('All Customers') }}</a></li>
 <li class="breadcrumb-item">{{ __('Lead Customers') }}</li>
 @endsection
 @section('content')
@@ -35,16 +36,7 @@
                                         <tbody>
                                             @foreach($leadcustomers as $user)
                                             <tr>
-                                                <!-- <td><a href="#" data-size="md"
-                                                        data-url="{{route('lead.show',$user->id)}}" data-size="lg"
-                                                        data-ajax-popup="true" data-bs-toggle="tooltip"
-                                                        data-title="{{__('User Details')}}"
-                                                        title="{{ __('User Details') }}"
-                                                        class="action-item text-primary"
-                                                        style="color:#1551c9 !important;">
-                                                        <b> {{ ucfirst($user->name) }}</b>
-                                                    </a></td>
-                                                    <td> -->
+                                              
                                                         <td><a href="{{ route('lead.info',urlencode(encrypt($user->id))) }}" data-size="md" title="{{ __('Lead Details') }}"  class="action-item text-primary" style="color:#1551c9 !important;">
                                                <b> {{ ucfirst($user->name) }}</b>
                                                         </a></td>

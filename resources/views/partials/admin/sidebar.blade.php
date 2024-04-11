@@ -21,7 +21,7 @@
                 @endif
                 @if(\Request::route()->getName() == 'settings')
                 @if (\Auth::user()->type == 'owner')
-                <a href="#company-email-setting" class="list-group-item list-group-item-action">
+                <a href="javascript:void(0);" class="list-group-item list-group-item-action" data-id="collapse16" onclick="toggleCollapse(this.getAttribute('data-id'))">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-envelope  "></i></span>
                     <span class="dash-mtext">{{ __('Email') }} </span></a>
                 </a>
@@ -232,6 +232,11 @@
                     <span class="dash-mtext">{{ __('Customers Analytics') }} </span></a>
 
                 </a>
+                <a href="{{ route('report.billinganalytic') }}" class="list-group-item list-group-item-action"><span
+                        class="fa-stack fa-lg pull-left"></span>
+                    <span class="dash-mtext">{{ __('Financial Analytics') }} </span></a>
+
+                </a>
                 @endif
                 @if(\Request::route()->getName() == 'meeting.create' ||\Request::route()->getName() == 'meeting.edit' )
                 <a href="#useradd-1" class="list-group-item list-group-item-action">
@@ -264,8 +269,9 @@
                     <span class="dash-mtext">{{ __('Edit Lead') }} </span></a>
                 </a>
                 @endif
-
             </div>
         </div>
     </div>
 </div>
+
+

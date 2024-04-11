@@ -102,12 +102,35 @@ class BillingController extends Controller
     }
     public function paymentinformation($id){
         $id = decrypt(urldecode($id));
-        // $paidamount = PaymentInfo::where('event_id',$id)->get();
         $event = Meeting ::find($id);
         $payment = PaymentInfo::where('event_id',$id)->orderBy('id', 'DESC')->first();
         return view('billing.pay-info',compact('event','payment'));
     }
     public function paymentupdate(Request $request, $id){
+        echo "<pre>";
+        print_r($request->all());die;
+        // if (\Auth::user()->can('Create Payment')) {
+        //     $validator = \Validator::make(
+        //         $request->all(),
+        //         [
+        //             'name' => 'required|max:120',
+        //             'start_date' => 'required',
+        //             'end_date' => 'required',
+        //             'email' => 'required|email|max:120',
+        //             'type' => 'required',
+        //             'venue' => 'required|max:120',
+        //             'function' => 'required|max:120',
+        //             'guest_count' => 'required',
+        //         ]
+        //     );
+        // if ($validator->fails()) {
+        //     $messages = $validator->getMessageBag();
+        //     return redirect()
+        //         ->back()->with('error', $messages->first())
+        //         ->withErrors($validator)
+        //         ->withInput();
+        // }
+           
         $id = decrypt(urldecode($id));
         $payment = new PaymentInfo();
         $payment->event_id = $id;
@@ -139,6 +162,10 @@ class BillingController extends Controller
             ]);
         }
          return redirect()->back()->with('success','Payment Information Updated Sucessfully');
+    // }else{
+    //     return redirect()->back()->with('error','Permission Denied');
+
+    // }
     }
    
     public function estimationview($id){

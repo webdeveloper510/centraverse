@@ -249,7 +249,8 @@ $total += $p->amount;
         <div class="form-group">
             <?php echo e(Form::label('mode',__('Mode of Payment'),['class'=>'form-label'])); ?>
 
-            <select name="mode" id="mode" class='form-select'>
+            <select name="mode" id="mode" class='form-select' required>
+                <option value="">Please select</option>
                 <option value="online"
                     <?php echo isset($payment->modeofpayment) ?($payment->modeofpayment == 'online') ?'selected' :'' : ''?>>
                     Online</option>
@@ -301,6 +302,25 @@ $total += $p->amount;
 
 </div>
 <?php endif; ?>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('#mode').change(function(){
+            var selectedOption = $(this).val();
+            console.log(selectedOption);
+            if(selectedOption != 'credit') {
+                // alert('true');
+                // $('#reference').prop('required', true);
+                document.getElementById('reference').setAttribute('required', 'required');
+
+            } else {
+                alert('false');
+
+                // $('#reference').removeAttr('required');
+            }
+        });
+    });
+</script>
 
 
 <script>
@@ -345,4 +365,5 @@ jQuery(function() {
         }
     })
 });
-</script><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/billing/pay-info.blade.php ENDPATH**/ ?>
+</script>
+<?php /**PATH C:\xampp\htdocs\centraverse\resources\views/billing/pay-info.blade.php ENDPATH**/ ?>

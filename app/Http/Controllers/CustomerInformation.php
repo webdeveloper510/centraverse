@@ -198,16 +198,7 @@ class CustomerInformation extends Controller
             $UsersImports->status =  ($request->is_active == 'on') ? 0 : 1;
             $UsersImports->created_by = \Auth::user()->creatorId();
             $UsersImports->save();
-            // $existingcustomer = MasterCustomer::where('email',$request->email)->first();
-            // if(!$existingcustomer){
-            //     $customer = new MasterCustomer();
-            //     $customer->name = $request->name;
-            //     $customer->email = $request->email;
-            //     $customer->phone = $request->phone;
-            //     $customer->address = $request->lead_address ?? '';
-            //     $customer->category = $request->category;
-            //     $customer->save();
-            // }
+          
             return redirect()->back()->with('success', 'Insert successfully');
         }
     }
@@ -310,6 +301,8 @@ class CustomerInformation extends Controller
         }
     }
     public function siteusers(){
+        // $leadcust = Lead::distinct()->withTrashed()->get();
+        // $eventcust = Meeting::distinct()->withTrashed()->get();
        $allcustomers = MasterCustomer::all();
        $importedcustomers = UserImport::distinct()->get();
    

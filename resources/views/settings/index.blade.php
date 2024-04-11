@@ -300,6 +300,15 @@ function myFunction() {
 }
 </script>
 <script>
+    // function toggleCollapse(dataId) {
+    //     console.log(dataId);
+    //     var collapseTarget = document.getElementById(dataId);
+    //     var collapseBS = new bootstrap.Collapse(collapseTarget);
+    //     collapseBS.toggle();
+
+    // }
+</script>
+<script>
 function check_theme(color_val) {
     $('#theme_color').prop('checked', false);
     $('input[value="' + color_val + '"]').prop('checked', true);
@@ -446,18 +455,10 @@ function enablecookie() {
     }
 }
 $(document).ready(function() {
-
-    //$('.accordion-collapse').hide();
-
     $('.accordion-button').click(function() {
         console.log('click')
         var target = $(this).attr('data-bs-target');
         $(target).toggle();
-        // Find the accordion body based on the clicked button
-        //var $accordionBody = $(this).closest('.accordion-item').find('.accordion-collapse');
-
-        // Toggle the visibility of the accordion body smoothly with slow animation
-        //$accordionBody.slideToggle('slow');
     });
 });
 </script>
@@ -1624,225 +1625,225 @@ $(document).ready(function() {
                                         </div>
                                     </div> 
                                     @can('Manage Payment')
-                                        <div id="billing-setting" class="accordion-item card">
-                                            <h2 class="accordion-header" id="heading-2-15">
-                                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                                    data-bs-target="#collapse20" aria-expanded="false"
-                                                    aria-controls="collapse20">
-                                                    <h5>{{ __('Billing Settings') }}</h5>
-                                                    <small class="text-muted">{{ __('Edit your billing details') }}</small>
-                                                </button>
-                                            </h2>
-                                            <div id="collapse20" class="accordion-collapse collapse"
-                                                aria-labelledby="heading-2-15" data-bs-parent="#accordionExample">
-                                                <div class="accordion-body">
-                                                    {{ Form::open(['route' => 'billing.setting', 'method' => 'post']) }}
-                                                    @csrf
+                                    <div id="billing-setting" class="accordion-item card">
+                                        <h2 class="accordion-header" id="heading-2-15">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                data-bs-target="#collapse20" aria-expanded="false"
+                                                aria-controls="collapse20">
+                                                <h5>{{ __('Billing Settings') }}</h5>
+                                                <small class="text-muted">{{ __('Edit your billing details') }}</small>
+                                            </button>
+                                        </h2>
+                                        <div id="collapse20" class="accordion-collapse collapse"
+                                            aria-labelledby="heading-2-15" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+                                                {{ Form::open(['route' => 'billing.setting', 'method' => 'post']) }}
+                                                @csrf
 
-                                                    <div class="row cst-border">
-                                                        @if(isset($venue) && !empty($venue))
-                                                        <div class="col-sm-6 venue">
-                                                            <table class="table table-responsive table-bordered"
-                                                                style="width:100%">
-                                                                <tr>
-                                                                    <th>{{__('Venue')}}</th>
-                                                                    <th>{{__('Venue Cost')}}</th>
-                                                                </tr>
-                                                                @foreach($venue as $venueKey => $venueValue)
-                                                                <tr>
-                                                                    <td>{{__($venueKey)}}</td>
-                                                                    <td><input type="number" class="form-control"
-                                                                            name="venue[{{ isset($venueKey) ? $venueKey : '' }}]"
-                                                                            id="venue_{{$venueKey}}"
-                                                                            value="{{ isset($billing['venue'][$venueKey]) ? $billing['venue'][$venueKey] : '' }}"
-                                                                            placeholder="{{__($venueKey)}}" min="0">
-                                                                    </td>
-                                                                </tr>
-                                                                @endforeach
-                                                            </table>
+                                                <div class="row cst-border">
+                                                    @if(isset($venue) && !empty($venue))
+                                                    <div class="col-sm-6 venue">
+                                                        <table class="table table-responsive table-bordered"
+                                                            style="width:100%">
+                                                            <tr>
+                                                                <th>{{__('Venue')}}</th>
+                                                                <th>{{__('Venue Cost')}}</th>
+                                                            </tr>
+                                                            @foreach($venue as $venueKey => $venueValue)
+                                                            <tr>
+                                                                <td>{{__($venueKey)}}</td>
+                                                                <td><input type="number" class="form-control"
+                                                                        name="venue[{{ isset($venueKey) ? $venueKey : '' }}]"
+                                                                        id="venue_{{$venueKey}}"
+                                                                        value="{{ isset($billing['venue'][$venueKey]) ? $billing['venue'][$venueKey] : '' }}"
+                                                                        placeholder="{{__($venueKey)}}" min="0">
+                                                                </td>
+                                                            </tr>
+                                                            @endforeach
+                                                        </table>
+                                                    </div>
+                                                    @endif
+                                                    @if(isset($function) && !empty($function))
+                                                    <div class="col-sm-6 function">
+                                                        <table class="table table-responsive table-bordered"
+                                                            style="width:100%">
+                                                            <tr>
+                                                                <th>{{__('Package')}}</th>
+                                                                <th>{{__('Package Cost')}}</th>
+                                                            </tr>
+                                                            @foreach($function as $functionKey => $functionValue)
+                                                            <tr>
+                                                                <td><b>{{__($functionValue->function)}}</b></td>
+                                                                <td>
+                                                                    @foreach($functionValue->package as $packageKey=> $packageValue)
+                                                                    {{ Form::label($packageValue, __($packageValue), ['class' => 'form-label']) }}
+                                                                    <input type="number" class="form-control"
+                                                                        name="package[{{isset($functionValue->function)? $functionValue->function :''}}][{{ isset($packageValue) ? $packageValue : '' }}]"
+                                                                        id="package_{{isset($packageKey)? $packageKey :''}}"
+                                                                        value="{{ isset($billing['package'][$functionValue->function][$packageValue]) ? $billing['package'][$functionValue->function][$packageValue] : '' }}"
+                                                                        placeholder="Enter {{ isset($packageValue) ? $packageValue :''}} Cost"
+                                                                        min="0">
+                                                                    @endforeach
+                                                                </td>
+                                                            </tr>
+                                                            @endforeach
+                                                        </table>
+                                                    </div>
+                                                    @endif
+                                                    @if(isset($bar) && !empty($bar))
+                                                    <div class="col-sm-6 bar mt-3">
+                                                        <table class="table table-responsive table-bordered"
+                                                            style="width:100%">
+                                                            <tr>
+                                                                <th>{{__('Bar')}}</th>
+                                                                <th>{{__('Bar Cost')}}</th>
+                                                            </tr>
+                                                            @foreach($bar as $barKey => $barValue)
+                                                            <tr>
+                                                                <td><b>{{__($barValue->bar)}}</b></td>
+                                                                <td>
+                                                                    @foreach($barValue->barpackage as $barpackageKey=>$barpackageValue)
+                                                                    {{ Form::label($barpackageValue, __($barpackageValue), ['class' => 'form-label']) }}
+                                                                    <input type="number" class="form-control"
+                                                                        name="barpackage[{{ isset($barValue->bar) ? $barValue->bar : '' }}][{{ isset($barpackageValue) ? $barpackageValue : '' }}]"
+                                                                        id="barpackage_{{ isset($barpackageKey) ? $barpackageKey : '' }}"
+                                                                        value="{{ isset($billing['barpackage'][isset($barValue->bar) ? $barValue->bar : ''][$barpackageValue]) ? $billing['barpackage'][isset($barValue->bar) ? $barValue->bar : ''][$barpackageValue] : '' }}"
+                                                                        placeholder="{{ isset($barpackageValue) ? $barpackageValue : '' }}"
+                                                                        min="0">
+                                                                    @endforeach
+                                                                </td>
+                                                            </tr>
+                                                            @endforeach
+                                                        </table>
+                                                    </div>
+                                                    @endif
+                                                    <div class="col-sm-6 equipment">
+                                                        <div class="form-group">
+                                                            {{ Form::label('equipment', __('Equipment'), ['class' => 'form-label']) }}
+                                                            <input type="number" name="equipment" id=""
+                                                                class="form-control"
+                                                                value="{{ isset($billing['equipment']) ? $billing['equipment'] : ''}}"
+                                                                placeholder="Enter Equipments Cost (eg. Tent, Tables, Chairs)"
+                                                                required>
                                                         </div>
-                                                        @endif
-                                                        @if(isset($function) && !empty($function))
-                                                        <div class="col-sm-6 function">
-                                                            <table class="table table-responsive table-bordered"
-                                                                style="width:100%">
-                                                                <tr>
-                                                                    <th>{{__('Package')}}</th>
-                                                                    <th>{{__('Package Cost')}}</th>
-                                                                </tr>
-                                                                @foreach($function as $functionKey => $functionValue)
-                                                                <tr>
-                                                                    <td><b>{{__($functionValue->function)}}</b></td>
-                                                                    <td>
-                                                                        @foreach($functionValue->package as $packageKey=> $packageValue)
-                                                                        {{ Form::label($packageValue, __($packageValue), ['class' => 'form-label']) }}
-                                                                        <input type="number" class="form-control"
-                                                                            name="package[{{isset($functionValue->function)? $functionValue->function :''}}][{{ isset($packageValue) ? $packageValue : '' }}]"
-                                                                            id="package_{{isset($packageKey)? $packageKey :''}}"
-                                                                            value="{{ isset($billing['package'][$functionValue->function][$packageValue]) ? $billing['package'][$functionValue->function][$packageValue] : '' }}"
-                                                                            placeholder="Enter {{ isset($packageValue) ? $packageValue :''}} Cost"
-                                                                            min="0">
-                                                                        @endforeach
-                                                                    </td>
-                                                                </tr>
-                                                                @endforeach
-                                                            </table>
+                                                        <div class="form-group">
+                                                            {{ Form::label('welcomesetup', __('Welcome Setup'), ['class' => 'form-label']) }}
+                                                            <input type="number" name="welcomesetup" id=""
+                                                                class="form-control"
+                                                                value="{{ isset($billing['welcomesetup']) ? $billing['welcomesetup'] : ''}}"
+                                                                placeholder="Enter Welcome Setup Cost" required>
                                                         </div>
-                                                        @endif
-                                                        @if(isset($bar) && !empty($bar))
-                                                        <div class="col-sm-6 bar mt-3">
-                                                            <table class="table table-responsive table-bordered"
-                                                                style="width:100%">
-                                                                <tr>
-                                                                    <th>{{__('Bar')}}</th>
-                                                                    <th>{{__('Bar Cost')}}</th>
-                                                                </tr>
-                                                                @foreach($bar as $barKey => $barValue)
-                                                                <tr>
-                                                                    <td><b>{{__($barValue->bar)}}</b></td>
-                                                                    <td>
-                                                                        @foreach($barValue->barpackage as $barpackageKey=>$barpackageValue)
-                                                                        {{ Form::label($barpackageValue, __($barpackageValue), ['class' => 'form-label']) }}
-                                                                        <input type="number" class="form-control"
-                                                                            name="barpackage[{{ isset($barValue->bar) ? $barValue->bar : '' }}][{{ isset($barpackageValue) ? $barpackageValue : '' }}]"
-                                                                            id="barpackage_{{ isset($barpackageKey) ? $barpackageKey : '' }}"
-                                                                            value="{{ isset($billing['barpackage'][isset($barValue->bar) ? $barValue->bar : ''][$barpackageValue]) ? $billing['barpackage'][isset($barValue->bar) ? $barValue->bar : ''][$barpackageValue] : '' }}"
-                                                                            placeholder="{{ isset($barpackageValue) ? $barpackageValue : '' }}"
-                                                                            min="0">
-                                                                        @endforeach
-                                                                    </td>
-                                                                </tr>
-                                                                @endforeach
-                                                            </table>
+                                                        <div class="form-group">
+                                                            {{ Form::label('rehearsalsetup', __('Rehearsel Setup'), ['class' => 'form-label']) }}
+                                                            <input type="number" name="rehearsalsetup"
+                                                                class="form-control"
+                                                                value="{{ isset($billing['rehearsalsetup']) ? $billing['rehearsalsetup'] : ''}}"
+                                                                placeholder="Enter Rehearsel Setup Cost" required>
                                                         </div>
-                                                        @endif
-                                                        <div class="col-sm-6 equipment">
-                                                            <div class="form-group">
-                                                                {{ Form::label('equipment', __('Equipment'), ['class' => 'form-label']) }}
-                                                                <input type="number" name="equipment" id=""
-                                                                    class="form-control"
-                                                                    value="{{ isset($billing['equipment']) ? $billing['equipment'] : ''}}"
-                                                                    placeholder="Enter Equipments Cost (eg. Tent, Tables, Chairs)"
-                                                                    required>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                {{ Form::label('welcomesetup', __('Welcome Setup'), ['class' => 'form-label']) }}
-                                                                <input type="number" name="welcomesetup" id=""
-                                                                    class="form-control"
-                                                                    value="{{ isset($billing['welcomesetup']) ? $billing['welcomesetup'] : ''}}"
-                                                                    placeholder="Enter Welcome Setup Cost" required>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                {{ Form::label('rehearsalsetup', __('Rehearsel Setup'), ['class' => 'form-label']) }}
-                                                                <input type="number" name="rehearsalsetup"
-                                                                    class="form-control"
-                                                                    value="{{ isset($billing['rehearsalsetup']) ? $billing['rehearsalsetup'] : ''}}"
-                                                                    placeholder="Enter Rehearsel Setup Cost" required>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                {{ Form::label('hotel_rooms', __('Hotel Rooms'), ['class' => 'form-label']) }}
-                                                                <input type="number" name="hotel_rooms" class="form-control"
-                                                                    value="{{ isset($billing['hotel_rooms']) ? $billing['hotel_rooms'] : ''}}"
-                                                                    placeholder="Enter Hotel Rooms Cost" required>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                {{ Form::label('special_req', __('Special Request/Others'), ['class' => 'form-label']) }}
-                                                                <input type="number" name="special_req" class="form-control"
-                                                                    value="{{ isset($billing['special_req']) ? $billing['special_req'] : ''}}"
-                                                                    placeholder="Enter  Cost" required>
-                                                            </div>
+                                                        <div class="form-group">
+                                                            {{ Form::label('hotel_rooms', __('Hotel Rooms'), ['class' => 'form-label']) }}
+                                                            <input type="number" name="hotel_rooms" class="form-control"
+                                                                value="{{ isset($billing['hotel_rooms']) ? $billing['hotel_rooms'] : ''}}"
+                                                                placeholder="Enter Hotel Rooms Cost" required>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            {{ Form::label('special_req', __('Special Request/Others'), ['class' => 'form-label']) }}
+                                                            <input type="number" name="special_req" class="form-control"
+                                                                value="{{ isset($billing['special_req']) ? $billing['special_req'] : ''}}"
+                                                                placeholder="Enter  Cost" required>
                                                         </div>
                                                     </div>
-                                                    <div class="text-end">
-                                                        {{ Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary']) }}
-                                                    </div>
-                                                    {{ Form::close() }}
                                                 </div>
+                                                <div class="text-end">
+                                                    {{ Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary']) }}
+                                                </div>
+                                                {{ Form::close() }}
                                             </div>
                                         </div>
+                                    </div>
                                     @endcan
                                     @if (\Auth::user()->type == 'owner')
-                                        <div id="buffer-settings" class=" accordion-item card">
-                                            <h2 class="accordion-header" id="heading-2-15">
-                                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                                    data-bs-target="#collapse21" aria-expanded="false"
-                                                    aria-controls="collapse21">
-                                                    <h5>{{ __('Buffer Settings') }}</h5>
-                                                    <small class="text-muted">{{ __('Edit your buffer settings') }}</small>
-                                                </button>
-                                            </h2>
-                                            <div id="collapse21" class="accordion-collapse collapse"
-                                                aria-labelledby="heading-2-15" data-bs-parent="#accordionExample">
-                                                <div class="accordion-body">
-                                                    {{ Form::open(['route' => 'buffer.setting', 'method' => 'post']) }}
-                                                    @csrf
-                                                    <div class="col-6">
-                                                        <div class="form-group">
-                                                            {{ Form::label('buffer_time', __('Add Buffer Time'), ['class' => 'form-label']) }}
-                                                            {!! Form::input('time', 'buffer_time', $settings['buffer_time'],
-                                                            ['class' =>
-                                                            'form-control', 'required' => 'required']) !!}
-                                                        </div>
+                                    <div id="buffer-settings" class=" accordion-item card">
+                                        <h2 class="accordion-header" id="heading-2-15">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                data-bs-target="#collapse21" aria-expanded="false"
+                                                aria-controls="collapse21">
+                                                <h5>{{ __('Buffer Settings') }}</h5>
+                                                <small class="text-muted">{{ __('Edit your buffer settings') }}</small>
+                                            </button>
+                                        </h2>
+                                        <div id="collapse21" class="accordion-collapse collapse"
+                                            aria-labelledby="heading-2-15" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+                                                {{ Form::open(['route' => 'buffer.setting', 'method' => 'post']) }}
+                                                @csrf
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        {{ Form::label('buffer_time', __('Add Buffer Time'), ['class' => 'form-label']) }}
+                                                        {!! Form::input('time', 'buffer_time', $settings['buffer_time'],
+                                                        ['class' =>
+                                                        'form-control', 'required' => 'required']) !!}
                                                     </div>
-                                                    <div class="col-6">
-                                                        <div class="form-group">
-                                                            {{ Form::label('buffer_day', __('Add Buffer Day'), ['class' => 'form-label']) }}
-                                                            {!! Form::number('buffer_day', $settings['buffer_day'], ['class'
-                                                            =>
-                                                            'form-control', 'required' => 'required','min' => '0']) !!}
-                                                        </div>
-                                                    </div>
-                                                    <div class="text-end">
-                                                        {{ Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary']) }}
-                                                    </div>
-                                                    {{ Form::close() }}
                                                 </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        {{ Form::label('buffer_day', __('Add Buffer Day'), ['class' => 'form-label']) }}
+                                                        {!! Form::number('buffer_day', $settings['buffer_day'], ['class'
+                                                        =>
+                                                        'form-control', 'required' => 'required','min' => '0']) !!}
+                                                    </div>
+                                                </div>
+                                                <div class="text-end">
+                                                    {{ Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary']) }}
+                                                </div>
+                                                {{ Form::close() }}
                                             </div>
                                         </div>
-                                        <div id="add-signature" class="accordion-item  card">
-                                            <h2 class="accordion-header" id="heading-2-15">
-                                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                                    data-bs-target="#collapse22" aria-expanded="false"
-                                                    aria-controls="collapse22">
-                                                    <h5>{{ __('Authorised Signature') }}</h5>
-                                                </button>
-                                            </h2>
-                                            <div id="collapse22" class="accordion-collapse collapse"
-                                                aria-labelledby="heading-2-15" data-bs-parent="#accordionExample">
-                                                <div class="accordion-body">
-                                                <form method="POST" id='sign'>
-                                                    @csrf
-                                                    <div class="card-body">
-                                                        <div class="row mt-3">
-                                                            <div class="col-6">
-                                                                <strong>Existing Signature:</strong> <br>
-                                                                <img src="{{$base64Image}}"
-                                                                    style=" width: 55%;padding-right: 39px;border-bottom: 1px solid black;">
+                                    </div>
+                                    <div id="add-signature" class="accordion-item  card">
+                                        <h2 class="accordion-header" id="heading-2-15">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                data-bs-target="#collapse22" aria-expanded="false"
+                                                aria-controls="collapse22">
+                                                <h5>{{ __('Authorised Signature') }}</h5>
+                                            </button>
+                                        </h2>
+                                        <div id="collapse22" class="accordion-collapse collapse"
+                                            aria-labelledby="heading-2-15" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+                                            <form method="POST" id='sign'>
+                                                @csrf
+                                                <div class="card-body">
+                                                    <div class="row mt-3">
+                                                        <div class="col-6">
+                                                            <strong>Existing Signature:</strong> <br>
+                                                            <img src="{{$base64Image}}"
+                                                                style=" width: 55%;padding-right: 39px;border-bottom: 1px solid black;">
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <strong> Signature:</strong>
+                                                            <br>
+                                                            <div id="sig" class="mt-5">
+                                                                <canvas id="signatureCanvas" width="300"
+                                                                    class="signature-canvas"></canvas>
+                                                                <input type="hidden" name="imageData" id="imageData">
                                                             </div>
-                                                            <div class="col-6">
-                                                                <strong> Signature:</strong>
-                                                                <br>
-                                                                <div id="sig" class="mt-5">
-                                                                    <canvas id="signatureCanvas" width="300"
-                                                                        class="signature-canvas"></canvas>
-                                                                    <input type="hidden" name="imageData" id="imageData">
-                                                                </div>
-                                                                <button type="button" id="clearButton"
-                                                                    class="btn btn-danger btn-sm mt-1">Clear
-                                                                    Signature</button>
+                                                            <button type="button" id="clearButton"
+                                                                class="btn btn-danger btn-sm mt-1">Clear
+                                                                Signature</button>
 
-                                                            </div>
-                                                            <div class="text-end">
-                                                                <input type="submit" value="Save"
-                                                                    class="btn-submit btn btn-primary">
-                                                            </div>
+                                                        </div>
+                                                        <div class="text-end">
+                                                            <input type="submit" value="Save"
+                                                                class="btn-submit btn btn-primary">
                                                         </div>
                                                     </div>
-                                                </form>
                                                 </div>
+                                            </form>
                                             </div>
-                                        
                                         </div>
+                                    
+                                    </div>
                                     @endif
                                 </div>
                             </div>
@@ -4979,6 +4980,7 @@ $(document).ready(function() {
     @endsection
     @push('script-page')
     <script>
+        
     $('.fxnnames').click(function() {
         var value = $(this).text();
         var funrr = <?= (isset($function) && !empty($function)) ? json_encode($function) : 'null' ?>;

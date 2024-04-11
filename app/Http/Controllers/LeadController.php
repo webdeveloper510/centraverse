@@ -168,11 +168,13 @@ class LeadController extends Controller
             $existingcustomer = MasterCustomer::where('email',$lead->email)->first();
             if(!$existingcustomer){
                 $customer = new MasterCustomer();
+                $customer->ref_id = $lead->id;
                 $customer->name = $request->name;
                 $customer->email = $request->email;
                 $customer->phone = $request->phone;
                 $customer->address = $request->lead_address ?? '';
                 $customer->category = 'lead';
+                $customer->type = $request->type ?? '';
                 $customer->save();
             }
             $uArr = [

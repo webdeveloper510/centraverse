@@ -13,14 +13,15 @@ return new class extends Migration
     {
         Schema::create('master_customers', function (Blueprint $table) {
             $table->id();
+            $table->integer('ref_id');
             $table->string('name');
             $table->string('email');
             $table->text('address')->nullable();
             $table->integer('phone');
             $table->string('category')->nullable();
+            $table->string('type');
             $table->timestamps();
-            $table->softDeletes(); 
-
+            $table->softDeletes();         
         });
     }
 

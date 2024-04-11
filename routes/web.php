@@ -865,6 +865,7 @@ Route::group(['middleware' => ['verified']], function () {
             Route::get('report/quoteanalytic', [ReportController::class, 'quoteanalytic'])->name('report.quoteanalytic');
             Route::get('report/eventanalytic', [ReportController::class, 'eventanalytic'])->name('report.eventanalytic');
             Route::get('report/customeranalytic', [ReportController::class, 'customersanalytic'])->name('report.customersanalytic');
+            Route::get('report/billinganalytic', [ReportController::class, 'billinganalytic'])->name('report.billinganalytic');
 
 
 

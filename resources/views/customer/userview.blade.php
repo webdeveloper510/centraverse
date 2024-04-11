@@ -58,11 +58,13 @@
                         <div class="card" id="useradd-1">
                             <div class="card-body table-border-style">
                                 <h3>Upload Documents</h3>
-                                <form action="{{route('upload-info',urlencode(encrypt($users->id)))}}" method="POST"  enctype="multipart/form-data">
+                                <form action="{{route('upload-info',urlencode(encrypt($users->id)))}}" method="POST"
+                                    enctype="multipart/form-data">
                                     @csrf
                                     <label for="customerattachment">Attachment</label>
-                                    <input type="file" name="customerattachment" id="customerattachment" class="form-control" required>
-                                <input type="submit" value="Submit" class="btn btn-primary mt-2">
+                                    <input type="file" name="customerattachment" id="customerattachment"
+                                        class="form-control" required>
+                                    <input type="submit" value="Submit" class="btn btn-primary mt-2">
                                 </form>
                             </div>
                         </div>
@@ -72,12 +74,11 @@
                             <div class="card-body table-border-style">
                                 <h3>Attachments</h3>
                                 <?php   
-                                                                $files = Storage::files('app/public/External_customer/'.$users->id);
-
+                                    $files = Storage::files('app/public/External_customer/'.$users->id);
                                 ?>
                                 @if(isset($files) && !empty($files))
-                                
-                                <div class="col-md-12">
+
+                                <div class="col-md-12" style="    display: flex;">
                                     @foreach ($files as $file)
                                     <div>
                                         <p>{{ basename($file) }}</p>
