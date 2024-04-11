@@ -60,11 +60,13 @@
                         <div class="card" id="useradd-1">
                             <div class="card-body table-border-style">
                                 <h3>Upload Documents</h3>
-                                <form action="<?php echo e(route('upload-info',urlencode(encrypt($users->id)))); ?>" method="POST"  enctype="multipart/form-data">
+                                <form action="<?php echo e(route('upload-info',urlencode(encrypt($users->id)))); ?>" method="POST"
+                                    enctype="multipart/form-data">
                                     <?php echo csrf_field(); ?>
                                     <label for="customerattachment">Attachment</label>
-                                    <input type="file" name="customerattachment" id="customerattachment" class="form-control" required>
-                                <input type="submit" value="Submit" class="btn btn-primary mt-2">
+                                    <input type="file" name="customerattachment" id="customerattachment"
+                                        class="form-control" required>
+                                    <input type="submit" value="Submit" class="btn btn-primary mt-2">
                                 </form>
                             </div>
                         </div>
@@ -74,12 +76,11 @@
                             <div class="card-body table-border-style">
                                 <h3>Attachments</h3>
                                 <?php   
-                                                                $files = Storage::files('app/public/External_customer/'.$users->id);
-
+                                    $files = Storage::files('app/public/External_customer/'.$users->id);
                                 ?>
                                 <?php if(isset($files) && !empty($files)): ?>
-                                
-                                <div class="col-md-12">
+
+                                <div class="col-md-12" style="    display: flex;">
                                     <?php $__currentLoopData = $files; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $file): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <div>
                                         <p><?php echo e(basename($file)); ?></p>

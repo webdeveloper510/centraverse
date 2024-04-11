@@ -32,7 +32,13 @@
                         </div>
 
                         <div class="col-auto" style="margin-left: -29px;">
-                            {{ Form::select('status', ['' => 'Select Status'] + $status, isset($_GET['status']) ? $_GET['status'] : '', ['class' => 'form-control', 'style' => 'margin-left: 29px;']) }}
+                        <select name="status" id="status" class="form-control" style="margin-left: 29px;">
+                                <option value="">Select Status</option>
+                                @foreach($customerstat as $stat)
+                                <option value="{{$stat->status}}"  {{ isset($_GET['status']) && $stat->status == $_GET['status'] ? 'selected' : '' }}>{{App\Models\UserImport::$status[$stat->status]}}</option>
+                                @endforeach
+                            </select>
+                            <!-- {{ Form::select('status', ['' => 'Select Status'] + $status, isset($_GET['status']) ? $_GET['status'] : '', ['class' => 'form-control', 'style' => 'margin-left: 29px;']) }} -->
                         </div>
                         <div class="action-btn bg-primary ms-5">
                             <div class="col-auto ">
@@ -44,7 +50,7 @@
                         {{ Form::close() }}
                         <div class="action-btn bg-danger ms-2">
                             <div class="col-auto">
-                                <a href="{{ route('report.leadsanalytic') }}" data-bs-toggle="tooltip"
+                                <a href="{{ route('report.customersanalytic') }}" data-bs-toggle="tooltip"
                                     title="{{ __('Reset') }}" data-title="{{ __('Reset') }}"
                                     class=" btn btn-sm align-items-center text-white"><i
                                         class="ti ti-trash-off"></i></a>
@@ -68,7 +74,7 @@
                             value="{{ __('Event Report of') . ' ' . $report['startDateRange'] . ' to ' . $report['endDateRange'] }}"
                             id="filesname">
                         @else
-                        <input type="hidden" value="{{ __('Event Report') }}" id="filesname">
+                        <input type="hidden" value="{{ __('Customers Report') }}" id="filesname">
                         @endif
 
                         <div class="col">

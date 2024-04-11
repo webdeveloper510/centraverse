@@ -68,7 +68,7 @@ class MeetingController extends Controller
             $status            = Meeting::$status;
             $parent            = Meeting::$parent;
             $users              = User::where('created_by', \Auth::user()->creatorId())->get();
-            $attendees_lead    = Lead::where('created_by', \Auth::user()->creatorId())->where('proposal_status', 2)->get()->pluck('leadname', 'id');
+            $attendees_lead    = Lead::where('created_by', \Auth::user()->creatorId())->where('status', 3)->get()->pluck('leadname', 'id');
             $attendees_lead->prepend('Select Lead', 0);
             $setup = Setup::all();
             return view('meeting.create', compact('status', 'type',  'setup', 'parent', 'users', 'attendees_lead'));
@@ -192,7 +192,7 @@ class MeetingController extends Controller
             $meeting['start_date']        = $request->start_date;
             $meeting['end_date']          = $request->end_date;
             $meeting['email']              = $request->email;
-            $meeting['lead_address']       = $request->lead_address;
+            $meeting['lead_address']       = $request->lead_address ??'';
             $meeting['company_name']      = $request->company_name;
             $meeting['relationship']       = $request->relationship;
             $meeting['type']               = $request->type;
@@ -233,11 +233,13 @@ class MeetingController extends Controller
                 $existingcustomer = MasterCustomer::where('email',$request->email)->first();
                 if(!$existingcustomer){
                     $customer = new MasterCustomer();
+                    $customer->ref_id = $meeting->id;
                     $customer->name = $request->name;
                     $customer->email = $request->email;
                     $customer->phone = $request->phone;
                     $customer->address = $request->lead_address ?? '';
                     $customer->category = 'event';
+                    $customer->type = $request->type;
                     $customer->save();
                 }
             $Assign_user_phone = User::where('id', $request->user)->first();
@@ -372,7 +374,8 @@ class MeetingController extends Controller
                 })->where('id', '<>', $meeting->id)->count();
 
             if ($overlapping_event > 0) {
-                return redirect()->back()->with('error', 'Event with overlapping time and matching venue already exists!');
+                return redirect()->back()->with('error', 'Event with overlapping time and matching venue already exists!') 
+                ->withInput();
             }
 
             $overlapping_event = Blockdate::where('start_date', '<=', $end_date)

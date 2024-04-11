@@ -18,6 +18,7 @@ use App\Models\UserImport;
 use App\Models\Report;
 use App\Models\SalesOrder;
 use App\Models\Stream;
+use App\Models\PaymentLogs;
 use App\Models\Task;
 use App\Models\User;
 use App\Models\Utility;
@@ -352,9 +353,11 @@ class ReportController extends Controller
         $report['status'] = __('All');
         $leadsource       = LeadSource::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
         $leadsource->prepend('Select Source', 0);
-        $status = Lead::$status;
-
-
+        $status= Lead::$status;
+        $leadstatus = Lead::select('status')->distinct()->get();
+        // foreach($leadstatus as $stat){
+        //     $status[] = Lead::$status[$stat->status];
+        // }
         $labels = [];
         $data   = [];
 
@@ -382,7 +385,7 @@ class ReportController extends Controller
             $leads->where('status', $request->status);
         }
 
-        $leads->where('created_by', \Auth::user()->creatorId());
+        // $leads->where('created_by', \Auth::user()->creatorId());
         $leads = $leads->get();
 
         $currentdate = $start;
@@ -391,7 +394,7 @@ class ReportController extends Controller
             $month = date('m', $currentdate);
             $year  = date('Y', $currentdate);
 
-            $leadFilter = Lead::where('created_by', \Auth::user()->creatorId())->whereMonth('created_at', $month)->whereYear('created_at', $year);
+            $leadFilter = Lead::whereMonth('created_at', $month)->whereYear('created_at', $year);
             if(!empty($request->leadsource))
             {
                 $leadFilter->where('source', $request->leadsource);
@@ -401,7 +404,7 @@ class ReportController extends Controller
                 $leadFilter->where('status', $request->status);
             }
 
-            $leadFilter->where('created_by', \Auth::user()->creatorId());
+            // $leadFilter->where('created_by', \Auth::user()->creatorId());
             $leadFilter = $leadFilter->get();
 
             $data[]      = count($leadFilter);
@@ -409,17 +412,17 @@ class ReportController extends Controller
             $currentdate = strtotime('+1 month', $currentdate);
 
         }
-
+        
         $report['startDateRange'] = date('M-Y', $start);
         $report['endDateRange']   = date('M-Y', $end);
 
-        return view('report.leadsanalytic', compact('labels', 'data', 'report', 'leads', 'leadsource', 'status'));
+        return view('report.leadsanalytic', compact('labels', 'data', 'report', 'leads', 'leadsource', 'status','leadstatus'));
 
     }
     public function eventanalytic(Request $request){
         $status = Meeting::$status;
 
-
+        $eventstatus = Meeting::select('status')->distinct()->get();
         $labels = [];
         $data   = [];
 
@@ -444,10 +447,10 @@ class ReportController extends Controller
         // }
         if(!empty($request->status))
         {
-            $leads->where('status', $request->status);
+            $events->where('status', $request->status);
         }
 
-        $events->where('created_by', \Auth::user()->creatorId());
+        // $events->where('created_by', \Auth::user()->creatorId());
         $events = $events->get();
 
         $currentdate = $start;
@@ -456,7 +459,7 @@ class ReportController extends Controller
             $month = date('m', $currentdate);
             $year  = date('Y', $currentdate);
 
-            $eventFilter = Meeting::where('created_by', \Auth::user()->creatorId())->whereMonth('created_at', $month)->whereYear('created_at', $year);
+            $eventFilter = Meeting::whereMonth('created_at', $month)->whereYear('created_at', $year);
             // if(!empty($request->leadsource))
             // {
             //     $leadFilter->where('source', $request->leadsource);
@@ -466,7 +469,7 @@ class ReportController extends Controller
                 $eventFilter->where('status', $request->status);
             }
 
-            $eventFilter->where('created_by', \Auth::user()->creatorId());
+            // $eventFilter->where('created_by', \Auth::user()->creatorId());
             $eventFilter = $eventFilter->get();
 
             $data[]      = count($eventFilter);
@@ -478,7 +481,7 @@ class ReportController extends Controller
         $report['startDateRange'] = date('M-Y', $start);
         $report['endDateRange']   = date('M-Y', $end);
 
-        return view('report.eventanalytic', compact('labels', 'data', 'report', 'events', 'status'));
+        return view('report.eventanalytic', compact('labels', 'data', 'report', 'events', 'status','eventstatus'));
 
     }
     public function invoiceanalytic(Request $request)
@@ -658,7 +661,7 @@ class ReportController extends Controller
 
     public function customersanalytic(Request $request){
         $status = UserImport::$status;
-
+        $customerstat = UserImport::select('status')->distinct()->get();
 
         $labels = [];
         $data   = [];
@@ -684,7 +687,7 @@ class ReportController extends Controller
             $users->where('status', $request->status);
         }
 
-        $users->where('created_by', \Auth::user()->creatorId());
+        // $users->where('created_by', \Auth::user()->creatorId());
         $users = $users->get();
 
         $currentdate = $start;
@@ -693,7 +696,7 @@ class ReportController extends Controller
             $month = date('m', $currentdate);
             $year  = date('Y', $currentdate);
 
-            $userFilter = UserImport::where('created_by', \Auth::user()->creatorId())->whereMonth('created_at', $month)->whereYear('created_at', $year);
+            $userFilter = UserImport::whereMonth('created_at', $month)->whereYear('created_at', $year);
             // if(!empty($request->leadsource))
             // {
             //     $leadFilter->where('source', $request->leadsource);
@@ -703,7 +706,7 @@ class ReportController extends Controller
                 $userFilter->where('status', $request->status);
             }
 
-            $userFilter->where('created_by', \Auth::user()->creatorId());
+            // $userFilter->where('created_by', \Auth::user()->creatorId());
             $userFilter = $userFilter->get();
 
             $data[]      = count($userFilter);
@@ -715,7 +718,7 @@ class ReportController extends Controller
         $report['startDateRange'] = date('M-Y', $start);
         $report['endDateRange']   = date('M-Y', $end);
 
-        return view('report.customersanalytic', compact('labels', 'data', 'report', 'users', 'status'));
+        return view('report.customersanalytic', compact('labels', 'data', 'report', 'users', 'status','customerstat'));
 
     }
     public function getparent(Request $request)
@@ -780,7 +783,71 @@ class ReportController extends Controller
 
         return response()->json($parent);
     }
+    public function billinganalytic(Request $request){
+        // $status = Billing::$status;
 
+        // $billstatus = Billing::select('status')->distinct()->get();
+        $labels = [];
+        $data   = [];
+
+
+        if(!empty($request->start_month) && !empty($request->end_month))
+        {
+            $start = strtotime($request->start_month);
+            $end   = strtotime($request->end_month);
+        }
+        else
+        {
+            $start = strtotime(date('Y-01'));
+            $end   = strtotime(date('Y-12'));
+        }
+
+        $payment = PaymentLogs::orderBy('id');
+
+        $payment->where('created_at', '>=', date('Y-m-01', $start))->where('created_at', '<=', date('Y-m-t', $end));
+        // if(!empty($request->leadsource))
+        // {
+        //     $leads->where('source', $request->leadsource);
+        // }
+        // if(!empty($request->status))
+        // {
+        //     $bills->where('status', $request->status);
+        // }
+
+        // $events->where('created_by', \Auth::user()->creatorId());
+        $payment = $payment->get();
+
+        $currentdate = $start;
+        // while($currentdate <= $end)
+        // {
+        //     $month = date('m', $currentdate);
+        //     $year  = date('Y', $currentdate);
+
+        //     $eventFilter = Billing::whereMonth('created_at', $month)->whereYear('created_at', $year);
+        //     // if(!empty($request->leadsource))
+        //     // {
+        //     //     $leadFilter->where('source', $request->leadsource);
+        //     // }
+        //     if(!empty($request->status))
+        //     {
+        //         $eventFilter->where('status', $request->status);
+        //     }
+
+        //     // $eventFilter->where('created_by', \Auth::user()->creatorId());
+        //     $eventFilter = $eventFilter->get();
+
+        //     $data[]      = count($eventFilter);
+        //     $labels[]    = date('M Y', $currentdate);
+        //     $currentdate = strtotime('+1 month', $currentdate);
+
+        // }
+
+        $report['startDateRange'] = date('M-Y', $start);
+        $report['endDateRange']   = date('M-Y', $end);
+
+        return view('report.billsanalytic', compact('labels', 'data', 'report', 'payment'));
+
+    }
     // public function fileExport()
     // {
     //     $name = 'quote_' . date('Y-m-d i:h:s');
@@ -798,4 +865,5 @@ class ReportController extends Controller
 
         return $data;
     }
+
 }

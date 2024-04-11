@@ -3,12 +3,12 @@
 {{ __('Report') }}
 @endsection
 @section('title')
-{{ __('Event Analytics') }}
+{{ __('Customer Analytics') }}
 @endsection
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Home') }}</a></li>
 <li class="breadcrumb-item">{{ __('Report') }}</li>
-<li class="breadcrumb-item">{{ __('Event Analytics') }}</li>
+<li class="breadcrumb-item">{{ __('Financial Analytics') }}</li>
 @endsection
 @section('action-btn')
 @endsection
@@ -21,7 +21,7 @@
 
                 <div class="collapse show float-end" id="collapseExample" style="">
 
-                    {{ Form::open(['route' => ['report.eventanalytic'], 'method' => 'get']) }}
+                    {{ Form::open(['route' => ['report.billinganalytic'], 'method' => 'get']) }}
                     <div class="row filter-css">
 
                         <div class="col-auto">
@@ -32,13 +32,7 @@
                         </div>
 
                         <div class="col-auto" style="margin-left: -29px;">
-                        <select name="status" id="status" class="form-control" style="margin-left: 29px;">
-                                <option value="">Select Status</option>
-                                @foreach($eventstatus as $stat)
-                                <option value="{{$stat->status}}"  {{ isset($_GET['status']) && $stat->status == $_GET['status'] ? 'selected' : '' }}>{{App\Models\Meeting::$status[$stat->status]}}</option>
-                                @endforeach
-                            </select>
-                            <!-- {{ Form::select('status', ['' => 'Select Status'] + $status, isset($_GET['status']) ? $_GET['status'] : '', ['class' => 'form-control', 'style' => 'margin-left: 29px;']) }} -->
+                      
                         </div>
                         <div class="action-btn bg-primary ms-5">
                             <div class="col-auto ">
@@ -50,21 +44,13 @@
                         {{ Form::close() }}
                         <div class="action-btn bg-danger ms-2">
                             <div class="col-auto">
-                                <a href="{{ route('report.leadsanalytic') }}" data-bs-toggle="tooltip"
+                                <a href="{{ route('report.billinganalytic') }}" data-bs-toggle="tooltip"
                                     title="{{ __('Reset') }}" data-title="{{ __('Reset') }}"
                                     class=" btn btn-sm align-items-center text-white"><i
                                         class="ti ti-trash-off"></i></a>
                             </div>
                         </div>
-                        <!-- <div class="action-btn bg-primary ms-2">
-                            <div class="col-auto">
-                                <a href="#" onclick="saveAsPDF();" class="mx-3 btn btn-sm align-items-center text-white"
-                                    data-bs-toggle="tooltip" data-title="{{ __('Download') }}"
-                                    title="{{ __('Download') }}" id="download-buttons">
-                                    <i class="ti ti-download"></i>
-                                </a>
-                            </div>
-                        </div> -->
+                       
                     </div>
                 </div>
             </div>
@@ -82,11 +68,11 @@
                             value="{{ __('Event Report of') . ' ' . $report['startDateRange'] . ' to ' . $report['endDateRange'] }}"
                             id="filesname">
                         @else
-                        <input type="hidden" value="{{ __('Event Report') }}" id="filesname">
+                        <input type="hidden" value="{{ __('Financial Report') }}" id="filesname">
                         @endif
 
                         <div class="col">
-                            {{ __('Report') }} : <h6>{{ __('Event Summary') }}</h6>
+                            {{ __('Report') }} : <h6>{{ __('Financial Summary') }}</h6>
                         </div>
                         <div class="col">
                             {{ __('Duration') }} : <h6>
@@ -98,16 +84,6 @@
             </div>
         </div>
     </div>
-
-    <!-- <div class="col-lg-12">
-        <div class="card">
-            <div class="card-body">
-                <div id="report-chart"></div>
-            </div>
-        </div>
-    </div> -->
-
-
 </div>
 <div class="row">
     <div class="col-xl-12">
@@ -125,78 +101,26 @@
                     <table class="table" id="pc-dt-export">
                         <thead>
                             <tr>
-                                <th scope="col" class="sort" data-sort="name">{{ __('Name') }}</th>
-                                <th scope="col" class="sort" data-sort="budget">{{ __('Created By') }}</th>
-                                <th scope="col" class="sort" data-sort="name">{{ __('Type') }}</th>
+                            <th scope="col" class="sort" data-sort="name">{{ __('Name') }}</th>
+                            <th scope="col" class="sort" data-sort="budget">{{ __('Event') }}</th>
+                                <th scope="col" class="sort" data-sort="budget">{{ __('Transaction Id') }}</th>
                                 <th scope="col" class="sort" data-sort="name">{{ __('Phone') }}</th>
                                 <th scope="col" class="sort" data-sort="name">{{ __('Email') }}</th>
-                                <th scope="col" class="sort" data-sort="name">{{ __('Date') }}</th>
-                                <th scope="col" class="sort" data-sort="name">{{ __('Assigned Staff') }}</th>
-                                <th scope="col" class="sort" data-sort="name">{{ __('Rooms required') }}</th>
-                                <th scope="col" class="sort" data-sort="name">{{ __('Function') }}</th>
-                                <th scope="col" class="sort" data-sort="budget">{{ __(' Status') }}</th>
-                                <th scope="col" class="sort" data-sort="budget">{{ __('Payment Status') }}</th>
-                                <th scope="col" class="sort" data-sort="budget">{{ __('Amount Paid') }}</th>
-                                <th scope="col" class="sort" data-sort="budget">{{ __('Due Amount') }}</th>
                                 <th scope="col" class="sort" data-sort="budget">{{ __('Created At') }}</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($events as $result)
-
-                            <tr>
-                                <td>{{ ucfirst($result['name'])  }}</td>
-                                <td>{{ucfirst(App\Models\User::where('id',$result['created_by'])->first()->name)}}</td>
-                                <td>{{ ucfirst($result['type']) }}</td>
-                                <td>{{ $result['phone'] }}</td>
-                                <td>{{ $result['email'] }}</td>
-                                <td> @if($result['start_date'] == $result['end_date'])
-                                    {{ \Auth::user()->dateFormat($result['start_date']) }}
-                                    @else
-                                    {{ \Auth::user()->dateFormat($result['start_date']) }} -
-                                    {{ \Auth::user()->dateFormat($result['end_date'])}}
-                                    @endif</td>
-                                <td>{{!empty($result['assign_user'])? $result['assign_user']->name:'--' }}
-                                    ({{$result['assign_user']->type}})</td>
-                                <td>{{$result['room']}}</td>
-                                <td>{{ isset($result['function']) ? ucfirst($result['function']) : '--' }}</td>
-
-                                <td> {{ __(\App\Models\Meeting::$status[$result['status']]) }}</td>
-                                <td>
-                                    <?php 
-                                    $paymentLog = App\Models\PaymentLogs::where('event_id', $result['id'])->orderBy('id', 'desc')->first();
-                                    $paymentInfo = App\Models\PaymentInfo::where('event_id', $result['id'])->orderBy('id', 'desc')->first();
-                                ?>
-                                    @if($paymentLog && $paymentInfo)
-                                    @if($paymentLog->amount < $paymentInfo->amounttobepaid && $paymentLog->amount != 0)
-                                        Partially Paid
-                                        @else
-                                        Completed
-                                        @endif
-                                        @else
-                                        No Payment
-                                        @endif
-                                </td>
-                                <td>
-                                    @if($paymentLog)
-                                    ${{$paymentLog->amount}}
-
-                                    @else
-                                    --
-                                    @endif
-                                </td>
-                                <td> @if($paymentLog && $paymentInfo)
-                                    ${{ $paymentInfo->amounttobepaid - $paymentLog->amount}}
-
-                                    @else
-                                    --
-                                    @endif </td>
-                                <td>{{ __(\Auth::user()->dateFormat($result['created_at'])) }}
-
-                                </td>
-
-                            </tr>
-                            @endforeach
+                        @foreach ($payment as $pay)
+                        <?php $event = App\Models\Meeting::where('id',$pay['event_id'])->first();?>
+                        <tr>
+                            <td>{{ ucfirst($pay['name_of_card'])  }}</td>
+                            <td>{{$event->type}}</td>
+                            <td>{{ ($pay['transaction_id'])  }}</td>
+                            <td>{{$event->phone}}</td>
+                            <td>{{$event->email}}</td>
+                            <td>{{ __(\Auth::user()->dateFormat($pay['created_at'])) }}</td>
+                        </tr>
+                        @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -205,7 +129,7 @@
     </div>
 </div>
 @endsection
-    @push('script-page')
+@push('script-page')
 
     <script type="text/javascript" src="{{ asset('js/html2pdf.bundle.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/dataTables.buttons.min.js') }}"></script>
