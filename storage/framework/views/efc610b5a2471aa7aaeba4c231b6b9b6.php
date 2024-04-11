@@ -36,8 +36,13 @@
                         </div>
 
                         <div class="col-auto" style="margin-left: -29px;">
-                            <?php echo e(Form::select('status', ['' => 'Select Status'] + $status, isset($_GET['status']) ? $_GET['status'] : '', ['class' => 'form-control', 'style' => 'margin-left: 29px;'])); ?>
-
+                        <select name="status" id="status" class="form-control" style="margin-left: 29px;">
+                                <option value="">Select Status</option>
+                                <?php $__currentLoopData = $customerstat; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $stat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <option value="<?php echo e($stat->status); ?>"  <?php echo e(isset($_GET['status']) && $stat->status == $_GET['status'] ? 'selected' : ''); ?>><?php echo e(App\Models\UserImport::$status[$stat->status]); ?></option>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            </select>
+                            <!-- <?php echo e(Form::select('status', ['' => 'Select Status'] + $status, isset($_GET['status']) ? $_GET['status'] : '', ['class' => 'form-control', 'style' => 'margin-left: 29px;'])); ?> -->
                         </div>
                         <div class="action-btn bg-primary ms-5">
                             <div class="col-auto ">
@@ -50,7 +55,7 @@
 
                         <div class="action-btn bg-danger ms-2">
                             <div class="col-auto">
-                                <a href="<?php echo e(route('report.leadsanalytic')); ?>" data-bs-toggle="tooltip"
+                                <a href="<?php echo e(route('report.customersanalytic')); ?>" data-bs-toggle="tooltip"
                                     title="<?php echo e(__('Reset')); ?>" data-title="<?php echo e(__('Reset')); ?>"
                                     class=" btn btn-sm align-items-center text-white"><i
                                         class="ti ti-trash-off"></i></a>
@@ -74,7 +79,7 @@
                             value="<?php echo e(__('Event Report of') . ' ' . $report['startDateRange'] . ' to ' . $report['endDateRange']); ?>"
                             id="filesname">
                         <?php else: ?>
-                        <input type="hidden" value="<?php echo e(__('Event Report')); ?>" id="filesname">
+                        <input type="hidden" value="<?php echo e(__('Customers Report')); ?>" id="filesname">
                         <?php endif; ?>
 
                         <div class="col">
