@@ -108,6 +108,7 @@
                             <th scope="col" class="sort" data-sort="name"><?php echo e(__('Name')); ?></th>
                             <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Event')); ?></th>
                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Transaction Id')); ?></th>
+                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Amount')); ?></th>
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Phone')); ?></th>
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Email')); ?></th>
                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Created At')); ?></th>
@@ -120,6 +121,7 @@
                             <td><?php echo e(ucfirst($pay['name_of_card'])); ?></td>
                             <td><?php echo e($event->type); ?></td>
                             <td><?php echo e(($pay['transaction_id'])); ?></td>
+                            <td><?php echo e(($pay['amount'])); ?></td>
                             <td><?php echo e($event->phone); ?></td>
                             <td><?php echo e($event->email); ?></td>
                             <td><?php echo e(__(\Auth::user()->dateFormat($pay['created_at']))); ?></td>
