@@ -255,24 +255,19 @@ $total += $p->amount;
     {{Form::submit(__('Save'),array('class'=>'btn btn-primary '))}}
 </div>
 @endif
-<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
 <script>
-    // $(document).ready(function(){
-    //     $('#mode').change(function(){
-    //         var selectedOption = $(this).val();
-    //         console.log(selectedOption);
-    //         if(selectedOption != 'credit') {
-    //             // alert('true');
-    //             // $('#reference').prop('required', true);
-    //             document.getElementById('reference').setAttribute('required', 'required');
+$('#mode').change(function(){
+    var selected = $(this).val();
+    if(selected == 'credit') {
+        $('#reference').removeAttr('required');
+    } else {
+        setTimeout(function() {
+        $('#reference').attr('required', 'required');
+    }, 100);
+    }
+});
 
-    //         } else {
-    //             alert('false');
-
-    //             // $('#reference').removeAttr('required');
-    //         }
-    //     });
-    // });
+   
 </script>
 
 
