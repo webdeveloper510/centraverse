@@ -106,31 +106,7 @@ class BillingController extends Controller
         $payment = PaymentInfo::where('event_id',$id)->orderBy('id', 'DESC')->first();
         return view('billing.pay-info',compact('event','payment'));
     }
-    public function paymentupdate(Request $request, $id){
-        echo "<pre>";
-        print_r($request->all());die;
-        // if (\Auth::user()->can('Create Payment')) {
-        //     $validator = \Validator::make(
-        //         $request->all(),
-        //         [
-        //             'name' => 'required|max:120',
-        //             'start_date' => 'required',
-        //             'end_date' => 'required',
-        //             'email' => 'required|email|max:120',
-        //             'type' => 'required',
-        //             'venue' => 'required|max:120',
-        //             'function' => 'required|max:120',
-        //             'guest_count' => 'required',
-        //         ]
-        //     );
-        // if ($validator->fails()) {
-        //     $messages = $validator->getMessageBag();
-        //     return redirect()
-        //         ->back()->with('error', $messages->first())
-        //         ->withErrors($validator)
-        //         ->withInput();
-        // }
-           
+    public function paymentupdate(Request $request, $id){         
         $id = decrypt(urldecode($id));
         $payment = new PaymentInfo();
         $payment->event_id = $id;
