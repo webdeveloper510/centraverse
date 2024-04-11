@@ -170,7 +170,7 @@ class LeadController extends Controller
                 $customer = new MasterCustomer();
                 $customer->ref_id = $lead->id;
                 $customer->name = $request->name;
-                $customer->email = $request->email;
+                $customer->email = $request->email ??'';
                 $customer->phone = $request->phone;
                 $customer->address = $request->lead_address ?? '';
                 $customer->category = 'lead';
@@ -704,7 +704,11 @@ class LeadController extends Controller
     public function lead_info($id){
         $id = decrypt(urldecode($id));
         $lead = Lead::find($id);
-        $leads = Lead::where('email',$lead->email)->orwhere('phone',$lead->phone)->get();
+        if(!empty($lead->email)){
+            $leads = Lead::where('email',$lead->email)->get();
+        }else{
+            $leads = Lead::where('phone',$lead->phone)->get();
+        }
         $docs = LeadDoc::where('lead_id',$id)->get();
         return view('lead.leadinfo',compact('leads','lead','docs'));
     }
