@@ -68,7 +68,7 @@ class MeetingController extends Controller
             $status            = Meeting::$status;
             $parent            = Meeting::$parent;
             $users              = User::where('created_by', \Auth::user()->creatorId())->get();
-            $attendees_lead    = Lead::where('created_by', \Auth::user()->creatorId())->where('status', 3)->get()->pluck('leadname', 'id');
+            $attendees_lead    = Lead::where('created_by', \Auth::user()->creatorId())->where('status',4)->get()->pluck('leadname', 'id');
             $attendees_lead->prepend('Select Lead', 0);
             $setup = Setup::all();
             return view('meeting.create', compact('status', 'type',  'setup', 'parent', 'users', 'attendees_lead'));
