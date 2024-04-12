@@ -51,25 +51,8 @@ $meetingData = [
 ];
 $totalFoodPackageCost = 0;
 $totalbarPackageCost = 0;
-if(isset($billings) && !empty($billings)){
-foreach ($food as $foodItem) {
-foreach ($billings['package'] as $category => $categoryItems) {
-if (isset($categoryItems[$foodItem])) {
-$totalFoodPackageCost += $categoryItems[$foodItem];
-break;
-}
-}
-}
-foreach ($bar as $barItem) {
-foreach ($billings['barpackage'] as $category => $categoryItems) {
-if (isset($categoryItems[$barItem])) {
-$totalbarPackageCost += $categoryItems[$barItem];
-break;
-}
-}
-}
-$meetingData['food_package_cost'] = $totalFoodPackageCost;
-}
+
+
 $additionalItemsCost = 0;
 if(isset($additional_items) && !empty($additional_items)){
 
@@ -141,9 +124,9 @@ $meetingData['setup_cost'] = '';
             <label class="form-label"> Deposit on file: </label>
             <input type="number" name="deposits" min='0' class="form-control">
         </div>
-    
+
     </div>
-   
+
 </div>
 {{Form::submit(__('Save'),array('class'=>'btn btn-primary '))}}
 {{ Form::close() }}

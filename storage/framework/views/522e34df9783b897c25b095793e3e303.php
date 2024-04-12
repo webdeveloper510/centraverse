@@ -466,6 +466,14 @@ $leadname = App\Models\Lead::where('id',9)->pluck('leadname')->first();
 
                                             </div>
                                         </div>
+                                        <div class="col-12">
+                                                <div class="form-group">
+                                                    <?php echo e(Form::label('atttachment',__('Attachments (If Any)'),['class'=>'form-label'])); ?>
+
+                                                    <input type="file" name="atttachment" id="atttachment" class="form-control">
+
+                                                </div>
+                                            </div>
 
                                     </div>
                                 </div>
