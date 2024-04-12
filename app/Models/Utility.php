@@ -265,12 +265,12 @@ class Utility extends Model
     public static function setting()
     {
         $data = DB::table('settings');
-        // $data   = $data->where('created_by', '=', 1);
+        $data   = $data->where('created_by', '=', 1);
         $data     = $data->get();
         $settings = [
             "cust_theme_bg" => 'on',
             "cust_darklayout" => 'off',
-            'color' => 'theme-3',
+            'color' => 'theme-9',
         ];
 
         foreach ($data as $row) {

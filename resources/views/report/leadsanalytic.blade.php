@@ -156,8 +156,8 @@
                                     {{ \Auth::user()->dateFormat($result['start_date']) }} -
                                     {{ \Auth::user()->dateFormat($result['end_date'])}}
                                     @endif</td>
-                                <td>{{!empty($result['assign_user'])? $result['assign_user']->name:'--' }}
-                                    ({{$result['assign_user']->type}})</td>
+                                <td>{{!empty($result['assign_user'])? $result['assign_user']->name:'Not Assigned Yet' }}
+                                    {{!empty($result['assign_user'])?($result['assign_user']->type):''}}</td>
                                 <td>{{$result['rooms']}}</td>
                                 <td>{{ isset($result['function']) ? ucfirst($result['function']) : '--' }}</td>
                                 <td>

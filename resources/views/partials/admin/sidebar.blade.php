@@ -190,7 +190,7 @@
                 @endif
                 @if(\Request::route()->getName() == 'meeting.index')
                 <a href="#useradd-1" class="list-group-item list-group-item-action"><span
-                        class="fa-stack fa-lg pull-left"><i class="ti ti-home-2"></i></span>
+                        class="fa-stack fa-lg pull-left"><i class="fa fa-tasks"></i></span>
                     <span class="dash-mtext">{{ __('Event') }} </span></a>
 
                 </a>
@@ -240,7 +240,7 @@
                 @endif
                 @if(\Request::route()->getName() == 'meeting.create' ||\Request::route()->getName() == 'meeting.edit' )
                 <a href="#useradd-1" class="list-group-item list-group-item-action">
-                    <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
+                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-tasks"></i></span>
                     <span class="dash-mtext">{{ __('Event') }} </span></a>
                 <a href="#event-details" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"></span>
@@ -254,7 +254,7 @@
                 @endif
                 @if(\Request::route()->getName() == 'meeting.review' )
                 <a href="#useradd-1" class="list-group-item list-group-item-action">
-                    <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
+                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-tasks"></i></span>
                     <span class="dash-mtext">{{ __('Review Event') }} </span></a>
                 @endif
                 @if(\Request::route()->getName() == 'lead.index' )

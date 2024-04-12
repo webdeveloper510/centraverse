@@ -9,14 +9,11 @@ $proposalUrl = route('lead.signedproposal',urlencode(encrypt($lead->id)));
     <title>Proposal</title>
 </head>
 <body>
-Dear {{ $lead->name }},<br>
-
-We're excited to invite you to fill out our proposal form. Your input is valuable to us.<br>
-
+<p>{{$content}}</p>
 <b>Click the link below to access the proposal form:</b><br>
 <p>{{$proposalUrl}}</p>
 
 Thank you for your time and collaboration.<br>
-Best regards,
+With regards
 </body>
 </html>

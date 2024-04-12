@@ -88,12 +88,14 @@ class LeadController extends Controller
     {
         
         if (\Auth::user()->can('Create Lead')) {
+            // echo"<pre>";
+            // print_r($request->all());die;
+
             $validator = \Validator::make(
                 $request->all(),
                 [
                     'lead_name'=>'required',
                     'name' => 'required|max:120',
-                    'phone'=>'required|numeric'
                 ]);
             if ($validator->fails()) {
                 $messages = $validator->getMessageBag();
@@ -134,14 +136,14 @@ class LeadController extends Controller
             $package = json_encode($package);
             $additional = json_encode($additional);
             $bar_pack = json_encode($bar_pack);
-           
+            $phone= preg_replace('/\D/', '', $request->input('phone'));
             $lead                       = new Lead();
             $lead['user_id']            = Auth::user()->id;
             $lead['name']               = $request->name;
             $lead['leadname']           = $request->lead_name;
-            $lead['assigned_user']      = $request->user;
+            $lead['assigned_user']      = $request->user ?? '';
             $lead['email']              = $request->email ?? '';
-            $lead['phone']              = $request->phone;
+            $lead['phone']              = $phone ;
             $lead['lead_address']       = $request->lead_address;
             $lead['company_name']       = $request->company_name;
             $lead['relationship']       = $request->relationship;
@@ -171,7 +173,7 @@ class LeadController extends Controller
                 $customer->ref_id = $lead->id;
                 $customer->name = $request->name;
                 $customer->email = $request->email ??'';
-                $customer->phone = $request->phone;
+                $customer->phone = $phone;
                 $customer->address = $request->lead_address ?? '';
                 $customer->category = 'lead';
                 $customer->type = $request->type ?? '';
@@ -263,11 +265,12 @@ class LeadController extends Controller
     {
      
         if (\Auth::user()->can('Edit Lead')) {
+           
             $validator = \Validator::make(
                 $request->all(),
                 [
                     'name' => 'required|max:120',
-                    'phone' => 'required|numeric',
+                    'phone' => 'required',
                    
                 ]
             );
@@ -282,6 +285,7 @@ class LeadController extends Controller
             $bar_pack = [];
             $venue_function = implode(',',$_REQUEST['venue']);
             $function = isset($request->function) ? implode(',',$_REQUEST['function']) : '';
+          
             foreach ($data as $key => $values) {
                 if (strpos($key, 'package_') === 0) {
                     $newKey = strtolower(str_replace('package_', '', $key));
@@ -307,35 +311,37 @@ class LeadController extends Controller
                     $bar_pack[$newKey] = $values;
                 }
             }
+           
             $package = json_encode($package);
             $additional = json_encode($additional);
             $bar_pack = json_encode($bar_pack);
-           
+            $phone= preg_replace('/\D/', '', $request->input('phone'));
             $lead['user_id']            = $request->user;
             $lead['name']               = $request->name;
             $lead['leadname']          = $request->lead_name;
             $lead['email']              = $request->email;
-            $lead['phone']              = $request->phone;
+            $lead['assigned_user']      = $request->user ?? '';
+            $lead['phone']              = $phone;
             $lead['lead_address']       = $request->lead_address;
             $lead['company_name']       = $request->company_name;
             $lead['relationship']       = $request->relationship;
             $lead['start_date']         = $request->start_date;
             $lead['end_date']           = $request->end_date;
             $lead['type']               = $request->type;
-            $lead['venue_selection']    = $venue_function;
+            $lead['venue_selection']    = isset($venue_function) && (!empty($venue_function)) ? $venue_function : '';
             $lead['function']           = $function;
             $lead['guest_count']        = $request->guest_count ?? 0;
             $lead['description']        = $request->description;
-            $lead['spcl_req']        = $request->spcl_req;
-            $lead['allergies']        = $request->allergies;
+            $lead['spcl_req']           = $request->spcl_req;
+            $lead['allergies']          = $request->allergies;
             $lead['start_time']         = $request->start_time;
-            $lead['end_time']        = $request->end_time;
-            $lead['func_package']       = $package ?? '';
-            $lead['bar_package']         = $bar_pack ?? '';
-            $lead['ad_opts']             = $additional ?? '';
-            $lead['bar']        =   $request->bar;
-            $lead['rooms']          = $request->rooms ?? 0;
-            $lead['lead_status']  = ($request->is_active == 'on') ? 1 : 0;
+            $lead['end_time']           = $request->end_time;
+            $lead['func_package']       = isset($package) && (!empty($package)) ? $package : '';
+            $lead['bar_package']        = isset($bar_pack) && !empty($bar_pack) ? $bar_pack : '';
+            $lead['ad_opts']            = isset($additional) && !empty($additional) ? $additional : '';
+            $lead['bar']                = $request->baropt;
+            $lead['rooms']              = $request->rooms ?? 0;
+            $lead['lead_status']        = ($request->is_active == 'on') ? 1 : 0;
             $lead['created_by']         = \Auth::user()->creatorId();
             $lead->update();
             return redirect()->back()->with('success', __('Lead  Updated.'));
@@ -505,6 +511,15 @@ class LeadController extends Controller
         $settings = Utility::settings();
         $id = decrypt(urldecode($id));
         $lead = Lead::find($id);
+        $subject = $request->subject;
+        $content = $request->emailbody;
+
+        // $file = $request->file('attachment');
+        // if(!empty($tempFilePath))
+        // $tempFilePath = $file->store('temp', 'local');
+        // // Get the full path to the temporary file
+        // $tempFilePath = storage_path('app/' . $tempFilePath);
+
         try {
             config(
                 [
@@ -517,7 +532,10 @@ class LeadController extends Controller
                     'mail.from.name'    => $settings['mail_from_name'],
                 ]
             );
-            Mail::to($lead->email)->send(new SendPdfEmail($lead));
+
+            Mail::to($request->email)->send(new SendPdfEmail($lead,$subject,$content));
+            // unlink($tempFilePath);
+
             // $upd = Lead::where('id',$id)->update(['proposal_status' => 1]);
             $upd = Lead::where('id',$id)->update(['status' => 1]);
 

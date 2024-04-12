@@ -9,14 +9,11 @@ $proposalUrl = route('lead.signedproposal',urlencode(encrypt($lead->id)));
     <title>Proposal</title>
 </head>
 <body>
-Dear <?php echo e($lead->name); ?>,<br>
-
-We're excited to invite you to fill out our proposal form. Your input is valuable to us.<br>
-
+<p><?php echo e($content); ?></p>
 <b>Click the link below to access the proposal form:</b><br>
 <p><?php echo e($proposalUrl); ?></p>
 
 Thank you for your time and collaboration.<br>
-Best regards,
+With regards
 </body>
 </html><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/lead/mail/view.blade.php ENDPATH**/ ?>

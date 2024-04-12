@@ -300,13 +300,13 @@ function myFunction() {
 }
 </script>
 <script>
-    function toggleCollapse(dataId) {
-        console.log(dataId);
-        var collapseTarget = document.getElementById(dataId);
-        var collapseBS = new bootstrap.Collapse(collapseTarget);
-        collapseBS.toggle();
+    // function toggleCollapse(dataId) {
+    //     console.log(dataId);
+    //     var collapseTarget = document.getElementById(dataId);
+    //     var collapseBS = new bootstrap.Collapse(collapseTarget);
+    //     collapseBS.toggle();
 
-    }
+    // }
 </script>
 <script>
 function check_theme(color_val) {

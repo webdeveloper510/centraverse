@@ -18,7 +18,7 @@
             <div class="container-fluid xyz"  id="useradd-1">
                 <div class="row">
                     <?php if(\Auth::user()->type == 'owner'||\Auth::user()->type == 'Admin'): ?>
-                        <div class="col-lg-3 col-6 totallead" style="padding: 15px;">
+                        <div class="col-lg-4 col-4 totallead" style="padding: 15px;">
                             <div class="card">
                                 <div class="card-body newcard_body" onclick="leads();">
                                     <div class="theme-avtar bg-info">
@@ -31,11 +31,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-6" id="toggleDiv" style="padding: 15px;">
+                        <div class="col-lg-4 col-4" id="toggleDiv" style="padding: 15px;">
                             <div class="card">
-                                <div class="card-body newcard_body" onclick="toggleOptions()">
+                                <div class="card-body newcard_body">
                                     <div class="theme-avtar bg-warning">
-                                        <i class="ti ti-user"></i>
+                                    <i class="fa fa-tasks"></i>
                                     </div>
                                     <div class="right_side">
                                         <h6 class="mb-3"><?php echo e(__('Active Events')); ?></h6>
@@ -44,7 +44,18 @@
                                 </div>
                             </div>
                         </div>
-
+                        <div class="col-lg-4 col-4"style="padding: 15px;">
+                            <div class="card">
+                                <div class="card-body newcard_body">
+                                    <div class="theme-avtar bg-success">
+                                    <i class="fa fa-dollar-sign"></i>                                    </div>
+                                    <div class="right_side">
+                                        <h6 class="mb-3"><?php echo e(__('Finance')); ?></h6>
+                                        <h3 class="mb-0"></h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <!-- <div class="col-lg-3 col-6 upcmg optionsContainer" style="padding: 15px;">
                             <div class="card option" onclick="showUpcoming()">
                                 <div class="card-body newcard_body">
@@ -160,40 +171,12 @@
                         </div>
                       
                     </div>
-                    <!-- <div class="col-sm">
+                    <div class="col-sm">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Past Events</h5>
-                            <?php $__currentLoopData = $pastEvents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $event): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-text"><?php echo e($event['name']); ?>
-
-                                        <span>(<?php echo e($event['type']); ?>)</span>
-                                    </h5>
-                                    <?php if($event['start_date'] == $event['end_date']): ?>
-                                    <p><?php echo e(Carbon\Carbon::parse($event['start_date'])->format('M d')); ?></p>
-                                    <?php else: ?>
-                                    <p><?php echo e(Carbon\Carbon::parse($event['start_date'])->format('M d')); ?> -
-                                        <?php echo e(\Auth::user()->dateFormat($event['end_date'])); ?>
-
-                                    </p>
-                                    <?php endif; ?>
-                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Meeting')): ?>
-                                        <div class="action-btn bg-warning ms-2">
-                                            <a href="javascript:void(0);" data-size="md"
-                                                data-url="<?php echo e(route('meeting.show', $event['id'])); ?>"
-                                                data-ajax-popup="true" data-bs-toggle="tooltip"
-                                                data-title="<?php echo e(__('Event Details')); ?>"title="<?php echo e(__('Quick View')); ?>"
-                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                <i class="ti ti-eye"></i>
-                                            </a>
-                                        </div>
-                                    <?php endif; ?>
-                                </div>
-                            </div>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                           
                         </div>
-                    </div> -->
+                    </div>
 
                     <!-- <div class="col-sm">
                         <div class="inner_col">
@@ -230,7 +213,7 @@
 <script src="<?php echo e(asset('assets/js/plugins/main.min.js')); ?>"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
     <?php
     $segment = Request::segment(2);
     ?>
@@ -399,31 +382,30 @@
         }
 
     }
-</script>
-
+</script> -->
 <script>
     /* function toggleOptions() {
             var optionsContainer = document.getElementsByClassName('optionsContainer')[0];
             optionsContainer.style.display = optionsContainer.style.display === 'none' ? 'block' : 'none';
         } */
 
-    function showUpcoming() {
-        window.location.href = "<?php echo e(url('/meeting-upcoming')); ?>";
-    }
+    // function showUpcoming() {
+    //     window.location.href = "<?php echo e(url('/meeting-upcoming')); ?>";
+    // }
 
-    function showCompleted() {
-        window.location.href = "<?php echo e(url('/meeting-completed')); ?>";
-    }
+    // function showCompleted() {
+    //     window.location.href = "<?php echo e(url('/meeting-completed')); ?>";
+    // }
 
-    function leads() {
-        window.location.href = "<?php echo e(url('/lead')); ?>";
-    }
-    jQuery(function() {
-        $('div#toggleDiv').click(function(e) {
-            e.preventDefault();
-            $('div.optionsContainer').toggle('show');
-        })
-    })
+    // function leads() {
+    //     window.location.href = "<?php echo e(url('/lead')); ?>";
+    // }
+    // jQuery(function() {
+    //     $('div#toggleDiv').click(function(e) {
+    //         e.preventDefault();
+    //         $('div.optionsContainer').toggle('show');
+    //     })
+    // })
 </script>
 <?php $__env->stopPush(); ?>
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/home.blade.php ENDPATH**/ ?>
