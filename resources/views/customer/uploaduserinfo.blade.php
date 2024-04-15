@@ -11,7 +11,7 @@ $campaign_type = explode(',',$settings['campaign_type']);
             </li>
             <li class="badge rounded p-2 m-1 px-3 bg-primary">
                 <a style="color: white;    font-size: larger;" data-toggle="tab" href="#barmenu1" class="">Bulk
-                    Customer</a>
+                    Upload</a>
             </li>
         </ul>
         <div class="tab-content">
