@@ -13,12 +13,16 @@ class SendPdfEmail extends Mailable
 {
     use Queueable, SerializesModels;
     public $lead;
+    public $subject;
+    public $content;
     /**
      * Create a new message instance.
      */
-    public function __construct($lead)
+    public function __construct($lead,$subject,$content)
     {
         $this->lead = $lead;
+        $this->subject = $subject;
+        $this->content = $content;
     }
 
     /**
@@ -27,7 +31,7 @@ class SendPdfEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Proposal',
+            subject: $this->subject,
         );
     }
 
@@ -38,6 +42,7 @@ class SendPdfEmail extends Mailable
     {
         return new Content(
             view: 'lead.mail.view',
+            with: ['content' => $this->content],
         );
     }
 
@@ -52,7 +57,7 @@ class SendPdfEmail extends Mailable
     }
     public function build()
     {
-        return $this->subject('Proposal')
-                    ->view('lead.mail.view'); // You can create a custom email template if needed
+        return $this->subject($this->subject)
+                    ->view('lead.mail.view')->with('content',$this->content);// You can create a custom email template if needed
     }
 }

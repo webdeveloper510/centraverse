@@ -42,13 +42,22 @@ $additional_items = json_decode($settings['additional_items'],true);
             {{Form::text('name',null,array('class'=>'form-control','placeholder'=>__('Enter Name'),'required'=>'required'))}}
         </div>
     </div>
-    <div class="col-6">
+    <!-- <div class="col-6">
         <div class="form-group">
             {{Form::label('phone',__('Phone'),['class'=>'form-label']) }}
             {{Form::text('phone',null,array('class'=>'form-control','placeholder'=>__('Enter Phone'),'required'=>'required'))}}
         </div>
+    </div> -->
+    <div class="col-6">
+        <div class="form-group ">
+            {{Form::label('name',__('Phone'),['class'=>'form-label']) }}
+            <div class="intl-tel-input">
+                <input type="tel" id="phone-input" name="phone" class="phone-input form-control"
+                    placeholder="Enter Phone" maxlength="16" required>
+                <input type="hidden" name="countrycode" id="country-code">
+            </div>
+        </div>
     </div>
-
     <div class="col-6">
         <div class="form-group">
             {{Form::label('email',__('Email'),['class'=>'form-label']) }}
@@ -73,8 +82,13 @@ $additional_items = json_decode($settings['additional_items'],true);
     <div class="col-6">
         <div class="form-group">
             {{Form::label('type',__('Event Type'),['class'=>'form-label']) }}
-            {!! Form::select('type', isset($type_arr) ? $type_arr : '', null,array('class' =>
-            'form-control')) !!}
+
+            <select name="type" id="type" class="form-control" required>
+                <option value="">Select Type</option>
+                @foreach($type_arr as $type)
+                <option value="{{$type}}">{{$type}}</option>
+                @endforeach
+            </select>
         </div>
     </div>
     @if(isset($venue) && !empty($venue))
@@ -144,12 +158,11 @@ $additional_items = json_decode($settings['additional_items'],true);
     </div>
     @if(isset($additional_items) && !empty($additional_items))
     <div class="col-6" id="additionalSection">
-
         {{ Form::label('additional', __('Additional items'), ['class' => 'form-label']) }}
         @foreach($additional_items as $ad_key =>$ad_value)
         @foreach($ad_value as $fun_key =>$packageVal)
         <div class="form-group" data-additional-index="{{$fun_key}}" data-additional-value="{{key($packageVal)}}"
-            id="ad_package" style="display: none;">
+            id="ad_package" style="display:none;">
             {{ Form::label('additional', __($fun_key), ['class' => 'form-label']) }}
             @foreach($packageVal as $pac_key =>$item)
             <div class="form-check" data-additional-index="{{$pac_key}}" data-additional-package="{{$pac_key}}">
@@ -169,7 +182,7 @@ $additional_items = json_decode($settings['additional_items'],true);
         <div class="form-group">
             {{Form::label('Assign Staff',__('Assign Staff'),['class'=>'form-label']) }}
             <select class="form-control" name='user'>
-                <option class="form-control" disabled>Select Staff</option>
+                <option value="">Select Staff</option>
                 @foreach($users as $user)
                 <option class="form-control" value="{{$user->id}}">{{$user->name}} ({{$user->type}})</option>
                 @endforeach
@@ -251,7 +264,7 @@ $additional_items = json_decode($settings['additional_items'],true);
     <div class="col-6">
         <div class="form-group">
             {{Form::label('is_active',__('Active'),['class'=>'form-label']) }}
-                <input type="checkbox" class="form-check-input" name="is_active" checked>
+            <input type="checkbox" class="form-check-input" name="is_active" checked>
         </div>
     </div>
 </div>
@@ -259,69 +272,148 @@ $additional_items = json_decode($settings['additional_items'],true);
     <button type="button" class="btn  btn-light" data-bs-dismiss="modal">Close</button>
     {{Form::submit(__('Save'),array('class'=>'btn btn-primary '))}}
 </div>
+<style>
+    .iti.iti--allow-dropdown.iti--separate-dial-code {
+    width: 100%;
+    }
+</style>
 <script>
-    jQuery(function() {
-        $('input[name = lead_name]').keyup(function() {
-            var value = $(this).val();
-            $('input[name = "name"]').val(value);
-        });
+$(document).ready(function() {
+    var input = document.querySelector("#phone-input");
+    var iti = window.intlTelInput(input, {
+        separateDialCode: true,
     });
-    jQuery(function() {
-        $('input[name="function[]"]').change(function() {
-            $('div#mailFunctionSection > div').hide();
-            $('input[name="function[]"]:checked').each(function() {
-                var funVal = $(this).val();
-                $('div#mailFunctionSection > div').each(function() {
-                    var attr_value = $(this).data('main-value');
-                    if (attr_value == funVal) {
-                        $(this).show();
-                    }
-                });
-            });
-        });
-    });
-    jQuery(function() {
-        $('div#mailFunctionSection input[type=checkbox]').change(function() {
-            $('div#additionalSection > div').hide();
-            $('div#mailFunctionSection input[type=checkbox]:checked').each(function() {
-                var funcValue = $(this).val();
-                $('div#additionalSection > div').each(function() {
-                    var ad_val = $(this).data('additional-index');
-                    if (funcValue == ad_val) {
-                        $(this).show();
-                    }
-                });
-            });
-        });
-    });
-    jQuery(function() {
-        $('input[type=radio][name = baropt]').change(function() {
-            $('div#barpacakgeoptions').hide();
-            var value = $(this).val();
-            if (value == 'Package Choice') {
-                $('div#barpacakgeoptions').show();
+
+    var indiaCountryCode = iti.getSelectedCountryData().iso2;
+    var countryCode = iti.getSelectedCountryData().dialCode;
+    $('#country-code').val(countryCode);
+    if (indiaCountryCode !== 'us') {
+        iti.setCountry('us');
+    }
+});
+$(document).ready(function() {
+        $('#start_date, #end_date').change(function() {
+            var startDate = new Date($('#start_date').val());
+            var endDate = new Date($('#end_date').val());
+
+            if ($(this).attr('id') === 'start_date' && endDate < startDate) {
+                $('#end_date').val($('#start_date').val());
+            } else if ($(this).attr('id') === 'end_date' && endDate < startDate) {
+                $('#start_date').val($('#end_date').val());
             }
         });
     });
-    $(document).ready(function() {
-        var storedId = localStorage.getItem('clickedLinkId');
-        $.ajax({
-            url: "{{ route('getcontactinfo') }}",
-            type: 'POST',
-            data: {
-                "customerid": storedId,
-                "_token": "{{ csrf_token() }}",
-            },
-            success: function(data) {
-                localStorage.removeItem('clickedLinkId');
-                $('input[name="lead_name"]').val(data[0].name);
-                $('input[name="name"]').val(data[0].name);
-                $('input[name="phone"]').val(data[0].phone);
-                $('input[name="email"]').val(data[0].email);
-                $('input[name="lead_address"]').val(data[0].address);
-                $('input[name="company_name"]').val(data[0].organization);
-            }
+</script>
+<script>
+    const isNumericInput = (event) => {
+        const key = event.keyCode;
+        return ((key >= 48 && key <= 57) || // Allow number line
+            (key >= 96 && key <= 105) // Allow number pad
+        );
+    };
+    const isModifierKey = (event) => {
+        const key = event.keyCode;
+        return (event.shiftKey === true || key === 35 || key === 36) || // Allow Shift, Home, End
+            (key === 8 || key === 9 || key === 13 || key === 46) || // Allow Backspace, Tab, Enter, Delete
+            (key > 36 && key < 41) || // Allow left, up, right, down
+            (
+                // Allow Ctrl/Command + A,C,V,X,Z
+                (event.ctrlKey === true || event.metaKey === true) &&
+                (key === 65 || key === 67 || key === 86 || key === 88 || key === 90)
+            )
+    };
+    const enforceFormat = (event) => {
+        // Input must be of a valid number format or a modifier key, and not longer than ten digits
+        if (!isNumericInput(event) && !isModifierKey(event)) {
+            event.preventDefault();
+        }
+    };
+    const formatToPhone = (event) => {
+        if (isModifierKey(event)) {
+            return;
+        }
+        // I am lazy and don't like to type things more than once
+        const target = event.target;
+        const input = event.target.value.replace(/\D/g, '').substring(0, 10); // First ten digits of input only
+        const zip = input.substring(0, 3);
+        const middle = input.substring(3, 6);
+        const last = input.substring(6, 10);
+
+        if (input.length > 6) {
+            target.value = `(${zip}) ${middle} - ${last}`;
+        } else if (input.length > 3) {
+            target.value = `(${zip}) ${middle}`;
+        } else if (input.length > 0) {
+            target.value = `(${zip}`;
+        }
+    };
+    const inputElement = document.getElementById('phone-input');
+    inputElement.addEventListener('keydown', enforceFormat);
+    inputElement.addEventListener('keyup', formatToPhone);
+</script>
+<script>
+jQuery(function() {
+    $('input[name = lead_name]').keyup(function() {
+        var value = $(this).val();
+        $('input[name = "name"]').val(value);
+    });
+});
+jQuery(function() {
+    $('input[name="function[]"]').change(function() {
+        $('div#mailFunctionSection > div').hide();
+        $('input[name="function[]"]:checked').each(function() {
+            var funVal = $(this).val();
+            $('div#mailFunctionSection > div').each(function() {
+                var attr_value = $(this).data('main-value');
+                if (attr_value == funVal) {
+                    $(this).show();
+                }
+            });
         });
-    })
+    });
+});
+jQuery(function() {
+    $('div#mailFunctionSection input[type=checkbox]').change(function() {
+        $('div#additionalSection > div').hide();
+        $('div#mailFunctionSection input[type=checkbox]:checked').each(function() {
+            var funcValue = $(this).val();
+            $('div#additionalSection > div').each(function() {
+                var ad_val = $(this).data('additional-index');
+                if (funcValue == ad_val) {
+                    $(this).show();
+                }
+            });
+        });
+    });
+});
+jQuery(function() {
+    $('input[type=radio][name = baropt]').change(function() {
+        $('div#barpacakgeoptions').hide();
+        var value = $(this).val();
+        if (value == 'Package Choice') {
+            $('div#barpacakgeoptions').show();
+        }
+    });
+});
+$(document).ready(function() {
+    var storedId = localStorage.getItem('clickedLinkId');
+    $.ajax({
+        url: "{{ route('getcontactinfo') }}",
+        type: 'POST',
+        data: {
+            "customerid": storedId,
+            "_token": "{{ csrf_token() }}",
+        },
+        success: function(data) {
+            localStorage.removeItem('clickedLinkId');
+            $('input[name="lead_name"]').val(data[0].name);
+            $('input[name="name"]').val(data[0].name);
+            $('input[name="phone"]').val(data[0].phone);
+            $('input[name="email"]').val(data[0].email);
+            $('input[name="lead_address"]').val(data[0].address);
+            $('input[name="company_name"]').val(data[0].organization);
+        }
+    });
+})
 </script>
 {{Form::close()}}

@@ -60,7 +60,7 @@
                                                     <span class="budget">{{ $lead->email }}</span>
                                                 </td>
                                                 <td>
-                                                    <span class="col-sm-12"><span class="text-sm">{{ ucfirst(!empty($lead->assign_user)?$lead->assign_user->name:'')}} ({{$lead->assign_user->type}})</span></span>
+                                                    <span class="col-sm-12"><span class="text-sm">{{ ucfirst(!empty($lead->assign_user)?$lead->assign_user->name:'Not Assigned Yet')}} {{!empty($lead->assign_user)?($lead->assign_user->type) : ''}}</span></span>
                                                 </td>
                                                 <td><select name="lead_status" id="lead_status" class="form-select" data-id = "{{$lead->id}}">
                                                     @foreach($statuss as $key => $stat)

@@ -5,20 +5,20 @@ $enddate = \Carbon\Carbon::createFromFormat('Y-m-d', $lead->end_date)->format('d
 <div class="row">
     <div class="col-md-12">
         <dl class="row">
-            <dt class="col-md-6"><span class="h6 text-md mb-0"><?php echo e(__('Lead')); ?></span></dt>
-            <dd class="col-md-6"><span class="text-md"><?php echo e($lead->leadname); ?></span></dd>
+            <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Lead')); ?></span></dt>
+            <dd class="col-md-6"><span class=""><?php echo e($lead->leadname); ?></span></dd>
 
-            <dt class="col-md-6"><span class="h6 text-md mb-0"><?php echo e(__('Email')); ?></span></dt>
-            <dd class="col-md-6"><span class="text-md"><?php echo e($lead->email); ?></span></dd>
+            <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Email')); ?></span></dt>
+            <dd class="col-md-6"><span class=""><?php echo e($lead->email); ?></span></dd>
 
-            <dt class="col-md-6"><span class="h6 text-md mb-0"><?php echo e(__('Phone')); ?></span></dt>
-            <dd class="col-md-6"><span class="text-md"><?php echo e($lead->phone); ?></span></dd>
+            <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Phone')); ?></span></dt>
+            <dd class="col-md-6"><span class=""><?php echo e($lead->phone); ?></span></dd>
 
-            <dt class="col-md-6"><span class="h6 text-md mb-0"><?php echo e(__('Address')); ?></span></dt>
-            <dd class="col-md-6"><span class="text-md"><?php echo e($lead->lead_address); ?></span></dd>
+            <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Address')); ?></span></dt>
+            <dd class="col-md-6"><span class=""><?php echo e($lead->lead_address ?? '--'); ?></span></dd>
 
-            <dt class="col-md-6"><span class="h6 text-md mb-0"><?php echo e(__('Event Date')); ?></span></dt>
-            <dd class="col-md-6"><span class="text-md">
+            <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Event Date')); ?></span></dt>
+            <dd class="col-md-6"><span class="">
                     <?php if($lead->start_date == $lead->end_date): ?>
                     <?php echo e(\Auth::user()->dateFormat($lead->start_date)); ?>
 
@@ -29,8 +29,8 @@ $enddate = \Carbon\Carbon::createFromFormat('Y-m-d', $lead->end_date)->format('d
                     <?php endif; ?>
                 </span></dd>
 
-            <dt class="col-md-6"><span class="h6 text-md mb-0"><?php echo e(__('Time')); ?></span></dt>
-            <dd class="col-md-6"><span class="text-md">
+            <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Time')); ?></span></dt>
+            <dd class="col-md-6"><span class="">
                     <?php if($lead->start_time == $lead->end_time): ?>
                     --
                     <?php else: ?>
@@ -39,30 +39,33 @@ $enddate = \Carbon\Carbon::createFromFormat('Y-m-d', $lead->end_date)->format('d
                     <?php endif; ?>
                 </span>
             </dd>
-            <dt class="col-md-6"><span class="h6 text-md mb-0"><?php echo e(__('Venue')); ?></span></dt>
+            <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Venue')); ?></span></dt>
             <dd class="col-md-6">
-                <span class="text-md"><?php echo e(!empty($lead->venue_selection)? $lead->venue_selection :'--'); ?></span>
+                <span class=""><?php echo e(!empty($lead->venue_selection)? $lead->venue_selection :'--'); ?></span>
             </dd>
 
-            <dt class="col-md-6"><span class="h6 text-md mb-0"><?php echo e(__('Event')); ?></span></dt>
-            <dd class="col-md-6"><span class="text-md"><?php echo e($lead->type); ?></span></dd>
+            <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Type')); ?></span></dt>
+            <dd class="col-md-6"><span class=""><?php echo e($lead->type); ?></span></dd>
 
-            <dt class="col-md-6"><span class="h6 text-md mb-0"><?php echo e(__('Assigned Staff')); ?></span></dt>
-            <dd class="col-md-6"><span class="text-md"><?php echo e(!empty($lead->assign_user)?$lead->assign_user->name:''); ?>
+            <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Guest Count')); ?></span></dt>
+            <dd class="col-md-6"><span class=""><?php echo e($lead->guest_count); ?></span></dd>
 
-                    (<?php echo e($lead->assign_user->type); ?>)</span></dd>
+            <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Assigned Staff')); ?></span></dt>
+            <dd class="col-md-6"><span class=""><?php echo e(!empty($lead->assign_user)?$lead->assign_user->name:'Not Assigned Yet'); ?>
 
-            <dt class="col-md-6"><span class="h6 text-md mb-0"><?php echo e(__('Lead Created')); ?></span></dt>
-            <dd class="col-md-6"><span class="text-md"><?php echo e(\Auth::user()->dateFormat($lead->created_at)); ?></span></dd>
+                    <?php echo e(!empty($lead->assign_user)? ($lead->assign_user->type) :''); ?></span></dd>
 
-            <dt class="col-md-6"><span class="h6 text-md mb-0"><?php echo e(__('Any Special Requirements')); ?></span></dt>
+            <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Lead Created')); ?></span></dt>
+            <dd class="col-md-6"><span class=""><?php echo e(\Auth::user()->dateFormat($lead->created_at)); ?></span></dd>
+
+            <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Any Special Requirements')); ?></span></dt>
             <?php if($lead->spcl_req): ?>
-            <dd class="col-md-6"><span class="text-md"><?php echo e($lead->spcl_req); ?></span></dd>
+            <dd class="col-md-6"><span class=""><?php echo e($lead->spcl_req); ?></span></dd>
             <?php else: ?>
-            <dd class="col-md-6"><span class="text-md">--</span></dd>
+            <dd class="col-md-6"><span class="">--</span></dd>
             <?php endif; ?>
-            <dt class="col-md-6"><span class="h6 text-md mb-0"><?php echo e(__('Status')); ?></span></dt>
-            <dd class="col-md-6"><span class="text-md">
+            <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Status')); ?></span></dt>
+            <dd class="col-md-6"><span class="">
                     <?php if($lead->status == 0): ?>
                     <span
                         class="badge bg-info p-2 px-3 rounded"><?php echo e(__(\App\Models\Lead::$status[$lead->status])); ?></span>

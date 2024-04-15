@@ -52,7 +52,25 @@ $meetingData = [
 $totalFoodPackageCost = 0;
 $totalbarPackageCost = 0;
 
-
+if(isset($billings) && !empty($billings)){
+foreach ($food as $foodItem) {
+foreach ($billings['package'] as $category => $categoryItems) {
+if (isset($categoryItems[$foodItem])) {
+$totalFoodPackageCost += $categoryItems[$foodItem];
+break;
+}
+}
+}
+foreach ($bar as $barItem) {
+foreach ($billings['barpackage'] as $category => $categoryItems) {
+if (isset($categoryItems[$barItem])) {
+$totalbarPackageCost += $categoryItems[$barItem];
+break;
+}
+}
+}
+$meetingData['food_package_cost'] = $totalFoodPackageCost;
+}
 $additionalItemsCost = 0;
 if(isset($additional_items) && !empty($additional_items)){
 

@@ -5,20 +5,20 @@ $enddate = \Carbon\Carbon::createFromFormat('Y-m-d', $lead->end_date)->format('d
 <div class="row">
     <div class="col-md-12">
         <dl class="row">
-            <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('Lead')}}</span></dt>
-            <dd class="col-md-6"><span class="text-md">{{ $lead->leadname }}</span></dd>
+            <dt class="col-md-6"><span class="h6  mb-0">{{__('Lead')}}</span></dt>
+            <dd class="col-md-6"><span class="">{{ $lead->leadname }}</span></dd>
 
-            <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('Email')}}</span></dt>
-            <dd class="col-md-6"><span class="text-md">{{ $lead->email }}</span></dd>
+            <dt class="col-md-6"><span class="h6  mb-0">{{__('Email')}}</span></dt>
+            <dd class="col-md-6"><span class="">{{ $lead->email }}</span></dd>
 
-            <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('Phone')}}</span></dt>
-            <dd class="col-md-6"><span class="text-md">{{ $lead->phone }}</span></dd>
+            <dt class="col-md-6"><span class="h6  mb-0">{{__('Phone')}}</span></dt>
+            <dd class="col-md-6"><span class="">{{ $lead->phone }}</span></dd>
 
-            <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('Address')}}</span></dt>
-            <dd class="col-md-6"><span class="text-md">{{ $lead->lead_address }}</span></dd>
+            <dt class="col-md-6"><span class="h6  mb-0">{{__('Address')}}</span></dt>
+            <dd class="col-md-6"><span class="">{{ $lead->lead_address ?? '--'}}</span></dd>
 
-            <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('Event Date')}}</span></dt>
-            <dd class="col-md-6"><span class="text-md">
+            <dt class="col-md-6"><span class="h6  mb-0">{{__('Event Date')}}</span></dt>
+            <dd class="col-md-6"><span class="">
                     @if($lead->start_date == $lead->end_date)
                     {{ \Auth::user()->dateFormat($lead->start_date) }}
                     @else
@@ -27,8 +27,8 @@ $enddate = \Carbon\Carbon::createFromFormat('Y-m-d', $lead->end_date)->format('d
                     @endif
                 </span></dd>
 
-            <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('Time')}}</span></dt>
-            <dd class="col-md-6"><span class="text-md">
+            <dt class="col-md-6"><span class="h6  mb-0">{{__('Time')}}</span></dt>
+            <dd class="col-md-6"><span class="">
                     @if($lead->start_time == $lead->end_time)
                     --
                     @else
@@ -36,29 +36,32 @@ $enddate = \Carbon\Carbon::createFromFormat('Y-m-d', $lead->end_date)->format('d
                     @endif
                 </span>
             </dd>
-            <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('Venue')}}</span></dt>
+            <dt class="col-md-6"><span class="h6  mb-0">{{__('Venue')}}</span></dt>
             <dd class="col-md-6">
-                <span class="text-md">{{  !empty($lead->venue_selection)? $lead->venue_selection :'--'}}</span>
+                <span class="">{{  !empty($lead->venue_selection)? $lead->venue_selection :'--'}}</span>
             </dd>
 
-            <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('Event')}}</span></dt>
-            <dd class="col-md-6"><span class="text-md">{{ $lead->type }}</span></dd>
+            <dt class="col-md-6"><span class="h6  mb-0">{{__('Type')}}</span></dt>
+            <dd class="col-md-6"><span class="">{{ $lead->type }}</span></dd>
 
-            <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('Assigned Staff')}}</span></dt>
-            <dd class="col-md-6"><span class="text-md">{{ !empty($lead->assign_user)?$lead->assign_user->name:''}}
-                    ({{$lead->assign_user->type}})</span></dd>
+            <dt class="col-md-6"><span class="h6  mb-0">{{__('Guest Count')}}</span></dt>
+            <dd class="col-md-6"><span class="">{{ $lead->guest_count }}</span></dd>
 
-            <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('Lead Created')}}</span></dt>
-            <dd class="col-md-6"><span class="text-md">{{\Auth::user()->dateFormat($lead->created_at)}}</span></dd>
+            <dt class="col-md-6"><span class="h6  mb-0">{{__('Assigned Staff')}}</span></dt>
+            <dd class="col-md-6"><span class="">{{ !empty($lead->assign_user)?$lead->assign_user->name:'Not Assigned Yet'}}
+                    {{ !empty($lead->assign_user)? ($lead->assign_user->type) :''}}</span></dd>
 
-            <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('Any Special Requirements')}}</span></dt>
+            <dt class="col-md-6"><span class="h6  mb-0">{{__('Lead Created')}}</span></dt>
+            <dd class="col-md-6"><span class="">{{\Auth::user()->dateFormat($lead->created_at)}}</span></dd>
+
+            <dt class="col-md-6"><span class="h6  mb-0">{{__('Any Special Requirements')}}</span></dt>
             @if($lead->spcl_req)
-            <dd class="col-md-6"><span class="text-md">{{$lead->spcl_req}}</span></dd>
+            <dd class="col-md-6"><span class="">{{$lead->spcl_req}}</span></dd>
             @else
-            <dd class="col-md-6"><span class="text-md">--</span></dd>
+            <dd class="col-md-6"><span class="">--</span></dd>
             @endif
-            <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('Status')}}</span></dt>
-            <dd class="col-md-6"><span class="text-md">
+            <dt class="col-md-6"><span class="h6  mb-0">{{__('Status')}}</span></dt>
+            <dd class="col-md-6"><span class="">
                     @if($lead->status == 0)
                     <span
                         class="badge bg-info p-2 px-3 rounded">{{ __(\App\Models\Lead::$status[$lead->status]) }}</span>

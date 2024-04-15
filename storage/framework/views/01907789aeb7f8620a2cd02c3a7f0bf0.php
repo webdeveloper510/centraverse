@@ -61,7 +61,7 @@
                                                     <span class="budget"><?php echo e($lead->email); ?></span>
                                                 </td>
                                                 <td>
-                                                    <span class="col-sm-12"><span class="text-sm"><?php echo e(ucfirst(!empty($lead->assign_user)?$lead->assign_user->name:'')); ?> (<?php echo e($lead->assign_user->type); ?>)</span></span>
+                                                    <span class="col-sm-12"><span class="text-sm"><?php echo e(ucfirst(!empty($lead->assign_user)?$lead->assign_user->name:'Not Assigned Yet')); ?> <?php echo e(!empty($lead->assign_user)?($lead->assign_user->type) : ''); ?></span></span>
                                                 </td>
                                                 <td><select name="lead_status" id="lead_status" class="form-select" data-id = "<?php echo e($lead->id); ?>">
                                                     <?php $__currentLoopData = $statuss; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $stat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>

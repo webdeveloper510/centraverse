@@ -162,9 +162,9 @@
                                     <?php echo e(\Auth::user()->dateFormat($result['end_date'])); ?>
 
                                     <?php endif; ?></td>
-                                <td><?php echo e(!empty($result['assign_user'])? $result['assign_user']->name:'--'); ?>
+                                <td><?php echo e(!empty($result['assign_user'])? $result['assign_user']->name:'Not Assigned Yet'); ?>
 
-                                    (<?php echo e($result['assign_user']->type); ?>)</td>
+                                    <?php echo e(!empty($result['assign_user'])?($result['assign_user']->type):''); ?></td>
                                 <td><?php echo e($result['rooms']); ?></td>
                                 <td><?php echo e(isset($result['function']) ? ucfirst($result['function']) : '--'); ?></td>
                                 <td>

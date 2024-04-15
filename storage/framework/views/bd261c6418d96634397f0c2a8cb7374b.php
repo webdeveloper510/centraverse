@@ -1,6 +1,3 @@
-@php
-$proposalUrl = route('lead.signedproposal',urlencode(encrypt($lead->id)));
-@endphp
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,11 +6,12 @@ $proposalUrl = route('lead.signedproposal',urlencode(encrypt($lead->id)));
     <title>Proposal</title>
 </head>
 <body>
-<p>{{$content}}</p>
-<b>Click the link below to access the proposal form:</b><br>
-<p>{{$proposalUrl}}</p>
+Dear <?php echo e($lead->name); ?>,
+<br>
+
+<h3 class="text-center">Your Lead has been withdrawn.</h3>
 
 Thank you for your time and collaboration.<br>
-With regards
+Best regards
 </body>
-</html>
+</html><?php /**PATH /home/crmcentraverse/public_html/resources/views/lead/mail/withdraw.blade.php ENDPATH**/ ?>
