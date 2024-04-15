@@ -12,11 +12,10 @@
 @section('content')
 <div class="container-field">
     <div id="wrapper">
-
         <div id="page-content-wrapper">
             <div class="container-fluid xyz">
                 <div class="row">
-                    <div class="col-lg-12 order-lg-1">
+                    <div class="col-lg-12">
                         <div class="card" id="useradd-1">
                             <div class="card-body table-border-style">
                                 <div class="row align-items-center">
@@ -70,7 +69,20 @@
                                     <label for="customerattachment">Attachment</label>
                                     <input type="file" name="customerattachment" id="customerattachment"
                                         class="form-control" required>
-                                    <input type="submit" value="Submit" class="btn btn-primary mt-2">
+                                    <input type="submit" value="Submit" class="btn btn-primary mt-4"
+                                        style="float: right;">
+                                </form>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body table-border-style">
+                                <h3>Add Notes/Comments</h3>
+                                <form method="POST" class="mt-4" id="addnotes">
+                                    @csrf
+                                    <label for="notes">Notes</label>
+                                    <input type="text" class="form-control" name="notes">
+                                    <input type="submit" value="Submit" class="btn btn-primary mt-4"
+                                        style=" float: right;">
                                 </form>
                             </div>
                         </div>
@@ -101,7 +113,6 @@
                                                 <i class="fa fa-download"></i></a>
 
                                         </div>
-
                                     </div>
                                     @endforeach
                                 </div>
@@ -121,3 +132,18 @@
     background: none;
 }
 </style>
+@push('script-page')
+<script>
+$(document).ready(function() {
+    $('#addnotes').on('submit', function(e) {
+     
+        e.preventDefault();
+       
+        var id = <?php echo  $users->id; ?>;
+        var notes = $('input[name="notes"]').val();
+        console.log(id, notes);
+
+    });
+});
+</script>
+@endpush
