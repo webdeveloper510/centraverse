@@ -39,7 +39,7 @@
                                                 <th scope="col" class="sort"><?php echo e(__('Phone')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Category')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Address')); ?></th>
-                                                <!-- <th scope="col" class="sort"><?php echo e(__('Organization')); ?></th> -->
+                                                <th scope="col" class="sort"><?php echo e(__('Notes')); ?></th>
                                                 <!-- <th scope="col" class="sort"><?php echo e(__('Actions')); ?></th> -->
                                             </tr>
                                         </thead>
@@ -63,6 +63,7 @@
                                                 <td><span><?php echo e($user->phone); ?></span></td>
                                                 <td><span><?php echo e(ucfirst($user->category)); ?></span></td>
                                                 <td><span><?php echo e(ucfirst($user->address)); ?></span></td>
+                                                <td><span><?php echo e($user->notes); ?></span></td>
                                                 <!-- <td>
                                                 <?php if($user->status == 0): ?>
                                                     <span

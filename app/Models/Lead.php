@@ -39,12 +39,6 @@ class Lead extends Model
         'source_name',
         'campaign_name',
     ];
-    // public static $status = [
-    //     'Share Proposal',
-    //     'Waiting For Confirmation',
-    //     'Confirmed',
-    //     'Withdrawn by admin'
-    // ];
     public static $lead_status = [
         'Waiting For Customer Confimation',
         'In Process',

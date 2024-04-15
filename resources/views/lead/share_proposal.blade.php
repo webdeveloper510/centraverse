@@ -12,13 +12,13 @@
                 </dd>
                 <dt class="col-md-6"><span class="h6  mb-0">{{__('Recipient')}}</span></dt>
                 <dd class="col-md-6">
-                    <input type="email" name="email" class="form-control" value="{{ $lead->email }}">
+                    <input type="email" name="email" class="form-control" value="{{ $lead->email }}" required>
                 </dd>
                 <dt class="col-md-12"><span class="h6  mb-0">{{__('Subject')}}</span></dt>
-                <dd class="col-md-12"><input type="text" name="subject" id="Subject" class="form-control"></dd>
+                <dd class="col-md-12"><input type="text" name="subject" id="Subject" class="form-control" required></dd>
                 <dt class="col-md-12"><span class="h6  mb-0">{{__('Content')}}</span></dt>
                 <dd class="col-md-12"><textarea name="emailbody" id="emailbody" cols="30" rows="10"
-                        class="form-control"></textarea></dd>
+                        class="form-control"required></textarea></dd>
                         <dt class="col-md-12"><span class="h6  mb-0">{{__('Upload Document')}}</span></dt>
                 <dd class="col-md-12"><input type="file" name="attachment" id="attachment" class="form-control"></dd>
 

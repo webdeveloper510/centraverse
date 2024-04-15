@@ -49,7 +49,7 @@ $enddate = \Carbon\Carbon::createFromFormat('Y-m-d', $lead->end_date)->format('d
 
             <dt class="col-md-6"><span class="h6  mb-0">{{__('Assigned Staff')}}</span></dt>
             <dd class="col-md-6"><span class="">{{ !empty($lead->assign_user)?$lead->assign_user->name:'Not Assigned Yet'}}
-                    {{ !empty($lead->assign_user)? ($lead->assign_user->type) :''}}</span></dd>
+                    {{ !empty($lead->assign_user)? '('.$lead->assign_user->type.')' :''}}</span></dd>
 
             <dt class="col-md-6"><span class="h6  mb-0">{{__('Lead Created')}}</span></dt>
             <dd class="col-md-6"><span class="">{{\Auth::user()->dateFormat($lead->created_at)}}</span></dd>

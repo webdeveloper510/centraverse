@@ -43,7 +43,7 @@ class LeadController extends Controller
                 $statuss = Lead::$stat;
 
                 if(\Auth::user()->type == 'owner'){
-                $leads = Lead::with('accounts','assign_user')->where('created_by', \Auth::user()->creatorId())->get();
+                $leads = Lead::with('accounts','assign_user')->where('created_by', \Auth::user()->creatorId())->orderby('id','desc')->get();
                 $defualtView         = new UserDefualtView();
                 $defualtView->route  = \Request::route()->getName();
                 $defualtView->module = 'lead';
@@ -482,23 +482,28 @@ class LeadController extends Controller
         }
     }
     public function proposal($id){
-    
+        $decryptedId = decrypt(urldecode($id));
 
+        $proposal_info = Proposal::where('lead_id',$decryptedId)->get();
+        return view('lead.proposal_information',compact('proposal_info','decryptedId'));
+    }
+    public function view_proposal($id){
         $decryptedId = decrypt(urldecode($id));
         $lead = Lead::find($decryptedId);
-        // $fixed_cost = Billing::first();
         $settings = Utility::settings();
         if(isset($settings['fixed_billing'])){
             $fixed_cost= json_decode($settings['fixed_billing'],true);
         }
-        // echo"<pre>";print_r($lead);die;
+        $additional_items = json_decode($settings['additional_items'],true);
         $proposal = Proposal::where('lead_id',$decryptedId)->first();
         $data = [
                 'settings'=>$settings,
                 'proposal'=> $proposal,
                 'lead'=>$lead,
-                'billing' => $fixed_cost,
+                'fixed_cost' => $fixed_cost,
+                'additional_items'=>$additional_items
         ];
+
         $pdf = Pdf::loadView('lead.signed_proposal', $data);
         return $pdf->stream('proposal.pdf');
     }
@@ -514,11 +519,13 @@ class LeadController extends Controller
         $subject = $request->subject;
         $content = $request->emailbody;
 
-        // $file = $request->file('attachment');
-        // if(!empty($tempFilePath))
-        // $tempFilePath = $file->store('temp', 'local');
-        // // Get the full path to the temporary file
-        // $tempFilePath = storage_path('app/' . $tempFilePath);
+        $file = $request->file('attachment');
+        if(!empty($tempFilePath)){
+            $tempFilePath = $file->store('temp', 'local');
+            // Get the full path to the temporary file
+            $tempFilePath = storage_path('app/' . $tempFilePath);
+        }
+       
 
         try {
             config(
@@ -533,12 +540,9 @@ class LeadController extends Controller
                 ]
             );
 
-            Mail::to($request->email)->send(new SendPdfEmail($lead,$subject,$content));
-            // unlink($tempFilePath);
-
-            // $upd = Lead::where('id',$id)->update(['proposal_status' => 1]);
+            Mail::to($request->email)->send(new SendPdfEmail($lead,$subject,$content,$tempFilePath = NULL));
+            unlink($tempFilePath);
             $upd = Lead::where('id',$id)->update(['status' => 1]);
-
         } catch (\Exception $e) {
             //   return response()->json(
             //             [
@@ -552,44 +556,56 @@ class LeadController extends Controller
         return redirect()->back()->with('success', 'Email Sent Successfully');
     }
     public function proposalview($id){
-        $billing = Billing::first();
+        // $billing = Billing::first();
         $id = decrypt(urldecode($id));
         $proposal =  Proposal::where('lead_id',$id)->exists();
-        if($proposal){
-            return view('lead.proposal_error');
-        }else{
+        // if($proposal){
+        //     return view('lead.proposal_error');
+        // }else{
             $lead = Lead::find($id);
             $settings = Utility::settings();
             $venue = explode(',',$settings['venue']);
-            return view('lead.proposal',compact('lead','venue','settings','billing'));
-        }
+            $fixed_cost = json_decode($settings['fixed_billing'],true);
+            $additional_items = json_decode($settings['additional_items'],true);
+
+            // echo "<pre>";print_r($fixed_cost);
+            // print_r(json_decode($lead->ad_opts,true));
+            // print_r($additional_items);die;
+            return view('lead.proposal',compact('lead','venue','settings','fixed_cost','additional_items'));
+        // }
     }
     public function proposal_resp(Request $request,$id){
+            $settings = Utility::settings();
             $id = decrypt(urldecode($id));
+          
             if(!empty($request->imageData)){
                 $image = $this->uploadSignature($request->imageData);
                 Lead::where('id',$id)->update(['status'=>2]);
-                // Lead::where('id',$id)->update(['proposal_status'=> 2,'status'=>1]);
             }else{
                 return redirect()->back()->with('error',('Please Sign it for confirmation'));
             }
           
             $existproposal = Proposal::where('lead_id', $id)->exists();
-            if ($existproposal == TRUE) {
-                Proposal::where('lead_id',$id)->update(['image' => $image]);
-                return redirect()->back()->with('error','Proposal is already confirmed');
-            }
+            // if ($existproposal == TRUE) {
+            //     Proposal::where('lead_id',$id)->update(['image' => $image]);
+            //     return redirect()->back()->with('error','Proposal is already confirmed');
+            // }
             $proposal = new Proposal();
             $proposal['lead_id'] = $id;
             $proposal['image'] = $image;
+            $proposal['notes'] = $request->comments;
             $proposal->save();
             $lead = Lead::find($id);
-            $fixed_cost = Billing::first();
-            $proposal = Proposal::where('lead_id',$id)->first();
+            $fixed_cost = json_decode($settings['fixed_billing'],true);
+            $proposal = Proposal::where('lead_id',$id)->orderby('id','desc')->first();
+            $additional_items = json_decode($settings['additional_items'],true);
+
             $data = [
                 'proposal'=> $proposal,
                 'lead'=>$lead,
-                'billing' => $fixed_cost,
+                'fixed_cost' => $fixed_cost,
+                'settings'=>$settings,
+                'additional_items'=>$additional_items
             ];
             $pdf = Pdf::loadView('lead.signed_proposal', $data);
             return $pdf->stream('proposal.pdf');
@@ -629,7 +645,8 @@ class LeadController extends Controller
         $lead = Lead::find($id);
         $venue_function = isset($request->venue) ? implode(',',$_REQUEST['venue']) :'';
         $function =  isset($request->function) ? implode(',',$_REQUEST['function']) :'';
-          
+        $phone= preg_replace('/\D/', '', $request->input('phone'));
+
             if($request->status == 'Approve'){  
                 $status = 4;              
                 // $status = 2;
@@ -647,7 +664,7 @@ class LeadController extends Controller
                 'user_id'=> $request->user,
                 'name'=>$request->name,
                 'email'=>$request->email,
-                'phone'=>$request->phone,
+                'phone'=>$phone,
                 'lead_address'=>$request->lead_address,
                 'company_name'      =>$request->company_name,
                 'relationship'       =>$request->relationship,

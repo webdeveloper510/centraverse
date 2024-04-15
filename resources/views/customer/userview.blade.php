@@ -50,6 +50,12 @@
                                     <div class="col-md-5  mt-1">
                                         <span class="">{{ $users->category }}</span>
                                     </div>
+                                    <div class="col-md-4  mt-1">
+                                        <small class="h6  mb-3 mb-md-0">{{__('Notes')}}</small>
+                                    </div>
+                                    <div class="col-md-5  mt-1">
+                                        <span class="">{{ $users->notes }}</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>

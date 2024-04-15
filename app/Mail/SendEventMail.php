@@ -16,9 +16,12 @@ class SendEventMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct($meeting)
+    public function __construct($meeting,$subject,$content,$tempFilePath = NULL)
     {
        $this->meeting = $meeting;
+       $this->subject = $subject;
+       $this->content = $content;
+       $this->tempFilePath = $tempFilePath; 
     }
 
     /**
@@ -27,7 +30,7 @@ class SendEventMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Agreement',
+            subject: $this->subject,
         );
     }
 
@@ -38,6 +41,7 @@ class SendEventMail extends Mailable
     {
         return new Content(
             view: 'meeting.agreement.mail',
+            with: ['content' => $this->content],
         );
         
     }
@@ -49,12 +53,26 @@ class SendEventMail extends Mailable
      */
     public function attachments(): array
     {
-        return [];
+        $attachments = [];
+
+        // Check if $tempFilePath is not null and it exists
+        if ($this->tempFilePath && file_exists($this->tempFilePath)) {
+            // Get the file name from the path
+            $fileName = basename($this->tempFilePath);
+            
+            // Add the attachment
+            $attachments[] = new \Illuminate\Mail\Mailables\Attachment(
+                $this->tempFilePath,
+                ['as' => $fileName]
+            );
+        }
+
+        return $attachments;
     }
 
     public function build()
     {
         return $this->subject('Agreement')
-                    ->view('meeting.agreement.mail'); 
+                    ->view('meeting.agreement.mail')->with('content',$this->content); 
     }
 }

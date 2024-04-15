@@ -15,14 +15,16 @@ class SendPdfEmail extends Mailable
     public $lead;
     public $subject;
     public $content;
+    public $tempFilePath; 
     /**
      * Create a new message instance.
      */
-    public function __construct($lead,$subject,$content)
+    public function __construct($lead,$subject,$content,$tempFilePath= NULL)
     {
         $this->lead = $lead;
         $this->subject = $subject;
         $this->content = $content;
+        $this->tempFilePath = $tempFilePath; 
     }
 
     /**
@@ -53,7 +55,21 @@ class SendPdfEmail extends Mailable
      */
     public function attachments(): array
     {
-        return [];
+        $attachments = [];
+
+        // Check if $tempFilePath is not null and it exists
+        if ($this->tempFilePath && file_exists($this->tempFilePath)) {
+            // Get the file name from the path
+            $fileName = basename($this->tempFilePath);
+            
+            // Add the attachment
+            $attachments[] = new \Illuminate\Mail\Mailables\Attachment(
+                $this->tempFilePath,
+                ['as' => $fileName]
+            );
+        }
+
+        return $attachments;
     }
     public function build()
     {

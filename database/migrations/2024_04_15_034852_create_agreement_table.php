@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('proposal', function (Blueprint $table) {
+        Schema::create('agreement', function (Blueprint $table) {
             $table->id();
-            $table->integer('lead_id');
-            $table->string('image')->nullable();
+            $table->unsignedBigInteger('event_id');
+            $table->foreign('event_id')->references('id')->on('meetings');
+            $table->string('signature')->nullable();
+            $table->string('notes')->nullable();
             $table->timestamps();
+            $table->SoftDeletes();
         });
     }
 
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('proposal');
+        Schema::dropIfExists('agreement');
     }
 };
