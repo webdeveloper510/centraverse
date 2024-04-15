@@ -4,6 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+
 return new class extends Migration
 {
     /**
@@ -11,11 +12,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('agreement', function (Blueprint $table) {
+        Schema::create('proposal', function (Blueprint $table) {
             $table->id();
-            $table->integer('event_id');
-            $table->string('signature')->nullable();
+            $table->unsignedBigInteger('lead_id');
+            $table->foreign('lead_id')->references('id')->on('leads');
+            $table->string('image')->nullable();
+            $table->string('notes')->nullable();
             $table->timestamps();
+            $table->SoftDeletes();
         });
     }
 
@@ -24,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('agreement');
+        Schema::dropIfExists('proposal');
     }
 };

@@ -37,7 +37,7 @@
                                                 <th scope="col" class="sort">{{__('Phone')}}</th>
                                                 <th scope="col" class="sort">{{__('Category')}}</th>
                                                 <th scope="col" class="sort">{{__('Address')}}</th>
-                                                <!-- <th scope="col" class="sort">{{__('Organization')}}</th> -->
+                                                <th scope="col" class="sort">{{__('Notes')}}</th>
                                                 <!-- <th scope="col" class="sort">{{__('Actions')}}</th> -->
                                             </tr>
                                         </thead>
@@ -61,6 +61,7 @@
                                                 <td><span>{{$user->phone}}</span></td>
                                                 <td><span>{{ucfirst($user->category)}}</span></td>
                                                 <td><span>{{ucfirst($user->address)}}</span></td>
+                                                <td><span>{{$user->notes}}</span></td>
                                                 <!-- <td>
                                                 @if ($user->status == 0)
                                                     <span

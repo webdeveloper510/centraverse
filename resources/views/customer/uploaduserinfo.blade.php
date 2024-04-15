@@ -64,6 +64,12 @@ $campaign_type = explode(',',$settings['campaign_type']);
                             </select>
                         </div>
                     </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="notes">Notes</label>
+                           <textarea name="notes" class="form-control" cols="30" rows="5"></textarea>
+                        </div>
+                    </div>
                     <div class="col-6">
                         <div class="form-group" style="margin-top: 35px;">
                             {{Form::label('name',__('Active'),['class'=>'form-label']) }}
@@ -92,6 +98,12 @@ $campaign_type = explode(',',$settings['campaign_type']);
                                 <option value="{{$campaign}}" class="form-control">{{$campaign}}</option>
                                 @endforeach
                             </select>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="comments">Notes</label>
+                           <textarea name="comments" class="form-control" cols="30" rows="5"></textarea>
                         </div>
                     </div>
                     <div class="col-12">

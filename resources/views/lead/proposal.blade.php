@@ -4,6 +4,71 @@ $settings = App\Models\Utility::settings();
 $imagePath = public_path('upload/signature/autorised_signature.png');
 $imageData = base64_encode(file_get_contents($imagePath));
 $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base64,' . $imageData;
+//--------------Venue Cost----------------------
+$venueRentalCost = 0;
+foreach ($selectedvenue as $venues) {
+$venueRentalCost += $fixed_cost['venue'][$venues] ?? 0;
+}
+//--------------Food Cost----------------------
+
+$totalFoodPackageCost = 0;
+if(!empty($lead->func_package)){
+    $foodpcks = json_decode($lead->func_package,true);
+    foreach($foodpcks as $key => $foodpck){
+        foreach($foodpck as $foods){
+            $food[]= $foods;
+        }
+    }
+    foreach ($food as $foodItem) {
+        foreach ($fixed_cost['package'] as $category => $categoryItems) {
+            if (isset($categoryItems[$foodItem])) {
+                $totalFoodPackageCost += $categoryItems[$foodItem];
+                break;
+            }
+        }
+    }
+}
+
+$totalBarCost = 0;
+if(!empty($lead->bar) && !empty($lead->bar_package)){
+    $barpcks = json_decode($lead->bar_package,true);
+    foreach($barpcks as $key => $barpck){
+        $bar[]= $barpck;
+    }
+    $foodpcks = json_decode($lead->func_package,true);
+    foreach($foodpcks as $key => $foodpck){
+        foreach($foodpck as $foods){
+            $food[]= $foods;
+        }
+    }
+    foreach ($bar as $barItem) {
+        foreach ($fixed_cost['barpackage'] as $category => $categoryItems) {
+            if (isset($categoryItems[$barItem])) {
+                $totalBarCost += $categoryItems[$barItem];
+                break;
+            }
+        }
+    }
+}
+$additionalItemsCost = 0;
+$addpcks = json_decode($lead->ad_opts,true);
+if(isset($addpcks) && !empty($addpcks)){
+   
+    foreach($addpcks as $key => $adpck){
+        foreach($adpck as $ad){
+            $add[] = $ad;
+        }
+    }
+    foreach ($additional_items as $category => $categoryItems) {
+        foreach ($categoryItems as $item => $subItems) {
+            foreach ($subItems as $key => $value) {
+                if (in_array($key, $add)) {    
+                $additionalItemsCost += $value;
+                }
+            }
+        }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,24 +81,22 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
 </head>
 
 <body>
-    <div class="container ">
+    <div class="container mt-5">
         <div class="row card">
             <div class="col-md-12 ">
                 <form method="POST" action="{{route('lead.proposalresponse',urlencode(encrypt($lead->id)))}}"
                     id='formdata'>
                     @csrf
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-4 mt-4">
                             <div class="img-section">
-                                <img class="logo-img" src="{{ URL::asset('storage/uploads/logo/logo.png')}}"
-                                    style="width:12%; margin:30px auto;display:flex;">
+                                <img class="logo-img" src="{{ URL::asset('storage/uploads/logo/3_logo-light.png')}}"
+                                    style="width:25%;">
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12" style="text-align: center;">
-                            <h4>The Bond 1786</h4>
-                            <h4>Proposal</h4>
+                        <div class="col-md-8 mt-5">
+                            <h4>The Bond 1786 - Proposal</h4>
+                            <!-- <h4>Proposal</h4> -->
                             <h5>Venue Rental & Banquet Event - Estimate</h5>
                         </div>
                     </div>
@@ -56,22 +119,9 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                         </div>
                     </div>
                     <hr>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <dl>
-                                <span>{{__('Deposit')}}:</span><br>
-                                <span>{{__('Billing Method')}}:</span>
-                            </dl>
-                        </div>
-                        <div class="col-md-6" style="text-align:end;">
-                            <dl>
-                                <span>{{__('Catering Service')}}: NA</span><br>
-                            </dl>
-                        </div>
-                    </div>
                     <div class="row mb-4">
                         <div class="col-md-12">
-                            <table border="1" style="width: 100%;">
+                            <table class="table table-bordered">
                                 <thead>
                                     <tr style="background-color:#d3ead3; text-align:center">
                                         <th>Event Date</th>
@@ -79,11 +129,9 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                         <th>Venue</th>
                                         <th>Event</th>
                                         <th>Function</th>
+                                        <th>Guest Count</th>
                                         <th>Room</th>
-                                        <td>Exp</td>
-                                        <th>GTD</th>
-                                        <th>Set</th>
-                                        <th>RENTAL</th>
+                                    
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -106,21 +154,22 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                         <td>{{$lead->venue_selection}}</td>
                                         <td>{{$lead->type}}</td>
                                         <td>{{$lead->function}}</td>
+                                        <td>{{$lead->guest_count}}</td>
                                         <td>{{$lead->rooms}}</td>
-                                        <td>Exp</td>
+                                        <!-- <td>Exp</td>
                                         <td>GTD</td>
                                         <td>Set</td>
-                                        <td>RENTAL</td>
+                                        <td>RENTAL</td> -->
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                   
-                    <div class="row">
+
+                    <div class="row mt-5">
                         <div class="col-md-12">
-                        <h6 class="headings">Estimated Billing Summary</h6>
-                            <table border="1" style="width:100%">
+                            <h5 class="headings"><b>Billing Summary - ESTIMATE</b></h5>
+                            <table class="table table-bordered">
                                 <thead>
                                     <tr>
                                         <th
@@ -134,24 +183,12 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                             Event: {{ucfirst($lead->type)}}</th>
                                     </tr>
                                     <tr style="background-color:#063806;">
-                                        <th
-                                            style="color:#ffffff; font-size:13px;text-align:left; padding:5px 5px; margin-left:5px;">
-                                            Description</th>
-                                        <th colspan="2"
-                                            style="color:#ffffff; font-size:13px;padding:5px 5px; margin-left:5px;">
-                                            Additional</th>
-                                        <th
-                                            style="color:#ffffff; font-size:13px;padding:5px 5px;margin-left :5px;font-size:13px">
-                                            Cost</th>
-                                        <th
-                                            style="color:#ffffff; font-size:13px;padding:5px 5px;margin-left: 5px;font-size:13px">
-                                            Quantity</th>
-                                        <th
-                                            style="color:#ffffff; font-size:13px;padding:5px 5px;margin-left :5px;font-size:13px">
-                                            Total Price</th>
-                                        <th
-                                            style="color:#ffffff; font-size:13px;padding:5px 5px;margin-left :5px;font-size:13px">
-                                            Notes</th>
+                                        <th>Description</th>
+                                        <th colspan="2"> Additional</th>
+                                        <th>Cost</th>
+                                        <th>Quantity</th>
+                                        <th>Total Price</th>
+                                        <th>Notes</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -160,11 +197,12 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
 
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                            ${{$venueRentalCost}}
+                                        </td>
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">1
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                        </td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                        
+                                            ${{$total[] = $venueRentalCost *1}}
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
                                             {{$lead->venue_selection}}</td>
@@ -175,11 +213,11 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                             Dinner Package</td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                           </td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                            ${{$totalFoodPackageCost}}</td>
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">1
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                        </td>
+                                            ${{$total[] =$totalFoodPackageCost * 1}}</td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
                                             {{$lead->function}}</td>
 
@@ -188,11 +226,25 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Bar Package</td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                          </td>
+
+                                            @if($totalBarCost == 0)
+                                            --
+                                            @else
+                                            ${{$totalBarCost}}
+                                            @endif</td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                            @if($totalBarCost == 0)
+                                            --
+                                            @else
+                                            1
+                                            @endif
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                        </td>
+                                            @if($totalBarCost == 0)
+                                            --
+                                            @else
+                                            ${{$total[] =$totalBarCost *1}}
+                                            @endif</td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
                                         </td>
                                     </tr>
@@ -200,10 +252,18 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Hotel Rooms</td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;"></td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                            ${{$fixed_cost['hotel_rooms']}}
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                            {{$lead->rooms}}
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                            @if($lead->rooms == 0)
+                                            --
+                                            @else
+                                            ${{$total[] = $fixed_cost['hotel_rooms'] *  $lead->rooms }}
+                                            @endif
+
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                     </tr>
@@ -212,7 +272,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                             Chairs, AV Equipment</td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                          </td>
+                                        </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
@@ -227,7 +287,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                       </td>
+                                        </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
@@ -236,11 +296,11 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Special Requests /
                                             Others</td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                          </td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            </td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">${{$additionalItemsCost}}
+                                        </td>
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">1
+                                        </td>
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">${{$total[] = $additionalItemsCost * 1 }}
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
 
@@ -256,7 +316,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Total</td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">${{array_sum($total)}}
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                     </tr>
@@ -265,7 +325,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                             Tax</td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"> </td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"> ${{ 7* array_sum($total)/100 }}
                                         </td>
                                         <td></td>
                                     </tr>
@@ -275,7 +335,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                             Service Charges & Gratuity</td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"> ${{ 20 * array_sum($total)/100 }}
                                         </td>
 
                                         <td></td>
@@ -284,7 +344,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                         <td>-</td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"> </td>
 
                                         <td></td>
                                     </tr>
@@ -295,6 +355,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                        ${{$grandtotal= array_sum($total) + 20* array_sum($total)/100 + 7* array_sum($total)/100}}
                                         </td>
 
                                         <td></td>
@@ -304,9 +365,9 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                             style="background-color:#d7e7d7; padding:5px 5px; margin-left:5px;font-size:13px;">
                                             Deposits on file</td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                        <td colspan="2"
-                                            style="background-color:#d7e7d7;padding:5px 5px; margin-left:5px;font-size:13px;">
-                                           </td>
+                                        <td colspan="3"
+                                            style="background-color:#d7e7d7;padding:5px 5px; margin-left:5px;font-size:13px;">No Deposits yet
+                                        </td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                     </tr>
                                     <tr>
@@ -316,7 +377,9 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                         <td colspan="3"
                                             style="padding:5px 5px; margin-left:5px;font-size:13px;background-color:#9fdb9f;">
-                                            </td>
+                                            ${{$grandtotal= array_sum($total) + 20* array_sum($total)/100 + 7* array_sum($total)/100}}
+
+                                        </td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                     </tr>
                                 </tbody>
@@ -324,14 +387,20 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                             </table>
 
                             <p class="text mt-2">
-                                Please return signed contract with deposit no later than
+                                Please return the signed proposal no later than
                                 <b>{{ \Carbon\Carbon::parse($lead->start_date)->subDays($settings['buffer_day'])->format('d M, Y') }}</b>
-                                or this contract is no longer valid.<br>
+                                or this proposal is no longer valid.<br>
                             </p>
 
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-md-12">
+                            <label for="comments" class="form-label">Comments</label>
+                            <textarea name="comments" id="comments" cols="30" rows="5" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="row mt-5">
                         <div class="col-md-6">
                             <strong>Authorized Signature:</strong> <br>
                             <img src="{{$base64Image}}" style="width:30%; border-bottom:1px solid black;">
@@ -364,8 +433,8 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
 <style>
 canvas#signatureCanvas {
     border: 1px solid black;
-    width: 60%;
-    height: 157px;
+    width: 80%;
+    height: 165px;
     border-radius: 8px;
 }
 </style>
@@ -393,3 +462,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+<style>
+.row {
+    --bs-gutter-x: -11.5rem;
+}
+
+/* .table{
+            border-collapse: unset;
+        } */
+</style>

@@ -172,7 +172,7 @@
                     </div>
                     <div class="col-sm">
                         <div class="inner_col">
-                            <h5 class="card-title mb-2">Past Events</h5>
+                            <h5 class="card-title mb-2">Finances</h5>
                            
                         </div>
                     </div>
