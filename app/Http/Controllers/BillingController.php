@@ -47,7 +47,6 @@ class BillingController extends Controller
     {
         if (\Auth::user()->can('Create Payment')) {
             $event = Meeting::find($id);
-
             return view('billing.create', compact('type','id','event'));
         }
     }

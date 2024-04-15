@@ -64,7 +64,7 @@ if(isset($billings) && !empty($billings)){
             break;
             }
         }
-        }die;
+        }
     $meetingData['food_package_cost'] = $totalFoodPackageCost;
 }
 $additionalItemsCost = 0;
