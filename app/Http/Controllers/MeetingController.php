@@ -100,6 +100,7 @@ class MeetingController extends Controller
                     'venue' => 'required|max:120',
                     'function' => 'required|max:120',
                     'guest_count' => 'required',
+                    'user'=>'required'
                 ]
             );
         if ($validator->fails()) {
@@ -188,7 +189,7 @@ class MeetingController extends Controller
             }
             $phone= preg_replace('/\D/', '', $request->input('phone'));
             $meeting                      = new Meeting();
-            $meeting['user_id']           = implode(',', $request->user);
+            $meeting['user_id']           = isset($request->user)?implode(',', $request->user):'';
             $meeting['name']              = $request->name;
             $meeting['start_date']        = $request->start_date;
             $meeting['end_date']          = $request->end_date;
@@ -202,7 +203,7 @@ class MeetingController extends Controller
             $meeting['function']            = implode(',', $request->function);
             $meeting['guest_count']         = $request->guest_count;
             $meeting['room']                = $request->rooms ?? 0;
-            $meeting['meal']                = $request->meal;
+            $meeting['meal']                = $request->meal ??'';
             $meeting['bar']                 = $request->baropt;
             $meeting['bar_package']         = $bar_pack;
             $meeting['spcl_request']        = $request->spcl_request;
@@ -459,7 +460,7 @@ class MeetingController extends Controller
             $meeting['func_package']       = $package;
             $meeting['guest_count']        = $request->guest_count;
             $meeting['room']                = $request->rooms;
-            $meeting['meal']                = $meal;
+            $meeting['meal']                = $meal ??'';
             $meeting['bar']                 = $request->bar;
             $meeting['bar_package']         = $bar_pack;
             $meeting['spcl_request']        = $request->spcl_request;

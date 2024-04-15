@@ -117,7 +117,7 @@
                                                         </a>
                                                     </div>
                                                     <?php endif; ?>
-                                                    
+                                                    <?php if($lead->status >= 2 ): ?>
                                                     <div class="action-btn bg-info ms-2">
                                                         <a href="<?php echo e(route('lead.review',urlencode(encrypt($lead->id)))); ?>"
                                                             class="mx-3 btn btn-sm d-inline-flex align-items-center text-white "
@@ -125,7 +125,7 @@
                                                             data-title="<?php echo e(__('Review Lead')); ?>">
                                                             <i class="fas fa-pen"></i></a>
                                                     </div>
-                                                   
+                                                   <?php endif; ?>
                                                     <div class="action-btn bg-primary ms-2">
                                                         <a href="<?php echo e(route('lead.clone',urlencode(encrypt($lead->id)))); ?>"
                                                             data-size="md" data-url="#" data-bs-toggle="tooltip"

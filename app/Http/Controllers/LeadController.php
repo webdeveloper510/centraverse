@@ -525,8 +525,6 @@ class LeadController extends Controller
             // Get the full path to the temporary file
             $tempFilePath = storage_path('app/' . $tempFilePath);
         }
-       
-
         try {
             config(
                 [
@@ -541,16 +539,16 @@ class LeadController extends Controller
             );
 
             Mail::to($request->email)->send(new SendPdfEmail($lead,$subject,$content,$tempFilePath = NULL));
-            unlink($tempFilePath);
+            // unlink($tempFilePath);
             $upd = Lead::where('id',$id)->update(['status' => 1]);
         } catch (\Exception $e) {
-            //   return response()->json(
-            //             [
-            //                 'is_success' => false,
-            //                 'message' => $e->getMessage(),
-            //             ]
-            //         );
-              return redirect()->back()->with('success', 'Email Not Sent');
+              return response()->json(
+                        [
+                            'is_success' => false,
+                            'message' => $e->getMessage(),
+                        ]
+                    );
+            //   return redirect()->back()->with('success', 'Email Not Sent');
       
         }
         return redirect()->back()->with('success', 'Email Sent Successfully');
@@ -688,7 +686,7 @@ class LeadController extends Controller
 
             if($status == 4){
                 return redirect()->back()->with('success', __('Lead  Approved.'));
-            }elseif($status == 5 ){
+            }elseif($status == 3 ){
                 Proposal::where('lead_id',$id)->delete();
                 try {
                     config(
@@ -713,9 +711,37 @@ class LeadController extends Controller
                     // );
                       return redirect()->back()->with('success', 'Email Not Sent');
                 }
-                return redirect()->back()->with('success', __('Lead  Resent.'));
-            }elseif($status == 3){
                 return redirect()->back()->with('success', __('Lead  Withdrawn.'));
+            }elseif($status == 5){
+                $subject = 'Lead Details';
+                $content = '';
+                try {
+                    config(
+                        [
+                            'mail.driver'       => $settings['mail_driver'],
+                            'mail.host'         => $settings['mail_host'],
+                            'mail.port'         => $settings['mail_port'],
+                            'mail.username'     => $settings['mail_username'],
+                            'mail.password'     => $settings['mail_password'],
+                            'mail.from.address' => $settings['mail_from_address'],
+                            'mail.from.name'    => $settings['mail_from_name'],
+                        ]
+                    );
+        
+                    Mail::to($request->email)->send(new SendPdfEmail($lead,$subject,$content,$tempFilePath = NULL));
+                    // unlink($tempFilePath);
+                    // $upd = Lead::where('id',$id)->update(['status' => 1]);
+                } catch (\Exception $e) {
+                      return response()->json(
+                                [
+                                    'is_success' => false,
+                                    'message' => $e->getMessage(),
+                                ]
+                            );
+                    //   return redirect()->back()->with('success', 'Email Not Sent');
+              
+                }
+                return redirect()->back()->with('success', __('Lead Resent.'));
             }
     }
     public function duplicate($id){

@@ -60,6 +60,9 @@ $enddate = \Carbon\Carbon::createFromFormat('Y-m-d', $lead->end_date)->format('d
             @else
             <dd class="col-md-6"><span class="">--</span></dd>
             @endif
+            <dt class="col-md-6"><span class="h6  mb-0">{{__('Estimate Amount')}}</span></dt>
+            <dd class="col-md-6"><span class="">--</span></dd>
+
             <dt class="col-md-6"><span class="h6  mb-0">{{__('Status')}}</span></dt>
             <dd class="col-md-6"><span class="">
                     @if($lead->status == 0)

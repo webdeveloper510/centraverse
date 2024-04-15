@@ -36,7 +36,7 @@
                                             <tr>
                                                 <!-- <th scope="col" class="sort" data-sort="name"><?php echo e(__('Lead')); ?></th> -->
                                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Proposal')); ?></th>
-                                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Email')); ?></th>
+                                                <!-- <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Email')); ?></th> -->
                                                 <th scope="col" class="sort"><?php echo e(__('Notes')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Document')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Created On')); ?></th>
@@ -49,7 +49,7 @@
                                             <tr>
 
                                                 <td><?php echo e(App\Models\Lead::where('id',$info->lead_id)->first()->name); ?></td>
-                                                <td><?php echo e(App\Models\Lead::where('id',$info->lead_id)->first()->email); ?></td>
+                                                <!-- <td><?php echo e(App\Models\Lead::where('id',$info->lead_id)->first()->email); ?></td> -->
                                                 <td><?php echo e($info->notes ?? '--'); ?></td>
                                                 <td><a
                                                         href="<?php echo e(route('lead.viewproposal',urlencode(encrypt($info->lead_id)))); ?>">View
