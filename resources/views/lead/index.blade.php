@@ -115,7 +115,7 @@
                                                         </a>
                                                     </div>
                                                     @endif
-                                                    
+                                                    @if($lead->status >= 2 )
                                                     <div class="action-btn bg-info ms-2">
                                                         <a href="{{route('lead.review',urlencode(encrypt($lead->id))) }}"
                                                             class="mx-3 btn btn-sm d-inline-flex align-items-center text-white "
@@ -123,7 +123,7 @@
                                                             data-title="{{__('Review Lead')}}">
                                                             <i class="fas fa-pen"></i></a>
                                                     </div>
-                                                   
+                                                   @endif
                                                     <div class="action-btn bg-primary ms-2">
                                                         <a href="{{route('lead.clone',urlencode(encrypt($lead->id)))}}"
                                                             data-size="md" data-url="#" data-bs-toggle="tooltip"

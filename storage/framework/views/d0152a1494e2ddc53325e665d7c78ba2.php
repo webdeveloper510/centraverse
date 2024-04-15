@@ -12,8 +12,9 @@ $venueRentalCost += $fixed_cost['venue'][$venues] ?? 0;
 //--------------Food Cost----------------------
 
 $totalFoodPackageCost = 0;
-if(!empty($lead->func_package)){
-    $foodpcks = json_decode($lead->func_package,true);
+$foodpcks = json_decode($lead->func_package,true);
+
+if(isset($foodpcks) && !empty($foodpcks)){
     foreach($foodpcks as $key => $foodpck){
         foreach($foodpck as $foods){
             $food[]= $foods;
@@ -28,19 +29,14 @@ if(!empty($lead->func_package)){
         }
     }
 }
-
 $totalBarCost = 0;
-if(!empty($lead->bar) && !empty($lead->bar_package)){
-    $barpcks = json_decode($lead->bar_package,true);
+$barpcks = json_decode($lead->bar_package,true);
+if(isset($barpcks) && !empty($barpcks)){
+   
     foreach($barpcks as $key => $barpck){
         $bar[]= $barpck;
     }
-    $foodpcks = json_decode($lead->func_package,true);
-    foreach($foodpcks as $key => $foodpck){
-        foreach($foodpck as $foods){
-            $food[]= $foods;
-        }
-    }
+   
     foreach ($bar as $barItem) {
         foreach ($fixed_cost['barpackage'] as $category => $categoryItems) {
             if (isset($categoryItems[$barItem])) {

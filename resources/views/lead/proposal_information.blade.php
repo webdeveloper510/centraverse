@@ -34,7 +34,7 @@
                                             <tr>
                                                 <!-- <th scope="col" class="sort" data-sort="name">{{__('Lead')}}</th> -->
                                                 <th scope="col" class="sort" data-sort="name">{{__('Proposal')}}</th>
-                                                <th scope="col" class="sort" data-sort="budget">{{__('Email')}}</th>
+                                                <!-- <th scope="col" class="sort" data-sort="budget">{{__('Email')}}</th> -->
                                                 <th scope="col" class="sort">{{__('Notes')}}</th>
                                                 <th scope="col" class="sort">{{__('Document')}}</th>
                                                 <th scope="col" class="sort">{{__('Created On')}}</th>
@@ -47,7 +47,7 @@
                                             <tr>
 
                                                 <td>{{App\Models\Lead::where('id',$info->lead_id)->first()->name}}</td>
-                                                <td>{{App\Models\Lead::where('id',$info->lead_id)->first()->email}}</td>
+                                                <!-- <td>{{App\Models\Lead::where('id',$info->lead_id)->first()->email}}</td> -->
                                                 <td>{{$info->notes ?? '--'}}</td>
                                                 <td><a
                                                         href="{{route('lead.viewproposal',urlencode(encrypt($info->lead_id))) }}">View

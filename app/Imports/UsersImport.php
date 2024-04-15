@@ -45,6 +45,7 @@ class UsersImport implements ToModel, WithHeadingRow
             'notes'         => $this->notes,
             'created_by'   => $this->userid
         ];
+
         return new UserImport($data);
     }
 }

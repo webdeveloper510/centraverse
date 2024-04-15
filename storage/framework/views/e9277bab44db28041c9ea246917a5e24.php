@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('page-title'); ?>
 <?php echo e(__('Proposal')); ?>
 
@@ -70,4 +69,4 @@
     </div>
 </div>
 <?php $__env->stopSection(); ?>
-<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/lead/proposal_information.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/crmcentraverse/public_html/resources/views/lead/proposal_information.blade.php ENDPATH**/ ?>
