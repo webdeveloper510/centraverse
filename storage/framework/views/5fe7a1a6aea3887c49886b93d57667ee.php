@@ -38,10 +38,10 @@
                                                 <th scope="col" class="sort"><?php echo e(__('Status')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Type')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Converted events')); ?></th>
-                                                <?php if(Gate::check('Show Lead') || Gate::check('Edit Lead') ||
+                                                <!-- <?php if(Gate::check('Show Lead') || Gate::check('Edit Lead') ||
                                                 Gate::check('Delete Lead')): ?>
                                                 <th scope="col" class="text-end"><?php echo e(__('Action')); ?></th>
-                                                <?php endif; ?>
+                                                <?php endif; ?> -->
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -59,7 +59,7 @@
                                                 <?php else: ?>
                                                 <td> No </td>
                                                 <?php endif; ?>
-                                                <td>
+                                                <!-- <td>
                                                     <div class="action-btn bg-info ms-2" style="float: right;">
                                                         <a href="#" data-size="md"
                                                             data-url="<?php echo e(route('lead.uploads',$lead->id)); ?>"
@@ -93,7 +93,7 @@
                                                             <i class="fas fa-plus"></i> </a>
                                                     </div>
                                                     <?php endif; ?>
-                                                </td>
+                                                </td> -->
                                             </tr>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tbody>
@@ -178,28 +178,83 @@
 
             <div class="container-fluid xyz mt-3">
                 <div class="row">
-                    <div class="col-lg-12">
-                        <div id="useradd-1" class="card">
-                            <div class="card-body" style="    display: inline-flex;">
-        <?php $__currentLoopData = $docs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $doc): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-        <div style=" width: 18%;">
-        <?php if(Storage::disk('public')->exists($doc->filepath)): ?>
-        <?php if(pathinfo($doc->filepath, PATHINFO_EXTENSION) == 'pdf'): ?>
-        <img src="<?php echo e(asset('extension_img/pdf.png')); ?>" style="       width: 50%;
-    height: auto;">
-        <?php else: ?>
-        <img src="<?php echo e(asset('extension_img/doc.png')); ?>" style="         width: 40%;
-    height: auto;">
-        <?php endif; ?>
-        <h6><?php echo e($doc->filename); ?></h6>
-        <p><a href="<?php echo e(Storage::url('app/public/'.$doc->filepath)); ?>" download><i class="fa fa-download"></i></a></p>
+                    <div class="col-lg-6">
+                        <div class="card" id="useradd-1">
+                            <div class="card-body table-border-style">
+                                <h3>Upload Documents</h3>
+                                <?php echo e(Form::open(array('route' => ['lead.uploaddoc', $lead->id],'method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))); ?>
 
-        <?php endif; ?>
+                                <label for="customerattachment">Attachment</label>
+                                <input type="file" name="customerattachment" id="customerattachment"
+                                    class="form-control" required>
+                                <input type="submit" value="Submit" class="btn btn-primary mt-4" style="float: right;">
+                                <?php echo e(Form::close()); ?>
 
-        </div>
-        <!-- Assuming $folder and $filename are passed to the view -->
-       
-        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-body table-border-style">
+                                <h3>Add Notes/Comments</h3>
+                                <form method="POST" id="addnotes">
+                                    <?php echo csrf_field(); ?>
+                                    <label for="notes">Notes</label>
+                                    <input type="text" class="form-control" name="notes" required>
+                                    <input type="submit" value="Submit" class="btn btn-primary mt-4"
+                                        style=" float: right;">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-6">
+                        <div class="card" id="useradd-1">
+                            <div class="card-body table-border-style">
+                                <h3>Attachments</h3>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <th>Attachment</th>
+                                        <th>Action</th>
+                                    </thead>
+                                    <tbody>
+                                        <?php $__currentLoopData = $docs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $doc): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <?php if(Storage::disk('public')->exists($doc->filepath)): ?>
+                                        <tr>
+                                            <td><?php echo e($doc->filename); ?></td>
+                                            <td><a href="<?php echo e(Storage::url('app/public/'.$doc->filepath)); ?>" download
+                                                    style="color: teal;" title="Download">View Document <i
+                                                        class="fa fa-download"></i></a>
+                                        </tr>
+                                        <?php endif; ?>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card" id="useradd-1">
+                            <div class="card-body table-border-style">
+                                <h3>Notes</h3>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <th>Notes</th>
+                                        <th>Created By</th>
+                                        <th>Date</th>
+                                    </thead>
+                                    <tbody>
+                                    <?php $__currentLoopData = $notes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $note): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <tr>
+                                            <td><?php echo e(ucfirst($note->notes)); ?></td>
+                                            <td><?php echo e((App\Models\User::where('id',$note->created_by)->first()->name)); ?></td>
+                                            <td><?php echo e(\Auth::user()->dateFormat($note->created_at)); ?></td>
+                                        </tr>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -216,4 +271,30 @@
 }
 </style> -->
 <?php $__env->stopSection(); ?>
+<?php $__env->startPush('script-page'); ?>
+<script>
+$(document).ready(function() {
+    $('#addnotes').on('submit', function(e) {
+        e.preventDefault();
+        var id = <?php echo  $lead->id; ?>;
+        var notes = $('input[name="notes"]').val();
+        var createrid = <?php echo Auth::user()->id ;?>;
+
+        $.ajax({
+            url: "<?php echo e(route('addleadnotes', ['id' => $lead->id])); ?>", // URL based on the route with the actual user ID
+            type: 'POST',
+            data: {
+                "notes": notes,
+                "createrid": createrid,
+                "_token": "<?php echo e(csrf_token()); ?>",
+            },
+            success: function(data) {
+                    location.reload();
+            }
+        });
+
+    });
+});
+</script>
+<?php $__env->stopPush(); ?>
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/lead/leadinfo.blade.php ENDPATH**/ ?>

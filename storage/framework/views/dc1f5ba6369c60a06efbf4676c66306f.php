@@ -14,11 +14,10 @@
 <?php $__env->startSection('content'); ?>
 <div class="container-field">
     <div id="wrapper">
-
         <div id="page-content-wrapper">
             <div class="container-fluid xyz">
                 <div class="row">
-                    <div class="col-lg-12 order-lg-1">
+                    <div class="col-lg-12">
                         <div class="card" id="useradd-1">
                             <div class="card-body table-border-style">
                                 <div class="row align-items-center">
@@ -62,7 +61,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12">
+                    <div class="col-lg-6">
                         <div class="card" id="useradd-1">
                             <div class="card-body table-border-style">
                                 <h3>Upload Documents</h3>
@@ -72,15 +71,51 @@
                                     <label for="customerattachment">Attachment</label>
                                     <input type="file" name="customerattachment" id="customerattachment"
                                         class="form-control" required>
-                                    <input type="submit" value="Submit" class="btn btn-primary mt-2">
+                                    <input type="submit" value="Submit" class="btn btn-primary mt-4"
+                                        style="float: right;">
                                 </form>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12">
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-body table-border-style">
+                                <h3>Add Notes/Comments</h3>
+                                <form method="POST" id="addnotes">
+                                    <?php echo csrf_field(); ?>
+                                    <label for="notes">Notes</label>
+                                    <input type="text" class="form-control" name="notes">
+                                    <input type="submit" value="Submit"  class="btn btn-primary mt-4"
+                                        style=" float: right;">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
                         <div class="card" id="useradd-1">
                             <div class="card-body table-border-style">
                                 <h3>Attachments</h3>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <th>Attachment</th>
+                                        <!-- <th>Created By</th> -->
+                                        <th>Action</th>
+                                    </thead>
+                                    <tbody>
+                                        <?php   
+                                            $files = Storage::files('app/public/External_customer/'.$users->id);
+                                        ?>
+                                        <?php $__currentLoopData = $files; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $file): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <tr>
+                                            <td><?php echo e(basename($file)); ?></td>
+                                            <td><a href="<?php echo e(Storage::url($file)); ?>" download style="color: teal;"
+                                                    title="Download">
+                                                    View Document <i class="fa fa-download"></i></a></td>
+                                        </tr>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    </tbody>
+                                </table>
+                                <!-- <h3>Attachments</h3>
                                 <?php   
                                     $files = Storage::files('app/public/External_customer/'.$users->id);
                                 ?>
@@ -103,11 +138,33 @@
                                                 <i class="fa fa-download"></i></a>
 
                                         </div>
-
                                     </div>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </div>
-                                <?php endif; ?>
+                                <?php endif; ?> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card" id="useradd-1">
+                            <div class="card-body table-border-style">
+                                <h3>Notes</h3>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <th>Notes</th>
+                                        <th>Created By</th>
+                                        <th>Date</th>
+                                    </thead>
+                                    <tbody>
+                                        <?php $__currentLoopData = $notes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $note): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <tr>
+                                            <td><?php echo e(ucfirst($note->notes)); ?></td>
+                                            <td><?php echo e((App\Models\User::where('id',$note->created_by)->first()->name)); ?></td>
+                                            <td><?php echo e(\Auth::user()->dateFormat($note->created_at)); ?></td>
+                                        </tr>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -123,4 +180,28 @@
     background: none;
 }
 </style>
+<?php $__env->startPush('script-page'); ?>
+<script>
+$(document).ready(function() {
+    $('#addnotes').on('submit', function(e) {
+        e.preventDefault();
+        var id = <?php echo  $users->id; ?>;
+        var notes = $('input[name="notes"]').val();
+        var createrid = <?php echo Auth::user()->id ;?>;
+        $.ajax({
+            url: "<?php echo e(route('addusernotes', ['id' => $users->id])); ?>",
+            type: 'POST',
+            data: {
+                "notes": notes,
+                "createrid": createrid,
+                "_token": "<?php echo e(csrf_token()); ?>",
+            },
+            success: function(data) {
+                location.reload();
+            }
+        });
+    });
+});
+</script>
+<?php $__env->stopPush(); ?>
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/customer/userview.blade.php ENDPATH**/ ?>

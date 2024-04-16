@@ -205,7 +205,7 @@
                 </a> -->
                 <a href="{{ route('report.leadsanalytic') }}" class="list-group-item list-group-item-action"><span
                         class="fa-stack fa-lg pull-left"></span>
-                    <span class="dash-mtext">{{ __('Leads Analytics') }} </span></a>
+                    <span class="dash-mtext">{{ __('Leads') }} </span></a>
 
                 </a>
                 <!-- <a href="{{ route('report.invoiceanalytic') }}" class="list-group-item list-group-item-action"><span
@@ -224,17 +224,17 @@
                 </a> -->
                 <a href="{{ route('report.eventanalytic') }}" class="list-group-item list-group-item-action"><span
                         class="fa-stack fa-lg pull-left"></span>
-                    <span class="dash-mtext">{{ __('Event Analytics') }} </span></a>
+                    <span class="dash-mtext">{{ __('Events') }} </span></a>
 
                 </a>
                 <a href="{{ route('report.customersanalytic') }}" class="list-group-item list-group-item-action"><span
                         class="fa-stack fa-lg pull-left"></span>
-                    <span class="dash-mtext">{{ __('Customers Analytics') }} </span></a>
+                    <span class="dash-mtext">{{ __('Customers') }} </span></a>
 
                 </a>
                 <a href="{{ route('report.billinganalytic') }}" class="list-group-item list-group-item-action"><span
                         class="fa-stack fa-lg pull-left"></span>
-                    <span class="dash-mtext">{{ __('Financial Analytics') }} </span></a>
+                    <span class="dash-mtext">{{ __('Financial') }} </span></a>
 
                 </a>
                 @endif

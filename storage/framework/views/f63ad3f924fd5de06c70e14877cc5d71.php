@@ -40,7 +40,9 @@
                             <select name="status" id="status" class="form-control" style="margin-left: 29px;">
                                 <option value="">Select Status</option>
                                 <?php $__currentLoopData = $leadstatus; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $stat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <option value="<?php echo e($stat->status); ?>"  <?php echo e(isset($_GET['status']) && $stat->status == $_GET['status'] ? 'selected' : ''); ?>><?php echo e(App\Models\Lead::$status[$stat->status]); ?></option>
+                                <option value="<?php echo e($stat->status); ?>"
+                                    <?php echo e(isset($_GET['status']) && $stat->status == $_GET['status'] ? 'selected' : ''); ?>>
+                                    <?php echo e(App\Models\Lead::$status[$stat->status]); ?></option>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </select>
                             <!-- <?php echo e(Form::select('status', ['' => 'Select Status'] + $status, isset($_GET['status']) ? $_GET['status'] : '', ['class' => 'form-control', 'style' => 'margin-left: 29px;'])); ?> -->
@@ -116,6 +118,7 @@
 
 
 </div>
+
 <div class="row">
     <div class="col-xl-12">
         <div class="card">
@@ -129,26 +132,30 @@
                     <table class="table" id="pc-dt-export">
                         <thead>
                             <tr>
+                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__(' Lead Status')); ?></th>
+                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Status')); ?></th>
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Name')); ?></th>
                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Created By')); ?></th>
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Type')); ?></th>
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Phone')); ?></th>
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Email')); ?></th>
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Date')); ?></th>
+                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Time')); ?></th>
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Assigned Staff')); ?></th>
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Rooms required')); ?></th>
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Function')); ?></th>
+                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Guest Count')); ?></th>
                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Converted To Event')); ?></th>
-                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__(' Lead Status')); ?></th>
-                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Status')); ?></th>
                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Created At')); ?></th>
-
+                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Comments')); ?></th>
 
                             </tr>
                         </thead>
                         <tbody>
                             <?php $__currentLoopData = $leads; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $result): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <tr>
+                                <td><?php echo e(__(\App\Models\Lead::$stat[$result->lead_status])); ?></td>
+                                <td> <?php echo e(__(\App\Models\Lead::$status[$result['status']])); ?></td>
                                 <td><?php echo e(ucfirst($result['name'])); ?></td>
                                 <td><?php echo e(ucfirst(App\Models\User::where('id',$result['created_by'])->first()->name)); ?></td>
                                 <td><?php echo e(ucfirst($result['type'])); ?></td>
@@ -162,19 +169,29 @@
                                     <?php echo e(\Auth::user()->dateFormat($result['end_date'])); ?>
 
                                     <?php endif; ?></td>
-                                <td><?php echo e(!empty($result['assign_user'])? $result['assign_user']->name:'Not Assigned Yet'); ?>
+                                <td> <?php if($result['start_time'] == $result['end_time']): ?>
+                                    --
+                                    <?php else: ?>
+                                    <?php echo e(date('h:i A', strtotime($result['start_time']))); ?> -
+                                    <?php echo e(date('h:i A', strtotime($result['end_time']))); ?>
 
-                                    <?php echo e(!empty($result['assign_user'])?($result['assign_user']->type):''); ?></td>
+                                    <?php endif; ?></td>
+                                <td><?php echo e(!empty($result['assign_user'])? $result['assign_user']->name :'Not Assigned Yet'); ?>
+
+                                    <?php echo e(!empty($result['assign_user'])?'('.$result['assign_user']->type.')':''); ?></td>
                                 <td><?php echo e($result['rooms']); ?></td>
                                 <td><?php echo e(isset($result['function']) ? ucfirst($result['function']) : '--'); ?></td>
+                                <td><?php echo e($result['guest_count']); ?></td>
                                 <td>
                                     <?php $event = App\Models\Meeting::where('attendees_lead',$result['id'])->exists() ?>
                                     <?php if($event): ?> Yes <?php else: ?> No <?php endif; ?>
                                 </td>
-                                <td> <?php echo e(__(\App\Models\Lead::$status[$result['status']])); ?></td>
-                                <td><?php echo e(__(\App\Models\Lead::$stat[$result->lead_status])); ?></td>
                                 <td><?php echo e(__(\Auth::user()->dateFormat($result['created_at']))); ?></td>
+                                <td><?php $comment = App\Models\Proposal::where('lead_id',$result['id'])->orderby('id','desc')->first(); ?>
+                                    <?php if(isset($comment) && !empty($comment)): ?>
+                                    <?php echo e(App\Models\Proposal::where('lead_id',$result['id'])->orderby('id','desc')->first()->notes); ?>
 
+                                    <?php else: ?> -- <?php endif; ?></td>
                             </tr>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </tbody>
@@ -185,9 +202,10 @@
     </div>
     <?php $__env->stopSection(); ?>
     <?php $__env->startPush('script-page'); ?>
-
     <script>
-    < script type = "text/javascript"src = "<?php echo e(asset('js/html2pdf.bundle.min.js')); ?>" ></script>
+    < script type = "text/javascript"
+        src = "<?php echo e(asset('js/html2pdf.bundle.min.js')); ?>" >
+    </script>
     <script type="text/javascript" src="<?php echo e(asset('js/dataTables.buttons.min.js')); ?>"></script>
     <script type="text/javascript" src="<?php echo e(asset('js/jszip.min.js')); ?>"></script>
     <script type="text/javascript" src="<?php echo e(asset('js/pdfmake.min.js')); ?>"></script>

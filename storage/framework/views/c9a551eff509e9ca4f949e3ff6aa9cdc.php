@@ -206,7 +206,7 @@
                 </a> -->
                 <a href="<?php echo e(route('report.leadsanalytic')); ?>" class="list-group-item list-group-item-action"><span
                         class="fa-stack fa-lg pull-left"></span>
-                    <span class="dash-mtext"><?php echo e(__('Leads Analytics')); ?> </span></a>
+                    <span class="dash-mtext"><?php echo e(__('Leads')); ?> </span></a>
 
                 </a>
                 <!-- <a href="<?php echo e(route('report.invoiceanalytic')); ?>" class="list-group-item list-group-item-action"><span
@@ -225,17 +225,17 @@
                 </a> -->
                 <a href="<?php echo e(route('report.eventanalytic')); ?>" class="list-group-item list-group-item-action"><span
                         class="fa-stack fa-lg pull-left"></span>
-                    <span class="dash-mtext"><?php echo e(__('Event Analytics')); ?> </span></a>
+                    <span class="dash-mtext"><?php echo e(__('Events')); ?> </span></a>
 
                 </a>
                 <a href="<?php echo e(route('report.customersanalytic')); ?>" class="list-group-item list-group-item-action"><span
                         class="fa-stack fa-lg pull-left"></span>
-                    <span class="dash-mtext"><?php echo e(__('Customers Analytics')); ?> </span></a>
+                    <span class="dash-mtext"><?php echo e(__('Customers')); ?> </span></a>
 
                 </a>
                 <a href="<?php echo e(route('report.billinganalytic')); ?>" class="list-group-item list-group-item-action"><span
                         class="fa-stack fa-lg pull-left"></span>
-                    <span class="dash-mtext"><?php echo e(__('Financial Analytics')); ?> </span></a>
+                    <span class="dash-mtext"><?php echo e(__('Financial')); ?> </span></a>
 
                 </a>
                 <?php endif; ?>

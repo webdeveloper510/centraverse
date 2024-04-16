@@ -9,6 +9,7 @@
 @endsection
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{__('Home')}}</a></li>
+<li class="breadcrumb-item"><a href="{{ route('lead.index') }}">{{__('Leads')}}</a></li>
 <li class="breadcrumb-item">{{__('Proposal Information')}}</li>
 @endsection
 @section('action-btn')
@@ -50,7 +51,7 @@
                                                 <!-- <td>{{App\Models\Lead::where('id',$info->lead_id)->first()->email}}</td> -->
                                                 <td>{{$info->notes ?? '--'}}</td>
                                                 <td><a
-                                                        href="{{route('lead.viewproposal',urlencode(encrypt($info->lead_id))) }}">View
+                                                        href="{{route('lead.viewproposal',urlencode(encrypt($info->lead_id))) }}" style=" color: teal;">View
                                                         Document</a></td>
                                                 <td>{{ \Auth::user()->dateFormat($info->created_at) }}</td>
 

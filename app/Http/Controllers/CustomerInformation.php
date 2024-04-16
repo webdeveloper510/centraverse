@@ -18,6 +18,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Campaigndata;
 use Twilio\Rest\Client;
 use App\Models\MasterCustomer;
+use App\Models\NotesCustomer;
 use Str;
 
 class CustomerInformation extends Controller
@@ -320,19 +321,22 @@ class CustomerInformation extends Controller
     }
     public function import_customers_view($id){
         $users = UserImport::find($id);
+       
         return view('customer.userview',compact('users'));
     }
     public function customer_info($id){
         $id = decrypt(urldecode($id));
         $users = UserImport::find($id);
-        return view('customer.userview',compact('users'));
+        $notes = NotesCustomer::where('user_id',$id)->get();
+        // echo "<pre>";print_r($notes);die;
+        return view('customer.userview',compact('users','notes'));
     }
     public function uploadcustomerattachment(Request $request,$id){
         $id = decrypt(urldecode($id));
         // $users = UserImport::find($id);
         if (!empty($request->file('customerattachment'))){
             $file =  $request->file('customerattachment');
-            $filename = Str::random(7) . '.' . $file->getClientOriginalExtension();
+            $filename =  $file->getClientOriginalName().'_'. Str::random(3) . '.' . $file->getClientOriginalExtension();
             $folder = 'External_customer/' . $id; 
             try {
                 $path = $file->storeAs($folder, $filename, 'public');
@@ -342,5 +346,13 @@ class CustomerInformation extends Controller
             }
             }
             return redirect()->back()->with('Success','File Uploaded Successfully');
+    }
+    public function usernotes(Request $request,$id){
+        $notes = new NotesCustomer();
+        $notes->notes = $request->notes;
+        $notes->created_by = $request->createrid;
+        $notes->user_id = $id;
+        $notes->save();
+        return true;
     }
 }

@@ -10,47 +10,48 @@ foreach($pay as $p){
 $total += $p->amount;
 }
 ?>
+<?php if($event->status == 3): ?>
 <?php if(isset($paymentinfo)): ?>
-    <?php if($paymentinfo->amounttobepaid == $total): ?>
-    <div class="row">
-        <div class="col-md-12">
-            <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Bill Amount')); ?></span></dt>
-            <dd class="col-md-6">
-                <span>$<?php echo e(isset($paymentinfo->amount) ? $paymentinfo->amount : $event->total); ?></span>
-            </dd>
-            <dt class="col-md-6"><span class="h6 text-md mb-0"><?php echo e(__('Status')); ?></span></dt>
-            <dd class="col-md-6"><span class="text-md">
-                    <span class="badge bg-success p-2 px-3 rounded">Payment Completed</span>
+<?php if($paymentinfo->amounttobepaid == $total): ?>
+<div class="row">
+    <div class="col-md-12">
+        <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Bill Amount')); ?></span></dt>
+        <dd class="col-md-6">
+            <span>$<?php echo e(isset($paymentinfo->amount) ? $paymentinfo->amount : $event->total); ?></span>
+        </dd>
+        <dt class="col-md-6"><span class="h6 text-md mb-0"><?php echo e(__('Status')); ?></span></dt>
+        <dd class="col-md-6"><span class="text-md">
+                <span class="badge bg-success p-2 px-3 rounded">Payment Completed</span>
 
-            </dd>
-            <?php if(isset($info) && !empty($info)): ?>
-            <table class="table">
-                <thead>
-                    <th>Date</th>
-                    <th>Mode Of Payment</th>
-                    <th>Late Fee</th>
-                    <th>Adjustments</th>
-                    <th>Amount Paid</th>
-                </thead>
-                <tbody>
+        </dd>
+        <?php if(isset($info) && !empty($info)): ?>
+        <table class="table">
+            <thead>
+                <th>Date</th>
+                <th>Mode Of Payment</th>
+                <th>Late Fee</th>
+                <th>Adjustments</th>
+                <th>Amount Paid</th>
+            </thead>
+            <tbody>
 
-                    <?php $__currentLoopData = $info; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $a): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <tr>
-                        <td><?php echo e(\Auth::user()->dateFormat($paymentinfo->created_at)); ?></td>
-                        <td><?php echo e($paymentinfo->modeofpayment); ?></td>
-                        <td><?php echo e($paymentinfo->latefee); ?></td>
-                        <td><?php echo e($paymentinfo->adjustments); ?></td>
-                        <td><?php echo e($total); ?></td>
-                    <tr>
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                    </tr>
-                </tbody>
-            </table>
-            <?php endif; ?>
-        </div>
+                <?php $__currentLoopData = $info; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $a): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <tr>
+                    <td><?php echo e(\Auth::user()->dateFormat($paymentinfo->created_at)); ?></td>
+                    <td><?php echo e($paymentinfo->modeofpayment); ?></td>
+                    <td><?php echo e($paymentinfo->latefee); ?></td>
+                    <td><?php echo e($paymentinfo->adjustments); ?></td>
+                    <td><?php echo e($total); ?></td>
+                <tr>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                </tr>
+            </tbody>
+        </table>
+        <?php endif; ?>
     </div>
-    <?php else: ?>
-    <?php echo e(Form::open(array('route' => ['billing.paymentinfoupdate', urlencode(encrypt($event->id))],'method'=>'post','enctype'=>'multipart/form-data'))); ?>
+</div>
+<?php else: ?>
+<?php echo e(Form::open(array('route' => ['billing.paymentinfoupdate', urlencode(encrypt($event->id))],'method'=>'post','enctype'=>'multipart/form-data'))); ?>
 
 <div class="row">
     <div class="col-6">
@@ -151,6 +152,14 @@ $total += $p->amount;
     </div>
     <div class="col-6">
         <div class="form-group">
+            <?php echo e(Form::label('amount_while_other_mode_than_credit',__('Enter Amount'),['class'=>'form-label'])); ?>
+
+            <?php echo e(Form::number('amount_while_other_mode_than_credit',null,array('class'=>'form-control','placeholder'=>__('Enter Amount')))); ?>
+
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="form-group">
             <?php echo e(Form::label('adjustmentnotes',__('Adjustment Notes'),['class'=>'form-label'])); ?>
 
             <?php echo e(Form::text('adjustmentnotes',$payment->adjustmentnotes ?? '',array('class'=>'form-control','placeholder'=>__('Enter Adjustment Notes')))); ?>
@@ -175,7 +184,7 @@ $total += $p->amount;
 </div>
 <?php echo e(Form::close()); ?>
 
-    <?php endif; ?>
+<?php endif; ?>
 <?php else: ?>
 <?php echo e(Form::open(array('route' => ['billing.paymentinfoupdate', urlencode(encrypt($event->id))],'method'=>'post','enctype'=>'multipart/form-data'))); ?>
 
@@ -277,7 +286,15 @@ $total += $p->amount;
 
         </div>
     </div>
-    <div class="col-6">
+    <div class = "col-6" id="amont">
+        <div class="form-group">
+            <?php echo e(Form::label('amount_while_other_mode_than_credit',__('Enter Amount'),['class'=>'form-label'])); ?>
+
+            <?php echo e(Form::number('amount_while_other_mode_than_credit',null,array('class'=>'form-control','placeholder'=>__('Enter Amount'),'max'=>""))); ?>
+
+        </div>
+    </div>
+    <div class="col-12">
         <div class="form-group">
             <?php echo e(Form::label('adjustmentnotes',__('Adjustment Notes'),['class'=>'form-label'])); ?>
 
@@ -302,19 +319,33 @@ $total += $p->amount;
 
 </div>
 <?php endif; ?>
+<?php else: ?>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="alert alert-success">
+                Contract must be approved by customer/admin before any further payment .
+            </div>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
 <script>
-$('#mode').change(function(){
+$('#mode').change(function() {
     var selected = $(this).val();
-    if(selected == 'credit') {
+    if (selected == 'credit') {
         $('#reference').removeAttr('required');
+        $('#amont').css('display','none')
+        $('#amount_while_other_mode_than_credit').removeAttr('required');
     } else {
         setTimeout(function() {
-        $('#reference').attr('required', 'required');
-    }, 100);
+            $('#reference').attr('required', 'required');
+            $('#amont').css('display','block');
+
+            $('#amount_while_other_mode_than_credit').attr('required', 'required');
+        }, 100);
     }
 });
-
-   
 </script>
 
 
@@ -328,6 +359,7 @@ jQuery(function() {
     var amounttobepaid = amount - deposits + latefee - adjustments;
 
     var balance = amounttobepaid - amountpaid;
+    $("input[name='amount_while_other_mode_than_credit']").attr('max',balance)
     $("input[name='balance']").val(balance);
     $("input[name='amounttobepaid']").val(amounttobepaid);
     $("input[name='amount'],input[name='deposits'], input[name='latefee'], input[name='adjustments'], input[name='amountpaid']")
@@ -346,19 +378,16 @@ jQuery(function() {
             // Assuming you want to store the balance in an input field with name 'balance'
             $("input[name='balance']").val(balance);
             $("input[name='amounttobepaid']").val(amounttobepaid);
+            $("input[name='amount_while_other_mode_than_credit']").attr('max',balance)
 
             console.log('total', balance);
         });
     $('select[name = "mode"]').change(function() {
         $('.msg').html('');
-        $('input[name="reference"]').removeAttr('required');
         var value = $(this).val();
         if (value == 'credit') {
             $('.msg').html('Pay Amount after form submission')
-        } else {
-            $('input[name="reference"]').attr('required');
         }
     })
 });
-</script>
-<?php /**PATH C:\xampp\htdocs\centraverse\resources\views/billing/pay-info.blade.php ENDPATH**/ ?>
+</script><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/billing/pay-info.blade.php ENDPATH**/ ?>

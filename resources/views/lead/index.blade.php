@@ -142,12 +142,16 @@
                                                     </div>
                                                     @can('Show Lead')
                                                     <div class="action-btn bg-warning ms-2">
-                                                        <a href="#" data-size="md"
+                                                        <a href="{{ route('lead.show',$lead->id) }}" title="{{__('Quick View')}}"
+                                                            data-ajax-popup="true" data-title="{{__('Lead Details')}}"
+                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                            <i class="ti ti-eye"></i>
+                                                            <!-- <a href="#" data-size="md"
                                                             data-url="{{ route('lead.show',$lead->id) }}"
                                                             data-bs-toggle="tooltip" title="{{__('Quick View')}}"
                                                             data-ajax-popup="true" data-title="{{__('Lead Details')}}"
                                                             class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class="ti ti-eye"></i>
+                                                            <i class="ti ti-eye"></i> -->
                                                         </a>
                                                     </div>
                                                     @endcan

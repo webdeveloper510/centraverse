@@ -32,7 +32,7 @@
                         </div>
 
                         <div class="col-auto" style="margin-left: -29px;">
-                      
+
                         </div>
                         <div class="action-btn bg-primary ms-5">
                             <div class="col-auto ">
@@ -50,7 +50,7 @@
                                         class="ti ti-trash-off"></i></a>
                             </div>
                         </div>
-                       
+
                     </div>
                 </div>
             </div>
@@ -101,8 +101,8 @@
                     <table class="table" id="pc-dt-export">
                         <thead>
                             <tr>
-                            <th scope="col" class="sort" data-sort="name">{{ __('Name') }}</th>
-                            <th scope="col" class="sort" data-sort="budget">{{ __('Event') }}</th>
+                                <th scope="col" class="sort" data-sort="name">{{ __('Name') }}</th>
+                                <th scope="col" class="sort" data-sort="budget">{{ __('Event') }}</th>
                                 <th scope="col" class="sort" data-sort="budget">{{ __('Transaction Id') }}</th>
                                 <th scope="col" class="sort" data-sort="budget">{{ __('Amount') }}</th>
                                 <th scope="col" class="sort" data-sort="name">{{ __('Phone') }}</th>
@@ -111,18 +111,18 @@
                             </tr>
                         </thead>
                         <tbody>
-                        @foreach ($payment as $pay)
-                        <?php $event = App\Models\Meeting::where('id',$pay['event_id'])->first();?>
-                        <tr>
-                            <td>{{ ucfirst($pay['name_of_card'])  }}</td>
-                            <td>{{$event->type}}</td>
-                            <td>{{ ($pay['transaction_id'])  }}</td>
-                            <td>{{ ($pay['amount'])  }}</td>
-                            <td>{{$event->phone}}</td>
-                            <td>{{$event->email}}</td>
-                            <td>{{ __(\Auth::user()->dateFormat($pay['created_at'])) }}</td>
-                        </tr>
-                        @endforeach
+                            @foreach($payment as $pay)
+                            <?php $event = App\Models\Meeting::where('id',$pay['event_id'])->first();?>
+                            <tr>
+                                <td>{{ ucfirst($pay['name_of_card'])  }}</td>
+                                <td>{{$event->type}}</td>
+                                <td>{{ ($pay['transaction_id'])  }}</td>
+                                <td>{{ ($pay['amount'])  }}</td>
+                                <td>{{$event->phone}}</td>
+                                <td>{{$event->email}}</td>
+                                <td>{{ __(\Auth::user()->dateFormat($pay['created_at'])) }}</td>
+                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -133,189 +133,184 @@
 @endsection
 @push('script-page')
 
-    <script type="text/javascript" src="{{ asset('js/html2pdf.bundle.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/dataTables.buttons.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/jszip.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/pdfmake.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/vfs_fonts.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('assets/js/plugins/simple-datatables.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/html2pdf.bundle.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/dataTables.buttons.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/jszip.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/pdfmake.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/vfs_fonts.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/buttons.html5.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins/simple-datatables.js') }}"></script>
 
-    <script>
-    $(document).ready(function() {
+<script>
+$(document).ready(function() {
+    $('#pc-dt-export').DataTable({
+        dom: 'Bfrtip',
+        buttons: [{
+            extend: 'excelHtml5',
+            customize: function(xlsx) {
+                var sheet = xlsx.xl.worksheets['sheet1.xml'];
+
+                $('row c[r^="C"]', sheet).attr('s', '2');
+            }
+        }]
+    });
+});
+</script>
+
+<script>
+const table = new simpleDatatables.DataTable("#pc-dt-export");
+document.querySelector("button.csv").addEventListener("click", () => {
+    table.export({
+        type: "csv",
+        download: true,
+        lineDelimiter: "\n\n",
+        columnDelimiter: ";"
+    })
+})
+document.querySelector("button.txt").addEventListener("click", () => {
+    table.export({
+        type: "txt",
+        download: true,
+    })
+})
+document.querySelector("button.sql").addEventListener("click", () => {
+    table.export({
+        type: "sql",
+        download: true,
+        tableName: "export_table"
+    })
+})
+
+document.querySelector("button.json").addEventListener("click", () => {
+    table.export({
+        type: "json",
+        download: true,
+        escapeHTML: true,
+        space: 3
+    })
+})
+document.querySelector("button.excel").addEventListener("click", () => {
+    table.export({
+        type: "excel",
+        download: true,
+
+    })
+})
+document.querySelector("button.pdf").addEventListener("click", () => {
+    table.export({
+        type: "pdf",
+        download: true,
+    })
+})
+</script>
+<script>
+$(document).ready(function() {
+    var filename = $('#filename').val();
+    setTimeout(function() {
         $('#pc-dt-export').DataTable({
             dom: 'Bfrtip',
             buttons: [{
                 extend: 'excelHtml5',
-                customize: function(xlsx) {
-                    var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                title: filename
+            }, {
+                extend: 'csvHtml5',
+                title: filename
+            }, {
+                extend: 'pdfHtml5',
+                title: filename
+            }, ],
 
-                    $('row c[r^="C"]', sheet).attr('s', '2');
-                }
-            }]
         });
-    });
-    </script>
+    }, 500);
 
-    <script>
-    const table = new simpleDatatables.DataTable("#pc-dt-export");
-    document.querySelector("button.csv").addEventListener("click", () => {
-        table.export({
-            type: "csv",
-            download: true,
-            lineDelimiter: "\n\n",
-            columnDelimiter: ";"
-        })
-    })
-    document.querySelector("button.txt").addEventListener("click", () => {
-        table.export({
-            type: "txt",
-            download: true,
-        })
-    })
-    document.querySelector("button.sql").addEventListener("click", () => {
-        table.export({
-            type: "sql",
-            download: true,
-            tableName: "export_table"
-        })
-    })
+});
+</script>
+<script>
+var filename = $('#filesname').val();
 
-    document.querySelector("button.json").addEventListener("click", () => {
-        table.export({
-            type: "json",
-            download: true,
-            escapeHTML: true,
-            space: 3
-        })
-    })
-    document.querySelector("button.excel").addEventListener("click", () => {
-        table.export({
-            type: "excel",
-            download: true,
-
-        })
-    })
-    document.querySelector("button.pdf").addEventListener("click", () => {
-        table.export({
-            type: "pdf",
-            download: true,
-        })
-    })
-    </script>
-
-
-    <script>
-    $(document).ready(function() {
-        var filename = $('#filename').val();
-        setTimeout(function() {
-            $('#pc-dt-export').DataTable({
-                dom: 'Bfrtip',
-                buttons: [{
-                    extend: 'excelHtml5',
-                    title: filename
-                }, {
-                    extend: 'csvHtml5',
-                    title: filename
-                }, {
-                    extend: 'pdfHtml5',
-                    title: filename
-                }, ],
-
-            });
-        }, 500);
-
-    });
-    </script>
-
-    <script>
-    var filename = $('#filesname').val();
-
-    function saveAsPDF() {
-        var element = document.getElementById('printableArea');
-        var opt = {
-            margin: 0.3,
-            filename: filename,
-            image: {
-                type: 'jpeg',
-                quality: 1
-            },
-            html2canvas: {
-                scale: 4,
-                dpi: 72,
-                letterRendering: true
-            },
-            jsPDF: {
-                unit: 'in',
-                format: 'A2'
-            }
-        };
-        html2pdf().set(opt).from(element).save();
-    }
-    </script>
-
-
-    <script src="{{ asset('assets/js/plugins/apexcharts.min.js') }}"></script>
-
-    <script>
-    var WorkedHoursChart = (function() {
-        var $chart = $('#report-chart');
-
-        (function() {
-            var options = {
-                chart: {
-                    height: 180,
-                    type: 'area',
-                    toolbar: {
-                        show: false,
-                    },
-                },
-                dataLabels: {
-                    enabled: false
-                },
-                stroke: {
-                    width: 2,
-                    curve: 'smooth'
-                },
-                series: [{
-                    name: 'Lead',
-                    data: {
-                        !!json_encode($data) !!
-                    },
-                }],
-                xaxis: {
-                    categories: {
-                        !!json_encode($labels) !!
-                    },
-                    title: {
-                        text: '{{ __('
-                        Lead ') }}'
-                    },
-                },
-                colors: ['#3ec9d6', '#FF3A6E'],
-
-                grid: {
-                    strokeDashArray: 4,
-                },
-                legend: {
-                    show: true,
-                    position: 'top',
-                    horizontalAlign: 'right',
-                },
-
-            };
-            var chart = new ApexCharts(document.querySelector("#report-chart"), options);
-            chart.render();
-        })();
-
-
-
-        // Events
-        if ($chart.length) {
-            $chart.each(function() {
-                init($(this));
-            });
+function saveAsPDF() {
+    var element = document.getElementById('printableArea');
+    var opt = {
+        margin: 0.3,
+        filename: filename,
+        image: {
+            type: 'jpeg',
+            quality: 1
+        },
+        html2canvas: {
+            scale: 4,
+            dpi: 72,
+            letterRendering: true
+        },
+        jsPDF: {
+            unit: 'in',
+            format: 'A2'
         }
+    };
+    html2pdf().set(opt).from(element).save();
+}
+</script>
+<script src="{{ asset('assets/js/plugins/apexcharts.min.js') }}"></script>
+
+<script>
+var WorkedHoursChart = (function() {
+    var $chart = $('#report-chart');
+
+    (function() {
+        var options = {
+            chart: {
+                height: 180,
+                type: 'area',
+                toolbar: {
+                    show: false,
+                },
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                width: 2,
+                curve: 'smooth'
+            },
+            series: [{
+                name: 'Lead',
+                data: {
+                    !!json_encode($data) !!
+                },
+            }],
+            xaxis: {
+                categories: {
+                    !!json_encode($labels) !!
+                },
+                title: {
+                    text: '{{ __('
+                    Lead ') }}'
+                },
+            },
+            colors: ['#3ec9d6', '#FF3A6E'],
+
+            grid: {
+                strokeDashArray: 4,
+            },
+            legend: {
+                show: true,
+                position: 'top',
+                horizontalAlign: 'right',
+            },
+
+        };
+        var chart = new ApexCharts(document.querySelector("#report-chart"), options);
+        chart.render();
     })();
-    </script>
-    @endpush
+
+
+
+    // Events
+    if ($chart.length) {
+        $chart.each(function() {
+            init($(this));
+        });
+    }
+})();
+</script>
+@endpush

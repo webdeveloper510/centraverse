@@ -56,7 +56,7 @@
 
                         <div class="action-btn bg-danger ms-2">
                             <div class="col-auto">
-                                <a href="<?php echo e(route('report.leadsanalytic')); ?>" data-bs-toggle="tooltip"
+                                <a href="<?php echo e(route('report.customersanalytic')); ?>" data-bs-toggle="tooltip"
                                     title="<?php echo e(__('Reset')); ?>" data-title="<?php echo e(__('Reset')); ?>"
                                     class=" btn btn-sm align-items-center text-white"><i
                                         class="ti ti-trash-off"></i></a>
@@ -80,7 +80,7 @@
                             value="<?php echo e(__('Event Report of') . ' ' . $report['startDateRange'] . ' to ' . $report['endDateRange']); ?>"
                             id="filesname">
                         <?php else: ?>
-                        <input type="hidden" value="<?php echo e(__('Event Report')); ?>" id="filesname">
+                        <input type="hidden" value="<?php echo e(__('Customers Report')); ?>" id="filesname">
                         <?php endif; ?>
 
                         <div class="col">

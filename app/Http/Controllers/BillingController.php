@@ -107,6 +107,7 @@ class BillingController extends Controller
     }
     public function paymentupdate(Request $request, $id){         
         $id = decrypt(urldecode($id));
+        echo "<pre>";print_r($request->all());die;
         $payment = new PaymentInfo();
         $payment->event_id = $id;
         $payment->amount = $request->amount;
@@ -124,7 +125,7 @@ class BillingController extends Controller
         $payment->save();
         $paid = PaymentInfo::where('event_id',$id)->get();
         // echo"<pre>";print_r($paid);die;
-        Meeting::find($id)->update(['total'=> $request->amounttobepaid]);
+        // Meeting::find($id)->update(['total'=> $request->amounttobepaid]);
 
         if($request->mode == 'credit'){
             return view('payments.pay',compact('balance','event'));
