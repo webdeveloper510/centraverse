@@ -377,6 +377,21 @@ $bar_package = json_decode($setting['barpackage'],true);
 </style>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script-page'); ?>
+
+<script>
+    $(document).ready(function() {
+    $('#start_date, #end_date').change(function() {
+        var startDate = new Date($('#start_date').val());
+        var endDate = new Date($('#end_date').val());
+
+        if ($(this).attr('id') === 'start_date' && endDate < startDate) {
+            $('#end_date').val($('#start_date').val());
+        } else if ($(this).attr('id') === 'end_date' && endDate < startDate) {
+            $('#start_date').val($('#end_date').val());
+        }
+    });
+});
+</script>
 <script>
 $(document).ready(function() {
     var phoneNumber = "<?php echo $lead->phone;?>";
