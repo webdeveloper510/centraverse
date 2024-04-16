@@ -1,6 +1,6 @@
-@php
+<?php
 $url = route('meeting.signedagreement',urlencode(encrypt($meeting->id)));
-@endphp
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,14 +9,14 @@ $url = route('meeting.signedagreement',urlencode(encrypt($meeting->id)));
     <title>Agreement</title>
 </head>
 <body>
-Dear {{ $meeting->name }},<br>
+Dear <?php echo e($meeting->name); ?>,<br>
 
-<p>{{$content}}</p><br>
+<p><?php echo e($content); ?></p><br>
 
 <b>Click the link below to sign the agreement:</b><br>
-<p>{{$url}}</p>
+<p><?php echo e($url); ?></p>
 
 Thank you for your time and collaboration.<br>
 Best regards,
 </body>
-</html>
+</html><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/meeting/agreement/mail.blade.php ENDPATH**/ ?>

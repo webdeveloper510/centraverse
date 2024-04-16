@@ -20,15 +20,6 @@ $logo = URL::asset('storage/uploads/logo/');
         height: 100vh;
     }
 
-<<<<<<< HEAD
-        .container {
-            text-align: center;
-            /* background-color: #fff; */
-            padding: 20px;
-            /* border-radius: 10px; */
-            /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
-        }
-=======
     .container {
         text-align: center;
         background-color: #fff;
@@ -36,7 +27,6 @@ $logo = URL::asset('storage/uploads/logo/');
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
->>>>>>> 9adff564d58c3ee5d814da33f665f57e283b8831
 
     .payment-options img {
         width: 100px;
@@ -74,7 +64,6 @@ $logo = URL::asset('storage/uploads/logo/');
                 <a href="<?php echo e(route('pay',urlencode(encrypt($new_id)))); ?>" class="btn btn-primary">Pay Now</a>
             </div>
         </div>
-
         <!-- <img data-paylink="<?php echo e(url('/paypal/billing/payment/')); ?>/<?php echo e(Request::segment(2)); ?>" src="https://imgs.search.brave.com/F2X32YQLP77NPXmbREsXY2P3dZPYQYmrSrb3A9ycd9I/rs:fit:860:0:0/g:ce/aHR0cHM6Ly8xMDAw/bG9nb3MubmV0L3dw/LWNvbnRlbnQvdXBs/b2Fkcy8yMDE3LzA1/L0NvbG9yLVBheXBh/bC1Mb2dvLTUwMHg0/MDQuanBn" alt="PayPal">
             <img data-paylink="<?php echo e(url('/stripe/billing/payment/')); ?>/<?php echo e(Request::segment(2)); ?>" src="https://imgs.search.brave.com/LoWta5ojUgjpQs9ZlNd28kZoOaB8oXZdrQ78xSzEkA4/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/ZWRpZ2l0YWxhZ2Vu/Y3kuY29tLmF1L3dw/LWNvbnRlbnQvdXBs/b2Fkcy9uZXctc3Ry/aXBlLWxvZ28tcG5n/LTg2MHgzNjEucG5n" alt="Stripe" > -->
 

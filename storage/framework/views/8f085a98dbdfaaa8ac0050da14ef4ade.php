@@ -1,72 +1,84 @@
 <?php
 $settings = App\Models\Utility::settings();
-if(isset($settings['fixed_billing'])&& !empty($settings['fixed_billing'])){
 $billings = json_decode($settings['fixed_billing'],true);
-}
-if(isset($settings['additional_items'])&& !empty($settings['additional_items'])){
 $additional_items = json_decode($settings['additional_items'],true);
-}
-
 $labels =
-[
-'venue_rental' => 'Venue',
-'hotel_rooms'=>'Hotel Rooms',
-'equipment'=>'Tent, Tables, Chairs, AV Equipment',
-'setup' =>'Setup',
-'bar_package'=>'Bar Package',
-'special_req' =>'Special Requests/Other',
-'food_package'=>'Food Package',
-'additional_items' =>'Additional Items'
-];
-$barpcks = json_decode($event->bar_package,true);
-$foodpcks = json_decode($event->func_package,true);
-$addpcks = json_decode($event->ad_opts,true);
+    [
+        'venue_rental' => 'Venue',
+        'hotel_rooms'=>'Hotel Rooms',
+        'equipment'=>'Tent, Tables, Chairs, AV Equipment',
+        'setup' =>'Setup',
+        'bar_package'=>'Bar Package',
+        'special_req' =>'Special Requests/Other',
+        'food_package'=>'Food Package',
+        'additional_items' =>'Additional Items'
+    ];
+    $bar = [];
+    $barpcks = json_decode($event->bar_package,true);
+    foreach($barpcks as $key => $barpck){
+        $bar[]= $barpck;
+    }
+    $barpckge = implode(',',$bar);
+    $foodpcks = json_decode($event->func_package,true);
+    $addpcks = json_decode($event->ad_opts,true);
 $food = [];
-$bar = [];
+
 $add = [];
-foreach($foodpcks as $key => $foodpck){
-foreach($foodpck as $foods){
-$food[]= $foods;
-}
-}
-$foodpckge = implode(',',$food);
-foreach($barpcks as $key => $barpck){
-$bar[]= $barpck;
-}
-$barpckge = implode(',',$bar);
-foreach($addpcks as $key => $adpck){
-foreach($adpck as $ad){
-$add[] = $ad;
-}
-}
-$addpckge = implode(',',$add);
+    foreach($foodpcks as $key => $foodpck){
+        foreach($foodpck as $foods){
+        $food[]= $foods;
+        }
+    }
+  
+    $foodpckge = implode(',',$food);
+    foreach($addpcks as $key => $adpck){
+        foreach($adpck as $ad){
+        $add[] = $ad;
+        }
+    }
+    $addpckge = implode(',',$add);
 $meetingData = [
-'venue_rental' => $event->venue_selection,
-'hotel_rooms'=>$event->room,
-'equipment' =>$event->spcl_request,
-'bar_package' => (isset($event->bar_package) && !empty($event->bar_package)) ? $barpckge : '',
-'food_package' => (isset($event->func_package) && !empty($event->func_package)) ? $foodpckge: '',
-'additional_items' => (isset($event->ad_opts) && !empty($event->ad_opts)) ? $addpckge :'',
-'setup' =>''
+    'venue_rental' => $event->venue_selection,
+    'hotel_rooms'=>$event->room,
+    'equipment' =>$event->spcl_request,
+    'bar_package' => (isset($event->bar_package) && !empty($event->bar_package)) ? $barpckge : '',
+    'food_package' => (isset($event->func_package) && !empty($event->func_package)) ? $foodpckge: '',
+    'additional_items' => (isset($event->ad_opts) && !empty($event->ad_opts)) ? $addpckge :'',
+    'setup' =>''
 ];
 $totalFoodPackageCost = 0;
 $totalbarPackageCost = 0;
-
-
+foreach ($bar as $barItem) {
+    foreach ($billings['barpackage'] as $category => $categoryItems) {
+        if (isset($categoryItems[$barItem])) {
+        $totalbarPackageCost += $categoryItems[$barItem];
+        break;
+        }
+    }
+}
+if(isset($billings) && !empty($billings)){
+    foreach ($food as $foodItem) {
+        foreach ($billings['package'] as $category => $categoryItems) {
+            if (isset($categoryItems[$foodItem])) {
+            $totalFoodPackageCost +=  (int)$categoryItems[$foodItem];
+            break;
+            }
+        }
+        }
+    $meetingData['food_package_cost'] = $totalFoodPackageCost;
+}
 $additionalItemsCost = 0;
 if(isset($additional_items) && !empty($additional_items)){
-
-foreach ($additional_items as $category => $categoryItems) {
-foreach ($categoryItems as $item => $subItems) {
-foreach ($subItems as $key => $value) {
-if (in_array($key, $add)) {
-// Add the value to the total cost
-$additionalItemsCost += $value;
-}
-}
-}
-}
-
+    foreach ($additional_items as $category => $categoryItems) {
+        foreach ($categoryItems as $item => $subItems) {
+            foreach ($subItems as $key => $value) {
+                if (in_array($key, $add)) {
+                // Add the value to the total cost
+                $additionalItemsCost += $value;
+                }
+            }
+        }
+    }
 }
 
 

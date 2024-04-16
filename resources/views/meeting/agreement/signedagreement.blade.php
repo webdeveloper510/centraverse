@@ -12,32 +12,30 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script> -->
     <title>Agreement</title>
 </head>
 
 <body>
-    <div class="container">
-        <div class="row">
+    <div class="container mt-5">
+        <div class="row card">
             <div class="col-md-12">
                 <form method="POST" action="{{route('meeting.signedagreementresp',urlencode(encrypt($meeting->id)))}}"
                     id='formdata'>
                     @csrf
                     <div class="row">
-                        <div class="col-md-12">
-                            <div class="img-section" style="width:20%; margin: 0 auto;display:flex;">
-                                <img class="logo-img" src="{{ URL::asset('storage/uploads/logo/logo.png') }}"
-                                    style="width:60%; margin:30px auto;">
+                        <div class="col-md-4 mt-4">
+                            <div class="img-section">
+                                <img class="logo-img" src="{{ URL::asset('storage/uploads/logo/3_logo-light.png')}}"
+                                    style="width:25%;">
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12" style="text-align: center;">
-                            <span>The Bond 1786</span><br>
-                            <span>Venue Rental Agreement & Banquet Event Order</span>
+                        <div class="col-md-8 mt-5">
+                            <h4>The Bond 1786 - Agreement</h4>
+                            <!-- <h4>Proposal</h4> -->
+                            <h5>Venue Rental & Banquet Event - Estimate</h5>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row mt-4">
                         <div class="col-md-6">
                             <dl>
                                 <span>{{__('Name')}}: {{ $meeting->name }}</span><br>
@@ -46,7 +44,6 @@
                                 <span>{{__('Event Start Date')}}:{{ \Carbon\Carbon::parse($meeting->start_date)->format('d M, Y') }}</span>
                             </dl>
                         </div>
-
                         <div class="col-md-6" style="text-align: end;">
                             <dl>
                                 <span>{{__('Primary Contact')}}: {{ $meeting->name }}</span><br>
@@ -56,126 +53,47 @@
                         </div>
                     </div>
                     <hr>
-                    <div class="row" style="display:flex;margin:10px;">
-                        <div class="col-md-6" style="margin-left:10px;">
-                            <dl>
-                                <span>{{__('Deposit')}}:</span><br>
-                                <span>{{__('Billing Method')}}:</span>
-                            </dl>
-                        </div>
-                        <div class="col-md-6" style="text-align:right;">
-                            <dl>
-                                <span>{{__('Catering Service')}}: NA</span><br>
-                            </dl>
-                        </div>
-                    </div>
-                    <div class="row">
+                  
+                    <div class="row mb-4">
                         <div class="col-md-12">
-                            <table border="1" style="width:100%">
+                            <table class ="table table-bordered" style="width:100%">
                                 <thead>
-                                    <tr>
-                                        <th
-                                            style="background-color:#d3ead3;font-size:13px;font-weight:300;padding:5px 0px;">
-                                            Event Date</th>
-                                        <th
-                                            style="background-color:#d3ead3;font-size:13px;font-weight:300;padding:5px 0px;">
-                                            Time</th>
-                                        <th
-                                            style="background-color:#d3ead3;font-size:13px;font-weight:300;padding:5px 0px;">
-                                            Venue</th>
-                                        <th
-                                            style="background-color:#d3ead3;font-size:13px;font-weight:300;padding:5px 0px;">
-                                            Event</th>
-                                        <th
-                                            style="background-color:#d3ead3;font-size:13px;font-weight:300;padding:5px 0px;">
-                                            Function</th>
-                                        <th
-                                            style="background-color:#d3ead3;font-size:13px;font-weight:300;padding:5px 0px;">
-                                            Room</th>
-                                        <td
-                                            style="background-color:#d3ead3;font-size:13px;font-weight:300;padding:5px 0px;">
-                                            Exp</td>
-                                        <th
-                                            style="background-color:#d3ead3;font-size:13px;font-weight:300;padding:5px 0px;">
-                                            GTD</th>
-                                        <th
-                                            style="background-color:#d3ead3;font-size:13px;font-weight:300;padding:5px 0px;">
-                                            Set</th>
-                                        <th
-                                            style="background-color:#d3ead3;font-size:13px;font-weight:300;padding:5px 0px;">
-                                            RENTAL</th>
+                                    <tr style="background-color:#d3ead3; text-align:center">
+                                        <th>Event Date</th>
+                                        <th>Time</th>
+                                        <th>Venue</th>
+                                        <th>Event</th>
+                                        <th>Function</th>
+                                        <th>Room</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td style="font-size:13px;font-weight:300;padding:8px 0px;">Start Date:
+                                    <tr  style="text-align:center">
+                                        <td>Start Date:
                                             {{\Carbon\Carbon::parse($meeting->start_date)->format('d M, Y')}} <br>
                                             End Date: {{\Carbon\Carbon::parse($meeting->start_date)->format('d M, Y')}}
                                         </td>
-                                        <td style="font-size:13px;font-weight:300;padding:8px 0px;">Start
+                                        <td>Start
                                             Time:{{date('h:i A', strtotime($meeting->start_time))}} <br>
                                             End time:{{date('h:i A', strtotime($meeting->end_time))}}</td>
-                                        <td style="font-size:13px;font-weight:300;padding:8px 0px;">
+                                        <td>
                                             {{$meeting->venue_selection}}</td>
-                                        <td style="font-size:13px;font-weight:300;padding:8px 0px;">{{$meeting->type}}
+                                        <td>{{$meeting->type}}
                                         </td>
-                                        <td style="font-size:13px;font-weight:300;padding:8px 0px;">
+                                        <td>
                                             {{$meeting->function}}</td>
-                                        <td style="font-size:13px;font-weight:300;padding:8px 0px;">{{$meeting->rooms}}
+                                        <td>{{$meeting->rooms}}
                                         </td>
-                                        <td style="font-size:13px;font-weight:300;padding:8px 0px;">Exp</td>
-                                        <td style="font-size:13px;font-weight:300;padding:8px 0px;">GTD</td>
-                                        <td style="font-size:13px;font-weight:300;padding:8px 0px;">Set</td>
-                                        <td style="font-size:13px;font-weight:300;padding:8px 0px;">RENTAL</td>
-                                    </tr>
+                                      </tr>
 
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    <div class="row" style="margin-top:10px;padding-top:10px;display:flex;">
-                        <div class="col-md-6" style="width:50%; border:1px solid black;">
-                            <p style="text-align:center;border:1px solid black; padding:10px;font-weight:bold;">Menu
-                                Selections</p>
-                            <table border="1">
-                                <thead>
-                                    <tr>
-                                        <th>Start:{{date('h:i A', strtotime($meeting->start_time))}}</th>
-                                        <th>End: {{date('h:i A', strtotime($meeting->end_time))}} </th>
-                                        <th>Function : {{$meeting->function}}</th>
-                                    </tr>
-                                </thead>
-                                </tbody>
-                            </table>
-                            <div class="text" style="border:1px solid black;">
-                                <p style="text-align:center;height:6%;"> </p>
-                            </div>
-                            <p style="text-align:center; border:1px solid black;padding:5px;font-weight:bold;">Audio
-                                Visual Requirements
-                                Miscellaneous</p>
-                        </div>
-                        <div class="col-md-6" style="border:1px solid black; width:50%;text-align:center;">
-                            <p style="text-align:center;border:1px solid black; padding:10px;font-weight:bold;">Setup
-                                Requirements</p>
-                            <div class="text" style="border:1px solid black;height:6%;">
-                                <p style="text-align:center;"> TBD</p>
-                            </div>
-                            <p style="text-align:center; border:1px solid black;padding:10px;font-weight:bold;">
-                                Entertainment, Décor and<br>
-                                Miscellaneous</p>
-                            <div class="text" style="border:1px solid black;">
-                                <p style="text-align:center;height:3%;"> </p>
-                            </div>
-                            <p style="text-align:center; border:1px solid black;padding:5px;font-weight:bold;">Audio
-                                Visual Requirements</p>
-                            <div class="text" style="border:1px solid black;">
-                                <p style="text-align:center;height:2%;"> </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
+                   
+                    <div class="row mt-3">
                         <div class="col-md-12">
-                            <p class="text">This contract defines the terms and conditions under which Lotus Estate, LLC
+                            <p class="text"><b>This contract defines the terms and conditions under which Lotus Estate, LLC
                                 dba The Bond 1786, (hereinafter referred to as The Bond or The
                                 Bond 1786), and <b>{{$meeting->name}}</b>(hereafter referred to as the Customer) agree
                                 to the Customer’s use of The Bond 1786 facilities on
@@ -183,7 +101,7 @@
                                 (reception/event date). This contract constitutes the entire agreement between the
                                 parties and becomes binding upon the signature of
                                 both parties. The contract may not be amended or changed unless executed in writing and
-                                signed by The Bond 1786 and the Customer.
+                                signed by The Bond 1786 and the Customer.</b>
                             </p>
                         </div>
                     </div>
@@ -217,7 +135,7 @@
                                 1786 will be provided for each.
                             </p>
                             <h6 class="headings">Billing Summary</h6>
-                            <table border="1" style="width:100%">
+                            <table class="table table-bordered">
                                 <thead>
                                     <tr>
                                         <th
@@ -231,24 +149,14 @@
                                             Event: {{$meeting->type}}</th>
                                     </tr>
                                     <tr style="background-color:#063806;">
-                                        <th
-                                            style="color:#ffffff; font-size:13px;text-align:left; padding:5px 5px; margin-left:5px;">
-                                            Description</th>
-                                        <th colspan="2"
-                                            style="color:#ffffff; font-size:13px;padding:5px 5px; margin-left:5px;">
-                                            Additional</th>
-                                        <th
-                                            style="color:#ffffff; font-size:13px;padding:5px 5px;margin-left :5px;font-size:13px">
-                                            Cost</th>
+                                        <th>Description</th>
+                                        <th colspan="2">Additional</th>
+                                        <th>Cost</th>
                                         <th
                                             style="color:#ffffff; font-size:13px;padding:5px 5px;margin-left: 5px;font-size:13px">
                                             Quantity</th>
-                                        <th
-                                            style="color:#ffffff; font-size:13px;padding:5px 5px;margin-left :5px;font-size:13px">
-                                            Total Price</th>
-                                        <th
-                                            style="color:#ffffff; font-size:13px;padding:5px 5px;margin-left :5px;font-size:13px">
-                                            Notes</th>
+                                        <th>Total Price</th>
+                                        <th>Notes</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -410,10 +318,10 @@
                                             style="background-color:#d7e7d7; padding:5px 5px; margin-left:5px;font-size:13px;">
                                             Deposits on file</td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                        <td colspan="2"
+                                        <td colspan="3"
                                             style="background-color:#d7e7d7;padding:5px 5px; margin-left:5px;font-size:13px;">
                                             ${{$deposit= $billing->deposits}}</td>
-                                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                                        <td  style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                     </tr>
                                     <tr>
                                         <td
@@ -426,10 +334,9 @@
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                     </tr>
                                 </tbody>
-
                             </table>
                             <input type="hidden" value="{{$grandtotal}}" name="grandtotal">
-                            <h3 style="text-align:center">TERMS AND CONDITIONS</h3>
+                            <h3 class=" mt-5"style="text-align:center ">TERMS AND CONDITIONS</h3>
                             <h6 class="headings">FOOD AND ALCOHOLIC BEVERAGES and 3RD PARTY / ON-SITE VENDORS</h6>
                             <p class="text">
                                 The Client and their guests agree to not bring in any unauthorized food or beverage into
@@ -888,6 +795,12 @@
                     </div>
             </div>
             <div class="row">
+                        <div class="col-md-10">
+                            <label for="comments" class="form-label">Comments</label>
+                            <textarea name="comments" id="comments" cols="30" rows="5" class="form-control"></textarea>
+                        </div>
+                    </div>
+            <div class="row mt-3">
                 <div class="col-md-6">
                     <strong>Authorized Signature:</strong> <br>
                     <img src="{{$base64Image}}" style="width:30%; border-bottom:1px solid black;">
@@ -924,6 +837,10 @@ canvas#signatureCanvas {
     height: 157px;
     border-radius: 8px;
 }
+.row {
+    --bs-gutter-x: -11.5rem !important;
+}
+
 </style>
 @include('partials.admin.head')
 @include('partials.admin.footer')

@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('agreement', function (Blueprint $table) {
+        Schema::create('notes_for_leads', function (Blueprint $table) {
             $table->id();
-            $table->integer('event_id');
-            $table->string('signature')->nullable();
+            $table->unsignedBigInteger('lead_id');
+            $table->foreign('lead_id')->references('id')->on('leads');
+            $table->text('notes');
+            $table->integer('created_by')->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('agreement');
+        Schema::dropIfExists('notes_for_leads');
     }
 };

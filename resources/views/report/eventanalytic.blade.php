@@ -125,6 +125,7 @@
                     <table class="table" id="pc-dt-export">
                         <thead>
                             <tr>
+                            <th scope="col" class="sort" data-sort="budget">{{ __(' Status') }}</th>
                                 <th scope="col" class="sort" data-sort="name">{{ __('Name') }}</th>
                                 <th scope="col" class="sort" data-sort="budget">{{ __('Created By') }}</th>
                                 <th scope="col" class="sort" data-sort="name">{{ __('Type') }}</th>
@@ -134,8 +135,10 @@
                                 <th scope="col" class="sort" data-sort="name">{{ __('Assigned Staff') }}</th>
                                 <th scope="col" class="sort" data-sort="name">{{ __('Rooms required') }}</th>
                                 <th scope="col" class="sort" data-sort="name">{{ __('Function') }}</th>
-                                <th scope="col" class="sort" data-sort="budget">{{ __(' Status') }}</th>
+                                <th scope="col" class="sort" data-sort="name">{{ __('Comments') }}</th>
+                                <th scope="col" class="sort" data-sort="name">{{ __('Invoice Created') }}</th>
                                 <th scope="col" class="sort" data-sort="budget">{{ __('Payment Status') }}</th>
+                                <th scope="col" class="sort" data-sort="budget">{{ __('Total Amount') }}</th>
                                 <th scope="col" class="sort" data-sort="budget">{{ __('Amount Paid') }}</th>
                                 <th scope="col" class="sort" data-sort="budget">{{ __('Due Amount') }}</th>
                                 <th scope="col" class="sort" data-sort="budget">{{ __('Created At') }}</th>
@@ -143,8 +146,9 @@
                         </thead>
                         <tbody>
                             @foreach ($events as $result)
-
                             <tr>
+                            <td> {{ __(\App\Models\Meeting::$status[$result['status']]) }}</td>
+
                                 <td>{{ ucfirst($result['name'])  }}</td>
                                 <td>{{ucfirst(App\Models\User::where('id',$result['created_by'])->first()->name)}}</td>
                                 <td>{{ ucfirst($result['type']) }}</td>
@@ -160,8 +164,13 @@
                                     ({{$result['assign_user']->type}})</td>
                                 <td>{{$result['room']}}</td>
                                 <td>{{ isset($result['function']) ? ucfirst($result['function']) : '--' }}</td>
-
-                                <td> {{ __(\App\Models\Meeting::$status[$result['status']]) }}</td>
+                                <td><?php $comment = App\Models\Agreement::where('event_id',$result['id'])->orderby('id','desc')->first(); ?>
+                                    @if(isset($comment) && !empty($comment))
+                                    {{App\Models\Agreement::where('event_id',$result['id'])->orderby('id','desc')->first()->notes}}
+                                    @else -- @endif</td>
+                                <td><?php $invoice = App\Models\Billing::where('event_id',$result['id'])->exists(); ?>
+                                @if($invoice) Yes @else No @endif
+                            </td>
                                 <td>
                                     <?php 
                                     $paymentLog = App\Models\PaymentLogs::where('event_id', $result['id'])->orderBy('id', 'desc')->first();
@@ -177,6 +186,7 @@
                                         No Payment
                                         @endif
                                 </td>
+                                <td>@if($result['total'] != 0) ${{$result['total']}} @else {{ __('Invoice Not Created') }}@endif</td>
                                 <td>
                                     @if($paymentLog)
                                     ${{$paymentLog->amount}}
@@ -187,7 +197,6 @@
                                 </td>
                                 <td> @if($paymentLog && $paymentInfo)
                                     ${{ $paymentInfo->amounttobepaid - $paymentLog->amount}}
-
                                     @else
                                     --
                                     @endif </td>

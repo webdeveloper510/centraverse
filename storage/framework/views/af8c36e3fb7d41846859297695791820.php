@@ -76,25 +76,18 @@ $bar_package = json_decode($setting['barpackage'],true);
 
                                         </div>
                                     </div>
-                                    <!-- <div class="col-6">
-                                        <div class="form-group">
-                                            <?php echo e(Form::label('phone',__('Phone'),['class'=>'form-label'])); ?>
-
-                                            <?php echo e(Form::text('phone',null,array('class'=>'form-control','placeholder'=>__('Enter Phone'),'required'=>'required'))); ?>
-
-                                        </div>
-                                    </div> -->
                                     <div class="col-6">
-                                <div class="form-group intl-tel-input">
-                                    <?php echo e(Form::label('phone', __('Phone'), ['class' => 'form-label'])); ?>
+                                        <div class="form-group intl-tel-input">
+                                            <?php echo e(Form::label('phone', __('Phone'), ['class' => 'form-label'])); ?>
 
 
-                                    <div class="intl-tel-input">
-                                        <input type="tel" id="phone-input" name="phone" class="phone-input form-control"
-                                            placeholder="Enter Phone" maxlength="16" value="">
+                                            <div class="intl-tel-input">
+                                                <input type="tel" id="phone-input" name="phone"
+                                                    class="phone-input form-control" placeholder="Enter Phone"
+                                                    maxlength="16" value="">
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
 
                                     <div class="col-6">
                                         <div class="form-group">
@@ -181,8 +174,8 @@ $bar_package = json_decode($setting['barpackage'],true);
                                                     <input type="checkbox" id="<?php echo e($value['function']); ?>"
                                                         name="function[]" value="<?php echo e($value['function']); ?>"
                                                         class="function-checkbox"
-                                                        <?php echo e(in_array( $value['function'], $function_package) ? 'checked' : ''); ?> >
-                                                        
+                                                        <?php echo e(in_array( $value['function'], $function_package) ? 'checked' : ''); ?>>
+
                                                     <?php echo e($value['function']); ?>
 
                                                 </label><br>
@@ -253,7 +246,7 @@ $bar_package = json_decode($setting['barpackage'],true);
                                                 <option value="">Select Staff</option>
                                                 <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <option class="form-control" value="<?php echo e($user->id); ?>"
-                                                    <?php echo e($user->id == $lead->assigned_user ? 'selected' : ''); ?> >
+                                                    <?php echo e($user->id == $lead->assigned_user ? 'selected' : ''); ?>>
                                                     <?php echo e($user->name); ?> - <?php echo e($user->type); ?></option>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </select>
@@ -362,7 +355,7 @@ $bar_package = json_decode($setting['barpackage'],true);
                                             </div>
                                         </div>
                                     </div>
-                            <hr>
+                                    <hr>
                                     <div class="text-end">
                                         <?php echo e(Form::submit(__('Update'), ['class' => 'btn-submit btn btn-primary'])); ?>
 
@@ -379,12 +372,27 @@ $bar_package = json_decode($setting['barpackage'],true);
     </div>
 </div>
 <style>
-    .iti.iti--allow-dropdown.iti--separate-dial-code {
+.iti.iti--allow-dropdown.iti--separate-dial-code {
     width: 100%;
 }
 </style>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script-page'); ?>
+
+<script>
+    $(document).ready(function() {
+    $('#start_date, #end_date').change(function() {
+        var startDate = new Date($('#start_date').val());
+        var endDate = new Date($('#end_date').val());
+
+        if ($(this).attr('id') === 'start_date' && endDate < startDate) {
+            $('#end_date').val($('#start_date').val());
+        } else if ($(this).attr('id') === 'end_date' && endDate < startDate) {
+            $('#start_date').val($('#end_date').val());
+        }
+    });
+});
+</script>
 <script>
 $(document).ready(function() {
     var phoneNumber = "<?php echo $lead->phone;?>";

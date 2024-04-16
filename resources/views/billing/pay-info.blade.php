@@ -10,6 +10,7 @@ foreach($pay as $p){
 $total += $p->amount;
 }
 @endphp
+@if($event->status == 3)
 @if(isset($paymentinfo))
     @if($paymentinfo->amounttobepaid == $total)
     <div class="row">
@@ -234,7 +235,8 @@ $total += $p->amount;
             {{Form::text('reference',$payment->reference ?? '',array('class'=>'form-control','placeholder'=>__('Enter Reference Id ')))}}
         </div>
     </div>
-    <div class="col-6">
+    
+    <div class="col-12">
         <div class="form-group">
             {{Form::label('adjustmentnotes',__('Adjustment Notes'),['class'=>'form-label']) }}
             {{Form::text('adjustmentnotes',$payment->adjustmentnotes ?? '',array('class'=>'form-control','placeholder'=>__('Enter Adjustment Notes')))}}
@@ -254,6 +256,17 @@ $total += $p->amount;
     <button type="button" class="btn  btn-light" data-bs-dismiss="modal">Close</button>
     {{Form::submit(__('Save'),array('class'=>'btn btn-primary '))}}
 </div>
+@endif
+@else  
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-success">
+                    Contract must be approved by customer/admin before any further payment .
+                </div>
+            </div>
+        </div>
+    </div>
 @endif
 <script>
 $('#mode').change(function(){

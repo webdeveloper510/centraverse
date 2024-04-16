@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('proposal', function (Blueprint $table) {
+        Schema::create('notes_for_customers', function (Blueprint $table) {
             $table->id();
-            $table->integer('lead_id');
-            $table->string('image')->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('import_users');
+            $table->text('notes');
+            $table->integer('created_by')->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('proposal');
+        Schema::dropIfExists('notes_for_customers');
     }
 };

@@ -36,10 +36,10 @@
                                                 <th scope="col" class="sort">{{__('Status')}}</th>
                                                 <th scope="col" class="sort">{{__('Type')}}</th>
                                                 <th scope="col" class="sort">{{__('Converted events')}}</th>
-                                                @if(Gate::check('Show Lead') || Gate::check('Edit Lead') ||
+                                                <!-- @if(Gate::check('Show Lead') || Gate::check('Edit Lead') ||
                                                 Gate::check('Delete Lead'))
                                                 <th scope="col" class="text-end">{{__('Action')}}</th>
-                                                @endif
+                                                @endif -->
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -57,7 +57,7 @@
                                                 @else
                                                 <td> No </td>
                                                 @endif
-                                                <td>
+                                                <!-- <td>
                                                     <div class="action-btn bg-info ms-2" style="float: right;">
                                                         <a href="#" data-size="md"
                                                             data-url="{{route('lead.uploads',$lead->id)}}"
@@ -91,7 +91,7 @@
                                                             <i class="fas fa-plus"></i> </a>
                                                     </div>
                                                     @endif
-                                                </td>
+                                                </td> -->
                                             </tr>
                                             @endforeach
                                         </tbody>
@@ -174,28 +174,81 @@
 
             <div class="container-fluid xyz mt-3">
                 <div class="row">
-                    <div class="col-lg-12">
-                        <div id="useradd-1" class="card">
-                            <div class="card-body" style="    display: inline-flex;">
-        @foreach($docs as $doc)
-        <div style=" width: 18%;">
-        @if(Storage::disk('public')->exists($doc->filepath))
-        @if(pathinfo($doc->filepath, PATHINFO_EXTENSION) == 'pdf')
-        <img src="{{ asset('extension_img/pdf.png') }}" style="       width: 50%;
-    height: auto;">
-        @else
-        <img src="{{ asset('extension_img/doc.png') }}" style="         width: 40%;
-    height: auto;">
-        @endif
-        <h6>{{$doc->filename}}</h6>
-        <p><a href="{{ Storage::url('app/public/'.$doc->filepath) }}" download><i class="fa fa-download"></i></a></p>
+                    <div class="col-lg-6">
+                        <div class="card" id="useradd-1">
+                            <div class="card-body table-border-style">
+                                <h3>Upload Documents</h3>
+                                {{Form::open(array('route' => ['lead.uploaddoc', $lead->id],'method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))}}
+                                <label for="customerattachment">Attachment</label>
+                                <input type="file" name="customerattachment" id="customerattachment"
+                                    class="form-control" required>
+                                <input type="submit" value="Submit" class="btn btn-primary mt-4" style="float: right;">
+                                {{Form::close()}}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-body table-border-style">
+                                <h3>Add Notes/Comments</h3>
+                                <form method="POST" id="addnotes">
+                                    @csrf
+                                    <label for="notes">Notes</label>
+                                    <input type="text" class="form-control" name="notes" required>
+                                    <input type="submit" value="Submit" class="btn btn-primary mt-4"
+                                        style=" float: right;">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-6">
+                        <div class="card" id="useradd-1">
+                            <div class="card-body table-border-style">
+                                <h3>Attachments</h3>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <th>Attachment</th>
+                                        <th>Action</th>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($docs as $doc)
+                                        @if(Storage::disk('public')->exists($doc->filepath))
+                                        <tr>
+                                            <td>{{$doc->filename}}</td>
+                                            <td><a href="{{ Storage::url('app/public/'.$doc->filepath) }}" download
+                                                    style="color: teal;" title="Download">View Document <i
+                                                        class="fa fa-download"></i></a>
+                                        </tr>
+                                        @endif
+                                        @endforeach
+                                    </tbody>
+                                </table>
 
-        @endif
-
-        </div>
-        <!-- Assuming $folder and $filename are passed to the view -->
-       
-        @endforeach
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card" id="useradd-1">
+                            <div class="card-body table-border-style">
+                                <h3>Notes</h3>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <th>Notes</th>
+                                        <th>Created By</th>
+                                        <th>Date</th>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($notes as $note)
+                                        <tr>
+                                            <td>{{ucfirst($note->notes)}}</td>
+                                            <td>{{(App\Models\User::where('id',$note->created_by)->first()->name)}}</td>
+                                            <td>{{\Auth::user()->dateFormat($note->created_at)}}</td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -212,3 +265,29 @@
 }
 </style> -->
 @endsection
+@push('script-page')
+<script>
+$(document).ready(function() {
+    $('#addnotes').on('submit', function(e) {
+        e.preventDefault();
+        var id = <?php echo  $lead->id; ?>;
+        var notes = $('input[name="notes"]').val();
+        var createrid = <?php echo Auth::user()->id ;?>;
+
+        $.ajax({
+            url: "{{ route('addleadnotes', ['id' => $lead->id]) }}", // URL based on the route with the actual user ID
+            type: 'POST',
+            data: {
+                "notes": notes,
+                "createrid": createrid,
+                "_token": "{{ csrf_token() }}",
+            },
+            success: function(data) {
+                    location.reload();
+            }
+        });
+
+    });
+});
+</script>
+@endpush

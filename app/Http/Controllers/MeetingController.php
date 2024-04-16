@@ -100,6 +100,7 @@ class MeetingController extends Controller
                     'venue' => 'required|max:120',
                     'function' => 'required|max:120',
                     'guest_count' => 'required',
+                    'user'=>'required'
                 ]
             );
         if ($validator->fails()) {
@@ -186,8 +187,9 @@ class MeetingController extends Controller
             if ($overlapping_event > 0) {
                 return redirect()->back()->with('error', 'Date is Blocked for corrosponding time and venue');
             }
+            $phone= preg_replace('/\D/', '', $request->input('phone'));
             $meeting                      = new Meeting();
-            $meeting['user_id']           = implode(',', $request->user);
+            $meeting['user_id']           = isset($request->user)?implode(',', $request->user):'';
             $meeting['name']              = $request->name;
             $meeting['start_date']        = $request->start_date;
             $meeting['end_date']          = $request->end_date;
@@ -201,7 +203,7 @@ class MeetingController extends Controller
             $meeting['function']            = implode(',', $request->function);
             $meeting['guest_count']         = $request->guest_count;
             $meeting['room']                = $request->rooms ?? 0;
-            $meeting['meal']                = $request->meal;
+            $meeting['meal']                = $request->meal ??'';
             $meeting['bar']                 = $request->baropt;
             $meeting['bar_package']         = $bar_pack;
             $meeting['spcl_request']        = $request->spcl_request;
@@ -211,7 +213,7 @@ class MeetingController extends Controller
             $meeting['alter_lead_address']  = $request->alter_lead_address;
             $meeting['attendees_lead']      = $request->lead;
             $meeting['eventname']            = $request->eventname ?? $request->name ;
-            $meeting['phone']               = $request->phone;
+            $meeting['phone']               = $phone;
             $meeting['start_time']          = $request->start_time;
             $meeting['end_time']            = $request->end_time;
             $meeting['ad_opts']             = $additional;
@@ -236,7 +238,7 @@ class MeetingController extends Controller
                     $customer->ref_id = $meeting->id;
                     $customer->name = $request->name;
                     $customer->email = $request->email;
-                    $customer->phone = $request->phone;
+                    $customer->phone = $phone;
                     $customer->address = $request->lead_address ?? '';
                     $customer->category = 'event';
                     $customer->type = $request->type;
@@ -438,9 +440,12 @@ class MeetingController extends Controller
                     $bar_pack[$newKey] = $values;
                 }
             }
+
             $package = json_encode($package);
             $additional = json_encode($additional);
             $bar_pack = json_encode($bar_pack);
+            $phone= preg_replace('/\D/', '', $request->input('phone'));
+
             $meeting['user_id']           = implode(',', $request->user);
             $meeting['name']              = $request->name;
             $meeting['start_date']        = $request->start_date;
@@ -455,7 +460,7 @@ class MeetingController extends Controller
             $meeting['func_package']       = $package;
             $meeting['guest_count']        = $request->guest_count;
             $meeting['room']                = $request->rooms;
-            $meeting['meal']                = $meal;
+            $meeting['meal']                = $meal ??'';
             $meeting['bar']                 = $request->bar;
             $meeting['bar_package']         = $bar_pack;
             $meeting['spcl_request']        = $request->spcl_request;
@@ -463,7 +468,7 @@ class MeetingController extends Controller
             $meeting['alter_email']         = $request->alter_email;
             $meeting['alter_relationship']  = $request->alter_relationship;
             $meeting['alter_lead_address']  = $request->alter_lead_address;
-            $meeting['phone']               = $request->phone;
+            $meeting['phone']               = $phone;
             $meeting['start_time']          = $request->start_time;
             $meeting['end_time']            = $request->end_time;
             $meeting['ad_opts']             = isset($additional) ? $additional : '';
@@ -682,6 +687,16 @@ class MeetingController extends Controller
         $settings = Utility::settings();
         $id = decrypt(urldecode($id));
         $meeting = Meeting::find($id);
+        $subject = $request->subject;
+        $content = $request->emailbody;
+        
+        $file = $request->file('attachment');
+        if(!empty($tempFilePath)){
+            $tempFilePath = $file->store('temp', 'local');
+            // Get the full path to the temporary file
+            $tempFilePath = storage_path('app/' . $tempFilePath);
+        }
+       
         try {
             config(
                 [
@@ -694,16 +709,16 @@ class MeetingController extends Controller
                     'mail.from.name'    => $settings['mail_from_name'],
                 ]
             );
-            Mail::to($meeting->email)->send(new SendEventMail($meeting));
+            Mail::to($request->email)->send(new SendEventMail($meeting,$subject,$content,$tempFilePath = NULL));
             $meeting->update(['status' => 1]);
         } catch (\Exception $e) {
-            return response()->json(
-                [
-                    'is_success' => false,
-                    'message' => $e->getMessage(),
-                ]
-            );
-            // return redirect()->back()->with('error', 'Email Not Sent');
+            // return response()->json(
+            //     [
+            //         'is_success' => false,
+            //         'message' => $e->getMessage(),
+            //     ]
+            // );
+            return redirect()->back()->with('error', 'Email Not Sent');
         }
         return redirect()->back()->with('success', 'Email Sent Successfully');
     }
@@ -775,10 +790,12 @@ class MeetingController extends Controller
         $agreements = new Agreement();
         $agreements['event_id'] = $id;
         $agreements['signature'] = $image;
+        $proposal['notes'] = $request->comments;
         $agreements->save();
         $meeting->update(['total' => $request->grandtotal, 'status' => 2]);
-        $url = 'payment-view/' . urlencode(encrypt($id));
-        return redirect($url);
+        return $pdf->stream('agreement.pdf');
+        // $url = 'payment-view/' . urlencode(encrypt($id));
+        // return redirect($url);
     }
     public function uploadSignature($signed)
     {
@@ -880,6 +897,9 @@ class MeetingController extends Controller
         if (isset($_REQUEST['wedding_package'])) {
             $wedding_package = implode(',', $_REQUEST['wedding_package']);
         }
+
+        $phone= preg_replace('/\D/', '', $request->input('phone'));
+
         $packagesArray = implode(',', array($break_package, $lunch_package, $dinner_package, $wedding_package));
         $meeting['user_id']           = implode(',', $request->user);
         $meeting['name']              = $request->name;
@@ -904,7 +924,7 @@ class MeetingController extends Controller
         $meeting['alter_email']         = $request->alter_email;
         $meeting['alter_relationship']  = $request->alter_relationship;
         $meeting['alter_lead_address']  = $request->alter_lead_address;
-        $meeting['phone']               = $request->phone;
+        $meeting['phone']               = $phone;
         $meeting['start_time']        = $request->start_time;
         $meeting['end_time']        = $request->end_time;
         $meeting['ad_opts']             = $request->add_opts;

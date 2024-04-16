@@ -26,4 +26,11 @@ class CalenderNewController extends Controller
         return $event;
 
     }
+    public function monthbaseddata(Request $request){
+       
+        $startDate = "{$request->year}-{$request->month}-01"; // First day of the month
+        $endDate = date('Y-m-t', strtotime($startDate)); // Last day of the month
+        $data = Meeting::whereBetween('start_date', [$startDate, $endDate])->get();
+        return $data;
+    }
 }

@@ -400,6 +400,7 @@ Route::group(['middleware' => ['verified']], function () {
             Route::get('lead/{id}/show_convert', [LeadController::class, 'showConvertToAccount'])->name('lead.convert.account');
             Route::post('lead/{id}/convert', [LeadController::class, 'convertToAccount'])->name('lead.convert.to.account');
             Route::get('lead/proposal/{id}', [LeadController::class, 'proposal'])->name('lead.proposal');
+            Route::get('lead/view-proposal/{id}', [LeadController::class, 'view_proposal'])->name('lead.viewproposal');
             Route::get('lead/share_proposal/{id}', [LeadController::class, 'share_proposal_view'])->name('lead.shareproposal');
             Route::post('lead/share_proposal/{id}', [LeadController::class, 'proposalpdf'])->name('lead.pdf');
             Route::get('lead/review-proposal/{id}', [LeadController::class, 'review_proposal'])->name('lead.review');
@@ -414,7 +415,7 @@ Route::group(['middleware' => ['verified']], function () {
             Route::get('lead/billinfo/{id}',[LeadController::class,'lead_billinfo'])->name('lead.billinfo');
             Route::get('lead/uploaded_docs/{id}',[LeadController::class,'uploaded_docs'])->name('lead.uploaded_docs');
             Route::post('lead/change_status/',[LeadController::class,'status'])->name('lead.changeleadstat');
-            
+            Route::post('lead-notes/{id}',[LeadController::class,'leadnotes'])->name('addleadnotes');
         });
 
     Route::group(
@@ -990,7 +991,7 @@ Route::group(['middleware' => ['verified']], function () {
             Route::get('import-customers/{id}', [CustomerInformation::class, 'import_customers_view'])->name('importcustomerview');
             Route::get('customer/information/{id}',[CustomerInformation::class,'customer_info'])->name('customer.info');
             Route::post('upload-external-customer-info/{id}',[CustomerInformation::class,'uploadcustomerattachment'])->name('upload-info');
-
+            Route::post('user-notes/{id}',[CustomerInformation::class,'usernotes'])->name('addusernotes');
             
         }
     );
@@ -1390,4 +1391,6 @@ Route::get('/calender-new', [CalenderNewController::class, 'index'])->name('cale
 Route::post('/edit-addittional-items',[SettingController::class,'editadditionalcost'])->name('additionalitems.edit');
 Route::post('/function-packages', [MeetingController::class, 'getpackages'])->name('function.packages');
 Route::get('/event-info',[CalenderNewController::class,'eventinfo'])->name('eventinformation');
+Route::post('calender-data',[CalenderNewController::class,'monthbaseddata'])->name('monthbaseddata');
+
 

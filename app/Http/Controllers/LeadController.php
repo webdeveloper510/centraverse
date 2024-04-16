@@ -25,6 +25,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Mail\SendPdfEmail;
 use App\Mail\LeadWithrawMail;
 use App\Models\MasterCustomer;
+use App\Models\NotesLeads;
 use Mail;
 use Str;
 use App\Models\LeadDoc;
@@ -43,7 +44,7 @@ class LeadController extends Controller
                 $statuss = Lead::$stat;
 
                 if(\Auth::user()->type == 'owner'){
-                $leads = Lead::with('accounts','assign_user')->where('created_by', \Auth::user()->creatorId())->get();
+                $leads = Lead::with('accounts','assign_user')->where('created_by', \Auth::user()->creatorId())->orderby('id','desc')->get();
                 $defualtView         = new UserDefualtView();
                 $defualtView->route  = \Request::route()->getName();
                 $defualtView->module = 'lead';
@@ -187,8 +188,6 @@ class LeadController extends Controller
 
             //webhook
             $module = 'New Lead';
-           
-            
             $Assign_user_phone = User::where('id', $request->user)->first();
             $setting  = Utility::settings(\Auth::user()->creatorId());
             $uArr = [
@@ -198,7 +197,7 @@ class LeadController extends Controller
             // $resp = Utility::sendEmailTemplate('lead_assigned', [$lead->id => $Assign_user_phone->email], $uArr);
             if (isset($setting['twilio_lead_create']) && $setting['twilio_lead_create'] == 1) {
                 $uArr = [
-                    // 'company_name'  => $lead->name,
+                    //'company_name'  => $lead->name,
                     'lead_email' => $lead->email,
                     'lead_name' => $lead->name
                 ];
@@ -227,7 +226,11 @@ class LeadController extends Controller
     {
 
         if (\Auth::user()->can('Show Lead')) {
-            return view('lead.view', compact('lead'));
+            $settings = Utility::settings();
+            $venue = explode(',',$settings['venue']);
+            $fixed_cost = json_decode($settings['fixed_billing'],true);
+            $additional_items = json_decode($settings['additional_items'],true);
+            return view('lead.vieww', compact('lead','venue','fixed_cost','additional_items'));
         } else {
             return redirect()->back()->with('error', 'permission Denied');
         }
@@ -482,23 +485,27 @@ class LeadController extends Controller
         }
     }
     public function proposal($id){
-    
-
+        $decryptedId = decrypt(urldecode($id));
+        $proposal_info = Proposal::where('lead_id',$decryptedId)->orderby('id','desc')->get();
+        return view('lead.proposal_information',compact('proposal_info','decryptedId'));
+    }
+    public function view_proposal($id){
         $decryptedId = decrypt(urldecode($id));
         $lead = Lead::find($decryptedId);
-        // $fixed_cost = Billing::first();
         $settings = Utility::settings();
         if(isset($settings['fixed_billing'])){
             $fixed_cost= json_decode($settings['fixed_billing'],true);
         }
-        // echo"<pre>";print_r($lead);die;
+        $additional_items = json_decode($settings['additional_items'],true);
         $proposal = Proposal::where('lead_id',$decryptedId)->first();
         $data = [
                 'settings'=>$settings,
                 'proposal'=> $proposal,
                 'lead'=>$lead,
-                'billing' => $fixed_cost,
+                'fixed_cost' => $fixed_cost,
+                'additional_items'=>$additional_items
         ];
+
         $pdf = Pdf::loadView('lead.signed_proposal', $data);
         return $pdf->stream('proposal.pdf');
     }
@@ -514,12 +521,12 @@ class LeadController extends Controller
         $subject = $request->subject;
         $content = $request->emailbody;
 
-        // $file = $request->file('attachment');
-        // if(!empty($tempFilePath))
-        // $tempFilePath = $file->store('temp', 'local');
-        // // Get the full path to the temporary file
-        // $tempFilePath = storage_path('app/' . $tempFilePath);
-
+        $file = $request->file('attachment');
+        if(!empty($tempFilePath)){
+            $tempFilePath = $file->store('temp', 'local');
+            // Get the full path to the temporary file
+            $tempFilePath = storage_path('app/' . $tempFilePath);
+        }
         try {
             config(
                 [
@@ -533,63 +540,72 @@ class LeadController extends Controller
                 ]
             );
 
-            Mail::to($request->email)->send(new SendPdfEmail($lead,$subject,$content));
+            Mail::to($request->email)->send(new SendPdfEmail($lead,$subject,$content,$tempFilePath = NULL));
             // unlink($tempFilePath);
-
-            // $upd = Lead::where('id',$id)->update(['proposal_status' => 1]);
             $upd = Lead::where('id',$id)->update(['status' => 1]);
-
         } catch (\Exception $e) {
-            //   return response()->json(
-            //             [
-            //                 'is_success' => false,
-            //                 'message' => $e->getMessage(),
-            //             ]
-            //         );
-              return redirect()->back()->with('success', 'Email Not Sent');
+              return response()->json(
+                        [
+                            'is_success' => false,
+                            'message' => $e->getMessage(),
+                        ]
+                    );
+            //   return redirect()->back()->with('success', 'Email Not Sent');
       
         }
         return redirect()->back()->with('success', 'Email Sent Successfully');
     }
     public function proposalview($id){
-        $billing = Billing::first();
+        // $billing = Billing::first();
         $id = decrypt(urldecode($id));
         $proposal =  Proposal::where('lead_id',$id)->exists();
-        if($proposal){
-            return view('lead.proposal_error');
-        }else{
+        // if($proposal){
+        //     return view('lead.proposal_error');
+        // }else{
             $lead = Lead::find($id);
             $settings = Utility::settings();
             $venue = explode(',',$settings['venue']);
-            return view('lead.proposal',compact('lead','venue','settings','billing'));
-        }
+            $fixed_cost = json_decode($settings['fixed_billing'],true);
+            $additional_items = json_decode($settings['additional_items'],true);
+
+            // echo "<pre>";print_r($fixed_cost);
+            // print_r(json_decode($lead->ad_opts,true));
+            // print_r($additional_items);die;
+            return view('lead.proposal',compact('lead','venue','settings','fixed_cost','additional_items'));
+        // }
     }
     public function proposal_resp(Request $request,$id){
+            $settings = Utility::settings();
             $id = decrypt(urldecode($id));
+          
             if(!empty($request->imageData)){
                 $image = $this->uploadSignature($request->imageData);
                 Lead::where('id',$id)->update(['status'=>2]);
-                // Lead::where('id',$id)->update(['proposal_status'=> 2,'status'=>1]);
             }else{
                 return redirect()->back()->with('error',('Please Sign it for confirmation'));
             }
           
             $existproposal = Proposal::where('lead_id', $id)->exists();
-            if ($existproposal == TRUE) {
-                Proposal::where('lead_id',$id)->update(['image' => $image]);
-                return redirect()->back()->with('error','Proposal is already confirmed');
-            }
+            // if ($existproposal == TRUE) {
+            //     Proposal::where('lead_id',$id)->update(['image' => $image]);
+            //     return redirect()->back()->with('error','Proposal is already confirmed');
+            // }
             $proposal = new Proposal();
             $proposal['lead_id'] = $id;
             $proposal['image'] = $image;
+            $proposal['notes'] = $request->comments;
             $proposal->save();
             $lead = Lead::find($id);
-            $fixed_cost = Billing::first();
-            $proposal = Proposal::where('lead_id',$id)->first();
+            $fixed_cost = json_decode($settings['fixed_billing'],true);
+            $proposal = Proposal::where('lead_id',$id)->orderby('id','desc')->first();
+            $additional_items = json_decode($settings['additional_items'],true);
+
             $data = [
                 'proposal'=> $proposal,
                 'lead'=>$lead,
-                'billing' => $fixed_cost,
+                'fixed_cost' => $fixed_cost,
+                'settings'=>$settings,
+                'additional_items'=>$additional_items
             ];
             $pdf = Pdf::loadView('lead.signed_proposal', $data);
             return $pdf->stream('proposal.pdf');
@@ -629,7 +645,8 @@ class LeadController extends Controller
         $lead = Lead::find($id);
         $venue_function = isset($request->venue) ? implode(',',$_REQUEST['venue']) :'';
         $function =  isset($request->function) ? implode(',',$_REQUEST['function']) :'';
-          
+        $phone= preg_replace('/\D/', '', $request->input('phone'));
+
             if($request->status == 'Approve'){  
                 $status = 4;              
                 // $status = 2;
@@ -645,9 +662,9 @@ class LeadController extends Controller
             }
             $data = [
                 'user_id'=> $request->user,
-                'name'=>$request->name,
-                'email'=>$request->email,
-                'phone'=>$request->phone,
+            'name'      =>    $request->name,
+                'email'=>   $request->email,
+                'phone'=>   $phone,
                 'lead_address'=>$request->lead_address,
                 'company_name'      =>$request->company_name,
                 'relationship'       =>$request->relationship,
@@ -671,7 +688,7 @@ class LeadController extends Controller
 
             if($status == 4){
                 return redirect()->back()->with('success', __('Lead  Approved.'));
-            }elseif($status == 5 ){
+            }elseif($status == 3 ){
                 Proposal::where('lead_id',$id)->delete();
                 try {
                     config(
@@ -696,9 +713,37 @@ class LeadController extends Controller
                     // );
                       return redirect()->back()->with('success', 'Email Not Sent');
                 }
-                return redirect()->back()->with('success', __('Lead  Resent.'));
-            }elseif($status == 3){
                 return redirect()->back()->with('success', __('Lead  Withdrawn.'));
+            }elseif($status == 5){
+                $subject = 'Lead Details';
+                $content = '';
+                try {
+                    config(
+                        [
+                            'mail.driver'       => $settings['mail_driver'],
+                            'mail.host'         => $settings['mail_host'],
+                            'mail.port'         => $settings['mail_port'],
+                            'mail.username'     => $settings['mail_username'],
+                            'mail.password'     => $settings['mail_password'],
+                            'mail.from.address' => $settings['mail_from_address'],
+                            'mail.from.name'    => $settings['mail_from_name'],
+                        ]
+                    );
+        
+                    Mail::to($request->email)->send(new SendPdfEmail($lead,$subject,$content,$tempFilePath = NULL));
+                    // unlink($tempFilePath);
+                    // $upd = Lead::where('id',$id)->update(['status' => 1]);
+                } catch (\Exception $e) {
+                      return response()->json(
+                                [
+                                    'is_success' => false,
+                                    'message' => $e->getMessage(),
+                                ]
+                            );
+                    //   return redirect()->back()->with('success', 'Email Not Sent');
+              
+                }
+                return redirect()->back()->with('success', __('Lead Resent.'));
             }
     }
     public function duplicate($id){
@@ -727,8 +772,9 @@ class LeadController extends Controller
         }else{
             $leads = Lead::where('phone',$lead->phone)->get();
         }
+        $notes = NotesLeads::where('lead_id',$id)->orderby('id','desc')->get();
         $docs = LeadDoc::where('lead_id',$id)->get();
-        return view('lead.leadinfo',compact('leads','lead','docs'));
+        return view('lead.leadinfo',compact('leads','lead','docs','notes'));
     }
     public function lead_upload($id){
         return view('lead.uploaddoc',compact('id'));
@@ -744,37 +790,23 @@ class LeadController extends Controller
             return redirect()->back()->with('error', $messages->first()) ;
         }
         $file = $request->file('lead_file');
-
-        // Check if a file was uploaded
         if ($file) {
-            // Get the original name of the file
             $originalName = $file->getClientOriginalName();
-        
-            // Generate a unique filename
             $filename = Str::random(4) . '.' . $file->getClientOriginalExtension();
-        
-            // Define the folder to store the file
             $folder = 'leadInfo/' . $id; // Example: uploads/1
-        
             try {
-                // Store the file with the generated filename
                 $path = $file->storeAs($folder, $filename, 'public');
             } catch (\Exception $e) {
-                // Handle file upload failure
                 Log::error('File upload failed: ' . $e->getMessage());
                 return redirect()->back()->with('error', 'File upload failed');
             }
-        
-            // If file upload was successful, save information to the database
             $document = new LeadDoc();
             $document->lead_id = $id; // Assuming you have a lead_id field
             $document->filename = $originalName; // Store original file name
             $document->filepath = $path; // Store file path
             $document->save();
-        
             return redirect()->back()->with('success', 'Document Uploaded Successfully');
         } else {
-            // Handle the case where no file was uploaded
             return redirect()->back()->with('error', 'No file uploaded');
         }
         
@@ -793,5 +825,13 @@ class LeadController extends Controller
             'lead_status' => $request->status
         ]);
        return true;
+    }
+    public function leadnotes(Request $request,$id){
+        $notes = new NotesLeads();
+        $notes->notes = $request->notes;
+        $notes->created_by = $request->createrid;
+        $notes->lead_id = $id;
+        $notes->save();
+        return true;
     }
 }

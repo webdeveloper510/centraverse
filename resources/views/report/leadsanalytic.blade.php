@@ -35,7 +35,9 @@
                             <select name="status" id="status" class="form-control" style="margin-left: 29px;">
                                 <option value="">Select Status</option>
                                 @foreach($leadstatus as $stat)
-                                <option value="{{$stat->status}}"  {{ isset($_GET['status']) && $stat->status == $_GET['status'] ? 'selected' : '' }}>{{App\Models\Lead::$status[$stat->status]}}</option>
+                                <option value="{{$stat->status}}"
+                                    {{ isset($_GET['status']) && $stat->status == $_GET['status'] ? 'selected' : '' }}>
+                                    {{App\Models\Lead::$status[$stat->status]}}</option>
                                 @endforeach
                             </select>
                             <!-- {{ Form::select('status', ['' => 'Select Status'] + $status, isset($_GET['status']) ? $_GET['status'] : '', ['class' => 'form-control', 'style' => 'margin-left: 29px;']) }} -->
@@ -109,6 +111,7 @@
 
 
 </div>
+
 <div class="row">
     <div class="col-xl-12">
         <div class="card">
@@ -125,26 +128,30 @@
                     <table class="table" id="pc-dt-export">
                         <thead>
                             <tr>
+                                <th scope="col" class="sort" data-sort="budget">{{ __(' Lead Status') }}</th>
+                                <th scope="col" class="sort" data-sort="budget">{{ __('Status') }}</th>
                                 <th scope="col" class="sort" data-sort="name">{{ __('Name') }}</th>
                                 <th scope="col" class="sort" data-sort="budget">{{ __('Created By') }}</th>
                                 <th scope="col" class="sort" data-sort="name">{{ __('Type') }}</th>
                                 <th scope="col" class="sort" data-sort="name">{{ __('Phone') }}</th>
                                 <th scope="col" class="sort" data-sort="name">{{ __('Email') }}</th>
                                 <th scope="col" class="sort" data-sort="name">{{ __('Date') }}</th>
+                                <th scope="col" class="sort" data-sort="name">{{ __('Time') }}</th>
                                 <th scope="col" class="sort" data-sort="name">{{ __('Assigned Staff') }}</th>
                                 <th scope="col" class="sort" data-sort="name">{{ __('Rooms required') }}</th>
                                 <th scope="col" class="sort" data-sort="name">{{ __('Function') }}</th>
+                                <th scope="col" class="sort" data-sort="name">{{ __('Guest Count') }}</th>
                                 <th scope="col" class="sort" data-sort="budget">{{ __('Converted To Event') }}</th>
-                                <th scope="col" class="sort" data-sort="budget">{{ __(' Lead Status') }}</th>
-                                <th scope="col" class="sort" data-sort="budget">{{ __('Status') }}</th>
                                 <th scope="col" class="sort" data-sort="budget">{{ __('Created At') }}</th>
-
+                                <th scope="col" class="sort" data-sort="budget">{{ __('Comments') }}</th>
 
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($leads as $result)
                             <tr>
+                                <td>{{ __(\App\Models\Lead::$stat[$result->lead_status]) }}</td>
+                                <td> {{ __(\App\Models\Lead::$status[$result['status']]) }}</td>
                                 <td>{{ ucfirst($result['name'])  }}</td>
                                 <td>{{ucfirst(App\Models\User::where('id',$result['created_by'])->first()->name)}}</td>
                                 <td>{{ ucfirst($result['type']) }}</td>
@@ -156,18 +163,26 @@
                                     {{ \Auth::user()->dateFormat($result['start_date']) }} -
                                     {{ \Auth::user()->dateFormat($result['end_date'])}}
                                     @endif</td>
-                                <td>{{!empty($result['assign_user'])? $result['assign_user']->name:'Not Assigned Yet' }}
-                                    {{!empty($result['assign_user'])?($result['assign_user']->type):''}}</td>
+                                <td> @if($result['start_time'] == $result['end_time'])
+                                    --
+                                    @else
+                                    {{date('h:i A', strtotime($result['start_time']))}} -
+                                    {{date('h:i A', strtotime($result['end_time']))}}
+                                    @endif</td>
+                                <td>{{!empty($result['assign_user'])? $result['assign_user']->name :'Not Assigned Yet' }}
+                                    {{!empty($result['assign_user'])?'('.$result['assign_user']->type.')':''}}</td>
                                 <td>{{$result['rooms']}}</td>
                                 <td>{{ isset($result['function']) ? ucfirst($result['function']) : '--' }}</td>
+                                <td>{{$result['guest_count']}}</td>
                                 <td>
                                     <?php $event = App\Models\Meeting::where('attendees_lead',$result['id'])->exists() ?>
                                     @if($event) Yes @else No @endif
                                 </td>
-                                <td> {{ __(\App\Models\Lead::$status[$result['status']]) }}</td>
-                                <td>{{ __(\App\Models\Lead::$stat[$result->lead_status]) }}</td>
                                 <td>{{ __(\Auth::user()->dateFormat($result['created_at'])) }}</td>
-
+                                <td><?php $comment = App\Models\Proposal::where('lead_id',$result['id'])->orderby('id','desc')->first(); ?>
+                                    @if(isset($comment) && !empty($comment))
+                                    {{App\Models\Proposal::where('lead_id',$result['id'])->orderby('id','desc')->first()->notes}}
+                                    @else -- @endif</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -178,9 +193,10 @@
     </div>
     @endsection
     @push('script-page')
-
     <script>
-    < script type = "text/javascript"src = "{{ asset('js/html2pdf.bundle.min.js') }}" ></script>
+    < script type = "text/javascript"
+        src = "{{ asset('js/html2pdf.bundle.min.js') }}" >
+    </script>
     <script type="text/javascript" src="{{ asset('js/dataTables.buttons.min.js')}}"></script>
     <script type="text/javascript" src="{{ asset('js/jszip.min.js')}}"></script>
     <script type="text/javascript" src="{{ asset('js/pdfmake.min.js')}}"></script>
