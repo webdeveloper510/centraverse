@@ -94,7 +94,7 @@ $(document).on('click', 'button.fc-next-button', function() {
         },
         success: function(data) {
             $(data).each(function(index, element) {
-                data += `<li class="list-group-item card mb-3">
+                data = `<li class="list-group-item card mb-3">
                 <div class="row align-items-center justify-content-between">
                     <div class="col-auto mb-3 mb-sm-0">
                         <div class="d-flex align-items-center">
