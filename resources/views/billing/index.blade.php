@@ -37,7 +37,10 @@
                                                 <td>
                                                     <a href="" data-size="md" data-title="{{ __('Invoice Details') }}"
                                                         class="action-item text-primary">
-                                                        {{ ucfirst($event->name)}}
+                                                        <a href="{{route('meeting.detailview',urlencode(encrypt($event->id)))}}" data-size="md"
+                                                            title="{{ __('Detailed view ') }}" style="color: #1551c9 !important;"
+                                                          >   {{ ucfirst($event->name)}}</a>
+                                                     
                                                     </a>
                                                 </td>
                                                 <td>

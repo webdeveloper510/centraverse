@@ -18,7 +18,7 @@
 @endsection
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{__('Home')}}</a></li>
-<li class="breadcrumb-item">{{__('All Customers')}}</li>
+<li class="breadcrumb-item">{{__('Customers')}}</li>
 @endsection
 @section('content')
 <div class="container-field">
@@ -45,14 +45,14 @@
                                             <tr>
                                                 <td>
                                                     @if($customers->category == 'event')
-                                                    <a href="{{route('meeting.detailview',urlencode(encrypt($customers->ref_id)))}}"
+                                                    <a href="{{route('event.userinfo',urlencode(encrypt($customers->ref_id)))}}"
                                                         title="{{ __('User Details') }}"
                                                         class="action-item text-primary"
                                                         style="color:#1551c9 !important;">
                                                         <b> {{ ucfirst($customers->name) }}</b>
                                                     </a>
                                                     @else
-                                                    <a href="{{ route('lead.info',urlencode(encrypt($customers->ref_id))) }}"
+                                                    <a href="{{ route('lead.userinfo',urlencode(encrypt($customers->ref_id))) }}"
                                                         data-size="md" title="{{ __('Lead Details') }}"
                                                         class="action-item text-primary"
                                                         style="color:#1551c9 !important;">

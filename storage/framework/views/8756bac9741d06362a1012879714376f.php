@@ -39,8 +39,10 @@
                                                 <td>
                                                     <a href="" data-size="md" data-title="<?php echo e(__('Invoice Details')); ?>"
                                                         class="action-item text-primary">
-                                                        <?php echo e(ucfirst($event->name)); ?>
-
+                                                        <a href="<?php echo e(route('meeting.detailview',urlencode(encrypt($event->id)))); ?>" data-size="md"
+                                                            title="<?php echo e(__('Detailed view ')); ?>" style="color: #1551c9 !important;"
+                                                          >   <?php echo e(ucfirst($event->name)); ?></a>
+                                                     
                                                     </a>
                                                 </td>
                                                 <td>

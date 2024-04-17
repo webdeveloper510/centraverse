@@ -38,10 +38,10 @@
                                                 <th scope="col" class="sort"><?php echo e(__('Status')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Type')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Converted events')); ?></th>
-                                                <!-- <?php if(Gate::check('Show Lead') || Gate::check('Edit Lead') ||
+                                                <?php if(Gate::check('Show Lead') || Gate::check('Edit Lead') ||
                                                 Gate::check('Delete Lead')): ?>
                                                 <th scope="col" class="text-end"><?php echo e(__('Action')); ?></th>
-                                                <?php endif; ?> -->
+                                                <?php endif; ?>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -104,19 +104,21 @@
                     </div>
                 </div>
             </div>
-            <h4 class="m-b-10">
+            <!-- <h4 class="m-b-10">
                 <div class="page-header-title">
                     <?php echo e(__(' Billing Details')); ?>
 
                 </div>
-            </h4>
+            </h4> -->
 
             <div class="container-fluid xyz mt-3">
                 <div class="row">
                     <div class="col-lg-12">
                         <div id="useradd-1" class="card">
+                       
                             <div class="card-body table-border-style">
-                                <div class="table-responsive">
+                            <h3>Billing Details</h3>
+                                <div class="table-responsive mt-4">
                                     <table class="table datatable" id="datatable">
                                         <thead>
                                             <tr>
@@ -131,35 +133,35 @@
                                         <tbody>
                                             <?php $__currentLoopData = $leads; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $lead): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <?php 
-                $event= App\Models\Meeting::where('attendees_lead',$lead->id)->first();
-                
-                    if($event)
-                    {
-                        $billing = App\Models\PaymentLogs::where('event_id',$event->id)->get();
-                        
-                            $lastpaid = App\Models\PaymentLogs::where('event_id',$event->id)->orderby('id','DESC')->first();
-                        
-                            if(isset($lastpaid) && !empty($lastpaid)){
-                            $amount = App\Models\PaymentInfo::where('event_id',$event->id)->first();
-                            $amountpaid = 0;
-                            foreach($billing as $pay){
-                                $amountpaid += $pay->amount;
-                            }
-                            echo "<tr>";
-                            echo "<td>".Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $lastpaid->created_at)->format('M d, Y')."</td>";
-                            echo "<td>".$lead->name."</td>";
-                            echo "<td>".$amount->amount."</td>";
-                            echo "<td>".$amount->amounttobepaid - $amountpaid."</td>";
-                            echo "</tr>";
-                        }
-                    }else{
-                        echo "<tr>";
-                        echo "<td></td>";
-                        echo "<td style='text-align: center;'><b><h4 class='text-secondary'>Lead Not Converted to Event Yet.</h4><b></td>";
-                        echo "<td></td>";
-                        echo "</tr>";
-                    }
-                ?>
+                                $event= App\Models\Meeting::where('attendees_lead',$lead->id)->first();
+                                
+                                    if($event)
+                                    {
+                                        $billing = App\Models\PaymentLogs::where('event_id',$event->id)->get();
+                                        
+                                            $lastpaid = App\Models\PaymentLogs::where('event_id',$event->id)->orderby('id','DESC')->first();
+                                        
+                                            if(isset($lastpaid) && !empty($lastpaid)){
+                                            $amount = App\Models\PaymentInfo::where('event_id',$event->id)->first();
+                                            $amountpaid = 0;
+                                            foreach($billing as $pay){
+                                                $amountpaid += $pay->amount;
+                                            }
+                                            echo "<tr>";
+                                            echo "<td>".Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $lastpaid->created_at)->format('M d, Y')."</td>";
+                                            echo "<td>".$lead->name."</td>";
+                                            echo "<td>".$amount->amount."</td>";
+                                            echo "<td>".$amount->amounttobepaid - $amountpaid."</td>";
+                                            echo "</tr>";
+                                        }
+                                    }else{
+                                        echo "<tr>";
+                                        echo "<td></td>";
+                                        echo "<td style='text-align: center;'><b><h4 class='text-secondary'>Lead Not Converted to Event Yet.</h4><b></td>";
+                                        echo "<td></td>";
+                                        echo "</tr>";
+                                    }
+                                ?>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tbody>
                                     </table>
@@ -169,16 +171,16 @@
                     </div>
                 </div>
             </div>
-            <h4 class="m-b-10">
+            <!-- <h4 class="m-b-10">
                 <div class="page-header-title">
                     <?php echo e(__('Documents')); ?>
 
                 </div>
-            </h4>
+            </h4> -->
 
             <div class="container-fluid xyz mt-3">
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-12">
                         <div class="card" id="useradd-1">
                             <div class="card-body table-border-style">
                                 <h3>Upload Documents</h3>
@@ -194,7 +196,7 @@
                         </div>
                     </div>
                     
-                    <div class="col-lg-6">
+                    <!-- <div class="col-lg-6">
                         <div class="card">
                             <div class="card-body table-border-style">
                                 <h3>Add Notes/Comments</h3>
@@ -207,9 +209,9 @@
                                 </form>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     
-                    <div class="col-lg-6">
+                    <div class="col-lg-12">
                         <div class="card" id="useradd-1">
                             <div class="card-body table-border-style">
                                 <h3>Attachments</h3>
@@ -235,7 +237,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    <!-- <div class="col-lg-6">
                         <div class="card" id="useradd-1">
                             <div class="card-body table-border-style">
                                 <h3>Notes</h3>
@@ -257,7 +259,7 @@
                                 </table>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>

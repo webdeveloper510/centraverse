@@ -54,7 +54,7 @@
                                                 <td>
                                                     <a href="{{ route('meeting.edit', $meeting->id) }}" data-size="md"
                                                         data-title="{{ __('Event Details') }}"
-                                                        class="action-item text-primary">
+                                                        class="action-item text-primary" style=" color: #1551c9 !important;">
                                                         @if($meeting->attendees_lead != 0)
                                                         {{ucfirst(\App\Models\Lead::where('id',$meeting->attendees_lead)->pluck('leadname')->first())}}
                                                         @else

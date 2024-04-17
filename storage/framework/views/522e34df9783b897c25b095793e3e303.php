@@ -23,7 +23,6 @@ $bar_package = json_decode($setting['barpackage'],true);
 if(isset($setting['additional_items']) && !empty($setting['additional_items'])){
 $additional_items = json_decode($setting['additional_items'],true);
 }
-$leadname = App\Models\Lead::where('id',9)->pluck('leadname')->first();
 ?>
 
 <?php $__env->startSection('breadcrumb'); ?>
@@ -80,14 +79,25 @@ $leadname = App\Models\Lead::where('id',9)->pluck('leadname')->first();
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
+                                    <?php if($meeting->attendees_lead != 0 ): ?>
                                         <div class="col-6">
                                             <div class="form-group">
                                                 <?php echo e(Form::label('attendees_lead', __('Lead'), ['class' => 'form-label'])); ?>
 
-                                                <?php echo e(Form::text('attendees_lead',$leadname,array('class'=>'form-control','required'=>'required','readonly'=>'readonly'))); ?>
+                                                <?php echo e(Form::text('attendees_lead',$attendees_lead,array('class'=>'form-control','required'=>'required','readonly'=>'readonly'))); ?>
 
                                             </div>
                                         </div>
+                                        <?php else: ?>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <?php echo e(Form::label('eventname', __('Event Name'), ['class' => 'form-label'])); ?>
+
+                                                <?php echo e(Form::text('eventname',$meeting->eventname,array('class'=>'form-control','required'=>'required','readonly'=>'readonly'))); ?>
+
+                                            </div>
+                                        </div>
+                                        <?php endif; ?>
                                         <div class="col-6">
                                             <div class="form-group">
                                                 <?php echo e(Form::label('Assigned Staff',__('Assigned Staff'),['class'=>'form-label'])); ?>

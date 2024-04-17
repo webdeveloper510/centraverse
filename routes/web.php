@@ -416,6 +416,8 @@ Route::group(['middleware' => ['verified']], function () {
             Route::get('lead/uploaded_docs/{id}',[LeadController::class,'uploaded_docs'])->name('lead.uploaded_docs');
             Route::post('lead/change_status/',[LeadController::class,'status'])->name('lead.changeleadstat');
             Route::post('lead-notes/{id}',[LeadController::class,'leadnotes'])->name('addleadnotes');
+            Route::get('lead/user-information/{id}',[LeadController::class,'lead_user_info'])->name('lead.userinfo');
+
         });
 
     Route::group(
@@ -523,6 +525,10 @@ Route::group(['middleware' => ['verified']], function () {
             Route::get('event/review-proposal/{id}', [MeetingController::class, 'review_agreement'])->name('meeting.review');
             Route::post('event/review-agreement/update/{id}', [MeetingController::class, 'review_agreement_data'])->name('meeting.review_agreement.update');
             Route::get('event/detailed-view/{id}', [MeetingController::class, 'detailed_info'])->name('meeting.detailview');
+            Route::get('event/user-information/{id}',[MeetingController::class,'event_user_info'])->name('event.userinfo');
+            Route::post('event/upload_doc/{id}',[MeetingController::class,'event_upload_doc'])->name('event.uploaddoc');
+            Route::post('event-notes/{id}',[MeetingController::class,'eventnotes'])->name('addeventnotes');
+
         }
     );
   

@@ -22,7 +22,8 @@
                 <?php endif; ?>
                 <?php if(\Request::route()->getName() == 'settings'): ?>
                 <?php if(\Auth::user()->type == 'owner'): ?>
-                <a href="javascript:void(0);" class="list-group-item list-group-item-action" data-id="collapse16" onclick="toggleCollapse(this.getAttribute('data-id'))">
+                <a href="javascript:void(0);" class="list-group-item list-group-item-action" data-id="collapse16"
+                    onclick="toggleCollapse(this.getAttribute('data-id'))">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-envelope  "></i></span>
                     <span class="dash-mtext"><?php echo e(__('Email')); ?> </span></a>
                 </a>
@@ -123,14 +124,15 @@
                     <span class="fa-stack fa-lg pull-left"></span>
                     <span class="dash-mtext"><?php echo e(__('View Campaigns')); ?> </span></a>
                 <?php endif; ?>
-                <?php if(\Request::route()->getName() == 'userlist'): ?>
+                <?php if(\Request::route()->getName() == 'userlist' || \Request::route()->getName() == 'customer.info' ||
+                \Request::route()->getName() == 'event_customers'||\Request::route()->getName() == 'siteusers' ||
+                \Request::route()->getName() == 'lead_customers' || \Request::route()->getName() == 'lead.userinfo'||\Request::route()->getName() == 'event.userinfo'): ?>
                 <a href="<?php echo e(route('siteusers')); ?>" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-users"></i></span>
                     <span class="dash-mtext"><?php echo e(__('All Customers')); ?> </span></a>
-                <a href="#useradd-1" class="list-group-item list-group-item-action">
+                <a href="<?php echo e(route('userlist')); ?>" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"></span>
                     <span class="dash-mtext"><?php echo e(__('External ')); ?> </span></a>
-
                 <a href="<?php echo e(route('event_customers')); ?>" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"></span>
                     <span class="dash-mtext"><?php echo e(__('Event ')); ?> </span></a>
@@ -138,52 +140,7 @@
                     <span class="fa-stack fa-lg pull-left"></span>
                     <span class="dash-mtext"><?php echo e(__('Leads')); ?> </span></a>
                 <?php endif; ?>
-                <?php if(\Request::route()->getName() == 'event_customers'): ?>
-                <a href="<?php echo e(route('siteusers')); ?>" class="list-group-item list-group-item-action">
-                    <span class="fa-stack fa-lg pull-left"><i class="ti ti-users"></i></span>
-                    <span class="dash-mtext"><?php echo e(__('All Customers')); ?> </span></a>
-                <a href="<?php echo e(route('userlist')); ?>" class="list-group-item list-group-item-action">
-                    <span class="fa-stack fa-lg pull-left"></span>
-                    <span class="dash-mtext"><?php echo e(__('External ')); ?> </span></a>
-
-                <a href="#useradd-1" class="list-group-item list-group-item-action">
-                    <span class="fa-stack fa-lg pull-left"></span>
-                    <span class="dash-mtext"><?php echo e(__('Event ')); ?> </span></a>
-                <a href="<?php echo e(route('lead_customers')); ?>" class="list-group-item list-group-item-action">
-                    <span class="fa-stack fa-lg pull-left"></span>
-                    <span class="dash-mtext"><?php echo e(__('Leads ')); ?> </span></a>
-                <?php endif; ?>
-                <?php if(\Request::route()->getName() == 'siteusers'): ?>
-
-                <a href="#useradd-1" class="list-group-item list-group-item-action">
-                    <span class="fa-stack fa-lg pull-left"><i class="ti ti-users"></i></span>
-                    <span class="dash-mtext"><?php echo e(__('All Customers')); ?> </span></a>
-                <a href="<?php echo e(route('userlist')); ?>" class="list-group-item list-group-item-action">
-                    <span class="fa-stack fa-lg pull-left"></span>
-                    <span class="dash-mtext"><?php echo e(__('External')); ?> </span></a>
-
-                <a href="<?php echo e(route('event_customers')); ?>" class="list-group-item list-group-item-action">
-                    <span class="fa-stack fa-lg pull-left"></span>
-                    <span class="dash-mtext"><?php echo e(__('Event ')); ?> </span></a>
-                <a href="<?php echo e(route('lead_customers')); ?>" class="list-group-item list-group-item-action">
-                    <span class="fa-stack fa-lg pull-left"></span>
-                    <span class="dash-mtext"><?php echo e(__('Leads')); ?> </span></a>
-                <?php endif; ?>
-                <?php if(\Request::route()->getName() == 'lead_customers'): ?>
-                <a href="<?php echo e(route('siteusers')); ?>" class="list-group-item list-group-item-action">
-                    <span class="fa-stack fa-lg pull-left"><i class="ti ti-users"></i></span>
-                    <span class="dash-mtext"><?php echo e(__('All Customers')); ?> </span></a>
-                <a href="<?php echo e(route('userlist')); ?>" class="list-group-item list-group-item-action">
-                    <span class="fa-stack fa-lg pull-left"></span>
-                    <span class="dash-mtext"><?php echo e(__('External ')); ?> </span></a>
-
-                <a href="<?php echo e(route('event_customers')); ?>" class="list-group-item list-group-item-action">
-                    <span class="fa-stack fa-lg pull-left"></span>
-                    <span class="dash-mtext"><?php echo e(__('Event ')); ?> </span></a>
-                <a href="#useradd-1" class="list-group-item list-group-item-action">
-                    <span class="fa-stack fa-lg pull-left"></span>
-                    <span class="dash-mtext"><?php echo e(__('Leads')); ?> </span></a>
-                <?php endif; ?>
+           
                 <?php if(\Request::route()->getName() == 'campaign-list' ): ?>
                 <a href="#useradd-1" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"></span>
@@ -197,8 +154,11 @@
                 </a>
                 <?php endif; ?>
                 <?php if( \Request::route()->getName() == 'report.index' || \Request::route()->getName() == 'report.show' ||
-                \Request::route()->getName() == 'report.edit' || \Request::route()->getName() == 'report.leadsanalytic' ||
-                \Request::route()->getName() == 'report.eventanalytic' || \Request::route()->getName() == 'report.customersanalytic'  || \Request::route()->getName() == 'report.billinganalytic' ? ' active ' : ''): ?>
+                \Request::route()->getName() == 'report.edit' || \Request::route()->getName() == 'report.leadsanalytic'
+                ||
+                \Request::route()->getName() == 'report.eventanalytic' || \Request::route()->getName() ==
+                'report.customersanalytic' || \Request::route()->getName() == 'report.billinganalytic' ? ' active ' :
+                ''): ?>
                 <!-- <a href="<?php echo e(route('report.index')); ?>" class="list-group-item list-group-item-action"><span
                         class="fa-stack fa-lg pull-left"><i class="ti ti-trending-up"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Custom Report')); ?> </span></a>
@@ -273,7 +233,4 @@
             </div>
         </div>
     </div>
-</div>
-
-
-<?php /**PATH /home/crmcentraverse/public_html/resources/views/partials/admin/sidebar.blade.php ENDPATH**/ ?>
+</div><?php /**PATH /home/crmcentraverse/public_html/resources/views/partials/admin/sidebar.blade.php ENDPATH**/ ?>

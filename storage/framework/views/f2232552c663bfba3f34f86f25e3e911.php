@@ -19,7 +19,7 @@
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('breadcrumb'); ?>
 <li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Home')); ?></a></li>
-<li class="breadcrumb-item"><?php echo e(__('All Customers')); ?></li>
+<li class="breadcrumb-item"><?php echo e(__('Customers')); ?></li>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 <div class="container-field">
@@ -46,14 +46,14 @@
                                             <tr>
                                                 <td>
                                                     <?php if($customers->category == 'event'): ?>
-                                                    <a href="<?php echo e(route('meeting.detailview',urlencode(encrypt($customers->ref_id)))); ?>"
+                                                    <a href="<?php echo e(route('event.userinfo',urlencode(encrypt($customers->ref_id)))); ?>"
                                                         title="<?php echo e(__('User Details')); ?>"
                                                         class="action-item text-primary"
                                                         style="color:#1551c9 !important;">
                                                         <b> <?php echo e(ucfirst($customers->name)); ?></b>
                                                     </a>
                                                     <?php else: ?>
-                                                    <a href="<?php echo e(route('lead.info',urlencode(encrypt($customers->ref_id)))); ?>"
+                                                    <a href="<?php echo e(route('lead.userinfo',urlencode(encrypt($customers->ref_id)))); ?>"
                                                         data-size="md" title="<?php echo e(__('Lead Details')); ?>"
                                                         class="action-item text-primary"
                                                         style="color:#1551c9 !important;">

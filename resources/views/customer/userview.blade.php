@@ -7,7 +7,9 @@
 @endsection
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Home') }}</a></li>
-<li class="breadcrumb-item">{{ __('External Customers') }}</li>
+<li class="breadcrumb-item"><a href="{{ route('siteusers') }}">{{ __('Customers') }}</a></li>
+<li class="breadcrumb-item"><a href="{{ route('lead_customers') }}">{{__('Extenal Customers')}}</a></li>
+<li class="breadcrumb-item">{{ __('Customer Details') }}</li>
 @endsection
 @section('content')
 <div class="container-field">

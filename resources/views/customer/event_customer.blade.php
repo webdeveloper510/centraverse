@@ -7,7 +7,7 @@
 @endsection
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Home') }}</a></li>
-<li class="breadcrumb-item"><a href="{{ route('siteusers') }}">{{ __('All Customers') }}</a></li>
+<li class="breadcrumb-item"><a href="{{ route('siteusers') }}">{{ __('Customers') }}</a></li>
 <li class="breadcrumb-item">{{ __('Event Customers') }}</li>
 @endsection
 @section('content')
@@ -36,7 +36,7 @@
                                         <tbody>
                                             @foreach($eventcustomers as $user)
                                             <tr>
-                                            <td> <a href="{{route('meeting.detailview',urlencode(encrypt($user->id)))}}" 
+                                            <td> <a href="{{route('event.userinfo',urlencode(encrypt($user->id)))}}" 
                                             title="{{ __('User Details') }}"
                                                         class="action-item text-primary"
                                                         style="color:#1551c9 !important;">

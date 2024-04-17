@@ -10,6 +10,7 @@
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('breadcrumb'); ?>
 <li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Home')); ?></a></li>
+<li class="breadcrumb-item"><a href="<?php echo e(route('lead.index')); ?>"><?php echo e(__('Leads')); ?></a></li>
 <li class="breadcrumb-item"><?php echo e(__('Proposal Information')); ?></li>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('action-btn'); ?>
@@ -51,7 +52,7 @@
                                                 <!-- <td><?php echo e(App\Models\Lead::where('id',$info->lead_id)->first()->email); ?></td> -->
                                                 <td><?php echo e($info->notes ?? '--'); ?></td>
                                                 <td><a
-                                                        href="<?php echo e(route('lead.viewproposal',urlencode(encrypt($info->lead_id)))); ?>">View
+                                                        href="<?php echo e(route('lead.viewproposal',urlencode(encrypt($info->lead_id)))); ?>" style=" color: teal;">View
                                                         Document</a></td>
                                                 <td><?php echo e(\Auth::user()->dateFormat($info->created_at)); ?></td>
 
