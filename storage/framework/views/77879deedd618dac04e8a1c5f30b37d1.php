@@ -94,8 +94,15 @@ $(document).on('click', 'button.fc-next-button', function() {
             "_token": "<?php echo e(csrf_token()); ?>",
         },
         success: function(data) {
+            var html='';
             $(data).each(function(index, element) {
-                data = `<li class="list-group-item card mb-3">
+                var start = element.start_time;
+                                    var start_time = moment(start, 'HH:mm:ss')
+                                        .format('h:mm A');
+                                    var end = element.end_time;
+                                    var end_time = moment(end, 'HH:mm:ss').format(
+                                        'h:mm A');
+                html += `<li class="list-group-item card mb-3">
                 <div class="row align-items-center justify-content-between">
                     <div class="col-auto mb-3 mb-sm-0">
                         <div class="d-flex align-items-center">
@@ -103,15 +110,15 @@ $(document).on('click', 'button.fc-next-button', function() {
                                 <i class="ti ti-calendar-event"></i>
                             </div>
                             <div class="ms-3">
-                                <h6 class="m-0">${element.name} (${element.name})</h6>
-                                <small class="text-muted">${element.start_time} - ${element.end_time}</small>
+                                <h6 class="m-0">${element.eventname} (${element.name})</h6>
+                                <small class="text-muted">${start_time} - ${end_time}</small>
                             </div>
                         </div>
                     </div>
                 </div>
             </li>`;
             });
-            $('#listEvent').html(data);
+            $('#listEvent').html(html);
         }
     });
 
@@ -131,8 +138,16 @@ $(document).on('click', 'button.fc-prev-button', function() {
             "_token": "<?php echo e(csrf_token()); ?>",
         },
         success: function(data) {
+            console.log(data);
+            var html ='';
             $(data).each(function(index, element) {
-                data = `<li class="list-group-item card mb-3">
+                var start = element.start_time;
+                                    var start_time = moment(start, 'HH:mm:ss')
+                                        .format('h:mm A');
+                                    var end = element.end_time;
+                                    var end_time = moment(end, 'HH:mm:ss').format(
+                                        'h:mm A');
+                html += `<li class="list-group-item card mb-3">
                 <div class="row align-items-center justify-content-between">
                     <div class="col-auto mb-3 mb-sm-0">
                         <div class="d-flex align-items-center">
@@ -140,59 +155,116 @@ $(document).on('click', 'button.fc-prev-button', function() {
                                 <i class="ti ti-calendar-event"></i>
                             </div>
                             <div class="ms-3">
-                                <h6 class="m-0">${element.name} (${element.name})</h6>
-                                <small class="text-muted">${element.start_time} - ${element.end_time}</small>
+                                <h6 class="m-0">${element.eventname} (${element.name})</h6>
+                                <small class="text-muted">${start_time} - ${end_time}</small>
                             </div>
                         </div>
                     </div>
                 </div>
             </li>`;
             });
-            $('#listEvent').html(data);
+            $('#listEvent').html(html);
         }
     });
 
 });
 // $(document).ready(function(){
 //     var month = $('.fc-toolbar-title').text();
-//     var date = new Date(month);
-//     // Get the month and year separately
-//     var monthNumber = date.getMonth() + 1; // Adding 1 because month index starts from 0
-//     var year = date.getFullYear();
-//     $.ajax({
-//         url: "<?php echo e(route('monthbaseddata')); ?>",
-//         type: 'GET',
-//         data: {
-//             "month": monthNumber,
-//             "year": year,
-//             "_token": "<?php echo e(csrf_token()); ?>",
-//         },
-//         success: function(data) {
-//             $(data).each(function(index, element) {
-//                 data = `<li class="list-group-item card mb-3">
-//                 <div class="row align-items-center justify-content-between">
-//                     <div class="col-auto mb-3 mb-sm-0">
-//                         <div class="d-flex align-items-center">
-//                             <div class="theme-avtar bg-info">
-//                                 <i class="ti ti-calendar-event"></i>
-//                             </div>
-//                             <div class="ms-3">
-//                                 <h6 class="m-0">${element.name} (${element.name})</h6>
-//                                 <small class="text-muted">${element.start_time} - ${element.end_time}</small>
-//                             </div>
-//                         </div>
-//                     </div>
-//                 </div>
-//             </li>`;
-//             });
-//             $('#listEvent').html(data);
-//         }
-//     });
+//     console.log(month);
+    // var date = new Date(month);
+    // // Get the month and year separately
+    // var monthNumber = date.getMonth() + 1; // Adding 1 because month index starts from 0
+    // var year = date.getFullYear();
+    // $.ajax({
+    //     url: "<?php echo e(route('monthbaseddata')); ?>",
+    //     type: 'GET',
+    //     data: {
+    //         "month": monthNumber,
+    //         "year": year,
+    //         "_token": "<?php echo e(csrf_token()); ?>",
+    //     },
+    //     success: function(data) {
+    //         $(data).each(function(index, element) {
+    //             data = `<li class="list-group-item card mb-3">
+    //             <div class="row align-items-center justify-content-between">
+    //                 <div class="col-auto mb-3 mb-sm-0">
+    //                     <div class="d-flex align-items-center">
+    //                         <div class="theme-avtar bg-info">
+    //                             <i class="ti ti-calendar-event"></i>
+    //                         </div>
+    //                         <div class="ms-3">
+    //                             <h6 class="m-0">${element.name} (${element.name})</h6>
+    //                             <small class="text-muted">${element.start_time} - ${element.end_time}</small>
+    //                         </div>
+    //                     </div>
+    //                 </div>
+    //             </div>
+    //         </li>`;
+    //         });
+    //         $('#listEvent').html(data);
+    //     }
+    // });
 // })
+
+        // $(document).ready(function() { 
+        //     setTimeout(() => {
+        //         var month = $('#fc-toolbar-title').text();
+        //     }, 2000);
+        //     console.log('dsf'+ month);
+        // });
+//         $(document).on( "load", function() {
+//             var month = $('.fc-toolbar-title').text();
+//             console.log("++++++++++++++++++++++++++++++++++++++++++++++++"+month);
+// } );
 
 
 $(document).ready(function() {
     display_count();
+    setTimeout(() => {
+                var month = $('.fc-toolbar-title').text();
+                var date = new Date(month);
+    // Get the month and year separately
+    var monthNumber = date.getMonth() + 1; // Adding 1 because month index starts from 0
+    var year = date.getFullYear();
+    $.ajax({
+        url: "<?php echo e(route('monthbaseddata')); ?>",
+        type: 'POST',
+        data: {
+            "month": monthNumber,
+            "year": year,
+            "_token": "<?php echo e(csrf_token()); ?>",
+        },
+        success: function(data) {
+            console.log(data);
+            var html ='';
+            $(data).each(function(index, element) {
+                var start = element.start_time;
+                                    var start_time = moment(start, 'HH:mm:ss')
+                                        .format('h:mm A');
+                                    var end = element.end_time;
+                                    var end_time = moment(end, 'HH:mm:ss').format(
+                                        'h:mm A');
+                html += `<li class="list-group-item card mb-3">
+                <div class="row align-items-center justify-content-between">
+                    <div class="col-auto mb-3 mb-sm-0">
+                        <div class="d-flex align-items-center">
+                            <div class="theme-avtar bg-info">
+                                <i class="ti ti-calendar-event"></i>
+                            </div>
+                            <div class="ms-3">
+                                <h6 class="m-0">${element.eventname} (${element.name})</h6>
+                                <small class="text-muted">${start_time} - ${end_time}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>`;
+            });
+            $('#listEvent').html(html);
+        }
+    });
+                // console.log('dsf'+ month);
+    }, 2450);
 
 });
 
@@ -252,79 +324,79 @@ function display_count() {
                 timeFormat: 'H(:mm)',
                 initialView: 'dayGridMonth',
                 eventDisplay: 'block',
-                // select: function(start, end, allDay, info) {
-                //     var selectedStartDate = start.startStr;
-                //     var selectedEndDate = start.endStr;
-                //     var formattedStartDate = moment(selectedStartDate).format(
-                //         'dddd, MMMM DD, YYYY');
-                //     var selectedDate = moment(selectedStartDate).format('Y-MM-DD');
-                //     sessionStorage.setItem('selectedDate', selectedDate);
-                //     document.getElementById('daySelected').innerHTML = formattedStartDate;
-                //     document.getElementById('selectedDate').setAttribute('data-date-selected',
-                //         selectedDate);
-                //     fetch("<?php echo e(url('/calender-meeting-data')); ?>?start=" + start.startStr, {
-                //             method: "POST",
-                //             headers: {
-                //                 "Content-Type": "application/json",
-                //                 "X-CSRF-Token": "<?php echo e(csrf_token()); ?>",
-                //             },
-                //             body: JSON.stringify({
-                //                 request_type: 'viewMeeting',
-                //                 start: start.startStr,
-                //                 end: start.endStr,
-                //             }),
-                //         })
-                //         .then(response => response.json())
-                //         .then(data => {
-                //             const JSON = data.events;
-                //             console.log(JSON);
+                select: function(start, end, allDay, info) {
+                    var selectedStartDate = start.startStr;
+                    var selectedEndDate = start.endStr;
+                    var formattedStartDate = moment(selectedStartDate).format(
+                        'dddd, MMMM DD, YYYY');
+                    var selectedDate = moment(selectedStartDate).format('Y-MM-DD');
+                    sessionStorage.setItem('selectedDate', selectedDate);
+                    document.getElementById('daySelected').innerHTML = formattedStartDate;
+                    document.getElementById('selectedDate').setAttribute('data-date-selected',
+                        selectedDate);
+                    fetch("<?php echo e(url('/calender-meeting-data')); ?>?start=" + start.startStr, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "X-CSRF-Token": "<?php echo e(csrf_token()); ?>",
+                            },
+                            body: JSON.stringify({
+                                request_type: 'viewMeeting',
+                                start: start.startStr,
+                                end: start.endStr,
+                            }),
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            const JSON = data.events;
+                            console.log(JSON);
 
-                //             if (JSON.length != 0) {
-                //                 Json = [];
-                //                 JSON.forEach((event, index, array) => {
-                //                     var start = event.start_time;
-                //                     var start_time = moment(start, 'HH:mm:ss')
-                //                         .format('h:mm A');
-                //                     var end = event.end_time;
-                //                     var end_time = moment(end, 'HH:mm:ss').format(
-                //                         'h:mm A');
-                //                     if (event.attendees_lead == 0) {
-                //                         eventname = event.eventname;
-                //                     } else {
-                //                         eventname = 'event';
-                //                     }
-                //                     lists = `
-                //             <li class="list-group-item card mb-3" data-index="${index}">
-                //                 <div class="row align-items-center justify-content-between">
-                //                     <div class="col-auto mb-3 mb-sm-0">
-                //                         <div class="d-flex align-items-center">
-                //                             <div class="theme-avtar bg-info">
-                //                                 <i class="ti ti-calendar-event"></i>
-                //                             </div>
-                //                             <div class="ms-3">
-                //                                 <h6 class="m-0">${eventname} (${event.name})</h6>
-                //                                 <small class="text-muted">${start_time} - ${end_time}</small>
-                //                             </div>
+                            if (JSON.length != 0) {
+                                Json = [];
+                                JSON.forEach((event, index, array) => {
+                                    var start = event.start_time;
+                                    var start_time = moment(start, 'HH:mm:ss')
+                                        .format('h:mm A');
+                                    var end = event.end_time;
+                                    var end_time = moment(end, 'HH:mm:ss').format(
+                                        'h:mm A');
+                                    if (event.attendees_lead == 0) {
+                                        eventname = event.eventname;
+                                    } else {
+                                        eventname = 'event';
+                                    }
+                                    lists = `
+                            <li class="list-group-item card mb-3" data-index="${index}">
+                                <div class="row align-items-center justify-content-between">
+                                    <div class="col-auto mb-3 mb-sm-0">
+                                        <div class="d-flex align-items-center">
+                                            <div class="theme-avtar bg-info">
+                                                <i class="ti ti-calendar-event"></i>
+                                            </div>
+                                            <div class="ms-3">
+                                                <h6 class="m-0">${eventname} (${event.name})</h6>
+                                                <small class="text-muted">${start_time} - ${end_time}</small>
+                                            </div>
 
-                //                         </div>
+                                        </div>
 
-                //                     </div>
-                //                 </div>
-                //         </li>
-                //         `;
-                //                     Json.push(lists);
-                //                 });
-                //                 document.getElementById('listEvent').innerHTML = Json.join(
-                //                     '');
-                //             } else {
-                //                 lists = `<h6 class="m-0">No event found!</h6>`;
-                //                 document.getElementById('listEvent').innerHTML = lists;
-                //             }
-                //             calendar.refetchEvents();
-                //         })
-                //         .catch(console.error);
-                // },
-                // events: backgroundEvents
+                                    </div>
+                                </div>
+                        </li>
+                        `;
+                                    Json.push(lists);
+                                });
+                                document.getElementById('listEvent').innerHTML = Json.join(
+                                    '');
+                            } else {
+                                lists = `<h6 class="m-0">No event found!</h6>`;
+                                document.getElementById('listEvent').innerHTML = lists;
+                            }
+                            calendar.refetchEvents();
+                        })
+                        .catch(console.error);
+                },
+                events: backgroundEvents
             });
             calendar.render();
         }
