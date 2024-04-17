@@ -230,7 +230,7 @@ class LeadController extends Controller
             $venue = explode(',',$settings['venue']);
             $fixed_cost = json_decode($settings['fixed_billing'],true);
             $additional_items = json_decode($settings['additional_items'],true);
-            return view('lead.vieww', compact('lead','venue','fixed_cost','additional_items'));
+            return view('lead.view', compact('lead','venue','fixed_cost','additional_items'));
         } else {
             return redirect()->back()->with('error', 'permission Denied');
         }

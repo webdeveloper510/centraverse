@@ -19,6 +19,12 @@ $baropt = ['Open Bar', 'Cash Bar', 'Package Choice'];
 if(isset($setting['barpackage']) && !empty($setting['barpackage'])){
 $bar_package = json_decode($setting['barpackage'],true);
 }
+if(!empty($lead->func_package)){
+$func_package = json_decode($lead->func_package,true);
+}
+if(!empty($lead->ad_opts)){
+$fun_ad_opts = json_decode($lead->ad_opts,true);
+}
 ?>
 <?php $__env->startSection('title'); ?>
 <div class="page-header-title">
@@ -193,13 +199,21 @@ $bar_package = json_decode($setting['barpackage'],true);
                                             <?php echo e(Form::label('package', __($value['function']), ['class' => 'form-label'])); ?>
 
                                             <?php $__currentLoopData = $value['package']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $k => $package): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-
+                                            <?php $isChecked = false; ?>
+                                            <?php if(isset($func_package) && !empty($func_package)): ?>
+                                            <?php $__currentLoopData = $func_package; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $func => $pack): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php $__currentLoopData = $pack; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $keypac => $packval): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php if($package == $packval): ?>
+                                            <?php $isChecked = true; ?>
+                                            <?php endif; ?>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                            <?php endif; ?>
                                             <div class="form-check" data-main-index="<?php echo e($k); ?>"
                                                 data-main-package="<?php echo e($package); ?>">
                                                 <?php echo Form::checkbox('package_'.str_replace(' ', '',
                                                 strtolower($value['function'])).'[]',$package,
-                                                isset($food_package[ucfirst($value['function'])]) && in_array($package,
-                                                $food_package[ucfirst($value['function'])]), ['id' => 'package_' .
+                                                $isChecked, ['id' => 'package_' .
                                                 $key.$k, 'data-function' => $value['function'], 'class' =>
                                                 'form-check-input']); ?>
 
@@ -291,7 +305,7 @@ $bar_package = json_decode($setting['barpackage'],true);
 
                                             <?php $__currentLoopData = $baropt; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $label): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <div>
-                                                <?php echo e(Form::radio('baropt', $label,false, ['id' => $label])); ?>
+                                                <?php echo e(Form::radio('baropt', $label,isset($lead->bar) && $lead->bar == $label ? true : false , ['id' => $label])); ?>
 
                                                 <?php echo e(Form::label('baropt' . ($key + 1), $label)); ?>
 

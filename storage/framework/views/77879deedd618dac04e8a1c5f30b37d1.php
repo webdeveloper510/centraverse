@@ -94,14 +94,14 @@ $(document).on('click', 'button.fc-next-button', function() {
             "_token": "<?php echo e(csrf_token()); ?>",
         },
         success: function(data) {
-            var html='';
+            var html = '';
             $(data).each(function(index, element) {
                 var start = element.start_time;
-                                    var start_time = moment(start, 'HH:mm:ss')
-                                        .format('h:mm A');
-                                    var end = element.end_time;
-                                    var end_time = moment(end, 'HH:mm:ss').format(
-                                        'h:mm A');
+                var start_time = moment(start, 'HH:mm:ss')
+                    .format('h:mm A');
+                var end = element.end_time;
+                var end_time = moment(end, 'HH:mm:ss').format(
+                    'h:mm A');
                 html += `<li class="list-group-item card mb-3">
                 <div class="row align-items-center justify-content-between">
                     <div class="col-auto mb-3 mb-sm-0">
@@ -138,15 +138,15 @@ $(document).on('click', 'button.fc-prev-button', function() {
             "_token": "<?php echo e(csrf_token()); ?>",
         },
         success: function(data) {
-            console.log(data);
-            var html ='';
+            // console.log(data);
+            var html = '';
             $(data).each(function(index, element) {
                 var start = element.start_time;
-                                    var start_time = moment(start, 'HH:mm:ss')
-                                        .format('h:mm A');
-                                    var end = element.end_time;
-                                    var end_time = moment(end, 'HH:mm:ss').format(
-                                        'h:mm A');
+                var start_time = moment(start, 'HH:mm:ss')
+                    .format('h:mm A');
+                var end = element.end_time;
+                var end_time = moment(end, 'HH:mm:ss').format(
+                    'h:mm A');
                 html += `<li class="list-group-item card mb-3">
                 <div class="row align-items-center justify-content-between">
                     <div class="col-auto mb-3 mb-sm-0">
@@ -168,83 +168,35 @@ $(document).on('click', 'button.fc-prev-button', function() {
     });
 
 });
-// $(document).ready(function(){
-//     var month = $('.fc-toolbar-title').text();
-//     console.log(month);
-    // var date = new Date(month);
-    // // Get the month and year separately
-    // var monthNumber = date.getMonth() + 1; // Adding 1 because month index starts from 0
-    // var year = date.getFullYear();
-    // $.ajax({
-    //     url: "<?php echo e(route('monthbaseddata')); ?>",
-    //     type: 'GET',
-    //     data: {
-    //         "month": monthNumber,
-    //         "year": year,
-    //         "_token": "<?php echo e(csrf_token()); ?>",
-    //     },
-    //     success: function(data) {
-    //         $(data).each(function(index, element) {
-    //             data = `<li class="list-group-item card mb-3">
-    //             <div class="row align-items-center justify-content-between">
-    //                 <div class="col-auto mb-3 mb-sm-0">
-    //                     <div class="d-flex align-items-center">
-    //                         <div class="theme-avtar bg-info">
-    //                             <i class="ti ti-calendar-event"></i>
-    //                         </div>
-    //                         <div class="ms-3">
-    //                             <h6 class="m-0">${element.name} (${element.name})</h6>
-    //                             <small class="text-muted">${element.start_time} - ${element.end_time}</small>
-    //                         </div>
-    //                     </div>
-    //                 </div>
-    //             </div>
-    //         </li>`;
-    //         });
-    //         $('#listEvent').html(data);
-    //     }
-    // });
-// })
-
-        // $(document).ready(function() { 
-        //     setTimeout(() => {
-        //         var month = $('#fc-toolbar-title').text();
-        //     }, 2000);
-        //     console.log('dsf'+ month);
-        // });
-//         $(document).on( "load", function() {
-//             var month = $('.fc-toolbar-title').text();
-//             console.log("++++++++++++++++++++++++++++++++++++++++++++++++"+month);
-// } );
 
 
 $(document).ready(function() {
     display_count();
     setTimeout(() => {
-                var month = $('.fc-toolbar-title').text();
-                var date = new Date(month);
-    // Get the month and year separately
-    var monthNumber = date.getMonth() + 1; // Adding 1 because month index starts from 0
-    var year = date.getFullYear();
-    $.ajax({
-        url: "<?php echo e(route('monthbaseddata')); ?>",
-        type: 'POST',
-        data: {
-            "month": monthNumber,
-            "year": year,
-            "_token": "<?php echo e(csrf_token()); ?>",
-        },
-        success: function(data) {
-            console.log(data);
-            var html ='';
-            $(data).each(function(index, element) {
-                var start = element.start_time;
-                                    var start_time = moment(start, 'HH:mm:ss')
-                                        .format('h:mm A');
-                                    var end = element.end_time;
-                                    var end_time = moment(end, 'HH:mm:ss').format(
-                                        'h:mm A');
-                html += `<li class="list-group-item card mb-3">
+        var month = $('.fc-toolbar-title').text();
+        var date = new Date(month);
+        // Get the month and year separately
+        var monthNumber = date.getMonth() + 1; // Adding 1 because month index starts from 0
+        var year = date.getFullYear();
+        $.ajax({
+            url: "<?php echo e(route('monthbaseddata')); ?>",
+            type: 'POST',
+            data: {
+                "month": monthNumber,
+                "year": year,
+                "_token": "<?php echo e(csrf_token()); ?>",
+            },
+            success: function(data) {
+                console.log(data);
+                var html = '';
+                $(data).each(function(index, element) {
+                    var start = element.start_time;
+                    var start_time = moment(start, 'HH:mm:ss')
+                        .format('h:mm A');
+                    var end = element.end_time;
+                    var end_time = moment(end, 'HH:mm:ss').format(
+                        'h:mm A');
+                    html += `<li class="list-group-item card mb-3">
                 <div class="row align-items-center justify-content-between">
                     <div class="col-auto mb-3 mb-sm-0">
                         <div class="d-flex align-items-center">
@@ -259,11 +211,11 @@ $(document).ready(function() {
                     </div>
                 </div>
             </li>`;
-            });
-            $('#listEvent').html(html);
-        }
-    });
-                // console.log('dsf'+ month);
+                });
+                $('#listEvent').html(html);
+            }
+        });
+        // console.log('dsf'+ month);
     }, 2450);
 
 });

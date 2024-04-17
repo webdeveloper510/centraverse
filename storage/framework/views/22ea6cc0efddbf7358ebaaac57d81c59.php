@@ -17,7 +17,9 @@ $bar_package = json_decode($settings['barpackage'],true);
 if(isset($settings['additional_items']) && !empty($settings['additional_items'])){
 $additional_items = json_decode($settings['additional_items'],true);
 }
+
 ?>
+
 <?php echo e(Form::open(array('url'=>'lead','method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))); ?>
 
 <input type="hidden" name="storedid" value="">
@@ -25,6 +27,11 @@ $additional_items = json_decode($settings['additional_items'],true);
     <div class="col-6">
         <div class="form-group">
             <?php echo e(Form::label('lead_name',__('Lead Name'),['class'=>'form-label'])); ?>
+
+            <!-- <span class="text-sm"> <i class="fa fa-asterisk text-danger" aria-hidden="true" style="    font-size: xx-small;
+    position: absolute;
+    padding: 1px;"></i></span>
+            -->
 
             <?php echo e(Form::text('lead_name',null,array('class'=>'form-control','placeholder'=>__('Enter Lead Name'),'required'=>'required'))); ?>
 
@@ -176,7 +183,8 @@ $additional_items = json_decode($settings['additional_items'],true);
 
             <?php $__currentLoopData = $value['package']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $k => $package): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <div class="form-check" data-main-index="<?php echo e($k); ?>" data-main-package="<?php echo e($package); ?>">
-                <?php echo Form::checkbox('package_'.str_replace(' ', '', strtolower($value['function'])).'[]',$package, null,
+                <?php echo Form::checkbox('package_'.str_replace(' ', '', strtolower($value['function'])).'[]',$package,
+                     null,
                 ['id' => 'package_' . $key.$k, 'data-function' => $value['function'], 'class' => 'form-check-input']); ?>
 
                 <?php echo e(Form::label($package, $package, ['class' => 'form-check-label'])); ?>

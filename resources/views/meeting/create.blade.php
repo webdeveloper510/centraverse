@@ -23,39 +23,39 @@ if(isset($setting['barpackage']) && !empty($setting['barpackage'])){
 $bar_package = json_decode($setting['barpackage'],true);
 }
 if(request()->has('lead')){
-    $leadId = decrypt(urldecode(request()->query('lead')));
+$leadId = decrypt(urldecode(request()->query('lead')));
 }
 
 @endphp
 @section('content')
 <style>
-    .floorimages {
-        height: 400px;
-        width: 600px;
-        margin: 26px;
-    }
+.floorimages {
+    height: 400px;
+    width: 600px;
+    margin: 26px;
+}
 
-    .selected-image {
-        border: 2px solid #3498db;
-        box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
-        transition: border-color 0.3s, box-shadow 0.3s;
-    }
+.selected-image {
+    border: 2px solid #3498db;
+    box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
 
-    .selected-image:hover {
-        border-color: #2980b9;
-        box-shadow: 0 0 15px rgba(41, 128, 185, 0.8);
-    }
+.selected-image:hover {
+    border-color: #2980b9;
+    box-shadow: 0 0 15px rgba(41, 128, 185, 0.8);
+}
 
-    .zoom {
-        background-color: none;
-        transition: transform .2s;
-    }
+.zoom {
+    background-color: none;
+    transition: transform .2s;
+}
 
-    .zoom:hover {
-        -ms-transform: scale(1.5);
-        -webkit-transform: scale(1.5);
-        transform: scale(1.2);
-    }
+.zoom:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.2);
+}
 </style>
 <div class="container-field">
     <div id="wrapper">
@@ -83,7 +83,7 @@ if(request()->has('lead')){
                                 </div>
                             </div>
                         </div>
-                        <div id="event_option" >
+                        <div id="event_option">
                             {{ Form::open(['url' => 'meeting', 'method' => 'post', 'enctype' => 'multipart/form-data','id'=>'formdata'] )  }}
                             <div id="useradd-1" class="card">
                                 <div class="col-md-12">
@@ -96,7 +96,7 @@ if(request()->has('lead')){
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-6" id="lead_select" >
+                                            <div class="col-6" id="lead_select">
                                                 <div class="form-group">
                                                     {{ Form::label('lead', __('Lead'), ['class' => 'form-label']) }}
                                                     {!! Form::select('lead', $attendees_lead, null, ['class' =>
@@ -169,10 +169,12 @@ if(request()->has('lead')){
                                                 <div class="form-group">
                                                     {{Form::label('phone',__('Phone'),['class'=>'form-label']) }}
                                                     <div class="intl-tel-input">
-                <input type="tel" id="phone-input" name="phone" class="phone-input form-control"
-                    placeholder="Enter Phone" maxlength="16" required>
-                <input type="hidden" name="countrycode" id="country-code">
-            </div>                                                </div>
+                                                        <input type="tel" id="phone-input" name="phone"
+                                                            class="phone-input form-control" placeholder="Enter Phone"
+                                                            maxlength="16" required>
+                                                        <input type="hidden" name="countrycode" id="country-code">
+                                                    </div>
+                                                </div>
 
                                             </div>
                                             <div class="col-6">
@@ -215,10 +217,12 @@ if(request()->has('lead')){
                                                         <div class="form-group">
                                                             {{Form::label('alter_phone',__('Phone'),['class'=>'form-label']) }}
                                                             <div class="intl-tel-input">
-                <input type="tel" name="alter_phone" class="phone-input form-control"
-                    placeholder="Enter Phone" >
-                <input type="hidden" name="countrycode" id="country-code">
-            </div>              
+                                                                <input type="tel" name="alter_phone"
+                                                                    class="phone-input form-control"
+                                                                    placeholder="Enter Phone">
+                                                                <input type="hidden" name="countrycode"
+                                                                    id="country-code">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-6">
@@ -311,7 +315,8 @@ if(request()->has('lead')){
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     {{ Form::label('start_date', __('Start Date'), ['class' => 'form-label']) }}
-                                                    {!! Form::date('start_date', null, ['class' => 'form-control',
+                                                    {!! Form::date('start_date', date('Y-m-d'), ['class' =>
+                                                    'form-control',
                                                     'required' => 'required']) !!}
                                                 </div>
                                                 @if ($errors->has('start_date'))
@@ -324,7 +329,7 @@ if(request()->has('lead')){
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     {{ Form::label('end_date', __('End Date'), ['class' => 'form-label']) }}
-                                                    {!! Form::date('end_date',null, ['class' => 'form-control',
+                                                    {!! Form::date('end_date',date('Y-m-d'), ['class' => 'form-control',
                                                     'required' => 'required']) !!}
                                                 </div>
                                                 @if ($errors->has('end_date'))
@@ -393,7 +398,7 @@ if(request()->has('lead')){
                                                         'package_' . $key.$k, 'data-function' => $value['function'],
                                                         'class' => 'form-check-input']) !!}
                                                         {{ Form::label($package, $package, ['class' => 'form-check-label']) }}
-                                                      
+
                                                     </div>
                                                     @endforeach
                                                 </div>
@@ -540,7 +545,8 @@ if(request()->has('lead')){
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     {{Form::label('atttachment',__('Attachments (If Any)'),['class'=>'form-label']) }}
-                                                    <input type="file" name="atttachment" id="atttachment" class="form-control">
+                                                    <input type="file" name="atttachment" id="atttachment"
+                                                        class="form-control">
 
                                                 </div>
                                             </div>
@@ -563,10 +569,10 @@ if(request()->has('lead')){
 @endsection
 @push('script-page')
 <script>
-    $(document).ready(function() {
+$(document).ready(function() {
     // Retrieve leadId from localStorage
     var leadId = localStorage.getItem('leadId');
-    
+
     // Check if leadId exists in localStorage
     if (leadId) {
         $('select[name="lead"]').val(leadId);
@@ -581,13 +587,19 @@ if(request()->has('lead')){
                 "_token": "{{ csrf_token() }}",
             },
             success: function(data) {
+                // func_pack = json_decode(data.func_package);
                 venue_str = data.venue_selection;
                 venue_arr = venue_str.split(",");
                 func_str = data.function;
                 func_arr = func_str.split(",");
                 $('input[name ="company_name"]').val(data.company_name);
                 $('input[name ="name"]').val(data.name);
-                $('input[name ="phone"]').val(data.phone);
+                // Phone number formatting
+                // var phoneInput = $('input[name ="phone"]');
+                // phoneInput.val(data.phone);
+                // // phoneInput.trigger('input');
+                // // phoneInput.addEventListener('input', enforceFormat);
+                // // phoneInput.addEventListener('input', formatToPhone); 
                 $('input[name ="relationship"]').val(data.relationship);
                 $('input[name ="start_date"]').val(data.start_date);
                 $('input[name ="end_date"]').val(data.end_date);
@@ -612,9 +624,9 @@ if(request()->has('lead')){
                 });
                 $('input[name ="guest_count"]').val(data.guest_count);
                 var checkedFunctions = $('input[name="function[]"]:checked').map(
-            function() {
-                    return $(this).val();
-                }).get();
+                    function() {
+                        return $(this).val();
+                    }).get();
                 var mailFunctionSection = document.getElementById('mailFunctionSection');
                 var divs = mailFunctionSection.querySelectorAll('.form-group');
                 divs.forEach(function(div) {
@@ -637,6 +649,17 @@ if(request()->has('lead')){
     width: 100%;
 }
 </style>
+<!-- <script>
+$(document).ready(function() {
+    $('input[name="uploadedImage"]').change(function() {
+        $('.floorimages').removeClass('selected-image');
+        if ($(this).is(':checked')) {
+            var imageId = $(this).attr('id');
+            $('label[for="' + imageId + '"] img').addClass('selected-image');
+        }
+    });
+});
+</script> -->
 <script>
 $(document).ready(function() {
     var input = document.querySelector("#phone-input");
@@ -650,8 +673,7 @@ $(document).ready(function() {
     if (indiaCountryCode !== 'us') {
         iti.setCountry('us');
     }
-});
-$(document).ready(function() {
+
     $('#start_date, #end_date').change(function() {
         var startDate = new Date($('#start_date').val());
         var endDate = new Date($('#end_date').val());
@@ -660,6 +682,13 @@ $(document).ready(function() {
             $('#end_date').val($('#start_date').val());
         } else if ($(this).attr('id') === 'end_date' && endDate < startDate) {
             $('#start_date').val($('#end_date').val());
+        }
+    });
+    $('input[name="uploadedImage"]').change(function() {
+        $('.floorimages').removeClass('selected-image');
+        if ($(this).is(':checked')) {
+            var imageId = $(this).attr('id');
+            $('label[for="' + imageId + '"] img').addClass('selected-image');
         }
     });
 });
@@ -737,46 +766,57 @@ $(document).ready(function() {
         }
     });
 });
-
 </script>
 
 
 <script>
-document.addEventListener('DOMContentLoaded', async function() {
-    try {
-        const getSessionStorage = () => {
-            return new Promise((resolve, reject) => {
-                try {
-                    const storedSessionData = window.sessionStorage.getItem("selectedDate");
-                    resolve(storedSessionData);
-                } catch (error) {
-                    reject(error);
-                }
-            });
-        };
-        const storedSessionData = await getSessionStorage();
-        if (storedSessionData) {
-            console.log(`sessionStorage: ${storedSessionData}`);
-            document.getElementById('newevent').click();
-            const startDateInput = document.getElementById('start_date');
-            if (startDateInput) {
-                startDateInput.setAttribute('value', storedSessionData);
-                startDateInput.value = storedSessionData;
-                console.log("Value set successfully.");
-            } else {
-                console.error("Element with ID 'start_date' not found.");
-            }
-        } else {
-            console.log("No sessionStorage data found.");
-        }
-    } catch (error) {
-        console.error("Error occurred while retrieving sessionStorage:", error);
-    }
-});
+// document.addEventListener('DOMContentLoaded', async function() {
+// try {
+// const getSessionStorage = () => {
+//     return new Promise((resolve, reject) => {
+//         try {
+//             const storedSessionData = window.sessionStorage.getItem("selectedDate");
+//             resolve(storedSessionData);
+//         } catch (error) {
+//             reject(error);
+//         }
+//     });
+// };
+// const storedSessionData = await getSessionStorage();
+// if (storedSessionData) {
+//     console.log(`sessionStorage: ${storedSessionData}`);
+//     document.getElementById('newevent').click();
+//     const startDateInput = document.getElementById('start_date');
+//     if (startDateInput) {
+//         startDateInput.setAttribute('value', storedSessionData);
+//         startDateInput.value = storedSessionData;
+//         console.log("Value set successfully.");
+//     } else {
+//         console.error("Element with ID 'start_date' not found.");
+//     }
+// } else {
+//     console.log("No sessionStorage data found.");
+// }
+//     const removeSessionStorage = () => {
+//         return new Promise((resolve, reject) => {
+//             try {
+//                 window.sessionStorage.removeItem("selectedDate");
+//                 resolve();
+//             } catch (error) {
+//                 reject(error);
+//             }
+//         });
+//     };
+//     await removeSessionStorage();
+//     console.log("SessionStorage data removed successfully.");
+// } catch (error) {
+//     console.error("Error occurred while retrieving sessionStorage:", error);
+// }
+// });
 </script>
 <script>
 $(document).ready(function() {
-    
+
     //$('input[name=newevent]').prop('checked', false);
     $('input[name="newevent"]').on('click', function() {
         $('#lead_select').hide();
@@ -811,8 +851,8 @@ $(document).ready(function() {
                 func_arr = func_str.split(",");
                 $('input[name ="company_name"]').val(data.company_name);
                 $('input[name ="name"]').val(data.name);
-                $('input[name ="phone"]').val(data.phone);
                 $('input[name ="relationship"]').val(data.relationship);
+                $('input[name ="phone"]').val(data.phone);
                 $('input[name ="start_date"]').val(data.start_date);
                 $('input[name ="end_date"]').val(data.end_date);
                 $('input[name ="start_time"]').val(data.start_time);
@@ -822,7 +862,7 @@ $(document).ready(function() {
                 $('input[name ="lead_address"]').val(data.lead_address);
                 $("select[name='type'] option[value='" + data.type + "']").prop("selected",
                     true);
-                $("input[name='bar'][value='" + data.bar + "']").prop('checked', true);
+                $("input[name='baropt'][value='" + data.bar + "']").prop('checked', true);
                 $("input[name='user[]'][value='" + data.assigned_user + "']").prop(
                     'checked', true);
                 $.each(venue_arr, function(i, val) {
@@ -836,9 +876,9 @@ $(document).ready(function() {
                 });
                 $('input[name ="guest_count"]').val(data.guest_count);
                 var checkedFunctions = $('input[name="function[]"]:checked').map(
-            function() {
-                    return $(this).val();
-                }).get();
+                    function() {
+                        return $(this).val();
+                    }).get();
                 var mailFunctionSection = document.getElementById('mailFunctionSection');
                 var divs = mailFunctionSection.querySelectorAll('.form-group');
                 divs.forEach(function(div) {
@@ -906,15 +946,5 @@ document.getElementById('opencontact').addEventListener('click', function(event)
     event.preventDefault();
 });
 </script>
-<script>
-$(document).ready(function() {
-    $('input[name="uploadedImage"]').change(function() {
-        $('.floorimages').removeClass('selected-image');
-        if ($(this).is(':checked')) {
-            var imageId = $(this).attr('id');
-            $('label[for="' + imageId + '"] img').addClass('selected-image');
-        }
-    });
-});
-</script>
+
 @endpush

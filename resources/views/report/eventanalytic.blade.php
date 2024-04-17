@@ -139,13 +139,18 @@
                                 <th scope="col" class="sort" data-sort="name">{{ __('Invoice Created') }}</th>
                                 <th scope="col" class="sort" data-sort="budget">{{ __('Payment Status') }}</th>
                                 <th scope="col" class="sort" data-sort="budget">{{ __('Total Amount') }}</th>
+                                <th scope="col" class="sort" data-sort="budget">{{ __('Adjustments') }}</th>
+                                <th scope="col" class="sort" data-sort="budget">{{ __('Late Fee') }}</th>
                                 <th scope="col" class="sort" data-sort="budget">{{ __('Amount Paid') }}</th>
                                 <th scope="col" class="sort" data-sort="budget">{{ __('Due Amount') }}</th>
                                 <th scope="col" class="sort" data-sort="budget">{{ __('Created At') }}</th>
+                                <th scope="col" class="sort" data-sort="budget">{{ __('Invoice view') }}</th>
+
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($events as $result)
+                            <?php $invoice = App\Models\Billing::where('event_id',$result['id'])->exists(); ?>
                             <tr>
                             <td> {{ __(\App\Models\Meeting::$status[$result['status']]) }}</td>
 
@@ -168,7 +173,7 @@
                                     @if(isset($comment) && !empty($comment))
                                     {{App\Models\Agreement::where('event_id',$result['id'])->orderby('id','desc')->first()->notes}}
                                     @else -- @endif</td>
-                                <td><?php $invoice = App\Models\Billing::where('event_id',$result['id'])->exists(); ?>
+                                <td>
                                 @if($invoice) Yes @else No @endif
                             </td>
                                 <td>
@@ -186,7 +191,27 @@
                                         No Payment
                                         @endif
                                 </td>
-                                <td>@if($result['total'] != 0) ${{$result['total']}} @else {{ __('Invoice Not Created') }}@endif</td>
+                                <td>@if($result['total'] != 0) 
+                                    ${{$result['total']}} 
+                                    @else {{ __('Invoice Not Created') }}
+                                    @endif
+                                </td>
+                               
+                                
+                                <td>
+                                    @if($paymentInfo)
+                                        ${{$paymentInfo->adjustments}}
+                                    @else
+                                    --
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($paymentInfo )
+                                    ${{$paymentInfo->latefee}}
+                                    @else
+                                    --
+                                    @endif
+                                </td>
                                 <td>
                                     @if($paymentLog)
                                     ${{$paymentLog->amount}}
@@ -203,6 +228,9 @@
                                 <td>{{ __(\Auth::user()->dateFormat($result['created_at'])) }}
 
                                 </td>
+                                <td>  @if($invoice) <a href="{{ route('billing.estimateview',urlencode(encrypt($result['id'])))}}"style="color: #1551c9 !important;"> 
+               {{ __('View Invoice') }}
+            @else  No Invoice @endif</td>
 
                             </tr>
                             @endforeach

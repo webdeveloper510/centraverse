@@ -153,6 +153,8 @@
                         </thead>
                         <tbody>
                             <?php $__currentLoopData = $leads; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $result): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <?php $event = App\Models\Meeting::where('attendees_lead',$result['id'])->exists();
+                           ?>
                             <tr>
                                 <td><?php echo e(__(\App\Models\Lead::$stat[$result->lead_status])); ?></td>
                                 <td> <?php echo e(__(\App\Models\Lead::$status[$result['status']])); ?></td>
@@ -183,7 +185,7 @@
                                 <td><?php echo e(isset($result['function']) ? ucfirst($result['function']) : '--'); ?></td>
                                 <td><?php echo e($result['guest_count']); ?></td>
                                 <td>
-                                    <?php $event = App\Models\Meeting::where('attendees_lead',$result['id'])->exists() ?>
+                                   
                                     <?php if($event): ?> Yes <?php else: ?> No <?php endif; ?>
                                 </td>
                                 <td><?php echo e(__(\Auth::user()->dateFormat($result['created_at']))); ?></td>

@@ -18,6 +18,7 @@ if(isset($settings['additional_items']) && !empty($settings['additional_items'])
 $additional_items = json_decode($settings['additional_items'],true);
 }
 ?>
+
 <?php echo e(Form::open(array('url'=>'lead','method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))); ?>
 
 <input type="hidden" name="storedid" value="">
@@ -25,6 +26,11 @@ $additional_items = json_decode($settings['additional_items'],true);
     <div class="col-6">
         <div class="form-group">
             <?php echo e(Form::label('lead_name',__('Lead Name'),['class'=>'form-label'])); ?>
+
+            <!-- <span class="text-sm"> <i class="fa fa-asterisk text-danger" aria-hidden="true" style="    font-size: xx-small;
+    position: absolute;
+    padding: 1px;"></i></span>
+            -->
 
             <?php echo e(Form::text('lead_name',null,array('class'=>'form-control','placeholder'=>__('Enter Lead Name'),'required'=>'required'))); ?>
 

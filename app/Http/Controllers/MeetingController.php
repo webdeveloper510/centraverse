@@ -225,6 +225,7 @@ class MeetingController extends Controller
             $meeting->save();
             
             if (!empty($request->file('atttachment'))) {
+                $file= $request->file('atttachment');
                 $originalName = $file->getClientOriginalName();
                 $filename =  Str::random(3).'_'.$originalName;
                 $folder = 'Event/' .  $meeting->id; // Example: uploads/1
@@ -496,6 +497,7 @@ class MeetingController extends Controller
             $meeting['created_by']        = \Auth::user()->creatorId();
             $meeting->update();
             if (!empty($request->file('atttachment'))) {
+                $file = $request->file('atttachment');
                 $originalName = $file->getClientOriginalName();
                 $filename =  Str::random(3).'_'.$originalName;
                 $folder = 'Event/' .  $meeting->id; // Example: uploads/1
@@ -936,16 +938,49 @@ class MeetingController extends Controller
         }
 
         $phone= preg_replace('/\D/', '', $request->input('phone'));
+        $data = $request->all();
+        $package = [];
+            $additional = [];
+            $bar_pack =[];
+            foreach ($data as $key => $values) {
+                if (strpos($key, 'package_') === 0) {
+                    $newKey = strtolower(str_replace('package_', '', $key));
+                    $package[$newKey] = $values;
+                }
+                if (strpos($key, 'additional_') === 0) {
+                    // Extract the suffix from the key
+                    $newKey = strtolower(str_replace('additional_', '', $key));
+
+                    // Check if the key exists in the output array, if not, initialize it
+                    if (!isset($additional[$newKey])) {
+                        $additional[$newKey] = [];
+                    }
+                    $additional[$newKey] = $values;
+                }
+                if (strpos($key, 'bar_') === 0) {
+                    // Extract the suffix from the key
+                    $newKey = ucfirst(strtolower(str_replace('bar_', '', $key)));
+
+                    // Check if the key exists in the output array, if not, initialize it
+                    if (!isset($bar_pack[$newKey])) {
+                        $bar_pack[$newKey] = [];
+                    }
+
+                    // Assign the values to the new key in the output array
+                    $bar_pack[$newKey] = $values;
+                }
+            }
+            $package = json_encode($package);
+            $additional = json_encode($additional);
+            $bar_pack = json_encode($bar_pack);
 
         $packagesArray = implode(',', array($break_package, $lunch_package, $dinner_package, $wedding_package));
         $meeting['user_id']           = implode(',', $request->user);
         $meeting['name']              = $request->name;
-        $meeting['status']            = $request->status;
         $meeting['start_date']        = $request->start_date;
         $meeting['end_date']          = $request->end_date;
         $meeting['relationship']       = $request->relationship;
         $meeting['type']               = $request->type;
-        $meeting['venue_selection']    = $request->venue_selection;
         $meeting['email']              = $request->email;
         $meeting['lead_address']      = $request->lead_address;
         $meeting['status']               = $status;
@@ -955,16 +990,17 @@ class MeetingController extends Controller
         $meeting['guest_count']        = $request->guest_count;
         $meeting['room']                = $request->rooms;
         $meeting['meal']                = $meal??'';
-        $meeting['bar']                 = $request->bar;
+        $meeting['bar']                 = $request->baropt;
         $meeting['spcl_request']        = $request->spcl_request;
         $meeting['alter_name']          = $request->alter_name;
         $meeting['alter_email']         = $request->alter_email;
         $meeting['alter_relationship']  = $request->alter_relationship;
         $meeting['alter_lead_address']  = $request->alter_lead_address;
+        $meeting['bar_package']         = $bar_pack;
         $meeting['phone']               = $phone;
         $meeting['start_time']        = $request->start_time;
         $meeting['end_time']        = $request->end_time;
-        $meeting['ad_opts']             = $request->add_opts;
+        $meeting['ad_opts']             = isset($additional) ? $additional : '';
         $meeting['floor_plan']          = $request->uploadedImage;
         $meeting['created_by']        = \Auth::user()->creatorId();
         $meeting->update();
