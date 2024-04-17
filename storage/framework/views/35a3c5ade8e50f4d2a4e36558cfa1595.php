@@ -144,16 +144,16 @@
                                                     </div>
                                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Lead')): ?>
                                                     <div class="action-btn bg-warning ms-2">
-                                                        <a href="<?php echo e(route('lead.show',$lead->id)); ?>" title="<?php echo e(__('Quick View')); ?>"
+                                                        <!-- <a href="<?php echo e(route('lead.show',$lead->id)); ?>" title="<?php echo e(__('Quick View')); ?>"
                                                             data-ajax-popup="true" data-title="<?php echo e(__('Lead Details')); ?>"
                                                             class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class="ti ti-eye"></i>
-                                                            <!-- <a href="#" data-size="md"
+                                                            <i class="ti ti-eye"></i> -->
+                                                            <a href="#" data-size="md"
                                                             data-url="<?php echo e(route('lead.show',$lead->id)); ?>"
                                                             data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>"
                                                             data-ajax-popup="true" data-title="<?php echo e(__('Lead Details')); ?>"
                                                             class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class="ti ti-eye"></i> -->
+                                                            <i class="ti ti-eye"></i>
                                                         </a>
                                                     </div>
                                                     <?php endif; ?>

@@ -17,13 +17,20 @@ $bar_package = json_decode($settings['barpackage'],true);
 if(isset($settings['additional_items']) && !empty($settings['additional_items'])){
 $additional_items = json_decode($settings['additional_items'],true);
 }
+
 @endphp
+
 {{Form::open(array('url'=>'lead','method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))}}
 <input type="hidden" name="storedid" value="">
 <div class="row">
     <div class="col-6">
         <div class="form-group">
             {{Form::label('lead_name',__('Lead Name'),['class'=>'form-label']) }}
+            <!-- <span class="text-sm"> <i class="fa fa-asterisk text-danger" aria-hidden="true" style="    font-size: xx-small;
+    position: absolute;
+    padding: 1px;"></i></span>
+            -->
+
             {{Form::text('lead_name',null,array('class'=>'form-control','placeholder'=>__('Enter Lead Name'),'required'=>'required'))}}
         </div>
     </div>
@@ -146,7 +153,8 @@ $additional_items = json_decode($settings['additional_items'],true);
             {{ Form::label('package', __($value['function']), ['class' => 'form-label']) }}
             @foreach($value['package'] as $k => $package)
             <div class="form-check" data-main-index="{{$k}}" data-main-package="{{$package}}">
-                {!! Form::checkbox('package_'.str_replace(' ', '', strtolower($value['function'])).'[]',$package, null,
+                {!! Form::checkbox('package_'.str_replace(' ', '', strtolower($value['function'])).'[]',$package,
+                     null,
                 ['id' => 'package_' . $key.$k, 'data-function' => $value['function'], 'class' => 'form-check-input'])
                 !!}
                 {{ Form::label($package, $package, ['class' => 'form-check-label']) }}

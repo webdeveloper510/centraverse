@@ -149,6 +149,8 @@
                         </thead>
                         <tbody>
                             @foreach ($leads as $result)
+                            <?php $event = App\Models\Meeting::where('attendees_lead',$result['id'])->exists();
+                           ?>
                             <tr>
                                 <td>{{ __(\App\Models\Lead::$stat[$result->lead_status]) }}</td>
                                 <td> {{ __(\App\Models\Lead::$status[$result['status']]) }}</td>
@@ -175,7 +177,7 @@
                                 <td>{{ isset($result['function']) ? ucfirst($result['function']) : '--' }}</td>
                                 <td>{{$result['guest_count']}}</td>
                                 <td>
-                                    <?php $event = App\Models\Meeting::where('attendees_lead',$result['id'])->exists() ?>
+                                   
                                     @if($event) Yes @else No @endif
                                 </td>
                                 <td>{{ __(\Auth::user()->dateFormat($result['created_at'])) }}</td>

@@ -268,7 +268,7 @@ $additional_items = json_decode($setting['additional_items'],true);
                                                 @if(isset($function) && !empty($function))
                                                 @foreach($function as $key => $value)
                                                 <div class="form-check">
-                                                    {!! Form::checkbox('function[]',$value['function'], null, ['id' => 'function_' . $key, 'class' => 'form-check-input']) !!}
+                                                    {!! Form::checkbox('function[]',$value['function'],   in_array( $value['function'], $function_p) ? true : false , ['id' => 'function_' . $key, 'class' => 'form-check-input']) !!}
                                                     {{ Form::label($value['function'], $value['function'], ['class' => 'form-check-label']) }}
                                                 </div>
                                                 @endforeach
@@ -282,8 +282,18 @@ $additional_items = json_decode($setting['additional_items'],true);
                                             <div class="form-group" data-main-index="{{$key}}" data-main-value="{{$value['function']}}" id="function_package" style="display: none;">
                                                 {{ Form::label('package', __($value['function']), ['class' => 'form-label']) }}
                                                 @foreach($value['package'] as $k => $package)
+                                                <?php $isChecked = false; ?>
+                                            @if(isset($food_package) && !empty($food_package))
+                                            @foreach($food_package as $func => $pack)
+                                            @foreach($pack as $keypac => $packval)
+                                            @if($package == $packval)
+                                            <?php $isChecked = true; ?>
+                                            @endif
+                                            @endforeach
+                                            @endforeach
+                                            @endif
                                                 <div class="form-check" data-main-index="{{$k}}" data-main-package="{{$package}}">
-                                                    {!! Form::checkbox('package_'.str_replace(' ', '', strtolower($value['function'])).'[]',$package, null, ['id' => 'package_' . $key.$k, 'data-function' => $value['function'], 'class' => 'form-check-input']) !!}
+                                                    {!! Form::checkbox('package_'.str_replace(' ', '', strtolower($value['function'])).'[]',$package, $isChecked, ['id' => 'package_' . $key.$k, 'data-function' => $value['function'], 'class' => 'form-check-input']) !!}
                                                     {{ Form::label($package, $package, ['class' => 'form-check-label']) }}
                                                 </div>
                                                 @endforeach
@@ -315,7 +325,7 @@ $additional_items = json_decode($setting['additional_items'],true);
                                                 <label><b>Setup</b></label>
                                                 @foreach($setup as $s)
                                                 <div class="col-6  mt-4">
-                                                    <input type="radio" id="image_{{ $loop->index }}" name="uploadedImage" class="form-check-input " value="{{ asset('/floor_images/' . $s->image) }}" style="display:none;" {{$meeting->floor_plan ==$s->image ? 'checked' :''}}>
+                                                    <input type="radio" id="image_{{ $loop->index }}" name="uploadedImage" class="form-check-input " value="{{ asset('/floor_images/' . $s->image) }}" style="display:none;" {{ asset('floor_images/' .$s->image)==$meeting->floor_plan ? 'checked' : '' }}>
                                                     <label for="image_{{ $loop->index }}" class="form-check-label">
                                                         <img src="{{asset('floor_images/'.$s->image)}}" alt="Uploaded Image" class="img-thumbnail floorimages zoom" data-bs-toggle="tooltip" title="{{$s->Description}}">
                                                     </label>
@@ -360,7 +370,7 @@ $additional_items = json_decode($setting['additional_items'],true);
                                                 {!! Form::label('baropt', 'Bar') !!}
                                                 @foreach($baropt as $key => $label)
                                                 <div>
-                                                    {{ Form::radio('baropt', $label, false, ['id' => $label]) }}
+                                                    {{ Form::radio('baropt', $label, isset($meeting->bar) && $meeting->bar == $label ? true :false, ['id' => $label]) }}
                                                     {{ Form::label('baropt' . ($key + 1), $label) }}
                                                 </div>
                                                 @endforeach

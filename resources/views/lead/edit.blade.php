@@ -19,6 +19,12 @@ $baropt = ['Open Bar', 'Cash Bar', 'Package Choice'];
 if(isset($setting['barpackage']) && !empty($setting['barpackage'])){
 $bar_package = json_decode($setting['barpackage'],true);
 }
+if(!empty($lead->func_package)){
+$func_package = json_decode($lead->func_package,true);
+}
+if(!empty($lead->ad_opts)){
+$fun_ad_opts = json_decode($lead->ad_opts,true);
+}
 @endphp
 @section('title')
 <div class="page-header-title">
@@ -166,13 +172,21 @@ $bar_package = json_decode($setting['barpackage'],true);
                                             style="display: none;">
                                             {{ Form::label('package', __($value['function']), ['class' => 'form-label']) }}
                                             @foreach($value['package'] as $k => $package)
-
+                                            <?php $isChecked = false; ?>
+                                            @if(isset($func_package) && !empty($func_package))
+                                            @foreach($func_package as $func => $pack)
+                                            @foreach($pack as $keypac => $packval)
+                                            @if($package == $packval)
+                                            <?php $isChecked = true; ?>
+                                            @endif
+                                            @endforeach
+                                            @endforeach
+                                            @endif
                                             <div class="form-check" data-main-index="{{$k}}"
                                                 data-main-package="{{$package}}">
                                                 {!! Form::checkbox('package_'.str_replace(' ', '',
                                                 strtolower($value['function'])).'[]',$package,
-                                                isset($food_package[ucfirst($value['function'])]) && in_array($package,
-                                                $food_package[ucfirst($value['function'])]), ['id' => 'package_' .
+                                                $isChecked, ['id' => 'package_' .
                                                 $key.$k, 'data-function' => $value['function'], 'class' =>
                                                 'form-check-input']) !!}
                                                 {{ Form::label($package, $package, ['class' => 'form-check-label']) }}
@@ -187,6 +201,7 @@ $bar_package = json_decode($setting['barpackage'],true);
                                         {{ Form::label('additional', __('Additional items'), ['class' => 'form-label']) }}
                                         @foreach($additional_items as $ad_key =>$ad_value)
                                         @foreach($ad_value as $fun_key =>$packageVal)
+
                                         <div class="form-group" data-additional-index="{{$fun_key}}"
                                             data-additional-value="{{key($packageVal)}}" id="ad_package"
                                             style="display: none;">
@@ -194,8 +209,17 @@ $bar_package = json_decode($setting['barpackage'],true);
                                             @foreach($packageVal as $pac_key =>$item)
                                             <div class="form-check" data-additional-index="{{$pac_key}}"
                                                 data-additional-package="{{$pac_key}}">
+                                                <?php $isCheckedif = false;?>
+                                                @foreach($fun_ad_opts as $keys=>$valss)
+                                                @foreach($valss as $key=>$val)
+                                                @if($pac_key == $val)
+                                              
+                                                @endif
+                                                @endforeach
+                                                @endforeach
                                                 {!! Form::checkbox('additional_'.str_replace(' ', '_',
-                                                strtolower($fun_key)).'[]',$pac_key, null, ['data-function' => $fun_key,
+                                                strtolower($fun_key)).'[]',$pac_key, $isCheckedif, ['data-function' =>
+                                                $fun_key,
                                                 'class' => 'form-check-input']) !!}
                                                 {{ Form::label($pac_key, $pac_key, ['class' => 'form-check-label']) }}
                                             </div>
@@ -249,7 +273,7 @@ $bar_package = json_decode($setting['barpackage'],true);
                                             {!! Form::label('baropt', 'Bar') !!}
                                             @foreach($baropt as $key => $label)
                                             <div>
-                                                {{ Form::radio('baropt', $label,false, ['id' => $label]) }}
+                                                {{ Form::radio('baropt', $label, isset($lead->bar) && $lead->bar == $label ? true : false , ['id' => $label]) }}
                                                 {{ Form::label('baropt' . ($key + 1), $label) }}
                                             </div>
                                             @endforeach
@@ -327,7 +351,7 @@ $bar_package = json_decode($setting['barpackage'],true);
 @push('script-page')
 
 <script>
-    $(document).ready(function() {
+$(document).ready(function() {
     $('#start_date, #end_date').change(function() {
         var startDate = new Date($('#start_date').val());
         var endDate = new Date($('#end_date').val());

@@ -97,12 +97,12 @@
                         </div>
                     </div>
                 </div>
-                <h4 class="m-b-10">
+                <!-- <h4 class="m-b-10">
                     <div class="page-header-title">
                         <?php echo e(__('Documents')); ?>
 
                     </div>
-                </h4>
+                </h4> -->
 
                 <div class="container-fluid xyz mt-3">
                     <div class="row">

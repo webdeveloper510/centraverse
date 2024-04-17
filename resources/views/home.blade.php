@@ -36,7 +36,7 @@
                                     <i class="fa fa-tasks"></i>
                                     </div>
                                     <div class="right_side">
-                                        <h6 class="mb-3">{{ __('Active Events') }}</h6>
+                                        <h6 class="mb-3">{{ __('Active/Upcoming Events') }}</h6>
                                         <h3 class="mb-0">{{ @$totalevent }} </h3>
                                     </div>
                                 </div>
