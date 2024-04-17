@@ -18,9 +18,11 @@ use App\Models\Blockdate;
 use App\Models\Setup;
 use App\Models\Billing;
 use App\Models\Agreement;
+use App\Models\EventDoc;
 use App\Models\MasterCustomer;
 use App\Mail\SendBillingMail;
 use App\Mail\AgreementMail;
+use App\Models\NotesEvents;
 use DateTime;
 use Mpdf\Mpdf;
 use DateInterval;
@@ -221,17 +223,35 @@ class MeetingController extends Controller
             $meeting['created_by']          = \Auth::user()->creatorId();
 
             $meeting->save();
-            if (!empty($request->file('atttachment'))){
-                $file =  $request->file('atttachment');
-                $filename = 'Event_'.Str::random(7) . '.' . $file->getClientOriginalExtension();
-                $folder = 'Event/' . $meeting->id; 
+            
+            if (!empty($request->file('atttachment'))) {
+                $originalName = $file->getClientOriginalName();
+                $filename =  Str::random(3).'_'.$originalName;
+                $folder = 'Event/' .  $meeting->id; // Example: uploads/1
                 try {
                     $path = $file->storeAs($folder, $filename, 'public');
+                    $document = new EventDoc();
+                    $document->event_id =  $meeting->id; // Assuming you have a lead_id field
+                    $document->filename = $filename; // Store original file name
+                    $document->filepath = $path; // Store file path
+                    $document->save();
                 } catch (\Exception $e) {
                     Log::error('File upload failed: ' . $e->getMessage());
                     return redirect()->back()->with('error', 'File upload failed');
                 }
-                }
+               
+            } 
+            // if (!empty($request->file('atttachment'))){
+            //     $file =  $request->file('atttachment');
+            //     $filename = 'Event_'.Str::random(7) . '.' . $file->getClientOriginalExtension();
+            //     $folder = 'Event/' . $meeting->id; 
+            //     try {
+            //         $path = $file->storeAs($folder, $filename, 'public');
+            //     } catch (\Exception $e) {
+            //         Log::error('File upload failed: ' . $e->getMessage());
+            //         return redirect()->back()->with('error', 'File upload failed');
+            //     }
+            // }
                 $existingcustomer = MasterCustomer::where('email',$request->email)->first();
                 if(!$existingcustomer){
                     $customer = new MasterCustomer();
@@ -475,17 +495,34 @@ class MeetingController extends Controller
             $meeting['floor_plan']          = $request->uploadedImage;
             $meeting['created_by']        = \Auth::user()->creatorId();
             $meeting->update();
-            if (!empty($request->file('attachment'))){
-                $file =  $request->file('attachment');
-                $filename = 'Event_'.Str::random(7) . '.' . $file->getClientOriginalExtension();
-                $folder = 'Event/' . $id; // Example: uploads/1
+            if (!empty($request->file('atttachment'))) {
+                $originalName = $file->getClientOriginalName();
+                $filename =  Str::random(3).'_'.$originalName;
+                $folder = 'Event/' .  $meeting->id; // Example: uploads/1
                 try {
                     $path = $file->storeAs($folder, $filename, 'public');
+                    $document = new EventDoc();
+                    $document->event_id =  $meeting->id; // Assuming you have a lead_id field
+                    $document->filename = $filename; // Store original file name
+                    $document->filepath = $path; // Store file path
+                    $document->save();
                 } catch (\Exception $e) {
                     Log::error('File upload failed: ' . $e->getMessage());
                     return redirect()->back()->with('error', 'File upload failed');
                 }
-            }
+               
+            } 
+            // if (!empty($request->file('attachment'))){
+            //     $file =  $request->file('attachment');
+            //     $filename = 'Event_'.Str::random(7) . '.' . $file->getClientOriginalExtension();
+            //     $folder = 'Event/' . $id; // Example: uploads/1
+            //     try {
+            //         $path = $file->storeAs($folder, $filename, 'public');
+            //     } catch (\Exception $e) {
+            //         Log::error('File upload failed: ' . $e->getMessage());
+            //         return redirect()->back()->with('error', 'File upload failed');
+            //     }
+            // }
             return redirect()->back()->with('success', __('Event Updated.'));
         } else {
             return redirect()->back()->with('error', 'Permission Denied');
@@ -1050,4 +1087,45 @@ class MeetingController extends Controller
 
         return view('meeting.detailed_view',compact('event'));
     }
+    public function event_user_info($id){
+        $id = decrypt(urldecode($id));
+        $event = Meeting::find($id);
+        
+        $notes = NotesEvents::where('event_id',$id)->orderby('id','desc')->get();
+        $docs = EventDoc::where('event_id',$id)->get();
+        return view('customer.eventuserview',compact('event','docs','notes'));
+    }
+    public function event_upload_doc(Request $request,$id){
+        $file = $request->file('customerattachment');
+
+        if ($file) {
+            $originalName = $file->getClientOriginalName();
+            $filename =  Str::random(3).'_'.$originalName;
+            $folder = 'Event/' . $id; // Example: uploads/1
+            try {
+                $path = $file->storeAs($folder, $filename, 'public');
+            } catch (\Exception $e) {
+                Log::error('File upload failed: ' . $e->getMessage());
+                return redirect()->back()->with('error', 'File upload failed');
+            }
+            $document = new EventDoc();
+            $document->event_id = $id; // Assuming you have a lead_id field
+            $document->filename = $filename; // Store original file name
+            $document->filepath = $path; // Store file path
+            $document->save();
+            return redirect()->back()->with('success', 'Document Uploaded Successfully');
+        } else {
+            return redirect()->back()->with('error', 'No file uploaded');
+        }
+        
+    }
+    public function eventnotes(Request $request,$id){
+        $notes = new NotesEvents();
+        $notes->notes = $request->notes;
+        $notes->created_by = $request->createrid;
+        $notes->event_id = $id;
+        $notes->save();
+        return true;
+    }
+   
 }

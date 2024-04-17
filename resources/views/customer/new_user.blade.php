@@ -7,8 +7,8 @@
 @endsection
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Home') }}</a></li>
-<li class="breadcrumb-item"><a href="{{ route('siteusers') }}">{{ __('All Customers') }}</a></li>
-<li class="breadcrumb-item">{{ __('External Customer') }}</li>
+<li class="breadcrumb-item"><a href="{{ route('siteusers') }}">{{ __('Customers') }}</a></li>
+<li class="breadcrumb-item">{{ __('External Customers') }}</li>
 @endsection
 @section('action-btn')
 <a href="#" data-url="{{ route('uploadusersinfo') }}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('Upload User')}}" title="{{__('Upload')}}" class="btn btn-sm btn-primary btn-icon m-1">

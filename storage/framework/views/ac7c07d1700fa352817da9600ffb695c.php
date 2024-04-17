@@ -57,7 +57,7 @@
                                                 <td>
                                                     <a href="<?php echo e(route('meeting.edit', $meeting->id)); ?>" data-size="md"
                                                         data-title="<?php echo e(__('Event Details')); ?>"
-                                                        class="action-item text-primary">
+                                                        class="action-item text-primary" style=" color: #1551c9 !important;">
                                                         <?php if($meeting->attendees_lead != 0): ?>
                                                         <?php echo e(ucfirst(\App\Models\Lead::where('id',$meeting->attendees_lead)->pluck('leadname')->first())); ?>
 
