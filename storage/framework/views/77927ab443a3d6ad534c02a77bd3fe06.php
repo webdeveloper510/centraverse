@@ -1,4 +1,5 @@
-<?php   
+<?php 
+
 $event = App\Models\Meeting::find($id);
 $paidamount = App\Models\PaymentLogs::where('event_id',$id)->get();
 $total = 0;
@@ -6,6 +7,7 @@ foreach ($paidamount as $key => $value) {
    $total += $value->amount;
 }
 ?>
+<?php if($event->status == 3): ?>
 <div class="row">
     <div class="col-lg-12">
         <div id="notification" class="alert alert-success mt-1">Link copied to clipboard!</div>
@@ -82,6 +84,18 @@ foreach ($paidamount as $key => $value) {
 
     </div>
 </div>
+<?php else: ?>  
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-success">
+                    Contract must be approved by customer/admin before any further payment . 
+
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
 <style>
 #notification {
     display: none;
