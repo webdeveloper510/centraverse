@@ -13,15 +13,18 @@ class SendEventMail extends Mailable
 {
     use Queueable, SerializesModels;
     public $meeting;
+    public $subject;
+    public $content;
+    public $agreementinfo;
     /**
      * Create a new message instance.
      */
-    public function __construct($meeting,$subject,$content,$tempFilePath = NULL)
+    public function __construct($meeting,$subject,$content,$agreementinfo)
     {
        $this->meeting = $meeting;
        $this->subject = $subject;
        $this->content = $content;
-       $this->tempFilePath = $tempFilePath; 
+       $this->agreementinfo = $agreementinfo; 
     }
 
     /**
@@ -55,24 +58,18 @@ class SendEventMail extends Mailable
     {
         $attachments = [];
 
-        // Check if $tempFilePath is not null and it exists
-        if ($this->tempFilePath && file_exists($this->tempFilePath)) {
-            // Get the file name from the path
-            $fileName = basename($this->tempFilePath);
-            
-            // Add the attachment
-            $attachments[] = new \Illuminate\Mail\Mailables\Attachment(
-                $this->tempFilePath,
-                ['as' => $fileName]
-            );
-        }
-
         return $attachments;
     }
 
     public function build()
     {
-        return $this->subject('Agreement')
-                    ->view('meeting.agreement.mail')->with('content',$this->content); 
+                    $filePath = storage_path('app/public/Agreement_attachments/'. $this->meeting->id.'/'.$this->agreementinfo->attachments);
+        return $this->subject($this->subject)
+            ->view('lead.mail.view') // Blade view for email content
+            ->with('content',$this->content)
+            ->attach($filePath, [
+                'as' => $this->agreementinfo->attachments, // File name
+                'mime' => Storage::disk('public')->mimeType('Agreement_attachments/'.$this->meeting->id.'/'.$this->agreementinfo->attachments),
+            ]);
+        }
     }
-}
