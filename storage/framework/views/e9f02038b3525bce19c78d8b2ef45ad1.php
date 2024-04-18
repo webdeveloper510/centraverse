@@ -9,11 +9,13 @@ $proposalUrl = route('lead.signedproposal',urlencode(encrypt($lead->id)));
     <title>Proposal</title>
 </head>
 <body>
-<p><?php echo e($content); ?></p>
-<b>Click the link below to access the proposal form:</b><br>
-<p><?php echo e($proposalUrl); ?></p>
+Dear <?php echo e($lead->name); ?>,<br>
 
-Thank you for your time and collaboration.<br>
+<p><?php echo e($content); ?></p>
+
+<b>Click the link below to see the Lead details/proposal with estimated billing - </b><br>
+<p><?php echo e($proposalUrl); ?></p>
+Thank you for your time and collaboration.
 With regards
 </body>
 </html><?php /**PATH /home/crmcentraverse/public_html/resources/views/lead/mail/view.blade.php ENDPATH**/ ?>

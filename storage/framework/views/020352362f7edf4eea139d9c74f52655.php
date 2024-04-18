@@ -130,10 +130,10 @@ $leaddata['venue_rental_cost'] = $venueRentalCost;
             </dl>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-success" data-toggle="tooltip" onclick="getDataUrlAndCopy(this)"
+            <!-- <button type="button" class="btn btn-success" data-toggle="tooltip" onclick="getDataUrlAndCopy(this)"
                 data-url="<?php echo e(route('lead.signedproposal',urlencode(encrypt($lead->id)))); ?>" title='Copy To Clipboard'>
                 <i class="ti ti-copy"></i>
-            </button>
+            </button> -->
             <?php echo e(Form::submit(__('Share via mail'),array('class'=>'btn btn-primary'))); ?>
 
         </div>

@@ -1,70 +1,12 @@
 <?php
+$billing = App\Models\ProposalInfo::where('lead_id',$lead->id)->orderby('id','desc')->first();
+
 $selectedvenue = explode(',', $lead->venue_selection);
 $settings = App\Models\Utility::settings();
 $imagePath = public_path('upload/signature/autorised_signature.png');
 $imageData = base64_encode(file_get_contents($imagePath));
 $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base64,' . $imageData;
-//--------------Venue Cost----------------------
-$venueRentalCost = 0;
-foreach ($selectedvenue as $venues) {
-$venueRentalCost += $fixed_cost['venue'][$venues] ?? 0;
-}
-//--------------Food Cost----------------------
 
-$totalFoodPackageCost = 0;
-$foodpcks = json_decode($lead->func_package,true);
-
-if(isset($foodpcks) && !empty($foodpcks)){
-    foreach($foodpcks as $key => $foodpck){
-        foreach($foodpck as $foods){
-            $food[]= $foods;
-        }
-    }
-    foreach ($food as $foodItem) {
-        foreach ($fixed_cost['package'] as $category => $categoryItems) {
-            if (isset($categoryItems[$foodItem])) {
-                $totalFoodPackageCost += $categoryItems[$foodItem];
-                break;
-            }
-        }
-    }
-}
-$totalBarCost = 0;
-$barpcks = json_decode($lead->bar_package,true);
-if(isset($barpcks) && !empty($barpcks)){
-   
-    foreach($barpcks as $key => $barpck){
-        $bar[]= $barpck;
-    }
-   
-    foreach ($bar as $barItem) {
-        foreach ($fixed_cost['barpackage'] as $category => $categoryItems) {
-            if (isset($categoryItems[$barItem])) {
-                $totalBarCost += $categoryItems[$barItem];
-                break;
-            }
-        }
-    }
-}
-$additionalItemsCost = 0;
-$addpcks = json_decode($lead->ad_opts,true);
-if(isset($addpcks) && !empty($addpcks)){
-   
-    foreach($addpcks as $key => $adpck){
-        foreach($adpck as $ad){
-            $add[] = $ad;
-        }
-    }
-    foreach ($additional_items as $category => $categoryItems) {
-        foreach ($categoryItems as $item => $subItems) {
-            foreach ($subItems as $key => $value) {
-                if (in_array($key, $add)) {    
-                $additionalItemsCost += $value;
-                }
-            }
-        }
-    }
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -190,12 +132,12 @@ if(isset($addpcks) && !empty($addpcks)){
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
 
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            ${{$venueRentalCost}}
+                                            ${{$billing['venue_rental']['cost']}}
                                         </td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">1
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">$billing['venue_rental']['quantity']
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            ${{$total[] = $venueRentalCost *1}}
+                                            ${{$total[] = $billing['venue_rental']['cost'] * $billing['venue_rental']['quantity']}}
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
                                             {{$lead->venue_selection}}</td>
@@ -206,16 +148,16 @@ if(isset($addpcks) && !empty($addpcks)){
                                             Dinner Package</td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            ${{$totalFoodPackageCost}}</td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">1
+                                            ${{$billing['food_package']['cost']}}</td>
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$billing['food_package']['quantity']}}
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            ${{$total[] =$totalFoodPackageCost * 1}}</td>
+                                            ${{$total[] =$billing['food_package']['cost'] * $billing['food_package']['quantity']}}</td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
                                             {{$lead->function}}</td>
 
                                     </tr>
-                                    <tr>
+                                    <!-- <tr>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Bar Package</td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
@@ -240,27 +182,25 @@ if(isset($addpcks) && !empty($addpcks)){
                                             @endif</td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
                                         </td>
-                                    </tr>
+                                    </tr> -->
                                     <tr>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Hotel Rooms</td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;"></td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            ${{$fixed_cost['hotel_rooms']}}
+                                            ${{$billing['hotel_rooms']['cost']}}
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            {{$lead->rooms}}
+                                            {{$billing['hotel_rooms']['quantity']}}
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            @if($lead->rooms == 0)
-                                            --
-                                            @else
-                                            ${{$total[] = $fixed_cost['hotel_rooms'] *  $lead->rooms }}
-                                            @endif
+                                          
+                                            ${{$total[] = $billing['hotel_rooms']['cost'] *  $billing['hotel_rooms']['quantity']}}
+                                         
 
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                     </tr>
-                                    <tr>
+                                    <!-- <tr>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Tent, Tables,
                                             Chairs, AV Equipment</td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
@@ -271,9 +211,9 @@ if(isset($addpcks) && !empty($addpcks)){
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                    </tr>
+                                    </tr> -->
 
-                                    <tr>
+                                    <!-- <tr>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Welcome / Rehearsal
                                             / Special Setup</td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px"></td>
@@ -284,8 +224,8 @@ if(isset($addpcks) && !empty($addpcks)){
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                    </tr>
-                                    <tr>
+                                    </tr> -->
+                                    <!-- <tr>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Special Requests /
                                             Others</td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
@@ -297,7 +237,7 @@ if(isset($addpcks) && !empty($addpcks)){
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
 
-                                    </tr>
+                                    </tr> -->
                                     <tr>
                                         <td>-</td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
