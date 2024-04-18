@@ -10,7 +10,8 @@
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('breadcrumb'); ?>
 <li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Home')); ?></a></li>
-<li class="breadcrumb-item"><?php echo e(__('Lead Information')); ?></li>
+<li class="breadcrumb-item"><a href="<?php echo e(route('lead.index')); ?>"><?php echo e(__('Leads')); ?></a></li>
+<li class="breadcrumb-item"><?php echo e(__('Lead Details')); ?></li>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('action-btn'); ?>
 
@@ -37,10 +38,10 @@
                                                 <th scope="col" class="sort"><?php echo e(__('Status')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Type')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Converted events')); ?></th>
-                                                <?php if(Gate::check('Show Lead') || Gate::check('Edit Lead') ||
-                                                Gate::check('Delete Lead')): ?>
-                                                <th scope="col" class="text-end"><?php echo e(__('Action')); ?></th>
-                                                <?php endif; ?>
+                                                <!-- <?php if(Gate::check('Show Lead') || Gate::check('Edit Lead') ||
+                                                Gate::check('Delete Lead')): ?> -->
+                                                <!-- <th scope="col" class="text-end"><?php echo e(__('Action')); ?></th> -->
+                                                <!-- <?php endif; ?> -->
                                             </tr>
                                         </thead>
                                         <tbody>

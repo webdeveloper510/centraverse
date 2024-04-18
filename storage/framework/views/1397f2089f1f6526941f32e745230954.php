@@ -129,6 +129,7 @@
                     <table class="table" id="pc-dt-export">
                         <thead>
                             <tr>
+                            <th scope="col" class="sort" data-sort="budget"><?php echo e(__(' Status')); ?></th>
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Name')); ?></th>
                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Created By')); ?></th>
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Type')); ?></th>
@@ -138,17 +139,25 @@
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Assigned Staff')); ?></th>
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Rooms required')); ?></th>
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Function')); ?></th>
-                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__(' Status')); ?></th>
+                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Comments')); ?></th>
+                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Invoice Created')); ?></th>
                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Payment Status')); ?></th>
+                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Total Amount')); ?></th>
+                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Adjustments')); ?></th>
+                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Late Fee')); ?></th>
                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Amount Paid')); ?></th>
                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Due Amount')); ?></th>
                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Created At')); ?></th>
+                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Invoice view')); ?></th>
+
                             </tr>
                         </thead>
                         <tbody>
                             <?php $__currentLoopData = $events; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $result): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-
+                            <?php $invoice = App\Models\Billing::where('event_id',$result['id'])->exists(); ?>
                             <tr>
+                            <td> <?php echo e(__(\App\Models\Meeting::$status[$result['status']])); ?></td>
+
                                 <td><?php echo e(ucfirst($result['name'])); ?></td>
                                 <td><?php echo e(ucfirst(App\Models\User::where('id',$result['created_by'])->first()->name)); ?></td>
                                 <td><?php echo e(ucfirst($result['type'])); ?></td>
@@ -167,8 +176,14 @@
                                     (<?php echo e($result['assign_user']->type); ?>)</td>
                                 <td><?php echo e($result['room']); ?></td>
                                 <td><?php echo e(isset($result['function']) ? ucfirst($result['function']) : '--'); ?></td>
+                                <td><?php $comment = App\Models\Agreement::where('event_id',$result['id'])->orderby('id','desc')->first(); ?>
+                                    <?php if(isset($comment) && !empty($comment)): ?>
+                                    <?php echo e(App\Models\Agreement::where('event_id',$result['id'])->orderby('id','desc')->first()->notes); ?>
 
-                                <td> <?php echo e(__(\App\Models\Meeting::$status[$result['status']])); ?></td>
+                                    <?php else: ?> -- <?php endif; ?></td>
+                                <td>
+                                <?php if($invoice): ?> Yes <?php else: ?> No <?php endif; ?>
+                            </td>
                                 <td>
                                     <?php 
                                     $paymentLog = App\Models\PaymentLogs::where('event_id', $result['id'])->orderBy('id', 'desc')->first();
@@ -184,6 +199,30 @@
                                         No Payment
                                         <?php endif; ?>
                                 </td>
+                                <td><?php if($result['total'] != 0): ?> 
+                                    $<?php echo e($result['total']); ?> 
+                                    <?php else: ?> <?php echo e(__('Invoice Not Created')); ?>
+
+                                    <?php endif; ?>
+                                </td>
+                               
+                                
+                                <td>
+                                    <?php if($paymentInfo): ?>
+                                        $<?php echo e($paymentInfo->adjustments); ?>
+
+                                    <?php else: ?>
+                                    --
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <?php if($paymentInfo ): ?>
+                                    $<?php echo e($paymentInfo->latefee); ?>
+
+                                    <?php else: ?>
+                                    --
+                                    <?php endif; ?>
+                                </td>
                                 <td>
                                     <?php if($paymentLog): ?>
                                     $<?php echo e($paymentLog->amount); ?>
@@ -196,7 +235,6 @@
                                 <td> <?php if($paymentLog && $paymentInfo): ?>
                                     $<?php echo e($paymentInfo->amounttobepaid - $paymentLog->amount); ?>
 
-
                                     <?php else: ?>
                                     --
                                     <?php endif; ?> </td>
@@ -204,6 +242,10 @@
 
 
                                 </td>
+                                <td>  <?php if($invoice): ?> <a href="<?php echo e(route('billing.estimateview',urlencode(encrypt($result['id'])))); ?>"style="color: #1551c9 !important;"> 
+               <?php echo e(__('View Invoice')); ?>
+
+            <?php else: ?>  No Invoice <?php endif; ?></td>
 
                             </tr>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

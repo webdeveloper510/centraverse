@@ -9,7 +9,8 @@
 @endsection
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{__('Home')}}</a></li>
-<li class="breadcrumb-item">{{__('Lead Information')}}</li>
+<li class="breadcrumb-item"><a href="{{ route('lead.index') }}">{{__('Leads')}}</a></li>
+<li class="breadcrumb-item">{{__('Lead Details')}}</li>
 @endsection
 @section('action-btn')
 
@@ -36,10 +37,10 @@
                                                 <th scope="col" class="sort">{{__('Status')}}</th>
                                                 <th scope="col" class="sort">{{__('Type')}}</th>
                                                 <th scope="col" class="sort">{{__('Converted events')}}</th>
-                                                @if(Gate::check('Show Lead') || Gate::check('Edit Lead') ||
-                                                Gate::check('Delete Lead'))
-                                                <th scope="col" class="text-end">{{__('Action')}}</th>
-                                                @endif
+                                                <!-- @if(Gate::check('Show Lead') || Gate::check('Edit Lead') ||
+                                                Gate::check('Delete Lead')) -->
+                                                <!-- <th scope="col" class="text-end">{{__('Action')}}</th> -->
+                                                <!-- @endif -->
                                             </tr>
                                         </thead>
                                         <tbody>
