@@ -62,7 +62,7 @@ class SendPdfEmail extends Mailable
     }
     public function build()
     {
-        $filePath = storage_path('app/public/Proposal_attachments/' .$this->proposalinfo->attachments);
+        $filePath = storage_path('app/public/Proposal_attachments/'. $this->lead->id.'/'.$this->proposalinfo->attachments);
         return $this->subject($this->subject)
                     ->view('lead.mail.view')
                     ->with('content',$this->content)
