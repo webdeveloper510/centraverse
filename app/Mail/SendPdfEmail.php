@@ -63,14 +63,10 @@ class SendPdfEmail extends Mailable
     public function build()
     {
         $filePath = storage_path('app/public/Proposal_attachments/'. $this->lead->id.'/'.$this->proposalinfo->attachments);
+        $fileContent = Storage::disk('public')->get($filePath);
         return $this->subject($this->subject)
                     ->view('lead.mail.view')
                     ->with('content',$this->content)
-                    ->attach(
-                        $filePath,
-                        [
-                            'as' =>  $this->proposalinfo->attachments
-                        ]
-                    );
+                    ->attachData($fileContent, $this->proposalinfo->attachments);
     }
 }
