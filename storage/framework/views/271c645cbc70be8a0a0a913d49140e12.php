@@ -29,17 +29,16 @@
                                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Name')); ?></th>
                                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Email')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Phone')); ?></th>
-                                                 <th scope="col" class="sort"><?php echo e(__('Address')); ?></th>
-                                                <th scope="col" class="sort"><?php echo e(__('Category')); ?></th> 
-                                                <!-- <th scope="col" class="sort"><?php echo e(__('Organization')); ?></th> -->
-                                                <!-- <th scope="col" class="sort"><?php echo e(__('Actions')); ?></th> -->
+                                                <th scope="col" class="sort"><?php echo e(__('Address')); ?></th>
+                                                <th scope="col" class="sort"><?php echo e(__('Category')); ?></th>
+                                             
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php $__currentLoopData = $eventcustomers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <tr>
-                                            <td> <a href="<?php echo e(route('event.userinfo',urlencode(encrypt($user->id)))); ?>" 
-                                            title="<?php echo e(__('User Details')); ?>"
+                                                <td> <a href="<?php echo e(route('event.userinfo',urlencode(encrypt($user->id)))); ?>"
+                                                        title="<?php echo e(__('User Details')); ?>"
                                                         class="action-item text-primary"
                                                         style="color:#1551c9 !important;">
                                                         <b> <?php echo e(ucfirst($user->name)); ?></b>
@@ -50,14 +49,9 @@
                                                 <td><span><?php echo e($user->lead_address); ?></span></td>
                                                 <td><span><?php echo e($user->type); ?></span></td>
                                                 <td>
-                                               
-                                            </td>
-                                                <!-- <td><span><?php echo e(ucfirst($user->organization)); ?></span></td> -->
-                                                <!-- <td>
-                                                    <div class="action-btn bg-info ms-2">
-                                                        <a href="#" data-url="<?php echo e(route('lead.create',['lead',0])); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " id="<?php echo e($user->id); ?>" onclick="storeIdInLocalStorage(this)" data-bs-toggle="tooltip" title="<?php echo e(__('Convert Lead')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('Create Lead')); ?>"><i class="fas fa-exchange-alt"></i></a>
-                                                    </div>
-                                                </td> -->
+
+                                                </td>
+
                                             </tr>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tbody>
@@ -74,10 +68,10 @@
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script-page'); ?>
 <script>
-    function storeIdInLocalStorage(link) {
-        var id = link.id;
-        localStorage.setItem('clickedLinkId', id);
-    }
+function storeIdInLocalStorage(link) {
+    var id = link.id;
+    localStorage.setItem('clickedLinkId', id);
+}
 </script>
 <?php $__env->stopPush(); ?>
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/customer/event_customer.blade.php ENDPATH**/ ?>

@@ -129,12 +129,9 @@ if(isset($addpcks) && !empty($addpcks)){
                     <tbody>
                         <tr style="text-align:center">
 
-                            <td> @if($lead->start_date == $lead->end_date)
+                            <td>
                                 {{ \Carbon\Carbon::parse($lead->start_date)->format('d M, Y')}}
-                                @else
-                                {{ \Carbon\Carbon::parse($lead->start_date)->format('d M, Y')}} -
-                                {{ \Carbon\Carbon::parse($lead->end_date)->format('d M, Y')}}
-                                @endif</td>
+                              </td>
 
                             <td>
                                 @if($lead->start_time == $lead->end_time)

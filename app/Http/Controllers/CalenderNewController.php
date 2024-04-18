@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Meeting;
+use App\Models\Blockdate;
 
 class CalenderNewController extends Controller
 {
@@ -14,7 +15,8 @@ class CalenderNewController extends Controller
      */
     public function index()
     {
-        return view('calender_new.index');
+        $blockeddate = Blockdate::all();
+        return view('calender_new.index',compact('blockeddate'));
     }
     public function get_event_data(Request $request)
     {
@@ -33,4 +35,5 @@ class CalenderNewController extends Controller
         $data = Meeting::whereBetween('start_date', [$startDate, $endDate])->get();
         return $data;
     }
+    
 }

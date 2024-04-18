@@ -619,8 +619,8 @@ class MeetingController extends Controller
         $validator = \Validator::make($request->all(), [
             'start_date' => 'required|date|date_format:Y-m-d',
             'end_date' => 'required|date|date_format:Y-m-d',
-            'start_time' => 'required|date_format:H:i',
-            'end_time' => 'required|date_format:H:i|after:start_time',
+            // 'start_time' => 'required|date_format:H:i',
+            // 'end_time' => 'required|date_format:H:i|after:start_time',
             'purpose' => 'required',
             'venue' => 'required|array',
         ]);
@@ -683,7 +683,7 @@ class MeetingController extends Controller
         $block->unique_id = uniqid();
         $block->created_by = \Auth::user()->id;
         $block->save();
-
+        // echo "<pre>";print_r($block);die;
         return redirect()->back()->with('success', __('Date Blocked'));
     }
     public function unblock_date(Request $request)

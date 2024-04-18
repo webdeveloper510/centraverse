@@ -8,6 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Storage;
 
 class SendPdfEmail extends Mailable
 {
@@ -15,16 +16,17 @@ class SendPdfEmail extends Mailable
     public $lead;
     public $subject;
     public $content;
-    public $tempFilePath; 
+    public $proposalinfo; 
     /**
      * Create a new message instance.
      */
-    public function __construct($lead,$subject,$content,$tempFilePath= NULL)
+    public function __construct($lead,$subject,$content,$proposalinfo)
     {
         $this->lead = $lead;
         $this->subject = $subject;
         $this->content = $content;
-        $this->tempFilePath = $tempFilePath; 
+        $this->proposalinfo = $proposalinfo; 
+     
     }
 
     /**
@@ -56,24 +58,19 @@ class SendPdfEmail extends Mailable
     public function attachments(): array
     {
         $attachments = [];
-
-        // Check if $tempFilePath is not null and it exists
-        if ($this->tempFilePath && file_exists($this->tempFilePath)) {
-            // Get the file name from the path
-            $fileName = basename($this->tempFilePath);
-            
-            // Add the attachment
-            $attachments[] = new \Illuminate\Mail\Mailables\Attachment(
-                $this->tempFilePath,
-                ['as' => $fileName]
-            );
-        }
-
         return $attachments;
     }
     public function build()
     {
+        $filePath = storage_path('app/public/Proposal_attachments' .$this->proposalinfo->attachments);
         return $this->subject($this->subject)
-                    ->view('lead.mail.view')->with('content',$this->content);// You can create a custom email template if needed
+                    ->view('lead.mail.view')
+                    ->with('content',$this->content)
+                    ->attach(
+                        $filePath,
+                        [
+                            'as' =>  $this->proposalinfo->attachments
+                        ]
+                    );
     }
 }
