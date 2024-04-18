@@ -558,32 +558,26 @@ class LeadController extends Controller
                 ]
             );
             Mail::to($request->email)->send(new SendPdfEmail($lead,$subject,$content,$proposalinfo));
-            // $upd = Lead::where('id',$id)->update(['status' => 1]);
+            $upd = Lead::where('id',$id)->update(['status' => 1]);
         } catch (\Exception $e) {
-              return response()->json(
-                        [
-                            'is_success' => false,
-                            'message' => $e->getMessage(),
-                        ]
-                    );
-            //   return redirect()->back()->with('success', 'Email Not Sent');
+            //   return response()->json(
+            //             [
+            //                 'is_success' => false,
+            //                 'message' => $e->getMessage(),
+            //             ]
+            //         );
+          return redirect()->back()->with('success', 'Email Not Sent');
       
         }
         return redirect()->back()->with('success', 'Email Sent Successfully');
     }
     public function proposalview($id){
-        // $billing = Billing::first();
-        $id = decrypt(urldecode($id));
-        $proposal =  Proposal::where('lead_id',$id)->exists();
-        // if($proposal){
-        //     return view('lead.proposal_error');
-        // }else{
+            $id = decrypt(urldecode($id));
             $lead = Lead::find($id);
             $settings = Utility::settings();
             $venue = explode(',',$settings['venue']);
             $fixed_cost = json_decode($settings['fixed_billing'],true);
             $additional_items = json_decode($settings['additional_items'],true);
-
             // echo "<pre>";print_r($fixed_cost);
             // print_r(json_decode($lead->ad_opts,true));
             // print_r($additional_items);die;
