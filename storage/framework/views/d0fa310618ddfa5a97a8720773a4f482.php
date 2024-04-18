@@ -1,31 +1,34 @@
-@extends('layouts.admin')
-@section('page-title')
-{{__('Calendar')}}
-@endsection
-@section('title')
-{{__('Calendar')}}
-@endsection
-@section('breadcrumb')
-<li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{__('Home')}}</a></li>
-<li class="breadcrumb-item">{{__('Calendar')}}</li>
-@endsection
-@section('action-btn')
-@can('Create Meeting')
-<a href="{{ route('meeting.create',['meeting',0]) }}" data-title="{{__('Create New Event')}}"
+
+<?php $__env->startSection('page-title'); ?>
+<?php echo e(__('Calendar')); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('title'); ?>
+<?php echo e(__('Calendar')); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('breadcrumb'); ?>
+<li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Home')); ?></a></li>
+<li class="breadcrumb-item"><?php echo e(__('Calendar')); ?></li>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('action-btn'); ?>
+<?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Meeting')): ?>
+<a href="<?php echo e(route('meeting.create',['meeting',0])); ?>" data-title="<?php echo e(__('Create New Event')); ?>"
     class="btn btn-sm btn-info">
-    {{__('Add Events')}}
+    <?php echo e(__('Add Events')); ?>
+
 </a>
-@endcan
+<?php endif; ?>
 <div class="checkbox"><b>COMPLETED EVENTS</b></div>
 <div class="checkbox1"><b>UPCOMING EVENTS</b></div>
 <div class="checkbox2"><b>BLOCKED DATES</b></div>
-@endsection
-@section('filter')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('filter'); ?>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
 
-@push('script-page')
+<?php $__env->startPush('script-page'); ?>
 <style>
 .blocked-by-tooltip {
     position: absolute;
@@ -126,25 +129,25 @@
 }
 </style>
 
-@endpush
-@php
+<?php $__env->stopPush(); ?>
+<?php
 $setting = App\Models\Utility::settings();
-@endphp
+?>
 
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="blockd_dates">
-    @foreach($blockeddate as $key=> $value)
-    <input type="hidden" name="strt{{$key}}" value="{{$value->start_date}}">
-    <input type="hidden" name="end{{$key}}" value="{{$value->end_date}}">
-    @endforeach
+    <?php $__currentLoopData = $blockeddate; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+    <input type="hidden" name="strt<?php echo e($key); ?>" value="<?php echo e($value->start_date); ?>">
+    <input type="hidden" name="end<?php echo e($key); ?>" value="<?php echo e($value->end_date); ?>">
+    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 </div>
 <div class="row">
     <div class="col-lg-9">
         <div class="card">
             <div class="card-header">
-                <h5 style="width: 150px;">{{ __('Calendar') }}</h5>
-                <input type="hidden" id="path_admin" value="{{url('/')}}">
+                <h5 style="width: 150px;"><?php echo e(__('Calendar')); ?></h5>
+                <input type="hidden" id="path_admin" value="<?php echo e(url('/')); ?>">
             </div>
             <div class="card-body">
                 <div id='calendar' class='calendar'></div>
@@ -157,19 +160,19 @@ $setting = App\Models\Utility::settings();
                 <h4 class="mb-4">Next events</h4>
 
                 <ul class="event-cards list-group list-group-flush mt-3 w-100">
-                    @php
+                    <?php
                     $now = Carbon\Carbon::now();
                     $this_month_meeting = \Auth::user()->type == 'owner'
                     ? App\Models\meeting::where('created_by', \Auth::user()->creatorId())->get()
                     : App\Models\meeting::where('user_id', \Auth::user()->id)->get();
-                    @endphp
+                    ?>
 
-                    @foreach($this_month_meeting as $meeting)
-                    @php
+                    <?php $__currentLoopData = $this_month_meeting; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $meeting): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <?php
                     $start_date = Carbon\Carbon::parse($meeting->start_date);
-                    @endphp
+                    ?>
 
-                    @if($start_date >= $now)
+                    <?php if($start_date >= $now): ?>
                     <li class="list-group-item card mb-3">
                         <div class="row align-items-center justify-content-between">
                             <div class="col-auto mb-3 mb-sm-0">
@@ -178,16 +181,16 @@ $setting = App\Models\Utility::settings();
                                         <i class="ti ti-calendar-event"></i>
                                     </div>
                                     <div class="ms-3">
-                                        <h6 class="m-0">{{$meeting->name}}</h6>
-                                        <small class="text-muted">{{$meeting->start_date}} to
-                                            {{$meeting->end_date}}</small>
+                                        <h6 class="m-0"><?php echo e($meeting->name); ?></h6>
+                                        <small class="text-muted"><?php echo e($meeting->start_date); ?> to
+                                            <?php echo e($meeting->end_date); ?></small>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </li>
-                    @endif
-                    @endforeach
+                    <?php endif; ?>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </ul>
             </div>
         </div>
@@ -200,10 +203,11 @@ $setting = App\Models\Utility::settings();
         <div class="card">
             <div class="col-md-12">
                 <div class="card-header">
-                    {{ Form::open(['route' => 'meeting.blockdate', 'method' => 'post', 'enctype' => 'multipart/form-data']) }}
+                    <?php echo e(Form::open(['route' => 'meeting.blockdate', 'method' => 'post', 'enctype' => 'multipart/form-data'])); ?>
+
                     <div class="row">
                         <div class="col-lg-8 col-md-8 col-sm-8">
-                            <h5>{{ __('Block Date') }}</h5>
+                            <h5><?php echo e(__('Block Date')); ?></h5>
                         </div>
                     </div>
                 </div>
@@ -211,60 +215,68 @@ $setting = App\Models\Utility::settings();
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group">
-                                {{ Form::label('start_date', __('Start Date'), ['class' => 'form-label']) }}
-                                {!! Form::date('start_date', date('Y-m-d'), ['class' => 'form-control', 'required' =>
-                                'required']) !!}
+                                <?php echo e(Form::label('start_date', __('Start Date'), ['class' => 'form-label'])); ?>
+
+                                <?php echo Form::date('start_date', date('Y-m-d'), ['class' => 'form-control', 'required' =>
+                                'required']); ?>
+
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-group">
-                                {{ Form::label('end_date', __('End Date'), ['class' => 'form-label']) }}
-                                {!! Form::date('end_date', date('Y-m-d'), ['class' => 'form-control', 'required' =>
-                                'required']) !!}
+                                <?php echo e(Form::label('end_date', __('End Date'), ['class' => 'form-label'])); ?>
+
+                                <?php echo Form::date('end_date', date('Y-m-d'), ['class' => 'form-control', 'required' =>
+                                'required']); ?>
+
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-group">
-                                {{Form::label('purpose',__('Purpose'),['class'=>'form-label']) }}
-                                {{Form::textarea('purpose',null,array('class'=>'form-control','rows'=>2))}}
+                                <?php echo e(Form::label('purpose',__('Purpose'),['class'=>'form-label'])); ?>
+
+                                <?php echo e(Form::textarea('purpose',null,array('class'=>'form-control','rows'=>2))); ?>
+
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer text-end">
-                    {{ Form::submit(__('Block'), ['id'=>'block','class' => 'btn  btn-primary ']) }}
-                    {{Form::close()}}
-                    <button class="btn btn-primary" id="unblock" data-bs-toggle="tooltip" title="{{__('Close')}}"
+                    <?php echo e(Form::submit(__('Block'), ['id'=>'block','class' => 'btn  btn-primary '])); ?>
+
+                    <?php echo e(Form::close()); ?>
+
+                    <button class="btn btn-primary" id="unblock" data-bs-toggle="tooltip" title="<?php echo e(__('Close')); ?>"
                         style="display:none">Unblock</button>
                     <button class="btn  btn-primary" id="close-popup" data-bs-toggle="tooltip"
-                        title="{{__('Close')}}">Close</button>
+                        title="<?php echo e(__('Close')); ?>">Close</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@push('css-page')
+<?php $__env->startPush('css-page'); ?>
 
-@endpush
-@push('script-page')
+<?php $__env->stopPush(); ?>
+<?php $__env->startPush('script-page'); ?>
 <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
     data-cf-beacon='{"token": "dc4641f860664c6e824b093274f50291"}'></script>
-<script src="{{ asset('assets/js/plugins/main.min.js') }}"></script>
+<script src="<?php echo e(asset('assets/js/plugins/main.min.js')); ?>"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
 <script type="text/javascript">
-@php
+<?php
 $segment = Request::segment(2);
-@endphp
+?>
 $(document).ready(function() {
     get_data();
 });
 
 function get_data() {
-    var segment = "{{$segment}}";
+    var segment = "<?php echo e($segment); ?>";
     if (segment == 'call') {
         var urls = $("#path_admin").val() + "/call/get_call_data";
     } else if (segment == 'meeting') {
@@ -288,7 +300,7 @@ function get_data() {
         url: urls,
         method: "POST",
         data: {
-            "_token": "{{ csrf_token() }}",
+            "_token": "<?php echo e(csrf_token()); ?>",
             'calender_type': calender_type
         },
         success: function(data) {
@@ -303,9 +315,9 @@ function get_data() {
                         right: 'dayGridMonth,timeGridWeek,timeGridDay'
                     },
                     buttonText: {
-                        timeGridDay: "{{ __('Day') }}",
-                        timeGridWeek: "{{ __('Week') }}",
-                        dayGridMonth: "{{ __('Month') }}"
+                        timeGridDay: "<?php echo e(__('Day')); ?>",
+                        timeGridWeek: "<?php echo e(__('Week')); ?>",
+                        dayGridMonth: "<?php echo e(__('Month')); ?>"
                     },
                     slotLabelFormat: {
                         hour: '2-digit',
@@ -383,12 +395,12 @@ $('#unblock').on('click', function() {
     var start = $('#popup-form input[name = "start_date"]').val();
     var end = $('#popup-form input[name = "end_date"]').val();
     var purpose = $('#popup-form textarea[name = "purpose"]').val();
-    var url = "{{route('meeting.unblock')}}";
+    var url = "<?php echo e(route('meeting.unblock')); ?>";
     $.ajax({
         url: url,
         method: "POST",
         data: {
-            "_token": "{{ csrf_token() }}",
+            "_token": "<?php echo e(csrf_token()); ?>",
             'start': start,
             'end': end,
         },
@@ -409,18 +421,18 @@ $(document).on('change', 'select[name=parent]', function() {
 function getparent(bid) {
     // console.log(bid);
     $.ajax({
-        url: '{{route("call.getparent")}}',
+        url: '<?php echo e(route("call.getparent")); ?>',
         type: 'POST',
         data: {
             "parent": bid,
-            "_token": "{{ csrf_token() }}",
+            "_token": "<?php echo e(csrf_token()); ?>",
         },
         success: function(data) {
             // console.log(data);
             $('#parent_id').empty(); {
                 {
-                    --$('#parent_id').append('<option value="">{{__('
-                        Select Parent ')}}</option>');
+                    --$('#parent_id').append('<option value=""><?php echo e(__('
+                        Select Parent ')); ?></option>');
                     --
                 }
             }
@@ -444,18 +456,18 @@ $(document).on('change', '#parents', function() {
 function getparents(bid) {
     // console.log(bid);
     $.ajax({
-        url: '{{route("task.getparent")}}',
+        url: '<?php echo e(route("task.getparent")); ?>',
         type: 'POST',
         data: {
             "parent": bid,
-            "_token": "{{ csrf_token() }}",
+            "_token": "<?php echo e(csrf_token()); ?>",
         },
         success: function(data) {
             // console.log(data);
             $('#parent_id').empty(); {
                 {
-                    --$('#parent_id').append('<option value="">{{__('
-                        Select Parent ')}}</option>');
+                    --$('#parent_id').append('<option value=""><?php echo e(__('
+                        Select Parent ')); ?></option>');
                     --
                 }
             }
@@ -471,4 +483,5 @@ function getparents(bid) {
 }
 </script>
 
-@endpush
+<?php $__env->stopPush(); ?>
+<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/calendar/index.blade.php ENDPATH**/ ?>

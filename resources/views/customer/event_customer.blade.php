@@ -27,17 +27,16 @@
                                                 <th scope="col" class="sort" data-sort="name">{{__('Name')}}</th>
                                                 <th scope="col" class="sort" data-sort="budget">{{__('Email')}}</th>
                                                 <th scope="col" class="sort">{{__('Phone')}}</th>
-                                                 <th scope="col" class="sort">{{__('Address')}}</th>
-                                                <th scope="col" class="sort">{{__('Category')}}</th> 
-                                                <!-- <th scope="col" class="sort">{{__('Organization')}}</th> -->
-                                                <!-- <th scope="col" class="sort">{{__('Actions')}}</th> -->
+                                                <th scope="col" class="sort">{{__('Address')}}</th>
+                                                <th scope="col" class="sort">{{__('Category')}}</th>
+                                             
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach($eventcustomers as $user)
                                             <tr>
-                                            <td> <a href="{{route('event.userinfo',urlencode(encrypt($user->id)))}}" 
-                                            title="{{ __('User Details') }}"
+                                                <td> <a href="{{route('event.userinfo',urlencode(encrypt($user->id)))}}"
+                                                        title="{{ __('User Details') }}"
                                                         class="action-item text-primary"
                                                         style="color:#1551c9 !important;">
                                                         <b> {{ ucfirst($user->name) }}</b>
@@ -48,14 +47,9 @@
                                                 <td><span>{{$user->lead_address}}</span></td>
                                                 <td><span>{{$user->type}}</span></td>
                                                 <td>
-                                               
-                                            </td>
-                                                <!-- <td><span>{{ucfirst($user->organization)}}</span></td> -->
-                                                <!-- <td>
-                                                    <div class="action-btn bg-info ms-2">
-                                                        <a href="#" data-url="{{ route('lead.create',['lead',0]) }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " id="{{ $user->id }}" onclick="storeIdInLocalStorage(this)" data-bs-toggle="tooltip" title="{{__('Convert Lead')}}" data-ajax-popup="true" data-title="{{__('Create Lead')}}"><i class="fas fa-exchange-alt"></i></a>
-                                                    </div>
-                                                </td> -->
+
+                                                </td>
+
                                             </tr>
                                             @endforeach
                                         </tbody>
@@ -72,9 +66,9 @@
 @endsection
 @push('script-page')
 <script>
-    function storeIdInLocalStorage(link) {
-        var id = link.id;
-        localStorage.setItem('clickedLinkId', id);
-    }
+function storeIdInLocalStorage(link) {
+    var id = link.id;
+    localStorage.setItem('clickedLinkId', id);
+}
 </script>
 @endpush

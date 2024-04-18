@@ -320,12 +320,9 @@ $enddate = \Carbon\Carbon::createFromFormat('Y-m-d', $lead->end_date)->format('d
 
                         <dt class="col-md-6"><span class="h6  mb-0">{{__('Event Date')}}</span></dt>
                         <dd class="col-md-6"><span class="">
-                                @if($lead->start_date == $lead->end_date)
+                               
                                 {{ \Auth::user()->dateFormat($lead->start_date) }}
-                                @else
-                                {{ \Auth::user()->dateFormat($lead->start_date) }} -
-                                {{ \Auth::user()->dateFormat($lead->end_date) }}
-                                @endif
+                            
                             </span></dd>
 
                         <dt class="col-md-6"><span class="h6  mb-0">{{__('Time')}}</span></dt>

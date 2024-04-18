@@ -16,6 +16,7 @@ use App\Models\Task;
 use App\Models\Utility;
 use App\Models\Billing;
 use App\Models\Proposal;
+use App\Models\ProposalInfo;
 use App\Models\User;
 use App\Models\UserDefualtView;
 use Illuminate\Http\Request;
@@ -149,7 +150,7 @@ class LeadController extends Controller
             $lead['company_name']       = $request->company_name;
             $lead['relationship']       = $request->relationship;
             $lead['start_date']         = $request->start_date;
-            $lead['end_date']           = $request->end_date;
+            $lead['end_date']           = $request->start_date;
             $lead['type']               = $request->type;
             $lead['venue_selection']    = isset($request->venue)?implode(',',$request->venue) :'';
             $lead['function']           = isset($request->function)? implode(',',$request->function) :'';
@@ -329,7 +330,7 @@ class LeadController extends Controller
             $lead['company_name']       = $request->company_name;
             $lead['relationship']       = $request->relationship;
             $lead['start_date']         = $request->start_date;
-            $lead['end_date']           = $request->end_date;
+            $lead['end_date']           = $request->start_date;
             $lead['type']               = $request->type;
             $lead['venue_selection']    = isset($venue_function) && (!empty($venue_function)) ? $venue_function : '';
             $lead['function']           = $function;
@@ -515,18 +516,35 @@ class LeadController extends Controller
         return view('lead.share_proposal',compact('lead'));
     }
     public function proposalpdf(Request $request,$id){
+        // echo "<pre>";print_r($request->all());
+        // print_r(json_encode($request->billing,true));die;
+          
+
         $settings = Utility::settings();
         $id = decrypt(urldecode($id));
         $lead = Lead::find($id);
+        if (!empty($request->file('attachment'))){
+            $file =  $request->file('attachment');
+            $filename = Str::random(3).'_'. $file->getClientOriginalName();
+            $folder = 'Proposal_attachments/' . $id; 
+            try {
+                $path = $file->storeAs($folder, $filename, 'public');
+            } catch (\Exception $e) {
+                Log::error('File upload failed: ' . $e->getMessage());
+                return redirect()->back()->with('error', 'File upload failed');
+            }
+        }
+        $proposalinfo = new ProposalInfo();
+        $proposalinfo->lead_id = $id;
+        $proposalinfo->email = $request->email;
+        $proposalinfo->subject = $request->subject;
+        $proposalinfo->content = $request->emailbody;
+        $proposalinfo->proposal_info = json_encode($request->billing,true);
+        $proposalinfo->attachments = $filename ?? '';
+        $proposalinfo->created_by = Auth::user()->id;
+        $proposalinfo->save();
         $subject = $request->subject;
         $content = $request->emailbody;
-
-        $file = $request->file('attachment');
-        if(!empty($tempFilePath)){
-            $tempFilePath = $file->store('temp', 'local');
-            // Get the full path to the temporary file
-            $tempFilePath = storage_path('app/' . $tempFilePath);
-        }
         try {
             config(
                 [
@@ -539,10 +557,8 @@ class LeadController extends Controller
                     'mail.from.name'    => $settings['mail_from_name'],
                 ]
             );
-
-            Mail::to($request->email)->send(new SendPdfEmail($lead,$subject,$content,$tempFilePath = NULL));
-            // unlink($tempFilePath);
-            $upd = Lead::where('id',$id)->update(['status' => 1]);
+            Mail::to($request->email)->send(new SendPdfEmail($lead,$subject,$content,$proposalinfo));
+            // $upd = Lead::where('id',$id)->update(['status' => 1]);
         } catch (\Exception $e) {
               return response()->json(
                         [
@@ -669,7 +685,7 @@ class LeadController extends Controller
                 'company_name'      =>$request->company_name,
                 'relationship'       =>$request->relationship,
                 'start_date'        =>$request->start_date,
-                'end_date'           =>$request->end_date,
+                'end_date'           =>$request->start_date,
                 'type'              =>$request->type,
                 'venue_selection'    =>$venue_function,
                 'function'           =>$function,

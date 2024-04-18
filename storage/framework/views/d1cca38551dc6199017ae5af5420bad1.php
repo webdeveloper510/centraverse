@@ -159,30 +159,13 @@
                 \Request::route()->getName() == 'report.eventanalytic' || \Request::route()->getName() ==
                 'report.customersanalytic' || \Request::route()->getName() == 'report.billinganalytic' ? ' active ' :
                 ''): ?>
-                <!-- <a href="<?php echo e(route('report.index')); ?>" class="list-group-item list-group-item-action"><span
-                        class="fa-stack fa-lg pull-left"><i class="ti ti-trending-up"></i></span>
-                    <span class="dash-mtext"><?php echo e(__('Custom Report')); ?> </span></a>
-
-                </a> -->
+              
                 <a href="<?php echo e(route('report.leadsanalytic')); ?>" class="list-group-item list-group-item-action"><span
                         class="fa-stack fa-lg pull-left"></span>
                     <span class="dash-mtext"><?php echo e(__('Leads')); ?> </span></a>
 
                 </a>
-                <!-- <a href="<?php echo e(route('report.invoiceanalytic')); ?>" class="list-group-item list-group-item-action"><span
-                        class="fa-stack fa-lg pull-left"></span>
-                    <span class="dash-mtext"><?php echo e(__('Invoice Analytics')); ?> </span></a>
-
-                </a>
-                <a href="<?php echo e(route('report.salesorderanalytic')); ?>" class="list-group-item list-group-item-action"><span
-                        class="fa-stack fa-lg pull-left"></span>
-                    <span class="dash-mtext"><?php echo e(__('Sales Order Analytics')); ?> </span></a>
-
-                </a>
-                <a href="<?php echo e(route('report.quoteanalytic')); ?>" class="list-group-item list-group-item-action"><span
-                        class="fa-stack fa-lg pull-left"></span>
-                    <span class="dash-mtext"><?php echo e(__('Quote Analytics')); ?> </span></a>
-                </a> -->
+              
                 <a href="<?php echo e(route('report.eventanalytic')); ?>" class="list-group-item list-group-item-action"><span
                         class="fa-stack fa-lg pull-left"></span>
                     <span class="dash-mtext"><?php echo e(__('Events')); ?> </span></a>
@@ -230,6 +213,11 @@
                     <span class="dash-mtext"><?php echo e(__('Edit Lead')); ?> </span></a>
                 </a>
                 <?php endif; ?>
+                <li class="dash-item <?php echo e(\Request::route()->getName() == 'calendar' || \Request::route()->getName() == 'calendar.index' ? ' active' : ''); ?>">
+                        <a href="<?php echo e(route('calendar.index')); ?>" class="dash-link">
+                            <span class="dash-micon"><i class="far fa-calendar-alt"></i></span><span class="dash-mtext"><?php echo e(__('Calendar')); ?></span>
+                        </a>
+                    </li>
             </div>
         </div>
     </div>

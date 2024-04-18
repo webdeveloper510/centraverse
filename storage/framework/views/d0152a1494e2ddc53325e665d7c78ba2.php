@@ -133,14 +133,10 @@ if(isset($addpcks) && !empty($addpcks)){
                                 <tbody>
                                     <tr style="text-align:center">
 
-                                        <td> <?php if($lead->start_date == $lead->end_date): ?>
+                                        <td>
                                             <?php echo e(\Carbon\Carbon::parse($lead->start_date)->format('d M, Y')); ?>
 
-                                            <?php else: ?>
-                                            <?php echo e(\Carbon\Carbon::parse($lead->start_date)->format('d M, Y')); ?> -
-                                            <?php echo e(\Carbon\Carbon::parse($lead->end_date)->format('d M, Y')); ?>
-
-                                            <?php endif; ?></td>
+                                        </td>
 
                                         <td>
                                             <?php if($lead->start_time == $lead->end_time): ?>

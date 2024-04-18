@@ -158,30 +158,13 @@
                 \Request::route()->getName() == 'report.eventanalytic' || \Request::route()->getName() ==
                 'report.customersanalytic' || \Request::route()->getName() == 'report.billinganalytic' ? ' active ' :
                 '')
-                <!-- <a href="{{ route('report.index') }}" class="list-group-item list-group-item-action"><span
-                        class="fa-stack fa-lg pull-left"><i class="ti ti-trending-up"></i></span>
-                    <span class="dash-mtext">{{ __('Custom Report') }} </span></a>
-
-                </a> -->
+              
                 <a href="{{ route('report.leadsanalytic') }}" class="list-group-item list-group-item-action"><span
                         class="fa-stack fa-lg pull-left"></span>
                     <span class="dash-mtext">{{ __('Leads') }} </span></a>
 
                 </a>
-                <!-- <a href="{{ route('report.invoiceanalytic') }}" class="list-group-item list-group-item-action"><span
-                        class="fa-stack fa-lg pull-left"></span>
-                    <span class="dash-mtext">{{ __('Invoice Analytics') }} </span></a>
-
-                </a>
-                <a href="{{ route('report.salesorderanalytic') }}" class="list-group-item list-group-item-action"><span
-                        class="fa-stack fa-lg pull-left"></span>
-                    <span class="dash-mtext">{{ __('Sales Order Analytics') }} </span></a>
-
-                </a>
-                <a href="{{ route('report.quoteanalytic') }}" class="list-group-item list-group-item-action"><span
-                        class="fa-stack fa-lg pull-left"></span>
-                    <span class="dash-mtext">{{ __('Quote Analytics') }} </span></a>
-                </a> -->
+              
                 <a href="{{ route('report.eventanalytic') }}" class="list-group-item list-group-item-action"><span
                         class="fa-stack fa-lg pull-left"></span>
                     <span class="dash-mtext">{{ __('Events') }} </span></a>
@@ -229,6 +212,11 @@
                     <span class="dash-mtext">{{ __('Edit Lead') }} </span></a>
                 </a>
                 @endif
+                <li class="dash-item {{ \Request::route()->getName() == 'calendar' || \Request::route()->getName() == 'calendar.index' ? ' active' : '' }}">
+                        <a href="{{ route('calendar.index') }}" class="dash-link">
+                            <span class="dash-micon"><i class="far fa-calendar-alt"></i></span><span class="dash-mtext">{{ __('Calendar') }}</span>
+                        </a>
+                    </li>
             </div>
         </div>
     </div>

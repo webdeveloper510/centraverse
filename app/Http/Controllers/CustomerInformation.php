@@ -344,7 +344,7 @@ class CustomerInformation extends Controller
                 Log::error('File upload failed: ' . $e->getMessage());
                 return redirect()->back()->with('error', 'File upload failed');
             }
-            }
+        }
             return redirect()->back()->with('Success','File Uploaded Successfully');
     }
     public function usernotes(Request $request,$id){

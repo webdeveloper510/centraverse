@@ -64,36 +64,6 @@
                     <div class="col-lg-6">
                         <div class="card" id="useradd-1">
                             <div class="card-body table-border-style">
-                                <h3>Upload Documents</h3>
-                                <form action="{{route('upload-info',urlencode(encrypt($users->id)))}}" method="POST"
-                                    enctype="multipart/form-data">
-                                    @csrf
-                                    <label for="customerattachment">Attachment</label>
-                                    <input type="file" name="customerattachment" id="customerattachment"
-                                        class="form-control" required>
-                                    <input type="submit" value="Submit" class="btn btn-primary mt-4"
-                                        style="float: right;">
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="card">
-                            <div class="card-body table-border-style">
-                                <h3>Add Notes/Comments</h3>
-                                <form method="POST" id="addnotes">
-                                    @csrf
-                                    <label for="notes">Notes</label>
-                                    <input type="text" class="form-control" name="notes">
-                                    <input type="submit" value="Submit"  class="btn btn-primary mt-4"
-                                        style=" float: right;">
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="card" id="useradd-1">
-                            <div class="card-body table-border-style">
                                 <h3>Attachments</h3>
                                 <table class="table table-bordered">
                                     <thead>
@@ -168,6 +138,37 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-lg-6">
+                        <div class="card" id="useradd-1">
+                            <div class="card-body table-border-style">
+                                <h3>Upload Documents</h3>
+                                <form action="{{route('upload-info',urlencode(encrypt($users->id)))}}" method="POST"
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    <label for="customerattachment">Attachment</label>
+                                    <input type="file" name="customerattachment" id="customerattachment"
+                                        class="form-control" required>
+                                    <input type="submit" value="Submit" class="btn btn-primary mt-4"
+                                        style="float: right;">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-body table-border-style">
+                                <h3>Add Notes/Comments</h3>
+                                <form method="POST" id="addnotes">
+                                    @csrf
+                                    <label for="notes">Notes</label>
+                                    <input type="text" class="form-control" name="notes">
+                                    <input type="submit" value="Submit"  class="btn btn-primary mt-4"
+                                        style=" float: right;">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                   
                 </div>
             </div>
         </div>
@@ -179,6 +180,9 @@
 .list-group-flush .list-group-item {
     background: none;
 }
+/* body{
+    overflow-y: clip;
+} */
 </style>
 @push('script-page')
 <script>

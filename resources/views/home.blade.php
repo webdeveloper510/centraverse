@@ -23,7 +23,7 @@
                                         <i class="fas fa-address-card"></i>
                                     </div>
                                     <div class="right_side">
-                                        <h6 class="mb-3">{{ __('Active Lead') }}</h6>
+                                        <h6 class="mb-3">{{ __('Active Leads') }}</h6>
                                         <h3 class="mb-0">{{ $data['totalLead'] }}</h3>
                                     </div>
                                 </div>
