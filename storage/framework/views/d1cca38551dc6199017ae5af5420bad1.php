@@ -135,7 +135,7 @@
                     <span class="dash-mtext"><?php echo e(__('External ')); ?> </span></a>
                 <a href="<?php echo e(route('event_customers')); ?>" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"></span>
-                    <span class="dash-mtext"><?php echo e(__('Event ')); ?> </span></a>
+                    <span class="dash-mtext"><?php echo e(__('Events ')); ?> </span></a>
                 <a href="<?php echo e(route('lead_customers')); ?>" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"></span>
                     <span class="dash-mtext"><?php echo e(__('Leads')); ?> </span></a>
@@ -149,7 +149,7 @@
                 <?php if(\Request::route()->getName() == 'meeting.index'): ?>
                 <a href="#useradd-1" class="list-group-item list-group-item-action"><span
                         class="fa-stack fa-lg pull-left"><i class="fa fa-tasks"></i></span>
-                    <span class="dash-mtext"><?php echo e(__('Event')); ?> </span></a>
+                    <span class="dash-mtext"><?php echo e(__('Events')); ?> </span></a>
 
                 </a>
                 <?php endif; ?>
@@ -213,11 +213,11 @@
                     <span class="dash-mtext"><?php echo e(__('Edit Lead')); ?> </span></a>
                 </a>
                 <?php endif; ?>
-                <li class="dash-item <?php echo e(\Request::route()->getName() == 'calendar' || \Request::route()->getName() == 'calendar.index' ? ' active' : ''); ?>">
+                <!-- <li class="dash-item <?php echo e(\Request::route()->getName() == 'calendar' || \Request::route()->getName() == 'calendar.index' ? ' active' : ''); ?>">
                         <a href="<?php echo e(route('calendar.index')); ?>" class="dash-link">
                             <span class="dash-micon"><i class="far fa-calendar-alt"></i></span><span class="dash-mtext"><?php echo e(__('Calendar')); ?></span>
                         </a>
-                    </li>
+                    </li> -->
             </div>
         </div>
     </div>

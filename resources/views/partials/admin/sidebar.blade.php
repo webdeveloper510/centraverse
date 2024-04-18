@@ -134,7 +134,7 @@
                     <span class="dash-mtext">{{ __('External ') }} </span></a>
                 <a href="{{route('event_customers')}}" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"></span>
-                    <span class="dash-mtext">{{ __('Event ') }} </span></a>
+                    <span class="dash-mtext">{{ __('Events ') }} </span></a>
                 <a href="{{route('lead_customers')}}" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"></span>
                     <span class="dash-mtext">{{ __('Leads') }} </span></a>
@@ -148,7 +148,7 @@
                 @if(\Request::route()->getName() == 'meeting.index')
                 <a href="#useradd-1" class="list-group-item list-group-item-action"><span
                         class="fa-stack fa-lg pull-left"><i class="fa fa-tasks"></i></span>
-                    <span class="dash-mtext">{{ __('Event') }} </span></a>
+                    <span class="dash-mtext">{{ __('Events') }} </span></a>
 
                 </a>
                 @endif
@@ -212,11 +212,11 @@
                     <span class="dash-mtext">{{ __('Edit Lead') }} </span></a>
                 </a>
                 @endif
-                <li class="dash-item {{ \Request::route()->getName() == 'calendar' || \Request::route()->getName() == 'calendar.index' ? ' active' : '' }}">
+                <!-- <li class="dash-item {{ \Request::route()->getName() == 'calendar' || \Request::route()->getName() == 'calendar.index' ? ' active' : '' }}">
                         <a href="{{ route('calendar.index') }}" class="dash-link">
                             <span class="dash-micon"><i class="far fa-calendar-alt"></i></span><span class="dash-mtext">{{ __('Calendar') }}</span>
                         </a>
-                    </li>
+                    </li> -->
             </div>
         </div>
     </div>

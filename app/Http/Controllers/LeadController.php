@@ -516,10 +516,6 @@ class LeadController extends Controller
         return view('lead.share_proposal',compact('lead'));
     }
     public function proposalpdf(Request $request,$id){
-        // echo "<pre>";print_r($request->all());
-        // print_r(json_encode($request->billing,true));die;
-          
-
         $settings = Utility::settings();
         $id = decrypt(urldecode($id));
         $lead = Lead::find($id);
@@ -578,9 +574,7 @@ class LeadController extends Controller
             $venue = explode(',',$settings['venue']);
             $fixed_cost = json_decode($settings['fixed_billing'],true);
             $additional_items = json_decode($settings['additional_items'],true);
-            // echo "<pre>";print_r($fixed_cost);
-            // print_r(json_decode($lead->ad_opts,true));
-            // print_r($additional_items);die;
+         
             return view('lead.proposal',compact('lead','venue','settings','fixed_cost','additional_items'));
         // }
     }

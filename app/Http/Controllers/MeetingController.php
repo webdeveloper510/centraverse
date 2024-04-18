@@ -726,15 +726,34 @@ class MeetingController extends Controller
         $settings = Utility::settings();
         $id = decrypt(urldecode($id));
         $meeting = Meeting::find($id);
+        if (!empty($request->file('attachment'))){
+            $file =  $request->file('attachment');
+            $filename = Str::random(3).'_'. $file->getClientOriginalName();
+            $folder = 'Agreement_attachments/' . $id; 
+            try {
+                $path = $file->storeAs($folder, $filename, 'public');
+            } catch (\Exception $e) {
+                Log::error('File upload failed: ' . $e->getMessage());
+                return redirect()->back()->with('error', 'File upload failed');
+            }
+        }
+        $agrementinfo = new AgreementInfo();
+        $agrementinfo->lead_id = $id;
+        $agrementinfo->email = $request->email;
+        $agrementinfo->subject = $request->subject;
+        $agrementinfo->content = $request->emailbody;
+        $agrementinfo->attachments = $filename ?? '';
+        $agrementinfo->created_by = Auth::user()->id;
+        $agrementinfo->save();
         $subject = $request->subject;
         $content = $request->emailbody;
         
-        $file = $request->file('attachment');
-        if(!empty($tempFilePath)){
-            $tempFilePath = $file->store('temp', 'local');
-            // Get the full path to the temporary file
-            $tempFilePath = storage_path('app/' . $tempFilePath);
-        }
+        // $file = $request->file('attachment');
+        // if(!empty($tempFilePath)){
+        //     $tempFilePath = $file->store('temp', 'local');
+        //     // Get the full path to the temporary file
+        //     $tempFilePath = storage_path('app/' . $tempFilePath);
+        // }
        
         try {
             config(
@@ -748,7 +767,7 @@ class MeetingController extends Controller
                     'mail.from.name'    => $settings['mail_from_name'],
                 ]
             );
-            Mail::to($request->email)->send(new SendEventMail($meeting,$subject,$content,$tempFilePath = NULL));
+            Mail::to($request->email)->send(new SendEventMail($meeting,$subject,$content,$agrementinfo));
             $meeting->update(['status' => 1]);
         } catch (\Exception $e) {
             // return response()->json(
