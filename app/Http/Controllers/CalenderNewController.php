@@ -23,10 +23,14 @@ class CalenderNewController extends Controller
         $events = Meeting::where('start_date', $request->start)->get();
         return response()->json(["events" => $events]);
     }
+    public function blockeddateinfo(){
+        $block = Blockdate::all();
+        return $block;
+    }
     public function eventinfo(){
         $event = Meeting::all();
         return $event;
-
+       
     }
     public function monthbaseddata(Request $request){
        

@@ -19,6 +19,7 @@ use App\Models\Order;
 use App\Models\Plan;
 use App\Models\Utility;
 use App\Models\Blockdate;
+use App\Models\PaymentLogs;
 use App\Models\LandingPageSections;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -59,7 +60,20 @@ class DashboardController extends Controller
 
                 $activeLeads = Lead::where('created_by', \Auth::user()->creatorId())->
                 where('lead_status', 1)->get();
-                
+                $revenue = Meeting::all();
+                $events_revenue = 0;
+                foreach ($revenue as $key => $value) {
+                    $events_revenue +=$value->total;
+                    
+                    # code...
+                }
+                $paymentlogs = PaymentLogs::all();
+                $events_revenue_generated = 0;
+                foreach ($paymentlogs as $key => $value) {
+                    $events_revenue_generated += $value->amount;
+                    
+                    # code...
+                }
                 $lostLeads = Lead::where('created_by', \Auth::user()->creatorId())->where('proposal_status', '==',3)->take(4)->get(); 
                 $activeEvent = Meeting::where('created_by', \Auth::user()->creatorId())->where('start_date', '>=', $date)->take(4)->get();
                 $pastEvents = Meeting::where('created_by', \Auth::user()->creatorId())->where('start_date', '<', $date)->take(4)->get();
@@ -131,7 +145,7 @@ class DashboardController extends Controller
                 // } else {
                 //     $storage_limit = 0;
                 // }
-                return view('home', compact('venue_dropdown','blockeddate','data','users','plan','upcoming','completed','totalevent','activeLeads', 'lostLeads', 'activeEvent', 'pastEvents'));
+                return view('home', compact('venue_dropdown','blockeddate','events_revenue','events_revenue_generated','data','users','plan','upcoming','completed','totalevent','activeLeads', 'lostLeads', 'activeEvent', 'pastEvents'));
             }
         } else {
 

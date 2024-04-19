@@ -150,7 +150,7 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
 
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <!-- <div class="col-6">
                                         <div class="form-group">
                                             <?php echo e(Form::label('end_date', __('End Date'), ['class' => 'form-label'])); ?>
 
@@ -158,7 +158,7 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                             'required' => 'required']); ?>
 
                                         </div>
-                                    </div>
+                                    </div> -->
 
                                     <div class="col-6">
                                         <div class="form-group">
@@ -400,7 +400,7 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                 <?php $__env->stopSection(); ?>
                 <?php $__env->startPush('script-page'); ?>
 
-                <script>
+                <!-- <script>
                 $(document).ready(function() {
                     $('#start_date, #end_date').change(function() {
                         var startDate = new Date($('#start_date').val());
@@ -413,7 +413,7 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                         }
                     });
                 });
-                </script>
+                </script> -->
                 <script>
                 $(document).ready(function() {
                     var phoneNumber = "<?php echo $lead->phone;?>";
