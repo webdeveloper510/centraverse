@@ -23,7 +23,58 @@ li.item-event>p:nth-child(2) {
     margin-left: 35%;
 }
 </style>
+<style>
 
+    #popup-form {
+        display: none;
+        /*position: fixed; */
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        border-radius: 2px;
+        width: 600px;
+    }
+
+    #overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+    }
+
+
+    .blocked-by-tooltip {
+        position: absolute;
+        background-color: #145388;
+        color: #fff;
+        padding: 10px;
+        border-radius: 8px;
+        z-index: 2000;
+        margin-top: -28px;
+        margin-left: -94px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        background: linear-gradient(45deg, #145388, #145388);
+    }
+
+    .blocked-by-tooltip:hover {
+        background-color: #145388;
+        transform: scale(1.05);
+    }
+
+    p.close-popup {
+        margin-bottom: 0 !important;
+    }
+</style>
 @section('content')
 <div class="container">
     <div class="row">
@@ -51,7 +102,7 @@ li.item-event>p:nth-child(2) {
     </div>
 </div>
 
-<!-- <div id="overlay"></div>
+<div id="overlay"></div>
 <div id="popup-form" style="border:solid 1px black;">
     <div class="row step1 blocked" data-popdate="">
         <div class="card">
@@ -121,10 +172,9 @@ li.item-event>p:nth-child(2) {
         </div>
     </div>
 
-</div> -->
+</div>
     @endsection
-    @push('script-page')
-
+@push('script-page')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script>
     $(document).on('click', 'button.fc-next-button', function() {
@@ -216,276 +266,433 @@ li.item-event>p:nth-child(2) {
         });
 
     });
-    $(document).ready(function() {
-        display_count();
-        setTimeout(() => {
-            var month = $('.fc-toolbar-title').text();
-            var date = new Date(month);
-            // Get the month and year separately
-            var monthNumber = date.getMonth() + 1; // Adding 1 because month index starts from 0
-            var year = date.getFullYear();
-            $.ajax({
-                url: "{{route('monthbaseddata')}}",
-                type: 'POST',
-                data: {
-                    "month": monthNumber,
-                    "year": year,
-                    "_token": "{{ csrf_token() }}",
-                },
-                success: function(data) {
-                    console.log(data);
-                    var html = '';
-                    $(data).each(function(index, element) {
-                        var start = element.start_time;
-                        var start_time = moment(start, 'HH:mm:ss')
-                            .format('h:mm A');
-                        var end = element.end_time;
-                        var end_time = moment(end, 'HH:mm:ss').format(
-                            'h:mm A');
-                        html += `<li class="list-group-item card mb-3">
-                <div class="row align-items-center justify-content-between">
-                    <div class="col-auto mb-3 mb-sm-0">
-                        <div class="d-flex align-items-center">
-                            <div class="theme-avtar bg-info">
-                                <i class="ti ti-calendar-event"></i>
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="m-0">${element.eventname} (${element.name})</h6>
-                                <small class="text-muted">${start_time} - ${end_time}</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </li>`;
-                    });
-                    $('#listEvent').html(html);
-                }
-            });
-            // console.log('dsf'+ month);
-        }, 2450);
+    // $(document).ready(function() {
+    //     display_count();
+    //     setTimeout(() => {
+    //         var month = $('.fc-toolbar-title').text();
+    //         var date = new Date(month);
+    //         // Get the month and year separately
+    //         var monthNumber = date.getMonth() + 1; // Adding 1 because month index starts from 0
+    //         var year = date.getFullYear();
+    //         $.ajax({
+    //             url: "{{route('monthbaseddata')}}",
+    //             type: 'POST',
+    //             data: {
+    //                 "month": monthNumber,
+    //                 "year": year,
+    //                 "_token": "{{ csrf_token() }}",
+    //             },
+    //             success: function(data) {
+    //                 console.log(data);
+    //                 var html = '';
+    //                 $(data).each(function(index, element) {
+    //                     var start = element.start_time;
+    //                     var start_time = moment(start, 'HH:mm:ss')
+    //                         .format('h:mm A');
+    //                     var end = element.end_time;
+    //                     var end_time = moment(end, 'HH:mm:ss').format(
+    //                         'h:mm A');
+    //                     html += `<li class="list-group-item card mb-3">
+    //             <div class="row align-items-center justify-content-between">
+    //                 <div class="col-auto mb-3 mb-sm-0">
+    //                     <div class="d-flex align-items-center">
+    //                         <div class="theme-avtar bg-info">
+    //                             <i class="ti ti-calendar-event"></i>
+    //                         </div>
+    //                         <div class="ms-3">
+    //                             <h6 class="m-0">${element.eventname} (${element.name})</h6>
+    //                             <small class="text-muted">${start_time} - ${end_time}</small>
+    //                         </div>
+    //                     </div>
+    //                 </div>
+    //             </div>
+    //         </li>`;
+    //                 });
+    //                 $('#listEvent').html(html);
+    //             }
+    //         });
+    //         // console.log('dsf'+ month);
+    //     }, 2450);
 
+    // });
+    // function display_count() {
+    //     var events = new Array();
+    //     $.ajax({
+    //         url: '{{route("eventinformation")}}',
+    //         method: 'GET',
+    //         dataType: 'json',
+    //         success: function(response) {
+    //             var eventDates = {};
+    //             // Count the number of events for each date
+    //             response.forEach(function(event) {
+    //                 var startDate = moment(event.start_date).format('YYYY-MM-DD');
+    //                 if (eventDates[startDate]) {
+    //                     eventDates[startDate]++;
+    //                 } else {
+    //                     eventDates[startDate] = 1;
+    //                 }
+    //             });
+    //             // Convert the event counts into background event objects
+    //             var backgroundEvents = [];
+    //             for (var date in eventDates) {
+    //                 backgroundEvents.push({
+    //                     title: eventDates[date],
+    //                     start: date,
+    //                     textColor: '#fff',
+    //                     display: 'background',
+    //                 });
+    //             }
+    //             let calendarEl = document.getElementById('calendar');
+    //             var calendar = new FullCalendar.Calendar(calendarEl, {
+    //                 headerToolbar: {
+    //                     left: 'prev,next today',
+    //                     center: 'title',
+    //                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
+    //                 },
+    //                 buttonText: {
+    //                     timeGridDay: "{{ __('Day') }}",
+    //                     timeGridWeek: "{{ __('Week') }}",
+    //                     dayGridMonth: "{{ __('Month') }}"
+    //                 },
+    //                 slotLabelFormat: {
+    //                     hour: '2-digit',
+    //                     minute: '2-digit',
+    //                     hour12: false,
+    //                 },
+    //                 themeSystem: 'bootstrap',
+    //                 navLinks: true,
+    //                 droppable: false,
+    //                 selectable: true,
+    //                 selectMirror: true,
+    //                 editable: false,
+    //                 dayMaxEvents: true,
+    //                 handleWindowResize: true,
+    //                 height: 'auto',
+    //                 timeFormat: 'H(:mm)',
+    //                 initialView: 'dayGridMonth',
+    //                 eventDisplay: 'block',
+    //                 select: function(start, end, allDay, info) {
+
+    //                     var selectedStartDate = start.startStr;
+    //                     var selectedEndDate = start.endStr;
+    //                     var formattedStartDate = moment(selectedStartDate).format(
+    //                         'dddd, MMMM DD, YYYY');
+    //                     var selectedDate = moment(selectedStartDate).format('Y-MM-DD');
+    //                     sessionStorage.setItem('selectedDate', selectedDate);
+    //                     document.getElementById('daySelected').innerHTML = formattedStartDate;
+    //                     document.getElementById('selectedDate').setAttribute(
+    //                         'data-date-selected',
+    //                         selectedDate);
+    //                     fetch("{{url('/calender-meeting-data')}}?start=" + start.startStr, {
+    //                             method: "POST",
+    //                             headers: {
+    //                                 "Content-Type": "application/json",
+    //                                 "X-CSRF-Token": "{{ csrf_token() }}",
+    //                             },
+    //                             body: JSON.stringify({
+    //                                 request_type: 'viewMeeting',
+    //                                 start: start.startStr,
+    //                                 end: start.endStr,
+    //                             }),
+    //                         })
+    //                         .then(response => response.json())
+    //                         .then(data => {
+    //                             const JSON = data.events;
+    //                             console.log(JSON);
+
+    //                             if (JSON.length != 0) {
+    //                                 Json = [];
+    //                                 JSON.forEach((event, index, array) => {
+    //                                     var start = event.start_time;
+    //                                     var start_time = moment(start, 'HH:mm:ss')
+    //                                         .format('h:mm A');
+    //                                     var end = event.end_time;
+    //                                     var end_time = moment(end, 'HH:mm:ss')
+    //                                         .format(
+    //                                             'h:mm A');
+    //                                     if (event.attendees_lead == 0) {
+    //                                         eventname = event.eventname;
+    //                                     } else {
+    //                                         eventname = 'event';
+    //                                     }
+    //                                     lists = `
+    //                         <li class="list-group-item card mb-3" data-index="${index}">
+                            
+    //                             <div class="row align-items-center justify-content-between">
+    //                                 <div class="col-auto mb-3 mb-sm-0">
+    //                                     <div class="d-flex align-items-center">
+    //                                         <div class="theme-avtar bg-info">
+    //                                             <i class="ti ti-calendar-event"></i>
+    //                                         </div>
+    //                                         <div class="ms-3">
+    //                                             <h6 class="m-0">${eventname} (${event.name})</h6>
+                                                
+    //                                             <small class="text-muted">${start_time} - ${end_time}</small>
+    //                                         </div>
+
+    //                                     </div>
+
+    //                                 </div>
+    //                             </div>
+    //                     </li>
+    //                     `;
+    //                                     Json.push(lists);
+    //                                 });
+    //                                 document.getElementById('listEvent').innerHTML = Json
+    //                                     .join(
+    //                                         '');
+    //                             } else {
+    //                             var startDate = start.startStr;
+    //                         var endDate = start.endStr;
+    //                         // localStorage.setItem('startDate', JSON.stringify(start));
+    //                         openPopupForm(startDate, endDate);
+    //                                     lists = `<h6 class="m-0">No event found!</h6>`;
+    //                                 document.getElementById('listEvent').innerHTML = lists;
+    //                             }
+    //                             calendar.refetchEvents();
+    //                         })
+    //                         .catch(console.error);
+    //                 },
+
+    //                 events: backgroundEvents
+    //             });
+    //             calendar.render();
+    //         }
+    //     })
+    //     $('.close-popup').on('click', function() {
+    //         closePopupForm();
+    //     });
+    //     $('input[name="venue[]"]').on('change', function() {
+    //         if ($(this).is(':checked')) {
+    //             const valueDataString = localStorage.getItem('startDate');
+    //             const valueDataArg = JSON.parse(valueDataString);
+    //             var startdate = valueDataArg.startStr;
+    //             var enddate = valueDataArg.endStr;
+    //             let venue = $(this).val();
+    //             ff(startdate, enddate, venue);
+    //         } else {
+    //             // console.log("deselect")
+
+    //             $('.venue-checkbox').prop('checked', false);
+    //             $('input[name="start_time"]').attr('min', '00:00');
+    //             $('input[name="start_time"]').val('00:00');
+    //             $('input[name="start_time"]').attr('value', '00:00');
+    //             $('input[name="end_time"]').attr('min', '00:00');
+    //         }
+    //     });
+
+    //     function ff(startdate, enddate, venue) {
+    //         var url = "{{url('/buffer-time')}}";
+
+    //         $.ajax({
+    //             url: url,
+    //             method: "POST",
+    //             data: {
+    //                 "_token": "{{ csrf_token() }}",
+    //                 startdate: startdate,
+    //                 enddate: enddate,
+    //                 venue: venue,
+    //             },
+    //             success: function(data, bufferedTime) {
+    //                 if (data.bufferedTime) {
+    //                     // console.log('Buffered Time:', data.bufferedTime);
+    //                     $('input[name="start_time"]').attr('min', data.bufferedTime);
+    //                     $('input[name="start_time"]').val(data.bufferedTime);
+    //                     $('input[name="start_time"]').attr('value', data.bufferedTime);
+    //                     $('input[name="end_time"]').attr('min', data.bufferedTime);
+
+    //                 } else {
+    //                     // console.log('No data found');
+    //                     $('input[name="start_time"]').attr('min', '00:00');
+    //                     $('input[name="start_time"]').val('00:00');
+    //                     $('input[name="start_time"]').attr('value', '00:00');
+    //                     $('input[name="end_time"]').attr('min', '00:00');
+    //                 }
+    //             },
+    //             error: function(data) {
+    //                 console.log('error');
+    //             },
+    //         });
+    //     }
+
+    //     function openPopupForm(start, end) {
+    //         var enddate = moment(end).subtract(1, 'days').format('yyyy-MM-DD');
+    //         $("input[name = 'start_date']").attr('value', start);
+    //         $("input[name = 'end_date']").attr('value', enddate);
+    //         $("div#popup-form").show();
+    //     }
+
+    //     function closePopupForm() {
+    //         $('#popup-form').hide();
+    //         $('#overlay').hide();
+    //         // document.getElementById('start_time').value = '00:00';
+    //         // document.getElementById('end_time').value = '00:00';
+    //         document.getElementById('purpose').value = '';
+    //         $('.venue-checkbox').prop('checked', false);
+    //         $('input[name="start_time"]').attr('min', '00:00');
+    //         $('input[name="start_time"]').val('00:00');
+    //         $('input[name="start_time"]').attr('value', '00:00');
+    //     }
+    // }
+    $(document).ready(function() {
+        get_data();
     });
 
-    function display_count() {
-        var events = new Array();
+    function get_data() {
+      
+            var urls = "{{route('meeting.get_meeting_data')}}";
+     
+
+        var calender_type = $('#calender_type :selected').val();
+
+        if (calender_type == undefined) {
+            calender_type = 'local_calender';
+        }
+        $('#calendar').addClass(calender_type);
         $.ajax({
-            url: '{{route("eventinformation")}}',
-            method: 'GET',
-            dataType: 'json',
-            success: function(response) {
-                var eventDates = {};
-                // Count the number of events for each date
-                response.forEach(function(event) {
-                    var startDate = moment(event.start_date).format('YYYY-MM-DD');
-                    if (eventDates[startDate]) {
-                        eventDates[startDate]++;
-                    } else {
-                        eventDates[startDate] = 1;
-                    }
-                });
-                // Convert the event counts into background event objects
-                var backgroundEvents = [];
-                for (var date in eventDates) {
-                    backgroundEvents.push({
-                        title: eventDates[date],
-                        start: date,
-                        textColor: '#fff',
-                        display: 'background',
+            url: urls,
+            method: "POST",
+            data: {
+                "_token": "{{ csrf_token() }}",
+                'calender_type': calender_type
+            },
+            success: function(data) {
+                (function() {
+                    var etitle;
+                    var etype;
+                    var etypeclass;
+                    var calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
+                        headerToolbar: {
+                            left: 'prev,next today',
+                            center: 'title',
+                            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                        },
+                        buttonText: {
+                            timeGridDay: "{{ __('Day') }}",
+                            timeGridWeek: "{{ __('Week') }}",
+                            dayGridMonth: "{{ __('Month') }}",
+                        },
+                        slotLabelFormat: {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            hour12: false,
+                        },
+                        themeSystem: 'bootstrap',
+                        navLinks: true,
+                        droppable: false,
+                        eventLimit: true,
+                        selectable: true,
+                        selectMirror: true,
+                        editable: false,
+                        dayMaxEvents: 1,
+                        handleWindowResize: true,
+                        height: 'auto',
+                        timeFormat: 'H(:mm)',
+                        events: data,
+                        select: function(info) {
+                            var startDate = info.startStr;
+                            var endDate = info.endStr;
+                            localStorage.setItem('startDate', JSON.stringify(info));
+                            openPopupForm(startDate, endDate);
+                        },
+                        eventContent: function(arg) {
+                            return {
+                                html: arg.event.title,
+                            };
+                        },
+                        eventMouseEnter: function(arg) {
+                            if (arg.event.extendedProps.blocked_by) {
+                                arg.el.innerHTML += '<div class="blocked-by-tooltip">' + 'By:' + arg.event.extendedProps.blocked_by + '</div>';
+                            }
+                        },
+
+                        eventMouseLeave: function(arg) {
+                            var tooltip = arg.el.querySelector('.blocked-by-tooltip');
+                            if (tooltip) {
+                                tooltip.remove();
+                            }
+                        },
                     });
-                }
-                let calendarEl = document.getElementById('calendar');
-                var calendar = new FullCalendar.Calendar(calendarEl, {
-                    headerToolbar: {
-                        left: 'prev,next today',
-                        center: 'title',
-                        right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                    },
-                    buttonText: {
-                        timeGridDay: "{{ __('Day') }}",
-                        timeGridWeek: "{{ __('Week') }}",
-                        dayGridMonth: "{{ __('Month') }}"
-                    },
-                    slotLabelFormat: {
-                        hour: '2-digit',
-                        minute: '2-digit',
-                        hour12: false,
-                    },
-                    themeSystem: 'bootstrap',
-                    navLinks: true,
-                    droppable: false,
-                    selectable: true,
-                    selectMirror: true,
-                    editable: false,
-                    dayMaxEvents: true,
-                    handleWindowResize: true,
-                    height: 'auto',
-                    timeFormat: 'H(:mm)',
-                    initialView: 'dayGridMonth',
-                    eventDisplay: 'block',
-                    select: function(start, end, allDay, info) {
-
-                        var selectedStartDate = start.startStr;
-                        var selectedEndDate = start.endStr;
-                        var formattedStartDate = moment(selectedStartDate).format(
-                            'dddd, MMMM DD, YYYY');
-                        var selectedDate = moment(selectedStartDate).format('Y-MM-DD');
-                        sessionStorage.setItem('selectedDate', selectedDate);
-                        document.getElementById('daySelected').innerHTML = formattedStartDate;
-                        document.getElementById('selectedDate').setAttribute(
-                            'data-date-selected',
-                            selectedDate);
-                        fetch("{{url('/calender-meeting-data')}}?start=" + start.startStr, {
-                                method: "POST",
-                                headers: {
-                                    "Content-Type": "application/json",
-                                    "X-CSRF-Token": "{{ csrf_token() }}",
-                                },
-                                body: JSON.stringify({
-                                    request_type: 'viewMeeting',
-                                    start: start.startStr,
-                                    end: start.endStr,
-                                }),
-                            })
-                            .then(response => response.json())
-                            .then(data => {
-                                const JSON = data.events;
-                                console.log(JSON);
-
-                                if (JSON.length != 0) {
-                                    Json = [];
-                                    JSON.forEach((event, index, array) => {
-                                        var start = event.start_time;
-                                        var start_time = moment(start, 'HH:mm:ss')
-                                            .format('h:mm A');
-                                        var end = event.end_time;
-                                        var end_time = moment(end, 'HH:mm:ss')
-                                            .format(
-                                                'h:mm A');
-                                        if (event.attendees_lead == 0) {
-                                            eventname = event.eventname;
-                                        } else {
-                                            eventname = 'event';
-                                        }
-                                        lists = `
-                            <li class="list-group-item card mb-3" data-index="${index}">
-                            
-                                <div class="row align-items-center justify-content-between">
-                                    <div class="col-auto mb-3 mb-sm-0">
-                                        <div class="d-flex align-items-center">
-                                            <div class="theme-avtar bg-info">
-                                                <i class="ti ti-calendar-event"></i>
-                                            </div>
-                                            <div class="ms-3">
-                                                <h6 class="m-0">${eventname} (${event.name})</h6>
-                                                
-                                                <small class="text-muted">${start_time} - ${end_time}</small>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-                                </div>
-                        </li>
-                        `;
-                                        Json.push(lists);
-                                    });
-                                    document.getElementById('listEvent').innerHTML = Json
-                                        .join(
-                                            '');
-                                } else {
-                            //         var startDate = start.startStr;
-                            // var endDate = start.endStr;
-                            // localStorage.setItem('startDate', JSON.stringify(start));
-                            // openPopupForm(startDate, endDate);
-                                        lists = `<h6 class="m-0">No event found!</h6>`;
-                                    document.getElementById('listEvent').innerHTML = lists;
-                                }
-                                calendar.refetchEvents();
-                            })
-                            .catch(console.error);
-                    },
-
-                    events: backgroundEvents
-                });
-                calendar.render();
+                    calendar.render();
+                })();
             }
-        })
-        // $('.close-popup').on('click', function() {
-        //     closePopupForm();
-        // });
-        // $('input[name="venue[]"]').on('change', function() {
-        //     if ($(this).is(':checked')) {
-        //         const valueDataString = localStorage.getItem('startDate');
-        //         const valueDataArg = JSON.parse(valueDataString);
-        //         var startdate = valueDataArg.startStr;
-        //         var enddate = valueDataArg.endStr;
-        //         let venue = $(this).val();
-        //         ff(startdate, enddate, venue);
-        //     } else {
-        //         // console.log("deselect")
 
-        //         $('.venue-checkbox').prop('checked', false);
-        //         $('input[name="start_time"]').attr('min', '00:00');
-        //         $('input[name="start_time"]').val('00:00');
-        //         $('input[name="start_time"]').attr('value', '00:00');
-        //         $('input[name="end_time"]').attr('min', '00:00');
-        //     }
-        // });
+        });
+        $('.close-popup').on('click', function() {
+            closePopupForm();
+        });
+        $('input[name="venue[]"]').on('change', function() {
+            if ($(this).is(':checked')) {
+                const valueDataString = localStorage.getItem('startDate');
+                const valueDataArg = JSON.parse(valueDataString);
+                var startdate = valueDataArg.startStr;
+                var enddate = valueDataArg.endStr;
+                let venue = $(this).val();
+                ff(startdate, enddate, venue);
+            } else {
+                // console.log("deselect")
 
-        // function ff(startdate, enddate, venue) {
-        //     var url = "{{url('/buffer-time')}}";
+                $('.venue-checkbox').prop('checked', false);
+                $('input[name="start_time"]').attr('min', '00:00');
+                $('input[name="start_time"]').val('00:00');
+                $('input[name="start_time"]').attr('value', '00:00');
+                $('input[name="end_time"]').attr('min', '00:00');
+            }
+        });
 
-        //     $.ajax({
-        //         url: url,
-        //         method: "POST",
-        //         data: {
-        //             "_token": "{{ csrf_token() }}",
-        //             startdate: startdate,
-        //             enddate: enddate,
-        //             venue: venue,
-        //         },
-        //         success: function(data, bufferedTime) {
-        //             if (data.bufferedTime) {
-        //                 // console.log('Buffered Time:', data.bufferedTime);
-        //                 $('input[name="start_time"]').attr('min', data.bufferedTime);
-        //                 $('input[name="start_time"]').val(data.bufferedTime);
-        //                 $('input[name="start_time"]').attr('value', data.bufferedTime);
-        //                 $('input[name="end_time"]').attr('min', data.bufferedTime);
+        function ff(startdate, enddate, venue) {
+            var url = "{{url('/buffer-time')}}";
 
-        //             } else {
-        //                 // console.log('No data found');
-        //                 $('input[name="start_time"]').attr('min', '00:00');
-        //                 $('input[name="start_time"]').val('00:00');
-        //                 $('input[name="start_time"]').attr('value', '00:00');
-        //                 $('input[name="end_time"]').attr('min', '00:00');
-        //             }
-        //         },
-        //         error: function(data) {
-        //             console.log('error');
-        //         },
-        //     });
-        // }
+            $.ajax({
+                url: url,
+                method: "POST",
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    startdate: startdate,
+                    enddate: enddate,
+                    venue: venue,
+                },
+                success: function(data, bufferedTime) {
+                    if (data.bufferedTime) {
+                        // console.log('Buffered Time:', data.bufferedTime);
+                        $('input[name="start_time"]').attr('min', data.bufferedTime);
+                        $('input[name="start_time"]').val(data.bufferedTime);
+                        $('input[name="start_time"]').attr('value', data.bufferedTime);
+                        $('input[name="end_time"]').attr('min', data.bufferedTime);
 
-        // function openPopupForm(start, end) {
-        //     var enddate = moment(end).subtract(1, 'days').format('yyyy-MM-DD');
-        //     $("input[name = 'start_date']").attr('value', start);
-        //     $("input[name = 'end_date']").attr('value', enddate);
-        //     $("div#popup-form").show();
-        // }
+                    } else {
+                        // console.log('No data found');
+                        $('input[name="start_time"]').attr('min', '00:00');
+                        $('input[name="start_time"]').val('00:00');
+                        $('input[name="start_time"]').attr('value', '00:00');
+                        $('input[name="end_time"]').attr('min', '00:00');
+                    }
+                },
+                error: function(data) {
+                    console.log('error');
+                },
+            });
+        }
 
-        // function closePopupForm() {
-        //     $('#popup-form').hide();
-        //     $('#overlay').hide();
-        //     // document.getElementById('start_time').value = '00:00';
-        //     // document.getElementById('end_time').value = '00:00';
-        //     document.getElementById('purpose').value = '';
-        //     $('.venue-checkbox').prop('checked', false);
-        //     $('input[name="start_time"]').attr('min', '00:00');
-        //     $('input[name="start_time"]').val('00:00');
-        //     $('input[name="start_time"]').attr('value', '00:00');
-        // }
+        function openPopupForm(start, end) {
+            var enddate = moment(end).subtract(1, 'days').format('yyyy-MM-DD');
+            $("input[name = 'start_date']").attr('value', start);
+            $("input[name = 'end_date']").attr('value', enddate);
+            $("div#popup-form").show();
+        }
+
+        function closePopupForm() {
+            $('#popup-form').hide();
+            $('#overlay').hide();
+            // document.getElementById('start_time').value = '00:00';
+            // document.getElementById('end_time').value = '00:00';
+            document.getElementById('purpose').value = '';
+            $('.venue-checkbox').prop('checked', false);
+            $('input[name="start_time"]').attr('min', '00:00');
+            $('input[name="start_time"]').val('00:00');
+            $('input[name="start_time"]').attr('value', '00:00');
+        }
+
     }
-
     </script>
-
-    @endpush
+@endpush
