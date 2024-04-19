@@ -125,7 +125,8 @@
                 @endif
                 @if(\Request::route()->getName() == 'userlist' || \Request::route()->getName() == 'customer.info' ||
                 \Request::route()->getName() == 'event_customers'||\Request::route()->getName() == 'siteusers' ||
-                \Request::route()->getName() == 'lead_customers' || \Request::route()->getName() == 'lead.userinfo'||\Request::route()->getName() == 'event.userinfo')
+                \Request::route()->getName() == 'lead_customers' || \Request::route()->getName() ==
+                'lead.userinfo'||\Request::route()->getName() == 'event.userinfo')
                 <a href="{{route('siteusers')}}" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-users"></i></span>
                     <span class="dash-mtext">{{ __('All Customers') }} </span></a>
@@ -139,7 +140,7 @@
                     <span class="fa-stack fa-lg pull-left"></span>
                     <span class="dash-mtext">{{ __('Leads') }} </span></a>
                 @endif
-           
+
                 @if(\Request::route()->getName() == 'campaign-list' )
                 <a href="#useradd-1" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"></span>
@@ -158,13 +159,13 @@
                 \Request::route()->getName() == 'report.eventanalytic' || \Request::route()->getName() ==
                 'report.customersanalytic' || \Request::route()->getName() == 'report.billinganalytic' ? ' active ' :
                 '')
-              
+
                 <a href="{{ route('report.leadsanalytic') }}" class="list-group-item list-group-item-action"><span
                         class="fa-stack fa-lg pull-left"></span>
                     <span class="dash-mtext">{{ __('Leads') }} </span></a>
 
                 </a>
-              
+
                 <a href="{{ route('report.eventanalytic') }}" class="list-group-item list-group-item-action"><span
                         class="fa-stack fa-lg pull-left"></span>
                     <span class="dash-mtext">{{ __('Events') }} </span></a>
@@ -212,11 +213,13 @@
                     <span class="dash-mtext">{{ __('Edit Lead') }} </span></a>
                 </a>
                 @endif
-                <!-- <li class="dash-item {{ \Request::route()->getName() == 'calendar' || \Request::route()->getName() == 'calendar.index' ? ' active' : '' }}">
-                        <a href="{{ route('calendar.index') }}" class="dash-link">
-                            <span class="dash-micon"><i class="far fa-calendar-alt"></i></span><span class="dash-mtext">{{ __('Calendar') }}</span>
-                        </a>
-                    </li> -->
+                <!-- <li
+                    class="dash-item {{ \Request::route()->getName() == 'calendar' || \Request::route()->getName() == 'calendar.index' ? ' active' : '' }}">
+                    <a href="{{ route('calendar.index') }}" class="dash-link">
+                        <span class="dash-micon"><i class="far fa-calendar-alt"></i></span><span
+                            class="dash-mtext">{{ __('Calendar') }}</span>
+                    </a>
+                </li> -->
             </div>
         </div>
     </div>

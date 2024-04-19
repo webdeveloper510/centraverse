@@ -25,7 +25,7 @@
                                         <i class="fas fa-address-card"></i>
                                     </div>
                                     <div class="right_side">
-                                        <h6 class="mb-3"><?php echo e(__('Active Lead')); ?></h6>
+                                        <h6 class="mb-3"><?php echo e(__('Active Leads')); ?></h6>
                                         <h3 class="mb-0"><?php echo e($data['totalLead']); ?></h3>
                                     </div>
                                 </div>
@@ -173,40 +173,32 @@
                     </div>
                     <div class="col-sm">
                         <div class="inner_col">
-                            <h5 class="card-title mb-2">Finances</h5>
-                           
+                            <h5 class="card-title mb-2">Finance</h5>
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-text"><?php echo e(__('Total Amount(E)')); ?> -
+                                        <span><?php echo e($events_revenue != 0 ? '$'.$events_revenue : '--'); ?></span>
+                                    </h5>
+                                    <h5 class="card-text"><?php echo e(__('Amount Recieved(E)')); ?> -
+                                        <span><?php echo e($events_revenue_generated != 0 ? '$'.$events_revenue_generated : '--'); ?></span>
+                                    </h5>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- <div class="col-sm">
-                        <div class="inner_col">
-                            <h5 class="card-title mb-2">Lost Leads</h5>
-                            <?php $__currentLoopData = $lostLeads; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $lead): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-text"><?php echo e($lead['leadname']); ?>
-
-                                        <span><?php echo e($lead['type']); ?></span>
-                                    </h5>
-                                    <?php if($lead['start_date'] == $lead['end_date']): ?>
-                                    <p><?php echo e(Carbon\Carbon::parse($lead['start_date'])->format('M d')); ?></p>
-                                    <?php else: ?>
-                                    <p><?php echo e(Carbon\Carbon::parse($lead['start_date'])->format('M d')); ?> -
-                                        <?php echo e(\Auth::user()->dateFormat($lead['end_date'])); ?>
-
-                                    </p>
-                                    <?php endif; ?>
-                                </div>
-                            </div>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                        </div>
-                    </div> -->
+                    
                 </div>
             </div>
         </div>
     </div>
 
 </div>
+<style>
+    h5.card-text {
+    font-size: 16px;
+}
+</style>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script-page'); ?>
 <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "dc4641f860664c6e824b093274f50291"}'></script>

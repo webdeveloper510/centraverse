@@ -150,18 +150,18 @@ class MeetingController extends Controller
             $bar_pack = json_encode($bar_pack);
             $start_date = $request->input('start_date');
             $end_date = $request->input('end_date');
-            $start_time = $request->input('start_time');
-            $end_time = $request->input('end_time');
+            // $start_time = $request->input('start_time');
+            // $end_time = $request->input('end_time');
             $venue_selected = $request->input('venue');
 
             $overlapping_event = Meeting::where('start_date', '<=', $end_date)
                 ->where('end_date', '>=', $start_date)
-                ->where(function ($query) use ($start_date, $end_date, $start_time, $end_time, $venue_selected) {
+                ->where(function ($query) use ($start_date, $end_date, $venue_selected) {
                     foreach ($venue_selected as $v) {
-                        $query->orWhere(function ($q) use ($start_date, $end_date, $start_time, $end_time, $v) {
+                        $query->orWhere(function ($q) use ($start_date, $end_date, $v) {
                             $q->where('venue_selection', 'LIKE', "%$v%")
-                                ->where('end_time', '>', $start_time)
-                                ->where('start_time', '<', $end_time)
+                                // ->where('end_time', '>', $start_time)
+                                // ->where('start_time', '<', $end_time)
                                 ->where('start_date', '<=', $end_date)
                                 ->where('end_date', '>=', $start_date);
                         });
@@ -403,12 +403,12 @@ class MeetingController extends Controller
 
             $overlapping_event = Blockdate::where('start_date', '<=', $end_date)
                 ->where('end_date', '>=', $start_date)
-                ->where(function ($query) use ($start_date, $end_date, $start_time, $end_time, $venue_selected) {
+                ->where(function ($query) use ($start_date, $end_date,$venue_selected) {
                     foreach ($venue_selected as $v) {
-                        $query->orWhere(function ($q) use ($start_date, $end_date, $start_time, $end_time, $v) {
+                        $query->orWhere(function ($q) use ($start_date, $end_date,$v) {
                             $q->where('venue', 'LIKE', "%$v%")
-                                ->where('end_time', '>', $start_time)
-                                ->where('start_time', '<', $end_time)
+                                // ->where('end_time', '>', $start_time)
+                                // ->where('start_time', '<', $end_time)
                                 ->where('start_date', '<=', $end_date)
                                 ->where('end_date', '>=', $start_date);
                         });
@@ -589,10 +589,11 @@ class MeetingController extends Controller
             $arrayJson =  Utility::getCalendarData($type);
         } else {
             $data = Meeting::where('created_by', \Auth::user()->creatorId())->get();
+            $blockeddate = Blockdate::where('created_by', \Auth::user()->creatorId())->get();
             foreach ($data as $val) {
                 $end_date = date_create($val->end_date);
                 date_add($end_date, date_interval_create_from_date_string("1 days"));
-                $arrayJson[] = [
+                $arrMeeting[] = [
                     "id" => $val->id,
                     "title" => $val->name,
                     "start" => $val->start_date,
@@ -603,6 +604,30 @@ class MeetingController extends Controller
                     "allDay" => true,
                 ];
             }
+            foreach ($blockeddate as $val) {
+                $blockingUser = $val->user ?? null;
+                $blockingUserName = $blockingUser ? $blockingUser->name : 'Unknown User';
+
+                $expireDate = date('Y-m-d', strtotime($val->end_date . ' + 1 days'));
+
+                $uniqueId = $val->unique_id;
+
+                $arrblock[] = [
+                    "id" => $val->id,
+                    "title" => $val->purpose,
+                    "start" => $val->start_date,
+                    "end" => $expireDate,
+                    "className" => $val->color,
+                    "textColor" => '#fff',
+                    "allDay" => true,
+                    // "display" => 'background',
+                    "url" => url('/show-blocked-date-popup' . '/' . $val->id),
+                    "backgroundColor" => "grey",
+                    "blocked_by" => $blockingUserName, 
+                    "unique_id" => $uniqueId,
+                ];
+            }
+            $arrayJson = array_merge($arrMeeting, $arrblock);
         }
 
         return $arrayJson;
@@ -633,17 +658,17 @@ class MeetingController extends Controller
         $venue_selected = $request->input('venue');
         $start_date = $request->input('start_date');
         $end_date = $request->input('end_date');
-        $start_time = $request->input('start_time');
-        $end_time = $request->input('end_time');
+        // $start_time = $request->input('start_time');
+        // $end_time = $request->input('end_time');
 
         $overlapping_meetings = Meeting::where('start_date', '<=', $end_date)
             ->where('end_date', '>=', $start_date)
-            ->where(function ($query) use ($start_date, $end_date, $start_time, $end_time, $venue_selected) {
+            ->where(function ($query) use ($start_date, $end_date, $venue_selected) {
                 foreach ($venue_selected as $v) {
-                    $query->orWhere(function ($q) use ($start_date, $end_date, $start_time, $end_time, $v) {
+                    $query->orWhere(function ($q) use ($start_date, $end_date, $v) {
                         $q->where('venue_selection', 'LIKE', "%$v%")
-                            ->where('end_time', '>', $start_time)
-                            ->where('start_time', '<', $end_time)
+                            // ->where('end_time', '>', $start_time)
+                            // ->where('start_time', '<', $end_time)
                             ->where('start_date', '<=', $end_date)
                             ->where('end_date', '>=', $start_date);
                     });
@@ -656,12 +681,12 @@ class MeetingController extends Controller
 
         $overlapping_event = Blockdate::where('start_date', '<=', $end_date)
             ->where('end_date', '>=', $start_date)
-            ->where(function ($query) use ($start_date, $end_date, $start_time, $end_time, $venue_selected) {
+            ->where(function ($query) use ($start_date, $end_date,$venue_selected) {
                 foreach ($venue_selected as $v) {
-                    $query->orWhere(function ($q) use ($start_date, $end_date, $start_time, $end_time, $v) {
+                    $query->orWhere(function ($q) use ($start_date, $end_date, $v) {
                         $q->where('venue', 'LIKE', "%$v%")
-                            ->where('end_time', '>', $start_time)
-                            ->where('start_time', '<', $end_time)
+                            // ->where('end_time', '>', $start_time)
+                            // ->where('start_time', '<', $end_time)
                             ->where('start_date', '<=', $end_date)
                             ->where('end_date', '>=', $start_date);
                     });
@@ -676,8 +701,8 @@ class MeetingController extends Controller
         $block = new Blockdate();
         $block->start_date = $start_date;
         $block->end_date = $end_date;
-        $block->start_time = (new DateTime($start_time))->format('H:i:s');
-        $block->end_time = (new DateTime($end_time))->format('H:i:s');
+        // $block->start_time = (new DateTime($start_time))->format('H:i:s');
+        // $block->end_time = (new DateTime($end_time))->format('H:i:s');
         $block->purpose = $request->purpose;
         $block->venue = $venue;
         $block->unique_id = uniqid();
@@ -1137,15 +1162,15 @@ class MeetingController extends Controller
     }
     public function detailed_info($id){
         $id= decrypt(urldecode($id));
+        // echo "<pre>";print_r($id);die;
         // $event = Meeting::find($id);
-        $event = Meeting::withTrashed()->find($id);
+        $event = Meeting::find($id);
 
         return view('meeting.detailed_view',compact('event'));
     }
     public function event_user_info($id){
         $id = decrypt(urldecode($id));
-        $event = Meeting::find($id);
-        
+        $event = Meeting::withTrashed()->find($id);
         $notes = NotesEvents::where('event_id',$id)->orderby('id','desc')->get();
         $docs = EventDoc::where('event_id',$id)->get();
         return view('customer.eventuserview',compact('event','docs','notes'));

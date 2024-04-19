@@ -528,6 +528,11 @@ Route::group(['middleware' => ['verified']], function () {
             Route::get('event/user-information/{id}',[MeetingController::class,'event_user_info'])->name('event.userinfo');
             Route::post('event/upload_doc/{id}',[MeetingController::class,'event_upload_doc'])->name('event.uploaddoc');
             Route::post('event-notes/{id}',[MeetingController::class,'eventnotes'])->name('addeventnotes');
+            Route::get('/get-encoded-id/{id}', function ($id) {
+                $encryptedId = Crypt::encrypt($id);
+                $encodedId = urlencode($encryptedId);
+                return response()->json(['encodedId' => $encodedId]);
+            })->name('get.encoded.id');
 
         }
     );
@@ -1397,6 +1402,7 @@ Route::get('/calender-new', [CalenderNewController::class, 'index'])->name('cale
 Route::post('/edit-addittional-items',[SettingController::class,'editadditionalcost'])->name('additionalitems.edit');
 Route::post('/function-packages', [MeetingController::class, 'getpackages'])->name('function.packages');
 Route::get('/event-info',[CalenderNewController::class,'eventinfo'])->name('eventinformation');
+Route::get('/blocked-data-info',[CalenderNewController::class,'blockeddateinfo'])->name('blockedDatesInformation');
 Route::post('calender-data',[CalenderNewController::class,'monthbaseddata'])->name('monthbaseddata');
 
 

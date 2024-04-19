@@ -117,7 +117,7 @@
                                 <td>{{ ucfirst($pay['name_of_card'])  }}</td>
                                 <td>{{$event->type}}</td>
                                 <td>{{ ($pay['transaction_id'])  }}</td>
-                                <td>{{ ($pay['amount'])  }}</td>
+                                <td>${{ ($pay['amount'])  }}</td>
                                 <td>{{$event->phone}}</td>
                                 <td>{{$event->email}}</td>
                                 <td>{{ __(\Auth::user()->dateFormat($pay['created_at'])) }}</td>
