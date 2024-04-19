@@ -23,6 +23,7 @@ use App\Models\MasterCustomer;
 use App\Mail\SendBillingMail;
 use App\Mail\AgreementMail;
 use App\Models\NotesEvents;
+use App\Models\AgreementInfo;
 use DateTime;
 use Mpdf\Mpdf;
 use DateInterval;

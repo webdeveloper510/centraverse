@@ -251,7 +251,11 @@ if(isset($billing) && !empty($billing)){
                                         <dd class="col-md-6"><span class="">{{$lead->function}}</span></dd>
                                         <dt class="col-md-6"><span class="h6  mb-0">{{__('Assigned User')}}</span></dt>
                                         <dd class="col-md-6"><span
-                                                class="">{{App\Models\User::where('id',$lead->assigned_user)->first()->name}}</span>
+                                                class="">@if($lead->assigned_user != 0)
+            {{ App\Models\User::where('id', $lead->assigned_user)->first()->name }}
+        @else
+            --
+        @endif</span>
                                         </dd>
                                         <dt class="col-md-6"><span class="h6  mb-0">{{__('Description')}}</span></dt>
                                         <dd class="col-md-6"><span class="">{{ $lead->description ??' --' }}</span></dd>
