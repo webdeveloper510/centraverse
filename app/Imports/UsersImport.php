@@ -15,13 +15,11 @@ class UsersImport implements ToModel, WithHeadingRow
     */
     protected $category;
     protected $userid;
-    public $notes;
 
-    public function __construct($category, $userid,$notes)
+    public function __construct($category, $userid)
     {
         $this->category = $category;
         $this->userid = $userid;
-        $this->notes = $notes;
         // Ensure $userid is treated as an array
         
     }
@@ -42,7 +40,6 @@ class UsersImport implements ToModel, WithHeadingRow
             'address'      => $row['address'],
             'organization' => $row['organization'],
             'category'     => $row['category'],
-            'notes'         => $this->notes,
             'created_by'   => $this->userid
         ];
 

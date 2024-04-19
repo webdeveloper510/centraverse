@@ -100,12 +100,12 @@ $campaign_type = explode(',',$settings['campaign_type']);
                             </select>
                         </div>
                     </div>
-                    <div class="col-12">
+                    <!-- <div class="col-12">
                         <div class="form-group">
                             <label for="comments">Notes</label>
                            <textarea name="comments" class="form-control" cols="30" rows="5"></textarea>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="col-12">
                         <div class="form-group">
                             <label for="users">Upload File</label>

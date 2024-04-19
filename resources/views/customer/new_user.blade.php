@@ -61,7 +61,7 @@
                                                 <td><span>{{$user->phone}}</span></td>
                                                 <td><span>{{ucfirst($user->category)}}</span></td>
                                                 <td><span>{{ucfirst($user->address)}}</span></td>
-                                                <td><span>{{$user->notes}}</span></td>
+                                                <td><span>@if($user->notes == '') -- @else{{$user->notes}}@endif</span></td>
                                                 <!-- <td>
                                                 @if ($user->status == 0)
                                                     <span

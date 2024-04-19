@@ -382,6 +382,7 @@ li.item-event>p:nth-child(2) {
                                         }
                                         lists = `
                             <li class="list-group-item card mb-3" data-index="${index}">
+                            
                                 <div class="row align-items-center justify-content-between">
                                     <div class="col-auto mb-3 mb-sm-0">
                                         <div class="d-flex align-items-center">
@@ -390,6 +391,7 @@ li.item-event>p:nth-child(2) {
                                             </div>
                                             <div class="ms-3">
                                                 <h6 class="m-0">${eventname} (${event.name})</h6>
+                                                
                                                 <small class="text-muted">${start_time} - ${end_time}</small>
                                             </div>
 

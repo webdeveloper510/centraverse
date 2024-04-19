@@ -1,14 +1,14 @@
 <?php $__env->startSection('page-title'); ?>
-<?php echo e(__('Event')); ?>
+<?php echo e(__('Events')); ?>
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('title'); ?>
-<?php echo e(__('Event')); ?>
+<?php echo e(__('Events')); ?>
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('breadcrumb'); ?>
 <li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Home')); ?></a></li>
-<li class="breadcrumb-item"><?php echo e(__('Event')); ?></li>
+<li class="breadcrumb-item"><?php echo e(__('Events')); ?></li>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('action-btn'); ?>
 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Meeting')): ?>
