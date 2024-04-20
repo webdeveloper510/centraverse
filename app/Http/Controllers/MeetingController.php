@@ -764,7 +764,7 @@ class MeetingController extends Controller
             }
         }
         $agrementinfo = new AgreementInfo();
-        $agrementinfo->lead_id = $id;
+        $agrementinfo->event__id = $id;
         $agrementinfo->email = $request->email;
         $agrementinfo->subject = $request->subject;
         $agrementinfo->content = $request->emailbody;
