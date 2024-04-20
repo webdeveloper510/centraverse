@@ -1,4 +1,6 @@
-
+<?php   
+$logo=\App\Models\Utility::get_file('uploads/logo/');
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,10 +13,10 @@
 <body>
     Dear {{ $lead->name }},<br>
 
-    <table class="table table-responsive">
+    <p>Lead details are as follows : </p>
+    <table class="table table-bordered" style="border:1px solid black;">
         <thead>
             <th colspan="4"></th>
-
         </thead>
         <tbody>
         <tr>
@@ -52,8 +54,11 @@
 
     </table>
   
-    Thank you for your time and collaboration.
-    With regards
+    <b>Thank you for your time and collaboration.</b><br>
+    <b>With regards</b>
+    <b>The Bond 1786</b>
+    <img src="{{$logo.'3_logo-light.png'}}" alt="{{ config('app.name', 'The Bond 1786') }}"
+                        class="logo logo-lg nav-sidebar-logo" height="50" />
 
 </body>
 
