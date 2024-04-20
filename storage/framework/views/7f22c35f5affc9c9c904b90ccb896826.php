@@ -131,9 +131,9 @@
                     <table class="table" id="pc-dt-export">
                         <thead>
                             <tr>
+                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Name')); ?></th>
                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__(' Lead Status')); ?></th>
                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Status')); ?></th>
-                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Name')); ?></th>
                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Created By')); ?></th>
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Type')); ?></th>
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Phone')); ?></th>
@@ -142,11 +142,20 @@
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Time')); ?></th>
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Assigned Staff')); ?></th>
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Rooms required')); ?></th>
+                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Bar')); ?></th>
+                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Bar Package')); ?></th>
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Function')); ?></th>
+                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Package')); ?></th>
+                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Additional Items')); ?></th>
+                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Any Special Requests')); ?></th>
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Guest Count')); ?></th>
                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Converted To Event')); ?></th>
                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Created At')); ?></th>
                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Comments')); ?></th>
+                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Proposal Signed By Customer')); ?>
+
+                                </th>
+                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Any Attachments')); ?></th>
 
                             </tr>
                         </thead>
@@ -155,9 +164,16 @@
                             <?php $event = App\Models\Meeting::where('attendees_lead',$result['id'])->exists();
                            ?>
                             <tr>
-                                <td><?php echo e(__(\App\Models\Lead::$stat[$result->lead_status])); ?></td>
+                                <td>
+                                    <a href="<?php echo e(route('lead.info',urlencode(encrypt($result['id'])))); ?>" data-size="md"
+                                        title="<?php echo e(__('Lead Details')); ?>" class="action-item text-primary"
+                                        style="color:#1551c9 !important;">
+                                        <b> <?php echo e(ucfirst($result['name'])); ?></b>
+                                    </a>
+                                </td>
+                                <td> <?php echo e(__(\App\Models\Lead::$stat[$result->lead_status])); ?></td>
                                 <td> <?php echo e(__(\App\Models\Lead::$status[$result['status']])); ?></td>
-                                <td><?php echo e(ucfirst($result['name'])); ?></td>
+
                                 <td><?php echo e(ucfirst(App\Models\User::where('id',$result['created_by'])->first()->name)); ?></td>
                                 <td><?php echo e(ucfirst($result['type'])); ?></td>
                                 <td><?php echo e($result['phone']); ?></td>
@@ -181,18 +197,56 @@
 
                                     <?php echo e(!empty($result['assign_user'])?'('.$result['assign_user']->type.')':''); ?></td>
                                 <td><?php echo e($result['rooms']); ?></td>
+                                <td><?php echo e($result['bar'] ?? '--'); ?></td>
+                                <td><?php $barpackage = json_decode($result['bar_package'],true);
+                                if(isset($barpackage) && !empty($barpackage)){
+                                    foreach ($barpackage as $key => $value) {
+                                        echo implode(',',$value);
+                                    } 
+                                }else{
+                                    echo '--';
+                                }
+                                                
+                                                ?></td>
                                 <td><?php echo e(isset($result['function']) ? ucfirst($result['function']) : '--'); ?></td>
+                                <td><?php $package = json_decode($result['func_package'],true);
+                                                    foreach ($package as $key => $value) {
+                                                        echo implode(',',$value);
+                                                    } 
+                                                ?></td>
+                                <td> <?php $additional = json_decode($result['ad_opts'],true);
+                                                    foreach ($additional as $key => $value) {
+                                                        echo implode(',',$value);
+                                                    } 
+                                ?></td>
+                                <td><?php echo e($result['spcl_req'] ?? '--'); ?></td>
                                 <td><?php echo e($result['guest_count']); ?></td>
                                 <td>
-                                   
+
                                     <?php if($event): ?> Yes <?php else: ?> No <?php endif; ?>
                                 </td>
                                 <td><?php echo e(__(\Auth::user()->dateFormat($result['created_at']))); ?></td>
                                 <td><?php $comment = App\Models\Proposal::where('lead_id',$result['id'])->orderby('id','desc')->first(); ?>
                                     <?php if(isset($comment) && !empty($comment)): ?>
-                                    <?php echo e(App\Models\Proposal::where('lead_id',$result['id'])->orderby('id','desc')->first()->notes); ?>
+                                    <?php echo e($comment->notes); ?>
 
-                                    <?php else: ?> -- <?php endif; ?></td>
+                                    <?php else: ?> -- <?php endif; ?>
+                                </td>
+                                <td><?php $prop = App\Models\Proposal::where('lead_id',$result['id'])->orderby('id','desc')->exists(); ?>
+                                    <?php if($prop): ?> Yes <?php else: ?> No <?php endif; ?>
+                                </td>
+                                <td><?php  $attachment=   App\Models\LeadDoc::where('lead_id',$result['id'])->get();?>
+                                    <?php if($attachment): ?>
+                                    <?php $__currentLoopData = $attachment; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $attach): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <?php if(Storage::disk('public')->exists($attach->filepath)): ?>
+
+                                    <a href="<?php echo e(Storage::url('app/public/'.$attach->filepath)); ?>" download
+                                        style="color: teal;" title="Download"><?php echo e($attach->filename); ?></a>
+                                    <?php endif; ?>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    <?php endif; ?>
+
+                                </td>
                             </tr>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </tbody>
@@ -205,7 +259,7 @@
     <?php $__env->startPush('script-page'); ?>
     <script>
     < script type = "text/javascript"
-        src = "<?php echo e(asset('js/html2pdf.bundle.min.js')); ?>" >
+    src = "<?php echo e(asset('js/html2pdf.bundle.min.js')); ?>" >
     </script>
     <script type="text/javascript" src="<?php echo e(asset('js/dataTables.buttons.min.js')); ?>"></script>
     <script type="text/javascript" src="<?php echo e(asset('js/jszip.min.js')); ?>"></script>

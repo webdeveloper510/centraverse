@@ -133,20 +133,20 @@ $additional_items = json_decode($settings['additional_items'],true);
     <?php endif; ?>
     <div class="col-6">
         <div class="form-group">
-            <?php echo e(Form::label('start_date', __('Start Date'), ['class' => 'form-label'])); ?>
+            <?php echo e(Form::label('start_date', __('Date of Event'), ['class' => 'form-label'])); ?>
 
             <?php echo Form::date('start_date', date('Y-m-d'), ['class' => 'form-control']); ?>
 
         </div>
     </div>
-    <div class="col-6">
+    <!-- <div class="col-6">
         <div class="form-group">
             <?php echo e(Form::label('end_date', __('End Date'), ['class' => 'form-label'])); ?>
 
             <?php echo Form::date('end_date', date('Y-m-d'), ['class' => 'form-control']); ?>
 
         </div>
-    </div>
+    </div> -->
 
     <div class="col-6">
         <div class="form-group">
@@ -354,18 +354,18 @@ $(document).ready(function() {
         iti.setCountry('us');
     }
 });
-$(document).ready(function() {
-    $('#start_date, #end_date').change(function() {
-        var startDate = new Date($('#start_date').val());
-        var endDate = new Date($('#end_date').val());
+// $(document).ready(function() {
+//     $('#start_date, #end_date').change(function() {
+//         var startDate = new Date($('#start_date').val());
+//         var endDate = new Date($('#end_date').val());
 
-        if ($(this).attr('id') === 'start_date' && endDate < startDate) {
-            $('#end_date').val($('#start_date').val());
-        } else if ($(this).attr('id') === 'end_date' && endDate < startDate) {
-            $('#start_date').val($('#end_date').val());
-        }
-    });
-});
+//         if ($(this).attr('id') === 'start_date' && endDate < startDate) {
+//             $('#end_date').val($('#start_date').val());
+//         } else if ($(this).attr('id') === 'end_date' && endDate < startDate) {
+//             $('#start_date').val($('#end_date').val());
+//         }
+//     });
+// });
 </script>
 <script>
 const isNumericInput = (event) => {

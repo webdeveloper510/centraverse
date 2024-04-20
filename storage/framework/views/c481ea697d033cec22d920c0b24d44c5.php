@@ -1,4 +1,6 @@
 <?php
+$billing = App\Models\ProposalInfo::where('lead_id',$lead->id)->orderby('id','desc')->first();
+$billing= json_decode($billing->proposal_info,true);
 $selectedvenue = explode(',', $lead->venue_selection);
 $imagePath = public_path('upload/signature/autorised_signature.png');
 $imageData = base64_encode(file_get_contents($imagePath));
@@ -8,70 +10,70 @@ if(isset($proposal) && ($proposal['image'] != null)){
     $sign = 'data:image/' . pathinfo($proposal['image'], PATHINFO_EXTENSION) . ';base64,' . $signed;
     }
 //--------------Venue Cost----------------------
-$venueRentalCost = 0;
-foreach ($selectedvenue as $venues) {
-$venueRentalCost += $fixed_cost['venue'][$venues] ?? 0;
-}
+// $venueRentalCost = 0;
+// foreach ($selectedvenue as $venues) {
+// $venueRentalCost += $fixed_cost['venue'][$venues] ?? 0;
+// }
 //--------------Food Cost----------------------
 
-$totalFoodPackageCost = 0;
-$foodpcks = json_decode($lead->func_package,true);
-if(isset($foodpcks) && !empty($foodpcks)){
-    foreach($foodpcks as $key => $foodpck){
-        foreach($foodpck as $foods){
-            $food[]= $foods;
-        }
-    }
-    foreach ($food as $foodItem) {
-        foreach ($fixed_cost['package'] as $category => $categoryItems) {
-            if (isset($categoryItems[$foodItem])) {
-                $totalFoodPackageCost += $categoryItems[$foodItem];
-                break;
-            }
-        }
-    }
-}
+// $totalFoodPackageCost = 0;
+// $foodpcks = json_decode($lead->func_package,true);
+// if(isset($foodpcks) && !empty($foodpcks)){
+//     foreach($foodpcks as $key => $foodpck){
+//         foreach($foodpck as $foods){
+//             $food[]= $foods;
+//         }
+//     }
+//     foreach ($food as $foodItem) {
+//         foreach ($fixed_cost['package'] as $category => $categoryItems) {
+//             if (isset($categoryItems[$foodItem])) {
+//                 $totalFoodPackageCost += $categoryItems[$foodItem];
+//                 break;
+//             }
+//         }
+//     }
+// }
 
-$totalBarCost = 0;
-$barpcks = json_decode($lead->bar_package,true);
+// $totalBarCost = 0;
+// $barpcks = json_decode($lead->bar_package,true);
 
-if(!empty($barpcks) && !empty($barpcks)){
-    foreach($barpcks as $key => $barpck){
-        $bar[]= $barpck;
-    }
-    $foodpcks = json_decode($lead->func_package,true);
-    foreach($foodpcks as $key => $foodpck){
-        foreach($foodpck as $foods){
-            $food[]= $foods;
-        }
-    }
-    foreach ($bar as $barItem) {
-        foreach ($fixed_cost['barpackage'] as $category => $categoryItems) {
-            if (isset($categoryItems[$barItem])) {
-                $totalBarCost += $categoryItems[$barItem];
-                break;
-            }
-        }
-    }
-}
-$additionalItemsCost = 0;
-$addpcks = json_decode($lead->ad_opts,true);
-if(isset($addpcks) && !empty($addpcks)){
-    foreach($addpcks as $key => $adpck){
-        foreach($adpck as $ad){
-            $add[] = $ad;
-        }
-    }
-    foreach ($additional_items as $category => $categoryItems) {
-        foreach ($categoryItems as $item => $subItems) {
-            foreach ($subItems as $key => $value) {
-                if (in_array($key, $add)) {    
-                $additionalItemsCost += $value;
-                }
-            }
-        }
-    }
-}
+// if(!empty($barpcks) && !empty($barpcks)){
+//     foreach($barpcks as $key => $barpck){
+//         $bar[]= $barpck;
+//     }
+//     $foodpcks = json_decode($lead->func_package,true);
+//     foreach($foodpcks as $key => $foodpck){
+//         foreach($foodpck as $foods){
+//             $food[]= $foods;
+//         }
+//     }
+//     foreach ($bar as $barItem) {
+//         foreach ($fixed_cost['barpackage'] as $category => $categoryItems) {
+//             if (isset($categoryItems[$barItem])) {
+//                 $totalBarCost += $categoryItems[$barItem];
+//                 break;
+//             }
+//         }
+//     }
+// }
+// $additionalItemsCost = 0;
+// $addpcks = json_decode($lead->ad_opts,true);
+// if(isset($addpcks) && !empty($addpcks)){
+//     foreach($addpcks as $key => $adpck){
+//         foreach($adpck as $ad){
+//             $add[] = $ad;
+//         }
+//     }
+//     foreach ($additional_items as $category => $categoryItems) {
+//         foreach ($categoryItems as $item => $subItems) {
+//             foreach ($subItems as $key => $value) {
+//                 if (in_array($key, $add)) {    
+//                 $additionalItemsCost += $value;
+//                 }
+//             }
+//         }
+//     }
+// }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -129,14 +131,10 @@ if(isset($addpcks) && !empty($addpcks)){
                     <tbody>
                         <tr style="text-align:center">
 
-                            <td> <?php if($lead->start_date == $lead->end_date): ?>
+                            <td>
                                 <?php echo e(\Carbon\Carbon::parse($lead->start_date)->format('d M, Y')); ?>
 
-                                <?php else: ?>
-                                <?php echo e(\Carbon\Carbon::parse($lead->start_date)->format('d M, Y')); ?> -
-                                <?php echo e(\Carbon\Carbon::parse($lead->end_date)->format('d M, Y')); ?>
-
-                                <?php endif; ?></td>
+                              </td>
 
                             <td>
                                 <?php if($lead->start_time == $lead->end_time): ?>
@@ -182,129 +180,63 @@ if(isset($addpcks) && !empty($addpcks)){
                         </tr>
                     </thead>
                     <tbody>
+                      
                         <tr>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Venue Rental</td>
-                            <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Venue Rental</td>
+                                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
 
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                $<?php echo e($venueRentalCost); ?>
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                            $<?php echo e($billing['venue_rental']['cost']); ?>
 
-                            </td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">1
-                            </td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                $<?php echo e($total[] = $venueRentalCost *1); ?>
+                                        </td>
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">1
+                                        </td>
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                            $<?php echo e($total[] = $billing['venue_rental']['cost']  * $billing['venue_rental']['quantity']); ?>
 
-                            </td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                <?php echo e($lead->venue_selection); ?></td>
-                        </tr>
+                                        </td>
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                            <?php echo e($lead->venue_selection); ?></td>
+                                    </tr>
 
-                        <tr>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Brunch / Lunch /
-                                Dinner Package</td>
-                            <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                $<?php echo e($totalFoodPackageCost); ?></td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">1
-                            </td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                $<?php echo e($total[] =$totalFoodPackageCost * 1); ?></td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                <?php echo e($lead->function); ?></td>
+                                    <tr>
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Brunch / Lunch /
+                                            Dinner Package</td>
+                                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                            $<?php echo e($billing['food_package']['cost']); ?></td>
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($billing['food_package']['quantity']); ?>
 
-                        </tr>
-                        <tr>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Bar Package</td>
-                            <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                        </td>
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                            $<?php echo e($total[] =$billing['food_package']['cost'] * $billing['food_package']['quantity']); ?></td>
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                            <?php echo e($lead->function); ?></td>
 
-                                <?php if($totalBarCost == 0): ?>
-                                --
-                                <?php else: ?>
-                                $<?php echo e($totalBarCost); ?>
+                                    </tr>
+                            
+                                    <tr>
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Hotel Rooms</td>
+                                        <td colspan="2" style="padding:5px 5px; margin-left:5px;"></td>
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                            $<?php echo e($billing['hotel_rooms']['cost']); ?>
 
-                                <?php endif; ?></td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                <?php if($totalBarCost == 0): ?>
-                                --
-                                <?php else: ?>
-                                1
-                                <?php endif; ?>
-                            </td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                <?php if($totalBarCost == 0): ?>
-                                --
-                                <?php else: ?>
-                                $<?php echo e($total[] =$totalBarCost *1); ?>
+                                        </td>
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                            <?php echo e($billing['hotel_rooms']['quantity']); ?>
 
-                                <?php endif; ?></td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Hotel Rooms</td>
-                            <td colspan="2" style="padding:5px 5px; margin-left:5px;"></td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                $<?php echo e($fixed_cost['hotel_rooms']); ?>
+                                        </td>
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                       
+                                            $<?php echo e($total[] =$billing['hotel_rooms']['cost'] *  $billing['hotel_rooms']['quantity']); ?> 
+                                         
 
-                            </td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                <?php echo e($lead->rooms); ?>
+                                        </td>
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                                    </tr>
+                     
 
-                            </td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                <?php if($lead->rooms == 0): ?>
-                                --
-                                <?php else: ?>
-                                $<?php echo e($total[] = $fixed_cost['hotel_rooms'] *  $lead->rooms); ?>
-
-                                <?php endif; ?>
-
-                            </td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                        </tr>
-                        <tr>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Tent, Tables,
-                                Chairs, AV Equipment</td>
-                            <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                            </td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                            </td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                            </td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                        </tr>
-
-                        <tr>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Welcome / Rehearsal
-                                / Special Setup</td>
-                            <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px"></td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                            </td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                            </td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                            </td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                        </tr>
-                        <tr>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Special Requests /
-                                Others</td>
-                            <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">$<?php echo e($additionalItemsCost); ?>
-
-                            </td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">1
-                            </td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                $<?php echo e($total[] = $additionalItemsCost * 1); ?>
-
-                            </td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-
-                        </tr>
+                       
                         <tr>
                             <td>-</td>
                             <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>

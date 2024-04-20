@@ -150,14 +150,14 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
 
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <!-- <div class="col-6">
                                         <div class="form-group">
                                             <?php echo e(Form::label('end_date', __('End Date'), ['class' => 'form-label'])); ?>
 
                                             <?php echo Form::date('end_date', null, ['class' => 'form-control']); ?>
 
                                         </div>
-                                    </div>
+                                    </div> -->
 
                                     <div class="col-6">
                                         <div class="form-group">
@@ -403,18 +403,18 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
 <?php $__env->startPush('script-page'); ?>
 
 <script>
-$(document).ready(function() {
-    $('#start_date, #end_date').change(function() {
-        var startDate = new Date($('#start_date').val());
-        var endDate = new Date($('#end_date').val());
+// $(document).ready(function() {
+//     $('#start_date, #end_date').change(function() {
+//         var startDate = new Date($('#start_date').val());
+//         var endDate = new Date($('#end_date').val());
 
-        if ($(this).attr('id') === 'start_date' && endDate < startDate) {
-            $('#end_date').val($('#start_date').val());
-        } else if ($(this).attr('id') === 'end_date' && endDate < startDate) {
-            $('#start_date').val($('#end_date').val());
-        }
-    });
-});
+//         if ($(this).attr('id') === 'start_date' && endDate < startDate) {
+//             $('#end_date').val($('#start_date').val());
+//         } else if ($(this).attr('id') === 'end_date' && endDate < startDate) {
+//             $('#start_date').val($('#end_date').val());
+//         }
+//     });
+// });
 </script>
 <script>
 $(document).ready(function() {

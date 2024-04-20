@@ -1,6 +1,6 @@
 <?php
 $billing = App\Models\ProposalInfo::where('lead_id',$lead->id)->orderby('id','desc')->first();
-
+$billing= json_decode($billing->proposal_info,true);
 $selectedvenue = explode(',', $lead->venue_selection);
 $settings = App\Models\Utility::settings();
 $imagePath = public_path('upload/signature/autorised_signature.png');
@@ -69,7 +69,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                         <th>Function</th>
                                         <th>Guest Count</th>
                                         <th>Room</th>
-                                    
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -137,10 +137,10 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                             $<?php echo e($billing['venue_rental']['cost']); ?>
 
                                         </td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">$billing['venue_rental']['quantity']
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">1
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            $<?php echo e($total[] = $billing['venue_rental']['cost'] * $billing['venue_rental']['quantity']); ?>
+                                            $<?php echo e($total[] = $billing['venue_rental']['cost']  * $billing['venue_rental']['quantity']); ?>
 
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
@@ -153,43 +153,19 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
                                             $<?php echo e($billing['food_package']['cost']); ?></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($billing['food_package']['quantity']); ?>
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                            <?php echo e($billing['food_package']['quantity']); ?>
 
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            $<?php echo e($total[] =$billing['food_package']['cost'] * $billing['food_package']['quantity']); ?></td>
+                                            $<?php echo e($total[] =$billing['food_package']['cost'] * $billing['food_package']['quantity']); ?>
+
+                                        </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
                                             <?php echo e($lead->function); ?></td>
 
                                     </tr>
-                                    <!-- <tr>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Bar Package</td>
-                                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
 
-                                            <?php if($totalBarCost == 0): ?>
-                                            --
-                                            <?php else: ?>
-                                            $<?php echo e($totalBarCost); ?>
-
-                                            <?php endif; ?></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            <?php if($totalBarCost == 0): ?>
-                                            --
-                                            <?php else: ?>
-                                            1
-                                            <?php endif; ?>
-                                        </td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            <?php if($totalBarCost == 0): ?>
-                                            --
-                                            <?php else: ?>
-                                            $<?php echo e($total[] =$totalBarCost *1); ?>
-
-                                            <?php endif; ?></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                        </td>
-                                    </tr> -->
                                     <tr>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Hotel Rooms</td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;"></td>
@@ -202,54 +178,15 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
 
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                          
-                                            $<?php echo e($total[] = $billing['hotel_rooms']['cost'] *  $billing['hotel_rooms']['quantity']); ?>
 
-                                         
+                                            $<?php echo e($total[] =$billing['hotel_rooms']['cost'] *  $billing['hotel_rooms']['quantity']); ?>
+
+
 
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                     </tr>
-                                    <!-- <tr>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Tent, Tables,
-                                            Chairs, AV Equipment</td>
-                                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                        </td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                        </td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                        </td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                    </tr> -->
 
-                                    <!-- <tr>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Welcome / Rehearsal
-                                            / Special Setup</td>
-                                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px"></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                        </td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                        </td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                        </td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                    </tr> -->
-                                    <!-- <tr>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Special Requests /
-                                            Others</td>
-                                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">$<?php echo e($additionalItemsCost); ?>
-
-                                        </td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">1
-                                        </td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">$<?php echo e($total[] = $additionalItemsCost * 1); ?>
-
-                                        </td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-
-                                    </tr> -->
                                     <tr>
                                         <td>-</td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
@@ -261,7 +198,8 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Total</td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">$<?php echo e(array_sum($total)); ?>
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                            $<?php echo e(array_sum($total)); ?>
 
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
@@ -271,7 +209,8 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                             Tax</td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"> </td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"> $<?php echo e(7* array_sum($total)/100); ?>
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                            $<?php echo e(7* array_sum($total)/100); ?>
 
                                         </td>
                                         <td></td>
@@ -282,7 +221,8 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                             Service Charges & Gratuity</td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"> $<?php echo e(20 * array_sum($total)/100); ?>
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                            $<?php echo e(20 * array_sum($total)/100); ?>
 
                                         </td>
 
@@ -303,7 +243,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                        $<?php echo e($grandtotal= array_sum($total) + 20* array_sum($total)/100 + 7* array_sum($total)/100); ?>
+                                            $<?php echo e($grandtotal= array_sum($total) + 20* array_sum($total)/100 + 7* array_sum($total)/100); ?>
 
                                         </td>
 
@@ -315,7 +255,8 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                             Deposits on file</td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                         <td colspan="3"
-                                            style="background-color:#d7e7d7;padding:5px 5px; margin-left:5px;font-size:13px;">No Deposits yet
+                                            style="background-color:#d7e7d7;padding:5px 5px; margin-left:5px;font-size:13px;">
+                                            No Deposits yet
                                         </td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                     </tr>
@@ -352,8 +293,13 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                     </div>
                     <div class="row mt-5">
                         <div class="col-md-6">
-                            <strong>Authorized Signature:</strong> <br>
-                            <img src="<?php echo e($base64Image); ?>" style="width:30%; border-bottom:1px solid black;">
+                        <strong>The Bond 1786</strong> <br>
+
+                            <div  class="mt-3 auuthsig">
+                                <img src="<?php echo e($base64Image); ?>" style="margin-left: 100px;width: 40%;">
+
+                            </div>
+                            <h5 class="mt-2">Authorised Signature</h5>
                         </div>
                         <div class="col-md-6">
                             <strong> Signature:</strong>
@@ -387,6 +333,13 @@ canvas#signatureCanvas {
     height: 165px;
     border-radius: 8px;
 }
+.mt-3.auuthsig {
+    border: 1px solid black;
+    width: 80%;
+    height: 165px;
+    border-radius: 8px;
+}
+
 </style>
 <?php echo $__env->make('partials.admin.head', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <?php echo $__env->make('partials.admin.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>

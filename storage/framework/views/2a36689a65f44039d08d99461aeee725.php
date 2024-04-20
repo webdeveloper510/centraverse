@@ -62,7 +62,7 @@
                                                 <td><span><?php echo e($user->phone); ?></span></td>
                                                 <td><span><?php echo e(ucfirst($user->category)); ?></span></td>
                                                 <td><span><?php echo e(ucfirst($user->address)); ?></span></td>
-                                                <td><span><?php echo e($user->notes); ?></span></td>
+                                                <td><span><?php if($user->notes == ''): ?> -- <?php else: ?><?php echo e($user->notes); ?><?php endif; ?></span></td>
                                                 <!-- <td>
                                                 <?php if($user->status == 0): ?>
                                                     <span

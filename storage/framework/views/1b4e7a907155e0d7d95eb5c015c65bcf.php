@@ -265,7 +265,12 @@ if(isset($billing) && !empty($billing)){
                                         <dd class="col-md-6"><span class=""><?php echo e($lead->function); ?></span></dd>
                                         <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Assigned User')); ?></span></dt>
                                         <dd class="col-md-6"><span
-                                                class=""><?php echo e(App\Models\User::where('id',$lead->assigned_user)->first()->name); ?></span>
+                                                class=""><?php if($lead->assigned_user != 0): ?>
+            <?php echo e(App\Models\User::where('id', $lead->assigned_user)->first()->name); ?>
+
+        <?php else: ?>
+            --
+        <?php endif; ?></span>
                                         </dd>
                                         <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Description')); ?></span></dt>
                                         <dd class="col-md-6"><span class=""><?php echo e($lead->description ??' --'); ?></span></dd>
