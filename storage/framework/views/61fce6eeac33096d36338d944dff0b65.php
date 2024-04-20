@@ -14,7 +14,7 @@ $logo=\App\Models\Utility::get_file('uploads/logo/');
     Dear <?php echo e($lead->name); ?>,<br>
 
     <p>Lead details are as follows : </p>
-    <table class="table table-bordered" style="border:1px solid black;">
+    <table class="table table-bordered">
         <thead>
             <th colspan="4"></th>
         </thead>
@@ -55,8 +55,8 @@ $logo=\App\Models\Utility::get_file('uploads/logo/');
     </table>
   
     <b>Thank you for your time and collaboration.</b><br>
-    <b>With regards</b>
-    <b>The Bond 1786</b>
+    <b>With regards</b><br>
+    <b>The Bond 1786</b><br>
     <img src="<?php echo e($logo.'3_logo-light.png'); ?>" alt="<?php echo e(config('app.name', 'The Bond 1786')); ?>"
                         class="logo logo-lg nav-sidebar-logo" height="50" />
 

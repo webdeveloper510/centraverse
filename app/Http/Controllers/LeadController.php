@@ -617,6 +617,7 @@ class LeadController extends Controller
                 'additional_items'=>$additional_items
             ];
             $pdf = Pdf::loadView('lead.signed_proposal', $data);
+            $pdfData = base64_encode($pdf->output());
             // return $pdf->stream('proposal.pdf');
             try {
                 config(
@@ -632,15 +633,12 @@ class LeadController extends Controller
                 );
                 Mail::to('sonali@codenomad.net')->cc('lukesh@codenomad.net')
                 ->send(new ProposalResponseMail($proposals,$lead), function ($message) use ($pdf) {
-                    $message->attachData($pdf->output(), 'proposal.pdf', [
+                    $message->attachData(base64_decode($pdfData), 'proposal.pdf', [
                         'mime' => 'application/pdf'
                     ]);
+                    $message->setBody('<p>Please find the attached PDF.</p>', 'text/html');
                 });
-                // ->attach($pdf->output(), [
-                //     'as' => 'proposal.pdf', // File name
-                //     'mime' => 'application/pdf'               
-                // ]);
-               
+
                 $upd = Lead::where('id',$id)->update(['status' => 1]);
             } catch (\Exception $e) {
                   return response()->json(
@@ -649,10 +647,10 @@ class LeadController extends Controller
                                 'message' => $e->getMessage(),
                             ]
                         );
-            //   return redirect()->back()->with('success', 'Email Not Sent');
+              return redirect()->back()->with('success', 'Email Not Sent');
           
             }
-          
+            return $pdf->stream('proposal.pdf');
 
             
     } 

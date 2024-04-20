@@ -164,7 +164,7 @@ $enddate = \Carbon\Carbon::createFromFormat('Y-m-d', $lead->end_date)->format('d
         </table>
     </div>
 </div>
-<div class="row  mt-4">
+<div class="row ">
     <div class="col-md-12">
         <div class="card ">
             <div class="card-body">
