@@ -208,7 +208,7 @@
                                 }
                                                 
                                                 ?></td>
-                                <td><?php echo e(isset($result['function']) ? ucfirst($result['function']) : '--'); ?></td>
+                                <td><?php echo e(isset($result['function'])&& !empty($result['function']) ? ucfirst($result['function']) : '--'); ?></td>
                                 <td><?php $package = json_decode($result['func_package'],true);
                                                     foreach ($package as $key => $value) {
                                                         echo implode(',',$value);
