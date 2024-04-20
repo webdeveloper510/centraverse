@@ -19,7 +19,7 @@ class ProposalResponseMail extends Mailable
      */
     public function __construct($proposals,$lead)
     {
-       $this->$proposals = $proposals;
+       $this->proposals = $proposals;
        $this->lead = $lead;
     }
 
