@@ -1,7 +1,4 @@
-@php
-$proposalUrl = route('lead.signedproposal',urlencode(encrypt($lead->id)));
 
-@endphp
 <!DOCTYPE html>
 <html lang="en">
 
@@ -54,11 +51,9 @@ $proposalUrl = route('lead.signedproposal',urlencode(encrypt($lead->id)));
         </tbody>
 
     </table>
-
-    <p>{{$content}}</p>
-
-    <b>Click the link below to see the Lead details/proposal with estimated billing - </b><br>
-    <p>{{$proposalUrl}}</p>
+    <?php  echo "<pre>";print_r($proposals); ?>
+  
+    <p> Please find the below attachment : </p>
     Thank you for your time and collaboration.
     With regards
 

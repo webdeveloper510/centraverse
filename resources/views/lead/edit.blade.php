@@ -19,12 +19,9 @@ $baropt = ['Open Bar', 'Cash Bar', 'Package Choice'];
 if(isset($setting['barpackage']) && !empty($setting['barpackage'])){
 $bar_package = json_decode($setting['barpackage'],true);
 }
-if(!empty($lead->func_package)){
+
 $func_package = json_decode($lead->func_package,true);
-}
-if(!empty($lead->ad_opts)){
 $fun_ad_opts = json_decode($lead->ad_opts,true);
-}
 @endphp
 @section('title')
 <div class="page-header-title">
@@ -210,6 +207,7 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                             <div class="form-check" data-additional-index="{{$pac_key}}"
                                                 data-additional-package="{{$pac_key}}">
                                                 <?php $isCheckedif = false;?>
+                                                @if(isset($fun_ad_opts) && !empty($fun_ad_opts ))
                                                 @foreach($fun_ad_opts as $keys=>$valss)
                                                 @foreach($valss as $key=>$val)
                                                 @if($pac_key == $val)
@@ -217,6 +215,7 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                                 @endif
                                                 @endforeach
                                                 @endforeach
+                                                @endif
                                                 {!! Form::checkbox('additional_'.str_replace(' ', '_',
                                                 strtolower($fun_key)).'[]',$pac_key, $isCheckedif, ['data-function' =>
                                                 $fun_key,

@@ -1,6 +1,9 @@
 <?php
 $billing = App\Models\ProposalInfo::where('lead_id',$lead->id)->orderby('id','desc')->first();
-$billing= json_decode($billing->proposal_info,true);
+if(isset($billing) && !empty($billing)){
+    $billing= json_decode($billing->proposal_info,true);
+
+}
 $selectedvenue = explode(',', $lead->venue_selection);
 $imagePath = public_path('upload/signature/autorised_signature.png');
 $imageData = base64_encode(file_get_contents($imagePath));
@@ -186,13 +189,14 @@ if(isset($proposal) && ($proposal['image'] != null)){
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
 
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            $<?php echo e($billing['venue_rental']['cost']); ?>
+                                            $<?php echo e($billing['venue_rental']['cost'] ?? 0); ?>
 
                                         </td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">1
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($billing['venue_rental']['quantity'] ?? 1); ?>
+
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            $<?php echo e($total[] = $billing['venue_rental']['cost']  * $billing['venue_rental']['quantity']); ?>
+                                            $<?php echo e($total[] = ($billing['venue_rental']['cost']?? 0)  * ($billing['venue_rental']['quantity'] ?? 1)); ?>
 
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
@@ -204,12 +208,12 @@ if(isset($proposal) && ($proposal['image'] != null)){
                                             Dinner Package</td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            $<?php echo e($billing['food_package']['cost']); ?></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($billing['food_package']['quantity']); ?>
+                                            $<?php echo e($billing['food_package']['cost'] ?? 0); ?></td>
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($billing['food_package']['quantity'] ?? 1); ?>
 
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            $<?php echo e($total[] =$billing['food_package']['cost'] * $billing['food_package']['quantity']); ?></td>
+                                            $<?php echo e($total[] =($billing['food_package']['cost'] ?? 0) * ($billing['food_package']['quantity'] ?? 1)); ?></td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
                                             <?php echo e($lead->function); ?></td>
 
@@ -219,16 +223,16 @@ if(isset($proposal) && ($proposal['image'] != null)){
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Hotel Rooms</td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;"></td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            $<?php echo e($billing['hotel_rooms']['cost']); ?>
+                                            $<?php echo e($billing['hotel_rooms']['cost'] ?? 0); ?>
 
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            <?php echo e($billing['hotel_rooms']['quantity']); ?>
+                                            <?php echo e($billing['hotel_rooms']['quantity'] ?? 1); ?>
 
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
                                        
-                                            $<?php echo e($total[] =$billing['hotel_rooms']['cost'] *  $billing['hotel_rooms']['quantity']); ?> 
+                                            $<?php echo e($total[] = ($billing['hotel_rooms']['cost'] ?? 0) *  ($billing['hotel_rooms']['quantity'] ?? 1)); ?> 
                                          
 
                                         </td>

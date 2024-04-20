@@ -240,6 +240,7 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                             <div class="form-check" data-additional-index="<?php echo e($pac_key); ?>"
                                                 data-additional-package="<?php echo e($pac_key); ?>">
                                                 <?php $isCheckedif = false;?>
+                                                
                                                 <?php $__currentLoopData = $fun_ad_opts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $keys=>$valss): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <?php $__currentLoopData = $valss; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <?php if($pac_key == $val): ?>
