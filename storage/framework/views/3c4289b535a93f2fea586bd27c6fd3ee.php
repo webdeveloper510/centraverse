@@ -1,4 +1,6 @@
-
+<?php   
+$logo=\App\Models\Utility::get_file('uploads/logo/');
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,10 +13,10 @@
 <body>
     Dear <?php echo e($lead->name); ?>,<br>
 
-    <table class="table table-responsive">
+    <p>Lead details are as follows : </p>
+    <table class="table table-bordered">
         <thead>
             <th colspan="4"></th>
-
         </thead>
         <tbody>
         <tr>
@@ -51,11 +53,12 @@
         </tbody>
 
     </table>
-    <?php  echo "<pre>";print_r($proposals); ?>
   
-    <p> Please find the below attachment : </p>
-    Thank you for your time and collaboration.
-    With regards
+    <b>Thank you for your time and collaboration.</b><br>
+    <b>With regards</b><br>
+    <b>The Bond 1786</b><br>
+    <img src="<?php echo e($logo.'3_logo-light.png'); ?>" alt="<?php echo e(config('app.name', 'The Bond 1786')); ?>"
+                        class="logo logo-lg nav-sidebar-logo" height="50" />
 
 </body>
 
