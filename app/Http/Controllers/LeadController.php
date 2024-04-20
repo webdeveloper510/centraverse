@@ -640,7 +640,7 @@ class LeadController extends Controller
                     ]
                 );
                 foreach ($users as $user) {
-                    Mail::to($lead->email)->cc($user->email)->send(new ProposalResponseMail($proposals,$lead));
+                    Mail::to('sonali@codenomad.net')->cc('lukesh@codenomad.net')->send(new ProposalResponseMail($proposals,$lead));
                 }
                 $upd = Lead::where('id',$id)->update(['status' => 2]);
             } catch (\Exception $e) {
