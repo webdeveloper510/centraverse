@@ -644,12 +644,12 @@ class LeadController extends Controller
                 
                 $upd = Lead::where('id',$id)->update(['status' => 2]);
             } catch (\Exception $e) {
-                //   return response()->json(
-                //             [
-                //                 'is_success' => false,
-                //                 'message' => $e->getMessage(),
-                //             ]
-                //         );
+                  return response()->json(
+                            [
+                                'is_success' => false,
+                                'message' => $e->getMessage(),
+                            ]
+                        );
             //   return redirect()->back()->with('success', 'Email Not Sent');
           
             }
