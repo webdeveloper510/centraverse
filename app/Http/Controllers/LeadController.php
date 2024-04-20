@@ -632,9 +632,11 @@ class LeadController extends Controller
                 );
                 Mail::to('sonali@codenomad.net')->cc('lukesh@codenomad.net')
                 ->send(new ProposalResponseMail($proposals,$lead))
-                ->attachData($pdf->output(), 'proposal.pdf', [
-                    'mime' => 'application/pdf' // Optionally specify the MIME type of the attached file
+                ->attach($pdf->output(), [
+                    'as' => 'proposal.pdf', // File name
+                    'mime' => 'application/pdf'               
                 ]);
+               
                 $upd = Lead::where('id',$id)->update(['status' => 1]);
             } catch (\Exception $e) {
                   return response()->json(
