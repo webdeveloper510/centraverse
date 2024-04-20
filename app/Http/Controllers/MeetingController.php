@@ -852,6 +852,8 @@ class MeetingController extends Controller
         }
         $meeting = Meeting::find($id);
         $settings = Utility::settings();
+        $users = User::where('type','owner')->orwhere('type','Admin')->get();
+
         $fixed_cost = Billing::where('event_id',$id)->first();
         $agreement = Agreement::where('event_id', $id)->first();
         $data = [
@@ -902,8 +904,10 @@ class MeetingController extends Controller
                     'mail.from.name'    => $settings['mail_from_name'],
                 ]
             );
-            Mail::to('sonali@codenomad.net')->cc('lukesh@codenomad.net')
+            foreach ($users as  $user) {
+            Mail::to($meeting->email)->cc($user->email)
             ->send(new AgreementResponseMail($agreements,$meeting));
+            }
             $meeting->update(['total' => $request->grandtotal, 'status' => 2]);
 
         } catch (\Exception $e) {

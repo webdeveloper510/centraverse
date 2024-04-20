@@ -599,8 +599,8 @@ class LeadController extends Controller
             $proposals['notes'] = $request->comments;
             $proposals->save();
             $lead = Lead::find($id);
-            $users = User::where('type','owner')->get();
-            
+            $users = User::where('type','owner')->orwhere('type','Admin')->get();
+           
             // die;
             $fixed_cost = json_decode($settings['fixed_billing'],true);
             $additional_items = json_decode($settings['additional_items'],true);
@@ -639,8 +639,11 @@ class LeadController extends Controller
                         'mail.from.name'    => $settings['mail_from_name'],
                     ]
                 );
-                Mail::to('sonali@codenomad.net')->cc('lukesh@codenomad.net')
-                ->send(new ProposalResponseMail($proposals,$lead));
+                foreach ($users as  $user) {
+                    Mail::to($lead->email)->cc($user->email)
+                    ->send(new ProposalResponseMail($proposals,$lead));
+                }
+              
                 
                 $upd = Lead::where('id',$id)->update(['status' => 2]);
             } catch (\Exception $e) {
