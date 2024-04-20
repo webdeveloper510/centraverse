@@ -639,9 +639,9 @@ class LeadController extends Controller
                         'mail.from.name'    => $settings['mail_from_name'],
                     ]
                 );
-                foreach ($users as $user) {
-                    Mail::to('sonali@codenomad.net')->cc('lukesh@codenomad.net')->send(new ProposalResponseMail($proposals,$lead));
-                }
+                Mail::to('sonali@codenomad.net')->cc('lukesh@codenomad.net')
+                ->send(new ProposalResponseMail($proposals,$lead));
+                
                 $upd = Lead::where('id',$id)->update(['status' => 2]);
             } catch (\Exception $e) {
                 //   return response()->json(
