@@ -51,9 +51,7 @@
         </tbody>
 
     </table>
-    <?php  echo "<pre>";print_r($proposals); ?>
   
-    <p> Please find the below attachment : </p>
     Thank you for your time and collaboration.
     With regards
 
