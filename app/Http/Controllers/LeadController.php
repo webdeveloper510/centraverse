@@ -17,6 +17,7 @@ use App\Models\Utility;
 use App\Models\Billing;
 use App\Models\Proposal;
 use App\Models\ProposalInfo;
+use App\Mail\ProposalResponseMail;
 use App\Models\User;
 use App\Models\UserDefualtView;
 use Illuminate\Http\Request;
@@ -579,31 +580,35 @@ class LeadController extends Controller
         // }
     }
     public function proposal_resp(Request $request,$id){
+
             $settings = Utility::settings();
             $id = decrypt(urldecode($id));
-          
+
             if(!empty($request->imageData)){
                 $image = $this->uploadSignature($request->imageData);
                 Lead::where('id',$id)->update(['status'=>2]);
             }else{
                 return redirect()->back()->with('error',('Please Sign it for confirmation'));
             }
-          
             $existproposal = Proposal::where('lead_id', $id)->exists();
             // if ($existproposal == TRUE) {
             //     Proposal::where('lead_id',$id)->update(['image' => $image]);
             //     return redirect()->back()->with('error','Proposal is already confirmed');
             // }
-            $proposal = new Proposal();
-            $proposal['lead_id'] = $id;
-            $proposal['image'] = $image;
-            $proposal['notes'] = $request->comments;
-            $proposal->save();
+            $proposals = new Proposal();
+            $proposals['lead_id'] = $id;
+            $proposals['image'] = $image;
+            $proposals['notes'] = $request->comments;
+            $proposals->save();
             $lead = Lead::find($id);
+            // $users = User::where('type','owner')->get();
+            // foreach ($users as $user) {
+            //     echo "<pre>";print_r($user->email);
+            // }
+            // die;
             $fixed_cost = json_decode($settings['fixed_billing'],true);
             $proposal = Proposal::where('lead_id',$id)->orderby('id','desc')->first();
             $additional_items = json_decode($settings['additional_items'],true);
-
             $data = [
                 'proposal'=> $proposal,
                 'lead'=>$lead,
@@ -612,7 +617,38 @@ class LeadController extends Controller
                 'additional_items'=>$additional_items
             ];
             $pdf = Pdf::loadView('lead.signed_proposal', $data);
-            return $pdf->stream('proposal.pdf');
+            // return $pdf->stream('proposal.pdf');
+            try {
+                config(
+                    [
+                        'mail.driver'       => $settings['mail_driver'],
+                        'mail.host'         => $settings['mail_host'],
+                        'mail.port'         => $settings['mail_port'],
+                        'mail.username'     => $settings['mail_username'],
+                        'mail.password'     => $settings['mail_password'],
+                        'mail.from.address' => $settings['mail_from_address'],
+                        'mail.from.name'    => $settings['mail_from_name'],
+                    ]
+                );
+                Mail::to('sonali@codenomad.net')->cc('lukesh@codenomad.net')
+                ->send(new ProposalResponseMail($proposals,$lead))
+                ->attachData($pdf->output(), 'proposal.pdf', [
+                    'mime' => 'application/pdf' // Optionally specify the MIME type of the attached file
+                ]);
+                $upd = Lead::where('id',$id)->update(['status' => 1]);
+            } catch (\Exception $e) {
+                  return response()->json(
+                            [
+                                'is_success' => false,
+                                'message' => $e->getMessage(),
+                            ]
+                        );
+            //   return redirect()->back()->with('success', 'Email Not Sent');
+          
+            }
+          
+
+            
     } 
     public function uploadSignature($signed){
         $folderPath = public_path('upload/');
@@ -782,8 +818,7 @@ class LeadController extends Controller
     }
     public function lead_user_info($id){
         $id = decrypt(urldecode($id));
-        $lead = Lead::find($id);
-      
+        $lead = Lead::withTrashed()->find($id);
         $notes = NotesLeads::where('lead_id',$id)->orderby('id','desc')->get();
         $docs = LeadDoc::where('lead_id',$id)->get();
         return view('customer.leaduserview',compact('lead','docs','notes'));

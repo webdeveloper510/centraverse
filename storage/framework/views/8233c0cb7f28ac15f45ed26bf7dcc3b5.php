@@ -19,12 +19,9 @@ $baropt = ['Open Bar', 'Cash Bar', 'Package Choice'];
 if(isset($setting['barpackage']) && !empty($setting['barpackage'])){
 $bar_package = json_decode($setting['barpackage'],true);
 }
-if(!empty($lead->func_package)){
+
 $func_package = json_decode($lead->func_package,true);
-}
-if(!empty($lead->ad_opts)){
 $fun_ad_opts = json_decode($lead->ad_opts,true);
-}
 ?>
 <?php $__env->startSection('title'); ?>
 <div class="page-header-title">
@@ -239,6 +236,7 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                             <div class="form-check" data-additional-index="<?php echo e($pac_key); ?>"
                                                 data-additional-package="<?php echo e($pac_key); ?>">
                                                 <?php $isCheckedif = false;?>
+                                                <?php if(isset($fun_ad_opts) && !empty($fun_ad_opts )): ?>
                                                 <?php $__currentLoopData = $fun_ad_opts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $keys=>$valss): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <?php $__currentLoopData = $valss; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <?php if($pac_key == $val): ?>
@@ -246,6 +244,7 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                                 <?php endif; ?>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                <?php endif; ?>
                                                 <?php echo Form::checkbox('additional_'.str_replace(' ', '_',
                                                 strtolower($fun_key)).'[]',$pac_key, $isCheckedif, ['data-function' =>
                                                 $fun_key,

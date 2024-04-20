@@ -196,12 +196,7 @@ $enddate = \Carbon\Carbon::createFromFormat('Y-m-d', $lead->end_date)->format('d
                     <dd class="col-md-6"><span class=""><?php echo e($lead->lead_address ?? '--'); ?></span></dd>
 
                     <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Event Date')); ?></span></dt>
-                    <dd class="col-md-6"><span class="">
-
-                            <?php echo e(\Auth::user()->dateFormat($lead->start_date)); ?>
-
-
-                        </span></dd>
+                    <dd class="col-md-6"><span class=""><?php echo e(\Auth::user()->dateFormat($lead->start_date)); ?></span></dd>
 
                     <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Time')); ?></span></dt>
                     <dd class="col-md-6"><span class="">

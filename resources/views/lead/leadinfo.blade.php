@@ -246,9 +246,9 @@ if(isset($billing) && !empty($billing)){
                                         <dt class="col-md-6"><span class="h6  mb-0">{{__('Guest Count')}}</span></dt>
                                         <dd class="col-md-6"><span class="">{{ $lead->guest_count }}</span></dd>
                                         <dt class="col-md-6"><span class="h6  mb-0">{{__('Venue ')}}</span></dt>
-                                        <dd class="col-md-6"><span class="">{{ $lead->venue_selection }}</span></dd>
+                                        <dd class="col-md-6"><span class="">{{ $lead->venue_selection ??'--' }}</span></dd>
                                         <dt class="col-md-6"><span class="h6  mb-0">{{__('Function')}}</span></dt>
-                                        <dd class="col-md-6"><span class="">{{$lead->function}}</span></dd>
+                                        <dd class="col-md-6"><span class="">{{$lead->function ?? '--'}}</span></dd>
                                         <dt class="col-md-6"><span class="h6  mb-0">{{__('Assigned User')}}</span></dt>
                                         <dd class="col-md-6"><span
                                                 class="">@if($lead->assigned_user != 0)
@@ -264,18 +264,27 @@ if(isset($billing) && !empty($billing)){
                                         <dt class="col-md-6"><span class="h6  mb-0">{{__('Package')}}</span></dt>
                                         <dd class="col-md-6"><span class="">
                                                 <?php $package = json_decode($lead->func_package,true);
+                                                 if(isset($package) && !empty($package)){
                                                     foreach ($package as $key => $value) {
                                                         echo implode(',',$value);
                                                     } 
+                                                }else{
+                                                    echo '--';
+                                                }
                                                 ?>
                                             </span></dd>
                                         <dt class="col-md-6"><span class="h6  mb-0">{{__('Additional Items')}}</span>
                                         </dt>
                                         <dd class="col-md-6"><span class="">
                                                 <?php $additional = json_decode($lead->ad_opts,true);
+                                                if(isset($additional) && !empty($additional)){
                                                     foreach ($additional as $key => $value) {
                                                         echo implode(',',$value);
                                                     } 
+                                                }else{
+                                                    echo "--";
+                                                }
+                                                    
                                                 ?>
                                             </span></dd>
                                         <dt class="col-md-6"><span
@@ -283,9 +292,12 @@ if(isset($billing) && !empty($billing)){
                                         <dd class="col-md-6"><span class="">{{$lead->spcl_req ?? '--'}}</span></dd>
                                         <dt class="col-md-6"><span class="h6  mb-0">{{__('Proposal Response')}}</span>
                                         </dt>
-                                        <?php  $proposal = App\Models\Proposal::where('lead_id',$lead->id)->first()->notes ?>
-                                        <dd class="col-md-6"><span class="">@if($proposal){{$proposal}}@else --
-                                                @endif</span></dd>
+                                        <dd class="col-md-6"><span class="">@if(App\Models\Proposal::where('lead_id',$lead->id)->exists())
+                                        <?php  $proposal = App\Models\Proposal::where('lead_id',$lead->id)->first()->notes; ?>
+
+                                        {{$proposal}}
+                                            @else --
+                                            @endif</span></dd>
                                         <dt class="col-md-6"><span class="h6  mb-0">{{__('Estimate Amount')}}</span>
                                         </dt>
                                         <dd class="col-md-6"><span

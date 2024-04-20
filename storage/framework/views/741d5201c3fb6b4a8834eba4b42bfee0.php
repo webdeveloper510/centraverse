@@ -2,52 +2,56 @@
 $settings = App\Models\Utility::settings();
 $billings = json_decode($settings['fixed_billing'],true);
 $foodpcks = json_decode($lead->func_package,true);
-$food = [];
-foreach($foodpcks as $key => $foodpck){
-    foreach($foodpck as $foods){
-    $food[]= $foods;
-    }
-}
-$foodpckge = implode(',',$food);
-
-
 $labels =
 [
     'venue_rental' => 'Venue',
     'hotel_rooms'=>'Hotel Rooms',
     'food_package'=>'Food Package',
 ];
+$food = [];
+$totalFoodPackageCost = 0;
+if(isset($billings) && !empty($billings)){
+    if(isset($foodpcks) && !empty($foodpcks)){
+        foreach($foodpcks as $key => $foodpck){
+            foreach($foodpck as $foods){
+                $food[]= $foods;
+            }
+        }
+        $foodpckge = implode(',',$food);
+        foreach ($food as $foodItem) {
+            foreach ($billings['package'] as $category => $categoryItems) {
+                if (isset($categoryItems[$foodItem])) {
+                    $totalFoodPackageCost +=  (int)$categoryItems[$foodItem];
+                    break;
+                }
+            }
+        }
+    }
+}
+
+
 
 $leaddata = [
     'venue_rental' => $lead->venue_selection,
     'hotel_rooms'=>$lead->rooms,
-    'food_package' => (isset($lead->func_package) && !empty($lead->func_package)) ? $foodpckge: '',
+    'food_package' => (isset($foodpckge) && !empty($foodpckge)) ? $foodpckge: '',
 ];
 $venueRentalCost = 0;
 $subcategories = array_map('trim', explode(',', $leaddata['venue_rental']));
 foreach ($subcategories as $subcategory) {
 $venueRentalCost += $billings['venue'][$subcategory] ?? 0;
 }
-$totalFoodPackageCost = 0;
-if(isset($billings) && !empty($billings)){
-    foreach ($food as $foodItem) {
-        foreach ($billings['package'] as $category => $categoryItems) {
-            if (isset($categoryItems[$foodItem])) {
-            $totalFoodPackageCost +=  (int)$categoryItems[$foodItem];
-            break;
-            }
-        }
-        }
-    $leaddata['food_package_cost'] = $totalFoodPackageCost;
-}
+
 $leaddata['hotel_rooms_cost'] = $billings['hotel_rooms'] ?? 0;
 $leaddata['venue_rental_cost'] = $venueRentalCost;
+$leaddata['food_package_cost'] = $totalFoodPackageCost;
+
 
 ?>
 <div class="row">
     <div class="col-lg-12">
         <div id="notification" class="alert alert-success mt-1">Link copied to clipboard!</div>
-            <?php echo e(Form::model($lead, ['route' => ['lead.pdf', urlencode(encrypt($lead->id))], 'method' => 'POST','enctype'=>'multipart/form-data'])); ?>
+        <?php echo e(Form::model($lead, ['route' => ['lead.pdf', urlencode(encrypt($lead->id))], 'method' => 'POST','enctype'=>'multipart/form-data'])); ?>
 
 
         <div class="">
@@ -74,9 +78,9 @@ $leaddata['venue_rental_cost'] = $venueRentalCost;
                 <dd class="col-md-12"><input type="file" name="attachment" id="attachment" class="form-control"></dd>
             </dl>
             <!-- <hr class="mt-2 mb-2"> -->
-               
-                <hr class="mt-4 mb-4">
-                <!-- <hr> -->
+
+            <hr class="mt-4 mb-4">
+            <!-- <hr> -->
             <div class="col-12  p-0 modaltitle pb-3 mb-3">
                 <!-- <hr class="mt-2 mb-2"> -->
                 <h5 style="margin-left: 14px;"><?php echo e(__('Estimated Billing Details')); ?></h5>
@@ -87,7 +91,7 @@ $leaddata['venue_rental_cost'] = $venueRentalCost;
                 <!-- <dt class="col-md-12"><span class="h6  mb-0"><?php echo e(__('Guest Count')); ?> : <?php echo e($lead->guest_count); ?></span></dt>
                <hr class="mt-2 mb-2"> -->
                 <!-- <div class="col-md-12"> -->
-            
+
                 <div class="form-group">
                     <table class="table">
                         <thead>

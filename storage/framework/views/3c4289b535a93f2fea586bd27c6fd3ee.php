@@ -1,7 +1,4 @@
-@php
-$proposalUrl = route('lead.signedproposal',urlencode(encrypt($lead->id)));
 
-@endphp
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,7 +9,7 @@ $proposalUrl = route('lead.signedproposal',urlencode(encrypt($lead->id)));
 </head>
 
 <body>
-    Dear {{ $lead->name }},<br>
+    Dear <?php echo e($lead->name); ?>,<br>
 
     <table class="table table-responsive">
         <thead>
@@ -22,19 +19,19 @@ $proposalUrl = route('lead.signedproposal',urlencode(encrypt($lead->id)));
         <tbody>
         <tr>
                 <td>Event Type</td>
-                <td>{{$lead->type ?? '--'}}</td>
+                <td><?php echo e($lead->type ?? '--'); ?></td>
             </tr>
             <tr>
                 <td>No. of Guests </td>
-                <td>{{$lead->guest_count ?? '--'}}</td>
+                <td><?php echo e($lead->guest_count ?? '--'); ?></td>
             </tr>
             <tr>
                 <td>Venue</td>
-                <td>{{$lead->venue ?? '--'}}</td>
+                <td><?php echo e($lead->venue ?? '--'); ?></td>
             </tr>
             <tr>
                 <td>Function</td>
-                <td>{{$lead->function ?? '--'}}</td>
+                <td><?php echo e($lead->function ?? '--'); ?></td>
             </tr>
             <tr>
                 <td>Package</td>
@@ -54,14 +51,12 @@ $proposalUrl = route('lead.signedproposal',urlencode(encrypt($lead->id)));
         </tbody>
 
     </table>
-
-    <p>{{$content}}</p>
-
-    <b>Click the link below to see the Lead details/proposal with estimated billing - </b><br>
-    <p>{{$proposalUrl}}</p>
+    <?php  echo "<pre>";print_r($proposals); ?>
+  
+    <p> Please find the below attachment : </p>
     Thank you for your time and collaboration.
     With regards
 
 </body>
 
-</html>
+</html><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/lead/mail/proposal_response.blade.php ENDPATH**/ ?>
