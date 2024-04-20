@@ -365,7 +365,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 <?php endif; ?>
 
                                             </div>
-                                            <div class="col-6">
+                                            <!-- <div class="col-6">
                                                 <div class="form-group">
                                                     <?php echo e(Form::label('end_date', __('End Date'), ['class' => 'form-label'])); ?>
 
@@ -379,7 +379,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 </span>
                                                 <?php endif; ?>
 
-                                            </div>
+                                            </div> -->
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     <?php echo e(Form::label('start_time', __('Start Time'), ['class' => 'form-label'])); ?>

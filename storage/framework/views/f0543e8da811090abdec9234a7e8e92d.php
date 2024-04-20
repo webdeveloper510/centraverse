@@ -7,13 +7,15 @@ $logo=\App\Models\Utility::get_file('uploads/logo/');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proposal</title>
+    <title>Agreement</title>
 </head>
 
 <body>
-    Dear {{ $lead->name }},<br>
+    Dear <?php echo e($meeting->name); ?>,<br>
 
-    <p>Lead details are as follows : </p>
+    <p>Event has been booked for the <?php echo e($meeting->start_date); ?> .<br>
+    <b>Following are the details of the event </b>-
+</p>
     <table class="table table-bordered">
         <thead>
             <th colspan="4"></th>
@@ -21,24 +23,24 @@ $logo=\App\Models\Utility::get_file('uploads/logo/');
         <tbody>
         <tr>
                 <td>Event Type</td>
-                <td>{{$lead->type ?? '--'}}</td>
+                <td><?php echo e($meeting->type ?? '--'); ?></td>
             </tr>
             <tr>
                 <td>No. of Guests </td>
-                <td>{{$lead->guest_count ?? '--'}}</td>
+                <td><?php echo e($meeting->guest_count ?? '--'); ?></td>
             </tr>
             <tr>
                 <td>Venue</td>
-                <td>{{$lead->venue_selection ?? '--'}}</td>
+                <td><?php echo e($meeting->venue_selection ?? '--'); ?></td>
             </tr>
             <tr>
                 <td>Function</td>
-                <td>{{$lead->function ?? '--'}}</td>
+                <td><?php echo e($meeting->function ?? '--'); ?></td>
             </tr>
             <tr>
                 <td>Package</td>
                 <td>
-                    <?php $package = json_decode($lead->func_package,true);
+                    <?php $package = json_decode($meeting->func_package,true);
                         if(isset($package) && !empty($package)){
                         foreach ($package as $key => $value) {
                             echo implode(',',$value);
@@ -57,9 +59,9 @@ $logo=\App\Models\Utility::get_file('uploads/logo/');
     <b>Thank you for your time and collaboration.</b><br>
     <b>With regards</b><br>
     <b>The Bond 1786</b><br>
-    <img src="{{$logo.'3_logo-light.png'}}" alt="{{ config('app.name', 'The Bond 1786') }}"
+    <img src="<?php echo e($logo.'3_logo-light.png'); ?>" alt="<?php echo e(config('app.name', 'The Bond 1786')); ?>"
                         class="logo logo-lg nav-sidebar-logo" height="50" />
 
 </body>
 
-</html>
+</html><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/meeting/agreement/signed_mail.blade.php ENDPATH**/ ?>

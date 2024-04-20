@@ -2,16 +2,16 @@
     <div class="col-lg-12">
         <div class="">
             <dl class="row">
-                <dt class="col-md-6"><span class="h6 text-md mb-0"><?php echo e(__('Event')); ?></span></dt>
+                <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Event')); ?></span></dt>
                 <?php if($meeting->attendees_lead != 0): ?>
                 <dd class="col-md-6"><span
-                        class="text-md"><?php echo e(!empty($meeting->attendees_leads->leadname)?$meeting->attendees_leads->leadname:'--'); ?></span>
+                        class=""><?php echo e(!empty($meeting->attendees_leads->leadname)?$meeting->attendees_leads->leadname:'--'); ?></span>
                 </dd>
                 <?php else: ?>
-                <dd class="col-md-6"><span class="text-md"><?php echo e($meeting->eventname); ?></span></dd>
+                <dd class="col-md-6"><span class=""><?php echo e($meeting->eventname); ?></span></dd>
                 <?php endif; ?>
 
-                <dt class="col-md-6"><span class="h6 text-md mb-0"><?php echo e(__(' Date')); ?></span></dt>
+                <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__(' Date')); ?></span></dt>
                 <dd class="col-md-6"><span class="">
                         <?php if($meeting->start_date == $meeting->end_date): ?>
                         <?php echo e(\Auth::user()->dateFormat($meeting->start_date)); ?>
@@ -23,7 +23,7 @@
                         <?php endif; ?>
                     </span></dd>
 
-                <dt class="col-md-6"><span class="h6 text-md mb-0"><?php echo e(__(' Time')); ?></span></dt>
+                <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__(' Time')); ?></span></dt>
                 <dd class="col-md-6"><span class="">
                         <?php if($meeting->start_time == $meeting->end_time): ?>
                         --
@@ -35,23 +35,23 @@
                     </span>
                 </dd>
 
-                <dt class="col-md-6"><span class="h6 text-md mb-0"><?php echo e(__('Guest Count')); ?></span></dt>
-                <dd class="col-md-6"><span class="text-md"><?php echo e($meeting->guest_count); ?></span></dd>
+                <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Guest Count')); ?></span></dt>
+                <dd class="col-md-6"><span class=""><?php echo e($meeting->guest_count); ?></span></dd>
 
-                <dt class="col-md-6"><span class="h6 text-md mb-0"><?php echo e(__('Venue')); ?></span></dt>
-                <dd class="col-md-6"><span class="text-md"><?php echo e($meeting->venue_selection); ?></span></dd>
+                <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Venue')); ?></span></dt>
+                <dd class="col-md-6"><span class=""><?php echo e($meeting->venue_selection); ?></span></dd>
 
-                <dt class="col-md-6"><span class="h6 text-md mb-0"><?php echo e(__('Function')); ?></span></dt>
-                <dd class="col-md-6"><span class="text-md"><?php echo e($meeting->function); ?></span></dd>
+                <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Function')); ?></span></dt>
+                <dd class="col-md-6"><span class=""><?php echo e($meeting->function); ?></span></dd>
 
-                <dt class="col-md-6"><span class="h6 text-md mb-0"><?php echo e(__('Event Type')); ?></span></dt>
-                <dd class="col-md-6"><span class="text-md"><?php echo e($meeting->type); ?></span></dd>
+                <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Event Type')); ?></span></dt>
+                <dd class="col-md-6"><span class=""><?php echo e($meeting->type); ?></span></dd>
 
                 <dt class="col-md-6"><span class="h6 text-sm mb-0"><?php echo e(__('Assigned Staff')); ?></span></dt>
-                <dd class="col-md-6"><span class="text-md"><?php echo e($name); ?></span></dd>
+                <dd class="col-md-6"><span class=""><?php echo e($name); ?></span></dd>
 
                 <dt class="col-md-6"><span class="h6 text-sm mb-0"><?php echo e(__('Created')); ?></span></dt>
-                <dd class="col-md-6"><span class="text-md"><?php echo e(\Auth::user()->dateFormat($meeting->created_at)); ?></span>
+                <dd class="col-md-6"><span class=""><?php echo e(\Auth::user()->dateFormat($meeting->created_at)); ?></span>
                 </dd>
             </dl>
         </div>
