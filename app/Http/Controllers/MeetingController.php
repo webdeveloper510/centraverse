@@ -769,7 +769,7 @@ class MeetingController extends Controller
         $agrementinfo->subject = $request->subject;
         $agrementinfo->content = $request->emailbody;
         $agrementinfo->attachments = $filename ?? '';
-        $agrementinfo->created_by = Auth::user()->id;
+        $agrementinfo->created_by = \Auth::user()->id;
         $agrementinfo->save();
         $subject = $request->subject;
         $content = $request->emailbody;
