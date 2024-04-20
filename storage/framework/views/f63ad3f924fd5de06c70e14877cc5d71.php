@@ -153,7 +153,9 @@
                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Converted To Event')); ?></th>
                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Created At')); ?></th>
                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Comments')); ?></th>
-                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Proposal Signed By Customer')); ?></th>
+                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Proposal Signed By Customer')); ?>
+
+                                </th>
                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Any Attachments')); ?></th>
 
                             </tr>
@@ -207,7 +209,7 @@
                                 }
                                                 
                                                 ?></td>
-                                <td><?php echo e(isset($result['function']) ? ucfirst($result['function']) : '--'); ?></td>
+                                <td><?php echo e(isset($result['function'])&& !empty($result['function']) ? ucfirst($result['function']) : '--'); ?></td>
                                 <td><?php $package = json_decode($result['func_package'],true);
                                                     foreach ($package as $key => $value) {
                                                         echo implode(',',$value);
@@ -232,20 +234,20 @@
                                     <?php else: ?> -- <?php endif; ?>
                                 </td>
                                 <td><?php $prop = App\Models\Proposal::where('lead_id',$result['id'])->orderby('id','desc')->exists(); ?>
-                            <?php if($prop): ?> Yes <?php else: ?>  No <?php endif; ?>
-                            </td>
-                            <td><?php  $attachment=   App\Models\LeadDoc::where('lead_id',$result['id'])->get();?>
-                            <?php if($attachment): ?>
-                            <?php $__currentLoopData = $attachment; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $attach): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <?php if(Storage::disk('public')->exists($attach->filepath)): ?>
-                                       
-                                            <a href="<?php echo e(Storage::url('app/public/'.$attach->filepath)); ?>" download
-                                                    style="color: teal;" title="Download"><?php echo e($attach->filename); ?></a>
-                                        <?php endif; ?>
-                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                            <?php endif; ?>
-                           
-                            </td>
+                                    <?php if($prop): ?> Yes <?php else: ?> No <?php endif; ?>
+                                </td>
+                                <td><?php  $attachment=   App\Models\LeadDoc::where('lead_id',$result['id'])->get();?>
+                                    <?php if($attachment): ?>
+                                    <?php $__currentLoopData = $attachment; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $attach): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <?php if(Storage::disk('public')->exists($attach->filepath)): ?>
+
+                                    <a href="<?php echo e(Storage::url('app/public/'.$attach->filepath)); ?>" download
+                                        style="color: teal;" title="Download"><?php echo e($attach->filename); ?></a>
+                                    <?php endif; ?>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    <?php endif; ?>
+
+                                </td>
                             </tr>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </tbody>
