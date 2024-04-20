@@ -28,6 +28,7 @@ use App\Mail\SendPdfEmail;
 use App\Mail\LeadWithrawMail;
 use App\Models\MasterCustomer;
 use App\Models\NotesLeads;
+use Log;
 use Mail;
 use Str;
 use App\Models\LeadDoc;
@@ -575,9 +576,7 @@ class LeadController extends Controller
             $venue = explode(',',$settings['venue']);
             $fixed_cost = json_decode($settings['fixed_billing'],true);
             $additional_items = json_decode($settings['additional_items'],true);
-         
             return view('lead.proposal',compact('lead','venue','settings','fixed_cost','additional_items'));
-        // }
     }
     public function proposal_resp(Request $request,$id){
 
@@ -586,7 +585,6 @@ class LeadController extends Controller
 
             if(!empty($request->imageData)){
                 $image = $this->uploadSignature($request->imageData);
-                Lead::where('id',$id)->update(['status'=>2]);
             }else{
                 return redirect()->back()->with('error',('Please Sign it for confirmation'));
             }
@@ -601,24 +599,34 @@ class LeadController extends Controller
             $proposals['notes'] = $request->comments;
             $proposals->save();
             $lead = Lead::find($id);
-            // $users = User::where('type','owner')->get();
-            // foreach ($users as $user) {
-            //     echo "<pre>";print_r($user->email);
-            // }
+            $users = User::where('type','owner')->get();
+            
             // die;
             $fixed_cost = json_decode($settings['fixed_billing'],true);
-            $proposal = Proposal::where('lead_id',$id)->orderby('id','desc')->first();
             $additional_items = json_decode($settings['additional_items'],true);
             $data = [
-                'proposal'=> $proposal,
+                'proposal'=> $proposals,
                 'lead'=>$lead,
                 'fixed_cost' => $fixed_cost,
                 'settings'=>$settings,
                 'additional_items'=>$additional_items
             ];
             $pdf = Pdf::loadView('lead.signed_proposal', $data);
-            $pdfData = base64_encode($pdf->output());
-            // return $pdf->stream('proposal.pdf');
+            try {
+                $filename = 'proposal_' . time() . '.pdf'; // You can adjust the filename as needed
+                $folder = 'Proposal_response/' . $id; 
+                $path = Storage::disk('public')->put($folder . '/' . $filename, $pdf->output());
+                $proposals->update(['proposal_response' => $filename]);
+             
+            } catch (\Exception $e) {
+                // Log the error for future reference
+                \Log::error('File upload failed: ' . $e->getMessage());
+                // Return an error response
+                return response()->json([
+                    'is_success' => false,
+                    'message' => 'Failed to save PDF: ' . $e->getMessage(),
+                ]);
+            }
             try {
                 config(
                     [
@@ -631,23 +639,18 @@ class LeadController extends Controller
                         'mail.from.name'    => $settings['mail_from_name'],
                     ]
                 );
-                Mail::to('sonali@codenomad.net')->cc('lukesh@codenomad.net')
-                ->send(new ProposalResponseMail($proposals,$lead), function ($message) use ($pdf) {
-                    $message->attachData(base64_decode($pdfData), 'proposal.pdf', [
-                        'mime' => 'application/pdf'
-                    ]);
-                    $message->setBody('<p>Please find the attached PDF.</p>', 'text/html');
-                });
-
-                $upd = Lead::where('id',$id)->update(['status' => 1]);
+                foreach ($users as $user) {
+                    Mail::to($lead->email)->cc($user->email)->send(new ProposalResponseMail($proposals,$lead));
+                }
+                $upd = Lead::where('id',$id)->update(['status' => 2]);
             } catch (\Exception $e) {
-                  return response()->json(
-                            [
-                                'is_success' => false,
-                                'message' => $e->getMessage(),
-                            ]
-                        );
-              return redirect()->back()->with('success', 'Email Not Sent');
+                //   return response()->json(
+                //             [
+                //                 'is_success' => false,
+                //                 'message' => $e->getMessage(),
+                //             ]
+                //         );
+            //   return redirect()->back()->with('success', 'Email Not Sent');
           
             }
             return $pdf->stream('proposal.pdf');

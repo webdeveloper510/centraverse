@@ -9,4 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Proposal extends Model
 {
     protected $table = 'proposal';
+    protected $fillable = [
+        // Other fillable fields,
+        'proposal_response',
+    ];
 }

@@ -54,7 +54,12 @@ class ProposalResponseMail extends Mailable
     }
     public function build()
     {
+        $filePath = storage_path('app/public/Proposal_response/'. $this->lead->id.'/'.$this->proposals->proposal_response);
         return $this->subject('Proposal Response')
-                    ->view('lead.mail.proposal_response') ;
+                    ->view('lead.mail.proposal_response') 
+                    ->attach($filePath, [
+                        'as' => $this->proposals->proposal_response, // File name
+                        'mime' => Storage::disk('public')->mimeType('Proposal_response/'.$this->lead->id.'/'.$this->proposals->proposal_response),
+                    ]); ;
         }
 }
