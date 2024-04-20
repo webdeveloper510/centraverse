@@ -100,6 +100,10 @@ $meetingData['setup_cost'] = '';
 {{Form::open(array('route' => ['billing.addbilling', $id],'method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))}}
 <div class="col-md-12">
     <div class="form-group">
+        <h4 style="float:right;    background: teal;
+    color: white;
+    padding: 11px;
+    border-radius: 5px;"><b>Guest Count: {{$event->guest_count}}</b></h4>
         <table class="table">
             <thead>
                 <tr>

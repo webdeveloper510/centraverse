@@ -326,7 +326,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 @endif
 
                                             </div>
-                                            <div class="col-6">
+                                            <!-- <div class="col-6">
                                                 <div class="form-group">
                                                     {{ Form::label('end_date', __('End Date'), ['class' => 'form-label']) }}
                                                     {!! Form::date('end_date',date('Y-m-d'), ['class' => 'form-control',
@@ -338,7 +338,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 </span>
                                                 @endif
 
-                                            </div>
+                                            </div> -->
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     {{ Form::label('start_time', __('Start Time'), ['class' => 'form-label']) }}

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreign('event_id')->references('id')->on('meetings');
             $table->string('signature')->nullable();
             $table->string('notes')->nullable();
+            $table->string('agreement_response')->nullable();
             $table->timestamps();
             $table->SoftDeletes();
         });

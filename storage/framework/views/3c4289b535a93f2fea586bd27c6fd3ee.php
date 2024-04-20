@@ -29,7 +29,7 @@ $logo=\App\Models\Utility::get_file('uploads/logo/');
             </tr>
             <tr>
                 <td>Venue</td>
-                <td><?php echo e($lead->venue ?? '--'); ?></td>
+                <td><?php echo e($lead->venue_selection ?? '--'); ?></td>
             </tr>
             <tr>
                 <td>Function</td>

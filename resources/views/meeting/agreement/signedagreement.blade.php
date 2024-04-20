@@ -255,7 +255,7 @@
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
                                             ${{$total[] =$billing_data['additional_items']['cost'] * $billing_data['additional_items']['quantity']}}
                                         </td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Bartender Fee</td>
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
 
                                     </tr>
                                     <tr>

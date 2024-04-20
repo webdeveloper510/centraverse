@@ -9,19 +9,18 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Storage;
-
-class ProposalResponseMail extends Mailable
+class AgreementResponseMail extends Mailable
 {
     use Queueable, SerializesModels;
-    public $proposals;
-    public $lead;
+    public $agreements;
+    public $meeting;
     /**
      * Create a new message instance.
      */
-    public function __construct($proposals,$lead)
+    public function __construct($agreements,$meeting)
     {
-       $this->proposals = $proposals;
-       $this->lead = $lead;
+        $this->agreements = $agreements;
+        $this->meeting = $meeting;
     }
 
     /**
@@ -30,7 +29,7 @@ class ProposalResponseMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Proposal',
+            subject: 'Agreement',
         );
     }
 
@@ -40,7 +39,7 @@ class ProposalResponseMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'lead.mail.proposal_response',
+            view: 'meeting.agreement.signed_mail',
         );
     }
 
@@ -55,12 +54,12 @@ class ProposalResponseMail extends Mailable
     }
     public function build()
     {
-        $filePath = storage_path('app/public/Proposal_response/'. $this->lead->id.'/'.$this->proposals->proposal_response);
-        return $this->subject('Proposal Response')
-                    ->view('lead.mail.proposal_response') 
+        $filePath = storage_path('app/public/Agreement_response/'. $this->meeting->id.'/'.$this->agreements->agreement_response);
+        return $this->subject('Agreement')
+                    ->view('meeting.agreement.signed_mail') 
                     ->attach($filePath, [
-                        'as' => $this->proposals->proposal_response, // File name
-                        'mime' => Storage::disk('public')->mimeType('Proposal_response/'.$this->lead->id.'/'.$this->proposals->proposal_response),
+                        'as' => $this->agreements->agreement_response, // File name
+                        'mime' => Storage::disk('public')->mimeType('Agreement_response/'.$this->meeting->id.'/'.$this->agreements->agreement_response),
                     ]); ;
         }
 }

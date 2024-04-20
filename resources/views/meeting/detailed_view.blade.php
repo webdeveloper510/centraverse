@@ -100,7 +100,7 @@ $files = Storage::files('app/public/Event/'.$event->id);
                             </div>
                         </div>
                         <hr>
-                        <img src="{{$event->floor_plan}}" alt="">
+                        <img src="{{$event->floor_plan}}" alt="" style="    width: 40% !important;">
                     </dl>
                     <div class="col-lg-12">
                         <div class="card" id="useradd-1">
@@ -109,15 +109,17 @@ $files = Storage::files('app/public/Event/'.$event->id);
                                     <table id="datatable" class="table datatable align-items-center">
                                         <thead class="thead-light">
                                             <tr>
-                                                <th scope="col" class="sort" data-sort="name">{{ __('Created On') }}</th>
+                                                <th scope="col" class="sort" data-sort="name">{{ __('Created On') }}
+                                                </th>
                                                 <th scope="col" class="sort" data-sort="status">{{ __('Name') }}</th>
                                                 <th scope="col" class="sort" data-sort="completion">
                                                     {{ __('Transaction Id') }}</th>
-                                                <th scope="col" class="sort" data-sort="completion">{{ __('Total Amount') }}
+                                                <th scope="col" class="sort" data-sort="completion">
+                                                    {{ __('Total Amount') }}
                                                 </th>
                                                 <th scope="col" class="sort" data-sort="completion">
                                                     {{ __('Amount Recieved') }}</th>
-                                              
+
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -145,26 +147,27 @@ $files = Storage::files('app/public/Event/'.$event->id);
                                 @if(isset($files) && !empty($files))
                                 <h3>Attachments</h3>
                                 <hr>
-                                <div class="col-md-12">
-                                    @foreach ($files as $file)
-                                    <div>
-                                        <p>{{ basename($file) }}</p>
-                                        <div>
+                                <div class="col-md-12" style="display:flex;">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <th>Attachment</th>
+                                            <th>Action</th>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($files as $file)
+                                            <tr>
+                                                <td>{{ basename($file) }}</td>
+                                                <td>
+                                                    <a href="{{ Storage::url($file) }}" download
+                                                        style=" position: absolute;color: #1551c9 !important">
+                                                        View Document</a>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
 
-                                            @if (pathinfo($file, PATHINFO_EXTENSION) === 'pdf')
-                                            <img src="{{ asset('extension_img/pdf.png') }}" alt="File"
-                                                style="max-width: 100px; max-height: 150px;">
-                                            @else
-                                            <img src="{{ asset('extension_img/doc.png') }}" alt="File"
-                                                style="max-width: 100px; max-height: 150px;">
-                                            @endif
-                                            <a href="{{ Storage::url($file) }}" download style=" position: absolute;">
-                                                <i class="fa fa-download"></i></a>
 
-                                        </div>
-
-                                    </div>
-                                    @endforeach
                                 </div>
                                 @endif
                             </div>

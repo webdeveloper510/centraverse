@@ -7,13 +7,15 @@ $logo=\App\Models\Utility::get_file('uploads/logo/');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proposal</title>
+    <title>Agreement</title>
 </head>
 
 <body>
-    Dear {{ $lead->name }},<br>
+    Dear {{ $meeting->name }},<br>
 
-    <p>Lead details are as follows : </p>
+    <p>Event has been booked for the {{$meeting->start_date}} .<br>
+    <b>Following are the details of the event </b>-
+</p>
     <table class="table table-bordered">
         <thead>
             <th colspan="4"></th>
@@ -21,24 +23,24 @@ $logo=\App\Models\Utility::get_file('uploads/logo/');
         <tbody>
         <tr>
                 <td>Event Type</td>
-                <td>{{$lead->type ?? '--'}}</td>
+                <td>{{$meeting->type ?? '--'}}</td>
             </tr>
             <tr>
                 <td>No. of Guests </td>
-                <td>{{$lead->guest_count ?? '--'}}</td>
+                <td>{{$meeting->guest_count ?? '--'}}</td>
             </tr>
             <tr>
                 <td>Venue</td>
-                <td>{{$lead->venue_selection ?? '--'}}</td>
+                <td>{{$meeting->venue_selection ?? '--'}}</td>
             </tr>
             <tr>
                 <td>Function</td>
-                <td>{{$lead->function ?? '--'}}</td>
+                <td>{{$meeting->function ?? '--'}}</td>
             </tr>
             <tr>
                 <td>Package</td>
                 <td>
-                    <?php $package = json_decode($lead->func_package,true);
+                    <?php $package = json_decode($meeting->func_package,true);
                         if(isset($package) && !empty($package)){
                         foreach ($package as $key => $value) {
                             echo implode(',',$value);
