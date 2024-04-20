@@ -2,14 +2,12 @@
 $billing = App\Models\ProposalInfo::where('lead_id',$lead->id)->orderby('id','desc')->first();
 if(isset($billing) && !empty($billing)){
     $billing= json_decode($billing->proposal_info,true);
-
 }
 $selectedvenue = explode(',', $lead->venue_selection);
 $settings = App\Models\Utility::settings();
 $imagePath = public_path('upload/signature/autorised_signature.png');
 $imageData = base64_encode(file_get_contents($imagePath));
 $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base64,' . $imageData;
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
