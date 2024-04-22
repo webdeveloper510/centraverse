@@ -78,6 +78,13 @@
                                                     <?php endif; ?>
                                                 </td>
                                                 <td class="text-end">
+                                                <!-- <div class="action-btn bg-primary ms-2">
+                                                        <a href="<?php echo e(route('billing.invoicepdf',$event->id)); ?>" data-size="md"
+                                                           title="<?php echo e(__('Create')); ?>"class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                            <i class="ti ti-invoice"></i>
+                                                        </a>
+                                                    </div> -->
+                                                
                                                     <?php if(!(\App\Models\Billing::where('event_id',$event->id)->exists())): ?>
 
                                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Payment')): ?>

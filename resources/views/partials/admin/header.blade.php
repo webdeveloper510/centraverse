@@ -123,6 +123,7 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                     </li>
                                 </ul>
                             </div>
+
                             <div class="navbar-nav ms-auto">
                                 <li class="dropdown dash-h-item drp-company">
                                     <a class="dash-head-link dropdown-toggle arrow-none me-0"
@@ -165,6 +166,7 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                     </div>
                                 </li>
                             </div>
+
                         </div>
                     </div>
                 </nav>
