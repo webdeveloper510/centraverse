@@ -105,7 +105,7 @@ $files = Storage::files('app/public/Event/'.$event->id);
                             </div>
                         </div>
                         <hr>
-                        <img src="<?php echo e($event->floor_plan); ?>" alt="">
+                        <img src="<?php echo e($event->floor_plan); ?>" alt="" style="    width: 40% !important;">
                     </dl>
                     <div class="col-lg-12">
                         <div class="card" id="useradd-1">
@@ -114,16 +114,19 @@ $files = Storage::files('app/public/Event/'.$event->id);
                                     <table id="datatable" class="table datatable align-items-center">
                                         <thead class="thead-light">
                                             <tr>
-                                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Created On')); ?></th>
+                                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Created On')); ?>
+
+                                                </th>
                                                 <th scope="col" class="sort" data-sort="status"><?php echo e(__('Name')); ?></th>
                                                 <th scope="col" class="sort" data-sort="completion">
                                                     <?php echo e(__('Transaction Id')); ?></th>
-                                                <th scope="col" class="sort" data-sort="completion"><?php echo e(__('Total Amount')); ?>
+                                                <th scope="col" class="sort" data-sort="completion">
+                                                    <?php echo e(__('Total Amount')); ?>
 
                                                 </th>
                                                 <th scope="col" class="sort" data-sort="completion">
                                                     <?php echo e(__('Amount Recieved')); ?></th>
-                                              
+
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -152,26 +155,27 @@ $files = Storage::files('app/public/Event/'.$event->id);
                                 <?php if(isset($files) && !empty($files)): ?>
                                 <h3>Attachments</h3>
                                 <hr>
-                                <div class="col-md-12">
-                                    <?php $__currentLoopData = $files; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $file): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <div>
-                                        <p><?php echo e(basename($file)); ?></p>
-                                        <div>
+                                <div class="col-md-12" style="display:flex;">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <th>Attachment</th>
+                                            <th>Action</th>
+                                        </thead>
+                                        <tbody>
+                                            <?php $__currentLoopData = $files; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $file): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <tr>
+                                                <td><?php echo e(basename($file)); ?></td>
+                                                <td>
+                                                    <a href="<?php echo e(Storage::url($file)); ?>" download
+                                                        style=" position: absolute;color: #1551c9 !important">
+                                                        View Document</a>
+                                                </td>
+                                            </tr>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        </tbody>
+                                    </table>
 
-                                            <?php if(pathinfo($file, PATHINFO_EXTENSION) === 'pdf'): ?>
-                                            <img src="<?php echo e(asset('extension_img/pdf.png')); ?>" alt="File"
-                                                style="max-width: 100px; max-height: 150px;">
-                                            <?php else: ?>
-                                            <img src="<?php echo e(asset('extension_img/doc.png')); ?>" alt="File"
-                                                style="max-width: 100px; max-height: 150px;">
-                                            <?php endif; ?>
-                                            <a href="<?php echo e(Storage::url($file)); ?>" download style=" position: absolute;">
-                                                <i class="fa fa-download"></i></a>
 
-                                        </div>
-
-                                    </div>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </div>
                                 <?php endif; ?>
                             </div>

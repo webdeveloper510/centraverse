@@ -121,7 +121,7 @@
                                 <td><?php echo e(ucfirst($pay['name_of_card'])); ?></td>
                                 <td><?php echo e($event->type); ?></td>
                                 <td><?php echo e(($pay['transaction_id'])); ?></td>
-                                <td><?php echo e(($pay['amount'])); ?></td>
+                                <td>$<?php echo e(($pay['amount'])); ?></td>
                                 <td><?php echo e($event->phone); ?></td>
                                 <td><?php echo e($event->email); ?></td>
                                 <td><?php echo e(__(\Auth::user()->dateFormat($pay['created_at']))); ?></td>
