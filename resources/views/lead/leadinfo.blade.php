@@ -16,9 +16,171 @@
 
 @endsection
 @section('content')
+<?php  
+$billing = App\Models\ProposalInfo::where('lead_id',$lead->id)->orderby('id','desc')->first();
+if(isset($billing) && !empty($billing)){
+    $billing= json_decode($billing->proposal_info,true);
+}
+?>
+<div class="row card" style="display:none">
+    <div class="col-md-12">
+        <h5 class="headings"><b>Billing Summary - ESTIMATE</b></h5>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th style="text-align:left; font-size:13px;text-align:left; padding:5px 5px; margin-left:5px;">
+                        Name : {{ucfirst($lead->name)}}</th>
+                    <th colspan="2" style="padding:5px 0px;margin-left: 5px;font-size:13px"></th>
+                    <th colspan="3" style="text-align:left;text-align:left; padding:5px 5px; margin-left:5px;">
+                        Date:<?php echo date("d/m/Y"); ?> </th>
+                    <th style="text-align:left; font-size:13px;padding:5px 5px; margin-left:5px;">
+                        Event: {{ucfirst($lead->type)}}</th>
+                </tr>
+                <tr style="background-color:#063806;">
+                    <th>Description</th>
+                    <th colspan="2"> Additional</th>
+                    <th>Cost</th>
+                    <th>Quantity</th>
+                    <th>Total Price</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Venue Rental</td>
+                    <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+
+                    <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                        ${{$billing['venue_rental']['cost'] ?? 0 }}
+                    </td>
+                    <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                        {{$billing['venue_rental']['quantity'] ?? 1}}
+                    </td>
+                    <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                        ${{$total[] = ($billing['venue_rental']['cost']?? 0)  * ($billing['venue_rental']['quantity'] ?? 1)}}
+                    </td>
+                    <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                        {{$lead->venue_selection}}</td>
+                </tr>
+
+                <tr>
+                    <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Brunch / Lunch /
+                        Dinner Package</td>
+                    <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                    <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                        ${{$billing['food_package']['cost'] ?? 0}}</td>
+                    <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                        {{$billing['food_package']['quantity'] ?? 1}}
+                    </td>
+                    <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                        ${{$total[] = ($billing['food_package']['cost'] ?? 0) * ($billing['food_package']['quantity'] ?? 1)}}
+                    </td>
+                    <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                        {{$lead->function}}</td>
+
+                </tr>
+
+                <tr>
+                    <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Hotel Rooms</td>
+                    <td colspan="2" style="padding:5px 5px; margin-left:5px;"></td>
+                    <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                        ${{$billing['hotel_rooms']['cost'] ?? 0 }}
+                    </td>
+                    <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                        {{$billing['hotel_rooms']['quantity'] ?? 1}}
+                    </td>
+                    <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+
+                        ${{$total[] =($billing['hotel_rooms']['cost'] ?? 0)* ( $billing['hotel_rooms']['quantity']??1)}}
+
+
+                    </td>
+                    <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                </tr>
+
+                <tr>
+                    <td>-</td>
+                    <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                    <td colspan="3" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+
+                    <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                </tr>
+                <tr>
+                    <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Total</td>
+                    <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                    <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                    <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                        ${{array_sum($total)}}
+                    </td>
+                    <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                </tr>
+                <tr>
+                    <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Sales, Occupancy
+                        Tax</td>
+                    <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                    <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"> </td>
+                    <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                        ${{ 7* array_sum($total)/100 }}
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="text-align:left;text-align:left; padding:5px 5px; margin-left:5px;font-size:13px;">
+                        Service Charges & Gratuity</td>
+                    <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                    <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                    <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                        ${{ 20 * array_sum($total)/100 }}
+                    </td>
+
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>-</td>
+                    <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                    <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                    <td style="padding:5px 5px; margin-left:5px;font-size:13px;"> </td>
+
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="background-color:#ffff00; padding:5px 5px; margin-left:5px;font-size:13px;">
+                        Grand Total / Estimated Total</td>
+                    <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                    <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                    <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                        ${{$grandtotal= array_sum($total) + 20* array_sum($total)/100 + 7* array_sum($total)/100}}
+                    </td>
+
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="background-color:#d7e7d7; padding:5px 5px; margin-left:5px;font-size:13px;">
+                        Deposits on file</td>
+                    <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                    <td colspan="3" style="background-color:#d7e7d7;padding:5px 5px; margin-left:5px;font-size:13px;">
+                        No Deposits yet
+                    </td>
+                    <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                </tr>
+                <tr>
+                    <td
+                        style="background-color:#ffff00;text-align:left; padding:5px 5px; margin-left:5px;font-size:13px;">
+                        balance due</td>
+                    <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                    <td colspan="3" style="padding:5px 5px; margin-left:5px;font-size:13px;background-color:#9fdb9f;">
+                        ${{$grandtotal= array_sum($total) + 20* array_sum($total)/100 + 7* array_sum($total)/100}}
+
+                    </td>
+                    <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+</div>
 <div class="container-field">
     <div id="wrapper">
-
         <div id="page-content-wrapper">
             <div class="container-fluid xyz">
                 <div class="row">
@@ -36,17 +198,13 @@
                                                 <th scope="col" class="sort" data-sort="budget">{{__('Address')}}</th>
                                                 <th scope="col" class="sort">{{__('Status')}}</th>
                                                 <th scope="col" class="sort">{{__('Type')}}</th>
-                                                <th scope="col" class="sort">{{__('Converted events')}}</th>
-                                                <!-- @if(Gate::check('Show Lead') || Gate::check('Edit Lead') ||
-                                                Gate::check('Delete Lead')) -->
-                                                <!-- <th scope="col" class="text-end">{{__('Action')}}</th> -->
-                                                <!-- @endif -->
+                                                <th scope="col" class="sort">{{__('Converted to event')}}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach($leads as $lead)
                                             <tr>
-                                                <td>{{$lead->name}}</td>
+                                                <td>{{ucfirst($lead->name)}}</td>
                                                 <td>{{$lead->phone}}</td>
                                                 <td>{{$lead->email ?? '--'}}</td>
                                                 <td>{{$lead->address ?? '--'}}</td>
@@ -58,41 +216,7 @@
                                                 @else
                                                 <td> No </td>
                                                 @endif
-                                                <!-- <td>
-                                                    <div class="action-btn bg-info ms-2" style="float: right;">
-                                                        <a href="#" data-size="md"
-                                                            data-url="{{route('lead.uploads',$lead->id)}}"
-                                                            data-ajax-popup="true" data-bs-toggle="tooltip"
-                                                            data-title="{{ __('Upload Document') }}"
-                                                            title="{{ __('Upload Document') }}"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class="ti ti-upload"></i>
-                                                        </a>
-                                                    </div>
-                                                    @if(App\Models\LeadDoc::where('lead_id',$lead->id)->exists())
-                                                    <div class="action-btn bg-warning ms-2" style="float: right;">
-                                                        <a href="#" data-size="md"
-                                                            data-url="{{ route('lead.uploaded_docs',$lead->id) }}"
-                                                            data-ajax-popup="true" data-bs-toggle="tooltip"
-                                                            data-title="{{ __('View Document') }}"
-                                                            title="{{ __(' View Documents') }}"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class="ti ti-eye"></i>
-                                                        </a>
-                                                    </div>
-                                                    @endif
-                                                    @if(!App\Models\Meeting::where('attendees_lead',$lead->id)->exists()
-                                                    && $lead->status == 2)
-                                                    <div class="action-btn bg-secondary ms-2" style="    float: right;">
-                                                        <a href="{{ route('meeting.create',['meeting',0]) }}?lead={{urlencode(encrypt($lead->id)) }}"
-                                                            data-size="md" data-url="#" data-id="{{$lead->id}}"
-                                                            data-bs-toggle="tooltip" data-title="{{ __('Convert') }}"
-                                                            title="{{ __('Convert To Event') }}"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class="fas fa-plus"></i> </a>
-                                                    </div>
-                                                    @endif
-                                                </td> -->
+
                                             </tr>
                                             @endforeach
                                         </tbody>
@@ -103,19 +227,96 @@
                     </div>
                 </div>
             </div>
-            <!-- <h4 class="m-b-10">
-                <div class="page-header-title">
-                    {{__(' Billing Details')}}
-                </div>
-            </h4> -->
-
             <div class="container-fluid xyz mt-3">
                 <div class="row">
                     <div class="col-lg-12">
                         <div id="useradd-1" class="card">
-                       
+
                             <div class="card-body table-border-style">
-                            <h3>Billing Details</h3>
+                                <h3>Lead Details</h3>
+                                <hr>
+
+                                <div class=" mt-4">
+
+                                    @foreach($leads as $lead)
+
+                                    <h4> {{ucfirst($lead->name)}}</h4>
+                                    <hr>
+                                    <dl class="row">
+                                        <dt class="col-md-6"><span class="h6  mb-0">{{__('Guest Count')}}</span></dt>
+                                        <dd class="col-md-6"><span class="">{{ $lead->guest_count }}</span></dd>
+                                        <dt class="col-md-6"><span class="h6  mb-0">{{__('Venue ')}}</span></dt>
+                                        <dd class="col-md-6"><span class="">{{ $lead->venue_selection ??'--' }}</span></dd>
+                                        <dt class="col-md-6"><span class="h6  mb-0">{{__('Function')}}</span></dt>
+                                        <dd class="col-md-6"><span class="">{{$lead->function ?? '--'}}</span></dd>
+                                        <dt class="col-md-6"><span class="h6  mb-0">{{__('Assigned User')}}</span></dt>
+                                        <dd class="col-md-6"><span
+                                                class="">@if($lead->assigned_user != 0)
+            {{ App\Models\User::where('id', $lead->assigned_user)->first()->name }}
+        @else
+            --
+        @endif</span>
+                                        </dd>
+                                        <dt class="col-md-6"><span class="h6  mb-0">{{__('Description')}}</span></dt>
+                                        <dd class="col-md-6"><span class="">{{ $lead->description ??' --' }}</span></dd>
+                                        <dt class="col-md-6"><span class="h6  mb-0">{{__('Bar')}}</span></dt>
+                                        <dd class="col-md-6"><span class="">{{ $lead->bar ?? '--' }}</span></dd>
+                                        <dt class="col-md-6"><span class="h6  mb-0">{{__('Package')}}</span></dt>
+                                        <dd class="col-md-6"><span class="">
+                                                <?php $package = json_decode($lead->func_package,true);
+                                                 if(isset($package) && !empty($package)){
+                                                    foreach ($package as $key => $value) {
+                                                        echo implode(',',$value);
+                                                    } 
+                                                }else{
+                                                    echo '--';
+                                                }
+                                                ?>
+                                            </span></dd>
+                                        <dt class="col-md-6"><span class="h6  mb-0">{{__('Additional Items')}}</span>
+                                        </dt>
+                                        <dd class="col-md-6"><span class="">
+                                                <?php $additional = json_decode($lead->ad_opts,true);
+                                                if(isset($additional) && !empty($additional)){
+                                                    foreach ($additional as $key => $value) {
+                                                        echo implode(',',$value);
+                                                    } 
+                                                }else{
+                                                    echo "--";
+                                                }
+                                                    
+                                                ?>
+                                            </span></dd>
+                                        <dt class="col-md-6"><span
+                                                class="h6  mb-0">{{__('Any Special Requests')}}</span></dt>
+                                        <dd class="col-md-6"><span class="">{{$lead->spcl_req ?? '--'}}</span></dd>
+                                        <dt class="col-md-6"><span class="h6  mb-0">{{__('Proposal Response')}}</span>
+                                        </dt>
+                                        <dd class="col-md-6"><span class="">@if(App\Models\Proposal::where('lead_id',$lead->id)->exists())
+                                        <?php  $proposal = App\Models\Proposal::where('lead_id',$lead->id)->first()->notes; ?>
+
+                                        {{$proposal}}
+                                            @else --
+                                            @endif</span></dd>
+                                        <dt class="col-md-6"><span class="h6  mb-0">{{__('Estimate Amount')}}</span>
+                                        </dt>
+                                        <dd class="col-md-6"><span
+                                                class="">{{ $grandtotal != 0 ? '$'. $grandtotal : '--' }}</span></dd>
+                                    </dl>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid xyz mt-3">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="useradd-1" class="card">
+
+                            <div class="card-body table-border-style">
+                                <h3>Billing Details</h3>
                                 <div class="table-responsive mt-4">
                                     <table class="table datatable" id="datatable">
                                         <thead>
@@ -169,12 +370,6 @@
                     </div>
                 </div>
             </div>
-            <!-- <h4 class="m-b-10">
-                <div class="page-header-title">
-                    {{__('Documents')}}
-                </div>
-            </h4> -->
-
             <div class="container-fluid xyz mt-3">
                 <div class="row">
                     <div class="col-lg-12">
@@ -190,22 +385,6 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- <div class="col-lg-6">
-                        <div class="card">
-                            <div class="card-body table-border-style">
-                                <h3>Add Notes/Comments</h3>
-                                <form method="POST" id="addnotes">
-                                    @csrf
-                                    <label for="notes">Notes</label>
-                                    <input type="text" class="form-control" name="notes" required>
-                                    <input type="submit" value="Submit" class="btn btn-primary mt-4"
-                                        style=" float: right;">
-                                </form>
-                            </div>
-                        </div>
-                    </div> -->
-                    
                     <div class="col-lg-12">
                         <div class="card" id="useradd-1">
                             <div class="card-body table-border-style">
@@ -232,41 +411,12 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="col-lg-6">
-                        <div class="card" id="useradd-1">
-                            <div class="card-body table-border-style">
-                                <h3>Notes</h3>
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <th>Notes</th>
-                                        <th>Created By</th>
-                                        <th>Date</th>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($notes as $note)
-                                        <tr>
-                                            <td>{{ucfirst($note->notes)}}</td>
-                                            <td>{{(App\Models\User::where('id',$note->created_by)->first()->name)}}</td>
-                                            <td>{{\Auth::user()->dateFormat($note->created_at)}}</td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div> -->
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-
-<!-- <style>
-.modal-dialog.modal-md {
-    max-width: 850px;
-}
-</style> -->
 @endsection
 @push('script-page')
 <script>
@@ -286,7 +436,7 @@ $(document).ready(function() {
                 "_token": "{{ csrf_token() }}",
             },
             success: function(data) {
-                    location.reload();
+                location.reload();
             }
         });
 

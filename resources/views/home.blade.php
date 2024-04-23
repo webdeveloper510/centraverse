@@ -167,38 +167,32 @@
                     </div>
                     <div class="col-sm">
                         <div class="inner_col">
-                            <h5 class="card-title mb-2">Finances</h5>
-                           
+                            <h5 class="card-title mb-2">Finance</h5>
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-text">{{__('Total Amount(E)')}} -
+                                        <span>{{ $events_revenue != 0 ? '$'.$events_revenue : '--' }}</span>
+                                    </h5>
+                                    <h5 class="card-text">{{__('Amount Recieved(E)')}} -
+                                        <span>{{ $events_revenue_generated != 0 ? '$'.$events_revenue_generated : '--' }}</span>
+                                    </h5>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- <div class="col-sm">
-                        <div class="inner_col">
-                            <h5 class="card-title mb-2">Lost Leads</h5>
-                            @foreach($lostLeads as $lead)
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-text">{{ $lead['leadname'] }}
-                                        <span>{{ $lead['type'] }}</span>
-                                    </h5>
-                                    @if($lead['start_date'] == $lead['end_date'])
-                                    <p>{{ Carbon\Carbon::parse($lead['start_date'])->format('M d')}}</p>
-                                    @else
-                                    <p>{{ Carbon\Carbon::parse($lead['start_date'])->format('M d')}} -
-                                        {{ \Auth::user()->dateFormat($lead['end_date'])}}
-                                    </p>
-                                    @endif
-                                </div>
-                            </div>
-                            @endforeach
-                        </div>
-                    </div> -->
+                    
                 </div>
             </div>
         </div>
     </div>
 
 </div>
+<style>
+    h5.card-text {
+    font-size: 16px;
+}
+</style>
 @endsection
 @push('script-page')
 <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "dc4641f860664c6e824b093274f50291"}'></script>

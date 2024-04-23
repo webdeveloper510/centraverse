@@ -1,7 +1,6 @@
-@php
-$proposalUrl = route('lead.signedproposal',urlencode(encrypt($lead->id)));
-
-@endphp
+<?php   
+$logo=\App\Models\Utility::get_file('uploads/logo/');
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,10 +13,10 @@ $proposalUrl = route('lead.signedproposal',urlencode(encrypt($lead->id)));
 <body>
     Dear {{ $lead->name }},<br>
 
-    <table class="table table-responsive">
+    <p>Lead details are as follows : </p>
+    <table class="table table-bordered">
         <thead>
             <th colspan="4"></th>
-
         </thead>
         <tbody>
         <tr>
@@ -30,7 +29,7 @@ $proposalUrl = route('lead.signedproposal',urlencode(encrypt($lead->id)));
             </tr>
             <tr>
                 <td>Venue</td>
-                <td>{{$lead->venue ?? '--'}}</td>
+                <td>{{$lead->venue_selection ?? '--'}}</td>
             </tr>
             <tr>
                 <td>Function</td>
@@ -54,13 +53,12 @@ $proposalUrl = route('lead.signedproposal',urlencode(encrypt($lead->id)));
         </tbody>
 
     </table>
-
-    <p>{{$content}}</p>
-
-    <b>Click the link below to see the Lead details/proposal with estimated billing - </b><br>
-    <p>{{$proposalUrl}}</p>
-    Thank you for your time and collaboration.
-    With regards
+  
+    <b>Thank you for your time and collaboration.</b><br>
+    <b>With regards</b><br>
+    <b>The Bond 1786</b><br>
+    <img src="{{$logo.'3_logo-light.png'}}" alt="{{ config('app.name', 'The Bond 1786') }}"
+                        class="logo logo-lg nav-sidebar-logo" height="50" />
 
 </body>
 

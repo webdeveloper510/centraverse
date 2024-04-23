@@ -20,12 +20,9 @@ $baropt = ['Open Bar', 'Cash Bar', 'Package Choice'];
 if(isset($setting['barpackage']) && !empty($setting['barpackage'])){
 $bar_package = json_decode($setting['barpackage'],true);
 }
-if(!empty($lead->func_package)){
+
 $func_package = json_decode($lead->func_package,true);
-}
-if(!empty($lead->ad_opts)){
 $fun_ad_opts = json_decode($lead->ad_opts,true);
-}
 ?>
 <?php $__env->startSection('title'); ?>
 <div class="page-header-title">
@@ -39,6 +36,14 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
 <li class="breadcrumb-item"><?php echo e(__('Details')); ?></li>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
+<style>
+    
+.fa-asterisk{
+    font-size: xx-small;
+    position: absolute;
+    padding: 1px;
+}
+</style>
 <div class="container-field">
     <div id="wrapper">
 
@@ -59,6 +64,9 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                         <div class="form-group">
                                             <?php echo e(Form::label('lead_name',__('Lead Name'),['class'=>'form-label'])); ?>
 
+                                            <span class="text-sm">
+                                                <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                            </span>
                                             <?php echo e(Form::text('lead_name',$lead->leadname,array('class'=>'form-control','placeholder'=>__('Enter Lead Name'),'required'=>'required'))); ?>
 
                                         </div>
@@ -78,6 +86,9 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                         <div class="form-group">
                                             <?php echo e(Form::label('name',__('Name'),['class'=>'form-label'])); ?>
 
+                                            <span class="text-sm">
+                                                <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                            </span>
                                             <?php echo e(Form::text('name',null,array('class'=>'form-control','placeholder'=>__('Enter Name'),'required'=>'required'))); ?>
 
                                         </div>
@@ -86,11 +97,13 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                         <div class="form-group intl-tel-input">
                                             <?php echo e(Form::label('phone', __('Phone'), ['class' => 'form-label'])); ?>
 
-
+                                            <span class="text-sm">
+                                                <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                            </span>
                                             <div class="intl-tel-input">
                                                 <input type="tel" id="phone-input" name="phone"
                                                     class="phone-input form-control" placeholder="Enter Phone"
-                                                    maxlength="16" value="">
+                                                    maxlength="16" value="" required>
                                             </div>
                                         </div>
                                     </div>
@@ -99,7 +112,7 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                         <div class="form-group">
                                             <?php echo e(Form::label('email',__('Email'),['class'=>'form-label'])); ?>
 
-                                            <?php echo e(Form::text('email',null,array('class'=>'form-control','placeholder'=>__('Enter Email')))); ?>
+                                            <?php echo e(Form::text('email',null,array('class'=>'form-control','placeholder'=>__('Enter Email'),'required' =>'required'))); ?>
 
                                         </div>
                                     </div>
@@ -126,13 +139,24 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                         <div class="form-group">
                                             <?php echo e(Form::label('type',__('Event Type'),['class'=>'form-label'])); ?>
 
-                                            <?php echo Form::select('type', $type_arr, null,array('class' => 'form-control')); ?>
-
+                                            <span class="text-sm">
+                                                <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                            </span>
+                                            <select name="type" id="type" class="form-control" required>
+                                                <option value="">Select Type</option>
+                                                <?php $__currentLoopData = $type_arr; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $type): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <option value="<?php echo e($type); ?>"
+                                                    <?php echo e(($type == $lead->type) ? 'selected' : ''); ?>><?php echo e($type); ?></option>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label for="venue" class="form-label"><?php echo e(__('Venue')); ?></label>
+                                            <span class="text-sm">
+                                                <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                            </span>
                                             <?php $__currentLoopData = $venue; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $label): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <div>
                                                 <input type="checkbox" name="venue[]" id="<?php echo e($label); ?>"
@@ -145,20 +169,15 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group">
-                                            <?php echo e(Form::label('start_date', __('Start Date'), ['class' => 'form-label'])); ?>
+                                            <?php echo e(Form::label('start_date', __('Date of Event'), ['class' => 'form-label'])); ?>
 
-                                            <?php echo Form::date('start_date', null, ['class' => 'form-control']); ?>
+                                            <span class="text-sm">
+                                                <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                            </span>
+                                            <?php echo Form::date('start_date', null, ['class' => 'form-control','required'=>'required']); ?>
 
                                         </div>
                                     </div>
-                                    <!-- <div class="col-6">
-                                        <div class="form-group">
-                                            <?php echo e(Form::label('end_date', __('End Date'), ['class' => 'form-label'])); ?>
-
-                                            <?php echo Form::date('end_date', null, ['class' => 'form-control']); ?>
-
-                                        </div>
-                                    </div> -->
 
                                     <div class="col-6">
                                         <div class="form-group">
@@ -173,6 +192,9 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                         <div class="form-group">
                                             <?php echo e(Form::label('function', __('Function'), ['class' => 'form-label'])); ?>
 
+                                            <span class="text-sm">
+                                                <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                            </span>
                                             <div class="checkbox-group">
                                                 <?php $__currentLoopData = $function; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
@@ -240,13 +262,15 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                             <div class="form-check" data-additional-index="<?php echo e($pac_key); ?>"
                                                 data-additional-package="<?php echo e($pac_key); ?>">
                                                 <?php $isCheckedif = false;?>
+                                                <?php if(isset($fun_ad_opts) && !empty($fun_ad_opts )): ?>
                                                 <?php $__currentLoopData = $fun_ad_opts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $keys=>$valss): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <?php $__currentLoopData = $valss; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <?php if($pac_key == $val): ?>
-                                              
+
                                                 <?php endif; ?>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                <?php endif; ?>
                                                 <?php echo Form::checkbox('additional_'.str_replace(' ', '_',
                                                 strtolower($fun_key)).'[]',$pac_key, $isCheckedif, ['data-function' =>
                                                 $fun_key,
@@ -381,6 +405,7 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                     </div>
                                     <hr>
                                     <div class="text-end">
+                                        <button type="button" class="btn  btn-light cancel">Cancel</button>
                                         <?php echo e(Form::submit(__('Update'), ['class' => 'btn-submit btn btn-primary'])); ?>
 
                                     </div>
@@ -402,20 +427,49 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
 </style>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script-page'); ?>
-
 <script>
-// $(document).ready(function() {
-//     $('#start_date, #end_date').change(function() {
-//         var startDate = new Date($('#start_date').val());
-//         var endDate = new Date($('#end_date').val());
-
-//         if ($(this).attr('id') === 'start_date' && endDate < startDate) {
-//             $('#end_date').val($('#start_date').val());
-//         } else if ($(this).attr('id') === 'end_date' && endDate < startDate) {
-//             $('#start_date').val($('#end_date').val());
-//         }
-//     });
-// });
+     $(document).ready(function() {  
+    $("input[type='text'][name='lead_name'],input[type='text'][name='name'], input[type='text'][name='email'], select[name='type'],input[type='tel'][name='phone'],input[type='date'][name='start_date']").focusout(function() {  
+          
+        var input = $(this);
+        var errorMessage = '';
+        if (input.attr('name') === 'email' && input.val() !== '') {
+            var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(input.val())) {
+                errorMessage = 'Invalid email address.';
+            }
+        } else if (input.val() == '') {
+            errorMessage = 'This field is required.';
+        }
+        
+        if(errorMessage  != '') {  
+            input.css('border', 'solid 2px red');
+        } 
+        else { 
+            // If it is not blank. 
+            input.css('border', 'solid 2px black');
+        }
+        
+        // Remove any existing error message
+        input.next('.validation-error').remove();
+        
+        // Append the error message if it exists
+        if(errorMessage != '') {
+            input.after('<div class="validation-error text-danger" style="padding:2px;">' + errorMessage + '</div>');
+        }
+    }); 
+});
+</script>
+<script>
+jQuery(function() {
+    $('input[name = lead_name]').keyup(function() {
+        var value = $(this).val();
+        $('input[name = "name"]').val(value);
+    });
+    $('.cancel').click(function() {
+        location.reload();
+    })
+});
 </script>
 <script>
 $(document).ready(function() {

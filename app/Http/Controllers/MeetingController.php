@@ -21,8 +21,10 @@ use App\Models\Agreement;
 use App\Models\EventDoc;
 use App\Models\MasterCustomer;
 use App\Mail\SendBillingMail;
+use App\Mail\AgreementResponseMail;
 use App\Mail\AgreementMail;
 use App\Models\NotesEvents;
+use App\Models\AgreementInfo;
 use DateTime;
 use Mpdf\Mpdf;
 use DateInterval;
@@ -45,14 +47,14 @@ class MeetingController extends Controller
     {
         if (\Auth::user()->can('Manage Meeting')) {
             if (\Auth::user()->type == 'owner') {
-                $meetings = Meeting::with('assign_user')->get();
+                $meetings = Meeting::with('assign_user')->orderby('id','desc')->get();
                 $defualtView         = new UserDefualtView();
                 $defualtView->route  = \Request::route()->getName();
                 $defualtView->module = 'meeting';
                 $defualtView->view   = 'list';
                 User::userDefualtView($defualtView);
             } else {
-                $meetings = Meeting::with('assign_user')->where('user_id', \Auth::user()->id)->get();
+                $meetings = Meeting::with('assign_user')->where('user_id', \Auth::user()->id)->orderby('id','desc')->get();
                 $defualtView         = new UserDefualtView();
                 $defualtView->route  = \Request::route()->getName();
                 $defualtView->module = 'meeting';
@@ -96,7 +98,6 @@ class MeetingController extends Controller
                 [
                     'name' => 'required|max:120',
                     'start_date' => 'required',
-                    'end_date' => 'required',
                     'email' => 'required|email|max:120',
                     'type' => 'required',
                     'venue' => 'required|max:120',
@@ -149,16 +150,16 @@ class MeetingController extends Controller
             $additional = json_encode($additional);
             $bar_pack = json_encode($bar_pack);
             $start_date = $request->input('start_date');
-            $end_date = $request->input('end_date');
+            $end_date = $request->input('start_date');
             $start_time = $request->input('start_time');
             $end_time = $request->input('end_time');
             $venue_selected = $request->input('venue');
 
             $overlapping_event = Meeting::where('start_date', '<=', $end_date)
                 ->where('end_date', '>=', $start_date)
-                ->where(function ($query) use ($start_date, $end_date, $start_time, $end_time, $venue_selected) {
+                ->where(function ($query) use ($start_date, $end_date,$start_time,$end_time, $venue_selected) {
                     foreach ($venue_selected as $v) {
-                        $query->orWhere(function ($q) use ($start_date, $end_date, $start_time, $end_time, $v) {
+                        $query->orWhere(function ($q) use ($start_date, $end_date,$start_time,$end_time, $v) {
                             $q->where('venue_selection', 'LIKE', "%$v%")
                                 ->where('end_time', '>', $start_time)
                                 ->where('start_time', '<', $end_time)
@@ -174,12 +175,12 @@ class MeetingController extends Controller
 
             $overlapping_event = Blockdate::where('start_date', '<=', $end_date)
                 ->where('end_date', '>=', $start_date)
-                ->where(function ($query) use ($start_date, $end_date, $start_time, $end_time, $venue_selected) {
+                ->where(function ($query) use ($start_date, $end_date, $venue_selected) {
                     foreach ($venue_selected as $v) {
-                        $query->orWhere(function ($q) use ($start_date, $end_date, $start_time, $end_time, $v) {
+                        $query->orWhere(function ($q) use ($start_date, $end_date, $v) {
                             $q->where('venue', 'LIKE', "%$v%")
-                                ->where('end_time', '>', $start_time)
-                                ->where('start_time', '<', $end_time)
+                                // ->where('end_time', '>', $start_time)
+                                // ->where('start_time', '<', $end_time)
                                 ->where('start_date', '<=', $end_date)
                                 ->where('end_date', '>=', $start_date);
                         });
@@ -194,7 +195,7 @@ class MeetingController extends Controller
             $meeting['user_id']           = isset($request->user)?implode(',', $request->user):'';
             $meeting['name']              = $request->name;
             $meeting['start_date']        = $request->start_date;
-            $meeting['end_date']          = $request->end_date;
+            $meeting['end_date']          = $request->start_date;
             $meeting['email']              = $request->email;
             $meeting['lead_address']       = $request->lead_address ??'';
             $meeting['company_name']      = $request->company_name;
@@ -403,12 +404,12 @@ class MeetingController extends Controller
 
             $overlapping_event = Blockdate::where('start_date', '<=', $end_date)
                 ->where('end_date', '>=', $start_date)
-                ->where(function ($query) use ($start_date, $end_date, $start_time, $end_time, $venue_selected) {
+                ->where(function ($query) use ($start_date, $end_date,$venue_selected) {
                     foreach ($venue_selected as $v) {
-                        $query->orWhere(function ($q) use ($start_date, $end_date, $start_time, $end_time, $v) {
+                        $query->orWhere(function ($q) use ($start_date, $end_date,$v) {
                             $q->where('venue', 'LIKE', "%$v%")
-                                ->where('end_time', '>', $start_time)
-                                ->where('start_time', '<', $end_time)
+                                // ->where('end_time', '>', $start_time)
+                                // ->where('start_time', '<', $end_time)
                                 ->where('start_date', '<=', $end_date)
                                 ->where('end_date', '>=', $start_date);
                         });
@@ -589,10 +590,11 @@ class MeetingController extends Controller
             $arrayJson =  Utility::getCalendarData($type);
         } else {
             $data = Meeting::where('created_by', \Auth::user()->creatorId())->get();
+            $blockeddate = Blockdate::where('created_by', \Auth::user()->creatorId())->get();
             foreach ($data as $val) {
                 $end_date = date_create($val->end_date);
                 date_add($end_date, date_interval_create_from_date_string("1 days"));
-                $arrayJson[] = [
+                $arrMeeting[] = [
                     "id" => $val->id,
                     "title" => $val->name,
                     "start" => $val->start_date,
@@ -603,6 +605,30 @@ class MeetingController extends Controller
                     "allDay" => true,
                 ];
             }
+            foreach ($blockeddate as $val) {
+                $blockingUser = $val->user ?? null;
+                $blockingUserName = $blockingUser ? $blockingUser->name : 'Unknown User';
+
+                $expireDate = date('Y-m-d', strtotime($val->end_date . ' + 1 days'));
+
+                $uniqueId = $val->unique_id;
+
+                $arrblock[] = [
+                    "id" => $val->id,
+                    "title" => $val->purpose,
+                    "start" => $val->start_date,
+                    "end" => $expireDate,
+                    "className" => $val->color,
+                    "textColor" => '#fff',
+                    "allDay" => true,
+                    // "display" => 'background',
+                    "url" => url('/show-blocked-date-popup' . '/' . $val->id),
+                    "backgroundColor" => "grey",
+                    "blocked_by" => $blockingUserName, 
+                    "unique_id" => $uniqueId,
+                ];
+            }
+            $arrayJson = array_merge($arrMeeting, $arrblock);
         }
 
         return $arrayJson;
@@ -633,17 +659,17 @@ class MeetingController extends Controller
         $venue_selected = $request->input('venue');
         $start_date = $request->input('start_date');
         $end_date = $request->input('end_date');
-        $start_time = $request->input('start_time');
-        $end_time = $request->input('end_time');
+        // $start_time = $request->input('start_time');
+        // $end_time = $request->input('end_time');
 
         $overlapping_meetings = Meeting::where('start_date', '<=', $end_date)
             ->where('end_date', '>=', $start_date)
-            ->where(function ($query) use ($start_date, $end_date, $start_time, $end_time, $venue_selected) {
+            ->where(function ($query) use ($start_date, $end_date, $venue_selected) {
                 foreach ($venue_selected as $v) {
-                    $query->orWhere(function ($q) use ($start_date, $end_date, $start_time, $end_time, $v) {
+                    $query->orWhere(function ($q) use ($start_date, $end_date, $v) {
                         $q->where('venue_selection', 'LIKE', "%$v%")
-                            ->where('end_time', '>', $start_time)
-                            ->where('start_time', '<', $end_time)
+                            // ->where('end_time', '>', $start_time)
+                            // ->where('start_time', '<', $end_time)
                             ->where('start_date', '<=', $end_date)
                             ->where('end_date', '>=', $start_date);
                     });
@@ -656,12 +682,12 @@ class MeetingController extends Controller
 
         $overlapping_event = Blockdate::where('start_date', '<=', $end_date)
             ->where('end_date', '>=', $start_date)
-            ->where(function ($query) use ($start_date, $end_date, $start_time, $end_time, $venue_selected) {
+            ->where(function ($query) use ($start_date, $end_date,$venue_selected) {
                 foreach ($venue_selected as $v) {
-                    $query->orWhere(function ($q) use ($start_date, $end_date, $start_time, $end_time, $v) {
+                    $query->orWhere(function ($q) use ($start_date, $end_date, $v) {
                         $q->where('venue', 'LIKE', "%$v%")
-                            ->where('end_time', '>', $start_time)
-                            ->where('start_time', '<', $end_time)
+                            // ->where('end_time', '>', $start_time)
+                            // ->where('start_time', '<', $end_time)
                             ->where('start_date', '<=', $end_date)
                             ->where('end_date', '>=', $start_date);
                     });
@@ -676,8 +702,8 @@ class MeetingController extends Controller
         $block = new Blockdate();
         $block->start_date = $start_date;
         $block->end_date = $end_date;
-        $block->start_time = (new DateTime($start_time))->format('H:i:s');
-        $block->end_time = (new DateTime($end_time))->format('H:i:s');
+        // $block->start_time = (new DateTime($start_time))->format('H:i:s');
+        // $block->end_time = (new DateTime($end_time))->format('H:i:s');
         $block->purpose = $request->purpose;
         $block->venue = $venue;
         $block->unique_id = uniqid();
@@ -738,12 +764,12 @@ class MeetingController extends Controller
             }
         }
         $agrementinfo = new AgreementInfo();
-        $agrementinfo->lead_id = $id;
+        $agrementinfo->event_id = $id;
         $agrementinfo->email = $request->email;
         $agrementinfo->subject = $request->subject;
         $agrementinfo->content = $request->emailbody;
         $agrementinfo->attachments = $filename ?? '';
-        $agrementinfo->created_by = Auth::user()->id;
+        $agrementinfo->created_by = \Auth::user()->id;
         $agrementinfo->save();
         $subject = $request->subject;
         $content = $request->emailbody;
@@ -805,28 +831,29 @@ class MeetingController extends Controller
     {
         $id = decrypt(urldecode($id));
         $agreement = Agreement::where('event_id', $id)->exists();
-        if ($agreement) {
-            return view('meeting.agreement_error', compact('id'));
-        } else {
+        // if ($agreement) {
+        //     return view('meeting.agreement_error', compact('id'));
+        // } else {
             $meeting = Meeting::find($id);
             $settings = Utility::settings();
             $billing = Billing::where('event_id',$id)->first();
             $billing_data = unserialize($billing->data);
             $venue = explode(',', $settings['venue']);
             return view('meeting.agreement.signedagreement', compact('meeting', 'venue', 'billing', 'settings','billing_data'));
-        }
+        // }
     }
     public function signedagreementresponse(Request $request, $id)
     {
         $id = decrypt(urldecode($id));
         if (!empty($request->imageData)) {
             $image = $this->uploadSignature($request->imageData);
-            // Billingdetail::where('event_id', $id)->update(['status' => 1]);
         } else {
             return redirect()->back()->with('error', ('Please Sign agreement for confirmation'));
         }
         $meeting = Meeting::find($id);
         $settings = Utility::settings();
+        $users = User::where('type','owner')->orwhere('type','Admin')->get();
+
         $fixed_cost = Billing::where('event_id',$id)->first();
         $agreement = Agreement::where('event_id', $id)->first();
         $data = [
@@ -837,23 +864,64 @@ class MeetingController extends Controller
             'billing_data' => unserialize($fixed_cost->data),
         ];
         $pdf = Pdf::loadView('meeting.agreement.view', $data);
-        $existagreement = Agreement::where('event_id', $id)->exists();
-        if ($existagreement == TRUE) {
-            Agreement::where('event_id', $id)->update([
-                'signature' => $image,
-            ]);
-            return redirect()->back()->with('error', ('Agreement is already confirmed'));
-            return $pdf->stream('agreement.pdf');
-        }
+        // $existagreement = Agreement::where('event_id', $id)->exists();
+        // if ($existagreement == TRUE) {
+        //     Agreement::where('event_id', $id)->update([
+        //         'signature' => $image,
+        //     ]);
+        //     return redirect()->back()->with('error', ('Agreement is already confirmed'));
+        //     return $pdf->stream('agreement.pdf');
+        // }
         $agreements = new Agreement();
         $agreements['event_id'] = $id;
         $agreements['signature'] = $image;
-        $proposal['notes'] = $request->comments;
+        $agreements['notes'] = $request->comments;
         $agreements->save();
-        $meeting->update(['total' => $request->grandtotal, 'status' => 2]);
+        try {
+            $filename = 'agreement_' . time() . '.pdf'; // You can adjust the filename as needed
+            $folder = 'Agreement_response/' . $id; 
+            $path = Storage::disk('public')->put($folder . '/' . $filename, $pdf->output());
+            $agreements->update(['agreement_response' => $filename]);
+         
+        } catch (\Exception $e) {
+            // Log the error for future reference
+            \Log::error('File upload failed: ' . $e->getMessage());
+            // Return an error response
+            return response()->json([
+                'is_success' => false,
+                'message' => 'Failed to save PDF: ' . $e->getMessage(),
+            ]);
+        }
+        try {
+            config(
+                [
+                    'mail.driver'       => $settings['mail_driver'],
+                    'mail.host'         => $settings['mail_host'],
+                    'mail.port'         => $settings['mail_port'],
+                    'mail.username'     => $settings['mail_username'],
+                    'mail.password'     => $settings['mail_password'],
+                    'mail.from.address' => $settings['mail_from_address'],
+                    'mail.from.name'    => $settings['mail_from_name'],
+                ]
+            );
+            foreach ($users as  $user) {
+            Mail::to($meeting->email)->cc($user->email)
+            ->send(new AgreementResponseMail($agreements,$meeting));
+            }
+            $meeting->update(['total' => $request->grandtotal, 'status' => 2]);
+
+        } catch (\Exception $e) {
+            //   return response()->json(
+            //             [
+            //                 'is_success' => false,
+            //                 'message' => $e->getMessage(),
+            //             ]
+            //         );
+          return redirect()->back()->with('success', 'Email Not Sent');
+      
+        }
         return $pdf->stream('agreement.pdf');
-        // $url = 'payment-view/' . urlencode(encrypt($id));
-        // return redirect($url);
+       
     }
     public function uploadSignature($signed)
     {
@@ -1137,15 +1205,15 @@ class MeetingController extends Controller
     }
     public function detailed_info($id){
         $id= decrypt(urldecode($id));
+        // echo "<pre>";print_r($id);die;
         // $event = Meeting::find($id);
-        $event = Meeting::withTrashed()->find($id);
+        $event = Meeting::find($id);
 
         return view('meeting.detailed_view',compact('event'));
     }
     public function event_user_info($id){
         $id = decrypt(urldecode($id));
-        $event = Meeting::find($id);
-        
+        $event = Meeting::withTrashed()->find($id);
         $notes = NotesEvents::where('event_id',$id)->orderby('id','desc')->get();
         $docs = EventDoc::where('event_id',$id)->get();
         return view('customer.eventuserview',compact('event','docs','notes'));

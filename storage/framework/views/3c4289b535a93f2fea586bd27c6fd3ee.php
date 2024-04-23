@@ -1,7 +1,6 @@
-@php
-$proposalUrl = route('lead.signedproposal',urlencode(encrypt($lead->id)));
-
-@endphp
+<?php   
+$logo=\App\Models\Utility::get_file('uploads/logo/');
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,29 +11,29 @@ $proposalUrl = route('lead.signedproposal',urlencode(encrypt($lead->id)));
 </head>
 
 <body>
-    Dear {{ $lead->name }},<br>
+    Dear <?php echo e($lead->name); ?>,<br>
 
-    <table class="table table-responsive">
+    <p>Lead details are as follows : </p>
+    <table class="table table-bordered">
         <thead>
             <th colspan="4"></th>
-
         </thead>
         <tbody>
         <tr>
                 <td>Event Type</td>
-                <td>{{$lead->type ?? '--'}}</td>
+                <td><?php echo e($lead->type ?? '--'); ?></td>
             </tr>
             <tr>
                 <td>No. of Guests </td>
-                <td>{{$lead->guest_count ?? '--'}}</td>
+                <td><?php echo e($lead->guest_count ?? '--'); ?></td>
             </tr>
             <tr>
                 <td>Venue</td>
-                <td>{{$lead->venue ?? '--'}}</td>
+                <td><?php echo e($lead->venue_selection ?? '--'); ?></td>
             </tr>
             <tr>
                 <td>Function</td>
-                <td>{{$lead->function ?? '--'}}</td>
+                <td><?php echo e($lead->function ?? '--'); ?></td>
             </tr>
             <tr>
                 <td>Package</td>
@@ -54,14 +53,13 @@ $proposalUrl = route('lead.signedproposal',urlencode(encrypt($lead->id)));
         </tbody>
 
     </table>
-
-    <p>{{$content}}</p>
-
-    <b>Click the link below to see the Lead details/proposal with estimated billing - </b><br>
-    <p>{{$proposalUrl}}</p>
-    Thank you for your time and collaboration.
-    With regards
+  
+    <b>Thank you for your time and collaboration.</b><br>
+    <b>With regards</b><br>
+    <b>The Bond 1786</b><br>
+    <img src="<?php echo e($logo.'3_logo-light.png'); ?>" alt="<?php echo e(config('app.name', 'The Bond 1786')); ?>"
+                        class="logo logo-lg nav-sidebar-logo" height="50" />
 
 </body>
 
-</html>
+</html><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/lead/mail/proposal_response.blade.php ENDPATH**/ ?>

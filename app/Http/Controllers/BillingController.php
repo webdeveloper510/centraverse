@@ -30,12 +30,12 @@ class BillingController extends Controller
         $status = Billing::$status;
         if (\Auth::user()->type == 'owner') {
             $billing = Billing::all();
-            $events = Meeting::where('status','!=',5)->get();
+            $events = Meeting::where('status','!=',5)->orderby('id','desc')->get();
             return view('billing.index', compact('billing','events'));
         }
         else{
             $billing = Billing::where('created_by', \Auth::user()->creatorId())->get();
-            $events = Meeting::where('status','!=',4 )->where('created_by', \Auth::user()->id)->get();
+            $events = Meeting::where('status','!=',4 )->where('created_by', \Auth::user()->id)->orderby('id','desc')->get();
             return view('billing.index', compact('billing','events'));
         }
     }
@@ -206,5 +206,16 @@ class BillingController extends Controller
         }
         return redirect()->back()->with('success', 'Payment Link shared Sucessfully');
 
+    }
+    
+    public function invoicepdf(Request $request,$id){
+        $paymentinfo = PaymentInfo::where('event_id',$id)->orderby('id','desc')->first();
+        $paymentlog = PaymentLogs::where('event_id',$id)->orderby('id','desc')->first();
+        $data=[
+            'paymentinfo' =>$paymentinfo,
+            'paymentlog'=>$paymentlog
+        ];
+        $pdf = PDF::loadView('billing.mail.inv', $data);
+        return $pdf->stream('invoice.pdf');              
     }
 }

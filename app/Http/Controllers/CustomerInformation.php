@@ -257,16 +257,17 @@ class CustomerInformation extends Controller
                             'mail.from.name'    => $settings['mail_from_name'],
                         ]
                     );
-                    // Mail::to($customer)->send(new SendCampaignMail($campaign));
+                    Mail::to($customer)->send(new SendCampaignMail($campaign));
 
-                    return 'Email Sent Successfully';
+                    return redirect()->back()->with('success','Email Sent Successfully');
                 } catch (\Exception $e) {
-                    return response()->json(
-                        [
-                            'is_success' => false,
-                            'message' => $e->getMessage(),
-                        ]
-                    );
+                    return redirect()->back()->with('error','Email Not Sent');
+                    // return response()->json(
+                    //     [
+                    //         'is_success' => false,
+                    //         'message' => $e->getMessage(),
+                    //     ]
+                    // );
                 }
             }
         } else {

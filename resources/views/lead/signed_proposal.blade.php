@@ -1,6 +1,8 @@
 <?php
 $billing = App\Models\ProposalInfo::where('lead_id',$lead->id)->orderby('id','desc')->first();
-$billing= json_decode($billing->proposal_info,true);
+if(isset($billing) && !empty($billing)){
+    $billing= json_decode($billing->proposal_info,true);
+}
 $selectedvenue = explode(',', $lead->venue_selection);
 $imagePath = public_path('upload/signature/autorised_signature.png');
 $imageData = base64_encode(file_get_contents($imagePath));
@@ -8,72 +10,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
 if(isset($proposal) && ($proposal['image'] != null)){
     $signed = base64_encode(file_get_contents($proposal['image']));
     $sign = 'data:image/' . pathinfo($proposal['image'], PATHINFO_EXTENSION) . ';base64,' . $signed;
-    }
-//--------------Venue Cost----------------------
-// $venueRentalCost = 0;
-// foreach ($selectedvenue as $venues) {
-// $venueRentalCost += $fixed_cost['venue'][$venues] ?? 0;
-// }
-//--------------Food Cost----------------------
-
-// $totalFoodPackageCost = 0;
-// $foodpcks = json_decode($lead->func_package,true);
-// if(isset($foodpcks) && !empty($foodpcks)){
-//     foreach($foodpcks as $key => $foodpck){
-//         foreach($foodpck as $foods){
-//             $food[]= $foods;
-//         }
-//     }
-//     foreach ($food as $foodItem) {
-//         foreach ($fixed_cost['package'] as $category => $categoryItems) {
-//             if (isset($categoryItems[$foodItem])) {
-//                 $totalFoodPackageCost += $categoryItems[$foodItem];
-//                 break;
-//             }
-//         }
-//     }
-// }
-
-// $totalBarCost = 0;
-// $barpcks = json_decode($lead->bar_package,true);
-
-// if(!empty($barpcks) && !empty($barpcks)){
-//     foreach($barpcks as $key => $barpck){
-//         $bar[]= $barpck;
-//     }
-//     $foodpcks = json_decode($lead->func_package,true);
-//     foreach($foodpcks as $key => $foodpck){
-//         foreach($foodpck as $foods){
-//             $food[]= $foods;
-//         }
-//     }
-//     foreach ($bar as $barItem) {
-//         foreach ($fixed_cost['barpackage'] as $category => $categoryItems) {
-//             if (isset($categoryItems[$barItem])) {
-//                 $totalBarCost += $categoryItems[$barItem];
-//                 break;
-//             }
-//         }
-//     }
-// }
-// $additionalItemsCost = 0;
-// $addpcks = json_decode($lead->ad_opts,true);
-// if(isset($addpcks) && !empty($addpcks)){
-//     foreach($addpcks as $key => $adpck){
-//         foreach($adpck as $ad){
-//             $add[] = $ad;
-//         }
-//     }
-//     foreach ($additional_items as $category => $categoryItems) {
-//         foreach ($categoryItems as $item => $subItems) {
-//             foreach ($subItems as $key => $value) {
-//                 if (in_array($key, $add)) {    
-//                 $additionalItemsCost += $value;
-//                 }
-//             }
-//         }
-//     }
-// }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -133,7 +70,7 @@ if(isset($proposal) && ($proposal['image'] != null)){
 
                             <td>
                                 {{ \Carbon\Carbon::parse($lead->start_date)->format('d M, Y')}}
-                              </td>
+                            </td>
 
                             <td>
                                 @if($lead->start_time == $lead->end_time)
@@ -178,58 +115,61 @@ if(isset($proposal) && ($proposal['image'] != null)){
                         </tr>
                     </thead>
                     <tbody>
-                      
+
                         <tr>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Venue Rental</td>
-                                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Venue Rental</td>
+                            <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
 
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            ${{$billing['venue_rental']['cost'] }}
-                                        </td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">1
-                                        </td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            ${{$total[] = $billing['venue_rental']['cost']  * $billing['venue_rental']['quantity']}}
-                                        </td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            {{$lead->venue_selection}}</td>
-                                    </tr>
+                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                ${{$billing['venue_rental']['cost'] ?? 0 }}
+                            </td>
+                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                {{$billing['venue_rental']['quantity'] ?? 1}}
+                            </td>
+                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                ${{$total[] = ($billing['venue_rental']['cost']?? 0)  * ($billing['venue_rental']['quantity'] ?? 1)}}
+                            </td>
+                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                {{$lead->venue_selection}}</td>
+                        </tr>
 
-                                    <tr>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Brunch / Lunch /
-                                            Dinner Package</td>
-                                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            ${{$billing['food_package']['cost'] }}</td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$billing['food_package']['quantity']}}
-                                        </td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            ${{$total[] =$billing['food_package']['cost'] * $billing['food_package']['quantity']}}</td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            {{$lead->function}}</td>
+                        <tr>
+                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Brunch / Lunch /
+                                Dinner Package</td>
+                            <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                ${{$billing['food_package']['cost'] ?? 0}}</td>
+                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                {{$billing['food_package']['quantity'] ?? 1}}
+                            </td>
+                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                ${{$total[] =($billing['food_package']['cost'] ?? 0) * ($billing['food_package']['quantity'] ?? 1)}}
+                            </td>
+                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                {{$lead->function}}</td>
 
-                                    </tr>
-                            
-                                    <tr>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Hotel Rooms</td>
-                                        <td colspan="2" style="padding:5px 5px; margin-left:5px;"></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            ${{$billing['hotel_rooms']['cost']}}
-                                        </td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            {{$billing['hotel_rooms']['quantity']}}
-                                        </td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                       
-                                            ${{$total[] =$billing['hotel_rooms']['cost'] *  $billing['hotel_rooms']['quantity']}} 
-                                         
+                        </tr>
 
-                                        </td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                    </tr>
-                     
+                        <tr>
+                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Hotel Rooms</td>
+                            <td colspan="2" style="padding:5px 5px; margin-left:5px;"></td>
+                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                ${{$billing['hotel_rooms']['cost'] ?? 0}}
+                            </td>
+                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                {{$billing['hotel_rooms']['quantity'] ?? 1}}
+                            </td>
+                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
 
-                       
+                                ${{$total[] = ($billing['hotel_rooms']['cost'] ?? 0) *  ($billing['hotel_rooms']['quantity'] ?? 1)}}
+
+
+                            </td>
+                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                        </tr>
+
+
+
                         <tr>
                             <td>-</td>
                             <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
@@ -311,12 +251,7 @@ if(isset($proposal) && ($proposal['image'] != null)){
                     </tbody>
                 </table>
 
-                <p class="text mt-2">
-                    Please return the signed proposal no later than
-                    <b>{{ \Carbon\Carbon::parse($lead->start_date)->subDays($settings['buffer_day'])->format('d M, Y') }}</b>
-                    or this proposal is no longer valid.<br>
-                </p>
-
+              <p><b>Customer Comments/Notes: {{$proposal->notes}}</b></p>
             </div>
         </div>
         <div class="row mt-5">
@@ -326,9 +261,8 @@ if(isset($proposal) && ($proposal['image'] != null)){
             </div>
             <div class="col-md-6">
                 <strong style="margin-top:10px;">Signature:</strong><br>
-                <img src="{{@$sign}}" style="width:20%; border-bottom:1px solid black;">
+                <img src="{{@$sign}}" style="width:30%; border-bottom:1px solid black;">
             </div>
-
         </div>
     </div>
 </body>

@@ -128,9 +128,9 @@
                     <table class="table" id="pc-dt-export">
                         <thead>
                             <tr>
+                                <th scope="col" class="sort" data-sort="name">{{ __('Name') }}</th>
                                 <th scope="col" class="sort" data-sort="budget">{{ __(' Lead Status') }}</th>
                                 <th scope="col" class="sort" data-sort="budget">{{ __('Status') }}</th>
-                                <th scope="col" class="sort" data-sort="name">{{ __('Name') }}</th>
                                 <th scope="col" class="sort" data-sort="budget">{{ __('Created By') }}</th>
                                 <th scope="col" class="sort" data-sort="name">{{ __('Type') }}</th>
                                 <th scope="col" class="sort" data-sort="name">{{ __('Phone') }}</th>
@@ -139,11 +139,19 @@
                                 <th scope="col" class="sort" data-sort="name">{{ __('Time') }}</th>
                                 <th scope="col" class="sort" data-sort="name">{{ __('Assigned Staff') }}</th>
                                 <th scope="col" class="sort" data-sort="name">{{ __('Rooms required') }}</th>
+                                <th scope="col" class="sort" data-sort="name">{{ __('Bar') }}</th>
+                                <th scope="col" class="sort" data-sort="name">{{ __('Bar Package') }}</th>
                                 <th scope="col" class="sort" data-sort="name">{{ __('Function') }}</th>
+                                <th scope="col" class="sort" data-sort="name">{{ __('Package') }}</th>
+                                <th scope="col" class="sort" data-sort="name">{{ __('Additional Items') }}</th>
+                                <th scope="col" class="sort" data-sort="name">{{ __('Any Special Requests') }}</th>
                                 <th scope="col" class="sort" data-sort="name">{{ __('Guest Count') }}</th>
                                 <th scope="col" class="sort" data-sort="budget">{{ __('Converted To Event') }}</th>
                                 <th scope="col" class="sort" data-sort="budget">{{ __('Created At') }}</th>
                                 <th scope="col" class="sort" data-sort="budget">{{ __('Comments') }}</th>
+                                <th scope="col" class="sort" data-sort="budget">{{ __('Proposal Signed By Customer') }}
+                                </th>
+                                <th scope="col" class="sort" data-sort="budget">{{ __('Any Attachments') }}</th>
 
                             </tr>
                         </thead>
@@ -152,9 +160,16 @@
                             <?php $event = App\Models\Meeting::where('attendees_lead',$result['id'])->exists();
                            ?>
                             <tr>
-                                <td>{{ __(\App\Models\Lead::$stat[$result->lead_status]) }}</td>
+                                <td>
+                                    <a href="{{ route('lead.info',urlencode(encrypt($result['id']))) }}" data-size="md"
+                                        title="{{ __('Lead Details') }}" class="action-item text-primary"
+                                        style="color:#1551c9 !important;">
+                                        <b> {{ ucfirst($result['name'])  }}</b>
+                                    </a>
+                                </td>
+                                <td> {{ __(\App\Models\Lead::$stat[$result->lead_status]) }}</td>
                                 <td> {{ __(\App\Models\Lead::$status[$result['status']]) }}</td>
-                                <td>{{ ucfirst($result['name'])  }}</td>
+
                                 <td>{{ucfirst(App\Models\User::where('id',$result['created_by'])->first()->name)}}</td>
                                 <td>{{ ucfirst($result['type']) }}</td>
                                 <td>{{ $result['phone'] }}</td>
@@ -174,17 +189,60 @@
                                 <td>{{!empty($result['assign_user'])? $result['assign_user']->name :'Not Assigned Yet' }}
                                     {{!empty($result['assign_user'])?'('.$result['assign_user']->type.')':''}}</td>
                                 <td>{{$result['rooms']}}</td>
-                                <td>{{ isset($result['function']) ? ucfirst($result['function']) : '--' }}</td>
+                                <td>{{$result['bar'] ?? '--' }}</td>
+                                <td><?php $barpackage = json_decode($result['bar_package'],true);
+                                if(isset($barpackage) && !empty($barpackage)){
+                                    foreach ($barpackage as $key => $value) {
+                                        echo implode(',',$value);
+                                    } 
+                                }else{
+                                    echo '--';
+                                }
+                                                
+                                                ?></td>
+                                <td>{{ isset($result['function'])&& !empty($result['function']) ? ucfirst($result['function']) : '--' }}</td>
+                                <td><?php $package = json_decode($result['func_package'],true);
+                                 if(isset($package) && !empty($package)){
+                                                    foreach ($package as $key => $value) {
+                                                        echo implode(',',$value);
+                                                    } 
+                                                }
+                                                ?></td>
+                                <td> <?php
+                                 if(isset($additional) && !empty($additional)){
+                                     $additional = json_decode($result['ad_opts'],true);
+                                                    foreach ($additional as $key => $value) {
+                                                        echo implode(',',$value);
+                                                    } 
+                                                }
+                                ?></td>
+                                <td>{{$result['spcl_req'] ?? '--'}}</td>
                                 <td>{{$result['guest_count']}}</td>
                                 <td>
-                                   
+
                                     @if($event) Yes @else No @endif
                                 </td>
                                 <td>{{ __(\Auth::user()->dateFormat($result['created_at'])) }}</td>
                                 <td><?php $comment = App\Models\Proposal::where('lead_id',$result['id'])->orderby('id','desc')->first(); ?>
                                     @if(isset($comment) && !empty($comment))
-                                    {{App\Models\Proposal::where('lead_id',$result['id'])->orderby('id','desc')->first()->notes}}
-                                    @else -- @endif</td>
+                                    {{$comment->notes}}
+                                    @else -- @endif
+                                </td>
+                                <td><?php $prop = App\Models\Proposal::where('lead_id',$result['id'])->orderby('id','desc')->exists(); ?>
+                                    @if($prop) Yes @else No @endif
+                                </td>
+                                <td><?php  $attachment=   App\Models\LeadDoc::where('lead_id',$result['id'])->get();?>
+                                    @if($attachment)
+                                    @foreach ($attachment as $attach)
+                                    @if(Storage::disk('public')->exists($attach->filepath))
+
+                                    <a href="{{ Storage::url('app/public/'.$attach->filepath) }}" download
+                                        style="color: teal;" title="Download">{{$attach->filename}}</a>
+                                    @endif
+                                    @endforeach
+                                    @endif
+
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -197,7 +255,7 @@
     @push('script-page')
     <script>
     < script type = "text/javascript"
-        src = "{{ asset('js/html2pdf.bundle.min.js') }}" >
+    src = "{{ asset('js/html2pdf.bundle.min.js') }}" >
     </script>
     <script type="text/javascript" src="{{ asset('js/dataTables.buttons.min.js')}}"></script>
     <script type="text/javascript" src="{{ asset('js/jszip.min.js')}}"></script>

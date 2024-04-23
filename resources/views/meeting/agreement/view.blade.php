@@ -8,6 +8,8 @@ $sign = 'data:image/' . pathinfo($agreement['signature'], PATHINFO_EXTENSION) . 
 }
 $bar_pck = json_decode($meeting['bar_package'], true);
 $total =[];
+$startdate = \Carbon\Carbon::createFromFormat('Y-m-d', $meeting['start_date'])->format('d/m/Y');
+$enddate = \Carbon\Carbon::createFromFormat('Y-m-d', $meeting['end_date'])->format('d/m/Y');
 @endphp
 <!DOCTYPE html>
 <html lang="en">
@@ -45,7 +47,7 @@ $total =[];
                 <span style="font-size:14px;margin-bottom:10px;color:black;">{{__('Name')}}: {{ $meeting['name'] }}</span><br>
                 <span style="font-size:14px;margin-bottom:10px;color:black;">{{__('Phone & Email')}}: {{ $meeting['phone'] }} , {{ $meeting['email'] }}</span><br>
                 <span style="font-size:14px;margin-bottom:10px;color:black;">{{__('Address')}}: {{ $meeting['lead_address'] }}</span><br>
-                <span style="font-size:14px;margin-bottom:10px;color:black;">{{__('Event Date')}}: {{ \Auth::user()->dateFormat($meeting['start_date']) }}</span>
+                <span style="font-size:14px;margin-bottom:10px;color:black;">{{__('Event Date')}}: {{ $startdate }}</span>
             </dl>
         </div>
         <div class="col-md-6" style="text-align:right; margin-top:-9rem;margin-right:20px;">
@@ -86,8 +88,7 @@ $total =[];
         </thead>
         <tbody>
             <tr>
-                <td style="font-size:13px;font-weight:300;padding:8px 10px;">Start Date: {{\Auth::user()->dateFormat($meeting['start_date'])}} <br>
-                    End Date: {{\Auth::user()->dateFormat($meeting['end_date'])}}</td>
+                <td style="font-size:13px;font-weight:300;padding:8px 10px;">Start Date: {{$startdate}} <br>
                 <td style="font-size:13px;font-weight:300;padding:8px 10px;">Start Time:{{date('h:i A', strtotime($meeting['start_time']))}} <br>
                     End time:{{date('h:i A', strtotime($meeting['end_time']))}}</td>
                 <td style="font-size:13px;font-weight:300;padding:8px 10px;">{{$meeting['venue_selection']}}</td>
@@ -143,7 +144,7 @@ $total =[];
     <div class="row" style="margin-top:20px;padding-top:10px;">
         <div class="col-md-12">
             <p>This contract defines the terms and conditions under which Lotus Estate, LLC dba The Bond 1786, (hereinafter referred to as The Bond or The
-                Bond 1786), and <b>{{$meeting['name']}}</b>(hereafter referred to as the Customer) agree to the Customer’s use of The Bond 1786 facilities on <b>{{\Auth::user()->dateFormat($meeting['start_date'])}}</b>
+                Bond 1786), and <b>{{$meeting['name']}}</b>(hereafter referred to as the Customer) agree to the Customer’s use of The Bond 1786 facilities on <b>{{$startdate}}</b>
                 (reception/event date). This contract constitutes the entire agreement between the parties and becomes binding upon the signature of
                 both parties. The contract may not be amended or changed unless executed in writing and signed by The Bond 1786 and the Customer.
             </p>
@@ -246,7 +247,7 @@ $total =[];
                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">${{$billing_data['additional_items']['cost']}}</td>
                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$billing_data['additional_items']['quantity']}}</td>
                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">${{$total[] =$billing_data['additional_items']['cost'] * $billing_data['additional_items']['quantity']}}</td>
-                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Bartender Fee</td>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
 
                     </tr>
                     <tr>
@@ -543,7 +544,6 @@ $total =[];
                 No Personal Checks are accepted for final payment. <br><br>
                 The Rules and Conditions for Usage are incorporated herein and are made a part hereof. <br><br>
 
-                Please return signed contract with deposit no later than <b>{{ \Auth::user()->dateFormat($meeting['start_date']) }}</b> or this contract is no longer valid.<br>
             </p>
 
 

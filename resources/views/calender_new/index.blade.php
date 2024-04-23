@@ -101,9 +101,15 @@ li.item-event>p:nth-child(2) {
         </div>
     </div>
 </div>
-
+<div class="blockd_dates">
+    @foreach($blockeddate as $key=> $value)
+    <input type="hidden" name="strt{{$key}}" value="{{$value->start_date}}">
+    <input type="hidden" name="end{{$key}}" value="{{$value->end_date}}">
+    <!-- <input type="hidden" name="title{{$key}}" value="{{$value->title}}"> -->
+    @endforeach
+</div>
 <div id="overlay"></div>
-<div id="popup-form" style="border:solid 1px black;">
+<div id="popup-form">
     <div class="row step1 blocked" data-popdate="">
         <div class="card">
             <div class="col-md-12">
@@ -117,13 +123,14 @@ li.item-event>p:nth-child(2) {
                 </div>
                 <div class="card-body">
                     <div class="row">
-                    <div class="col-12">
+                        <div class="col-12">
                             <div class="form-group">
                                 <label class="form-label">Venue</label>
                                 <div class="checkbox-container d-flex flex-wrap">
                                     @foreach ($venue as $value => $label)
                                     <div class="form-check mx-2">
-                                        <input class="form-check-input venue-checkbox" type="checkbox" id="{{ $value }}" name="venue[]" value="{{ $label }}">
+                                        <input class="form-check-input venue-checkbox" type="checkbox" id="{{ $value }}"
+                                            name="venue[]" value="{{ $label }}">
                                         <label class="form-check-label" for="{{ $value }}">{{ $label }}</label>
                                     </div>
                                     @endforeach
@@ -133,38 +140,42 @@ li.item-event>p:nth-child(2) {
                         <div class="col-md-6">
                             <div class="form-group">
                                 {{ Form::label('start_date', __('Start Date'), ['class' => 'form-label']) }}
-                                {!! Form::date('start_date', date('Y-m-d'), ['class' => 'form-control', 'required' => 'required']) !!}
+                                {!! Form::date('start_date', date('Y-m-d'), ['class' => 'form-control', 'required' =>
+                                'required']) !!}
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                             <div class="form-group">
                                 {{ Form::label('start_time', __('Start Time'), ['class' => 'form-label']) }}
                                 {!! Form::time('start_time', '00:00', ['class' => 'form-control']) !!}
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-md-6">
                             <div class="form-group">
                                 {{ Form::label('end_date', __('End Date'), ['class' => 'form-label']) }}
-                                {!! Form::date('end_date', date('Y-m-d'), ['class' => 'form-control', 'required' => 'required','required' => 'required']) !!}
+                                {!! Form::date('end_date', date('Y-m-d'), ['class' => 'form-control', 'required' =>
+                                'required','required' => 'required']) !!}
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                             <div class="form-group">
                                 {{ Form::label('end_time', __('End Time'), ['class' => 'form-label']) }}
-                                {!! Form::time('end_time', '00:00', ['class' => 'form-control', 'required' => 'required']) !!}
+                                {!! Form::time('end_time', '00:00', ['class' => 'form-control', 'required' =>
+                                'required']) !!}
                             </div>
-                        </div>                         
+                        </div> -->
                         <div class="col-12">
                             <div class="form-group">
                                 {{Form::label('purpose',__('Purpose'),['class'=>'form-label']) }}
                                 {{Form::textarea('purpose',null,['class'=>'form-control','rows'=>2])}}
                             </div>
-                        </div>                       
+                        </div>
                     </div>
                 </div>
                 <div class="card-footer text-end">
                     {{ Form::submit(__('Block'), ['id'=>'block','class' => 'btn  btn-primary ']) }}
-                    <button class="btn btn-primary" id="unblock" data-bs-toggle="tooltip" title="{{__('Close')}}" style="display:none">Unblock</button>
+                    <button class="btn btn-primary" id="unblock" data-bs-toggle="tooltip" title="{{__('Close')}}"
+                        style="display:none">Unblock</button>
                     <p class="btn  btn-primary close-popup" data-bs-toggle="tooltip" title="{{__('Close')}}">Close</p>
                 </div>
                 {{Form::close()}}
@@ -173,26 +184,30 @@ li.item-event>p:nth-child(2) {
     </div>
 
 </div>
-    @endsection
+@endsection
 @push('script-page')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-    <script>
-    $(document).on('click', 'button.fc-next-button', function() {
-        var month = $('.fc-toolbar-title').text();
-        var date = new Date(month);
-        // Get the month and year separately
-        var monthNumber = date.getMonth() + 1; // Adding 1 because month index starts from 0
-        var year = date.getFullYear();
-        $.ajax({
-            url: "{{route('monthbaseddata')}}",
-            type: 'POST',
-            data: {
-                "month": monthNumber,
-                "year": year,
-                "_token": "{{ csrf_token() }}",
-            },
-            success: function(data) {
-                var html = '';
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script>
+$(document).on('click', 'button.fc-next-button', function() {
+    document.getElementById('daySelected')
+        .innerHTML = '';
+    var month = $('.fc-toolbar-title').text();
+    var date = new Date(month);
+    // Get the month and year separately
+    var monthNumber = date.getMonth() + 1; // Adding 1 because month index starts from 0
+    var year = date.getFullYear();
+    $.ajax({
+        url: "{{route('monthbaseddata')}}",
+        type: 'POST',
+        data: {
+            "month": monthNumber,
+            "year": year,
+            "_token": "{{ csrf_token() }}",
+        },
+        success: function(data) {
+            var html = '';
+            if (data.length != 0)
                 $(data).each(function(index, element) {
                     var start = element.start_time;
                     var start_time = moment(start, 'HH:mm:ss')
@@ -200,7 +215,22 @@ li.item-event>p:nth-child(2) {
                     var end = element.end_time;
                     var end_time = moment(end, 'HH:mm:ss').format(
                         'h:mm A');
-                    html += `<li class="list-group-item card mb-3">
+                    var start_date = moment(element.start_date).format('D MMM, YYYY');
+                    var id = element.id;
+                    $.ajax({
+                        url: '{{ route("get.encoded.id", ":id") }}'.replace(':id', id),
+                        method: 'GET',
+                        dataType: 'json',
+                        success: function(response) {
+
+                            var encodedId = response.encodedId;
+
+                            // Now you have the encoded ID, use it as needed
+                            var url =
+                                '{{ route("meeting.detailview", ":encodedId") }}';
+                            url = url.replace(':encodedId', encodedId);
+                            // console.error(url);
+                            html += `<a href="${url}"><li class="list-group-item card mb-3">
                 <div class="row align-items-center justify-content-between">
                     <div class="col-auto mb-3 mb-sm-0">
                         <div class="d-flex align-items-center">
@@ -209,359 +239,238 @@ li.item-event>p:nth-child(2) {
                             </div>
                             <div class="ms-3">
                                 <h6 class="m-0">${element.eventname} (${element.name})</h6>
+                                <small class="text-muted">${start_date}</small><br>
                                 <small class="text-muted">${start_time} - ${end_time}</small>
                             </div>
                         </div>
                     </div>
                 </div>
-            </li>`;
+            </li></a>`;
+                            $('#listEvent').html(html);
+
+                            console.log(html)
+                            // Use the URL as needed
+                        },
+                    });
                 });
-                $('#listEvent').html(html);
+            else {
+
+                html =
+                    `<h6 class="m-0">No event found!</h6>`;
+                document.getElementById('daySelected')
+                    .innerHTML = '';
+                document.getElementById('listEvent')
+                    .innerHTML = html;
             }
-        });
-
-    });
-    $(document).on('click', 'button.fc-prev-button', function() {
-        var month = $('.fc-toolbar-title').text();
-        var date = new Date(month);
-        // Get the month and year separately
-        var monthNumber = date.getMonth() + 1; // Adding 1 because month index starts from 0
-        var year = date.getFullYear();
-        $.ajax({
-            url: "{{route('monthbaseddata')}}",
-            type: 'POST',
-            data: {
-                "month": monthNumber,
-                "year": year,
-                "_token": "{{ csrf_token() }}",
-            },
-            success: function(data) {
-                // console.log(data);
-                var html = '';
-                $(data).each(function(index, element) {
-                    var start = element.start_time;
-                    var start_time = moment(start, 'HH:mm:ss')
-                        .format('h:mm A');
-                    var end = element.end_time;
-                    var end_time = moment(end, 'HH:mm:ss').format(
-                        'h:mm A');
-                    html += `<li class="list-group-item card mb-3">
-                <div class="row align-items-center justify-content-between">
-                    <div class="col-auto mb-3 mb-sm-0">
-                        <div class="d-flex align-items-center">
-                            <div class="theme-avtar bg-info">
-                                <i class="ti ti-calendar-event"></i>
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="m-0">${element.eventname} (${element.name})</h6>
-                                <small class="text-muted">${start_time} - ${end_time}</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </li>`;
-                });
-                $('#listEvent').html(html);
-            }
-        });
-
-    });
-    // $(document).ready(function() {
-    //     display_count();
-    //     setTimeout(() => {
-    //         var month = $('.fc-toolbar-title').text();
-    //         var date = new Date(month);
-    //         // Get the month and year separately
-    //         var monthNumber = date.getMonth() + 1; // Adding 1 because month index starts from 0
-    //         var year = date.getFullYear();
-    //         $.ajax({
-    //             url: "{{route('monthbaseddata')}}",
-    //             type: 'POST',
-    //             data: {
-    //                 "month": monthNumber,
-    //                 "year": year,
-    //                 "_token": "{{ csrf_token() }}",
-    //             },
-    //             success: function(data) {
-    //                 console.log(data);
-    //                 var html = '';
-    //                 $(data).each(function(index, element) {
-    //                     var start = element.start_time;
-    //                     var start_time = moment(start, 'HH:mm:ss')
-    //                         .format('h:mm A');
-    //                     var end = element.end_time;
-    //                     var end_time = moment(end, 'HH:mm:ss').format(
-    //                         'h:mm A');
-    //                     html += `<li class="list-group-item card mb-3">
-    //             <div class="row align-items-center justify-content-between">
-    //                 <div class="col-auto mb-3 mb-sm-0">
-    //                     <div class="d-flex align-items-center">
-    //                         <div class="theme-avtar bg-info">
-    //                             <i class="ti ti-calendar-event"></i>
-    //                         </div>
-    //                         <div class="ms-3">
-    //                             <h6 class="m-0">${element.eventname} (${element.name})</h6>
-    //                             <small class="text-muted">${start_time} - ${end_time}</small>
-    //                         </div>
-    //                     </div>
-    //                 </div>
-    //             </div>
-    //         </li>`;
-    //                 });
-    //                 $('#listEvent').html(html);
-    //             }
-    //         });
-    //         // console.log('dsf'+ month);
-    //     }, 2450);
-
-    // });
-    // function display_count() {
-    //     var events = new Array();
-    //     $.ajax({
-    //         url: '{{route("eventinformation")}}',
-    //         method: 'GET',
-    //         dataType: 'json',
-    //         success: function(response) {
-    //             var eventDates = {};
-    //             // Count the number of events for each date
-    //             response.forEach(function(event) {
-    //                 var startDate = moment(event.start_date).format('YYYY-MM-DD');
-    //                 if (eventDates[startDate]) {
-    //                     eventDates[startDate]++;
-    //                 } else {
-    //                     eventDates[startDate] = 1;
-    //                 }
-    //             });
-    //             // Convert the event counts into background event objects
-    //             var backgroundEvents = [];
-    //             for (var date in eventDates) {
-    //                 backgroundEvents.push({
-    //                     title: eventDates[date],
-    //                     start: date,
-    //                     textColor: '#fff',
-    //                     display: 'background',
-    //                 });
-    //             }
-    //             let calendarEl = document.getElementById('calendar');
-    //             var calendar = new FullCalendar.Calendar(calendarEl, {
-    //                 headerToolbar: {
-    //                     left: 'prev,next today',
-    //                     center: 'title',
-    //                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
-    //                 },
-    //                 buttonText: {
-    //                     timeGridDay: "{{ __('Day') }}",
-    //                     timeGridWeek: "{{ __('Week') }}",
-    //                     dayGridMonth: "{{ __('Month') }}"
-    //                 },
-    //                 slotLabelFormat: {
-    //                     hour: '2-digit',
-    //                     minute: '2-digit',
-    //                     hour12: false,
-    //                 },
-    //                 themeSystem: 'bootstrap',
-    //                 navLinks: true,
-    //                 droppable: false,
-    //                 selectable: true,
-    //                 selectMirror: true,
-    //                 editable: false,
-    //                 dayMaxEvents: true,
-    //                 handleWindowResize: true,
-    //                 height: 'auto',
-    //                 timeFormat: 'H(:mm)',
-    //                 initialView: 'dayGridMonth',
-    //                 eventDisplay: 'block',
-    //                 select: function(start, end, allDay, info) {
-
-    //                     var selectedStartDate = start.startStr;
-    //                     var selectedEndDate = start.endStr;
-    //                     var formattedStartDate = moment(selectedStartDate).format(
-    //                         'dddd, MMMM DD, YYYY');
-    //                     var selectedDate = moment(selectedStartDate).format('Y-MM-DD');
-    //                     sessionStorage.setItem('selectedDate', selectedDate);
-    //                     document.getElementById('daySelected').innerHTML = formattedStartDate;
-    //                     document.getElementById('selectedDate').setAttribute(
-    //                         'data-date-selected',
-    //                         selectedDate);
-    //                     fetch("{{url('/calender-meeting-data')}}?start=" + start.startStr, {
-    //                             method: "POST",
-    //                             headers: {
-    //                                 "Content-Type": "application/json",
-    //                                 "X-CSRF-Token": "{{ csrf_token() }}",
-    //                             },
-    //                             body: JSON.stringify({
-    //                                 request_type: 'viewMeeting',
-    //                                 start: start.startStr,
-    //                                 end: start.endStr,
-    //                             }),
-    //                         })
-    //                         .then(response => response.json())
-    //                         .then(data => {
-    //                             const JSON = data.events;
-    //                             console.log(JSON);
-
-    //                             if (JSON.length != 0) {
-    //                                 Json = [];
-    //                                 JSON.forEach((event, index, array) => {
-    //                                     var start = event.start_time;
-    //                                     var start_time = moment(start, 'HH:mm:ss')
-    //                                         .format('h:mm A');
-    //                                     var end = event.end_time;
-    //                                     var end_time = moment(end, 'HH:mm:ss')
-    //                                         .format(
-    //                                             'h:mm A');
-    //                                     if (event.attendees_lead == 0) {
-    //                                         eventname = event.eventname;
-    //                                     } else {
-    //                                         eventname = 'event';
-    //                                     }
-    //                                     lists = `
-    //                         <li class="list-group-item card mb-3" data-index="${index}">
-                            
-    //                             <div class="row align-items-center justify-content-between">
-    //                                 <div class="col-auto mb-3 mb-sm-0">
-    //                                     <div class="d-flex align-items-center">
-    //                                         <div class="theme-avtar bg-info">
-    //                                             <i class="ti ti-calendar-event"></i>
-    //                                         </div>
-    //                                         <div class="ms-3">
-    //                                             <h6 class="m-0">${eventname} (${event.name})</h6>
-                                                
-    //                                             <small class="text-muted">${start_time} - ${end_time}</small>
-    //                                         </div>
-
-    //                                     </div>
-
-    //                                 </div>
-    //                             </div>
-    //                     </li>
-    //                     `;
-    //                                     Json.push(lists);
-    //                                 });
-    //                                 document.getElementById('listEvent').innerHTML = Json
-    //                                     .join(
-    //                                         '');
-    //                             } else {
-    //                             var startDate = start.startStr;
-    //                         var endDate = start.endStr;
-    //                         // localStorage.setItem('startDate', JSON.stringify(start));
-    //                         openPopupForm(startDate, endDate);
-    //                                     lists = `<h6 class="m-0">No event found!</h6>`;
-    //                                 document.getElementById('listEvent').innerHTML = lists;
-    //                             }
-    //                             calendar.refetchEvents();
-    //                         })
-    //                         .catch(console.error);
-    //                 },
-
-    //                 events: backgroundEvents
-    //             });
-    //             calendar.render();
-    //         }
-    //     })
-    //     $('.close-popup').on('click', function() {
-    //         closePopupForm();
-    //     });
-    //     $('input[name="venue[]"]').on('change', function() {
-    //         if ($(this).is(':checked')) {
-    //             const valueDataString = localStorage.getItem('startDate');
-    //             const valueDataArg = JSON.parse(valueDataString);
-    //             var startdate = valueDataArg.startStr;
-    //             var enddate = valueDataArg.endStr;
-    //             let venue = $(this).val();
-    //             ff(startdate, enddate, venue);
-    //         } else {
-    //             // console.log("deselect")
-
-    //             $('.venue-checkbox').prop('checked', false);
-    //             $('input[name="start_time"]').attr('min', '00:00');
-    //             $('input[name="start_time"]').val('00:00');
-    //             $('input[name="start_time"]').attr('value', '00:00');
-    //             $('input[name="end_time"]').attr('min', '00:00');
-    //         }
-    //     });
-
-    //     function ff(startdate, enddate, venue) {
-    //         var url = "{{url('/buffer-time')}}";
-
-    //         $.ajax({
-    //             url: url,
-    //             method: "POST",
-    //             data: {
-    //                 "_token": "{{ csrf_token() }}",
-    //                 startdate: startdate,
-    //                 enddate: enddate,
-    //                 venue: venue,
-    //             },
-    //             success: function(data, bufferedTime) {
-    //                 if (data.bufferedTime) {
-    //                     // console.log('Buffered Time:', data.bufferedTime);
-    //                     $('input[name="start_time"]').attr('min', data.bufferedTime);
-    //                     $('input[name="start_time"]').val(data.bufferedTime);
-    //                     $('input[name="start_time"]').attr('value', data.bufferedTime);
-    //                     $('input[name="end_time"]').attr('min', data.bufferedTime);
-
-    //                 } else {
-    //                     // console.log('No data found');
-    //                     $('input[name="start_time"]').attr('min', '00:00');
-    //                     $('input[name="start_time"]').val('00:00');
-    //                     $('input[name="start_time"]').attr('value', '00:00');
-    //                     $('input[name="end_time"]').attr('min', '00:00');
-    //                 }
-    //             },
-    //             error: function(data) {
-    //                 console.log('error');
-    //             },
-    //         });
-    //     }
-
-    //     function openPopupForm(start, end) {
-    //         var enddate = moment(end).subtract(1, 'days').format('yyyy-MM-DD');
-    //         $("input[name = 'start_date']").attr('value', start);
-    //         $("input[name = 'end_date']").attr('value', enddate);
-    //         $("div#popup-form").show();
-    //     }
-
-    //     function closePopupForm() {
-    //         $('#popup-form').hide();
-    //         $('#overlay').hide();
-    //         // document.getElementById('start_time').value = '00:00';
-    //         // document.getElementById('end_time').value = '00:00';
-    //         document.getElementById('purpose').value = '';
-    //         $('.venue-checkbox').prop('checked', false);
-    //         $('input[name="start_time"]').attr('min', '00:00');
-    //         $('input[name="start_time"]').val('00:00');
-    //         $('input[name="start_time"]').attr('value', '00:00');
-    //     }
-    // }
-    $(document).ready(function() {
-        get_data();
-    });
-
-    function get_data() {
-      
-            var urls = "{{route('meeting.get_meeting_data')}}";
-     
-
-        var calender_type = $('#calender_type :selected').val();
-
-        if (calender_type == undefined) {
-            calender_type = 'local_calender';
         }
-        $('#calendar').addClass(calender_type);
+    });
+
+});
+$(document).on('click', 'button.fc-prev-button', function() {
+    document.getElementById('daySelected')
+        .innerHTML = '';
+    var month = $('.fc-toolbar-title').text();
+    var date = new Date(month);
+    // Get the month and year separately
+    var monthNumber = date.getMonth() + 1; // Adding 1 because month index starts from 0
+    var year = date.getFullYear();
+    $.ajax({
+        url: "{{route('monthbaseddata')}}",
+        type: 'POST',
+        data: {
+            "month": monthNumber,
+            "year": year,
+            "_token": "{{ csrf_token() }}",
+        },
+        success: function(data) {
+
+            var html = '';
+            if (data.length != 0) {
+                $(data).each(function(index, element) {
+                    console.log(element.id);
+
+
+                    var start = element.start_time;
+                    var start_time = moment(start, 'HH:mm:ss')
+                        .format('h:mm A');
+                    var end = element.end_time;
+                    var end_time = moment(end, 'HH:mm:ss').format(
+                        'h:mm A');
+                    var start_date = moment(element.start_date).format('D MMM, YYYY');
+                    // var id = element.id;
+                    // var url = '{{route("meeting.detailview", urlencode(encrypt('.id.'))) }}';
+                    var id = element.id;
+                    $.ajax({
+                        url: '{{ route("get.encoded.id", ":id") }}'.replace(':id',
+                            id),
+                        method: 'GET',
+                        dataType: 'json',
+                        success: function(response) {
+                            var encodedId = response.encodedId;
+                            // Now you have the encoded ID, use it as needed
+                            var url =
+                                '{{ route("meeting.detailview", ":encodedId") }}';
+                            url = url.replace(':encodedId', encodedId);
+                            // console.error(url);
+                            html += `<a href="${url}"><li class="list-group-item card mb-3">
+                            <div class="row align-items-center justify-content-between">
+                                <div class="col-auto mb-3 mb-sm-0">
+                                    <div class="d-flex align-items-center">
+                                        <div class="theme-avtar bg-info">
+                                            <i class="ti ti-calendar-event"></i>
+                                        </div>
+                                        <div class="ms-3">
+                                            <h6 class="m-0">${element.eventname} (${element.name})</h6>
+                                            <small class="text-muted">${start_date}</small><br>
+                                            <small class="text-muted">${start_time} - ${end_time}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li></a>`;
+
+                            $('#listEvent').html(html);
+
+                            // Use the URL as needed
+                        },
+                    });
+                });
+            } else {
+
+                html =
+                    `<h6 class="m-0">No event found!</h6>`;
+                document.getElementById('daySelected')
+                    .innerHTML = '';
+                document.getElementById('listEvent')
+                    .innerHTML = html;
+            }
+        }
+
+    });
+
+});
+$(document).ready(function() {
+    display_count();
+    setTimeout(() => {
+        var month = $('.fc-toolbar-title').text();
+        var date = new Date(month);
+        // Get the month and year separately
+        var monthNumber = date.getMonth() + 1; // Adding 1 because month index starts from 0
+        var year = date.getFullYear();
         $.ajax({
-            url: urls,
-            method: "POST",
+            url: "{{route('monthbaseddata')}}",
+            type: 'POST',
             data: {
+                "month": monthNumber,
+                "year": year,
                 "_token": "{{ csrf_token() }}",
-                'calender_type': calender_type
             },
             success: function(data) {
-                (function() {
-                    var etitle;
-                    var etype;
-                    var etypeclass;
-                    var calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
+                console.log(data);
+                var html = '';
+                $(data).each(function(index, element) {
+                    var start = element.start_time;
+                    var start_time = moment(start, 'HH:mm:ss')
+                        .format('h:mm A');
+                    var end = element.end_time;
+                    var end_time = moment(end, 'HH:mm:ss').format(
+                        'h:mm A');
+                    var start_date = moment(element.start_date).format(
+                        'D MMM, YYYY');
+                    var id = element.id;
+                    $.ajax({
+                        url: '{{ route("get.encoded.id", ":id") }}'.replace(
+                            ':id', id),
+                        method: 'GET',
+                        dataType: 'json',
+                        success: function(response) {
+                            var encodedId = response.encodedId;
+                            // Now you have the encoded ID, use it as needed
+                            var url =
+                                '{{ route("meeting.detailview", ":encodedId") }}';
+                            url = url.replace(':encodedId', encodedId);
+                            html += `<a href="${url}"><li class="list-group-item card mb-3">
+                <div class="row align-items-center justify-content-between">
+                    <div class="col-auto mb-3 mb-sm-0">
+                        <div class="d-flex align-items-center">
+                            <div class="theme-avtar bg-info">
+                                <i class="ti ti-calendar-event"></i>
+                            </div>
+                            <div class="ms-3">
+                                <h6 class="m-0">${element.eventname} (${element.name})</h6>
+                                <small class="text-muted">${start_date}</small><br>
+                                <small class="text-muted">${start_time} - ${end_time}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li></a>`;
+                            $('#listEvent').html(html);
+
+                            // Use the URL as needed
+                        },
+                    });
+
+                });
+            }
+        });
+        // console.log('dsf'+ month);
+    }, 2450);
+
+});
+
+function display_count() {
+    var events = new Array();
+    $.ajax({
+        url: '{{route("eventinformation")}}',
+        method: 'GET',
+        dataType: 'json',
+        success: function(response) {
+            document.getElementById('daySelected').innerHTML =
+                '';
+
+            var eventDates = {};
+            // Count the number of events for each date
+            response.forEach(function(event) {
+                var startDate = moment(event.start_date).format('YYYY-MM-DD');
+                if (eventDates[startDate]) {
+                    eventDates[startDate]++;
+                } else {
+                    eventDates[startDate] = 1;
+                }
+            });
+
+            // Convert the event counts into background event objects
+            var backgroundEvents = [];
+            console.log(eventDates);
+            for (var date in eventDates) {
+                backgroundEvents.push({
+                    title: eventDates[date],
+                    start: date,
+                    textColor: '#fff',
+                    display: 'background',
+                });
+            }
+            $.ajax({
+                url: '{{ route("blockedDatesInformation") }}',
+                method: 'GET',
+                dataType: 'json',
+                success: function(blockedDates) {
+                   
+                    blockedDates.forEach(function(event) {
+                        var startDate = moment(event.start_date).format('YYYY-MM-DD');
+                        var endDate = moment(event.end_date).format('YYYY-MM-DD');
+                        backgroundEvents.push({
+                            title: event.purpose + ' (Blocked)',
+                            start: startDate,
+                            end: endDate,
+                            textColor: '#fff',
+                            color: '#8fa6b3',
+                            url :  '{{url("/show-blocked-date-popup")}}/' + event.id
+                        });
+                    });
+                    let calendarEl = document.getElementById('calendar');
+                    var calendar = new FullCalendar.Calendar(calendarEl, {
                         headerToolbar: {
                             left: 'prev,next today',
                             center: 'title',
@@ -570,7 +479,7 @@ li.item-event>p:nth-child(2) {
                         buttonText: {
                             timeGridDay: "{{ __('Day') }}",
                             timeGridWeek: "{{ __('Week') }}",
-                            dayGridMonth: "{{ __('Month') }}",
+                            dayGridMonth: "{{ __('Month') }}"
                         },
                         slotLabelFormat: {
                             hour: '2-digit',
@@ -580,21 +489,109 @@ li.item-event>p:nth-child(2) {
                         themeSystem: 'bootstrap',
                         navLinks: true,
                         droppable: false,
-                        eventLimit: true,
                         selectable: true,
                         selectMirror: true,
                         editable: false,
-                        dayMaxEvents: 1,
+                        dayMaxEvents: true,
                         handleWindowResize: true,
                         height: 'auto',
                         timeFormat: 'H(:mm)',
-                        events: data,
-                        select: function(info) {
-                            var startDate = info.startStr;
-                            var endDate = info.endStr;
-                            localStorage.setItem('startDate', JSON.stringify(info));
-                            openPopupForm(startDate, endDate);
+                        initialView: 'dayGridMonth',
+                        eventDisplay: 'block',
+                        select: function(start, end, allDay, info) {
+
+                            var selectedStartDate = start.startStr;
+                            var selectedEndDate = start.endStr;
+
+                            var formattedStartDate = moment(selectedStartDate)
+                                .format(
+                                    'dddd, MMMM DD, YYYY');
+                            var selectedDate = moment(selectedStartDate).format(
+                                'Y-MM-DD');
+                            sessionStorage.setItem('selectedDate', selectedDate);
+                            document.getElementById('daySelected').innerHTML =
+                                formattedStartDate;
+                            document.getElementById('selectedDate').setAttribute(
+                                'data-date-selected',
+                                selectedDate);
+                            fetch("{{url('/calender-meeting-data')}}?start=" + start
+                                    .startStr, {
+                                        method: "POST",
+                                        headers: {
+                                            "Content-Type": "application/json",
+                                            "X-CSRF-Token": "{{ csrf_token() }}",
+                                        },
+                                        body: JSON.stringify({
+                                            request_type: 'viewMeeting',
+                                            start: start.startStr,
+                                            end: start.endStr,
+                                        }),
+                                    })
+                                .then(response => response.json())
+                                .then(data => {
+                                    const JSON = data.events;
+                                    console.log(JSON);
+
+                                    if (JSON.length != 0) {
+                                        Json = [];
+                                        JSON.forEach((event, index, array) => {
+                                            var start = event
+                                                .start_time;
+                                            var start_time = moment(
+                                                    start, 'HH:mm:ss')
+                                                .format('h:mm A');
+                                            var end = event.end_time;
+                                            var end_time = moment(end,
+                                                    'HH:mm:ss')
+                                                .format(
+                                                    'h:mm A');
+                                            if (event.attendees_lead ==
+                                                0) {
+                                                eventname = event
+                                                    .eventname;
+                                            } else {
+                                                eventname = 'event';
+                                            }
+                                            lists = `
+                                        <li class="list-group-item card mb-3" data-index="${index}">
+                                        
+                                            <div class="row align-items-center justify-content-between">
+                                                <div class="col-auto mb-3 mb-sm-0">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="theme-avtar bg-info">
+                                                            <i class="ti ti-calendar-event"></i>
+                                                        </div>
+                                                        <div class="ms-3">
+                                                            <h6 class="m-0">${eventname} (${event.name})</h6>
+                                                            
+                                                            <small class="text-muted">${start_time} - ${end_time}</small>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                    </li>
+                                    `;
+                                            Json.push(lists);
+                                        });
+                                        document.getElementById('listEvent')
+                                            .innerHTML = Json
+                                            .join(
+                                                '');
+                                    } else {
+                                        // localStorage.setItem('startDate', JSON.stringify(start));
+                                        openPopupForm(selectedStartDate,selectedEndDate);
+                                        lists =
+                                            `<h6 class="m-0">No event found!</h6>`;
+                                        document.getElementById('listEvent')
+                                            .innerHTML = lists;
+                                    }
+                                    calendar.refetchEvents();
+                                })
+                                .catch(console.error);
                         },
+                        events: backgroundEvents,
                         eventContent: function(arg) {
                             return {
                                 html: arg.event.title,
@@ -602,97 +599,100 @@ li.item-event>p:nth-child(2) {
                         },
                         eventMouseEnter: function(arg) {
                             if (arg.event.extendedProps.blocked_by) {
-                                arg.el.innerHTML += '<div class="blocked-by-tooltip">' + 'By:' + arg.event.extendedProps.blocked_by + '</div>';
+                                arg.el.innerHTML +=
+                                    '<div class="blocked-by-tooltip">' + 'By:' + arg
+                                    .event.extendedProps.blocked_by + '</div>';
                             }
                         },
-
                         eventMouseLeave: function(arg) {
-                            var tooltip = arg.el.querySelector('.blocked-by-tooltip');
+                            var tooltip = arg.el.querySelector(
+                                '.blocked-by-tooltip');
                             if (tooltip) {
                                 tooltip.remove();
                             }
                         },
                     });
                     calendar.render();
-                })();
-            }
-
-        });
-        $('.close-popup').on('click', function() {
-            closePopupForm();
-        });
-        $('input[name="venue[]"]').on('change', function() {
-            if ($(this).is(':checked')) {
-                const valueDataString = localStorage.getItem('startDate');
-                const valueDataArg = JSON.parse(valueDataString);
-                var startdate = valueDataArg.startStr;
-                var enddate = valueDataArg.endStr;
-                let venue = $(this).val();
-                ff(startdate, enddate, venue);
-            } else {
-                // console.log("deselect")
-
-                $('.venue-checkbox').prop('checked', false);
-                $('input[name="start_time"]').attr('min', '00:00');
-                $('input[name="start_time"]').val('00:00');
-                $('input[name="start_time"]').attr('value', '00:00');
-                $('input[name="end_time"]').attr('min', '00:00');
-            }
-        });
-
-        function ff(startdate, enddate, venue) {
-            var url = "{{url('/buffer-time')}}";
-
-            $.ajax({
-                url: url,
-                method: "POST",
-                data: {
-                    "_token": "{{ csrf_token() }}",
-                    startdate: startdate,
-                    enddate: enddate,
-                    venue: venue,
-                },
-                success: function(data, bufferedTime) {
-                    if (data.bufferedTime) {
-                        // console.log('Buffered Time:', data.bufferedTime);
-                        $('input[name="start_time"]').attr('min', data.bufferedTime);
-                        $('input[name="start_time"]').val(data.bufferedTime);
-                        $('input[name="start_time"]').attr('value', data.bufferedTime);
-                        $('input[name="end_time"]').attr('min', data.bufferedTime);
-
-                    } else {
-                        // console.log('No data found');
-                        $('input[name="start_time"]').attr('min', '00:00');
-                        $('input[name="start_time"]').val('00:00');
-                        $('input[name="start_time"]').attr('value', '00:00');
-                        $('input[name="end_time"]').attr('min', '00:00');
-                    }
-                },
-                error: function(data) {
-                    console.log('error');
-                },
+                }
             });
-        }
 
-        function openPopupForm(start, end) {
-            var enddate = moment(end).subtract(1, 'days').format('yyyy-MM-DD');
-            $("input[name = 'start_date']").attr('value', start);
-            $("input[name = 'end_date']").attr('value', enddate);
-            $("div#popup-form").show();
         }
+    })
+    $('.close-popup').on('click', function() {
+        closePopupForm();
+    });
+    $('input[name="venue[]"]').on('change', function() {
+        if ($(this).is(':checked')) {
+            const valueDataString = localStorage.getItem('startDate');
+            const valueDataArg = JSON.parse(valueDataString);
+            var startdate = valueDataArg.startStr;
+            var enddate = valueDataArg.endStr;
+            let venue = $(this).val();
+            ff(startdate, enddate, venue);
+        } else {
+            // console.log("deselect")
 
-        function closePopupForm() {
-            $('#popup-form').hide();
-            $('#overlay').hide();
-            // document.getElementById('start_time').value = '00:00';
-            // document.getElementById('end_time').value = '00:00';
-            document.getElementById('purpose').value = '';
             $('.venue-checkbox').prop('checked', false);
-            $('input[name="start_time"]').attr('min', '00:00');
-            $('input[name="start_time"]').val('00:00');
-            $('input[name="start_time"]').attr('value', '00:00');
+            // $('input[name="start_time"]').attr('min', '00:00');
+            // $('input[name="start_time"]').val('00:00');
+            // $('input[name="start_time"]').attr('value', '00:00');
+            // $('input[name="end_time"]').attr('min', '00:00');
         }
+    });
 
+    function ff(startdate, enddate, venue) {
+        var url = "{{url('/buffer-time')}}";
+
+        $.ajax({
+            url: url,
+            method: "POST",
+            data: {
+                "_token": "{{ csrf_token() }}",
+                startdate: startdate,
+                enddate: enddate,
+                venue: venue,
+            },
+            success: function(data, bufferedTime) {
+                if (data.bufferedTime) {
+                    // console.log('Buffered Time:', data.bufferedTime);
+                    $('input[name="start_time"]').attr('min', data.bufferedTime);
+                    $('input[name="start_time"]').val(data.bufferedTime);
+                    $('input[name="start_time"]').attr('value', data.bufferedTime);
+                    $('input[name="end_time"]').attr('min', data.bufferedTime);
+
+                } else {
+                    // console.log('No data found');
+                    $('input[name="start_time"]').attr('min', '00:00');
+                    $('input[name="start_time"]').val('00:00');
+                    $('input[name="start_time"]').attr('value', '00:00');
+                    $('input[name="end_time"]').attr('min', '00:00');
+                }
+            },
+            error: function(data) {
+                console.log('error');
+            },
+        });
     }
-    </script>
+
+    function openPopupForm(start, end) {
+        var enddate = moment(end).subtract(1, 'days').format('yyyy-MM-DD');
+        $("input[name = 'start_date']").attr('value', start);
+        $("input[name = 'end_date']").attr('value', enddate);
+        $("div#popup-form").show();
+    }
+
+    function closePopupForm() {
+        $('#popup-form').hide();
+        $('#overlay').hide();
+        // document.getElementById('start_time').value = '00:00';
+        // document.getElementById('end_time').value = '00:00';
+        document.getElementById('purpose').value = '';
+        $('.venue-checkbox').prop('checked', false);
+        $('input[name="start_time"]').attr('min', '00:00');
+        $('input[name="start_time"]').val('00:00');
+        $('input[name="start_time"]').attr('value', '00:00');
+    }
+}
+</script>
+
 @endpush
