@@ -7,10 +7,10 @@ if(isset($billing) && !empty($billing)){
 $startdate = \Carbon\Carbon::createFromFormat('Y-m-d', $lead->start_date)->format('d/m/Y');
 $enddate = \Carbon\Carbon::createFromFormat('Y-m-d', $lead->end_date)->format('d/m/Y');
 ?>
-<div class="row card">
+<div class="row card" style="display:none">
     <div class="col-md-12">
         <h5 class="headings"><b>Billing Summary - ESTIMATE</b></h5>
-        <table class="table table-bordered" style="display:none">
+        <table class="table table-bordered">
             <thead>
                 <tr>
                     <th style="text-align:left; font-size:13px;text-align:left; padding:5px 5px; margin-left:5px;">
@@ -177,7 +177,7 @@ $enddate = \Carbon\Carbon::createFromFormat('Y-m-d', $lead->end_date)->format('d
         </table>
     </div>
 </div>
-<div class="row  mt-4">
+<div class="row ">
     <div class="col-md-12">
         <div class="card ">
             <div class="card-body">
@@ -196,12 +196,7 @@ $enddate = \Carbon\Carbon::createFromFormat('Y-m-d', $lead->end_date)->format('d
                     <dd class="col-md-6"><span class=""><?php echo e($lead->lead_address ?? '--'); ?></span></dd>
 
                     <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Event Date')); ?></span></dt>
-                    <dd class="col-md-6"><span class="">
-
-                            <?php echo e(\Auth::user()->dateFormat($lead->start_date)); ?>
-
-
-                        </span></dd>
+                    <dd class="col-md-6"><span class=""><?php echo e(\Auth::user()->dateFormat($lead->start_date)); ?></span></dd>
 
                     <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Time')); ?></span></dt>
                     <dd class="col-md-6"><span class="">

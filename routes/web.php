@@ -429,6 +429,7 @@ Route::group(['middleware' => ['verified']], function () {
         ],
         function () {
           Route::resource('billing',BillingController::class);
+
           Route::get('billing/create/{type}/{id}',[BillingController::class,'create'])->name('billing.create');
           Route::post('billing/add-data/{id}',[BillingController::class,'store'])->name('billing.addbilling');
           Route::post('billing/event',[BillingController::class,'get_event_info'])->name('billing.eventdetail');
@@ -437,6 +438,7 @@ Route::group(['middleware' => ['verified']], function () {
           Route::get('billing/payment-info/{id}',[BillingController::class,'paymentinformation'])->name('billing.paymentinfo');
           Route::post('billing/payment-info/{id}',[BillingController::class,'paymentupdate'])->name('billing.paymentinfoupdate');
           Route::get('billing/payment-link/{id}',[BillingController::class,'paymentlink'])->name('billing.paylink');
+          Route::get('billing/invoicpdf/{id}',[BillingController::class,'invoicepdf'])->name('billing.invoicepdf');
 
         }
     );

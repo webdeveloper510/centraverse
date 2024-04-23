@@ -11,8 +11,10 @@
 <?php $__env->startSection('breadcrumb'); ?>
 <li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Home')); ?></a></li>
 <li class="breadcrumb-item"><?php echo e(__('Leads')); ?></li>
+
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('action-btn'); ?>
+
 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Lead')): ?>
 <a href="#" data-url="<?php echo e(route('lead.create',['lead',0])); ?>" data-size="lg" data-ajax-popup="true"
     data-bs-toggle="tooltip" data-title="<?php echo e(__('Create New Lead')); ?>" title="<?php echo e(__('Create')); ?>"
@@ -23,10 +25,11 @@
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 <div class="container-field">
-    <div id="wrapper">
 
+    <div id="wrapper">
         <div id="page-content-wrapper">
             <div class="container-fluid xyz">
+
                 <div class="row">
                     <div class="col-lg-12">
                         <div id="useradd-1" class="card">
@@ -106,7 +109,7 @@
                                                     <?php endif; ?>
                                                     <?php if($lead->status == 0 ): ?>
                                                     <div class="action-btn bg-primary ms-2">
-                                                        <a href="#" data-size="md"
+                                                        <a href="javascript:void(0);" data-size="md"
                                                             data-url="<?php echo e(route('lead.shareproposal',urlencode(encrypt($lead->id)))); ?>"
                                                             data-ajax-popup="true" data-bs-toggle="tooltip"
                                                             data-title="<?php echo e(__('Proposal')); ?>"
@@ -147,7 +150,7 @@
                                                             data-ajax-popup="true" data-title="<?php echo e(__('Lead Details')); ?>"
                                                             class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-eye"></i> -->
-                                                            <a href="#" data-size="md"
+                                                            <a href="javascript:void(0);" data-size="md"
                                                             data-url="<?php echo e(route('lead.show',$lead->id)); ?>"
                                                             data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>"
                                                             data-ajax-popup="true" data-title="<?php echo e(__('Lead Details')); ?>"
@@ -172,7 +175,7 @@
                                                         <?php echo Form::open(['method' => 'DELETE', 'route' =>
                                                         ['lead.destroy', $lead->id]]); ?>
 
-                                                        <a href="#!"
+                                                        <a href="javascript:void(0);"
                                                             class="mx-3 btn btn-sm  align-items-center text-white show_confirm"
                                                             data-bs-toggle="tooltip" title='Delete'>
                                                             <i class="ti ti-trash"></i>
@@ -308,7 +311,14 @@ $('select[name = "lead_status"]').on('change', function() {
             "_token": "<?php echo e(csrf_token()); ?>"
         },
         success: function(data) {
-            console.log(data);
+            if(val == 1){
+                show_toastr('Primary', 'Lead Activated', 'primary');
+            }else{
+                show_toastr('Success', 'Lead InActivated', 'success');
+
+            }
+            console.log(val)
+        
         }
     });
 })

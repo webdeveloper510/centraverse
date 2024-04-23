@@ -277,13 +277,17 @@ class LeadController extends Controller
                 [
                     'name' => 'required|max:120',
                     'phone' => 'required',
+                    'venue' =>'required',
+                    'function'=>'required'
                    
                 ]
             );
             if ($validator->fails()) {
                 $messages = $validator->getMessageBag();
-
-                return redirect()->back()->with('error', $messages->first());
+                return redirect()->back()->with('error', $messages->first()) 
+                ->withErrors($validator)
+                ->withInput();
+                // return redirect()->back()->with('error', $messages->first());
             }
             $data = $request->all();
             $package = [];
@@ -350,6 +354,17 @@ class LeadController extends Controller
             $lead['lead_status']        = ($request->is_active == 'on') ? 1 : 0;
             $lead['created_by']         = \Auth::user()->creatorId();
             $lead->update();
+            $statuss = Lead::$stat;
+
+            if(\Auth::user()->type == 'owner'){
+            $leads = Lead::with('accounts','assign_user')->where('created_by', \Auth::user()->creatorId())->orderby('id','desc')->get();
+         
+            }
+            else{
+            $leads = Lead::with('accounts','assign_user')->where('user_id', \Auth::user()->id)->get();
+          
+            }
+            // return view('lead.index', compact('leads','statuss'))->with('success', __('Lead  Updated.'));
             return redirect()->back()->with('success', __('Lead  Updated.'));
         } else {
             return redirect()->back()->with('error', 'permission Denied');
@@ -677,7 +692,9 @@ class LeadController extends Controller
         $venue_function = explode(',', $lead->venue_selection);
         $function_package =  explode(',', $lead->function);
         $status   = Lead::$status;
-        $users     = User::where('created_by', \Auth::user()->creatorId())->get();             
+        $users     = User::where('created_by', \Auth::user()->creatorId())->get();           
+        // $proposal = ProposalInfo::where('lead_id',$id)->orderby('id','desc')->first();
+        // echo "<pre>";print_r($proposal);die;  
         return view('lead.review_proposal',compact('lead','venue_function','function_package','users','status'));
     }
     public function review_proposal_data(Request $request, $id){
@@ -767,6 +784,7 @@ class LeadController extends Controller
             }elseif($status == 5){
                 $subject = 'Lead Details';
                 $content = '';
+                $proposalinfo = ProposalInfo::where('lead_id',$id)->orderby('id','desc')->first();
                 try {
                     config(
                         [
@@ -779,18 +797,19 @@ class LeadController extends Controller
                             'mail.from.name'    => $settings['mail_from_name'],
                         ]
                     );
-        
-                    Mail::to($request->email)->send(new SendPdfEmail($lead,$subject,$content,$tempFilePath = NULL));
+                    Mail::to($request->email)->send(new SendPdfEmail($lead,$subject,$content,$proposalinfo));
+
+                    // Mail::to($request->email)->send(new SendPdfEmail($lead,$subject,$content,$tempFilePath = NULL));
                     // unlink($tempFilePath);
                     // $upd = Lead::where('id',$id)->update(['status' => 1]);
                 } catch (\Exception $e) {
-                      return response()->json(
-                                [
-                                    'is_success' => false,
-                                    'message' => $e->getMessage(),
-                                ]
-                            );
-                    //   return redirect()->back()->with('success', 'Email Not Sent');
+                    //   return response()->json(
+                    //             [
+                    //                 'is_success' => false,
+                    //                 'message' => $e->getMessage(),
+                    //             ]
+                    //         );
+                      return redirect()->back()->with('success', 'Email Not Sent');
               
                 }
                 return redirect()->back()->with('success', __('Lead Resent.'));
@@ -812,7 +831,7 @@ class LeadController extends Controller
         $newlead['relationship']       = $lead->relationship;
         $newlead['created_by']         = \Auth::user()->creatorId();
         $newlead->save();
-        return redirect()->back()->with('Success','Lead Cloned successfully');
+        return redirect()->back()->with('success','Lead Cloned successfully');
     }
     public function lead_info($id){
         $id = decrypt(urldecode($id));

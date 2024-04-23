@@ -207,4 +207,10 @@ class BillingController extends Controller
         return redirect()->back()->with('success', 'Payment Link shared Sucessfully');
 
     }
+    
+    public function invoicepdf(Request $request,$id){
+        $paymentinfo = PaymentInfo::where('event_id',$id)->get()->toArray();
+        $pdf = PDF::loadView('billing.mail.inv', $paymentinfo);
+        return $pdf->stream('billing.pdf');              
+    }
 }
