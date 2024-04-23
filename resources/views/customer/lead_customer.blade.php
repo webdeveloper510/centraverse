@@ -25,7 +25,6 @@
                                         <thead>
                                             <tr>
                                                 <th scope="col" class="sort" data-sort="name">{{__('Name')}}</th>
-                                                <th scope="col" class="sort">{{__('Status')}}</th>
                                                 <th scope="col" class="sort" data-sort="budget">{{__('Email')}}</th>
                                                 <th scope="col" class="sort">{{__('Phone')}}</th>
                                                 <th scope="col" class="sort">{{__('Address')}}</th>
@@ -40,18 +39,10 @@
                                                         <td><a href="{{ route('lead.userinfo',urlencode(encrypt($user->id))) }}" data-size="md" title="{{ __('Lead Details') }}"  class="action-item text-primary" style="color:#1551c9 !important;">
                                                <b> {{ ucfirst($user->name) }}</b>
                                                         </a></td>
-                                                        <td>
-                                                @if ($user->lead_status == 1)
-                                                    <span
-                                                        class="badge bg-success p-2 px-3 rounded">{{App\Models\Lead::$stat[$user->lead_status]}}</span>
-                                                @else
-                                                    <span
-                                                        class="badge bg-danger p-2 px-3 rounded">{{App\Models\Lead::$stat[$user->lead_status]}}</span>
-                                                @endif
-                                                </td>
+                                                       
                                                 <td><span>{{$user->email}}</span></td>
                                                 <td><span>{{$user->phone}}</span></td>
-                                                <td><span>{{$user->lead_address}}</span></td>
+                                                <td><span>{{$user->address}}</span></td>
                                                 <td><span>{{$user->type}}</span></td>
                                                
                                             </tr>

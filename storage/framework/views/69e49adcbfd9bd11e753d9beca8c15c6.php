@@ -28,80 +28,59 @@
                         <div id="useradd-1" class="card">
                             <div class="card-body table-border-style">
                                 <div class="row align-items-center">
-                                <div class="col-md-4  mt-1">
-                                        <small class="h6  mb-3 mb-md-0"><?php echo e(__('Lead Status')); ?></small>
-                                    </div>
-                                    <div class="col-md-5  mt-1">
-                                        <span class="">
-                                            <?php echo e(__(\App\Models\Lead::$stat[$lead->lead_status])); ?>
+                                    <table class="table datatable" id="datatable">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Name')); ?></th>
+                                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Lead Type')); ?></th>
+                                                <th scope="col" class="sort"><?php echo e(__('Guest Count')); ?></th>
+                                                <th scope="col" class="sort"><?php echo e(__('Event Date')); ?></th>
+                                                <th scope="col" class="sort"><?php echo e(__('Function')); ?></th>
+                                                <th scope="col" class="sort"><?php echo e(__('Bar')); ?></th>
+                                                <th scope="col" class="sort"><?php echo e(__('Status')); ?></th>
 
-                                        </span>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <small class="h6  mb-3 mb-md-0"><?php echo e(__('Name')); ?> </small>
-                                    </div>
-                                    <div class="col-md-5">
-                                        <span class=""><?php echo e($lead->name); ?></span>
-                                    </div>
-                                    <div class="col-md-4  mt-1">
-                                        <small class="h6  mb-3 mb-md-0"><?php echo e(__('Email')); ?></small>
-                                    </div>
-                                    <div class="col-md-5  mt-1">
-                                        <span class=""><?php echo e($lead->email); ?></span>
-                                    </div>
-                                    <div class="col-md-4  mt-1">
-                                        <small class="h6  mb-3 mb-md-0"><?php echo e(__('Phone')); ?></small>
-                                    </div>
-                                    <div class="col-md-5  mt-1">
-                                        <span class=""><?php echo e($lead->phone); ?></span>
-                                    </div>
-                                    <div class="col-md-4  mt-1">
-                                        <small class="h6  mb-3 mb-md-0"><?php echo e(__('Address')); ?></small>
-                                    </div>
-                                    <div class="col-md-5  mt-1">
-                                        <span class=""><?php echo e($lead->lead_address ?? '--'); ?></span>
-                                    </div>
-                                    <div class="col-md-4  mt-1">
-                                        <small class="h6  mb-3 mb-md-0"><?php echo e(__('Lead Type')); ?></small>
-                                    </div>
-                                    <div class="col-md-5  mt-1">
-                                        <span class=""><?php echo e($lead->type); ?></span>
-                                    </div>
-                                    <div class="col-md-4  mt-1">
-                                        <small class="h6  mb-3 mb-md-0"><?php echo e(__('Date')); ?></small>
-                                    </div>
-                                    <div class="col-md-5  mt-1">
-                                        <span class=""> <?php if($lead->start_date == $lead->end_date): ?>
-                                            <?php echo e(\Auth::user()->dateFormat($lead->start_date)); ?>
+                                                <th scope="col" class="sort"><?php echo e(__('Created On')); ?></th>
+                                            
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php $__currentLoopData = $leads; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $lead): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <tr>
+                                                <td>
+                                                    <a href="<?php echo e(route('lead.info',urlencode(encrypt($lead->id)))); ?>"
+                                                        data-size="md" title="<?php echo e(__('Lead Details')); ?>"
+                                                        class="action-item text-primary"
+                                                        style="color:#1551c9 !important;">
+                                                        <b> <?php echo e(ucfirst($lead->name)); ?></b>
+                                                    </a>
+                                                </td>
+                                                <td><b> <?php echo e(ucfirst($lead->type)); ?></b></td>
+                                                <td>
+                                                    <span class="budget"><?php echo e($lead->guest_count); ?></span>
+                                                </td>
+                                                <td><?php echo e(\Auth::user()->dateFormat($lead->start_date)); ?></td>
 
-                                            <?php else: ?>
-                                            <?php echo e(\Auth::user()->dateFormat($lead->start_date)); ?> -
-                                            <?php echo e(\Auth::user()->dateFormat($lead->end_date)); ?>
+                                                <td><?php echo e(ucfirst($lead->function)); ?></td>
+                                                <td><?php echo e(($lead->bar)); ?></td>
 
-                                            <?php endif; ?>
-                                        </span>
-                                    </div>
-                                    <div class="col-md-4  mt-1">
-                                        <small class="h6  mb-3 mb-md-0"><?php echo e(__('Status')); ?></small>
-                                    </div>
-                                    <div class="col-md-5  mt-1">
-                                        <span class="">
-                                            <?php echo e(__(\App\Models\Lead::$status[$lead->status])); ?>
+                                                <td><?php echo e(__(\App\Models\Lead::$status[$lead->status])); ?></td>
+                                                <td><?php echo e(\Auth::user()->dateFormat($lead->created_at)); ?></td>
 
-                                        </span>
-                                    </div>
-                                 
+                                            </tr>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-               
+
 
                 <div class="container-fluid xyz mt-3">
                     <div class="row">
-                        
-                    <div class="col-lg-6">
+
+                        <div class="col-lg-6">
                             <div class="card" id="useradd-1">
                                 <div class="card-body table-border-style">
                                     <h3>Attachments</h3>

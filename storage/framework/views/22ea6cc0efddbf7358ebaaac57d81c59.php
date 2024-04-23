@@ -19,7 +19,14 @@ $additional_items = json_decode($settings['additional_items'],true);
 }
 
 ?>
-
+<style>
+    
+.fa-asterisk{
+    font-size: xx-small;
+    position: absolute;
+    padding: 1px;
+}
+</style>
 <?php echo e(Form::open(array('url'=>'lead','method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))); ?>
 
 <input type="hidden" name="storedid" value="">
@@ -28,11 +35,9 @@ $additional_items = json_decode($settings['additional_items'],true);
         <div class="form-group">
             <?php echo e(Form::label('lead_name',__('Lead Name'),['class'=>'form-label'])); ?>
 
-            <!-- <span class="text-sm"> <i class="fa fa-asterisk text-danger" aria-hidden="true" style="    font-size: xx-small;
-    position: absolute;
-    padding: 1px;"></i></span>
-            -->
-
+            <span class="text-sm"> 
+                <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+            </span>
             <?php echo e(Form::text('lead_name',null,array('class'=>'form-control','placeholder'=>__('Enter Lead Name'),'required'=>'required'))); ?>
 
         </div>
@@ -52,6 +57,9 @@ $additional_items = json_decode($settings['additional_items'],true);
         <div class="form-group">
             <?php echo e(Form::label('name',__('Name'),['class'=>'form-label'])); ?>
 
+            <span class="text-sm"> 
+                <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+            </span>
             <?php echo e(Form::text('name',null,array('class'=>'form-control','placeholder'=>__('Enter Name'),'required'=>'required'))); ?>
 
         </div>
@@ -68,9 +76,12 @@ $additional_items = json_decode($settings['additional_items'],true);
         <div class="form-group ">
             <?php echo e(Form::label('name',__('Phone'),['class'=>'form-label'])); ?>
 
+            <span class="text-sm"> 
+                <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+            </span>
             <div class="intl-tel-input">
                 <input type="tel" id="phone-input" name="phone" class="phone-input form-control"
-                    placeholder="Enter Phone" maxlength="16" required>
+                    placeholder="Enter Phone" maxlength="16">
                 <input type="hidden" name="countrycode" id="country-code">
             </div>
         </div>
@@ -79,6 +90,7 @@ $additional_items = json_decode($settings['additional_items'],true);
         <div class="form-group">
             <?php echo e(Form::label('email',__('Email'),['class'=>'form-label'])); ?>
 
+            
             <?php echo e(Form::text('email',null,array('class'=>'form-control','placeholder'=>__('Enter Email')))); ?>
 
         </div>
@@ -106,7 +118,9 @@ $additional_items = json_decode($settings['additional_items'],true);
         <div class="form-group">
             <?php echo e(Form::label('type',__('Event Type'),['class'=>'form-label'])); ?>
 
-
+            <span class="text-sm"> 
+                <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+            </span>
             <select name="type" id="type" class="form-control" required>
                 <option value="">Select Type</option>
                 <?php $__currentLoopData = $type_arr; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $type): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -135,7 +149,10 @@ $additional_items = json_decode($settings['additional_items'],true);
         <div class="form-group">
             <?php echo e(Form::label('start_date', __('Date of Event'), ['class' => 'form-label'])); ?>
 
-            <?php echo Form::date('start_date', date('Y-m-d'), ['class' => 'form-control']); ?>
+            <span class="text-sm"> 
+                <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+            </span>
+            <?php echo Form::date('start_date', date('Y-m-d'), ['class' => 'form-control','required' =>'required']); ?>
 
         </div>
     </div>
@@ -341,6 +358,39 @@ $additional_items = json_decode($settings['additional_items'],true);
 }
 </style>
 <script>
+ $(document).ready(function() {  
+    $("input[type='text'][name='lead_name'],input[type='text'][name='name'], input[type='text'][name='email'], select[name='type'],input[type='tel'][name='phone']").focusout(function() {  
+          
+        var input = $(this);
+        var errorMessage = '';
+        if (input.attr('name') === 'email' && input.val() !== '') {
+            var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(input.val())) {
+                errorMessage = 'Invalid email address.';
+            }
+        } else if (input.val() == '') {
+            errorMessage = 'This field is required.';
+        }
+        
+        if(errorMessage  != '') {  
+            input.css('border', 'solid 2px red');
+        } 
+        else { 
+            // If it is not blank. 
+            input.css('border', 'solid 2px black');
+        }
+        
+        // Remove any existing error message
+        input.next('.validation-error').remove();
+        
+        // Append the error message if it exists
+        if(errorMessage != '') {
+            input.after('<div class="validation-error text-danger" style="padding:2px;">' + errorMessage + '</div>');
+        }
+    }); 
+});
+
+
 $(document).ready(function() {
     var input = document.querySelector("#phone-input");
     var iti = window.intlTelInput(input, {

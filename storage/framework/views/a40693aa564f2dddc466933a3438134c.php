@@ -52,12 +52,7 @@
                                     <div class="col-md-5  mt-1">
                                         <span class=""><?php echo e($users->category); ?></span>
                                     </div>
-                                    <div class="col-md-4  mt-1">
-                                        <small class="h6  mb-3 mb-md-0"><?php echo e(__('Notes')); ?></small>
-                                    </div>
-                                    <div class="col-md-5  mt-1">
-                                        <span class=""><?php echo e($users->notes); ?></span>
-                                    </div>
+                                   
                                 </div>
                             </div>
                         </div>
@@ -127,6 +122,10 @@
                                         <th>Date</th>
                                     </thead>
                                     <tbody>
+                                        <tr><td><?php echo e($users->notes); ?></td>
+                                        <td><?php echo e(App\Models\User::where('id', $users->created_by)->first()->name); ?></td>
+                                        <td><?php echo e(\Auth::user()->dateFormat($users->created_at)); ?></td>
+                                    </tr>
                                         <?php $__currentLoopData = $notes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $note): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <tr>
                                             <td><?php echo e(ucfirst($note->notes)); ?></td>

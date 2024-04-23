@@ -70,7 +70,7 @@
                                                         <option value="{{ $key }}"
                                                             {{ isset($lead->lead_status) && $lead->lead_status == $key ? "selected" : "" }}>
                                                             {{ $stat }}</option>
-                                                        @endforeach
+                                                        @endforeach</td>
                                                 <td>
                                                     @if($lead->status == 0)
                                                     <span

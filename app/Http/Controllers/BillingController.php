@@ -107,7 +107,7 @@ class BillingController extends Controller
     }
     public function paymentupdate(Request $request, $id){         
         $id = decrypt(urldecode($id));
-        echo "<pre>";print_r($request->all());die;
+        // echo "<pre>";print_r($request->all());die;
         $payment = new PaymentInfo();
         $payment->event_id = $id;
         $payment->amount = $request->amount;
@@ -173,7 +173,7 @@ class BillingController extends Controller
         $payment->amount = $request->amount;
         $payment->date = date('Y-m-d');
         $payment->deposits = 0;
-        $payment->adjustments = $request->adjustment ??0;
+        $payment->adjustments = $request->adjustment ?? 0;
         $payment->latefee = $request->latefee ?? 0;
         $payment->adjustmentnotes = $request->adjustmentnotes;
         $payment->paymentref = '';
@@ -209,8 +209,30 @@ class BillingController extends Controller
     }
     
     public function invoicepdf(Request $request,$id){
-        $paymentinfo = PaymentInfo::where('event_id',$id)->get()->toArray();
-        $pdf = PDF::loadView('billing.mail.inv', $paymentinfo);
-        return $pdf->stream('billing.pdf');              
+        $paymentinfo = PaymentInfo::where('event_id',$id)->orderby('id','desc')->first();
+        $paymentlog = PaymentLogs::where('event_id',$id)->orderby('id','desc')->first();
+        $data=[
+            'paymentinfo' =>$paymentinfo,
+            'paymentlog'=>$paymentlog
+        ];
+        $pdf = PDF::loadView('billing.mail.inv', $data);
+        return $pdf->stream('invoice.pdf');              
+    }
+    public function addpayinfooncopyurl(Request $request,$id){
+        $payment = new PaymentInfo();
+        $payment->event_id = $id;
+        $payment->amount = $request->amount;
+        $payment->date = date('Y-m-d');
+        $payment->deposits = 0;
+        $payment->adjustments = $request->adjustment ?? 0;
+        $payment->latefee = $request->latefee ?? 0;
+        $payment->adjustmentnotes = $request->adjustmentnotes;
+        $payment->paymentref = '';
+        $payment->amounttobepaid = $request->balance;
+        $payment->modeofpayment = 'credit';
+        $payment->notes = $request->notes;
+        $payment->save();
+return true;
+
     }
 }

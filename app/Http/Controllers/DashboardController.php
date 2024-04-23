@@ -63,7 +63,7 @@ class DashboardController extends Controller
                 $revenue = Meeting::all();
                 $events_revenue = 0;
                 foreach ($revenue as $key => $value) {
-                    $events_revenue +=$value->total;
+                    $events_revenue += $value->total;
                     
                     # code...
                 }

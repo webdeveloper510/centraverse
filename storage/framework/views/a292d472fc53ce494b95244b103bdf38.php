@@ -243,4 +243,4 @@
 
 </body>
 
-</html><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/billing/mail/inv.blade.php ENDPATH**/ ?>
+</html><?php /**PATH /home/crmcentraverse/public_html/resources/views/billing/mail/inv.blade.php ENDPATH**/ ?>

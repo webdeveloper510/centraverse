@@ -51,12 +51,7 @@
                                     <div class="col-md-5  mt-1">
                                         <span class="">{{ $users->category }}</span>
                                     </div>
-                                    <div class="col-md-4  mt-1">
-                                        <small class="h6  mb-3 mb-md-0">{{__('Notes')}}</small>
-                                    </div>
-                                    <div class="col-md-5  mt-1">
-                                        <span class="">{{ $users->notes }}</span>
-                                    </div>
+                                   
                                 </div>
                             </div>
                         </div>
@@ -126,6 +121,10 @@
                                         <th>Date</th>
                                     </thead>
                                     <tbody>
+                                        <tr><td>{{ $users->notes }}</td>
+                                        <td>{{App\Models\User::where('id', $users->created_by)->first()->name}}</td>
+                                        <td>{{\Auth::user()->dateFormat($users->created_at)}}</td>
+                                    </tr>
                                         @foreach($notes as $note)
                                         <tr>
                                             <td>{{ucfirst($note->notes)}}</td>

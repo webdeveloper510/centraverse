@@ -23,7 +23,58 @@ li.item-event>p:nth-child(2) {
     margin-left: 35%;
 }
 </style>
+<style>
 
+    #popup-form {
+        display: none;
+        /*position: fixed; */
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        border-radius: 2px;
+        width: 600px;
+    }
+
+    #overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+    }
+
+
+    .blocked-by-tooltip {
+        position: absolute;
+        background-color: #145388;
+        color: #fff;
+        padding: 10px;
+        border-radius: 8px;
+        z-index: 2000;
+        margin-top: -28px;
+        margin-left: -94px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        background: linear-gradient(45deg, #145388, #145388);
+    }
+
+    .blocked-by-tooltip:hover {
+        background-color: #145388;
+        transform: scale(1.05);
+    }
+
+    p.close-popup {
+        margin-bottom: 0 !important;
+    }
+</style>
 @section('content')
 <div class="container">
     <div class="row">
@@ -414,8 +465,8 @@ function display_count() {
                             start: startDate,
                             end: endDate,
                             textColor: '#fff',
-                            color: '#8fa6b3',
-                            url :  '{{url("/show-blocked-date-popup")}}/' + event.id
+                            color: '#8fa6b3'
+                          
                         });
                     });
                     let calendarEl = document.getElementById('calendar');
