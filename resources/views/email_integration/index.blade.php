@@ -24,7 +24,7 @@
                         <div id="useradd-1" class="card">
                             <div class="card-body table-border-style">
                                 <div class="table-responsive">
-                                <table class="table datatable" id="datatable">
+                                    <table class="table datatable" id="datatable">
                                         <thead>
                                             <tr>
                                                 <th scope="col" class="sort" data-sort="name">{{__('Name')}}</th>
@@ -33,10 +33,16 @@
                                         </thead>
                                         <tbody>
                                             @foreach($leads as $lead)
-                                            <tr>
-                                                <td>{{ucfirst($lead->name)}}</td>
-                                                <td>{{ucfirst($lead->type)}}</td>
-                                            </tr>
+                                            
+                                                <tr>
+                                                    <td>
+                                                    <a href="{{ route('email.communication',urlencode(encrypt($lead->id))) }}"
+                                                data-size="md" title="{{ __('Lead Details') }}"
+                                                class="action-item text-primary" style="color:#1551c9 !important;">  <b> {{ ucfirst($lead->name) }}</b>
+                                                </a>  </td>
+                                                    <td>{{ucfirst($lead->type)}}</td>
+                                                </tr>
+                                          
                                             @endforeach
                                         </tbody>
                                     </table>

@@ -988,7 +988,8 @@ Route::group(['middleware' => ['verified']], function () {
             ],
             function(){
 
-            Route::get('index', [EmailController::class, 'index'])->name('email.index');
+            Route::get('emails', [EmailController::class, 'index'])->name('email.index');
+            Route::get('email-communications/{id}', [EmailController::class, 'communication'])->name('email.communication');
 
         }
     );
