@@ -17,7 +17,7 @@ foreach ($paidamount as $key => $value) {
             <dl class="row">
                 <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('Name')}}</span></dt>
                 <dd class="col-md-6">
-                    <input type="text" name="name" class="form-control" value="{{$event->name}}">
+                    <input type="text" name="name" class="form-control" value="{{$event->name}}" readonly>
                 </dd>
                 <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('Email')}}</span></dt>
                 <dd class="col-md-6">
@@ -84,7 +84,6 @@ foreach ($paidamount as $key => $value) {
             <div class="col-md-12">
                 <div class="alert alert-success">
                     Contract must be approved by customer/admin before any further payment . 
-
                 </div>
             </div>
         </div>
@@ -122,11 +121,68 @@ $(" input[name='latefee'], input[name='adjustment']")
         console.log('total', balance);
     });
 
+// function getDataUrlAndCopy(button) {
+//     var dataUrl = button.getAttribute('data-url');
+//     copyToClipboard(dataUrl);
+//     // alert("Copied the data URL: " + dataUrl);
+// }
+
 function getDataUrlAndCopy(button) {
-    var dataUrl = button.getAttribute('data-url');
-    copyToClipboard(dataUrl);
-    // alert("Copied the data URL: " + dataUrl);
-}
+        // Get the URL from the data attribute of the button
+        var dataurl = button.getAttribute('data-url');
+
+        // Perform your validation here
+        var isValid = validateForm(); // Replace with your validation logic
+        
+        if (isValid) {
+            var amount = $('input[name="amount"]').val();
+            var adjustment = $('input[name="adjustment"]').val();
+            var latefee = $('input[name="latefee"]').val();
+            var adjustmentnotes = $('input[name="adjustmentnotes"]').val();
+            var balance = $('input[name="balance"]').val();
+            var notes = $('input[name="notes"]').val();
+            $.ajax({
+
+                url: '{{ route("billing.addpayinfooncopyurl",$event->id) }}',
+                type: 'POST',
+                data: { 
+                    "url": url ,
+                    "_token": "{{ csrf_token() }}",
+                    "amount" :amount,
+                    "adjustment":adjustment,
+                    "latefee":latefee,
+                    "adjustmentnotes":adjustmentnotes,
+                    "balance":balance,
+                    "notes":notes
+                },
+                success: function(response) {
+                    // Handle success response
+                    copyToClipboard(dataurl);
+
+                    console.log(response);
+                },
+                error: function(xhr, status, error) {
+                    // Handle error response
+                    console.error(xhr.responseText);
+                }
+            });
+            
+            // If validation passes, copy the URL to the clipboard
+
+        } else {
+            // If validation fails, show an error message or perform any other action
+            alert('Validation failed!'); // Example of an alert message
+        }
+    }
+    function validateForm() {
+       
+        var name = document.getElementsByName('name')[0].value;
+        var email = document.getElementsByName('email')[0].value;
+        if (name.trim() === '' || email.trim() === '') {
+            return false;
+        }
+        return true;
+    }
 
 function copyToClipboard(text) {
     /* Create a temporary input element */

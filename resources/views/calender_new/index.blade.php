@@ -465,8 +465,8 @@ function display_count() {
                             start: startDate,
                             end: endDate,
                             textColor: '#fff',
-                            color: '#8fa6b3',
-                            url :  '{{url("/show-blocked-date-popup")}}/' + event.id
+                            color: '#8fa6b3'
+                          
                         });
                     });
                     let calendarEl = document.getElementById('calendar');

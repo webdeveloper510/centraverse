@@ -44,7 +44,7 @@
                                                 <!-- <td><span>{{ucfirst($user->name)}}</span></td> -->
                                                 <td><span>{{$user->email}}</span></td>
                                                 <td><span>{{$user->phone}}</span></td>
-                                                <td><span>{{$user->lead_address}}</span></td>
+                                                <td><span>{{$user->address}}</span></td>
                                                 <td><span>{{$user->type}}</span></td>
                                                 <td>
 

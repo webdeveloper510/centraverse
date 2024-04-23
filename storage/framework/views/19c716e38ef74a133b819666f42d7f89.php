@@ -27,7 +27,6 @@
                                         <thead>
                                             <tr>
                                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Name')); ?></th>
-                                                <th scope="col" class="sort"><?php echo e(__('Status')); ?></th>
                                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Email')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Phone')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Address')); ?></th>
@@ -42,18 +41,10 @@
                                                         <td><a href="<?php echo e(route('lead.userinfo',urlencode(encrypt($user->id)))); ?>" data-size="md" title="<?php echo e(__('Lead Details')); ?>"  class="action-item text-primary" style="color:#1551c9 !important;">
                                                <b> <?php echo e(ucfirst($user->name)); ?></b>
                                                         </a></td>
-                                                        <td>
-                                                <?php if($user->lead_status == 1): ?>
-                                                    <span
-                                                        class="badge bg-success p-2 px-3 rounded"><?php echo e(App\Models\Lead::$stat[$user->lead_status]); ?></span>
-                                                <?php else: ?>
-                                                    <span
-                                                        class="badge bg-danger p-2 px-3 rounded"><?php echo e(App\Models\Lead::$stat[$user->lead_status]); ?></span>
-                                                <?php endif; ?>
-                                                </td>
+                                                       
                                                 <td><span><?php echo e($user->email); ?></span></td>
                                                 <td><span><?php echo e($user->phone); ?></span></td>
-                                                <td><span><?php echo e($user->lead_address); ?></span></td>
+                                                <td><span><?php echo e($user->address); ?></span></td>
                                                 <td><span><?php echo e($user->type); ?></span></td>
                                                
                                             </tr>

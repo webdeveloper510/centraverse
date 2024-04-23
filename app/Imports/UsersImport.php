@@ -40,6 +40,7 @@ class UsersImport implements ToModel, WithHeadingRow
             'address'      => $row['address'],
             'organization' => $row['organization'],
             'category'     => $row['category'],
+            'notes'     => $row['notes'],
             'created_by'   => $this->userid
         ];
 

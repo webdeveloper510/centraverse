@@ -8,18 +8,19 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Storage;
 
 class InvoicePaymentMail extends Mailable
 {
     use Queueable, SerializesModels;
-    public $payinformaton;
+    public $newpayment;
     /**
      * Create a new message instance.
      */
 
-    public function __construct($payinformaton)
+    public function __construct($newpayment)
     {
-        $this->payinformaton = $payinformaton;
+        $this->newpayment = $newpayment;
     }
     
     /**
@@ -28,7 +29,7 @@ class InvoicePaymentMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Invoice Mail',
+            subject: 'Invoice',
         );
     }
     /**
@@ -51,6 +52,14 @@ class InvoicePaymentMail extends Mailable
     }
     public function build()
     {
-        return $this->subject('Invoice')->view('billing.invoice'); 
+
+        $filePath = storage_path('app/public/Invoice/'. $this->newpayment->event_id.'/'.$this->newpayment->attachment);
+// echo "<pre>";print_r($filePath);die;
+        return $this->subject('Invoice')
+        ->view('billing.invoice')
+        ->attach($filePath, [
+            'as' => $this->newpayment->attachment, // File name
+            'mime' => Storage::disk('public')->mimeType('Invoice/'.$this->newpayment->event_id.'/'.$this->newpayment->attachment),
+        ]);; 
     }
 }

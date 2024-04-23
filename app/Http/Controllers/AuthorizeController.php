@@ -12,6 +12,8 @@ use App\Mail\InvoicePaymentMail;
 use net\authorize\api\contract\v1 as AnetAPI;
 use net\authorize\api\controller as AnetController;
 use Mail;
+use PDF;
+use Storage;
 
 class AuthorizeController extends Controller
 {
@@ -121,20 +123,51 @@ class AuthorizeController extends Controller
 
                         $msg_type = 'success_msg';
                         $message_text = $tresponse->getMessages()[0]->getDescription().' Transaction ID:'.$tresponse->getTransId();
+                         $newpayment = new PaymentLogs();
+                         $newpayment->event_id = $id;
+                         $newpayment->amount = $input['amount'];
+                         $newpayment->response_code = $tresponse->getResponseCode();
+                         $newpayment->transaction_id = $tresponse->getTransId();
+                         $newpayment->auth_id = $tresponse->getAuthCode();
+                         $newpayment->message_code =  $tresponse->getMessages()[0]->getCode();
+                         $newpayment->name_of_card =  $input['owner'];
+                         $newpayment->save();
 
-                        PaymentLogs::create([
-                            'amount' => $input['amount'],
-                            'response_code' =>  $tresponse->getResponseCode(),
-                            'transaction_id' =>  $tresponse->getTransId(),
-                            'auth_id' =>  $tresponse->getAuthCode(),
-                            'message_code' =>  $tresponse->getMessages()[0]->getCode(),
-                            'name_of_card' =>  $input['owner'],
-                            'event_id' =>$id
-                        ]);
-                        $paymentlog= PaymentLogs::where('event_id',$id)->get();
+                        // PaymentLogs::create([
+                        //     'amount' => $input['amount'],
+                        //     'response_code' =>  $tresponse->getResponseCode(),
+                        //     'transaction_id' =>  $tresponse->getTransId(),
+                        //     'auth_id' =>  $tresponse->getAuthCode(),
+                        //     'message_code' =>  $tresponse->getMessages()[0]->getCode(),
+                        //     'name_of_card' =>  $input['owner'],
+                        //     'event_id' =>$id
+                        // ]);
+                        // $paymentlog= PaymentLogs::where('event_id',$id)->get();
                         
-                        $payinformaton = PaymentLogs::latest()->first();
-                        
+                        // $payinformaton = PaymentLogs::latest()->first();
+                        $paymentinfo = PaymentInfo::where('event_id',$id)->orderby('id','desc')->first();
+                        // $paymentlog = PaymentLogs::where('event_id',$id)->orderby('id','desc')->first();
+                        $data=[
+                            'paymentinfo' =>$paymentinfo,
+                            'paymentlog'=>$newpayment
+                        ];
+                        $pdf = PDF::loadView('billing.mail.inv', $data);
+                        // return $pdf->stream('invoice.pdf');          
+                        try {
+                            $filename = 'invoice_' . time() . '.pdf'; // You can adjust the filename as needed
+                            $folder = 'Invoice/' . $id; 
+                            $path = Storage::disk('public')->put($folder . '/' . $filename, $pdf->output());
+                            $newpayment->update(['attachment' => $filename]);
+                         
+                        } catch (\Exception $e) {
+                            // Log the error for future reference
+                            \Log::error('File upload failed: ' . $e->getMessage());
+                            // Return an error response
+                            return response()->json([
+                                'is_success' => false,
+                                'message' => 'Failed to save PDF: ' . $e->getMessage(),
+                            ]);
+                        }
                         try {
                             config(
                                 [
@@ -147,7 +180,7 @@ class AuthorizeController extends Controller
                                     'mail.from.name'    => $settings['mail_from_name'],
                                 ]
                             );
-                            Mail::to($event->email)->send(new InvoicePaymentMail($payinformaton));
+                            Mail::to($event->email)->send(new InvoicePaymentMail($newpayment));
                             $payinfo = PaymentInfo::where('event_id',$id)->first();
                             $halfpay = $payinfo->amount/2;
                             $amountpaid = 0 ;

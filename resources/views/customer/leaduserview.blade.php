@@ -27,76 +27,59 @@
                         <div id="useradd-1" class="card">
                             <div class="card-body table-border-style">
                                 <div class="row align-items-center">
-                                <div class="col-md-4  mt-1">
-                                        <small class="h6  mb-3 mb-md-0">{{__('Lead Status')}}</small>
-                                    </div>
-                                    <div class="col-md-5  mt-1">
-                                        <span class="">
-                                            {{ __(\App\Models\Lead::$stat[$lead->lead_status]) }}
-                                        </span>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <small class="h6  mb-3 mb-md-0">{{__('Name')}} </small>
-                                    </div>
-                                    <div class="col-md-5">
-                                        <span class="">{{ $lead->name }}</span>
-                                    </div>
-                                    <div class="col-md-4  mt-1">
-                                        <small class="h6  mb-3 mb-md-0">{{__('Email')}}</small>
-                                    </div>
-                                    <div class="col-md-5  mt-1">
-                                        <span class="">{{ $lead->email }}</span>
-                                    </div>
-                                    <div class="col-md-4  mt-1">
-                                        <small class="h6  mb-3 mb-md-0">{{__('Phone')}}</small>
-                                    </div>
-                                    <div class="col-md-5  mt-1">
-                                        <span class="">{{ $lead->phone }}</span>
-                                    </div>
-                                    <div class="col-md-4  mt-1">
-                                        <small class="h6  mb-3 mb-md-0">{{__('Address')}}</small>
-                                    </div>
-                                    <div class="col-md-5  mt-1">
-                                        <span class="">{{ $lead->lead_address ?? '--'}}</span>
-                                    </div>
-                                    <div class="col-md-4  mt-1">
-                                        <small class="h6  mb-3 mb-md-0">{{__('Lead Type')}}</small>
-                                    </div>
-                                    <div class="col-md-5  mt-1">
-                                        <span class="">{{ $lead->type }}</span>
-                                    </div>
-                                    <div class="col-md-4  mt-1">
-                                        <small class="h6  mb-3 mb-md-0">{{__('Date')}}</small>
-                                    </div>
-                                    <div class="col-md-5  mt-1">
-                                        <span class=""> @if($lead->start_date == $lead->end_date)
-                                            {{ \Auth::user()->dateFormat($lead->start_date) }}
-                                            @else
-                                            {{ \Auth::user()->dateFormat($lead->start_date) }} -
-                                            {{ \Auth::user()->dateFormat($lead->end_date) }}
-                                            @endif
-                                        </span>
-                                    </div>
-                                    <div class="col-md-4  mt-1">
-                                        <small class="h6  mb-3 mb-md-0">{{__('Status')}}</small>
-                                    </div>
-                                    <div class="col-md-5  mt-1">
-                                        <span class="">
-                                            {{ __(\App\Models\Lead::$status[$lead->status]) }}
-                                        </span>
-                                    </div>
-                                 
+                                    <table class="table datatable" id="datatable">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" class="sort" data-sort="name">{{__('Name')}}</th>
+                                                <th scope="col" class="sort" data-sort="budget">{{__('Lead Type')}}</th>
+                                                <th scope="col" class="sort">{{__('Guest Count')}}</th>
+                                                <th scope="col" class="sort">{{__('Event Date')}}</th>
+                                                <th scope="col" class="sort">{{__('Function')}}</th>
+                                                <th scope="col" class="sort">{{__('Bar')}}</th>
+                                                <th scope="col" class="sort">{{__('Status')}}</th>
+
+                                                <th scope="col" class="sort">{{__('Created On')}}</th>
+                                            
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($leads as $lead)
+                                            <tr>
+                                                <td>
+                                                    <a href="{{ route('lead.info',urlencode(encrypt($lead->id))) }}"
+                                                        data-size="md" title="{{ __('Lead Details') }}"
+                                                        class="action-item text-primary"
+                                                        style="color:#1551c9 !important;">
+                                                        <b> {{ ucfirst($lead->name) }}</b>
+                                                    </a>
+                                                </td>
+                                                <td><b> {{ ucfirst($lead->type) }}</b></td>
+                                                <td>
+                                                    <span class="budget">{{ $lead->guest_count }}</span>
+                                                </td>
+                                                <td>{{\Auth::user()->dateFormat($lead->start_date)}}</td>
+
+                                                <td>{{ ucfirst($lead->function) }}</td>
+                                                <td>{{($lead->bar)}}</td>
+
+                                                <td>{{ __(\App\Models\Lead::$status[$lead->status]) }}</td>
+                                                <td>{{\Auth::user()->dateFormat($lead->created_at)}}</td>
+
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-               
+
 
                 <div class="container-fluid xyz mt-3">
                     <div class="row">
-                        
-                    <div class="col-lg-6">
+
+                        <div class="col-lg-6">
                             <div class="card" id="useradd-1">
                                 <div class="card-body table-border-style">
                                     <h3>Attachments</h3>

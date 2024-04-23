@@ -134,6 +134,14 @@ $campaign_type = explode(',',$settings['campaign_type']);
                 </div>
                 <?php echo e(Form::close()); ?>
 
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <span><h4><b>User's Sample sheet</b></h4></span>
+                        <a href="<?php echo e(asset('/samplecsvuser/usersheet.csv')); ?>" class="btn " title="Download" style="background-color:#77aaaf; color:white"download><i class="fa fa-download"></i></a>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>

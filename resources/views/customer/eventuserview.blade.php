@@ -26,67 +26,58 @@
                         <div id="useradd-1" class="card">
                             <div class="card-body table-border-style">
                                 <div class="row align-items-center">
-                                    <div class="col-md-4  mt-1">
-                                        <small class="h6  mb-3 mb-md-0">{{__('Event Status')}}</small>
-                                    </div>
-                                    <div class="col-md-5  mt-1">
-                                        <span class="">
-                                            {{ __(\App\Models\Meeting::$status[$event->status]) }}
-                                        </span>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <small class="h6  mb-3 mb-md-0">{{__('Name')}} </small>
-                                    </div>
-                                    <div class="col-md-5">
-                                        <span class="">{{ $event->name }}</span>
-                                    </div>
-                                    <div class="col-md-4  mt-1">
-                                        <small class="h6  mb-3 mb-md-0">{{__('Email')}}</small>
-                                    </div>
-                                    <div class="col-md-5  mt-1">
-                                        <span class="">{{ $event->email }}</span>
-                                    </div>
-                                    <div class="col-md-4  mt-1">
-                                        <small class="h6  mb-3 mb-md-0">{{__('Phone')}}</small>
-                                    </div>
-                                    <div class="col-md-5  mt-1">
-                                        <span class="">{{ $event->phone }}</span>
-                                    </div>
-                                    <div class="col-md-4  mt-1">
-                                        <small class="h6  mb-3 mb-md-0">{{__('Address')}}</small>
-                                    </div>
-                                    <div class="col-md-5  mt-1">
-                                        <span class="">{{ $event->lead_address ?? '--'}}</span>
-                                    </div>
-                                    <div class="col-md-4  mt-1">
-                                        <small class="h6  mb-3 mb-md-0">{{__('Lead Type')}}</small>
-                                    </div>
-                                    <div class="col-md-5  mt-1">
-                                        <span class="">{{ $event->type }}</span>
-                                    </div>
-                                    <div class="col-md-4  mt-1">
-                                        <small class="h6  mb-3 mb-md-0">{{__('Date')}}</small>
-                                    </div>
-                                    <div class="col-md-5  mt-1">
-                                        <span class=""> @if($event->start_date == $event->end_date)
-                                            {{ \Auth::user()->dateFormat($event->start_date) }}
-                                            @else
-                                            {{ \Auth::user()->dateFormat($event->start_date) }} -
-                                            {{ \Auth::user()->dateFormat($event->end_date) }}
-                                            @endif
-                                        </span>
-                                    </div>
+                                    <table class="table datatable" id="datatable">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" class="sort" data-sort="name">{{__('Name')}}</th>
+                                                <th scope="col" class="sort" data-sort="budget">{{__('Lead Type')}}</th>
+                                                <th scope="col" class="sort">{{__('Guest Count')}}</th>
+                                                <th scope="col" class="sort">{{__('Event Date')}}</th>
+                                                <th scope="col" class="sort">{{__('Function')}}</th>
+                                                <th scope="col" class="sort">{{__('Bar')}}</th>
+                                                <th scope="col" class="sort">{{__('Status')}}</th>
 
+                                                <th scope="col" class="sort">{{__('Created On')}}</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($events as $event)
+                                            <tr>
+                                                <td>
+
+                                                    <a href="" data-size="md" title="{{ __('Event Details') }}"
+                                                        class="action-item text-primary"
+                                                        style="color:#1551c9 !important;">
+                                                        <b> {{ ucfirst($event->name) }}</b>
+                                                    </a>
+                                                </td>
+                                                <td><b> {{ ucfirst($event->type) }}</b></td>
+                                                <td>
+                                                    <span class="budget">{{ $event->guest_count }}</span>
+                                                </td>
+                                                <td>{{\Auth::user()->dateFormat($event->start_date)}}</td>
+
+                                                <td>{{ ucfirst($event->function) }}</td>
+                                                <td>{{($event->bar)}}</td>
+
+                                                <td>{{ __(\App\Models\Meeting::$status[$event->status]) }}</td>
+                                                <td>{{\Auth::user()->dateFormat($event->created_at)}}</td>
+
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-              
+
 
                 <div class="container-fluid xyz mt-3">
                     <div class="row">
-                    <div class="col-lg-6">
+                        <div class="col-lg-6">
                             <div class="card" id="useradd-1">
                                 <div class="card-body table-border-style">
                                     <h3>Attachments</h3>
@@ -96,7 +87,7 @@
                                             <th>Action</th>
                                         </thead>
                                         <tbody>
-                                        @foreach ($docs as $doc)
+                                            @foreach ($docs as $doc)
                                             @if(Storage::disk('public')->exists($doc->filepath))
                                             <tr>
                                                 <td>{{$doc->filename}}</td>
@@ -123,7 +114,7 @@
                                             <th>Date</th>
                                         </thead>
                                         <tbody>
-                                        @foreach($notes as $note)
+                                            @foreach($notes as $note)
                                             <tr>
                                                 <td>{{ucfirst($note->notes)}}</td>
                                                 <td>{{(App\Models\User::where('id',$note->created_by)->first()->name)}}
@@ -147,7 +138,7 @@
                                         class="form-control" required>
                                     <input type="submit" value="Submit" class="btn btn-primary mt-4"
                                         style="float: right;">
-                                        {{Form::close()}}
+                                    {{Form::close()}}
                                 </div>
                             </div>
                         </div>
@@ -166,7 +157,7 @@
                             </div>
                         </div>
 
-                     
+
                     </div>
                 </div>
             </div>

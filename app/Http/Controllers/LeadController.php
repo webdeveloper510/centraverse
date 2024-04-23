@@ -847,10 +847,12 @@ class LeadController extends Controller
     }
     public function lead_user_info($id){
         $id = decrypt(urldecode($id));
-        $lead = Lead::withTrashed()->find($id);
+
+        $email = Lead::withTrashed()->find($id)->email;
+        $leads = Lead::withTrashed()->where('email',$email)->get();
         $notes = NotesLeads::where('lead_id',$id)->orderby('id','desc')->get();
         $docs = LeadDoc::where('lead_id',$id)->get();
-        return view('customer.leaduserview',compact('lead','docs','notes'));
+        return view('customer.leaduserview',compact('leads','docs','notes'));
     }
     public function lead_upload($id){
         return view('lead.uploaddoc',compact('id'));

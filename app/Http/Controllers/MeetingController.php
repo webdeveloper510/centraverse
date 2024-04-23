@@ -1213,10 +1213,12 @@ class MeetingController extends Controller
     }
     public function event_user_info($id){
         $id = decrypt(urldecode($id));
-        $event = Meeting::withTrashed()->find($id);
+        $email = Meeting::withTrashed()->find($id)->email;
+        $events = Meeting::withTrashed()->where('email',$email)->get();
+        // $event = Meeting::withTrashed()->find($id);
         $notes = NotesEvents::where('event_id',$id)->orderby('id','desc')->get();
         $docs = EventDoc::where('event_id',$id)->get();
-        return view('customer.eventuserview',compact('event','docs','notes'));
+        return view('customer.eventuserview',compact('events','docs','notes'));
     }
     public function event_upload_doc(Request $request,$id){
         $file = $request->file('customerattachment');

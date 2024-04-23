@@ -72,7 +72,7 @@
                                                         <option value="<?php echo e($key); ?>"
                                                             <?php echo e(isset($lead->lead_status) && $lead->lead_status == $key ? "selected" : ""); ?>>
                                                             <?php echo e($stat); ?></option>
-                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?></td>
                                                 <td>
                                                     <?php if($lead->status == 0): ?>
                                                     <span

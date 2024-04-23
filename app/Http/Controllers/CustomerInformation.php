@@ -312,11 +312,17 @@ class CustomerInformation extends Controller
         return view('customer.allcustomers',compact('allcustomers','importedcustomers'));
     }
     public function event_customers(){
-        $eventcustomers = Meeting::withTrashed()->get();
+        // $eventcustomers = Meeting::withTrashed()->get();
+        $eventcustomers = MasterCustomer::withTrashed()->where('category','event')->get();
         return view('customer.event_customer',compact('eventcustomers'));
     }
     public function lead_customers(){
-        $leadcustomers = Lead::withTrashed()->get();
+        // $leadcustomers = Lead::withTrashed()->get();
+        // $distinctCustomers = Lead::withTrashed()->distinct()->get();
+        // $uniqueLeads = Lead::withTrashed()->select('*')->distinct('email')->get();
+        $leadcustomers = MasterCustomer::where('category','lead')->get();
+        // echo "<pre>";print_r($leadcustomers);die;
+
         return view('customer.lead_customer',compact('leadcustomers'));
     }
     public function import_customers_view($id){
