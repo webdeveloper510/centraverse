@@ -14,6 +14,7 @@ use net\authorize\api\controller as AnetController;
 use Mail;
 use PDF;
 use Storage;
+use App\Models\User;
 
 class AuthorizeController extends Controller
 {
@@ -180,7 +181,12 @@ class AuthorizeController extends Controller
                                     'mail.from.name'    => $settings['mail_from_name'],
                                 ]
                             );
-                            Mail::to($event->email)->send(new InvoicePaymentMail($newpayment));
+                            $users = User::where('type','owner')->orwhere('type','Admin')->get();
+                            foreach ($users as  $user) {
+                                Mail::to($event->email)->cc($user->email)->send(new InvoicePaymentMail($newpayment));
+                            }
+
+                           
                             $payinfo = PaymentInfo::where('event_id',$id)->first();
                             $halfpay = $payinfo->amount/2;
                             $amountpaid = 0 ;
