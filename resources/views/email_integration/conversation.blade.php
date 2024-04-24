@@ -26,30 +26,46 @@
                         <div id="useradd-1" class="card">
                             <div class="card-body table-border-style">
                                 <div class="table-responsive">
-                                    <div id="email-conversations" style=" padding: 25px;">
-                                        @foreach($emailCommunications as $communication)
-                                        <div class="conversation mb-3 border p-3 rounded" style="cursor: pointer;">
-                                            <strong>{{ ucfirst($communication->subject) }}</strong>
-                                            <span style="float:right;"><b>Sent at:</b>
-                                                {{ $communication->created_at->format('M d, Y H:i A') }}
-                                            </span>
-                                        </div>
-                                        <div class="email-details" style="display: none;">
-                                            <div class="card mb-3">
-                                                <div class="card-body">
-                                                    <p class="card-text"><strong>To:</strong>
-                                                        {{ $communication->email }}</p>
-                                                    <p class="card-text"><strong>Message:</strong>
-                                                      {{ $communication->content }}</p>
-
-                                                    
+                                    <div class="chat-container" style="    padding: 35px;">
+                                        @foreach($emailCommunications as $key => $communication)
+                                        <div class="row mb-3">
+                                            @if($key % 2 == 0)
+                                            <div class="col-md-6">
+                                                <div class="conversation border p-3 rounded" style="cursor: pointer;">
+                                                    <strong>Subject: </strong>{{ ucfirst($communication->subject) }}
+                                                    <span style="float:right;"><b>Sent:</b>
+                                                        {{ $communication->created_at->format('M d, Y H:i A') }}
+                                                    </span>
+                                                </div>
+                                                <div class="email-details" style="display: none;">
+                                                    <div class="card mb-3">
+                                                        <div class="card-body">
+                                                            <p class="card-text"><strong>To:</strong>
+                                                                {{ $communication->email }}</p>
+                                                            <p class="card-text"><strong>Message:</strong>
+                                                                {{ $communication->content }}</p>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            @else
+                                            <div class="col-md-6  offset-md-6">
+                                                <div class="proposal-notes border p-3 rounded">
+                                                    <strong>Customer Response:</strong>
+                                                    
+                                                        @foreach($proposal as $prop)
+                                                        {{$prop->notes}}
+                                                        <span style="float:right;"><b>Recieved:</b>
+                                                       {{ $prop->created_at->format('M d, Y H:i A') }}</span>
+                                                        @endforeach
+                                                </div>
+                                            </div>
+                                            @endif
                                         </div>
-
                                         @endforeach
-                                   
                                     </div>
+
+
                                 </div>
                             </div>
                         </div>
