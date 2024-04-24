@@ -28,6 +28,7 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
 @endphp
 
 @if (isset($settings['cust_theme_bg']) && $settings['cust_theme_bg'] == 'on')
+
 <div class="outer-layout">
     <header class="dash-header transprent-bg">
         @else
