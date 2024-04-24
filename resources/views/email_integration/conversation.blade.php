@@ -41,10 +41,12 @@
                                                         {{ $communication->email }}</p>
                                                     <p class="card-text"><strong>Message:</strong>
                                                       {{ $communication->content }}</p>
+
+                                                    
                                                 </div>
                                             </div>
                                         </div>
-                                    
+
                                         @endforeach
                                    
                                     </div>
