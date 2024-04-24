@@ -169,7 +169,7 @@ $files = Storage::files('app/public/Event/'.$event->id);
                                                     <a href="<?php echo e(Storage::url($file)); ?>" download
                                                         style=" position: absolute;color: #1551c9 !important">
                                                         View Document</a>
-</td>
+                                                </td>
                                             </tr>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tbody>

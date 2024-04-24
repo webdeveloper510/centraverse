@@ -14,11 +14,14 @@
 <li class="breadcrumb-item"><?php echo e(__('Proposal Information')); ?></li>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('action-btn'); ?>
+<?php $status= App\Models\Lead::find($decryptedId)->status; ?>
+<?php if($status > 1): ?>
 <a href="#" data-size="md" data-url="<?php echo e(route('lead.shareproposal',urlencode(encrypt($decryptedId)))); ?>"
     data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('Proposal')); ?>" title="<?php echo e(__('Share Proposal')); ?>"
     class="btn btn-sm btn-primary btn-icon m-1">
     <i class="ti ti-share"></i>
 </a>
+<?php endif; ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 <div class="container-field">
@@ -47,15 +50,13 @@
                                         <tbody>
                                             <?php $__currentLoopData = $proposal_info; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $info): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <tr>
-
                                                 <td><?php echo e(App\Models\Lead::where('id',$info->lead_id)->first()->name); ?></td>
                                                 <!-- <td><?php echo e(App\Models\Lead::where('id',$info->lead_id)->first()->email); ?></td> -->
                                                 <td><?php echo e($info->notes ?? '--'); ?></td>
-                                                <td><a
-                                                        href="<?php echo e(route('lead.viewproposal',urlencode(encrypt($info->lead_id)))); ?>" style=" color: teal;">View
+                                                <td><a href="<?php echo e(route('lead.viewproposal',urlencode(encrypt($info->lead_id)))); ?>"
+                                                        style=" color: teal;">View
                                                         Document</a></td>
                                                 <td><?php echo e(\Auth::user()->dateFormat($info->created_at)); ?></td>
-
                                             </tr>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tbody>
