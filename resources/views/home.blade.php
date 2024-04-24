@@ -16,7 +16,7 @@
             <div class="container-fluid xyz"  id="useradd-1">
                 <div class="row">
                     @if (\Auth::user()->type == 'owner'||\Auth::user()->type == 'Admin')
-                        <div class="col-lg-4 col-4 totallead" style="padding: 15px;">
+                        <div class="col-lg-4 col-sm-12 totallead" style="padding: 15px;">
                             <div class="card">
                                 <div class="card-body newcard_body" onclick="leads();">
                                     <div class="theme-avtar bg-info">
@@ -29,7 +29,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-4" id="toggleDiv" style="padding: 15px;">
+                        <div class="col-lg-4 col-sm-12" id="toggleDiv" style="padding: 15px;">
                             <div class="card">
                                 <div class="card-body newcard_body">
                                     <div class="theme-avtar bg-warning">
@@ -42,7 +42,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-4"style="padding: 15px;">
+
+                        <div class="col-lg-4 col-sm-12"style="padding: 15px;">
                             <div class="card">
                                 <div class="card-body newcard_body">
                                     <div class="theme-avtar bg-success">

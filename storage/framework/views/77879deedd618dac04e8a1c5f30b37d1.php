@@ -71,7 +71,6 @@ li.item-event>p:nth-child(2) {
         background-color: #145388;
         transform: scale(1.05);
     }
-
     p.close-popup {
         margin-bottom: 0 !important;
     }
