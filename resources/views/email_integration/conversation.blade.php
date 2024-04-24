@@ -44,6 +44,11 @@
                                                                 {{ $communication->email }}</p>
                                                             <p class="card-text"><strong>Message:</strong>
                                                                 {{ $communication->content }}</p>
+                                                                @if($communication->attachments != '')
+                                                                <p class="card-text"><strong>Attachments:</strong>
+                                                             <a href="{{ Storage::url('public/Proposal_attachments/' . $communication->lead_id . '/' . $communication->attachments) }}
+" download>{{ $communication->attachments }}</a>   </p>  
+@endif 
                                                         </div>
                                                     </div>
                                                 </div>

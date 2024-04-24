@@ -47,6 +47,12 @@
                                                                 <?php echo e($communication->email); ?></p>
                                                             <p class="card-text"><strong>Message:</strong>
                                                                 <?php echo e($communication->content); ?></p>
+                                                                <?php if($communication->attachments != ''): ?>
+                                                                <p class="card-text"><strong>Attachments:</strong>
+                                                             <a href="<?php echo e(Storage::url('public/Proposal_attachments/' . $communication->lead_id . '/' . $communication->attachments)); ?>
+
+" download><?php echo e($communication->attachments); ?></a>   </p>  
+<?php endif; ?> 
                                                         </div>
                                                     </div>
                                                 </div>
