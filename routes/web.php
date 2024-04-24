@@ -38,6 +38,7 @@ use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PaymentWallController;
 use App\Http\Controllers\PlanController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductBrandController;
 use App\Http\Controllers\ProductTaxController;
@@ -977,6 +978,21 @@ Route::group(['middleware' => ['verified']], function () {
             'XSS',
         ]
     );
+    
+    Route::group(
+            [
+                'middleware' => [
+                    'auth',
+                    'XSS',
+                ],
+            ],
+            function(){
+
+            Route::get('index', [EmailController::class, 'index'])->name('email.index');
+
+        }
+    );
+
     Route::group(
         [
             'middleware' => [
@@ -1408,5 +1424,3 @@ Route::post('/function-packages', [MeetingController::class, 'getpackages'])->na
 Route::get('/event-info',[CalenderNewController::class,'eventinfo'])->name('eventinformation');
 Route::get('/blocked-data-info',[CalenderNewController::class,'blockeddateinfo'])->name('blockedDatesInformation');
 Route::post('calender-data',[CalenderNewController::class,'monthbaseddata'])->name('monthbaseddata');
-
-

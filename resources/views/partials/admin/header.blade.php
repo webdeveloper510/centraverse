@@ -113,7 +113,10 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                             <span class="dash-mtext">{{ __('Campaigns') }}</span></a>
                                     </li>
                                     @endcan
-
+                                    <li class="dash-item">
+                                        <a href="{{ route('email.index') }}" class="dash-link">
+                                            <span class="dash-mtext">{{ __('Email') }}</span></a>
+                                    </li>
                                     <li
                                         class="dash-item  {{ Request::route()->getName() == 'settings' ? 'active' : '' }}">
                                         <a href="{{ route('settings') }}" class="dash-link">
