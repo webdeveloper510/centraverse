@@ -61,13 +61,21 @@ class SendPdfEmail extends Mailable
     }
     public function build()
     {
-        $filePath = storage_path('app/public/Proposal_attachments/'. $this->lead->id.'/'.$this->proposalinfo->attachments);
+        if($this->proposalinfo->attachments != ''){
+            $filePath = storage_path('app/public/Proposal_attachments/'. $this->lead->id.'/'.$this->proposalinfo->attachments);
+            return $this->subject($this->subject)
+                ->view('lead.mail.view') // Blade view for email content
+                ->with('content',$this->content)
+                ->attach($filePath, [
+                    'as' => $this->proposalinfo->attachments, // File name
+                    'mime' => Storage::disk('public')->mimeType('Proposal_attachments/'.$this->lead->id.'/'.$this->proposalinfo->attachments),
+                ]);
+        }else{
+        // echo "<pre>";print_r($filePath);die;
         return $this->subject($this->subject)
             ->view('lead.mail.view') // Blade view for email content
-            ->with('content',$this->content)
-            ->attach($filePath, [
-                'as' => $this->proposalinfo->attachments, // File name
-                'mime' => Storage::disk('public')->mimeType('Proposal_attachments/'.$this->lead->id.'/'.$this->proposalinfo->attachments),
-            ]);
+            ->with('content',$this->content);
+        }
+        
         }
 }
