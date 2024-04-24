@@ -28,29 +28,49 @@
                         <div id="useradd-1" class="card">
                             <div class="card-body table-border-style">
                                 <div class="table-responsive">
-                                    <div id="email-conversations" style=" padding: 25px;">
-                                        <?php $__currentLoopData = $emailCommunications; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $communication): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <div class="conversation mb-3 border p-3 rounded" style="cursor: pointer;">
-                                            <strong><?php echo e(ucfirst($communication->subject)); ?></strong>
-                                            <span style="float:right;"><b>Sent at:</b>
-                                                <?php echo e($communication->created_at->format('M d, Y H:i A')); ?>
+                                    <div class="chat-container" style="    padding: 35px;">
+                                        <?php $__currentLoopData = $emailCommunications; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $communication): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <div class="row mb-3">
+                                            <?php if($key % 2 == 0): ?>
+                                            <div class="col-md-6">
+                                                <div class="conversation border p-3 rounded" style="cursor: pointer;">
+                                                    <strong>Subject: </strong><?php echo e(ucfirst($communication->subject)); ?>
 
-                                            </span>
-                                        </div>
-                                        <div class="email-details" style="display: none;">
-                                            <div class="card mb-3">
-                                                <div class="card-body">
-                                                    <p class="card-text"><strong>To:</strong>
-                                                        <?php echo e($communication->email); ?></p>
-                                                    <p class="card-text"><strong>Message:</strong>
-                                                      <?php echo e($communication->content); ?></p>
+                                                    <span style="float:right;"><b>Sent:</b>
+                                                        <?php echo e($communication->created_at->format('M d, Y H:i A')); ?>
+
+                                                    </span>
+                                                </div>
+                                                <div class="email-details" style="display: none;">
+                                                    <div class="card mb-3">
+                                                        <div class="card-body">
+                                                            <p class="card-text"><strong>To:</strong>
+                                                                <?php echo e($communication->email); ?></p>
+                                                            <p class="card-text"><strong>Message:</strong>
+                                                                <?php echo e($communication->content); ?></p>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <?php else: ?>
+                                            <div class="col-md-6  offset-md-6">
+                                                <div class="proposal-notes border p-3 rounded">
+                                                    <strong>Customer Response:</strong>
+                                                    
+                                                        <?php $__currentLoopData = $proposal; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $prop): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <?php echo e($prop->notes); ?>
+
+                                                        <span style="float:right;"><b>Recieved:</b>
+                                                       <?php echo e($prop->created_at->format('M d, Y H:i A')); ?></span>
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                </div>
+                                            </div>
+                                            <?php endif; ?>
                                         </div>
-                                    
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                   
                                     </div>
+
+
                                 </div>
                             </div>
                         </div>
