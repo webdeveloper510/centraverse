@@ -29,22 +29,22 @@
                                     <table class="table datatable" id="datatable">
                                         <thead>
                                             <tr>
-                                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Name')); ?></th>
-                                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Type')); ?></th>
+                                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Staff Member')); ?></th>
+                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php $__currentLoopData = $leads; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $lead): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            
-                                                <tr>
-                                                    <td>
-                                                    <a href="<?php echo e(route('email.communication',urlencode(encrypt($lead->id)))); ?>"
-                                                data-size="md" title="<?php echo e(__('Lead Details')); ?>"
-                                                class="action-item text-primary" style="color:#1551c9 !important;">  <b> <?php echo e(ucfirst($lead->name)); ?></b>
-                                                </a>  </td>
-                                                    <td><?php echo e(ucfirst($lead->type)); ?></td>
-                                                </tr>
-                                          
+                                            <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+
+                                            <tr>
+                                                <td> <?php echo e(ucfirst($user['name'])); ?> <b>(<?php echo e($user['type']); ?>)</b>
+                                                </td>
+                                                <td><a href="<?php echo e(route('email.details',urlencode(encrypt($user['id'])))); ?>"
+                                                        data-size="md" title="<?php echo e(__('Lead Details')); ?>"
+                                                        class="action-item text-primary"
+                                                        style="color:#1551c9 !important;"><button class="btn btn-secondary float-end" type="button">View</button></a></td>
+                                            </tr>
+
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tbody>
                                     </table>

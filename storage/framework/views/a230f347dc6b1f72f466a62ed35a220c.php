@@ -11,6 +11,7 @@
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('breadcrumb'); ?>
 <li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Home')); ?></a></li>
+<li class="breadcrumb-item"><a href="<?php echo e(route('email.index')); ?>"><?php echo e(__('Emails')); ?></a></li>
 <li class="breadcrumb-item"><?php echo e(__('Communication')); ?></li>
 
 <?php $__env->stopSection(); ?>
@@ -27,7 +28,28 @@
                         <div id="useradd-1" class="card">
                             <div class="card-body table-border-style">
                                 <div class="table-responsive">
-                                   
+                                    <table class="table datatable" id="datatable">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Name')); ?></th>
+                                                <th scope="col" class="sort" data-sort="name"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php $__currentLoopData = $lead_id; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $lead): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <tr>
+                                                <td><?php echo e(ucfirst(App\Models\Lead::find($lead['lead_id'])->name)); ?>
+
+                                                </td>
+                                                <td><a href="<?php echo e(route('email.conversations', urlencode(encrypt($lead['id'])))); ?>"
+                                                        data-size="md" title="<?php echo e(__('Lead Details')); ?>"
+                                                        class="action-item text-primary"
+                                                        style="color:#1551c9 !important;"><button class="btn btn-secondary float-end" type="button">Email Communication</button></a></td>
+                                            </tr>
+
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>

@@ -27,22 +27,22 @@
                                     <table class="table datatable" id="datatable">
                                         <thead>
                                             <tr>
-                                                <th scope="col" class="sort" data-sort="name">{{__('Name')}}</th>
-                                                <th scope="col" class="sort" data-sort="name">{{__('Type')}}</th>
+                                                <th scope="col" class="sort" data-sort="name">{{__('Staff Member')}}</th>
+                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach($leads as $lead)
-                                            
-                                                <tr>
-                                                    <td>
-                                                    <a href="{{ route('email.communication',urlencode(encrypt($lead->id))) }}"
-                                                data-size="md" title="{{ __('Lead Details') }}"
-                                                class="action-item text-primary" style="color:#1551c9 !important;">  <b> {{ ucfirst($lead->name) }}</b>
-                                                </a>  </td>
-                                                    <td>{{ucfirst($lead->type)}}</td>
-                                                </tr>
-                                          
+                                            @foreach($users as $user)
+
+                                            <tr>
+                                                <td> {{ucfirst($user['name'])}} <b>({{$user['type']}})</b>
+                                                </td>
+                                                <td><a href="{{ route('email.details',urlencode(encrypt($user['id']))) }}"
+                                                        data-size="md" title="{{ __('Lead Details') }}"
+                                                        class="action-item text-primary"
+                                                        style="color:#1551c9 !important;"><button class="btn btn-secondary float-end" type="button">View</button></a></td>
+                                            </tr>
+
                                             @endforeach
                                         </tbody>
                                     </table>

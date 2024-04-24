@@ -9,6 +9,7 @@
 @endsection
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{__('Home')}}</a></li>
+<li class="breadcrumb-item"><a href="{{ route('email.index') }}">{{__('Emails')}}</a></li>
 <li class="breadcrumb-item">{{__('Communication')}}</li>
 
 @endsection
@@ -25,7 +26,27 @@
                         <div id="useradd-1" class="card">
                             <div class="card-body table-border-style">
                                 <div class="table-responsive">
-                                   
+                                    <table class="table datatable" id="datatable">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" class="sort" data-sort="name">{{__('Name')}}</th>
+                                                <th scope="col" class="sort" data-sort="name"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($lead_id as $lead)
+                                            <tr>
+                                                <td>{{ucfirst(App\Models\Lead::find($lead['lead_id'])->name)}}
+                                                </td>
+                                                <td><a href="{{ route('email.conversations', urlencode(encrypt($lead['id']))) }}"
+                                                        data-size="md" title="{{ __('Lead Details') }}"
+                                                        class="action-item text-primary"
+                                                        style="color:#1551c9 !important;"><button class="btn btn-secondary float-end" type="button">Email Communication</button></a></td>
+                                            </tr>
+
+                                            @endforeach
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
