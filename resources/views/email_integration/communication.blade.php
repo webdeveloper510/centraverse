@@ -36,7 +36,7 @@
                                         <tbody>
                                             @foreach($lead_id as $lead)
                                             <tr>
-                                                <td>{{ucfirst(App\Models\Lead::find($lead['lead_id'])->name)}}
+                                                <td>{{ucfirst(App\Models\Lead::withTrashed()->find($lead['lead_id'])->name)}}
                                                 </td>
                                                 <td><a href="{{ route('email.conversations', urlencode(encrypt($lead['id']))) }}"
                                                         data-size="md" title="{{ __('Lead Details') }}"

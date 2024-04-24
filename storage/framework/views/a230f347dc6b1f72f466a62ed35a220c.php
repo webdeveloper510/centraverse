@@ -38,7 +38,7 @@
                                         <tbody>
                                             <?php $__currentLoopData = $lead_id; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $lead): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <tr>
-                                                <td><?php echo e(ucfirst(App\Models\Lead::find($lead['lead_id'])->name)); ?>
+                                                <td><?php echo e(ucfirst(App\Models\Lead::withTrashed()->find($lead['lead_id'])->name)); ?>
 
                                                 </td>
                                                 <td><a href="<?php echo e(route('email.conversations', urlencode(encrypt($lead['id'])))); ?>"
