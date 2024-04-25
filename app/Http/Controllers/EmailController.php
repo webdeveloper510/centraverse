@@ -40,7 +40,6 @@ class EmailController extends Controller
         $id = decrypt(urldecode($id));
         $pro= ProposalInfo::find($id);
         $emailCommunications= ProposalInfo::where('created_by',$pro->created_by)->where('lead_id',$pro->lead_id)->orderBy('id', 'desc')->get();
-        $proposal = Proposal::where('lead_id',$pro->lead_id)->orderby('id','desc')->get();
-        return view('email_integration.conversation',compact('emailCommunications','proposal'));
+        return view('email_integration.conversation',compact('emailCommunications','id'));
     }
 }

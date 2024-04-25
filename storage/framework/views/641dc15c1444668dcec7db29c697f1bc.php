@@ -27,12 +27,11 @@
                         <div id="useradd-1" class="card">
                             <div class="card-body table-border-style">
                                 <div class="table-responsive">
-                                    <div class="chat-container" style="    padding: 35px;">
-                                        <?php $__currentLoopData = $emailCommunications; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $communication): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <div class="chat-container" style="padding: 35px;">
+                                        <?php $__currentLoopData = $emailCommunications; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $communication): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <div class="row mb-3">
-                                            <?php if($key % 2 == 0): ?>
                                             <div class="col-md-6">
-                                                <div class="conversation border p-3 rounded" style="cursor: pointer;">
+                                                <div class="conversation border p-3 rounded" style="cursor: pointer; background-color: #cce7e6;">
                                                     <strong>Subject: </strong><?php echo e(ucfirst($communication->subject)); ?>
 
                                                     <span style="float:right;"><b>Sent:</b>
@@ -41,40 +40,41 @@
                                                     </span>
                                                 </div>
                                                 <div class="email-details" style="display: none;">
-                                                    <div class="card mb-3">
+                                                    <div class="card mb-3" style="box-shadow: 0 6px 30px rgb(182 186 203 / 54%);">
                                                         <div class="card-body">
                                                             <p class="card-text"><strong>To:</strong>
                                                                 <?php echo e($communication->email); ?></p>
                                                             <p class="card-text"><strong>Message:</strong>
                                                                 <?php echo e($communication->content); ?></p>
-                                                                <?php if($communication->attachments != ''): ?>
-                                                                <p class="card-text"><strong>Attachments:</strong>
-                                                             <a href="<?php echo e(Storage::url('app/public/Proposal_attachments/' . $communication->lead_id . '/' . $communication->attachments)); ?>
-
-" download><?php echo e($communication->attachments); ?></a>   </p>  
-<?php endif; ?> 
+                                                            <?php if($communication->attachments != ''): ?>
+                                                            <p class="card-text"><strong>Attachments:</strong>
+                                                                <a href="<?php echo e(Storage::url('app/public/Proposal_attachments/' . $communication->lead_id . '/' . $communication->attachments)); ?>"
+                                                                    download><?php echo e($communication->attachments); ?></a>
+                                                            </p>
+                                                            <?php endif; ?>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <?php else: ?>
-                                            <div class="col-md-6  offset-md-6">
-                                                <div class="proposal-notes border p-3 rounded">
-                                                    <strong>Customer Response:</strong>
-                                                    
-                                                        <?php $__currentLoopData = $proposal; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $prop): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                        <?php echo e($prop->notes); ?>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6 offset-md-6">
+                                                <div class="proposal-notes border p-3 rounded" style="background-color:#d6e9e9">
+                                                    <?php $prop = App\Models\Proposal::where('proposal_id', $communication->id)->first(); ?>
+                                                    <?php if(isset($prop) && !empty($prop)): ?>
+                                                    <strong>Customer Response:</strong> <?php echo e($prop->notes); ?>
 
-                                                        <span style="float:right;"><b>Recieved:</b>
-                                                       <?php echo e($prop->created_at->format('M d, Y H:i A')); ?></span>
-                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                    <div style="    margin-bottom: 15px;">
+                                                        <span style="float:right;"><b>Signed on :</b>
+                                                            <?php echo e($prop->created_at->format('M d, Y H:i A')); ?></span>
+                                                    </div>
+
+                                                    <?php endif; ?>
                                                 </div>
                                             </div>
-                                            <?php endif; ?>
                                         </div>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </div>
-
 
                                 </div>
                             </div>

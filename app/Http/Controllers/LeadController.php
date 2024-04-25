@@ -559,6 +559,7 @@ class LeadController extends Controller
         $proposalinfo->attachments = $filename ?? '';
         $proposalinfo->created_by = Auth::user()->id;
         $proposalinfo->save();
+        $propid = $proposalinfo->id;
         $subject = $request->subject;
         $content = $request->emailbody;
         try {
@@ -573,7 +574,7 @@ class LeadController extends Controller
                     'mail.from.name'    => $settings['mail_from_name'],
                 ]
             );
-            Mail::to($request->email)->send(new SendPdfEmail($lead,$subject,$content,$proposalinfo));
+            Mail::to($request->email)->send(new SendPdfEmail($lead,$subject,$content,$proposalinfo,$propid));
             $upd = Lead::where('id',$id)->update(['status' => 1]);
         } catch (\Exception $e) {
               return response()->json(
@@ -597,7 +598,6 @@ class LeadController extends Controller
             return view('lead.proposal',compact('lead','venue','settings','fixed_cost','additional_items'));
     }
     public function proposal_resp(Request $request,$id){
-
             $settings = Utility::settings();
             $id = decrypt(urldecode($id));
 
@@ -615,6 +615,7 @@ class LeadController extends Controller
             $proposals['lead_id'] = $id;
             $proposals['image'] = $image;
             $proposals['notes'] = $request->comments;
+            $proposals['proposal_id'] = $request->proposal;
             $proposals->save();
             $lead = Lead::find($id);
             $users = User::where('type','owner')->orwhere('type','Admin')->get();
