@@ -29554,13 +29554,16 @@ h5.card-title.mb-2 {
 }
 
 
-
-
+@media screen and (max-width: 1440px) {
+.navbar-nav.ms-auto {
+    margin-right: 20px;
+}
+}
 @media screen and (max-width: 1366px) {
     select#lead_status {
         min-width: 110px;
     }}
- @media screen and (max-width: 991px) {
+ @media screen and (max-width: 1024px) {
         .dash-header ul {
             margin-bottom: 0;
             display: inline-block; 
@@ -29614,6 +29617,9 @@ button.navbar-toggler {
     margin-top: 15px;
     margin-bottom: 15px;
 }
+button.navbar-toggler.collapsed {
+    background: transparent !important;
+}
 }
 @media screen and (max-width: 767px) {
 .form-box {
@@ -29661,4 +29667,4 @@ div#lead_select {
     margin: 10px !important;
 }
 }
-     
+    
