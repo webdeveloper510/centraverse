@@ -481,7 +481,7 @@ $(document).ready(function() {
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="faq justify-content-center">
-                            <div class="col-sm-12 col-md-10 col-xxl-12">
+                            <div class="col-sm-12 col-md-12 col-xxl-12">
                                 <div class="accordion accordion-flush setting setting-accordion1" id="accordionExample">
                                     @if (\Auth::user()->type == 'owner')
                                     <div id="company-email-setting" class="accordion-item card">
