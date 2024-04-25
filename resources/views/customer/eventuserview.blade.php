@@ -14,7 +14,14 @@
 <li class="breadcrumb-item">{{__('Customer Details')}}</li>
 @endsection
 @section('action-btn')
-
+@can('Create Meeting')
+<div class="col-12 text-end mt-3">
+    <a href="{{ route('meeting.create',['meeting',0]) }}">
+        <button data-bs-toggle="tooltip" title="{{ __('Create') }}" class="btn btn-sm btn-primary btn-icon m-1">
+            <i class="ti ti-plus"></i></button>
+    </a>
+</div>
+@endcan
 @endsection
 @section('content')
 <div class="container-field">
@@ -36,13 +43,21 @@
                                                 <th scope="col" class="sort">{{__('Function')}}</th>
                                                 <th scope="col" class="sort">{{__('Bar')}}</th>
                                                 <th scope="col" class="sort">{{__('Status')}}</th>
-
+                                                <th scope="col" class="sort">{{__('Billing Amount')}}</th>
+                                                <th scope="col" class="sort">{{__('Amount Due')}}</th>
                                                 <th scope="col" class="sort">{{__('Created On')}}</th>
 
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach($events as $event)
+                                            <?php 
+                                            $pay = App\Models\PaymentLogs::where('event_id',$event->id)->get();
+                                            $total = 0;
+                                            foreach($pay as $p){
+                                            $total += $p->amount;
+                                            }
+                                        ?>
                                             <tr>
                                                 <td>
 
@@ -62,6 +77,8 @@
                                                 <td>{{($event->bar)}}</td>
 
                                                 <td>{{ __(\App\Models\Meeting::$status[$event->status]) }}</td>
+                                                <td>${{($event->total)}}</td>
+                                                <td>${{$event->total - $total}}</td>
                                                 <td>{{\Auth::user()->dateFormat($event->created_at)}}</td>
 
                                             </tr>

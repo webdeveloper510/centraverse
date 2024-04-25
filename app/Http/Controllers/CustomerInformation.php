@@ -337,6 +337,11 @@ class CustomerInformation extends Controller
         // echo "<pre>";print_r($notes);die;
         return view('customer.userview',compact('users','notes'));
     }
+    public function cate($category){
+        $users = UserImport::where('category',$category)->get();
+        return view('customer.new_user', compact('users','category'));
+        // echo "<pre>";print_r($users);die;
+    }
     public function uploadcustomerattachment(Request $request,$id){
         $id = decrypt(urldecode($id));
         // $users = UserImport::find($id);

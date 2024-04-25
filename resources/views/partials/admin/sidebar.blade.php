@@ -1,3 +1,7 @@
+<?php 
+$settings = App\Models\Utility::settings();
+$category= explode(',',$settings['campaign_type']);
+?>
 <div id="sidebar-wrapper">
     <div class="card">
         <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
@@ -123,22 +127,29 @@
                     <span class="fa-stack fa-lg pull-left"></span>
                     <span class="dash-mtext">{{ __('View Campaigns') }} </span></a>
                 @endif
-                @if(\Request::route()->getName() == 'userlist' || \Request::route()->getName() == 'customer.info' ||
+                @if(\Request::route()->getName() == 'customer.info' ||
                 \Request::route()->getName() == 'event_customers'||\Request::route()->getName() == 'siteusers' ||
                 \Request::route()->getName() == 'lead_customers' || \Request::route()->getName() ==
-                'lead.userinfo'||\Request::route()->getName() == 'event.userinfo')
+                'lead.userinfo'||\Request::route()->getName() ==
+                'event.userinfo'||\Request::route()->getName()=='categ')
                 <a href="{{route('siteusers')}}" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-users"></i></span>
                     <span class="dash-mtext">{{ __('All Customers') }} </span></a>
-                <a href="{{route('userlist')}}" class="list-group-item list-group-item-action">
-                    <span class="fa-stack fa-lg pull-left"></span>
-                    <span class="dash-mtext">{{ __('External ') }} </span></a>
+
                 <a href="{{route('event_customers')}}" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"></span>
                     <span class="dash-mtext">{{ __('Events ') }} </span></a>
                 <a href="{{route('lead_customers')}}" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"></span>
                     <span class="dash-mtext">{{ __('Leads') }} </span></a>
+
+                @if(isset($category) && !empty($category))
+                @foreach($category as $cat)
+                <a href="{{route('categ', $cat)}}" class="list-group-item list-group-item-action">
+                    <span class="fa-stack fa-lg pull-left"></span>
+                    <span class="dash-mtext">{{ $cat }} </span></a>
+                @endforeach
+                @endif
                 @endif
 
                 @if(\Request::route()->getName() == 'campaign-list' )

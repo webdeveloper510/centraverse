@@ -15,6 +15,7 @@ use App\Models\Quote;
 use App\Models\SalesOrder;
 use App\Models\Task;
 use App\Models\User;
+use App\Models\Billing;
 use App\Models\Order;
 use App\Models\Plan;
 use App\Models\Utility;
@@ -59,21 +60,19 @@ class DashboardController extends Controller
                 $date = today()->format('Y-m-d');
 
                 $activeLeads = Lead::where('created_by', \Auth::user()->creatorId())->
-                where('lead_status', 1)->get();
+                where('lead_status', 1)->take(4)->get();
                 $revenue = Meeting::all();
                 $events_revenue = 0;
                 foreach ($revenue as $key => $value) {
                     $events_revenue += $value->total;
-                    
-                    # code...
                 }
                 $paymentlogs = PaymentLogs::all();
                 $events_revenue_generated = 0;
                 foreach ($paymentlogs as $key => $value) {
-                    $events_revenue_generated += $value->amount;
-                    
+                    $events_revenue_generated += $value->amount;  
                     # code...
                 }
+
                 $lostLeads = Lead::where('created_by', \Auth::user()->creatorId())->where('proposal_status', '==',3)->take(4)->get(); 
                 $activeEvent = Meeting::where('created_by', \Auth::user()->creatorId())->where('start_date', '>=', $date)->take(4)->get();
                 $pastEvents = Meeting::where('created_by', \Auth::user()->creatorId())->where('start_date', '<', $date)->take(4)->get();
@@ -86,6 +85,12 @@ class DashboardController extends Controller
                 $venue = $settings['venue'];
                 $venue_dropdown = explode(",",$venue);                          
                 $statuss  = Invoice::$status;
+
+                $eventinvoice = Billing::pluck('event_id')->toArray();
+                
+                foreach ($eventinvoice as  $value) {
+                    $events[]= Meeting::find($value);
+                }
                 $invoices = [];
                 foreach ($statuss as $id => $status) {
                     $invoice                   = $total = Invoice::where('status', $id)->where('created_by', \Auth::user()->creatorId())->count();
@@ -145,7 +150,7 @@ class DashboardController extends Controller
                 // } else {
                 //     $storage_limit = 0;
                 // }
-                return view('home', compact('venue_dropdown','blockeddate','events_revenue','events_revenue_generated','data','users','plan','upcoming','completed','totalevent','activeLeads', 'lostLeads', 'activeEvent', 'pastEvents'));
+                return view('home', compact('venue_dropdown','blockeddate','events_revenue','events','events_revenue_generated','data','users','plan','upcoming','completed','totalevent','activeLeads', 'lostLeads', 'activeEvent', 'pastEvents'));
             }
         } else {
 

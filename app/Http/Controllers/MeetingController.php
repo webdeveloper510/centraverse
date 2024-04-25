@@ -543,6 +543,7 @@ class MeetingController extends Controller
     {
         if (\Auth::user()->can('Delete Meeting')) {
             $meeting->delete();
+            Billing::where('event_id',$meeting->id)->delete();
             // Billingdetail::where('event_id', $meeting->id)->delete();
             Agreement::where('event_id', $meeting->id)->delete();
             return redirect()->back()->with('success', 'Event Deleted!');

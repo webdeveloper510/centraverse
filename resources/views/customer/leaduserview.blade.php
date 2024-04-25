@@ -36,7 +36,7 @@
                                                 <th scope="col" class="sort">{{__('Event Date')}}</th>
                                                 <th scope="col" class="sort">{{__('Function')}}</th>
                                                 <th scope="col" class="sort">{{__('Bar')}}</th>
-                                                <th scope="col" class="sort">{{__('Status')}}</th>
+                                                <!-- <th scope="col" class="sort">{{__('Proposal Status')}}</th> -->
 
                                                 <th scope="col" class="sort">{{__('Created On')}}</th>
                                             
@@ -62,7 +62,7 @@
                                                 <td>{{ ucfirst($lead->function) }}</td>
                                                 <td>{{($lead->bar)}}</td>
 
-                                                <td>{{ __(\App\Models\Lead::$status[$lead->status]) }}</td>
+                                                <!-- <td>{{ __(\App\Models\Lead::$status[$lead->status]) }}</td> -->
                                                 <td>{{\Auth::user()->dateFormat($lead->created_at)}}</td>
 
                                             </tr>

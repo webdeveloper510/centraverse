@@ -16,7 +16,14 @@
 <li class="breadcrumb-item"><?php echo e(__('Customer Details')); ?></li>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('action-btn'); ?>
-
+<?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Meeting')): ?>
+<div class="col-12 text-end mt-3">
+    <a href="<?php echo e(route('meeting.create',['meeting',0])); ?>">
+        <button data-bs-toggle="tooltip" title="<?php echo e(__('Create')); ?>" class="btn btn-sm btn-primary btn-icon m-1">
+            <i class="ti ti-plus"></i></button>
+    </a>
+</div>
+<?php endif; ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 <div class="container-field">
@@ -38,13 +45,21 @@
                                                 <th scope="col" class="sort"><?php echo e(__('Function')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Bar')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Status')); ?></th>
-
+                                                <th scope="col" class="sort"><?php echo e(__('Billing Amount')); ?></th>
+                                                <th scope="col" class="sort"><?php echo e(__('Amount Due')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Created On')); ?></th>
 
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php $__currentLoopData = $events; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $event): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php 
+                                            $pay = App\Models\PaymentLogs::where('event_id',$event->id)->get();
+                                            $total = 0;
+                                            foreach($pay as $p){
+                                            $total += $p->amount;
+                                            }
+                                        ?>
                                             <tr>
                                                 <td>
 
@@ -64,6 +79,8 @@
                                                 <td><?php echo e(($event->bar)); ?></td>
 
                                                 <td><?php echo e(__(\App\Models\Meeting::$status[$event->status])); ?></td>
+                                                <td>$<?php echo e(($event->total)); ?></td>
+                                                <td>$<?php echo e($event->total - $total); ?></td>
                                                 <td><?php echo e(\Auth::user()->dateFormat($event->created_at)); ?></td>
 
                                             </tr>
