@@ -3,6 +3,8 @@ $settings = App\Models\Utility::settings();
 $category= explode(',',$settings['campaign_type']);
 ?>
 <div id="sidebar-wrapper">
+    <?php echo e(\Request::route()->getName()); ?>
+
     <div class="card">
         <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
             <div class="navbar-brand-box">
@@ -115,6 +117,12 @@ $category= explode(',',$settings['campaign_type']);
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Billing')); ?> </span></a>
                 <?php endif; ?>
+                <?php if(\Request::route()->getName() == 'calendernew.index'): ?>
+                <a href="#useradd-1" class="list-group-item list-group-item-action">
+                    <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
+                    <span class="dash-mtext"><?php echo e(__('Calender')); ?> </span></a>
+                <?php endif; ?>
+                
                 <?php if(\Request::route()->getName() == 'billing.create'): ?>
                 <a href="#useradd-1" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
@@ -223,6 +231,12 @@ $category= explode(',',$settings['campaign_type']);
                 <a href="#useradd-1" class="list-group-item list-group-item-action"><span
                         class="fa-stack fa-lg pull-left"><i class="ti ti-home-2"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Edit Lead')); ?> </span></a>
+                </a>
+                <?php endif; ?>
+                <?php if(\Request::route()->getName() == 'lead.info'): ?>
+                <a href="#useradd-1" class="list-group-item list-group-item-action"><span
+                        class="fa-stack fa-lg pull-left"><i class="ti ti-home-2"></i></span>
+                    <span class="dash-mtext"><?php echo e(__('Leads')); ?> </span></a>
                 </a>
                 <?php endif; ?>
                 <!-- <li

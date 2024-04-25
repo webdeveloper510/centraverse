@@ -525,7 +525,6 @@ Route::group(['middleware' => ['verified']], function () {
             Route::post('event/unblock-date/',[MeetingController::class,'unblock_date'])->name('meeting.unblock');
             Route::get('event/shareevent/{meeting}', [MeetingController::class, 'share_event'])->name('meeting.share');
             Route::post('event/share_event_info/{id}', [MeetingController::class, 'get_event_info'])->name('meeting.event_info');
-            Route::get('event/agreement/{id}', [MeetingController::class, 'agreement'])->name('meeting.agreement');
             Route::get('/meeting-download/{meeting}', [MeetingController::class, 'download_meeting']);
             Route::get('event/review-proposal/{id}', [MeetingController::class, 'review_agreement'])->name('meeting.review');
             Route::post('event/review-agreement/update/{id}', [MeetingController::class, 'review_agreement_data'])->name('meeting.review_agreement.update');
@@ -1399,6 +1398,8 @@ Route::group(['middleware' => ['verified']], function () {
 });
 
 Route::get('/meeting-download/{meeting}', [MeetingController::class, 'download_meeting']);
+Route::get('event/agreement/{id}', [MeetingController::class, 'agreement'])->name('meeting.agreement');
+
 // 22-01
 
 Route::get('/show-blocked-date-popup/{id}',[CalenderController::class,'show_blocked_date_popup']);

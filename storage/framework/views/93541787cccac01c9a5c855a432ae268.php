@@ -78,7 +78,7 @@ li.item-event>p:nth-child(2) {
 </style>
 <?php $__env->startSection('content'); ?>
 <div class="container">
-    <div class="row">
+    <div class="row" id="useradd-1">
         <div class="col-sm-8">
             <div id="calendar"></div>
         </div>
