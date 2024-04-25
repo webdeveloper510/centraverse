@@ -525,7 +525,10 @@ class LeadController extends Controller
         ];
 
         $pdf = Pdf::loadView('lead.signed_proposal', $data);
-        return $pdf->stream('proposal.pdf');
+        // return $pdf->stream('proposal.pdf');
+        return response($pdf->output(), 200)
+        ->header('Content-Type', 'application/pdf')
+        ->header('Content-Disposition', 'inline; filename="proposal.pdf"');
     }
     public function share_proposal_view($id){
         $decryptedId = decrypt(urldecode($id));
@@ -573,13 +576,13 @@ class LeadController extends Controller
             Mail::to($request->email)->send(new SendPdfEmail($lead,$subject,$content,$proposalinfo));
             $upd = Lead::where('id',$id)->update(['status' => 1]);
         } catch (\Exception $e) {
-            //   return response()->json(
-            //             [
-            //                 'is_success' => false,
-            //                 'message' => $e->getMessage(),
-            //             ]
-            //         );
-          return redirect()->back()->with('success', 'Email Not Sent');
+              return response()->json(
+                        [
+                            'is_success' => false,
+                            'message' => $e->getMessage(),
+                        ]
+                    );
+        //   return redirect()->back()->with('success', 'Email Not Sent');
       
         }
         return redirect()->back()->with('success', 'Email Sent Successfully');
@@ -657,22 +660,20 @@ class LeadController extends Controller
                 foreach ($users as  $user) {
                     Mail::to($lead->email)->cc($user->email)
                     ->send(new ProposalResponseMail($proposals,$lead));
-                }
-              
-                
+                }      
                 $upd = Lead::where('id',$id)->update(['status' => 2]);
             } catch (\Exception $e) {
-                  return response()->json(
-                            [
-                                'is_success' => false,
-                                'message' => $e->getMessage(),
-                            ]
-                        );
-            //   return redirect()->back()->with('success', 'Email Not Sent');
+                //   return response()->json(
+                //             [
+                //                 'is_success' => false,
+                //                 'message' => $e->getMessage(),
+                //             ]
+                //         );
+              return redirect()->back()->with('success', 'Email Not Sent');
           
             }
             return $pdf->stream('proposal.pdf');
-
+          
             
     } 
     public function uploadSignature($signed){
@@ -722,6 +723,7 @@ class LeadController extends Controller
                 $status = 5;
                 // $status = 0;
                 // $lead->proposal_status = 1;
+                
             }elseif($request->status == 'Withdraw'){
                 $status = 3;
                 // $status = 3;
@@ -729,7 +731,7 @@ class LeadController extends Controller
             }
             $data = [
                 'user_id'=> $request->user,
-            'name'      =>    $request->name,
+                'name'      => $request->name,
                 'email'=>   $request->email,
                 'phone'=>   $phone,
                 'lead_address'=>$request->lead_address,

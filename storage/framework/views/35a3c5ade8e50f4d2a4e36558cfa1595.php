@@ -137,6 +137,7 @@
                                                             <i class="fa fa-clone"></i>
                                                         </a>
                                                     </div>
+                                                    <?php if($lead->status >= 1): ?>
                                                     <div class="action-btn bg-success ms-2">
                                                         <a href="<?php echo e(route('lead.proposal',urlencode(encrypt($lead->id)))); ?>"
                                                             data-bs-toggle="tooltip" data-title="<?php echo e(__('Proposal')); ?>"
@@ -145,6 +146,7 @@
                                                             <i class="ti ti-receipt"></i>
                                                         </a>
                                                     </div>
+                                                    <?php endif; ?>
                                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Lead')): ?>
                                                     <div class="action-btn bg-warning ms-2">
                                                         <!-- <a href="<?php echo e(route('lead.show',$lead->id)); ?>" title="<?php echo e(__('Quick View')); ?>"

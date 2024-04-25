@@ -185,8 +185,7 @@ class AuthorizeController extends Controller
                             foreach ($users as  $user) {
                                 Mail::to($event->email)->cc($user->email)->send(new InvoicePaymentMail($newpayment));
                             }
-
-                           
+                            
                             $payinfo = PaymentInfo::where('event_id',$id)->first();
                             $halfpay = $payinfo->amount/2;
                             $amountpaid = 0 ;
@@ -207,12 +206,12 @@ class AuthorizeController extends Controller
                         
                             return view('calendar.welcome')->with('success',$message_text);
                         } catch (\Exception $e) {
-                              return response()->json(
-                                        [
-                                            'is_success' => false,
-                                            'message' => $e->getMessage(),
-                                        ]
-                                    );
+                            //   return response()->json(
+                            //             [
+                            //                 'is_success' => false,
+                            //                 'message' => $e->getMessage(),
+                            //             ]
+                            //         );
                             return redirect()->back()->with('success', 'Email Not Sent');
                         }
                 } else {

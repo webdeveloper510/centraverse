@@ -135,6 +135,7 @@
                                                             <i class="fa fa-clone"></i>
                                                         </a>
                                                     </div>
+                                                    @if($lead->status >= 1)
                                                     <div class="action-btn bg-success ms-2">
                                                         <a href="{{route('lead.proposal',urlencode(encrypt($lead->id))) }}"
                                                             data-bs-toggle="tooltip" data-title="{{__('Proposal')}}"
@@ -143,6 +144,7 @@
                                                             <i class="ti ti-receipt"></i>
                                                         </a>
                                                     </div>
+                                                    @endif
                                                     @can('Show Lead')
                                                     <div class="action-btn bg-warning ms-2">
                                                         <!-- <a href="{{ route('lead.show',$lead->id) }}" title="{{__('Quick View')}}"

@@ -29563,7 +29563,7 @@ h5.card-title.mb-2 {
  @media screen and (max-width: 991px) {
         .dash-header ul {
             margin-bottom: 0;
-            /* display: inline-block; */
+            display: inline-block; 
            padding-left: 0px;
             background: #f5f5f5;
             box-shadow: 0 5px 7px -1px rgb(61 65 68 / 30%);	
@@ -29594,5 +29594,71 @@ h5.card-title.mb-2 {
     .scrollbar span.dash-mtext {
         display: none;
     } 
+    .navbar-collapse {
+        flex-basis: auto;
+    }
+    .mobile.navbar-collapse {
+        display: none;
+}
+.mobile.navbar-collapse.collapse.show {
+    display: block !important;
+
+}
+header.dash-header.transprent-bg {
+    left: 70px;
+}
+div#bs-example-navbar-collapse-1 ul.nav.navbar-nav {
+    display: none;
+}
+button.navbar-toggler {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+}
+@media screen and (max-width: 767px) {
+.form-box {
+    width: 340px !important;
+    height: auto !important;
+    padding: 40px !important;
+    position: relative !important;
+}
+.custom-login {
+    background-position: center !important;
+}
+.row.filter-css .col-auto {
+    width: 100%;
+    margin-bottom: 10px;
+}
+.dataTable-dropdown {
+    width: 100%;
+    margin-bottom: 10px;
+}
+.dataTable-search {
+    float: left !important;
+}
+.container-fluid.xyz {
+    padding-top: 10px;
+}
+.form-group {
+    margin-top: 10px;
+}
+.fc .fc-daygrid-body-natural .fc-daygrid-day-events {
+    margin-bottom: 0em;
+}
+.fc-event, .fc-event:not([href]) {
+    padding: 0;
+    overflow: hidden;
+}
+div#lead_select {
+    width: 100% !important;
+}
+.need_full {
+    width: 100%;
+}
+.floorimages {
+    height: auto !important;
+    width: auto !important;
+    margin: 10px !important;
+}
 }
      

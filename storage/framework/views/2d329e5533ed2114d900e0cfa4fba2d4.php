@@ -19,7 +19,14 @@ $additional_items = json_decode($settings['additional_items'],true);
 }
 
 ?>
-
+<style>
+    
+.fa-asterisk{
+    font-size: xx-small;
+    position: absolute;
+    padding: 1px;
+}
+</style>
 <?php echo e(Form::open(array('url'=>'lead','method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))); ?>
 
 <input type="hidden" name="storedid" value="">

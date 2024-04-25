@@ -211,14 +211,19 @@
                                                 ?></td>
                                 <td><?php echo e(isset($result['function'])&& !empty($result['function']) ? ucfirst($result['function']) : '--'); ?></td>
                                 <td><?php $package = json_decode($result['func_package'],true);
+                                 if(isset($package) && !empty($package)){
                                                     foreach ($package as $key => $value) {
                                                         echo implode(',',$value);
                                                     } 
+                                                }
                                                 ?></td>
-                                <td> <?php $additional = json_decode($result['ad_opts'],true);
+                                <td> <?php
+                                 if(isset($additional) && !empty($additional)){
+                                     $additional = json_decode($result['ad_opts'],true);
                                                     foreach ($additional as $key => $value) {
                                                         echo implode(',',$value);
                                                     } 
+                                                }
                                 ?></td>
                                 <td><?php echo e($result['spcl_req'] ?? '--'); ?></td>
                                 <td><?php echo e($result['guest_count']); ?></td>

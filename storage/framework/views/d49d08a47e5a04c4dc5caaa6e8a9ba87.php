@@ -50,7 +50,7 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                             data-bs-target="#navbarCollapse">
                             <span class="navbar-toggler-icon"></span>
                         </button>
-                        <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="mobile collapse navbar-collapse" id="navbarCollapse">
                             <div class="navbar-nav">
                                 <ul class="dash-navbar">
                                     <li
@@ -114,7 +114,10 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                             <span class="dash-mtext"><?php echo e(__('Campaigns')); ?></span></a>
                                     </li>
                                     <?php endif; ?>
-
+                                    <li class="dash-item">
+                                        <a href="<?php echo e(route('email.index')); ?>" class="dash-link">
+                                            <span class="dash-mtext"><?php echo e(__('Emails')); ?></span></a>
+                                    </li>
                                     <li
                                         class="dash-item  <?php echo e(Request::route()->getName() == 'settings' ? 'active' : ''); ?>">
                                         <a href="<?php echo e(route('settings')); ?>" class="dash-link">
