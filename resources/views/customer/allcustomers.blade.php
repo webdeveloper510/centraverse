@@ -12,15 +12,14 @@
     data-title="{{__('Upload User')}}" title="{{__('Upload')}}" class="btn btn-sm btn-primary btn-icon m-1">
     <i class="ti ti-plus"></i>
 </a>
-<!-- <a href="{{ route('exportuser') }}" data-bs-toggle="tooltip" data-title="{{__('Export User')}}" title="{{__('Export')}}" class="btn btn-sm btn-primary btn-icon m-1">
-    <i class="ti ti-table-export"></i>
-</a> -->
+
 @endsection
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{__('Home')}}</a></li>
 <li class="breadcrumb-item">{{__('Customers')}}</li>
 @endsection
 @section('content')
+
 <div class="container-field">
     <div id="wrapper">
         <div id="page-content-wrapper">

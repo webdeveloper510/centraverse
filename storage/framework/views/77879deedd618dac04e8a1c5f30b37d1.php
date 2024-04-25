@@ -478,7 +478,8 @@ function display_count() {
                             start: startDate,
                             end: endDate,
                             textColor: '#fff',
-                            color: '#8fa6b3'
+                            color: '#8fa6b3',
+                            url:"<?php echo e(url('/show-blocked-date-popup')); ?>"+'/'+event.id
                           
                         });
                     });

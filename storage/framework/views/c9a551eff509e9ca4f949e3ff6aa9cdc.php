@@ -1,3 +1,7 @@
+<?php 
+$settings = App\Models\Utility::settings();
+$category= explode(',',$settings['campaign_type']);
+?>
 <div id="sidebar-wrapper">
     <div class="card">
         <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
@@ -124,22 +128,29 @@
                     <span class="fa-stack fa-lg pull-left"></span>
                     <span class="dash-mtext"><?php echo e(__('View Campaigns')); ?> </span></a>
                 <?php endif; ?>
-                <?php if(\Request::route()->getName() == 'userlist' || \Request::route()->getName() == 'customer.info' ||
+                <?php if(\Request::route()->getName() == 'customer.info' ||
                 \Request::route()->getName() == 'event_customers'||\Request::route()->getName() == 'siteusers' ||
                 \Request::route()->getName() == 'lead_customers' || \Request::route()->getName() ==
-                'lead.userinfo'||\Request::route()->getName() == 'event.userinfo'): ?>
+                'lead.userinfo'||\Request::route()->getName() ==
+                'event.userinfo'||\Request::route()->getName()=='categ'): ?>
                 <a href="<?php echo e(route('siteusers')); ?>" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-users"></i></span>
                     <span class="dash-mtext"><?php echo e(__('All Customers')); ?> </span></a>
-                <a href="<?php echo e(route('userlist')); ?>" class="list-group-item list-group-item-action">
-                    <span class="fa-stack fa-lg pull-left"></span>
-                    <span class="dash-mtext"><?php echo e(__('External ')); ?> </span></a>
+
                 <a href="<?php echo e(route('event_customers')); ?>" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"></span>
                     <span class="dash-mtext"><?php echo e(__('Events ')); ?> </span></a>
                 <a href="<?php echo e(route('lead_customers')); ?>" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"></span>
                     <span class="dash-mtext"><?php echo e(__('Leads')); ?> </span></a>
+
+                <?php if(isset($category) && !empty($category)): ?>
+                <?php $__currentLoopData = $category; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <a href="<?php echo e(route('categ', $cat)); ?>" class="list-group-item list-group-item-action">
+                    <span class="fa-stack fa-lg pull-left"></span>
+                    <span class="dash-mtext"><?php echo e($cat); ?> </span></a>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                <?php endif; ?>
                 <?php endif; ?>
 
                 <?php if(\Request::route()->getName() == 'campaign-list' ): ?>

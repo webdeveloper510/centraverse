@@ -13,15 +13,14 @@
     data-title="<?php echo e(__('Upload User')); ?>" title="<?php echo e(__('Upload')); ?>" class="btn btn-sm btn-primary btn-icon m-1">
     <i class="ti ti-plus"></i>
 </a>
-<!-- <a href="<?php echo e(route('exportuser')); ?>" data-bs-toggle="tooltip" data-title="<?php echo e(__('Export User')); ?>" title="<?php echo e(__('Export')); ?>" class="btn btn-sm btn-primary btn-icon m-1">
-    <i class="ti ti-table-export"></i>
-</a> -->
+
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('breadcrumb'); ?>
 <li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Home')); ?></a></li>
 <li class="breadcrumb-item"><?php echo e(__('Customers')); ?></li>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
+
 <div class="container-field">
     <div id="wrapper">
         <div id="page-content-wrapper">

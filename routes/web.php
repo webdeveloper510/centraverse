@@ -1025,6 +1025,8 @@ Route::group(['middleware' => ['verified']], function () {
             Route::get('customer/information/{id}',[CustomerInformation::class,'customer_info'])->name('customer.info');
             Route::post('upload-external-customer-info/{id}',[CustomerInformation::class,'uploadcustomerattachment'])->name('upload-info');
             Route::post('user-notes/{id}',[CustomerInformation::class,'usernotes'])->name('addusernotes');
+            Route::get('category/{category}', [CustomerInformation::class,'cate'])->name('categ');
+
             
         }
     );

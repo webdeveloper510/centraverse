@@ -109,7 +109,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                     {{Form::text('eventname',null,array('class'=>'form-control','placeholder'=>__('Enter Event Name')))}}
                                                 </div>
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     {{Form::label('Assigned Staff',__('Assigned Staff'),['class'=>'form-label']) }}
                                                     @foreach($users as $user)
@@ -128,7 +128,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                     @endif
                                                 </div>
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     {{Form::label('type',__('Event Type'),['class'=>'form-label']) }}
                                                     {!! Form::select('type', $type_arr, null,array('class' =>
@@ -140,7 +140,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 </span>
                                                 @endif
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     {{Form::label('company_name',__('Company Name'),['class'=>'form-label']) }}
                                                     {{Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Company Name')))}}
@@ -165,7 +165,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 </span>
                                                 @endif
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     {{Form::label('phone',__('Phone'),['class'=>'form-label']) }}
                                                     <div class="intl-tel-input">
@@ -177,7 +177,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 </div>
 
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     {{Form::label('email',__('Email'),['class'=>'form-label']) }}
                                                     {{Form::text('email',null,array('class'=>'form-control','placeholder'=>__('Enter Email'),'required'=>'required'))}}
@@ -188,14 +188,14 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 </span>
                                                 @endif
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     {{Form::label('lead_address',__('Address'),['class'=>'form-label']) }}
                                                     {{Form::text('lead_address',null,array('class'=>'form-control','placeholder'=>__('Address')))}}
                                                 </div>
 
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     {{Form::label('relationship',__('Relationship'),['class'=>'form-label']) }}
                                                     {{Form::text('relationship',null,array('class'=>'form-control','placeholder'=>__('Enter Relationship')))}}
@@ -207,13 +207,13 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                         <h5 style="margin-left: 14px;">
                                                             {{ __('Other Contact Information') }}</h5>
                                                     </div>
-                                                    <div class="col-6">
+                                                    <div class="col-6 need_full">
                                                         <div class="form-group">
                                                             {{Form::label('alter_name',__('Name'),['class'=>'form-label']) }}
                                                             {{Form::text('alter_name',null,array('class'=>'form-control','placeholder'=>__('Enter Name')))}}
                                                         </div>
                                                     </div>
-                                                    <div class="col-6">
+                                                    <div class="col-6 need_full">
                                                         <div class="form-group">
                                                             {{Form::label('alter_phone',__('Phone'),['class'=>'form-label']) }}
                                                             <div class="intl-tel-input">
@@ -225,20 +225,20 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-6">
+                                                    <div class="col-6 need_full">
                                                         <div class="form-group">
                                                             {{Form::label('alter_email',__('Email'),['class'=>'form-label']) }}
                                                             {{Form::text('alter_email',null,array('class'=>'form-control','placeholder'=>__('Enter Email')))}}
                                                         </div>
                                                     </div>
-                                                    <div class="col-6">
+                                                    <div class="col-6 need_full">
                                                         <div class="form-group">
                                                             {{Form::label('alter_lead_address',__('Address'),['class'=>'form-label']) }}
                                                             {{Form::text('alter_lead_address',null,array('class'=>'form-control','placeholder'=>__('Address')))}}
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-6">
+                                                    <div class="col-6 need_full">
                                                         <div class="form-group">
                                                             {{Form::label('alter_relationship',__('Relationship'),['class'=>'form-label']) }}
                                                             {{Form::text('alter_relationship',null,array('class'=>'form-control','placeholder'=>__('Enter Relationship')))}}
@@ -280,7 +280,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                         <div class="row">
 
 
-                                            <div class="col-6">
+                                            <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     {{Form::label('guest_count',__('Guest Count'),['class'=>'form-label']) }}
                                                     {!! Form::number('guest_count', null,array('class' =>
@@ -292,7 +292,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 </span>
                                                 @endif
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     <label for="venue_selection" class="form-label">Venue</label>
                                                     @foreach($venue as $key => $label)
@@ -312,7 +312,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
 
 
 
-                                            <div class="col-6">
+                                            <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     {{ Form::label('start_date', __('Start Date'), ['class' => 'form-label']) }}
                                                     {!! Form::date('start_date', date('Y-m-d'), ['class' =>
@@ -339,7 +339,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 @endif
 
                                             </div> -->
-                                            <div class="col-6">
+                                            <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     {{ Form::label('start_time', __('Start Time'), ['class' => 'form-label']) }}
                                                     {!! Form::input('time', 'start_time', null, ['class' =>
@@ -352,7 +352,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 @endif
 
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     {{ Form::label('end_time', __('End Time'), ['class' => 'form-label']) }}
                                                     {!! Form::input('time', 'end_time', null, ['class' =>
@@ -364,7 +364,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 </span>
                                                 @endif
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     {{ Form::label('function', __('Function'), ['class' => 'form-label']) }}
                                                     @if(isset($function) && !empty($function))
@@ -383,7 +383,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 </span>
                                                 @endif
                                             </div>
-                                            <div class="col-6" id="mailFunctionSection">
+                                            <div class="col-6 need_full" id="mailFunctionSection">
                                                 @if(isset($function) && !empty($function))
                                                 @foreach($function as $key =>$value)
                                                 <div class="form-group" data-main-index="{{$key}}"
@@ -405,7 +405,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 @endforeach
                                                 @endif
                                             </div>
-                                            <div class="col-6" id="additionalSection">
+                                            <div class="col-6 need_full" id="additionalSection">
                                                 @if(isset($additional_items) && !empty($additional_items))
                                                 {{ Form::label('additional', __('Additional items'), ['class' => 'form-label']) }}
                                                 @foreach($additional_items as $ad_key =>$ad_value)
@@ -434,7 +434,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 <div class="row">
                                                     <label><b>Setup</b></label>
                                                     @foreach($setup as $s)
-                                                    <div class="col-6  mt-4">
+                                                    <div class="col-6 need_full mt-4">
                                                         <input type="radio" id="image_{{ $loop->index }}"
                                                             name="uploadedImage" class="form-check-input "
                                                             value="{{ asset('floor_images/' . $s->image) }}"
@@ -473,7 +473,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 <input type="number" name="rooms" min=0 class="form-control">
 
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     {!! Form::label('meal', 'Meal Preference') !!}
                                                     @foreach($meal as $key => $label)
@@ -484,7 +484,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                     @endforeach
                                                 </div>
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     {!! Form::label('baropt', 'Bar') !!}
                                                     @foreach($baropt as $key => $label)
