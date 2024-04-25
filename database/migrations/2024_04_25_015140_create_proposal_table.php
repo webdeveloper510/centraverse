@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('lead_id');
             $table->foreign('lead_id')->references('id')->on('leads');
+            $table->integer('proposal_id');
             $table->string('image')->nullable();
             $table->string('notes')->nullable();
             $table->string('proposal_response')->nullable();

@@ -26,6 +26,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                 <form method="POST" action="{{route('lead.proposalresponse',urlencode(encrypt($lead->id)))}}"
                     id='formdata'>
                     @csrf
+                    <input type="hidden" name="proposal" value="<?= $_GET['prop'];?>">
                     <div class="row">
                         <div class="col-md-4 mt-4">
                             <div class="img-section">

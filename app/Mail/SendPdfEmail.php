@@ -20,12 +20,13 @@ class SendPdfEmail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct($lead,$subject,$content,$proposalinfo)
+    public function __construct($lead,$subject,$content,$proposalinfo,$propid)
     {
         $this->lead = $lead;
         $this->subject = $subject;
         $this->content = $content;
         $this->proposalinfo = $proposalinfo; 
+        $this->propid = $propid;
     }
 
     /**
