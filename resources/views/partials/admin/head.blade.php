@@ -12,7 +12,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>
-        {{ Utility::getValByName('title_text') ? Utility::getValByName('title_text') : config('app.name', 'Centraverse') }}
+        {{ Utility::getValByName('title_text') ? Utility::getValByName('title_text') : config('app.name', 'The Sector Eight') }}
         - @yield('page-title')</title>
 
     <!-- Primary Meta Tags -->

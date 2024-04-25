@@ -3,11 +3,12 @@ $settings = App\Models\Utility::settings();
 $category= explode(',',$settings['campaign_type']);
 ?>
 <div id="sidebar-wrapper">
+    {{\Request::route()->getName()}}
     <div class="card">
         <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
             <div class="navbar-brand-box">
                 <a href="#" class="navbar-brand">
-                    <img src="{{$logo.'3_logo-light.png'}}" alt="{{ config('app.name', 'Centraverse') }}"
+                    <img src="{{$logo.'3_logo-light.png'}}" alt="{{ config('app.name', 'The Sector Eight') }}"
                         class="logo logo-lg nav-sidebar-logo" height="50" />
                 </a>
             </div>
@@ -114,6 +115,12 @@ $category= explode(',',$settings['campaign_type']);
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
                     <span class="dash-mtext">{{ __('Billing') }} </span></a>
                 @endif
+                @if(\Request::route()->getName() == 'calendernew.index')
+                <a href="#useradd-1" class="list-group-item list-group-item-action">
+                    <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
+                    <span class="dash-mtext">{{ __('Calender') }} </span></a>
+                @endif
+                
                 @if(\Request::route()->getName() == 'billing.create')
                 <a href="#useradd-1" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
@@ -222,6 +229,12 @@ $category= explode(',',$settings['campaign_type']);
                 <a href="#useradd-1" class="list-group-item list-group-item-action"><span
                         class="fa-stack fa-lg pull-left"><i class="ti ti-home-2"></i></span>
                     <span class="dash-mtext">{{ __('Edit Lead') }} </span></a>
+                </a>
+                @endif
+                @if(\Request::route()->getName() == 'lead.info')
+                <a href="#useradd-1" class="list-group-item list-group-item-action"><span
+                        class="fa-stack fa-lg pull-left"><i class="ti ti-home-2"></i></span>
+                    <span class="dash-mtext">{{ __('Leads') }} </span></a>
                 </a>
                 @endif
                 <!-- <li

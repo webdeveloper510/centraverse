@@ -1937,7 +1937,7 @@ $(document).ready(function() {
                             </div>
                         </div>
 
-                        <!-- <div id="brand-settings" class="card">
+                        <div id="brand-settings" class="card">
                             <div class="card-header">
                                 <h5><?php echo e(__('Brand Settings')); ?></h5>
                                 <small class="text-muted"><?php echo e(__('Edit your brand details')); ?></small>
@@ -2313,7 +2313,7 @@ unset($__errorArgs, $__bag); ?>
 
                         </div> -->
 
-                        <!-- <div id="twilio-settings" class="card">
+                         <div id="twilio-settings" class="card">
                         <div class="card-header">
                             <h5><?php echo e(__('Twilio Settings')); ?></h5>
                             <small class="text-muted"><?php echo e(__('Edit your twilio details')); ?></small>
@@ -2372,7 +2372,7 @@ unset($__errorArgs, $__bag); ?>
                                                 <label class="form-check-label" for="twilio_meeting_create"></label>
                                             </div>
                                         </li> -->
-                        <!-- <li class="list-group-item">
+                       <li class="list-group-item">
                                                                                             <span><?php echo e(__('New Quotes')); ?></span>
                                                                                             <div class="form-check form-switch float-end">
                                                                                                 <?php echo e(Form::checkbox('twilio_quotes_create', '1', isset($settings['twilio_quotes_create']) && $settings['twilio_quotes_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_quotes_create'])); ?>
@@ -2380,9 +2380,9 @@ unset($__errorArgs, $__bag); ?>
                                                                                                 <label class="form-check-label" for="twilio_quotes_create"></label>
                                                                                             </div>
                                                                                         </li> -->
-                        <!-- </ul>
+                        </ul>
                                             </div> -->
-                        <!-- <div class="col-md-4">
+                         <div class="col-md-4">
                                                                 <ul class="list-group">
                                                                     <li class="list-group-item">
                                                                         <span><?php echo e(__('New Sales Order')); ?></span>
@@ -2443,8 +2443,8 @@ unset($__errorArgs, $__bag); ?>
 
 
 
-                        <?php if(\Auth::user()->type == 'super admin'): ?>
-                        <!-- <div id="brand-settings" class="card">
+                        <?php if(\Auth::user()->type != 'super admin'): ?>
+                        <div id="brand-settings" class="card">
                                         <div class="card-header">
                                             <h5><?php echo e(__('Brand Settings')); ?></h5>
                                             <small class="text-muted"><?php echo e(__('Edit your brand details')); ?></small>

@@ -9,6 +9,6 @@
 {!! $template->content !!}
 Best regards
 <br>
-<b>Centraverse<b>
+<b>The Sector Eight<b>
 </body>
 </html>

@@ -20,9 +20,9 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                 {{-- <img src="{{ asset(Storage::url('logo/'.$logo)) }}" alt="{{ env('APP_NAME') }}" class="logo logo-lg" />
                     <img src="{{ asset(Storage::url('logo/'.$logo)) }}" alt="{{ env('APP_NAME') }}" class="logo logo-sm" /> --}}
                     {{--<img src="{{ $logo . '/' . (isset($company_logo) && !empty($company_logo) ? $company_logo : 'logo.png') .'?'.time()}}"
-                    alt="{{ config('app.name', 'Centraverse') }}" class="logo logo-lg nav-sidebar-logo" />--}}
+                    alt="{{ config('app.name', 'The Sector Eight') }}" class="logo logo-lg nav-sidebar-logo" />--}}
                     <img src="{{$logo.'logo.png'}}"
-                    alt="{{ config('app.name', 'Centraverse') }}" class="logo logo-lg nav-sidebar-logo" />
+                    alt="{{ config('app.name', 'The Sector Eight') }}" class="logo logo-lg nav-sidebar-logo" />
             </a>
         </div>
         <div class="navbar-content">
