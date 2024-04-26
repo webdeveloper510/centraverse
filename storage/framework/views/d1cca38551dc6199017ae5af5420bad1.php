@@ -3,7 +3,6 @@ $settings = App\Models\Utility::settings();
 $category= explode(',',$settings['campaign_type']);
 ?>
 <div id="sidebar-wrapper">
-    <?php echo e(\Request::route()->getName()); ?>
 
     <div class="card">
         <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">

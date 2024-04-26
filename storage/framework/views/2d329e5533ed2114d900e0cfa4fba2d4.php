@@ -31,7 +31,7 @@ $additional_items = json_decode($settings['additional_items'],true);
 
 <input type="hidden" name="storedid" value="">
 <div class="row">
-    <div class="col-6">
+    <div class="col-6 need_full">
         <div class="form-group">
             <?php echo e(Form::label('lead_name',__('Lead Name'),['class'=>'form-label'])); ?>
 
@@ -42,7 +42,7 @@ $additional_items = json_decode($settings['additional_items'],true);
 
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-6 need_full">
         <div class="form-group">
             <?php echo e(Form::label('company_name',__('Company Name'),['class'=>'form-label'])); ?>
 
@@ -53,7 +53,7 @@ $additional_items = json_decode($settings['additional_items'],true);
     <div class="col-12  p-0 modaltitle pb-3 mb-3">
         <h5 style="margin-left: 14px;"><?php echo e(__('Contact Information')); ?></h5>
     </div>
-    <div class="col-6">
+    <div class="col-6 need_full">
         <div class="form-group">
             <?php echo e(Form::label('name',__('Name'),['class'=>'form-label'])); ?>
 
@@ -72,7 +72,7 @@ $additional_items = json_decode($settings['additional_items'],true);
 
         </div>
     </div> -->
-    <div class="col-6">
+    <div class="col-6 need_full">
         <div class="form-group ">
             <?php echo e(Form::label('name',__('Phone'),['class'=>'form-label'])); ?>
 
@@ -86,7 +86,7 @@ $additional_items = json_decode($settings['additional_items'],true);
             </div>
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-6 need_full">
         <div class="form-group">
             <?php echo e(Form::label('email',__('Email'),['class'=>'form-label'])); ?>
 
@@ -95,7 +95,7 @@ $additional_items = json_decode($settings['additional_items'],true);
 
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-6 need_full">
         <div class="form-group">
             <?php echo e(Form::label('lead_address',__('Address'),['class'=>'form-label'])); ?>
 
@@ -103,7 +103,7 @@ $additional_items = json_decode($settings['additional_items'],true);
 
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-6 need_full">
         <div class="form-group">
             <?php echo e(Form::label('relationship',__('Relationship'),['class'=>'form-label'])); ?>
 
@@ -114,7 +114,7 @@ $additional_items = json_decode($settings['additional_items'],true);
     <div class="col-12  p-0 modaltitle pb-3 mb-3">
         <h5 style="margin-left: 14px;"><?php echo e(__('Event Details')); ?></h5>
     </div>
-    <div class="col-6">
+    <div class="col-6 need_full">
         <div class="form-group">
             <?php echo e(Form::label('type',__('Event Type'),['class'=>'form-label'])); ?>
 
@@ -130,7 +130,7 @@ $additional_items = json_decode($settings['additional_items'],true);
         </div>
     </div>
     <?php if(isset($venue) && !empty($venue)): ?>
-    <div class="col-6">
+    <div class="col-6 need_full">
         <div class="form-group">
             <?php echo e(Form::label('venue_selection', __('Venue'), ['class' => 'form-label'])); ?>
 
@@ -145,7 +145,7 @@ $additional_items = json_decode($settings['additional_items'],true);
         </div>
     </div>
     <?php endif; ?>
-    <div class="col-6">
+    <div class="col-6 need_full">
         <div class="form-group">
             <?php echo e(Form::label('start_date', __('Date of Event'), ['class' => 'form-label'])); ?>
 
@@ -165,7 +165,7 @@ $additional_items = json_decode($settings['additional_items'],true);
         </div>
     </div> -->
 
-    <div class="col-6">
+    <div class="col-6 need_full">
         <div class="form-group">
             <?php echo e(Form::label('guest_count',__('Guest Count'),['class'=>'form-label'])); ?>
 
@@ -174,7 +174,7 @@ $additional_items = json_decode($settings['additional_items'],true);
         </div>
     </div>
     <?php if(isset($function) && !empty($function)): ?>
-    <div class="col-6">
+    <div class="col-6 need_full">
         <div class="form-group">
             <?php echo e(Form::label('function', __('Function'), ['class' => 'form-label'])); ?>
 
@@ -191,7 +191,7 @@ $additional_items = json_decode($settings['additional_items'],true);
             </div>
         </div>
     </div>
-    <div class="col-6" id="mailFunctionSection">
+    <div class="col-6 need_full" id="mailFunctionSection">
         <?php if(isset($function) && !empty($function)): ?>
         <?php $__currentLoopData = $function; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key =>$value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <div class="form-group" data-main-index="<?php echo e($key); ?>" data-main-value="<?php echo e($value['function']); ?>"
@@ -213,7 +213,7 @@ $additional_items = json_decode($settings['additional_items'],true);
         <?php endif; ?>
     </div>
     <?php if(isset($additional_items) && !empty($additional_items)): ?>
-    <div class="col-6" id="additionalSection">
+    <div class="col-6 need_full" id="additionalSection">
         <?php echo e(Form::label('additional', __('Additional items'), ['class' => 'form-label'])); ?>
 
         <?php $__currentLoopData = $additional_items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ad_key =>$ad_value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -238,7 +238,7 @@ $additional_items = json_decode($settings['additional_items'],true);
     <?php endif; ?>
 
     <?php endif; ?>
-    <div class="col-6">
+    <div class="col-6 need_full">
         <div class="form-group">
             <?php echo e(Form::label('Assign Staff',__('Assign Staff'),['class'=>'form-label'])); ?>
 
@@ -254,7 +254,7 @@ $additional_items = json_decode($settings['additional_items'],true);
         <!-- <hr class="mt-2 mb-2"> -->
         <h5 style="margin-left: 14px;"><?php echo e(__('Other Information')); ?></h5>
     </div>
-    <div class="col-6">
+    <div class="col-6 need_full">
         <div class="form-group">
             <?php echo e(Form::label('allergies',__('Allergies'),['class'=>'form-label'])); ?>
 
@@ -262,7 +262,7 @@ $additional_items = json_decode($settings['additional_items'],true);
 
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-6 need_full">
         <div class="form-group">
             <?php echo e(Form::label('spcl_req',__('Any Special Requirements'),['class'=>'form-label'])); ?>
 
@@ -282,7 +282,7 @@ $additional_items = json_decode($settings['additional_items'],true);
         <!-- <hr class="mt-2 mb-2"> -->
         <h5 style="margin-left: 14px;"><?php echo e(__('Estimate Billing Summary Details')); ?></h5>
     </div>
-    <div class="col-6">
+    <div class="col-6 need_full">
         <div class="form-group">
             <?php echo Form::label('baropt', 'Bar'); ?>
 
@@ -296,7 +296,7 @@ $additional_items = json_decode($settings['additional_items'],true);
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </div>
     </div>
-    <div class="col-6" id="barpacakgeoptions" style="display: none;">
+    <div class="col-6 need_full" id="barpacakgeoptions" style="display: none;">
         <?php if(isset($bar_package) && !empty($bar_package)): ?>
         <?php $__currentLoopData = $bar_package; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key =>$value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <div class="form-group" data-main-index="<?php echo e($key); ?>" data-main-value="<?php echo e($value['bar']); ?>">
@@ -315,7 +315,7 @@ $additional_items = json_decode($settings['additional_items'],true);
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         <?php endif; ?>
     </div>
-    <div class="col-6">
+    <div class="col-6 need_full">
         <div class="form-group">
             <?php echo e(Form::label('rooms',__('Room'),['class'=>'form-label'])); ?>
 
@@ -323,7 +323,7 @@ $additional_items = json_decode($settings['additional_items'],true);
                 class="form-control" value="<?php echo e(old('guest_count')); ?>">
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-6 need_full">
         <div class="form-group">
             <?php echo e(Form::label('start_time', __('Estimated Start Time (24-Hour Format)'), ['class' => 'form-label'])); ?>
 
@@ -331,7 +331,7 @@ $additional_items = json_decode($settings['additional_items'],true);
 
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-6 need_full">
         <div class="form-group">
             <?php echo e(Form::label('end_time', __('Estimated End Time (24-Hour Format)'), ['class' => 'form-label'])); ?>
 
@@ -339,7 +339,7 @@ $additional_items = json_decode($settings['additional_items'],true);
 
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-6 need_full">
         <div class="form-group">
             <?php echo e(Form::label('is_active',__('Active'),['class'=>'form-label'])); ?>
 

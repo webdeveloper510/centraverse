@@ -28,7 +28,14 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
 ?>
 
 <?php if(isset($settings['cust_theme_bg']) && $settings['cust_theme_bg'] == 'on'): ?>
-
+<style>
+@media screen and (max-width: 1024px) {
+    li.dash-item.active a span.dash-mtext {
+        color: #0e0e0e !important;
+ 
+    }
+}
+</style>
 <div class="outer-layout">
     <header class="dash-header transprent-bg">
         <?php else: ?>

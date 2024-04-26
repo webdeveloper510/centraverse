@@ -787,8 +787,8 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light {
 }
 ul.dash-navbar a span.dash-mtext {
     color: #000 !important;
-    font-size: 16px;
-    padding: 10px 10px;
+    font-size: 13px;
+    padding: 10px 5px;
 }
 ul.dash-navbar a span.dash-mtext:hover {
     background: linear-gradient(141.55deg, #48494b 3.46%, #797c83 99.86%), #16181a;
