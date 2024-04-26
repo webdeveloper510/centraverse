@@ -93,14 +93,18 @@ $files = Storage::files('app/public/Event/'.$event->id);
                             </span>
                         </dd>
                         @endif
-                        <hr class="mt-5">
-                        <div class="row">
-                            <div class="col-lg-8 col-md-8 col-sm-8">
-                                <h3>{{ __('Setup') }}</h3>
+
+                        <dt class="col-md-6"><span class="h6  mb-0">{{__('Billing Amount')}}</span></dt>
+                        <dd class="col-md-6"><span class="">@if($event->total != 0)${{$event->total}}@else Billing Not
+                                Created @endif</span>
+                            <hr class="mt-5">
+                            <div class="row">
+                                <div class="col-lg-8 col-md-8 col-sm-8">
+                                    <h3>{{ __('Setup') }}</h3>
+                                </div>
                             </div>
-                        </div>
-                        <hr>
-                        <img src="{{$event->floor_plan}}" alt="" style="    width: 40% !important;">
+                            <hr>
+                            <img src="{{$event->floor_plan}}" alt="" style="    width: 40% !important;">
                     </dl>
                     <div class="col-lg-12">
                         <div class="card" id="useradd-1">
@@ -114,9 +118,7 @@ $files = Storage::files('app/public/Event/'.$event->id);
                                                 <th scope="col" class="sort" data-sort="status">{{ __('Name') }}</th>
                                                 <th scope="col" class="sort" data-sort="completion">
                                                     {{ __('Transaction Id') }}</th>
-                                                <th scope="col" class="sort" data-sort="completion">
-                                                    {{ __('Total Amount') }}
-                                                </th>
+                                               
                                                 <th scope="col" class="sort" data-sort="completion">
                                                     {{ __('Amount Recieved') }}</th>
 
@@ -124,16 +126,20 @@ $files = Storage::files('app/public/Event/'.$event->id);
                                         </thead>
                                         <tbody>
                                             @foreach($payments as $payment)
-                                            <td>{{Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $payment->created_at)->format('M d, Y')}}
-                                            </td>
-                                            <td>{{$payment->name_of_card}}</td>
-                                            <td>{{$payment->transaction_id}}</td>
-                                            @if($payinfo)
-                                            <td>{{$payinfo->amounttobepaid}}</td>
-                                            @else
-                                            <td> -- </td>
-                                            @endif
-                                            <td>{{$payment->amount}}</td>
+                                            <tr>
+
+
+                                                <td>{{Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $payment->created_at)->format('M d, Y')}}
+                                                </td>
+                                                <td>{{$payment->name_of_card}}</td>
+                                                <td>{{$payment->transaction_id}}</td>
+                                                <!-- @if($payinfo)
+                                                <td>{{$payinfo->amounttobepaid}}</td>
+                                                @else
+                                                <td> -- </td>
+                                                @endif -->
+                                                <td>{{$payment->amount}}</td>
+                                            </tr>
                                             @endforeach
                                         </tbody>
                                     </table>

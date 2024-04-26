@@ -45,6 +45,7 @@ use App\Http\Controllers\ProductTaxController;
 use App\Http\Controllers\ShippingProviderController;
 use App\Http\Controllers\StreamController;
 use App\Http\Controllers\CalenderController;
+use App\Http\Controllers\ContractsController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StripePaymentController;
@@ -1396,6 +1397,19 @@ Route::group(['middleware' => ['verified']], function () {
     // Storage setting
     Route::post('storage-settings', [SettingController::class, 'storageSettingStore'])->name('storage.setting.store')->middleware(['auth', 'XSS']);
 });
+Route::group(
+    [
+        'middleware' => [
+            'auth',
+            'XSS',
+        ],
+    ],
+    function () {
+        Route::get('contracts',[ContractsController::class,'index'])->name('contracts.index');
+        Route::get('contracts/create',[ContractsController::class,'create'])->name('contracts.create');
+        Route::post('contracts/store',[ContractsController::class,'store'])->name('contracts.store');
+    });
+
 
 Route::get('/meeting-download/{meeting}', [MeetingController::class, 'download_meeting']);
 Route::get('event/agreement/{id}', [MeetingController::class, 'agreement'])->name('meeting.agreement');

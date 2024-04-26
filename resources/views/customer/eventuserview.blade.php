@@ -60,12 +60,12 @@
                                         ?>
                                             <tr>
                                                 <td>
-
+<!-- 
                                                     <a href="" data-size="md" title="{{ __('Event Details') }}"
                                                         class="action-item text-primary"
-                                                        style="color:#1551c9 !important;">
+                                                        style="color:#1551c9 !important;"> -->
                                                         <b> {{ ucfirst($event->name) }}</b>
-                                                    </a>
+                                                    <!-- </a> -->
                                                 </td>
                                                 <td><b> {{ ucfirst($event->type) }}</b></td>
                                                 <td>

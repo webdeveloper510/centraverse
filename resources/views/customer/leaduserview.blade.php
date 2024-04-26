@@ -46,12 +46,12 @@
                                             @foreach($leads as $lead)
                                             <tr>
                                                 <td>
-                                                    <a href="{{ route('lead.info',urlencode(encrypt($lead->id))) }}"
+                                                    <!-- <a href="{{ route('lead.info',urlencode(encrypt($lead->id))) }}"
                                                         data-size="md" title="{{ __('Lead Details') }}"
                                                         class="action-item text-primary"
-                                                        style="color:#1551c9 !important;">
-                                                        <b> {{ ucfirst($lead->name) }}</b>
-                                                    </a>
+                                                        style="color:#1551c9 !important;"> -->
+                                                         {{ ucfirst($lead->name) }}
+                                                    <!-- </a> -->
                                                 </td>
                                                 <td><b> {{ ucfirst($lead->type) }}</b></td>
                                                 <td>

@@ -827,6 +827,8 @@ class LeadController extends Controller
         $newlead['name']               = $lead->name;
         $newlead['leadname']          =  $lead->leadname;
         $newlead['assigned_user']      = $lead->user_id;
+        $newlead['start_date']      = date('Y-m-d');
+        $newlead['end_date']      = date('Y-m-d');
         $newlead['email']              = $lead->email;
         $newlead['phone']              = $lead->phone;
         $newlead['lead_address']       = $lead->lead_address;

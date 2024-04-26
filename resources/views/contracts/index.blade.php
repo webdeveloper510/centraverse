@@ -26,72 +26,6 @@
 
 @section('content')
     <div class="row">
-        <div class="col-xl-3 col-6">
-            <div class="card comp-card" style="min-height:110px;">
-                <div class="card-body">
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <h6 class="">{{ __('Total Contracts') }}</h6>
-                            <h3 class="text-primary">{{ $cnt_contract['total'] }}</h3>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-handshake bg-success text-white"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-3 col-6">
-            <div class="card comp-card" style="min-height:110px;">
-                <div class="card-body">
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <h6 class="">{{ __('This Month Total Contracts') }}</h6>
-                            <h3 class="text-info">{{ $cnt_contract['this_month'] }}</h3>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-handshake bg-info text-white"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-3 col-6">
-            <div class="card comp-card" style="min-height:110px;">
-                <div class="card-body">
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <h6 class="">{{ __('This Week Total Contracts') }}</h6>
-                            <h3 class="text-warning">{{ $cnt_contract['this_week'] }}</h3>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-handshake bg-warning text-white"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-3 col-6">
-            <div class="card comp-card" style="min-height:110px;">
-                <div class="card-body">
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <h6 class="">{{ __('Last 30 Days Total Contracts') }}</h6>
-                            <h3 class="text-danger">{{ $cnt_contract['last_30days'] }}</h3>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-handshake bg-danger text-white"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-
         <div class="col-md-12">
             <div class="card table-card">
                 <div class="card-header card-body table-border-style">
@@ -99,7 +33,7 @@
                         <table id="datatable" class="table datatable align-items-center">
                             <thead>
                                 <tr>
-                                    <th width="60px">{{ __('Contract') }}</th>
+                                    <!-- <th width="60px">{{ __('Contracts') }}</th> -->
                                     <th>{{ __('Name') }}</th>
                                     <th>{{ __('Subject') }}</th>
                                     <th>{{ __('Value') }}</th>
