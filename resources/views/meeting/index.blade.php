@@ -138,7 +138,7 @@
                                                     @if(App\Models\Billing::where('event_id',$meeting->id)->exists())
                                                     <div class="action-btn bg-success ms-2">
                                                         <a href="{{route('meeting.agreement',urlencode(encrypt($meeting->id))) }}"
-                                                            data-bs-toggle="tooltip" data-title="{{__('Agreement')}}"
+                                                        target="_blank" data-bs-toggle="tooltip" data-title="{{__('Agreement')}}"
                                                             title="{{__('View Agreement')}}"
                                                             class="mx-3 btn btn-sm d-inline-flex align-items-center text-white">
                                                             <i class="ti ti-receipt"></i>

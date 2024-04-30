@@ -51,7 +51,6 @@
                                                 {{-- @else --}}
                                                 {{-- {{ \Auth::User()->contractNumberFormat($contract->id) }} --}}
                                             @endcan
-
                                         </td> -->
                                         <td>{{ $contract->name }}</td>
                                         <td>{{ App\Models\User::find($contract->user_id)->first()->name }}</td>

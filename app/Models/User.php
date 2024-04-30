@@ -37,6 +37,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'plan',
         'plan_expire_date',
         'created_by',
+        'device_key'
         //'email_sent'
 
     ];

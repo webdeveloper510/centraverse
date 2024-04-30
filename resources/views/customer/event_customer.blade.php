@@ -35,7 +35,7 @@
                                         <tbody>
                                             @foreach($eventcustomers as $user)
                                             <tr>
-                                                <td> <a href="{{route('event.userinfo',urlencode(encrypt($user->id)))}}"
+                                                <td> <a href="{{route('event.userinfo',urlencode(encrypt($user->ref_id)))}}"
                                                         title="{{ __('User Details') }}"
                                                         class="action-item text-primary"
                                                         style="color:#1551c9 !important;">

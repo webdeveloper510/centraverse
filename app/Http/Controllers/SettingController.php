@@ -501,7 +501,7 @@ class SettingController extends Controller
     public function savePusherSettings(Request $request)
     {
 
-        if (\Auth::user()->type == 'super admin') {
+        // if (\Auth::user()->type == 'super admin') {
             $request->validate(
                 [
                     'pusher_app_id' => 'required',
@@ -532,9 +532,9 @@ class SettingController extends Controller
             }
 
             return redirect()->back()->with('success', 'Pusher setting successfully updated.');
-        } else {
-            return redirect()->back()->with('error', __('Permission denied.'));
-        }
+        // } else {
+        //     return redirect()->back()->with('error', __('Permission denied.'));
+        // }
     }
 
     public function testMail(Request $request)
