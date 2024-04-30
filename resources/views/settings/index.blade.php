@@ -293,21 +293,16 @@ canvas#signatureCanvas {
 @push('script-page')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
 <script>
-// When the user clicks on <div>, open the popup
 function myFunction() {
     var popup = document.getElementById("myPopup");
     popup.classList.toggle("show");
 }
 </script>
 <script>
-    // function toggleCollapse(dataId) {
-    //     console.log(dataId);
-    //     var collapseTarget = document.getElementById(dataId);
-    //     var collapseBS = new bootstrap.Collapse(collapseTarget);
-    //     collapseBS.toggle();
 
-    // }
+
 </script>
+
 <script>
 function check_theme(color_val) {
     $('#theme_color').prop('checked', false);
@@ -416,9 +411,15 @@ var scrollSpy = new bootstrap.ScrollSpy(document.body, {
     offset: 300,
 })
 $(".list-group-item").click(function() {
-    $('.list-group-item').filter(function() {
-        return this.href == id;
-    }).parent().removeClass('text-primary');
+    if($(this).hasClass('active')){
+        $(this).removeClass('active');
+    }else{
+        $(this).addClass('active');
+
+    }
+    // $('.list-group-item').filter(function() {
+    //     return this.href == id;
+    // }).parent().removeClass('text-primary');
 });
 
 function check_theme(color_val) {
@@ -1024,7 +1025,7 @@ $(document).ready(function() {
                                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                                 data-bs-target="#collapse19" aria-expanded="false"
                                                 aria-controls="collapse19">
-                                                <h5>{{ __('Event Details Settings') }}</h5>
+                                                <h5>{{ __('Event Settings') }}</h5>
                                             </button>
                                         </h2>
                                         <div id="collapse19" class="accordion-collapse collapse"
@@ -1775,9 +1776,10 @@ $(document).ready(function() {
                                         <div id="collapse21" class="accordion-collapse collapse"
                                             aria-labelledby="heading-2-15" data-bs-parent="#accordionExample">
                                             <div class="accordion-body">
+                                                <div class="row">
                                                 {{ Form::open(['route' => 'buffer.setting', 'method' => 'post']) }}
                                                 @csrf
-                                                <div class="col-6">
+                                                <div class="col-12">
                                                     <div class="form-group">
                                                         {{ Form::label('buffer_time', __('Add Buffer Time'), ['class' => 'form-label']) }}
                                                         {!! Form::input('time', 'buffer_time', $settings['buffer_time'],
@@ -1785,13 +1787,14 @@ $(document).ready(function() {
                                                         'form-control', 'required' => 'required']) !!}
                                                     </div>
                                                 </div>
-                                                <div class="col-6">
+                                                <div class="col-12">
                                                     <div class="form-group">
                                                         {{ Form::label('buffer_day', __('Add Buffer Day'), ['class' => 'form-label']) }}
                                                         {!! Form::number('buffer_day', $settings['buffer_day'], ['class'
                                                         =>
                                                         'form-control', 'required' => 'required','min' => '0']) !!}
                                                     </div>
+                                                </div>
                                                 </div>
                                                 <div class="text-end">
                                                     {{ Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary']) }}

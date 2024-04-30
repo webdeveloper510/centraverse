@@ -292,21 +292,16 @@ canvas#signatureCanvas {
 <?php $__env->startPush('script-page'); ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
 <script>
-// When the user clicks on <div>, open the popup
 function myFunction() {
     var popup = document.getElementById("myPopup");
     popup.classList.toggle("show");
 }
 </script>
 <script>
-    // function toggleCollapse(dataId) {
-    //     console.log(dataId);
-    //     var collapseTarget = document.getElementById(dataId);
-    //     var collapseBS = new bootstrap.Collapse(collapseTarget);
-    //     collapseBS.toggle();
 
-    // }
+
 </script>
+
 <script>
 function check_theme(color_val) {
     $('#theme_color').prop('checked', false);
@@ -415,9 +410,15 @@ var scrollSpy = new bootstrap.ScrollSpy(document.body, {
     offset: 300,
 })
 $(".list-group-item").click(function() {
-    $('.list-group-item').filter(function() {
-        return this.href == id;
-    }).parent().removeClass('text-primary');
+    if($(this).hasClass('active')){
+        $(this).removeClass('active');
+    }else{
+        $(this).addClass('active');
+
+    }
+    // $('.list-group-item').filter(function() {
+    //     return this.href == id;
+    // }).parent().removeClass('text-primary');
 });
 
 function check_theme(color_val) {
@@ -1057,7 +1058,7 @@ $(document).ready(function() {
                                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                                 data-bs-target="#collapse19" aria-expanded="false"
                                                 aria-controls="collapse19">
-                                                <h5><?php echo e(__('Event Details Settings')); ?></h5>
+                                                <h5><?php echo e(__('Event Settings')); ?></h5>
                                             </button>
                                         </h2>
                                         <div id="collapse19" class="accordion-collapse collapse"
@@ -1855,10 +1856,11 @@ $(document).ready(function() {
                                         <div id="collapse21" class="accordion-collapse collapse"
                                             aria-labelledby="heading-2-15" data-bs-parent="#accordionExample">
                                             <div class="accordion-body">
+                                                <div class="row">
                                                 <?php echo e(Form::open(['route' => 'buffer.setting', 'method' => 'post'])); ?>
 
                                                 <?php echo csrf_field(); ?>
-                                                <div class="col-6">
+                                                <div class="col-12">
                                                     <div class="form-group">
                                                         <?php echo e(Form::label('buffer_time', __('Add Buffer Time'), ['class' => 'form-label'])); ?>
 
@@ -1868,7 +1870,7 @@ $(document).ready(function() {
 
                                                     </div>
                                                 </div>
-                                                <div class="col-6">
+                                                <div class="col-12">
                                                     <div class="form-group">
                                                         <?php echo e(Form::label('buffer_day', __('Add Buffer Day'), ['class' => 'form-label'])); ?>
 
@@ -1877,6 +1879,7 @@ $(document).ready(function() {
                                                         'form-control', 'required' => 'required','min' => '0']); ?>
 
                                                     </div>
+                                                </div>
                                                 </div>
                                                 <div class="text-end">
                                                     <?php echo e(Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary'])); ?>

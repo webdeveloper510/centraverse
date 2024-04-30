@@ -1,13 +1,14 @@
 @extends('layouts.admin')
 @section('page-title')
-{{ __('External Customers') }}
+<?php echo $_GET['cat']; ?>{{ __(' Customers') }}
 @endsection
 @section('title')
-{{ __('External Customers') }}
+<?php echo $_GET['cat']; ?>{{ __(' Customers') }}
 @endsection
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Home') }}</a></li>
 <li class="breadcrumb-item"><a href="{{ route('siteusers') }}">{{ __('Customers') }}</a></li>
+<li class="breadcrumb-item"><a href="#"><?php echo $_GET['cat']; ?></a></li>
 <li class="breadcrumb-item">{{ __('Customer Details') }}</li>
 @endsection
 @section('content')

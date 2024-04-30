@@ -37,7 +37,7 @@
                                                 <th scope="col" class="sort"><?php echo e(__('Event Date')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Function')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Bar')); ?></th>
-                                                <th scope="col" class="sort"><?php echo e(__('Status')); ?></th>
+                                                <!-- <th scope="col" class="sort"><?php echo e(__('Proposal Status')); ?></th> -->
 
                                                 <th scope="col" class="sort"><?php echo e(__('Created On')); ?></th>
                                             
@@ -47,12 +47,13 @@
                                             <?php $__currentLoopData = $leads; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $lead): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <tr>
                                                 <td>
-                                                    <a href="<?php echo e(route('lead.info',urlencode(encrypt($lead->id)))); ?>"
+                                                    <!-- <a href="<?php echo e(route('lead.info',urlencode(encrypt($lead->id)))); ?>"
                                                         data-size="md" title="<?php echo e(__('Lead Details')); ?>"
                                                         class="action-item text-primary"
-                                                        style="color:#1551c9 !important;">
-                                                        <b> <?php echo e(ucfirst($lead->name)); ?></b>
-                                                    </a>
+                                                        style="color:#1551c9 !important;"> -->
+                                                         <?php echo e(ucfirst($lead->name)); ?>
+
+                                                    <!-- </a> -->
                                                 </td>
                                                 <td><b> <?php echo e(ucfirst($lead->type)); ?></b></td>
                                                 <td>
@@ -63,7 +64,7 @@
                                                 <td><?php echo e(ucfirst($lead->function)); ?></td>
                                                 <td><?php echo e(($lead->bar)); ?></td>
 
-                                                <td><?php echo e(__(\App\Models\Lead::$status[$lead->status])); ?></td>
+                                                <!-- <td><?php echo e(__(\App\Models\Lead::$status[$lead->status])); ?></td> -->
                                                 <td><?php echo e(\Auth::user()->dateFormat($lead->created_at)); ?></td>
 
                                             </tr>

@@ -27,12 +27,18 @@ $category= explode(',',$settings['campaign_type']);
                 <?php endif; ?>
                 <?php if(\Request::route()->getName() == 'settings'): ?>
                 <?php if(\Auth::user()->type == 'owner'): ?>
-                <a href="javascript:void(0);" class="list-group-item list-group-item-action" data-id="collapse16"
+                <a href="#company-email-setting" class="list-group-item list-group-item-action" data-id="collapse16"
+                    onclick="showAccordion('collapse16')">
+                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-envelope"></i></span>
+                    <span class="dash-mtext"><?php echo e(__('Email')); ?></span>
+                </a>
+
+                <!-- <a href="javascript:void(0);" class="list-group-item list-group-item-action" data-id="collapse16"
                     onclick="toggleCollapse(this.getAttribute('data-id'))">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-envelope  "></i></span>
                     <span class="dash-mtext"><?php echo e(__('Email')); ?> </span></a>
-                </a>
-                <a href="#twilio-settings" class="list-group-item list-group-item-action border-0">
+                </a> -->
+                <a href="#twilio-settings" class="list-group-item list-group-item-action border-0"   onclick="showAccordion('collapse15')">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-sms"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Twilio')); ?></span>
                 </a>
@@ -44,71 +50,71 @@ $category= explode(',',$settings['campaign_type']);
                 </a>
                 <?php endif; ?>
                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage User')): ?>
-                <a href="#user-settings" class="list-group-item list-group-item-action border-0">
+                <a href="#user-settings" class="list-group-item list-group-item-action border-0"    onclick="showAccordion('collapse17')">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-user"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Staff')); ?></span>
                 </a>
                 <?php endif; ?>
                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Role')): ?>
-                <a href="#role-settings" class="list-group-item list-group-item-action border-0">
+                <a href="#role-settings" class="list-group-item list-group-item-action border-0"  onclick="showAccordion('collapse18')">
                     <span class="fa-stack fa-lg pull-left"><img src="<?php echo e(asset('icons/user.png')); ?>" alt=""
                             style="    width: 22px;"></span>
                     <span class="dash-mtext"><?php echo e(__('Role')); ?></span>
                 </a>
                 <?php endif; ?>
                 <?php if(Gate::check('Manage Lead') || Gate::check('Manage Meeting')): ?>
-                <a href="#eventtype-settings" class="list-group-item list-group-item-action border-0">
+                <a href="#eventtype-settings" class="list-group-item list-group-item-action border-0"  onclick="showAccordion('collapse19')">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-tasks"></i></span>
-                    <span class="dash-mtext"><?php echo e(__('Event-Type')); ?></span>
+                    <span class="dash-mtext"><?php echo e(__('Events')); ?></span>
                 </a>
 
-                <a href="#venue-settings" class="list-group-item list-group-item-action border-0">
+                <!-- <a href="#venue-settings" class="list-group-item list-group-item-action border-0"  onclick="showAccordion('collapse19')">
                     <span class="fa-stack fa-lg pull-left"><img src="<?php echo e(asset('icons/location.png')); ?>" alt=""
                             style="    width: 22px;"></span>
                     <span class="dash-mtext"><?php echo e(__('Venue')); ?></span>
                 </a>
-                <a href="#function-settings" class="list-group-item list-group-item-action border-0">
+                <a href="#function-settings" class="list-group-item list-group-item-action border-0"  onclick="showAccordion('collapse19')">
                     <span class="fa-stack fa-lg pull-left"><img src="<?php echo e(asset('icons/restaurant.png')); ?>" alt=""
                             style="    width: 22px;"></span>
                     <span class="dash-mtext"><?php echo e(__('Function')); ?></span>
                 </a>
-                <a href="#bar-settings" class="list-group-item list-group-item-action border-0">
+                <a href="#bar-settings" class="list-group-item list-group-item-action border-0" onclick="showAccordion('collapse19')">
                     <span class="fa-stack fa-lg pull-left"><i class="fas fa-cocktail"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Bar')); ?></span>
                 </a>
-                <a href="#floor-plan-setting" class="list-group-item list-group-item-action border-0">
+                <a href="#floor-plan-setting" class="list-group-item list-group-item-action border-0"  onclick="showAccordion('collapse19')">
                     <span class="fa-stack fa-lg pull-left"><img src="<?php echo e(asset('icons/roadmap.png')); ?>" alt=""
                             style="    width: 22px;"></span>
                     <span class="dash-mtext"><?php echo e(__('Setup')); ?></span>
-                </a>
+                </a> -->
                 <?php endif; ?>
                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Payment')): ?>
-                <a href="#billing-setting" class="list-group-item list-group-item-action border-0">
+                <a href="#billing-setting" class="list-group-item list-group-item-action border-0"  onclick="showAccordion('collapse20')">
                     <span class="fa-stack fa-lg pull-left"><i class="fas fa-file-invoice"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Invoice')); ?></span>
                 </a>
                 <?php endif; ?>
                 <?php if(\Auth::user()->type == 'owner'): ?>
-                <a href="#buffer-settings" class="list-group-item list-group-item-action border-0">
+                <a href="#buffer-settings" class="list-group-item list-group-item-action border-0" onclick="showAccordion('collapse21')">
                     <span class="fa-stack fa-lg pull-left"><img src="<?php echo e(asset('icons/loading.png')); ?>" alt=""
                             style="    width: 22px;"></span>
                     <span class="dash-mtext"><?php echo e(__('Buffer')); ?></span>
                 </a>
-                <a href="#add-signature" class="list-group-item list-group-item-action border-0">
+                 <a href="#add-signature" class="list-group-item list-group-item-action border-0"  onclick="showAccordion('collapse22')">
                     <span class="fa-stack fa-lg pull-left"><img src="<?php echo e(asset('icons/signature.png')); ?>" alt=""
                             style="    width: 22px;"></span>
                     <span class="dash-mtext"><?php echo e(__('Authorised Signature')); ?></span>
                 </a>
-                <a href="#campaign-type" class="list-group-item list-group-item-action border-0">
+                <!--<a href="#campaign-type" class="list-group-item list-group-item-action border-0"  onclick="showAccordion('collapse19')">
                     <span class="fa-stack fa-lg pull-left"><img src="<?php echo e(asset('icons/marketing.png')); ?>" alt=""
                             style="    width: 22px;"></span>
                     <span class="dash-mtext"><?php echo e(__('Campaign Type')); ?></span>
-                </a>
-                <a href="#additional-settings" class="list-group-item list-group-item-action border-0">
+                </a> -->
+                <!-- <a href="#additional-settings" class="list-group-item list-group-item-action border-0" onclick="showAccordion('collapse19')">
                     <span class="fa-stack fa-lg pull-left"><img src="<?php echo e(asset('icons/addition-thick-symbol.png')); ?>"
                             alt="" style="    width: 22px;"></span>
                     <span class="dash-mtext"><?php echo e(__('Additional')); ?></span>
-                </a>
+                </a> -->
                 <?php endif; ?>
                 <?php endif; ?>
                 <?php if(\Request::route()->getName() == 'billing.index'): ?>
@@ -121,7 +127,7 @@ $category= explode(',',$settings['campaign_type']);
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Calender')); ?> </span></a>
                 <?php endif; ?>
-                
+
                 <?php if(\Request::route()->getName() == 'billing.create'): ?>
                 <a href="#useradd-1" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
@@ -145,16 +151,16 @@ $category= explode(',',$settings['campaign_type']);
                     <span class="dash-mtext"><?php echo e(__('All Customers')); ?> </span></a>
 
                 <a href="<?php echo e(route('event_customers')); ?>" class="list-group-item list-group-item-action">
-                    <span class="fa-stack fa-lg pull-left"></span>
+                    <span class="fa-stack fa-lg pull-left"><i class="ti ti-user" title="Event Customers"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Events ')); ?> </span></a>
                 <a href="<?php echo e(route('lead_customers')); ?>" class="list-group-item list-group-item-action">
-                    <span class="fa-stack fa-lg pull-left"></span>
+                    <span class="fa-stack fa-lg pull-left"><i class="ti ti-user" title="Lead Customers"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Leads')); ?> </span></a>
 
                 <?php if(isset($category) && !empty($category)): ?>
                 <?php $__currentLoopData = $category; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <a href="<?php echo e(route('categ', $cat)); ?>" class="list-group-item list-group-item-action">
-                    <span class="fa-stack fa-lg pull-left"></span>
+                    <span class="fa-stack fa-lg pull-left"><i class="ti ti-user" title="<?php echo e($cat); ?> Customers"></i></span>
                     <span class="dash-mtext"><?php echo e($cat); ?> </span></a>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 <?php endif; ?>
@@ -248,4 +254,18 @@ $category= explode(',',$settings['campaign_type']);
             </div>
         </div>
     </div>
-</div><?php /**PATH /home/crmcentraverse/public_html/resources/views/partials/admin/sidebar.blade.php ENDPATH**/ ?>
+</div>
+    <script>
+    function showAccordion(dataId) {
+        $('.accordion-collapse').css('display', 'none')
+        if ($('#' + dataId).hasClass('show')) {
+            $('#' + dataId).css('display', 'none');
+            $('#' + dataId).removeClass('show');
+        } else {
+            $('#' + dataId).css('display', 'block');
+            $('#' + dataId).addClass('show');
+        }
+    }
+</script>
+
+<?php /**PATH /home/crmcentraverse/public_html/resources/views/partials/admin/sidebar.blade.php ENDPATH**/ ?>

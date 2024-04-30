@@ -1,15 +1,17 @@
 
 <?php $__env->startSection('page-title'); ?>
-<?php echo e(__('External Customers')); ?>
+<?php echo $_GET['cat']; ?><?php echo e(__(' Customers')); ?>
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('title'); ?>
-<?php echo e(__('External Customers')); ?>
+<?php echo $_GET['cat']; ?><?php echo e(__(' Customers')); ?>
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('breadcrumb'); ?>
 <li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Home')); ?></a></li>
 <li class="breadcrumb-item"><a href="<?php echo e(route('siteusers')); ?>"><?php echo e(__('Customers')); ?></a></li>
+<li class="breadcrumb-item"><a href="#"><?php echo $_GET['cat']; ?><?php echo e(__(' Customers')); ?></a></li>
+
 <li class="breadcrumb-item"><?php echo e(__('Customer Details')); ?></li>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>

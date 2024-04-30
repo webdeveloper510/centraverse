@@ -62,12 +62,12 @@
                                         ?>
                                             <tr>
                                                 <td>
-
+<!-- 
                                                     <a href="" data-size="md" title="<?php echo e(__('Event Details')); ?>"
                                                         class="action-item text-primary"
-                                                        style="color:#1551c9 !important;">
+                                                        style="color:#1551c9 !important;"> -->
                                                         <b> <?php echo e(ucfirst($event->name)); ?></b>
-                                                    </a>
+                                                    <!-- </a> -->
                                                 </td>
                                                 <td><b> <?php echo e(ucfirst($event->type)); ?></b></td>
                                                 <td>
