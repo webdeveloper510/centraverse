@@ -105,6 +105,44 @@ class BillingController extends Controller
         $payment = PaymentInfo::where('event_id',$id)->orderBy('id', 'DESC')->first();
         return view('billing.pay-info',compact('event','payment'));
     }
+    // public function paymentupdate(Request $request, $id){         
+    //     $id = decrypt(urldecode($id));
+    //     echo "<pre>";print_r($request->all());die;
+    //     $payment = new PaymentInfo();
+    //     $payment->event_id = $id;
+    //     $payment->amount = $request->amount;
+    //     $payment->date = $request->date;
+    //     $payment->deposits = $request->deposits;
+    //     $payment->adjustments = $request->adjustments;
+    //     $payment->latefee = $request->latefee;
+    //     $payment->adjustmentnotes = $request->adjustmentnotes;
+    //     $payment->paymentref = $request->paymentref;
+    //     $payment->amounttobepaid = $request->amounttobepaid;
+    //     $payment->modeofpayment = $request->mode;
+    //     $payment->notes = $request->notes;
+    //     $balance = $request->balance;
+    //     $event = Meeting::find($id);
+    //     $payment->save();
+    //     $paid = PaymentInfo::where('event_id',$id)->get();
+    //     // echo"<pre>";print_r($paid);die;
+    //     // Meeting::find($id)->update(['total'=> $request->amounttobepaid]);
+
+    //     if($request->mode == 'credit'){
+    //         return view('payments.pay',compact('balance','event'));
+    //     }else{
+    //         PaymentLogs::create([
+    //             'amount' => $balance,
+    //             'transaction_id' => $request->paymentref,
+    //             'name_of_card' => $event->name,
+    //             'event_id' =>$id
+    //         ]);
+    //     }
+    //      return redirect()->back()->with('success','Payment Information Updated Sucessfully');
+    // // }else{
+    // //     return redirect()->back()->with('error','Permission Denied');
+
+    // // }
+    // }
     public function paymentupdate(Request $request, $id){         
         $id = decrypt(urldecode($id));
         // echo "<pre>";print_r($request->all());die;
@@ -115,9 +153,8 @@ class BillingController extends Controller
         $payment->deposits = $request->deposits;
         $payment->adjustments = $request->adjustments;
         $payment->latefee = $request->latefee;
-        $payment->adjustmentnotes = $request->adjustmentnotes;
         $payment->paymentref = $request->paymentref;
-        $payment->amounttobepaid = $request->amounttobepaid;
+        $payment->amounttobepaid = $request->amountcollect;
         $payment->modeofpayment = $request->mode;
         $payment->notes = $request->notes;
         $balance = $request->balance;
@@ -131,7 +168,7 @@ class BillingController extends Controller
             return view('payments.pay',compact('balance','event'));
         }else{
             PaymentLogs::create([
-                'amount' => $balance,
+                'amount' => $request->amountcollect,
                 'transaction_id' => $request->paymentref,
                 'name_of_card' => $event->name,
                 'event_id' =>$id
@@ -140,7 +177,6 @@ class BillingController extends Controller
          return redirect()->back()->with('success','Payment Information Updated Sucessfully');
     // }else{
     //     return redirect()->back()->with('error','Permission Denied');
-
     // }
     }
    
@@ -232,7 +268,7 @@ class BillingController extends Controller
         $payment->modeofpayment = 'credit';
         $payment->notes = $request->notes;
         $payment->save();
-return true;
+        return true;
 
     }
 }

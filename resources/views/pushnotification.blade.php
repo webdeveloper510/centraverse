@@ -1,4 +1,3 @@
-
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -29,8 +28,6 @@
     </div>
 </div>
 <script src="{{asset('js/jquery.min.js')}}"></script>
-<script src="{{asset('firebase-messaging-sw.js')}}"></script>
-
 <!-- The core Firebase JS SDK is always required and must be listed first -->
 <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase.js"></script>
 <script>
@@ -85,4 +82,3 @@ messaging.onMessage(function(payload) {
     new Notification(title, options);
 });
 </script>
-

@@ -1416,8 +1416,13 @@ Route::group(
 Route::get('/meeting-download/{meeting}', [MeetingController::class, 'download_meeting']);
 Route::get('event/agreement/{id}', [MeetingController::class, 'agreement'])->name('meeting.agreement');
 Route::get('/push-notificaiton', [WebNotificationController::class, 'index'])->name('push-notificaiton');
-Route::post('/store-token', [WebNotificationController::class, 'storeToken'])->name('store.token');
-Route::post('/send-web-notification', [WebNotificationController::class, 'sendWebNotification'])->name('send.web-notification');
+
+Route::group(['middleware' => 'auth'],function(){
+    Route::post('/store-token', [WebNotificationController::class, 'updateDeviceToken'])->name('store.token');
+    Route::post('/send-web-notification', [WebNotificationController::class, 'sendNotification'])->name('send.web-notification');
+});
+// Route::post('/store-token', [WebNotificationController::class, 'storeToken'])->name('store.token');
+// Route::post('/send-web-notification', [WebNotificationController::class, 'sendWebNotification'])->name('send.web-notification');
 // 22-01
 
 Route::get('/show-blocked-date-popup/{id}',[CalenderController::class,'show_blocked_date_popup']);
