@@ -67,7 +67,7 @@
                                             @endforeach
                                             @foreach($importedcustomers as $customers)
                                             <tr>
-                                                <td> <a href="{{ route('customer.info',urlencode(encrypt($customers->id))) }}"
+                                                <td> <a href="{{ route('customer.info',urlencode(encrypt($customers->id)))}}?cat={{$customers->category}}"
                                                         data-size="md" title="{{ __('User Details') }}"
                                                         class="action-item text-primary"
                                                         style="color:#1551c9 !important;">

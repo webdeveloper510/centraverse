@@ -53,7 +53,6 @@
                                                 
                                                 
                                             <?php endif; ?>
-
                                         </td> -->
                                         <td><?php echo e($contract->name); ?></td>
                                         <td><?php echo e(App\Models\User::find($contract->user_id)->first()->name); ?></td>

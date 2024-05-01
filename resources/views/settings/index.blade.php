@@ -1851,7 +1851,58 @@ $(document).ready(function() {
                                 </div>
                             </div>
                         </div>
+                        <!-- <div id="pusher-settings" class="card">
+                        <div class="card-header">
+                            <h5>{{ __('Pusher Settings') }}</h5>
+                            <small class="text-muted">{{ __('Edit your pusher details') }}</small>
+                        </div>
+                        <div class="card-body">
+                            {{ Form::model($settings, ['route' => 'pusher.setting', 'method' => 'post']) }}
+                            <div class="row mt-3">
+                                <div class="form-group col-md-6">
+                                    {{ Form::label('pusher_app_id', __('Pusher App Id *'), ['class' => 'form-label']) }}
+                                    {{ Form::text('pusher_app_id', isset($settings['pusher_app_id']) ? $settings['pusher_app_id'] : '', ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Id', 'required' => 'required']) }}
+                                    @error('pusher_app_id')
+                                        <span class="invalid-pusher_app_id" role="alert">
+                                            <strong class="text-danger">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
 
+                                <div class="form-group col-md-6">
+                                    {{ Form::label('pusher_app_key', __('Pusher App Key *'), ['class' => 'form-label']) }}
+                                    {{ Form::text('pusher_app_key', isset($settings['pusher_app_key']) ? $settings['pusher_app_key'] : '', ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Key', 'required' => 'required']) }}
+                                    @error('pusher_app_key')
+                                        <span class="invalid-pusher_app_key" role="alert">
+                                            <strong class="text-danger">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                                <div class="form-group col-md-6">
+                                    {{ Form::label('pusher_app_secret', __('Pusher App Secret *'), ['class' => 'form-label']) }}
+                                    {{ Form::text('pusher_app_secret', isset($settings['pusher_app_secret']) ? $settings['pusher_app_secret'] : '', ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Key', 'required' => 'required']) }}
+                                    @error('pusher_app_secret')
+                                        <span class="invalid-pusher_app_secret" role="alert">
+                                            <strong class="text-danger">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                                <div class="form-group col-md-6">
+                                    {{ Form::label('pusher_app_cluster', __('Pusher App Cluster *'), ['class' => 'form-label']) }}
+                                    {{ Form::text('pusher_app_cluster', isset($settings['pusher_app_cluster']) ? $settings['pusher_app_cluster'] : '' , ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Cluster', 'required' => 'required']) }}
+                                    @error('pusher_app_cluster')
+                                        <span class="invalid-pusher_app_cluster" role="alert">
+                                            <strong class="text-danger">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                                <div class="text-end">
+                                    {{ Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary']) }}
+                                </div>
+                            </div>
+                            {{ Form::close() }}
+                        </div>
+                    </div> -->
                         <!-- <div id="brand-settings" class="card">
                             <div class="card-header">
                                 <h5>{{ __('Brand Settings') }}</h5>

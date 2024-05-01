@@ -851,8 +851,8 @@ class LeadController extends Controller
         return view('lead.leadinfo',compact('leads','lead','docs','notes'));
     }
     public function lead_user_info($id){
-        $id = decrypt(urldecode($id));
 
+        $id = decrypt(urldecode($id));
         $email = Lead::withTrashed()->find($id)->email;
         $leads = Lead::withTrashed()->where('email',$email)->get();
         $notes = NotesLeads::where('lead_id',$id)->orderby('id','desc')->get();

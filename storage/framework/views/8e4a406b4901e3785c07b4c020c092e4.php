@@ -11,6 +11,11 @@
 <?php $__env->startSection('action-btn'); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
+<style>
+h6 {
+    font-size: 12px !important;
+}
+</style>
 <div class="container-field">
     <div id="wrapper">
         <div id="page-content-wrapper">
@@ -50,15 +55,23 @@
                                 <div class="theme-avtar bg-success">
                                     <i class="fa fa-dollar-sign"></i>
                                 </div>
-                                <div class="right_side">
-                                    <h6 class="mb-3"><?php echo e(__('Amount(E)')); ?></h6>
-                                    <h3 class="mb-0"><?php echo e($events_revenue != 0 ? '$'.number_format($events_revenue) : '--'); ?></h3>
+                                <div style="display:flex">
+                                    <div style="    margin-left: 47px;
+    margin-right: 23px;">
+                                        <h6 class="mb-3"><?php echo e(__('Amount(E)')); ?></h6>
+                                        <h3 class="mb-0">
+                                            <?php echo e($events_revenue != 0 ? '$'.number_format($events_revenue) : '--'); ?></h3>
+                                    </div>
+                                    <div style="float: right;">
+                                        <h6 class="mb-3"><?php echo e(__('Amount Recieved(E)')); ?></h6>
+                                        <h3 class="mb-0">
+                                            <?php echo e($events_revenue_generated != 0 ? '$'.number_format($events_revenue_generated) : '--'); ?>
 
+                                        </h3>
+
+                                    </div>
                                     <!-- </div>
                                     <div class="right_side" style="    width: 35% !important;"> -->
-                                    <h6 class="mb-3"><?php echo e(__('Amount Recieved(E)')); ?></h6>
-                                    <h3 class="mb-0">
-                                        <?php echo e($events_revenue_generated != 0 ? '$'.number_format($events_revenue_generated) : '--'); ?></h3>
                                 </div>
                             </div>
                         </div>
@@ -167,7 +180,7 @@
                             <div class="card">
                                 <div class="card-body">
                                     <?php $__currentLoopData = $events; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $event): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <?php 
+                                    <?php 
                                             $pay = App\Models\PaymentLogs::where('event_id',$event['id'])->get();
                                             $total = 0;
                                             foreach($pay as $p){
@@ -190,11 +203,11 @@
                                             </p>
                                             <?php endif; ?>
                                             <div style="    color: #a99595;">
-                                            Billing Amount: $<?php echo e(number_format($event['total'])); ?><br>
-                                            Pending Amount: $<?php echo e(number_format($event['total']- $total)); ?>
+                                                Billing Amount: $<?php echo e(number_format($event['total'])); ?><br>
+                                                Pending Amount: $<?php echo e(number_format($event['total']- $total)); ?>
 
                                             </div>
-                                           
+
                                         </div>
                                     </div>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

@@ -1939,7 +1939,97 @@ $(document).ready(function() {
                                 </div>
                             </div>
                         </div>
+                        <!-- <div id="pusher-settings" class="card">
+                        <div class="card-header">
+                            <h5><?php echo e(__('Pusher Settings')); ?></h5>
+                            <small class="text-muted"><?php echo e(__('Edit your pusher details')); ?></small>
+                        </div>
+                        <div class="card-body">
+                            <?php echo e(Form::model($settings, ['route' => 'pusher.setting', 'method' => 'post'])); ?>
 
+                            <div class="row mt-3">
+                                <div class="form-group col-md-6">
+                                    <?php echo e(Form::label('pusher_app_id', __('Pusher App Id *'), ['class' => 'form-label'])); ?>
+
+                                    <?php echo e(Form::text('pusher_app_id', isset($settings['pusher_app_id']) ? $settings['pusher_app_id'] : '', ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Id', 'required' => 'required'])); ?>
+
+                                    <?php $__errorArgs = ['pusher_app_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                        <span class="invalid-pusher_app_id" role="alert">
+                                            <strong class="text-danger"><?php echo e($message); ?></strong>
+                                        </span>
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <?php echo e(Form::label('pusher_app_key', __('Pusher App Key *'), ['class' => 'form-label'])); ?>
+
+                                    <?php echo e(Form::text('pusher_app_key', isset($settings['pusher_app_key']) ? $settings['pusher_app_key'] : '', ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Key', 'required' => 'required'])); ?>
+
+                                    <?php $__errorArgs = ['pusher_app_key'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                        <span class="invalid-pusher_app_key" role="alert">
+                                            <strong class="text-danger"><?php echo e($message); ?></strong>
+                                        </span>
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <?php echo e(Form::label('pusher_app_secret', __('Pusher App Secret *'), ['class' => 'form-label'])); ?>
+
+                                    <?php echo e(Form::text('pusher_app_secret', isset($settings['pusher_app_secret']) ? $settings['pusher_app_secret'] : '', ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Key', 'required' => 'required'])); ?>
+
+                                    <?php $__errorArgs = ['pusher_app_secret'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                        <span class="invalid-pusher_app_secret" role="alert">
+                                            <strong class="text-danger"><?php echo e($message); ?></strong>
+                                        </span>
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <?php echo e(Form::label('pusher_app_cluster', __('Pusher App Cluster *'), ['class' => 'form-label'])); ?>
+
+                                    <?php echo e(Form::text('pusher_app_cluster', isset($settings['pusher_app_cluster']) ? $settings['pusher_app_cluster'] : '' , ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Cluster', 'required' => 'required'])); ?>
+
+                                    <?php $__errorArgs = ['pusher_app_cluster'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                        <span class="invalid-pusher_app_cluster" role="alert">
+                                            <strong class="text-danger"><?php echo e($message); ?></strong>
+                                        </span>
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                </div>
+                                <div class="text-end">
+                                    <?php echo e(Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary'])); ?>
+
+                                </div>
+                            </div>
+                            <?php echo e(Form::close()); ?>
+
+                        </div>
+                    </div> -->
                         <!-- <div id="brand-settings" class="card">
                             <div class="card-header">
                                 <h5><?php echo e(__('Brand Settings')); ?></h5>

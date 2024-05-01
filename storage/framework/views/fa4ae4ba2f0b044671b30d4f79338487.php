@@ -69,7 +69,7 @@
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             <?php $__currentLoopData = $importedcustomers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $customers): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <tr>
-                                                <td> <a href="<?php echo e(route('customer.info',urlencode(encrypt($customers->id)))); ?>"
+                                                <td> <a href="<?php echo e(route('customer.info',urlencode(encrypt($customers->id)))); ?>?cat=<?php echo e($customers->category); ?>"
                                                         data-size="md" title="<?php echo e(__('User Details')); ?>"
                                                         class="action-item text-primary"
                                                         style="color:#1551c9 !important;">

@@ -30,6 +30,8 @@
                                                     <?php echo e(__('Event Date')); ?></th>
                                                 <th scope="col" class="sort" data-sort="completion">
                                                     <?php echo e(__('Payment Status')); ?></th>
+                                                    <th scope="col" class="sort" data-sort="completion">
+                                                    <?php echo e(__('Invoice Amount')); ?></th>
                                                 <th scope="col" class="text-end"><?php echo e(__('Action')); ?></th>
                                             </tr>
                                         </thead>
@@ -77,6 +79,7 @@
                                                         class=" text-danger "><?php echo e(__(\App\Models\Billing::$status[0])); ?></span>
                                                     <?php endif; ?>
                                                 </td>
+                                                <td>$<?php echo e(($event->total != 0)?number_format($event->total):'--'); ?></td>
                                                 <td class="text-end">
                                                 <!-- <div class="action-btn bg-primary ms-2">
                                                         <a href="<?php echo e(route('billing.invoicepdf',$event->id)); ?>" data-size="md"

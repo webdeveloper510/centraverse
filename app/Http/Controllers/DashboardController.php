@@ -373,4 +373,7 @@ class DashboardController extends Controller
         $meetings = Meeting::where('start_date', '<', $date)->get();
         return view('meeting.index',compact('meetings'));
     }
+    public function pushnotify(){
+        return view('pushnotification');
+    }
 }

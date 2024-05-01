@@ -19,11 +19,13 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\CalenderNewController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CustomerInformation;
+use App\Http\Controllers\WebNotificationController;
 use App\Http\Controllers\LeadController;
 use App\Http\Controllers\LeadSourceController;
 use App\Http\Controllers\OpportunitiesStageController;
 use App\Http\Controllers\CommonCaseController;
 use App\Http\Controllers\OpportunitiesController;
+use App\Http\Controllers\NotificationSendController;
 use App\Http\Controllers\CaseTypeController;
 use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\CallController;
@@ -1410,10 +1412,12 @@ Route::group(
         Route::post('contracts/store',[ContractsController::class,'store'])->name('contracts.store');
     });
 
-
+  
 Route::get('/meeting-download/{meeting}', [MeetingController::class, 'download_meeting']);
 Route::get('event/agreement/{id}', [MeetingController::class, 'agreement'])->name('meeting.agreement');
-
+Route::get('/push-notificaiton', [WebNotificationController::class, 'index'])->name('push-notificaiton');
+Route::post('/store-token', [WebNotificationController::class, 'storeToken'])->name('store.token');
+Route::post('/send-web-notification', [WebNotificationController::class, 'sendWebNotification'])->name('send.web-notification');
 // 22-01
 
 Route::get('/show-blocked-date-popup/{id}',[CalenderController::class,'show_blocked_date_popup']);

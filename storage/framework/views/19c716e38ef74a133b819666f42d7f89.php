@@ -38,7 +38,7 @@
                                             <?php $__currentLoopData = $leadcustomers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <tr>
                                               
-                                                        <td><a href="<?php echo e(route('lead.userinfo',urlencode(encrypt($user->id)))); ?>" data-size="md" title="<?php echo e(__('Lead Details')); ?>"  class="action-item text-primary" style="color:#1551c9 !important;">
+                                                        <td><a href="<?php echo e(route('lead.userinfo',urlencode(encrypt($user->ref_id)))); ?>" data-size="md" title="<?php echo e(__('Lead Details')); ?>"  class="action-item text-primary" style="color:#1551c9 !important;">
                                                <b> <?php echo e(ucfirst($user->name)); ?></b>
                                                         </a></td>
                                                        
