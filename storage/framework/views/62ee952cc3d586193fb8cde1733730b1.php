@@ -78,7 +78,7 @@
                                                         class=" text-danger "><?php echo e(__(\App\Models\Billing::$status[0])); ?></span>
                                                     <?php endif; ?>
                                                 </td>
-                                                <td>$<?php echo e(($event->total != 0)?number_format($event->total):'--'); ?></td>
+                                                <td><?php echo e(($event->total != 0)? '$'. number_format($event->total):'--'); ?></td>
                                                 <td class="text-end">
                                                 <!-- <div class="action-btn bg-primary ms-2">
                                                         <a href="<?php echo e(route('billing.invoicepdf',$event->id)); ?>" data-size="md"
@@ -141,7 +141,7 @@
                                                             <a href="#" data-size="md"
                                                                 data-url="<?php echo e(route('billing.paymentinfo',urlencode(encrypt($event->id)))); ?>"
                                                                 data-bs-toggle="tooltip"
-                                                                title="<?php echo e(__('Payment Details')); ?>" data-ajax-popup="true"
+                                                                title="<?php echo e(__('Payment')); ?>" data-ajax-popup="true"
                                                                 data-title="<?php echo e(__('Payment Information')); ?>"
                                                                 class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                                 <i class=" fa fa-credit-card "></i>

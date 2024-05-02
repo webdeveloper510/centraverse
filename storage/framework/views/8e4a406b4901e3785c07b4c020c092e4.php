@@ -56,23 +56,27 @@ h6 {
                                     <i class="fa fa-dollar-sign"></i>
                                 </div>
                                 <div style="display:flex">
-                                    <div style="    margin-left: 47px;
-    margin-right: 23px;">
-                                        <h6 class="mb-3"><?php echo e(__('Amount(E)')); ?></h6>
-                                        <h3 class="mb-0">
+                                    <div style="    margin-left: 47px; margin-right: 23px;">
+                                        <h6><?php echo e(__('Amount(E)')); ?></h6>
+                                        <h3>
                                             <?php echo e($events_revenue != 0 ? '$'.number_format($events_revenue) : '--'); ?></h3>
                                     </div>
                                     <div style="float: right;">
-                                        <h6 class="mb-3"><?php echo e(__('Amount Recieved(E)')); ?></h6>
-                                        <h3 class="mb-0">
+                                        <h6><?php echo e(__('Amount Recieved(E)')); ?></h6>
+                                        <h3>
                                             <?php echo e($events_revenue_generated != 0 ? '$'.number_format($events_revenue_generated) : '--'); ?>
 
                                         </h3>
 
                                     </div>
-                                    <!-- </div>
-                                    <div class="right_side" style="    width: 35% !important;"> -->
                                 </div>
+                                <!-- <div class="right_side" style="    width: 35% !important;">
+                                    <h6><?php echo e(__('Amount(E)')); ?></h6>
+                                    <h3>
+                                        <?php echo e($events_revenue != 0 ? '$'.number_format($events_revenue) : '--'); ?>
+
+                                    </h3>
+                                </div> -->
                             </div>
                         </div>
                     </div>

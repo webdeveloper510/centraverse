@@ -69,3 +69,6 @@ IP,Date,Time,Accepted cookies,Device type,Browser language,Browser name,OS Name
 31.221.4.126,2024-04-29,06:57:41 UTC,["necessary"],desktop,en,Safari,OS X,United Kingdom,ENG,England,Islington,EC50,51.5327,-0.0996
 38.183.8.117,2024-04-29,11:23:58 UTC,["necessary"],desktop,en,Chrome,Windows,India,PB,Punjab,Mohali,160055,30.674,76.7249
 61.246.6.198,2024-04-30,02:57:00 UTC,["necessary"],desktop,en,Chrome,Windows,India,DL,National Capital Territory of Delhi,New Delhi,110043,28.652,77.1663
+13.235.197.142,2024-05-02,00:46:07 UTC,["necessary"],mobile,en,Safari,iOS,India,MH,Maharashtra,Mumbai,400001,19.076,72.8777
+122.176.121.119,2024-05-02,01:21:47 UTC,["necessary"],mobile,en,Chrome,Android,India,DL,National Capital Territory of Delhi,Delhi,110001,28.6542,77.2373
+106.217.181.128,2024-05-02,03:35:59 UTC,["necessary"],mobile,en,Safari,iOS,India,PB,Punjab,Ludhiana,141007,31.0048,75.9463
