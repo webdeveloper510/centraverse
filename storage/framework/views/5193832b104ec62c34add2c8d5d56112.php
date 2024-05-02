@@ -26,14 +26,14 @@ foreach ($paidamount as $key => $value) {
                 </dd>
             </dl>
             <div class="row form-group">
-                <div class="col-md-12">
-                    <label for="amount" class="form-label">Amount</label>
+                <div class="col-md-6">
+                    <label for="amount" class="form-label">Contract Amount</label>
                     <input type="number" name="amount" class="form-control" value="<?php echo e($event->total); ?>" readonly>
                 </div>
-                <!-- <div class="col-md-6">
+                <div class="col-md-6">
                     <label for="deposit" class="form-label">Deposits</label>
-                    <input type="number" name="deposit" class="form-control">
-                </div> -->
+                    <input type="number" name="deposit" value="<?php echo e($total); ?>"class="form-control">
+                </div>
             </div>
             <div class="row form-group">
                 <div class="col-md-6">
@@ -47,7 +47,7 @@ foreach ($paidamount as $key => $value) {
             </div>
             <div class="row form-group">
                 <div class="col-md-6">
-                    <label for="paidamount" class="form-label">Paid Amount</label>
+                    <label for="paidamount" class="form-label">Total Paid</label>
                     <input type="number" name="paidamount" class="form-control" value="<?php echo e($total); ?>" readonly>
                 </div>
                 <div class="col-md-6">
@@ -55,14 +55,14 @@ foreach ($paidamount as $key => $value) {
                     <input type="number" name="balance" class="form-control">
                 </div>
             </div>
-            <div class="row form-group">
+            <!-- <div class="row form-group">
             <div class="col-6">
             <?php echo e(Form::label('adjustmentnotes',__('Adjustment Notes'),['class'=>'form-label'])); ?>
 
             <?php echo e(Form::text('adjustmentnotes',$payment->adjustmentnotes ?? '',array('class'=>'form-control','placeholder'=>__('Enter Adjustment Notes')))); ?>
 
-    </div>
-    <div class="col-6">
+    </div> -->
+    <div class="col-12">
             <?php echo e(Form::label('notes',__('Notes'),['class'=>'form-label'])); ?>
 
             <textarea name="notes" id="notes" cols="30" rows="5" class='form-control'
@@ -103,27 +103,28 @@ foreach ($paidamount as $key => $value) {
 <script>
 $(document).ready(function() {
     var amount = parseFloat($("input[name='amount']").val()) || 0;
+    var deposits = parseFloat($("input[name='deposit']").val()) || 0;
     var latefee = parseFloat($("input[name='latefee']").val()) || 0;
     var adjustments = parseFloat($("input[name='adjustment']").val()) || 0;
-    var amountpaid = parseFloat($("input[name='paidamount']").val()) || 0;
-
-    var balance = amount + latefee - adjustments - amountpaid;
+    var amountpaid = deposits+latefee-adjustments;
+    var balance = amount - amountpaid;
     // Assuming you want to store the balance in an input field with name 'balance'
     $("input[name='balance']").val(balance);
+    $("input[name='amountpaid']").val(amountpaid);
 })
 
 $(" input[name='latefee'], input[name='adjustment']")
     .keyup(function() {
         $("input[name='balance']").empty();
         var amount = parseFloat($("input[name='amount']").val()) || 0;
+        var deposits = parseFloat($("input[name='deposit']").val()) || 0;
         var latefee = parseFloat($("input[name='latefee']").val()) || 0;
         var adjustments = parseFloat($("input[name='adjustment']").val()) || 0;
-        var amountpaid = parseFloat($("input[name='paidamount']").val()) || 0;
-
-        var balance = amount + latefee - adjustments - amountpaid;
+        var amountpaid = deposits+latefee-adjustments;
+        var balance = amount - amountpaid;
         // Assuming you want to store the balance in an input field with name 'balance'
         $("input[name='balance']").val(balance);
-
+        $("input[name='amountpaid']").val(amountpaid);
         console.log('total', balance);
     });
 
