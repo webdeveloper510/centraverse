@@ -6,7 +6,7 @@
         <div class="page-header">
             <div class="page-block">
                 <div class="row align-items-center">
-                    
+                   
                     <div class="col-md-11">
                         <div class="page-header-title">
                             <h4 class="m-b-10">@yield('title')</h4>
@@ -248,7 +248,7 @@
 
 /* Track */
 .scrollbar::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px grey; 
+  box-shadow: inset 0 0 5px grey;
   border-radius: 5px;
 }
  
@@ -258,15 +258,15 @@
     border-radius: 10px;
 }
 
-/* 
+/*
 .sticky-top::-webkit-scrollbar-thumb:hover {
-  background: #b30000; 
+  background: #b30000;
 } */
 
     .nav-pills>li>a {
         border-radius: 0;
     }
-    
+   
     #wrapper {
         padding-left: 0;
         -webkit-transition: all 0.5s ease;
@@ -314,7 +314,7 @@
     }
 
     #page-content-wrapper {
-        position: absolute;
+       
         padding: 15px;
         width: 100%;
         overflow-x: hidden;

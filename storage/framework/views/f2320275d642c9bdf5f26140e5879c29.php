@@ -7,7 +7,6 @@
     $currantLang = $users->currentLanguage();
     $languages = \App\Models\Utility::languages();
     $footer_text = isset($settings['footer_text']) ? $settings['footer_text'] : '';
-
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="<?php echo e($settings['SITE_RTL'] == 'on' ? 'rtl' : ''); ?>">
