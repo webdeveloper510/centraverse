@@ -1,4 +1,3 @@
-
 <div class="dash-container">
 
     <div class="dash-content">
@@ -448,5 +447,4 @@
             width: auto;
         }
     }
-</style>
-<?php /**PATH C:\xampp\htdocs\centraverse\resources\views/partials/admin/content.blade.php ENDPATH**/ ?>
+</style><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/partials/admin/content.blade.php ENDPATH**/ ?>

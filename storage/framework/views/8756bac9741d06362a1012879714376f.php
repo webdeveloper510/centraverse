@@ -30,8 +30,10 @@
                                                     <?php echo e(__('Event Date')); ?></th>
                                                 <th scope="col" class="sort" data-sort="completion">
                                                     <?php echo e(__('Payment Status')); ?></th>
-                                                    <th scope="col" class="sort" data-sort="completion">
-                                                    <?php echo e(__('Invoice Amount')); ?></th>
+                                                <th scope="col" class="sort" data-sort="completion">
+                                                    <?php echo e(__('Billing Amount')); ?></th>
+                                                <th scope="col" class="sort" data-sort="completion">
+                                                    <?php echo e(__('Paid Amount')); ?></th>
                                                 <th scope="col" class="text-end"><?php echo e(__('Action')); ?></th>
                                             </tr>
                                         </thead>
@@ -41,10 +43,11 @@
                                                 <td>
                                                     <a href="" data-size="md" data-title="<?php echo e(__('Invoice Details')); ?>"
                                                         class="action-item text-primary">
-                                                        <a href="<?php echo e(route('meeting.detailview',urlencode(encrypt($event->id)))); ?>" data-size="md"
-                                                            title="<?php echo e(__('Detailed view ')); ?>" style="color: #1551c9 !important;"
-                                                          >   <?php echo e(ucfirst($event->name)); ?></a>
-                                                     
+                                                        <a href="<?php echo e(route('meeting.detailview',urlencode(encrypt($event->id)))); ?>"
+                                                            data-size="md" title="<?php echo e(__('Detailed view ')); ?>"
+                                                            style="color: #1551c9 !important;">
+                                                            <?php echo e(ucfirst($event->name)); ?></a>
+
                                                     </a>
                                                 </td>
                                                 <td>
@@ -79,15 +82,25 @@
                                                         class=" text-danger "><?php echo e(__(\App\Models\Billing::$status[0])); ?></span>
                                                     <?php endif; ?>
                                                 </td>
-                                                <td><?php echo e(($event->total != 0)? '$'. number_format($event->total):'--'); ?></td>
+                                                <td><?php echo e(($event->total != 0)? '$'. number_format($event->total):'--'); ?>
+
+                                                </td>
+                                                <td> <?php if(\App\Models\PaymentLogs::where('event_id',$event->id)->exists()): ?>
+                                                <?php $pay = App\Models\PaymentLogs::where('event_id',$event->id)->get();
+                                                    $total = 0;
+                                                    foreach($pay as $p){
+                                                    $total += $p->amount;
+                                                    }?> <?php echo e(($total != 0)?'$'.$total:'--'); ?>
+
+                                                    <?php endif; ?></td>
                                                 <td class="text-end">
-                                                <!-- <div class="action-btn bg-primary ms-2">
+                                                    <!-- <div class="action-btn bg-primary ms-2">
                                                         <a href="<?php echo e(route('billing.invoicepdf',$event->id)); ?>" data-size="md"
                                                            title="<?php echo e(__('Create')); ?>"class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-invoice"></i>
                                                         </a>
                                                     </div>  -->
-                                                
+
                                                     <?php if(!(\App\Models\Billing::where('event_id',$event->id)->exists())): ?>
 
                                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Payment')): ?>
@@ -110,7 +123,7 @@
                                                          $paymentInfo = App\Models\PaymentInfo::where('event_id',$event->id)->orderBy('id', 'desc')->first();
                                                      ?>
                                                     <?php if($paymentLog && $paymentInfo): ?>
-                                                        <?php if($paymentLog->amount < $paymentInfo->amounttobepaid &&
+                                                    <?php if($paymentLog->amount < $paymentInfo->amounttobepaid &&
                                                         $paymentLog->amount != 0): ?>
                                                         <div class="action-btn bg-primary ms-2">
                                                             <a href="#" data-size="md"
@@ -141,8 +154,8 @@
                                                         <div class="action-btn bg-info ms-2">
                                                             <a href="#" data-size="md"
                                                                 data-url="<?php echo e(route('billing.paymentinfo',urlencode(encrypt($event->id)))); ?>"
-                                                                data-bs-toggle="tooltip"
-                                                                title="<?php echo e(__('Payment')); ?>" data-ajax-popup="true"
+                                                                data-bs-toggle="tooltip" title="<?php echo e(__('Payment')); ?>"
+                                                                data-ajax-popup="true"
                                                                 data-title="<?php echo e(__('Payment Information')); ?>"
                                                                 class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                                 <i class=" fa fa-credit-card "></i>
