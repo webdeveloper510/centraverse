@@ -32,7 +32,7 @@ foreach ($paidamount as $key => $value) {
                 </div>
                 <div class="col-md-6">
                     <label for="deposit" class="form-label">Deposits</label>
-                    <input type="number" name="deposit" value="<?php echo e($total); ?>"class="form-control">
+                    <input type="number" name="deposit" value="<?php echo e($total); ?>" class="form-control">
                 </div>
             </div>
             <div class="row form-group">
@@ -55,45 +55,46 @@ foreach ($paidamount as $key => $value) {
                     <input type="number" name="balance" class="form-control">
                 </div>
             </div>
-            <!-- <div class="row form-group">
             <div class="col-6">
-            <?php echo e(Form::label('adjustmentnotes',__('Adjustment Notes'),['class'=>'form-label'])); ?>
+                <div class="form-group">
+                    <?php echo e(Form::label('amountcollect',__('Collect Amount'),['class'=>'form-label'])); ?>
 
-            <?php echo e(Form::text('adjustmentnotes',$payment->adjustmentnotes ?? '',array('class'=>'form-control','placeholder'=>__('Enter Adjustment Notes')))); ?>
+                    <?php echo e(Form::number('amountcollect',null,array('class'=>'form-control','required'))); ?>
 
-    </div> -->
-    <div class="col-12">
-            <?php echo e(Form::label('notes',__('Notes'),['class'=>'form-label'])); ?>
-
-            <textarea name="notes" id="notes" cols="30" rows="5" class='form-control'
-                placeholder='Enter Notes'></textarea>
-    </div>
-            </div>
-   
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-toggle="tooltip" onclick="getDataUrlAndCopy(this)"
-                    data-url="<?php echo e(route('billing.getpaymentlink',urlencode(encrypt($id)))); ?>" title='Copy To Clipboard'>
-                    <i class="ti ti-copy"></i>
-                </button>
-                <?php echo e(Form::submit(__('Share via mail'),array('class'=>'btn btn-primary'))); ?>
-
-            </div>
-        </div>
-        
-        <?php echo e(Form::close()); ?>
-
-    </div>
-</div>
-<?php else: ?>  
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="alert alert-success">
-                    Contract must be approved by customer/admin before any further payment . 
                 </div>
             </div>
+            <div class="col-12">
+                <?php echo e(Form::label('notes',__('Notes'),['class'=>'form-label'])); ?>
+
+                <textarea name="notes" id="notes" cols="30" rows="5" class='form-control'
+                    placeholder='Enter Notes'></textarea>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-success" data-toggle="tooltip" onclick="getDataUrlAndCopy(this)"
+                data-url="<?php echo e(route('billing.getpaymentlink',urlencode(encrypt($id)))); ?>" title='Copy To Clipboard'>
+                <i class="ti ti-copy"></i>
+            </button>
+            <?php echo e(Form::submit(__('Share via mail'),array('class'=>'btn btn-primary'))); ?>
+
         </div>
     </div>
+
+    <?php echo e(Form::close()); ?>
+
+</div>
+</div>
+<?php else: ?>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="alert alert-success">
+                Contract must be approved by customer/admin before any further payment .
+            </div>
+        </div>
+    </div>
+</div>
 <?php endif; ?>
 <style>
 #notification {
@@ -106,7 +107,7 @@ $(document).ready(function() {
     var deposits = parseFloat($("input[name='deposit']").val()) || 0;
     var latefee = parseFloat($("input[name='latefee']").val()) || 0;
     var adjustments = parseFloat($("input[name='adjustment']").val()) || 0;
-    var amountpaid = deposits+latefee-adjustments;
+    var amountpaid = deposits + latefee - adjustments;
     var balance = amount - amountpaid;
     // Assuming you want to store the balance in an input field with name 'balance'
     $("input[name='balance']").val(balance);
@@ -120,7 +121,7 @@ $(" input[name='latefee'], input[name='adjustment']")
         var deposits = parseFloat($("input[name='deposit']").val()) || 0;
         var latefee = parseFloat($("input[name='latefee']").val()) || 0;
         var adjustments = parseFloat($("input[name='adjustment']").val()) || 0;
-        var amountpaid = deposits+latefee-adjustments;
+        var amountpaid = deposits + latefee - adjustments;
         var balance = amount - amountpaid;
         // Assuming you want to store the balance in an input field with name 'balance'
         $("input[name='balance']").val(balance);
@@ -135,61 +136,62 @@ $(" input[name='latefee'], input[name='adjustment']")
 // }
 
 function getDataUrlAndCopy(button) {
-        // Get the URL from the data attribute of the button
-        var dataurl = button.getAttribute('data-url');
+    // Get the URL from the data attribute of the button
+    var dataurl = button.getAttribute('data-url');
 
-        // Perform your validation here
-        var isValid = validateForm(); // Replace with your validation logic
+    // Perform your validation here
+    var isValid = validateForm(); // Replace with your validation logic
+
+    if (isValid) {
+        var amount = $('input[name="amount"]').val();
+        var adjustment = $('input[name="adjustment"]').val();
+        var latefee = $('input[name="latefee"]').val();
+        var deposit = $('input[name="deposit"]').val();
+        var notes = $('input[name="notes"]').val();
+        var amountcollect = $('input[name="amountcollect"]').val();
+        var balance = $('input[name="balance"]').val();
         
-        if (isValid) {
-            var amount = $('input[name="amount"]').val();
-            var adjustment = $('input[name="adjustment"]').val();
-            var latefee = $('input[name="latefee"]').val();
-            var adjustmentnotes = $('input[name="adjustmentnotes"]').val();
-            var balance = $('input[name="balance"]').val();
-            var notes = $('input[name="notes"]').val();
-            $.ajax({
+        $.ajax({
+            url: '<?php echo e(route("billing.addpayinfooncopyurl",$event->id)); ?>',
+            type: 'POST',
+            data: {
+                "url": url,
+                "_token": "<?php echo e(csrf_token()); ?>",
+                "amount": amount,
+                "deposit": deposit,
+                "adjustment": adjustment,
+                "latefee": latefee,
+                "notes": notes,
+                "amountcollect": amountcollect,
+                "balance" :balance
+            },
+            success: function(response) {
+                // Handle success response
+                copyToClipboard(dataurl);
 
-                url: '<?php echo e(route("billing.addpayinfooncopyurl",$event->id)); ?>',
-                type: 'POST',
-                data: { 
-                    "url": url ,
-                    "_token": "<?php echo e(csrf_token()); ?>",
-                    "amount" :amount,
-                    "adjustment":adjustment,
-                    "latefee":latefee,
-                    "adjustmentnotes":adjustmentnotes,
-                    "balance":balance,
-                    "notes":notes
-                },
-                success: function(response) {
-                    // Handle success response
-                    copyToClipboard(dataurl);
+                console.log(response);
+            },
+            error: function(xhr, status, error) {
+                // Handle error response
+                console.error(xhr.responseText);
+            }
+        });
+        // If validation passes, copy the URL to the clipboard
 
-                    console.log(response);
-                },
-                error: function(xhr, status, error) {
-                    // Handle error response
-                    console.error(xhr.responseText);
-                }
-            });
-            
-            // If validation passes, copy the URL to the clipboard
-
-        } else {
-            // If validation fails, show an error message or perform any other action
-            alert('Validation failed!'); // Example of an alert message
-        }
+    } else {
+        // If validation fails, show an error message or perform any other action
+        alert('Validation failed!'); // Example of an alert message
     }
-    function validateForm() {
-       
-        var name = document.getElementsByName('name')[0].value;
-        var email = document.getElementsByName('email')[0].value;
-        if (name.trim() === '' || email.trim() === '') {
-            return false;
-        }
-        return true;
+}
+
+function validateForm() {
+    var name = document.getElementsByName('name')[0].value;
+    var email = document.getElementsByName('email')[0].value;
+    if (name.trim() === '' || email.trim() === '') {
+        return false;
     }
+    return true;
+}
 
 function copyToClipboard(text) {
     /* Create a temporary input element */

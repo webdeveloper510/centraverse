@@ -2,14 +2,18 @@
 $settings = App\Models\Utility::settings();
 $billings = json_decode($settings['fixed_billing'],true);
 $foodpcks = json_decode($lead->func_package,true);
+$barpcks = json_decode($lead->bar_package,true);
+// $barpcks = json_decode($lead->bar,true);
 $labels =
 [
     'venue_rental' => 'Venue',
     'hotel_rooms'=>'Hotel Rooms',
     'food_package'=>'Food Package',
+    'bar_package'=>'Beverage/Bar Package'
 ];
 $food = [];
 $totalFoodPackageCost = 0;
+$totalBarPackageCost= 0;
 if(isset($billings) && !empty($billings)){
     if(isset($foodpcks) && !empty($foodpcks)){
         foreach($foodpcks as $key => $foodpck){
@@ -27,6 +31,21 @@ if(isset($billings) && !empty($billings)){
             }
         }
     }
+    if(isset($barpcks) && !empty($barpcks)){
+        foreach($barpcks as $key => $barpck){
+                $bar[]= $barpck;
+            
+        }
+        $barpckge = implode(',',$bar);
+        foreach ($bar as $barItem) {
+            foreach ($billings['barpackage'] as $category => $categoryItems) {
+                if (isset($categoryItems[$barItem])) {
+                    $totalBarPackageCost +=  (int)$categoryItems[$barItem];
+                    break;
+                }
+            }
+        }
+    }
 }
 
 
@@ -35,6 +54,8 @@ $leaddata = [
     'venue_rental' => $lead->venue_selection,
     'hotel_rooms'=>$lead->rooms,
     'food_package' => (isset($foodpckge) && !empty($foodpckge)) ? $foodpckge: '',
+    'bar_package' => (isset($barpckge) && !empty($barpckge)) ? $barpckge : '',
+
 ];
 $venueRentalCost = 0;
 $subcategories = array_map('trim', explode(',', $leaddata['venue_rental']));
@@ -45,6 +66,7 @@ $venueRentalCost += $billings['venue'][$subcategory] ?? 0;
 $leaddata['hotel_rooms_cost'] = $billings['hotel_rooms'] ?? 0;
 $leaddata['venue_rental_cost'] = $venueRentalCost;
 $leaddata['food_package_cost'] = $totalFoodPackageCost;
+$leaddata['bar_package_cost'] = $totalBarPackageCost;
 
 
 ?>
