@@ -56,9 +56,9 @@ h6 {
                                 <div class="theme-avtar bg-success">
                                     <i class="fa fa-dollar-sign"></i>
                                 </div>
-								
+
                                 <div class="flex-div">
-                                    <div style="   
+                                    <div style="  
     ">
                                         <h6 class="mb-0"><?php echo e(__('Amount(E)')); ?></h6>
                                         <h3 class="mb-0">
@@ -89,9 +89,9 @@ h6 {
                     <div class="col-sm">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Active Leads</h5>
-							<div class="scrol-card">
+<div class="scrol-card">
                             <?php $__currentLoopData = $activeLeads; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $lead): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-							
+
                             <div class="card">
                                 <div class="card-body new_bottomcard">
                                     <h5 class="card-text"><?php echo e($lead['leadname']); ?>
@@ -118,10 +118,10 @@ h6 {
                                     </div>
                                     <?php endif; ?>
                                 </div>
-                            
-							</div>
+                           
+</div>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-							</div>
+</div>
                             <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Lead')): ?>
                             <div class="col-12 text-end mt-3">
                                 <a href="javascript:void(0);" data-url="<?php echo e(route('lead.create',['lead',0])); ?>"
@@ -138,7 +138,7 @@ h6 {
                     <div class="col-sm">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Active/Upcoming Events</h5>
-							<div class="scrol-card">
+<div class="scrol-card">
                             <?php $__currentLoopData = $activeEvent; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $event): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                             <div class="card">
@@ -169,7 +169,7 @@ h6 {
                                 </div>
                             </div>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-							</div>
+</div>
                             <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Meeting')): ?>
                             <div class="col-12 text-end mt-3">
                                 <a href="<?php echo e(route('meeting.create',['meeting',0])); ?>">
@@ -184,12 +184,12 @@ h6 {
                     </div>
                     <div class="col-sm">
                         <div class="inner_col">
-                            <h5 class="card-title mb-2">Finance</h5>
-							<div class="scrol-card">
+                            <h5 class="card-title mb-2">Finances</h5>
+<div class="scrol-card">
                             <div class="card">
                                 <div class="card-body">
                                     <?php $__currentLoopData = $events; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $event): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <?php 
+                                    <?php
                                             $pay = App\Models\PaymentLogs::where('event_id',$event['id'])->get();
                                             $total = 0;
                                             foreach($pay as $p){
@@ -222,7 +222,7 @@ h6 {
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </div>
                             </div>
-							</div>
+</div>
                         </div>
                     </div>
                 </div>
@@ -237,7 +237,7 @@ h5.card-text {
 }
 
 
-	.flex-div {
+.flex-div {
     display: flex;
     justify-content: space-between;
 }
@@ -268,15 +268,11 @@ h5.card-text {
  .flex-div {
     display: block !important;
 }
-.new-div
-{
-	display:flex;
-	align-items:center;
+.mt10 {
+    margin-top: 20px;
 }
-    .mt10 {
-        margin-top: 10px;
-    }
 }
 </style>
 <?php $__env->stopSection(); ?>
+
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/home.blade.php ENDPATH**/ ?>

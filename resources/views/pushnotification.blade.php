@@ -1,9 +1,25 @@
+@extends('layouts.admin')
+@section('page-title')
+{{ __('Report') }}
+@endsection
+@section('title')
+<div class="page-header-title">
+    <h4 class="m-b-10">{{ __('Push notification') }}</h4>
+</div>
+@endsection
+@section('breadcrumb')
+<li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Home') }}</a></li>
+<li class="breadcrumb-item">{{ __('Push notification') }}</li>
+@endsection
+@section('action-btn')
 
-<div class="container">
+@endsection
+@section('filter')
+@endsection
+@section('content')<div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <button onclick="startFCM()" class="btn btn-danger btn-flat">Allow notification
-            </button>
+            <button onclick="startFCM()" class="btn btn-danger btn-flat"> Allow notification </button>
             <div class="card mt-3">
                 <div class="card-body">
                     @if (session('status'))
@@ -28,11 +44,22 @@
         </div>
     </div>
 </div>
-<script src="{{asset('js/jquery.min.js')}}"></script>
-<script src="{{asset('firebase-messaging-sw.js')}}"></script>
-
-<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase.js"></script>
+<script>
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+        navigator.serviceWorker.register('firebase-messaging-sw.js')
+            .then(function(registration) {
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            })
+            .catch(function(err) {
+                console.error('ServiceWorker registration failed: ', err);
+            });
+    });
+}
+</script>
+
 <script>
 var firebaseConfig = {
     apiKey: "AIzaSyB3y7uzZSAP39LOIvZwOjJOdFD2myDnvQk",
@@ -85,4 +112,4 @@ messaging.onMessage(function(payload) {
     new Notification(title, options);
 });
 </script>
-
+@endsection
