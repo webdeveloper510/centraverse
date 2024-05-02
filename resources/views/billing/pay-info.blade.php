@@ -411,10 +411,10 @@ jQuery(function() {
     var latefee = parseFloat($("input[name='latefee']").val()) || 0;
     var adjustments = parseFloat($("input[name='adjustments']").val()) || 0;
     var amountpaid = deposits+latefee-adjustments;
-    // var amounttobepaid = amount - deposits + latefee - adjustments;
     var balance = amount - amountpaid;
     $("input[name='balance']").val(balance);
     $("input[name='amountpaid']").val(amountpaid);
+    $("input[name='amountcollect']").attr('max',balance);
     $("input[name='amount'],input[name='deposits'], input[name='latefee'], input[name='adjustments'], input[name='amountpaid']")
         .keyup(function() {
             $("input[name='amountpaid']").empty();

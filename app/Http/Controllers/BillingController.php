@@ -145,7 +145,7 @@ class BillingController extends Controller
     // }
     public function paymentupdate(Request $request, $id){         
         $id = decrypt(urldecode($id));
-        echo "<pre>";print_r($request->all());die;
+        // echo "<pre>";print_r($request->all());die;
         $payment = new PaymentInfo();
         $payment->event_id = $id;
         $payment->bill_amount = $request->amount;
@@ -157,7 +157,7 @@ class BillingController extends Controller
         $payment->modeofpayment = $request->mode;
         $payment->notes = $request->notes;
         $payment->save();
-        $balance = $request->balance;
+        $balance = $request->amountcollect;
         $event = Meeting::find($id);
        
         $paid = PaymentInfo::where('event_id',$id)->get();
@@ -172,6 +172,23 @@ class BillingController extends Controller
                 'name_of_card' => $event->name,
                 'event_id' =>$id
             ]);
+             
+            // $payinfo = PaymentInfo::where('event_id',$id)->first();
+            // $halfpay = $payinfo->amount/2;
+            // $amountpaid = 0 ;
+            // $payment = PaymentLogs::where('event_id',$id)->get();
+            // foreach($payment as $pay){
+            //     $amountpaid += $pay->amount;
+            // }
+            // $amountlefttobepaid = $payinfo->amount - $amountpaid;
+            // if($amountlefttobepaid == 0 || $amountlefttobepaid <= 0){
+            //     Billing::where('event_id',$id)->update(['status' => 4]);
+            // }elseif($amountlefttobepaid ==  $halfpay || $amountlefttobepaid >=  $halfpay){
+            //     Billing::where('event_id',$id)->update(['status' => 3]);
+            // }elseif($amountlefttobepaid <= $halfpay  ){
+            //     Billing::where('event_id',$id)->update(['status' => 2]);
+            // }
+            // $data =  Billing::where('event_id',$id)->get();
         }
          return redirect()->back()->with('success','Payment Information Updated Sucessfully');
   
