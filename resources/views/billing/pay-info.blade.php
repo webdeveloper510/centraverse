@@ -6,8 +6,12 @@ $pay = App\Models\PaymentLogs::where('event_id',$event->id)->get();
 $paymentinfo = App\Models\PaymentInfo::where('event_id',$event->id)->orderBy('id', 'desc')->first();
 $info = App\Models\PaymentInfo::where('event_id',$event->id)->get();
 $total = 0;
+$latefee = 0;
+$adjustments = 0;
 foreach($pay as $p){
-$total += $p->amount;
+    $total += $p->amount;
+    $latefee += $p->latefee;
+    $adjustments += $p->adjustments;
 }
 @endphp
 {{Form::open(array('route' => ['billing.paymentinfoupdate', urlencode(encrypt($event->id))],'method'=>'post','enctype'=>'multipart/form-data'))}}
@@ -33,13 +37,13 @@ $total += $p->amount;
         <div class="col-6">
             <div class="form-group">
                 {{Form::label('latefee',__('Late Fee'),['class'=>'form-label']) }}
-                {{Form::number('latefee', $payment->latefee ?? 0 , array('class'=>'form-control','placeholder'=>__('Enter Late Fee')))}}
+                {{Form::number('latefee', $latefee, array('class'=>'form-control','placeholder'=>__('Enter Late Fee')))}}
             </div>
         </div>
         <div class="col-6">
             <div class="form-group">
                 {{Form::label('adjustments',__('Adjustments'),['class'=>'form-label']) }}
-                {{Form::number('adjustments',$payment->adjustments ?? 0 ,array('class'=>'form-control','placeholder'=>__('Enter Adjustments')))}}
+                {{Form::number('adjustments',$adjustments,array('class'=>'form-control','placeholder'=>__('Enter Adjustments')))}}
             </div>
         </div>
         <!-- <div class="col-6">
@@ -407,10 +411,10 @@ jQuery(function() {
     var latefee = parseFloat($("input[name='latefee']").val()) || 0;
     var adjustments = parseFloat($("input[name='adjustments']").val()) || 0;
     var amountpaid = deposits+latefee-adjustments;
-    // var amounttobepaid = amount - deposits + latefee - adjustments;
     var balance = amount - amountpaid;
     $("input[name='balance']").val(balance);
     $("input[name='amountpaid']").val(amountpaid);
+    $("input[name='amountcollect']").attr('max',balance);
     $("input[name='amount'],input[name='deposits'], input[name='latefee'], input[name='adjustments'], input[name='amountpaid']")
         .keyup(function() {
             $("input[name='amountpaid']").empty();

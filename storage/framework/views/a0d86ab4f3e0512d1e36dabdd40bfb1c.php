@@ -55,7 +55,11 @@ $payinfo = App\Models\PaymentInfo::where('event_id',$event->id)->orderBy('id', '
                                 <div class="col-md-6">
                                     <label>Amount</label>
                                     <input type="number" name="amount" class="form-control"
-                                        value="<?php echo e(isset($payinfo) ? $payinfo->amounttobepaid : ($event->total - $total)); ?>">
+                                        value="<?php echo e(isset($balance) ? $balance : 0); ?>"
+                                        >
+                                    <!-- <input type="number" name="amount" class="form-control"
+                                        value="<?php echo e(isset($payinfo) ? $payinfo->amounttobepaid : ($event->total - $total)); ?>"
+                                        > -->
                                 </div>
                             </div>
                             <div class="row form-group">

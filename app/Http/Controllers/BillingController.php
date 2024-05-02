@@ -148,22 +148,21 @@ class BillingController extends Controller
         // echo "<pre>";print_r($request->all());die;
         $payment = new PaymentInfo();
         $payment->event_id = $id;
-        $payment->amount = $request->amount;
-        $payment->date = $request->date;
+        $payment->bill_amount = $request->amount;
         $payment->deposits = $request->deposits;
         $payment->adjustments = $request->adjustments;
         $payment->latefee = $request->latefee;
-        $payment->paymentref = $request->paymentref;
-        $payment->amounttobepaid = $request->amountcollect;
+        $payment->collect_amount = $request->amountcollect;
+        $payment->paymentref = $request->reference;
         $payment->modeofpayment = $request->mode;
         $payment->notes = $request->notes;
-        $balance = $request->balance;
-        $event = Meeting::find($id);
         $payment->save();
+        $balance = $request->amountcollect;
+        $event = Meeting::find($id);
+       
         $paid = PaymentInfo::where('event_id',$id)->get();
         // echo"<pre>";print_r($paid);die;
         // Meeting::find($id)->update(['total'=> $request->amounttobepaid]);
-
         if($request->mode == 'credit'){
             return view('payments.pay',compact('balance','event'));
         }else{
@@ -173,11 +172,26 @@ class BillingController extends Controller
                 'name_of_card' => $event->name,
                 'event_id' =>$id
             ]);
+             
+            // $payinfo = PaymentInfo::where('event_id',$id)->first();
+            // $halfpay = $payinfo->amount/2;
+            // $amountpaid = 0 ;
+            // $payment = PaymentLogs::where('event_id',$id)->get();
+            // foreach($payment as $pay){
+            //     $amountpaid += $pay->amount;
+            // }
+            // $amountlefttobepaid = $payinfo->amount - $amountpaid;
+            // if($amountlefttobepaid == 0 || $amountlefttobepaid <= 0){
+            //     Billing::where('event_id',$id)->update(['status' => 4]);
+            // }elseif($amountlefttobepaid ==  $halfpay || $amountlefttobepaid >=  $halfpay){
+            //     Billing::where('event_id',$id)->update(['status' => 3]);
+            // }elseif($amountlefttobepaid <= $halfpay  ){
+            //     Billing::where('event_id',$id)->update(['status' => 2]);
+            // }
+            // $data =  Billing::where('event_id',$id)->get();
         }
          return redirect()->back()->with('success','Payment Information Updated Sucessfully');
-    // }else{
-    //     return redirect()->back()->with('error','Permission Denied');
-    // }
+  
     }
    
     public function estimationview($id){
@@ -200,49 +214,50 @@ class BillingController extends Controller
         $event = Meeting::where('id',$id)->first();
         return view('payments.pay',compact('event'));
     }
-    public function sharepaymentlink(Request $request,$id){
-        $settings = Utility::settings();
-        $id = decrypt(urldecode($id));
-        $balance = $request->balance;
-        $payment = new PaymentInfo();
-        $payment->event_id = $id;
-        $payment->amount = $request->amount;
-        $payment->date = date('Y-m-d');
-        $payment->deposits = 0;
-        $payment->adjustments = $request->adjustment ?? 0;
-        $payment->latefee = $request->latefee ?? 0;
-        $payment->adjustmentnotes = $request->adjustmentnotes;
-        $payment->paymentref = '';
-        $payment->amounttobepaid = $request->balance;
-        $payment->modeofpayment = 'credit';
-        $payment->notes = $request->notes;
-        $payment->save();
-        try {
-            config(
-                [
-                    'mail.driver'       => $settings['mail_driver'],
-                    'mail.host'         => $settings['mail_host'],
-                    'mail.port'         => $settings['mail_port'],
-                    'mail.username'     => $settings['mail_username'],
-                    'mail.password'     => $settings['mail_password'],
-                    'mail.from.address' => $settings['mail_from_address'],
-                    'mail.from.name'    => $settings['mail_from_name'],
-                ]
-            );
-            Mail::to($request->email)->send(new PaymentLink($id,$balance));
-        } catch (\Exception $e) {
-            //   return response()->json(
-            //             [
-            //                 'is_success' => false,
-            //                 'message' => $e->getMessage(),
-            //             ]
-            //         );
-            return redirect()->back()->with('success', 'Email Not Sent');
+    // public function sharepaymentlink(Request $request,$id){
+    //     echo "<pre>";print_r($request->all());die;
+    //     $settings = Utility::settings();
+    //     $id = decrypt(urldecode($id));
+    //     $balance = $request->balance;
+    //     $payment = new PaymentInfo();
+    //     $payment->event_id = $id;
+    //     $payment->amount = $request->amount;
+    //     // $payment->date = date('Y-m-d');
+    //     $payment->deposits =$request->deposit;
+    //     $payment->adjustments = $request->adjustment ?? 0;
+    //     $payment->latefee = $request->latefee ?? 0;
+    //     // $payment->adjustmentnotes = $request->adjustmentnotes;
+    //     $payment->paymentref = '';
+    //     $payment->amounttobepaid = $request->balance;
+    //     $payment->modeofpayment = 'credit';
+    //     $payment->notes = $request->notes;
+    //     $payment->save();
+    //     try {
+    //         config(
+    //             [
+    //                 'mail.driver'       => $settings['mail_driver'],
+    //                 'mail.host'         => $settings['mail_host'],
+    //                 'mail.port'         => $settings['mail_port'],
+    //                 'mail.username'     => $settings['mail_username'],
+    //                 'mail.password'     => $settings['mail_password'],
+    //                 'mail.from.address' => $settings['mail_from_address'],
+    //                 'mail.from.name'    => $settings['mail_from_name'],
+    //             ]
+    //         );
+    //         Mail::to($request->email)->send(new PaymentLink($id,$balance));
+    //     } catch (\Exception $e) {
+    //         //   return response()->json(
+    //         //             [
+    //         //                 'is_success' => false,
+    //         //                 'message' => $e->getMessage(),
+    //         //             ]
+    //         //         );
+    //         return redirect()->back()->with('success', 'Email Not Sent');
       
-        }
-        return redirect()->back()->with('success', 'Payment Link shared Sucessfully');
+    //     }
+    //     return redirect()->back()->with('success', 'Payment Link shared Sucessfully');
 
-    }
+    // }
     
     public function invoicepdf(Request $request,$id){
         $paymentinfo = PaymentInfo::where('event_id',$id)->orderby('id','desc')->first();

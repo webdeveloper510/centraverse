@@ -50,7 +50,7 @@ h6 {
 
                     <div class="col-lg-4 col-sm-12" style="padding: 15px;">
                         <div class="card">
-                            <div class="card-body newcard_body">
+                            <div class="card-body newcard_body new-div">
                                 <div class="theme-avtar bg-success">
                                     <i class="fa fa-dollar-sign"></i>
                                 </div>
@@ -177,7 +177,7 @@ h6 {
                     </div>
                     <div class="col-sm">
                         <div class="inner_col">
-                            <h5 class="card-title mb-2">Finances</h5>
+                            <h5 class="card-title mb-2">Finance</h5>
 <div class="scrol-card">
                             <div class="card">
                                 <div class="card-body">
@@ -258,9 +258,14 @@ h5.card-text {
  .flex-div {
     display: block !important;
 }
-.mt10 {
-    margin-top: 20px;
+.new-div
+{
+display:flex;
+align-items:center;
 }
+    .mt10 {
+        margin-top: 10px;
+    }
 }
 </style>
 @endsection
