@@ -13,25 +13,19 @@ class WebNotificationController extends Controller
     {
         return view('pushnotification');
     }
-  
-  
+
     public function updateDeviceToken(Request $request)
     {
-        Auth::user()->device_token =  $request->token;
-
+        Auth::user()->device_key =  $request->token;
         Auth::user()->save();
-
         return response()->json(['Token successfully stored.']);
     }
 
     public function sendNotification(Request $request)
     {
         $url = 'https://fcm.googleapis.com/fcm/send';
-
-        $FcmToken = User::whereNotNull('device_token')->pluck('device_token')->all();
-            
+        $FcmToken = User::whereNotNull('device_key')->pluck('device_key')->all();
         $serverKey = 'AAAAn2kzNnQ:APA91bE68d4g8vqGKVWcmlM1bDvfvwOIvBl-S-KUNB5n_p4XEAcxUqtXsSg8TkexMR8fcJHCZxucADqim2QTxK2s_P0j5yuy6OBRHVFs_BfUE0B4xqgRCkVi86b8SwBYT953dE3X0wdY'; // ADD SERVER KEY HERE PROVIDED BY FCM
-    
         $data = [
             "registration_ids" => $FcmToken,
             "notification" => [

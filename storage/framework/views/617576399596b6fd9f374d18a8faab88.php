@@ -1,8 +1,26 @@
-<div class="container">
+
+<?php $__env->startSection('page-title'); ?>
+<?php echo e(__('Report')); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('title'); ?>
+<div class="page-header-title">
+    <h4 class="m-b-10"><?php echo e(__('Push notification')); ?></h4>
+</div>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('breadcrumb'); ?>
+<li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Home')); ?></a></li>
+<li class="breadcrumb-item"><?php echo e(__('Push notification')); ?></li>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('action-btn'); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('filter'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?><div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <button onclick="startFCM()" class="btn btn-danger btn-flat">Allow notification
-            </button>
+            <button onclick="startFCM()" class="btn btn-danger btn-flat"> Allow notification </button>
             <div class="card mt-3">
                 <div class="card-body">
                     <?php if(session('status')): ?>
@@ -28,9 +46,22 @@
         </div>
     </div>
 </div>
-<script src="<?php echo e(asset('js/jquery.min.js')); ?>"></script>
-<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase.js"></script>
+<script>
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+        navigator.serviceWorker.register('firebase-messaging-sw.js')
+            .then(function(registration) {
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            })
+            .catch(function(err) {
+                console.error('ServiceWorker registration failed: ', err);
+            });
+    });
+}
+</script>
+
 <script>
 var firebaseConfig = {
     apiKey: "AIzaSyB3y7uzZSAP39LOIvZwOjJOdFD2myDnvQk",
@@ -82,4 +113,6 @@ messaging.onMessage(function(payload) {
     };
     new Notification(title, options);
 });
-</script><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/pushnotification.blade.php ENDPATH**/ ?>
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/pushnotification.blade.php ENDPATH**/ ?>

@@ -32,7 +32,7 @@ $total += $p->amount;
             <div class="form-group">
                 <?php echo e(Form::label('deposits',__('Deposits on Account'),['class'=>'form-label'])); ?>
 
-                <?php echo e(Form::number('deposits',$bill->deposits,array('class'=>'form-control','placeholder'=>__('Enter Deposits'),'readonly'))); ?>
+                <?php echo e(Form::number('deposits', $bill->deposits + $total,array('class'=>'form-control','placeholder'=>__('Enter Deposits'),'readonly'))); ?>
 
             </div>
         </div>
@@ -52,19 +52,19 @@ $total += $p->amount;
 
             </div>
         </div>
-        <div class="col-6">
+        <!-- <div class="col-6">
             <div class="form-group">
                 <?php echo e(Form::label('other',__('Other Charges'),['class'=>'form-label'])); ?>
 
                 <?php echo e(Form::number('other',null ,array('class'=>'form-control','placeholder'=>__('Enter Other Charges(If Any)')))); ?>
 
             </div>
-        </div>
+        </div> -->
         <div class="col-6">
             <div class="form-group">
                 <?php echo e(Form::label('amountpaid',__('Total Paid'),['class'=>'form-label'])); ?>
 
-                <?php echo e(Form::number('amountpaid',$total,array('class'=>'form-control','placeholder'=>__('Enter Amount Paid'),'readonly'))); ?>
+                <?php echo e(Form::number('amountpaid',null,array('class'=>'form-control','placeholder'=>__('Enter Amount Paid'),'readonly'))); ?>
 
             </div>
         </div>
@@ -482,28 +482,28 @@ jQuery(function() {
     var deposits = parseFloat($("input[name='deposits']").val()) || 0;
     var latefee = parseFloat($("input[name='latefee']").val()) || 0;
     var adjustments = parseFloat($("input[name='adjustments']").val()) || 0;
-    var amountpaid = parseFloat($("input[name='amountpaid']").val()) || 0
-    var amounttobepaid = amount - deposits + latefee - adjustments;
-
-    var balance = amounttobepaid - amountpaid;
+    var amountpaid = deposits+latefee-adjustments;
+    // var amounttobepaid = amount - deposits + latefee - adjustments;
+    var balance = amount - amountpaid;
     $("input[name='balance']").val(balance);
-    $("input[name='amounttobepaid']").val(amounttobepaid);
+    $("input[name='amountpaid']").val(amountpaid);
     $("input[name='amount'],input[name='deposits'], input[name='latefee'], input[name='adjustments'], input[name='amountpaid']")
         .keyup(function() {
-            $("input[name='amounttobepaid']").empty();
+            $("input[name='amountpaid']").empty();
             $("input[name='balance']").empty();
             var amount = parseFloat($("input[name='amount']").val()) || 0;
             var deposits = parseFloat($("input[name='deposits']").val()) || 0;
             var latefee = parseFloat($("input[name='latefee']").val()) || 0;
             var adjustments = parseFloat($("input[name='adjustments']").val()) || 0;
-            var amountpaid = parseFloat($("input[name='amountpaid']").val()) || 0;
-
-            var amounttobepaid = amount - deposits + latefee - adjustments;
-            var balance = amounttobepaid - amountpaid;
+            // var amountpaid = parseFloat($("input[name='amountpaid']").val()) || 0;
+            var amountpaid = deposits+latefee-adjustments;
+            $("input[name='amountpaid']").val(amountpaid);
+            // var amounttobepaid = amount - deposits + latefee - adjustments;
+            var balance = amount - amountpaid;
 
             // Assuming you want to store the balance in an input field with name 'balance'
             $("input[name='balance']").val(balance);
-            $("input[name='amounttobepaid']").val(amounttobepaid);
+            // $("input[name='amounttobepaid']").val(amounttobepaid);
 
             console.log('total', balance);
         });
