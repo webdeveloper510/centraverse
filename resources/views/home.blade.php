@@ -177,7 +177,7 @@ h6 {
                     </div>
                     <div class="col-sm">
                         <div class="inner_col">
-                            <h5 class="card-title mb-2">Finances</h5>
+                            <h5 class="card-title mb-2">Finance</h5>
 <div class="scrol-card">
                             <div class="card">
                                 <div class="card-body">
@@ -253,6 +253,10 @@ h5.card-text {
     margin-top: 10px;
     max-height: 210px;
     overflow-y: scroll;
+}
+.inner_col
+{
+   min-height: 320px;
 }
 @media only screen and (max-width: 600px) {
  .flex-div {

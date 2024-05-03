@@ -31,8 +31,8 @@ $leadId = decrypt(urldecode(request()->query('lead')));
 <style>
 .floorimages {
     height: 400px;
-    width: 600px;
-    margin: 26px;
+    width: 100%;
+    margin: 0px;
 }
 
 .selected-image {
@@ -599,7 +599,7 @@ $(document).ready(function() {
                 // phoneInput.val(data.phone);
                 // // phoneInput.trigger('input');
                 // // phoneInput.addEventListener('input', enforceFormat);
-                // // phoneInput.addEventListener('input', formatToPhone); 
+                // // phoneInput.addEventListener('input', formatToPhone);
                 $('input[name ="relationship"]').val(data.relationship);
                 $('input[name ="start_date"]').val(data.start_date);
                 $('input[name ="end_date"]').val(data.end_date);
