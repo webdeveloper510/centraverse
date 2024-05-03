@@ -1,4 +1,4 @@
-<?php 
+<?php
 $settings = App\Models\Utility::settings();
 $billings = json_decode($settings['fixed_billing'],true);
 $foodpcks = json_decode($lead->func_package,true);
@@ -34,7 +34,7 @@ if(isset($billings) && !empty($billings)){
     if(isset($barpcks) && !empty($barpcks)){
         foreach($barpcks as $key => $barpck){
                 $bar[]= $barpck;
-            
+           
         }
         $barpckge = implode(',',$bar);
         foreach ($bar as $barItem) {
@@ -102,10 +102,10 @@ $leaddata['bar_package_cost'] = $totalBarPackageCost;
 
             <hr class="mt-4 mb-4">
             <!-- <hr> -->
-            <div class="col-12  p-0 modaltitle pb-3 mb-3">
+            <div class="col-12  p-0 modaltitle pb-3 mb-3 flex-title">
                 <!-- <hr class="mt-2 mb-2"> -->
-                <h5 style="margin-left: 14px;">{{ __('Estimated Billing Details') }}</h5>
-                <span class="h6 mb-0" style="float:right;    margin-top: -27px;
+                <h5 class="bb">{{ __('Estimated Billing Details') }}</h5>
+                <span class="h6 mb-0" style="float:right;  
 ">{{__('Guest Count')}} : {{ $lead->guest_count }}</span>
             </div>
             <dl class="row">
@@ -114,7 +114,7 @@ $leaddata['bar_package_cost'] = $totalBarPackageCost;
                 <!-- <div class="col-md-12"> -->
 
                 <div class="form-group">
-                    <table class="table">
+                    <table class="table table-share">
                         <thead>
                             <tr>
                                 <th>{{__('Description')}} </th>
@@ -155,10 +155,10 @@ $leaddata['bar_package_cost'] = $totalBarPackageCost;
             </dl>
         </div>
         <div class="modal-footer">
-            <!-- <button type="button" class="btn btn-success" data-toggle="tooltip" onclick="getDataUrlAndCopy(this)"
+            <button type="button" class="btn btn-success" data-toggle="tooltip" onclick="getDataUrlAndCopy(this)"
                 data-url="{{route('lead.signedproposal',urlencode(encrypt($lead->id)))}}" title='Copy To Clipboard'>
                 <i class="ti ti-copy"></i>
-            </button> -->
+            </button>
             {{Form::submit(__('Share via mail'),array('class'=>'btn btn-primary'))}}
         </div>
 
