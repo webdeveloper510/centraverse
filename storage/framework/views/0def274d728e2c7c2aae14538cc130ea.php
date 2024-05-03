@@ -17,6 +17,7 @@ h6 {
     font-size: 12px !important;
 }
 </style>
+
 <div class="container-field">
     <div id="wrapper">
         <div id="page-content-wrapper">
@@ -89,39 +90,39 @@ h6 {
                     <div class="col-sm">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Active Leads</h5>
-<div class="scrol-card">
-                            <?php $__currentLoopData = $activeLeads; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $lead): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <div class="scrol-card">
+                                <?php $__currentLoopData = $activeLeads; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $lead): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
-                            <div class="card">
-                                <div class="card-body new_bottomcard">
-                                    <h5 class="card-text"><?php echo e($lead['leadname']); ?>
+                                <div class="card">
+                                    <div class="card-body new_bottomcard">
+                                        <h5 class="card-text"><?php echo e($lead['leadname']); ?>
 
-                                        <span>(<?php echo e($lead['type']); ?>)</span>
-                                    </h5>
-                                    <?php if($lead['start_date'] == $lead['end_date']): ?>
-                                    <p><?php echo e(Carbon\Carbon::parse($lead['start_date'])->format('M d')); ?></p>
-                                    <?php else: ?>
-                                    <p><?php echo e(Carbon\Carbon::parse($lead['start_date'])->format('M d')); ?> -
-                                        <?php echo e(\Auth::user()->dateFormat($lead['end_date'])); ?>
+                                            <span>(<?php echo e($lead['type']); ?>)</span>
+                                        </h5>
+                                        <?php if($lead['start_date'] == $lead['end_date']): ?>
+                                        <p><?php echo e(Carbon\Carbon::parse($lead['start_date'])->format('M d')); ?></p>
+                                        <?php else: ?>
+                                        <p><?php echo e(Carbon\Carbon::parse($lead['start_date'])->format('M d')); ?> -
+                                            <?php echo e(\Auth::user()->dateFormat($lead['end_date'])); ?>
 
-                                    </p>
-                                    <?php endif; ?>
-                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Lead')): ?>
-                                    <div class="action-btn bg-warning ms-2">
-                                        <a href="javascript:void(0);" data-size="md"
-                                            data-url="<?php echo e(route('lead.show',$lead['id'])); ?>" data-bs-toggle="tooltip"
-                                            title="<?php echo e(__('Quick View')); ?>" data-ajax-popup="true"
-                                            data-title="<?php echo e(__('Lead Details')); ?>"
-                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                            <i class="ti ti-eye"></i>
-                                        </a>
+                                        </p>
+                                        <?php endif; ?>
+                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Lead')): ?>
+                                        <div class="action-btn bg-warning ms-2">
+                                            <a href="javascript:void(0);" data-size="md"
+                                                data-url="<?php echo e(route('lead.show',$lead['id'])); ?>" data-bs-toggle="tooltip"
+                                                title="<?php echo e(__('Quick View')); ?>" data-ajax-popup="true"
+                                                data-title="<?php echo e(__('Lead Details')); ?>"
+                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                <i class="ti ti-eye"></i>
+                                            </a>
+                                        </div>
+                                        <?php endif; ?>
                                     </div>
-                                    <?php endif; ?>
+
                                 </div>
-                           
-</div>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-</div>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            </div>
                             <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Lead')): ?>
                             <div class="col-12 text-end mt-3">
                                 <a href="javascript:void(0);" data-url="<?php echo e(route('lead.create',['lead',0])); ?>"
@@ -138,38 +139,38 @@ h6 {
                     <div class="col-sm">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Active/Upcoming Events</h5>
-<div class="scrol-card">
-                            <?php $__currentLoopData = $activeEvent; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $event): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <div class="scrol-card">
+                                <?php $__currentLoopData = $activeEvent; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $event): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-text"><?php echo e($event['name']); ?>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-text"><?php echo e($event['name']); ?>
 
-                                        <span>(<?php echo e($event['type']); ?>)</span>
-                                    </h5>
-                                    <?php if($event['start_date'] == $event['end_date']): ?>
-                                    <p><?php echo e(Carbon\Carbon::parse($event['start_date'])->format('M d')); ?></p>
-                                    <?php else: ?>
-                                    <p><?php echo e(Carbon\Carbon::parse($event['start_date'])->format('M d')); ?> -
-                                        <?php echo e(\Auth::user()->dateFormat($event['end_date'])); ?>
+                                            <span>(<?php echo e($event['type']); ?>)</span>
+                                        </h5>
+                                        <?php if($event['start_date'] == $event['end_date']): ?>
+                                        <p><?php echo e(Carbon\Carbon::parse($event['start_date'])->format('M d')); ?></p>
+                                        <?php else: ?>
+                                        <p><?php echo e(Carbon\Carbon::parse($event['start_date'])->format('M d')); ?> -
+                                            <?php echo e(\Auth::user()->dateFormat($event['end_date'])); ?>
 
-                                    </p>
-                                    <?php endif; ?>
-                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Meeting')): ?>
-                                    <div class="action-btn bg-warning ms-2">
-                                        <a href="javascript:void(0);" data-size="md"
-                                            data-url="<?php echo e(route('meeting.show', $event['id'])); ?>" data-ajax-popup="true"
-                                            data-bs-toggle="tooltip" data-title="<?php echo e(__('Event Details')); ?>"
-                                            title="<?php echo e(__('Quick View')); ?>"
-                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                            <i class="ti ti-eye"></i>
-                                        </a>
+                                        </p>
+                                        <?php endif; ?>
+                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Meeting')): ?>
+                                        <div class="action-btn bg-warning ms-2">
+                                            <a href="javascript:void(0);" data-size="md"
+                                                data-url="<?php echo e(route('meeting.show', $event['id'])); ?>"
+                                                data-ajax-popup="true" data-bs-toggle="tooltip"
+                                                data-title="<?php echo e(__('Event Details')); ?>" title="<?php echo e(__('Quick View')); ?>"
+                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                <i class="ti ti-eye"></i>
+                                            </a>
+                                        </div>
+                                        <?php endif; ?>
                                     </div>
-                                    <?php endif; ?>
                                 </div>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </div>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-</div>
                             <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Meeting')): ?>
                             <div class="col-12 text-end mt-3">
                                 <a href="<?php echo e(route('meeting.create',['meeting',0])); ?>">
@@ -185,44 +186,44 @@ h6 {
                     <div class="col-sm">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Finance</h5>
-<div class="scrol-card">
-                            <div class="card">
-                                <div class="card-body">
-                                    <?php $__currentLoopData = $events; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $event): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <?php
+                            <div class="scrol-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <?php $__currentLoopData = $events; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $event): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <?php
                                             $pay = App\Models\PaymentLogs::where('event_id',$event['id'])->get();
                                             $total = 0;
                                             foreach($pay as $p){
                                             $total += $p->amount;
                                             }
                                         ?>
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <h5 class="card-text"><?php echo e($event['name']); ?>
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h5 class="card-text"><?php echo e($event['name']); ?>
 
-                                                <span>(<?php echo e($event['type']); ?>)</span>
-                                            </h5>
+                                                    <span>(<?php echo e($event['type']); ?>)</span>
+                                                </h5>
 
-                                            <?php if($event['start_date'] == $event['end_date']): ?>
-                                            <p><?php echo e(Carbon\Carbon::parse($event['start_date'])->format('M d, Y')); ?></p>
-                                            <?php else: ?>
-                                            <p><?php echo e(Carbon\Carbon::parse($event['start_date'])->format('M d, Y')); ?> -
-                                                <?php echo e(\Auth::user()->dateFormat($event['end_date'])); ?>
+                                                <?php if($event['start_date'] == $event['end_date']): ?>
+                                                <p><?php echo e(Carbon\Carbon::parse($event['start_date'])->format('M d, Y')); ?></p>
+                                                <?php else: ?>
+                                                <p><?php echo e(Carbon\Carbon::parse($event['start_date'])->format('M d, Y')); ?> -
+                                                    <?php echo e(\Auth::user()->dateFormat($event['end_date'])); ?>
 
-                                            </p>
-                                            <?php endif; ?>
-                                            <div style="    color: #a99595;">
-                                                Billing Amount: $<?php echo e(number_format($event['total'])); ?><br>
-                                                Pending Amount: $<?php echo e(number_format($event['total']- $total)); ?>
+                                                </p>
+                                                <?php endif; ?>
+                                                <div style="    color: #a99595;">
+                                                    Billing Amount: $<?php echo e(number_format($event['total'])); ?><br>
+                                                    Pending Amount: $<?php echo e(number_format($event['total']- $total)); ?>
+
+                                                </div>
 
                                             </div>
-
                                         </div>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </div>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </div>
                             </div>
-</div>
                         </div>
                     </div>
                 </div>
@@ -248,14 +249,17 @@ h5.card-text {
     border-radius: 20px;
     margin-top: 10px;
 }
+
 .right_side {
     /* width: 70%; */
     float: left;
     text-align: left;
 }
+
 .theme-avtar {
     margin-right: 10px;
 }
+
 .inner_col .scrol-card {
     padding: 10px;
     border: 1px dotted #ccc;
@@ -264,23 +268,94 @@ h5.card-text {
     max-height: 210px;
     overflow-y: scroll;
 }
-.inner_col
-{
-   min-height: 320px;
+
+.inner_col {
+    min-height: 320px;
 }
+
 @media only screen and (max-width: 600px) {
- .flex-div {
-    display: block !important;
-}
-.new-div
-{
-display:flex;
-align-items:center;
-}
+    .flex-div {
+        display: block !important;
+    }
+
+    .new-div {
+        display: flex;
+        align-items: center;
+    }
+
     .mt10 {
         margin-top: 10px;
     }
 }
 </style>
 <?php $__env->stopSection(); ?>
+<?php $__env->startPush('script-page'); ?>
+<script src="https://www.gstatic.com/firebasejs/8.3.2/firebase.js"></script>
+<script>
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+        navigator.serviceWorker.register('firebase-messaging-sw.js')
+            .then(function(registration) {
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            })
+            .catch(function(err) {
+                console.error('ServiceWorker registration failed: ', err);
+            });
+    });
+}
+</script>
+<script>
+
+$(document).ready(function() {
+    var firebaseConfig = {
+        apiKey: "AIzaSyB3y7uzZSAP39LOIvZwOjJOdFD2myDnvQk",
+        authDomain: "notify-71d80.firebaseapp.com",
+        projectId: "notify-71d80",
+        storageBucket: "notify-71d80.appspot.com",
+        messagingSenderId: "684664764020",
+        appId: "1:684664764020:web:71f82128ffc0e20e3fc321",
+        measurementId: "G-FTD60E8WG9"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const messaging = firebase.messaging();
+
+    messaging
+        .requestPermission()
+        .then(function() {
+            return messaging.getToken()
+        })
+        .then(function(response) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: '<?php echo e(route("store.token")); ?>',
+                type: 'POST',
+                data: {
+                    token: response
+                },
+                dataType: 'JSON',
+                success: function(response) {
+                    console.log('Token stored.');
+                },
+                error: function(error) {
+                    console.log(error);
+                },
+            });
+        }).catch(function(error) {
+            console.log(error);
+        });
+    messaging.onMessage(function(payload) {
+        const title = payload.notification.title;
+        const options = {
+            body: payload.notification.body,
+            icon: payload.notification.icon,
+        };
+        new Notification(title, options);
+    });
+})
+</script>
+<?php $__env->stopPush(); ?>
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/home.blade.php ENDPATH**/ ?>
