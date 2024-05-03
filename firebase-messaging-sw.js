@@ -13,7 +13,7 @@ try {
     });
 
     const messaging = firebase.messaging();
-    console.log('hy');
+    // console.log('hy');
     // Add Firebase messaging event listeners
     messaging.onBackgroundMessage((payload) => {
         console.log('Received background message:', payload);
