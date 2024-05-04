@@ -19,6 +19,7 @@ return new class extends Migration
             $table->float('deposits');
             $table->float('adjustments');
             $table->float('latefee');
+            $table->float('other');
             $table->float('collect_amount');
             $table->string('paymentref')->nullable();
             $table->string('modeofpayment')->nullable();

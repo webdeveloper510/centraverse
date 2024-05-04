@@ -83,10 +83,11 @@
                                                 </td>
                                                 <td> @if(\App\Models\PaymentLogs::where('event_id',$event->id)->exists())
                                                 <?php $pay = App\Models\PaymentLogs::where('event_id',$event->id)->get();
+                                                $deposit = App\Models\Billing::where('event_id',$event->id)->first();
                                                     $total = 0;
                                                     foreach($pay as $p){
                                                     $total += $p->amount;
-                                                    }?> {{($total != 0)?'$'.$total:'--'}}
+                                                    }?> {{ ($total != 0)?'$'.$deposit->deposits + $total:'--'}}
                                                     @endif</td>
                                                 <td class="text-end">
                                                     <!-- <div class="action-btn bg-primary ms-2">
@@ -117,9 +118,8 @@
                                                          $paymentLog = App\Models\PaymentLogs::where('event_id', $event->id)->orderBy('id', 'desc')->first();
                                                          $paymentInfo = App\Models\PaymentInfo::where('event_id',$event->id)->orderBy('id', 'desc')->first();
                                                      ?>
-                                                    @if($paymentLog && $paymentInfo)
-                                                    @if($paymentLog->amount < $paymentInfo->amounttobepaid &&
-                                                        $paymentLog->amount != 0)
+                                                    @if($paymentLog)
+                                                    @if($paymentLog->amount != 0)
                                                         <div class="action-btn bg-primary ms-2">
                                                             <a href="#" data-size="md"
                                                                 data-url="{{ route('billing.paylink',$event->id) }}"
