@@ -38,7 +38,7 @@ $func_package = json_decode($meeting->func_package,true);
     .floorimages {
         height: 400px;
         width: 600px;
-        margin: 26px;
+        margin: 0px !important;
     }
 
     .selected-image {
@@ -223,13 +223,13 @@ $func_package = json_decode($meeting->func_package,true);
                                 <div class="card-body">
                                     <div class="row">
 
-                                        <div class="col-6">
+                                        <div class="col-6 need_full">
                                             <div class="form-group">
                                                 {{Form::label('type',__('Event Type'),['class'=>'form-label']) }}
                                                 {!! Form::select('type', $type_arr, null,array('class' => 'form-control')) !!}
                                             </div>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-6 need_full">
                                             <div class="form-group">
                                                 <label for="venue" class="form-label">{{ __('Venue') }}</label>
                                                 @foreach($venue as $key => $label)
@@ -241,37 +241,37 @@ $func_package = json_decode($meeting->func_package,true);
                                             </div>
                                         </div>
 
-                                        <div class="col-6">
+                                        <div class="col-6 need_full">
                                             <div class="form-group">
                                                 {{ Form::label('start_date', __('Start Date'), ['class' => 'form-label']) }}
                                                 {!! Form::date('start_date', null, ['class' => 'form-control', 'required' => 'required']) !!}
                                             </div>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-6 need_full">
                                             <div class="form-group">
                                                 {{ Form::label('end_date', __('End Date'), ['class' => 'form-label']) }}
                                                 {!! Form::date('end_date', null, ['class' => 'form-control', 'required' => 'required']) !!}
                                             </div>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-6 need_full">
                                             <div class="form-group">
                                                 {{ Form::label('start_time', __('Start Time'), ['class' => 'form-label']) }}
                                                 {!! Form::input('time', 'start_time',null, ['class' => 'form-control', 'required' => 'required']) !!}
                                             </div>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-6 need_full">
                                             <div class="form-group">
                                                 {{ Form::label('end_time', __('End Time'), ['class' => 'form-label']) }}
                                                 {!! Form::input('time', 'end_time', null, ['class' => 'form-control', 'required' => 'required']) !!}
                                             </div>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-6 need_full">
                                             <div class="form-group">
                                                 {{Form::label('guest_count',__('Guest Count'),['class'=>'form-label']) }}
                                                 {!! Form::number('guest_count', null,array('class' => 'form-control','min'=> 0)) !!}
                                             </div>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-6 need_full">
                                             <div class="form-group">
                                                 {{ Form::label('function', __('Function'), ['class' => 'form-label']) }}
                                                 <br>
@@ -284,7 +284,7 @@ $func_package = json_decode($meeting->func_package,true);
                                                 @endforeach
                                             </div>
                                         </div>
-                                        <div class="col-6" id="mailFunctionSection">
+                                        <div class="col-6 need_full" id="mailFunctionSection">
                                             @if(isset($function) && !empty($function))
                                             @foreach($function as $key =>$value)
                                             <div class="form-group" data-main-index="{{$key}}" data-main-value="{{$value['function']}}" id="function_package" style="display: none;">
@@ -309,7 +309,7 @@ $func_package = json_decode($meeting->func_package,true);
                                             @endforeach
                                             @endif
                                         </div>
-                                        <div class="col-6" id="additionalSection">
+                                        <div class="col-6 need_full" id="additionalSection">
                                             @if(isset($additional_items) && !empty($additional_items))
                                             {{ Form::label('additional', __('Additional items'), ['class' => 'form-label']) }}
                                             @foreach($additional_items as $ad_key =>$ad_value)
@@ -333,7 +333,7 @@ $func_package = json_decode($meeting->func_package,true);
                                             <div class="row">
                                                 <label><b>Setup</b></label>
                                                 @foreach($setup as $s)
-                                                <div class="col-6  mt-4">
+                                                <div class="col-6  mt-4 need_full">
                                                     <input type="radio" id="image_{{ $loop->index }}" name="uploadedImage" class="form-check-input " value="{{ asset('floor_images/' .$s->image) }}" {{ asset('floor_images/' .$s->image)==$meeting->floor_plan ? 'checked' : '' }} style="display:none">
                                                     <label for="image_{{ $loop->index }}" class="form-check-label">
                                                         <img src="{{asset('floor_images/'. $s->image)}}" alt="Uploaded Image" class="img-thumbnail floorimages zoom" data-bs-toggle="tooltip" title="{{$s->Description}}">
@@ -361,7 +361,7 @@ $func_package = json_decode($meeting->func_package,true);
                                             {{Form::label('rooms',__('Room'),['class'=>'form-label']) }}
                                             <input type="number" name="rooms" min=0 class="form-control" value="{{$meeting->room}}">
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-6 need_full">
                                             <div class="form-group">
                                                 {!! Form::label('meal', 'Meal Preference') !!}
                                                 @foreach($meal as $key => $label)
@@ -372,7 +372,7 @@ $func_package = json_decode($meeting->func_package,true);
                                                 @endforeach
                                             </div>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-6 need_full">
                                             <div class="form-group">
                                                 {!! Form::label('baropt', 'Bar') !!}
                                                 @foreach($baropt as $key => $label)
@@ -383,7 +383,7 @@ $func_package = json_decode($meeting->func_package,true);
                                                 @endforeach
                                             </div>
                                         </div>
-                                        <div class="col-6" id="barpacakgeoptions" style="display: none;">
+                                        <div class="col-6 need_full" id="barpacakgeoptions" style="display: none;">
                                             @if(isset($bar_package) && !empty($bar_package))
                                             @foreach($bar_package as $key =>$value)
                                             <div class="form-group" data-main-index="{{$key}}" data-main-value="{{$value['bar']}}">
@@ -574,7 +574,7 @@ inputElement.addEventListener('keyup', formatToPhone);
             $('#package').show();
         }
     });
-   
+    
     jQuery(function() {
         $('input[name="function[]"]').change(function() {
             $('div#mailFunctionSection > div').hide();
