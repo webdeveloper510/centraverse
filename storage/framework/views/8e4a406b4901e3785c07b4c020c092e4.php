@@ -306,7 +306,9 @@ if ('serviceWorker' in navigator) {
 <script>
 
 $(document).ready(function() {
-    var firebaseConfig = {
+    var userId = '<?php echo Auth::user()->type; ?>';
+    if(userId == 'owner' || userId == 'admin'){
+        var firebaseConfig = {
         apiKey: "AIzaSyB3y7uzZSAP39LOIvZwOjJOdFD2myDnvQk",
         authDomain: "notify-71d80.firebaseapp.com",
         projectId: "notify-71d80",
@@ -353,7 +355,9 @@ $(document).ready(function() {
             icon: payload.notification.icon,
         };
         new Notification(title, options);
-    });
+    })
+    }
+    ;
 })
 </script>
 <?php $__env->stopPush(); ?>
