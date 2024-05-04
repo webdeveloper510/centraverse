@@ -27,7 +27,7 @@
 <div class="container-field">
     <div id="wrapper">
         <div id="page-content-wrapper">
-            <div class="container-fluid xyz">
+            <div class="container-fluid xyz p0">
                 <div class="row">
                     <div class="col-lg-12">
                         <div id="useradd-1" class="card">
