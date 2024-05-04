@@ -913,11 +913,14 @@ table.table.table-share td,table.table.table-share th {
     .page-header {
         padding: 0px !important;
     }
-}
+
 @media only screen and (max-width: 768px) {
     .half-col .col-md-6 {
         flex: 0 0 auto;
         width: 50%;
+    }
+    span.badge.bg-warning.p-2.px-3.rounded {
+        white-space: normal;
     }
 }
 
@@ -931,4 +934,7 @@ table.table.table-share {
 table.table.table-share td,table.table.table-share th {
     white-space: normal;
     overflow-wrap: break-word;
+}
+.newcard_body {
+    display: flex;
 }

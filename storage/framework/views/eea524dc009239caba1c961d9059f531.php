@@ -1,4 +1,4 @@
-<?php 
+<?php
 $selectedvenue = explode(',', $lead->venue_selection);
 $billing = App\Models\ProposalInfo::where('lead_id',$lead->id)->orderby('id','desc')->first();
 if(isset($billing) && !empty($billing)){

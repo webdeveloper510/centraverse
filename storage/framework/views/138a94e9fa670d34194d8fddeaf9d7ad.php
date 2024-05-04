@@ -8,6 +8,7 @@
 
 <?php $__env->stopSection(); ?>
 <?php
+
 $plansettings = App\Models\Utility::plansettings();
 $setting = App\Models\Utility::settings();
 $type_arr= explode(',',$setting['event_type']);
@@ -640,7 +641,7 @@ inputElement.addEventListener('keyup', formatToPhone);
             $('#package').show();
         }
     });
-    
+   
     jQuery(function() {
         $('input[name="function[]"]').change(function() {
             $('div#mailFunctionSection > div').hide();
@@ -723,4 +724,5 @@ inputElement.addEventListener('keyup', formatToPhone);
 </script>
 
 <?php $__env->stopPush(); ?>
+
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/meeting/edit.blade.php ENDPATH**/ ?>

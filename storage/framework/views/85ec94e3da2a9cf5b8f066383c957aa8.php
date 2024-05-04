@@ -352,6 +352,7 @@
         color: #999999;
     }
 
+
     .sidebar-nav li a:hover {
         text-decoration: none;
         color: #fff;
