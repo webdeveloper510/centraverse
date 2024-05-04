@@ -103,10 +103,10 @@ $leaddata['bar_package_cost'] = $totalBarPackageCost;
 
             <hr class="mt-4 mb-4">
             <!-- <hr> -->
-            <div class="col-12  p-0 modaltitle pb-3 mb-3">
+            <div class="col-12  p-0 modaltitle pb-3 mb-3 flex-title">
                 <!-- <hr class="mt-2 mb-2"> -->
-                <h5 style="margin-left: 14px;"><?php echo e(__('Estimated Billing Details')); ?></h5>
-                <span class="h6 mb-0" style="float:right;    margin-top: -27px;
+                <h5 class="bb"><?php echo e(__('Estimated Billing Details')); ?></h5>
+                <span class="h6 mb-0" style="float:right;   
 "><?php echo e(__('Guest Count')); ?> : <?php echo e($lead->guest_count); ?></span>
             </div>
             <dl class="row">
@@ -115,7 +115,7 @@ $leaddata['bar_package_cost'] = $totalBarPackageCost;
                 <!-- <div class="col-md-12"> -->
 
                 <div class="form-group">
-                    <table class="table">
+                    <table class="table table-share">
                         <thead>
                             <tr>
                                 <th><?php echo e(__('Description')); ?> </th>
@@ -213,4 +213,5 @@ function hideNotification() {
     var notification = document.getElementById('notification');
     notification.style.display = 'none';
 }
-</script><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/lead/share_proposal.blade.php ENDPATH**/ ?>
+</script>
+<?php /**PATH C:\xampp\htdocs\centraverse\resources\views/lead/share_proposal.blade.php ENDPATH**/ ?>

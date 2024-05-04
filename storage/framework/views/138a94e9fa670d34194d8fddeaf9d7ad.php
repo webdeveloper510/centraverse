@@ -66,10 +66,10 @@ $func_package = json_decode($meeting->func_package,true);
 </style>
 <div class="container-field">
     <div id="wrapper">
-        <div id="page-content-wrapper">
-            <div class="container-fluid xyz">
-                <div class="row">
-                    <div class="col-lg-12">
+        <div id="page-content-wrapper p0">
+            <div class="container-fluid xyz p0">
+                <div class="row1">
+                    <div class="col-lg-12 p0">
                         <?php echo e(Form::model($meeting, ['route' => ['meeting.update', $meeting->id], 'method' => 'PUT' ,'id'=> 'formdata'])); ?>
 
                         <div id="useradd-1" class="card">
@@ -84,7 +84,7 @@ $func_package = json_decode($meeting->func_package,true);
                                 <div class="card-body">
                                     <div class="row">
                                         <?php if($meeting->attendees_lead != 0 ): ?>
-                                        <div class="col-6">
+                                        <div class="col-6 need_full">
                                             <div class="form-group">
                                                 <?php echo e(Form::label('attendees_lead', __('Lead'), ['class' => 'form-label'])); ?>
 
@@ -93,7 +93,7 @@ $func_package = json_decode($meeting->func_package,true);
                                             </div>
                                         </div>
                                         <?php else: ?>
-                                        <div class="col-6">
+                                        <div class="col-6 need_full">
                                             <div class="form-group">
                                                 <?php echo e(Form::label('eventname', __('Event Name'), ['class' => 'form-label'])); ?>
 
@@ -103,7 +103,7 @@ $func_package = json_decode($meeting->func_package,true);
                                         </div>
                                         <?php endif; ?>
 
-                                        <div class="col-6">
+                                        <div class="col-6 need_full">
                                             <div class="form-group">
                                                 <?php echo e(Form::label('Assigned Staff',__('Assigned Staff'),['class'=>'form-label'])); ?>
 
@@ -118,7 +118,7 @@ $func_package = json_decode($meeting->func_package,true);
 
                                             </div>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-6 need_full">
                                             <div class="form-group">
                                                 <?php echo e(Form::label('company_name',__('Company Name'),['class'=>'form-label'])); ?>
 
@@ -130,7 +130,7 @@ $func_package = json_decode($meeting->func_package,true);
                                         <div class="col-12  p-0 modaltitle pb-3 mb-3">
                                             <h5 style="margin-left: 14px;"><?php echo e(__('Contact Information')); ?></h5>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-6 need_full">
                                             <div class="form-group">
                                                 <?php echo e(Form::label('name',__('Name'),['class'=>'form-label'])); ?>
 
@@ -138,7 +138,7 @@ $func_package = json_decode($meeting->func_package,true);
 
                                             </div>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-6 need_full">
                                             <div class="form-group">
                                                 <?php echo e(Form::label('phone',__('Phone'),['class'=>'form-label'])); ?>
 
@@ -149,7 +149,7 @@ $func_package = json_decode($meeting->func_package,true);
             </div>              
                                             </div>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-6 need_full">
                                             <div class="form-group">
                                                 <?php echo e(Form::label('email',__('Email'),['class'=>'form-label'])); ?>
 
@@ -157,7 +157,7 @@ $func_package = json_decode($meeting->func_package,true);
 
                                             </div>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-6 need_full">
                                             <div class="form-group">
                                                 <?php echo e(Form::label('lead_address',__('Address'),['class'=>'form-label'])); ?>
 
@@ -165,7 +165,7 @@ $func_package = json_decode($meeting->func_package,true);
 
                                             </div>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-6 need_full">
                                             <div class="form-group">
                                                 <?php echo e(Form::label('relationship',__('Relationship'),['class'=>'form-label'])); ?>
 

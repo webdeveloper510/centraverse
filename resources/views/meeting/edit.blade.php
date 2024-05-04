@@ -64,10 +64,10 @@ $func_package = json_decode($meeting->func_package,true);
 </style>
 <div class="container-field">
     <div id="wrapper">
-        <div id="page-content-wrapper">
-            <div class="container-fluid xyz">
-                <div class="row">
-                    <div class="col-lg-12">
+        <div id="page-content-wrapper p0">
+            <div class="container-fluid xyz p0">
+                <div class="row1">
+                    <div class="col-lg-12 p0">
                         {{ Form::model($meeting, ['route' => ['meeting.update', $meeting->id], 'method' => 'PUT' ,'id'=> 'formdata']) }}
                         <div id="useradd-1" class="card">
                             <div class="col-md-12">
@@ -81,14 +81,14 @@ $func_package = json_decode($meeting->func_package,true);
                                 <div class="card-body">
                                     <div class="row">
                                         @if($meeting->attendees_lead != 0 )
-                                        <div class="col-6">
+                                        <div class="col-6 need_full">
                                             <div class="form-group">
                                                 {{ Form::label('attendees_lead', __('Lead'), ['class' => 'form-label']) }}
                                                 {{Form::text('attendees_lead',$attendees_lead,array('class'=>'form-control','required'=>'required','readonly'=>'readonly'))}}
                                             </div>
                                         </div>
                                         @else
-                                        <div class="col-6">
+                                        <div class="col-6 need_full">
                                             <div class="form-group">
                                                 {{ Form::label('eventname', __('Event Name'), ['class' => 'form-label']) }}
                                                 {{Form::text('eventname',$meeting->eventname,array('class'=>'form-control','required'=>'required','readonly'=>'readonly'))}}
@@ -96,7 +96,7 @@ $func_package = json_decode($meeting->func_package,true);
                                         </div>
                                         @endif
 
-                                        <div class="col-6">
+                                        <div class="col-6 need_full">
                                             <div class="form-group">
                                                 {{Form::label('Assigned Staff',__('Assigned Staff'),['class'=>'form-label']) }}
                                                 @foreach($users as $user)
@@ -110,7 +110,7 @@ $func_package = json_decode($meeting->func_package,true);
 
                                             </div>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-6 need_full">
                                             <div class="form-group">
                                                 {{Form::label('company_name',__('Company Name'),['class'=>'form-label']) }}
                                                 {{Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Company Name'),'required'=>'required'))}}
@@ -120,13 +120,13 @@ $func_package = json_decode($meeting->func_package,true);
                                         <div class="col-12  p-0 modaltitle pb-3 mb-3">
                                             <h5 style="margin-left: 14px;">{{ __('Contact Information') }}</h5>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-6 need_full">
                                             <div class="form-group">
                                                 {{Form::label('name',__('Name'),['class'=>'form-label']) }}
                                                 {{Form::text('name',null,array('class'=>'form-control','placeholder'=>__('Enter Name'),'required'=>'required'))}}
                                             </div>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-6 need_full">
                                             <div class="form-group">
                                                 {{Form::label('phone',__('Phone'),['class'=>'form-label']) }}
                                                 <div class="intl-tel-input">
@@ -136,19 +136,19 @@ $func_package = json_decode($meeting->func_package,true);
             </div>              
                                             </div>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-6 need_full">
                                             <div class="form-group">
                                                 {{Form::label('email',__('Email'),['class'=>'form-label']) }}
                                                 {{Form::text('email',null,array('class'=>'form-control','placeholder'=>__('Enter Email'),'required'=>'required'))}}
                                             </div>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-6 need_full">
                                             <div class="form-group">
                                                 {{Form::label('lead_address',__('Address'),['class'=>'form-label']) }}
                                                 {{Form::text('lead_address',null,array('class'=>'form-control','placeholder'=>__('Address'),'required'=>'required'))}}
                                             </div>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-6 need_full">
                                             <div class="form-group">
                                                 {{Form::label('relationship',__('Relationship'),['class'=>'form-label']) }}
                                                 {{Form::text('relationship',null,array('class'=>'form-control','placeholder'=>__('Enter Relationship')))}}
