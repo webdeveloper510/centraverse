@@ -2,9 +2,17 @@
 
 $event = App\Models\Meeting::find($id);
 $paidamount = App\Models\PaymentLogs::where('event_id',$id)->get();
+$bill = App\Models\Billing::where('event_id',$event->id)->first();
 $total = 0;
 foreach ($paidamount as $key => $value) {
    $total += $value->amount;
+}
+$info = App\Models\PaymentInfo::where('event_id',$event->id)->get();
+$latefee = 0;
+$adjustments = 0;
+foreach($info as $inf){
+$latefee += $inf->latefee;
+$adjustments += $inf->adjustments;
 }
 ?>
 <?php if($event->status == 3): ?>
@@ -32,23 +40,33 @@ foreach ($paidamount as $key => $value) {
                 </div>
                 <div class="col-md-6">
                     <label for="deposit" class="form-label">Deposits</label>
-                    <input type="number" name="deposit" value="<?php echo e($total); ?>" class="form-control">
+                    <input type="number" name="deposit" value="<?php echo e($total + $bill->deposits); ?>" class="form-control">
                 </div>
             </div>
             <div class="row form-group">
                 <div class="col-md-6">
                     <label for="adjustment" class="form-label">Adjustments</label>
-                    <input type="number" name="adjustment" class="form-control" min="0">
+                    <input type="number" name="adjustment" class="form-control" min="0" value="<?php echo e($adjustments); ?>">
                 </div>
                 <div class="col-md-6">
                     <label for="latefee" class="form-label">Late fee(if Any)</label>
-                    <input type="number" name="latefee" class="form-control" min="0">
+                    <input type="number" name="latefee" class="form-control" min="0" value="<?php echo e($latefee); ?>">
                 </div>
             </div>
-            <div class="row form-group">
+            <!-- <div class="row form-group">
                 <div class="col-md-6">
                     <label for="paidamount" class="form-label">Total Paid</label>
                     <input type="number" name="paidamount" class="form-control" value="<?php echo e($total); ?>" readonly>
+                </div>
+                <div class="col-md-6">
+                    <label for="balance" class="form-label">Balance</label>
+                    <input type="number" name="balance" class="form-control">
+                </div>
+            </div> -->
+            <div class="row form-group">
+                <div class="col-md-6">
+                    <label for="paidamount" class="form-label">Amount to be paid</label>
+                    <input type="number" name="paidamount" class="form-control" value="" readonly>
                 </div>
                 <div class="col-md-6">
                     <label for="balance" class="form-label">Balance</label>
@@ -107,11 +125,17 @@ $(document).ready(function() {
     var deposits = parseFloat($("input[name='deposit']").val()) || 0;
     var latefee = parseFloat($("input[name='latefee']").val()) || 0;
     var adjustments = parseFloat($("input[name='adjustment']").val()) || 0;
-    var amountpaid = deposits + latefee - adjustments;
-    var balance = amount - amountpaid;
+    // var amttobepaid = parseFloat($("input[name='paidamount']").val()) || 0;
+
+    
+    var amountpaid = deposits;
+    var balance = amount + latefee  - adjustments - amountpaid;
+    $("input[name='amountcollect']").attr('max', balance);
+
     // Assuming you want to store the balance in an input field with name 'balance'
     $("input[name='balance']").val(balance);
     $("input[name='amountpaid']").val(amountpaid);
+    $("input[name='paidamount']").val(amount + latefee  - adjustments -deposits);
 })
 
 $(" input[name='latefee'], input[name='adjustment']")
@@ -121,8 +145,8 @@ $(" input[name='latefee'], input[name='adjustment']")
         var deposits = parseFloat($("input[name='deposit']").val()) || 0;
         var latefee = parseFloat($("input[name='latefee']").val()) || 0;
         var adjustments = parseFloat($("input[name='adjustment']").val()) || 0;
-        var amountpaid = deposits + latefee - adjustments;
-        var balance = amount - amountpaid;
+        var amountpaid = deposits;
+        var balance = amount  + latefee - adjustments- amountpaid;
         // Assuming you want to store the balance in an input field with name 'balance'
         $("input[name='balance']").val(balance);
         $("input[name='amountpaid']").val(amountpaid);

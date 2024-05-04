@@ -31,7 +31,11 @@ class Lead extends Model
         'proposal_status',
         'leadname',
         'start_time',
-        'end_time'
+        'end_time',
+        'spcl_req',
+        'allergies',
+        'bar',
+        'description'
     ];
     protected $appends = [
         'status_name',

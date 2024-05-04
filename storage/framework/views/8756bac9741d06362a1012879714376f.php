@@ -87,10 +87,11 @@
                                                 </td>
                                                 <td> <?php if(\App\Models\PaymentLogs::where('event_id',$event->id)->exists()): ?>
                                                 <?php $pay = App\Models\PaymentLogs::where('event_id',$event->id)->get();
+                                                $deposit = App\Models\Billing::where('event_id',$event->id)->first();
                                                     $total = 0;
                                                     foreach($pay as $p){
                                                     $total += $p->amount;
-                                                    }?> <?php echo e(($total != 0)?'$'.$total:'--'); ?>
+                                                    }?> <?php echo e(($total != 0)?'$'.$deposit->deposits + $total:'--'); ?>
 
                                                     <?php endif; ?></td>
                                                 <td class="text-end">
@@ -122,9 +123,8 @@
                                                          $paymentLog = App\Models\PaymentLogs::where('event_id', $event->id)->orderBy('id', 'desc')->first();
                                                          $paymentInfo = App\Models\PaymentInfo::where('event_id',$event->id)->orderBy('id', 'desc')->first();
                                                      ?>
-                                                    <?php if($paymentLog && $paymentInfo): ?>
-                                                    <?php if($paymentLog->amount < $paymentInfo->amounttobepaid &&
-                                                        $paymentLog->amount != 0): ?>
+                                                    <?php if($paymentLog): ?>
+                                                    <?php if($paymentLog->amount != 0): ?>
                                                         <div class="action-btn bg-primary ms-2">
                                                             <a href="#" data-size="md"
                                                                 data-url="<?php echo e(route('billing.paylink',$event->id)); ?>"

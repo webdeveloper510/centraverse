@@ -761,7 +761,7 @@ $(document).ready(function() {
         // If validation failed, prevent form submission
         if (!isValid) {
             event.preventDefault();
-            alert('Please select at least one package for each checked function.');
+            show_toastr('Success', 'Select Food Package for selected Function', 'danger');
             return false;
         }
     });

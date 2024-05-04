@@ -57,11 +57,10 @@ h6 {
                                 <div class="theme-avtar bg-success">
                                     <i class="fa fa-dollar-sign"></i>
                                 </div>
-								
-                                <div class="flex-div">
-                                    <div style="   
-    ">
-                                        <h6 class="mb-0"><?php echo e(__('Amount(E)')); ?></h6>
+                                <div style="display:flex">
+                                    <div style="    margin-left: 47px;
+    margin-right: 23px;">
+                                        <h6 class="mb-3"><?php echo e(__('Amount(E)')); ?></h6>
                                         <h3 class="mb-0">
                                             <?php echo e($events_revenue != 0 ? '$'.number_format($events_revenue) : '--'); ?></h3>
                                     </div>
@@ -90,20 +89,18 @@ h6 {
                     <div class="col-sm">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Active Leads</h5>
-<div class="scrol-card">
                             <?php $__currentLoopData = $activeLeads; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $lead): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-
                             <div class="card">
                                 <div class="card-body new_bottomcard">
                                     <h5 class="card-text"><?php echo e($lead['leadname']); ?>
 
-                                            <span>(<?php echo e($lead['type']); ?>)</span>
-                                        </h5>
-                                        <?php if($lead['start_date'] == $lead['end_date']): ?>
-                                        <p><?php echo e(Carbon\Carbon::parse($lead['start_date'])->format('M d')); ?></p>
-                                        <?php else: ?>
-                                        <p><?php echo e(Carbon\Carbon::parse($lead['start_date'])->format('M d')); ?> -
-                                            <?php echo e(\Auth::user()->dateFormat($lead['end_date'])); ?>
+                                        <span>(<?php echo e($lead['type']); ?>)</span>
+                                    </h5>
+                                    <?php if($lead['start_date'] == $lead['end_date']): ?>
+                                    <p><?php echo e(Carbon\Carbon::parse($lead['start_date'])->format('M d')); ?></p>
+                                    <?php else: ?>
+                                    <p><?php echo e(Carbon\Carbon::parse($lead['start_date'])->format('M d')); ?> -
+                                        <?php echo e(\Auth::user()->dateFormat($lead['end_date'])); ?>
 
                                     </p>
                                     <?php endif; ?>
@@ -119,10 +116,8 @@ h6 {
                                     </div>
                                     <?php endif; ?>
                                 </div>
-                           
-</div>
+                            </div>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-</div>
                             <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Lead')): ?>
                             <div class="col-12 text-end mt-3">
                                 <a href="javascript:void(0);" data-url="<?php echo e(route('lead.create',['lead',0])); ?>"
@@ -139,20 +134,19 @@ h6 {
                     <div class="col-sm">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Active/Upcoming Events</h5>
-<div class="scrol-card">
                             <?php $__currentLoopData = $activeEvent; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $event): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-text"><?php echo e($event['name']); ?>
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-text"><?php echo e($event['name']); ?>
 
-                                            <span>(<?php echo e($event['type']); ?>)</span>
-                                        </h5>
-                                        <?php if($event['start_date'] == $event['end_date']): ?>
-                                        <p><?php echo e(Carbon\Carbon::parse($event['start_date'])->format('M d')); ?></p>
-                                        <?php else: ?>
-                                        <p><?php echo e(Carbon\Carbon::parse($event['start_date'])->format('M d')); ?> -
-                                            <?php echo e(\Auth::user()->dateFormat($event['end_date'])); ?>
+                                        <span>(<?php echo e($event['type']); ?>)</span>
+                                    </h5>
+                                    <?php if($event['start_date'] == $event['end_date']): ?>
+                                    <p><?php echo e(Carbon\Carbon::parse($event['start_date'])->format('M d')); ?></p>
+                                    <?php else: ?>
+                                    <p><?php echo e(Carbon\Carbon::parse($event['start_date'])->format('M d')); ?> -
+                                        <?php echo e(\Auth::user()->dateFormat($event['end_date'])); ?>
 
                                     </p>
                                     <?php endif; ?>
@@ -170,7 +164,6 @@ h6 {
                                 </div>
                             </div>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-</div>
                             <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Meeting')): ?>
                             <div class="col-12 text-end mt-3">
                                 <a href="<?php echo e(route('meeting.create',['meeting',0])); ?>">
@@ -185,8 +178,7 @@ h6 {
                     </div>
                     <div class="col-sm">
                         <div class="inner_col">
-                            <h5 class="card-title mb-2">Finances</h5>
-<div class="scrol-card">
+                            <h5 class="card-title mb-2">Finance</h5>
                             <div class="card">
                                 <div class="card-body">
                                     <?php $__currentLoopData = $events; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $event): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -223,7 +215,6 @@ h6 {
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </div>
                             </div>
-</div>
                         </div>
                     </div>
                 </div>
@@ -235,46 +226,6 @@ h6 {
 <style>
 h5.card-text {
     font-size: 16px;
-}
-
-
-	.flex-div {
-    display: flex;
-    justify-content: space-between;
-}
-
-.inner_col {
-    padding: 10px;
-    border: 1px dotted #ccc;
-    border-radius: 20px;
-    margin-top: 10px;
-}
-
-.right_side {
-    /* width: 70%; */
-    float: left;
-    text-align: left;
-}
-
-.theme-avtar {
-    margin-right: 10px;
-}
-
-.inner_col .scrol-card {
-    padding: 10px;
-    border: 1px dotted #ccc;
-    border-radius: 20px;
-    margin-top: 10px;
-    max-height: 210px;
-    overflow-y: scroll;
-}
-@media only screen and (max-width: 600px) {
- .flex-div {
-    display: block !important;
-}
-.mt10 {
-    margin-top: 20px;
-}
 }
 </style>
 <?php $__env->stopSection(); ?>

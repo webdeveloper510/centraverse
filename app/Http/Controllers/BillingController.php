@@ -57,7 +57,7 @@ class BillingController extends Controller
         foreach ($items as $item) {
             $totalCost += $item['cost'] * $item['quantity'];
         }
-        $totalCost = $totalCost + 7 * ($totalCost)/100 + 20 * ($totalCost)/100 - $request->deposits;
+        $totalCost = $totalCost + 7 * ($totalCost)/100 + 20 * ($totalCost)/100;
         $billing = new Billing();
         $billing['event_id'] = $id;
         $billing['data'] = serialize($items);

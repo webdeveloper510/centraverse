@@ -22,6 +22,7 @@ $bar_package = json_decode($setting['barpackage'],true);
 
 $func_package = json_decode($lead->func_package,true);
 $fun_ad_opts = json_decode($lead->ad_opts,true);
+
 @endphp
 @section('title')
 <div class="page-header-title">
@@ -229,16 +230,20 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                         <div class="form-group" data-additional-index="{{$fun_key}}"
                                             data-additional-value="{{key($packageVal)}}" id="ad_package"
                                             style="display: none;">
+
                                             {{ Form::label('additional', __($fun_key), ['class' => 'form-label']) }}
                                             @foreach($packageVal as $pac_key =>$item)
+                                           
                                             <div class="form-check" data-additional-index="{{$pac_key}}"
                                                 data-additional-package="{{$pac_key}}">
                                                 <?php $isCheckedif = false;?>
+
                                                 @if(isset($fun_ad_opts) && !empty($fun_ad_opts ))
                                                 @foreach($fun_ad_opts as $keys=>$valss)
-                                                @foreach($valss as $key=>$val)
+                                               
+                                                @foreach($valss as $val)
                                                 @if($pac_key == $val)
-
+                                                <?php $isCheckedif = true;?>
                                                 @endif
                                                 @endforeach
                                                 @endforeach
@@ -254,6 +259,7 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                         @endforeach
                                         @endforeach
                                         @endif
+
 
                                     </div>
                                     <div class="col-6">
