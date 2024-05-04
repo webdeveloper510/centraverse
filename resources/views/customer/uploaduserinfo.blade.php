@@ -18,14 +18,14 @@ $campaign_type = explode(',',$settings['campaign_type']);
             <div id="barmenu0" class="tab-pane fade in active show mt-5">
                 {{Form::open(array('route'=>['importuser'],'method'=>'post','enctype'=>'multipart/form-data'))}}
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-6 need_full">
                         <input type="hidden" name="customerType" value="addForm" />
                         <div class="form-group">
                             {{Form::label('name',__('Name'),['class'=>'form-label']) }}
                             {{Form::text('name',null,array('class'=>'form-control','placeholder'=>__('Enter Name'),'required'=>'required'))}}
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-6 need_full">
                         <div class="form-group">
                             {{Form::label('phone',__('Phone'),['class'=>'form-label']) }}
                             <div class="intl-tel-input">
@@ -35,25 +35,25 @@ $campaign_type = explode(',',$settings['campaign_type']);
                             </div>
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-6 need_full">
                         <div class="form-group">
                             {{Form::label('email',__('Email'),['class'=>'form-label']) }}
                             {{Form::text('email',null,array('class'=>'form-control','placeholder'=>__('Enter Email'),'required'=>'required'))}}
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-6 need_full">
                         <div class="form-group">
                             {{Form::label('address',__('Address'),['class'=>'form-label']) }}
                             {{Form::text('address',null,array('class'=>'form-control','placeholder'=>__('Enter Address')))}}
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-6 need_full">
                         <div class="form-group">
                             {{Form::label('organization',__('Organization'),['class'=>'form-label']) }}
                             {{Form::text('organization',null,array('class'=>'form-control','placeholder'=>__('Enter Organization')))}}
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-6 need_full">
                         <div class="form-group">
                             <label for="category">Select Category</label>
                             <select name="category" id="category" class="form-control" required>

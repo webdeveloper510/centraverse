@@ -404,8 +404,9 @@ class LeadController extends Controller
             $leads = Lead::with('accounts','assign_user')->where('user_id', \Auth::user()->id)->get();
           
             }
+            return redirect()->route('lead.index', compact('leads','statuss'))->with('success', __('Lead successfully updated!'));
             // return view('lead.index', compact('leads','statuss'))->with('success', __('Lead  Updated.'));
-            return redirect()->back()->with('success', __('Lead  Updated.'));
+            // return redirect()->back()->with('success', __('Lead Updated.'));
         } else {
             return redirect()->back()->with('error', 'permission Denied');
         }
@@ -652,10 +653,11 @@ class LeadController extends Controller
             //     return redirect()->back()->with('error','Proposal is already confirmed');
             // }
             $proposals = new Proposal();
+           
             $proposals['lead_id'] = $id;
             $proposals['image'] = $image;
             $proposals['notes'] = $request->comments;
-            $proposals['proposal_id'] = $request->proposal;
+            $proposals['proposal_id'] = isset($request->proposal) && ($request->proposal != '')?$request->proposal :'';
             $proposals->save();
             $lead = Lead::find($id);
             $users = User::where('type','owner')->orwhere('type','Admin')->get();
