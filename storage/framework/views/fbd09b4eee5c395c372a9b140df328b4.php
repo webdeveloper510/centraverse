@@ -19,7 +19,7 @@ $campaign_type = explode(',',$settings['campaign_type']);
                 <?php echo e(Form::open(array('route'=>['importuser'],'method'=>'post','enctype'=>'multipart/form-data'))); ?>
 
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-6 need_full">
                         <input type="hidden" name="customerType" value="addForm" />
                         <div class="form-group">
                             <?php echo e(Form::label('name',__('Name'),['class'=>'form-label'])); ?>
@@ -28,7 +28,7 @@ $campaign_type = explode(',',$settings['campaign_type']);
 
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-6 need_full">
                         <div class="form-group">
                             <?php echo e(Form::label('phone',__('Phone'),['class'=>'form-label'])); ?>
 
@@ -39,7 +39,7 @@ $campaign_type = explode(',',$settings['campaign_type']);
                             </div>
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-6 need_full">
                         <div class="form-group">
                             <?php echo e(Form::label('email',__('Email'),['class'=>'form-label'])); ?>
 
@@ -47,7 +47,7 @@ $campaign_type = explode(',',$settings['campaign_type']);
 
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-6 need_full">
                         <div class="form-group">
                             <?php echo e(Form::label('address',__('Address'),['class'=>'form-label'])); ?>
 
@@ -55,7 +55,7 @@ $campaign_type = explode(',',$settings['campaign_type']);
 
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-6 need_full">
                         <div class="form-group">
                             <?php echo e(Form::label('organization',__('Organization'),['class'=>'form-label'])); ?>
 
@@ -63,7 +63,7 @@ $campaign_type = explode(',',$settings['campaign_type']);
 
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-6 need_full">
                         <div class="form-group">
                             <label for="category">Select Category</label>
                             <select name="category" id="category" class="form-control" required>

@@ -314,9 +314,9 @@ $('select[name = "lead_status"]').on('change', function() {
         },
         success: function(data) {
             if(val == 1){
-                show_toastr('Primary', 'Lead Activated', 'primary');
+                show_toastr('Primary', 'Lead Activated', 'success');
             }else{
-                show_toastr('Success', 'Lead InActivated', 'success');
+                show_toastr('Success', 'Lead InActivated', 'danger');
 
             }
             console.log(val)

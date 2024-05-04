@@ -843,6 +843,10 @@ display:none;
     display: flex;
     justify-content: space-between;
 }
+.flex-title {
+    display: flex;
+    justify-content: space-between;
+}
 @media only screen and (max-width: 1024px) {
     .navbar-expand-lg .navbar-toggler {
         display: block !important;
@@ -869,6 +873,35 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light {
 height:50px;
   background: #dbdbdb !important;
   box-shadow:none !important;
+}
+
+.p0 {
+    padding: 0;
+}
+.p0 {
+    padding: 0;
+}
+    .page-header {
+        padding: 0px !important;
+    }
+}
+@media only screen and (max-width: 768px) {
+    .half-col .col-md-6 {
+        flex: 0 0 auto;
+        width: 50%;
+    }
+	}
+
+
+
+	table.table.table-share {
+    table-layout: fixed;
+    white-space: nowrap;
+}
+
+table.table.table-share td,table.table.table-share th {
+    white-space: normal;
+    overflow-wrap: break-word;
 }
 
 .p0 {
