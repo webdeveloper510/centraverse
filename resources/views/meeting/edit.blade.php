@@ -573,7 +573,7 @@ inputElement.addEventListener('keyup', formatToPhone);
             $('#package').show();
         }
     });
-    
+   
     jQuery(function() {
         $('input[name="function[]"]').change(function() {
             $('div#mailFunctionSection > div').hide();

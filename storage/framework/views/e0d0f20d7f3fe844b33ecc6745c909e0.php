@@ -6,8 +6,12 @@ $pay = App\Models\PaymentLogs::where('event_id',$event->id)->get();
 $paymentinfo = App\Models\PaymentInfo::where('event_id',$event->id)->orderBy('id', 'desc')->first();
 $info = App\Models\PaymentInfo::where('event_id',$event->id)->get();
 $total = 0;
+$latefee = 0;
+$adjustments = 0;
 foreach($pay as $p){
-$total += $p->amount;
+    $total += $p->amount;
+    $latefee += $p->latefee;
+    $adjustments += $p->adjustments;
 }
 ?>
 <?php echo e(Form::open(array('route' => ['billing.paymentinfoupdate', urlencode(encrypt($event->id))],'method'=>'post','enctype'=>'multipart/form-data'))); ?>
@@ -40,7 +44,7 @@ $total += $p->amount;
             <div class="form-group">
                 <?php echo e(Form::label('latefee',__('Late Fee'),['class'=>'form-label'])); ?>
 
-                <?php echo e(Form::number('latefee', $payment->latefee ?? 0 , array('class'=>'form-control','placeholder'=>__('Enter Late Fee')))); ?>
+                <?php echo e(Form::number('latefee', $latefee, array('class'=>'form-control','placeholder'=>__('Enter Late Fee')))); ?>
 
             </div>
         </div>
@@ -48,7 +52,7 @@ $total += $p->amount;
             <div class="form-group">
                 <?php echo e(Form::label('adjustments',__('Adjustments'),['class'=>'form-label'])); ?>
 
-                <?php echo e(Form::number('adjustments',$payment->adjustments ?? 0 ,array('class'=>'form-control','placeholder'=>__('Enter Adjustments')))); ?>
+                <?php echo e(Form::number('adjustments',$adjustments,array('class'=>'form-control','placeholder'=>__('Enter Adjustments')))); ?>
 
             </div>
         </div>
@@ -487,6 +491,7 @@ jQuery(function() {
     var balance = amount - amountpaid;
     $("input[name='balance']").val(balance);
     $("input[name='amountpaid']").val(amountpaid);
+    $("input[name='amountcollect']").attr('max',balance);
     $("input[name='amount'],input[name='deposits'], input[name='latefee'], input[name='adjustments'], input[name='amountpaid']")
         .keyup(function() {
             $("input[name='amountpaid']").empty();

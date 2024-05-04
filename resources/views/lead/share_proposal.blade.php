@@ -1,4 +1,4 @@
-<?php 
+<?php
 $settings = App\Models\Utility::settings();
 $billings = json_decode($settings['fixed_billing'],true);
 $foodpcks = json_decode($lead->func_package,true);
@@ -34,7 +34,7 @@ if(isset($billings) && !empty($billings)){
     if(isset($barpcks) && !empty($barpcks)){
         foreach($barpcks as $key => $barpck){
                 $bar[]= $barpck;
-            
+           
         }
         $barpckge = implode(',',$bar);
         foreach ($bar as $barItem) {
@@ -104,8 +104,8 @@ $leaddata['bar_package_cost'] = $totalBarPackageCost;
             <!-- <hr> -->
             <div class="col-12  p-0 modaltitle pb-3 mb-3 flex-title">
                 <!-- <hr class="mt-2 mb-2"> -->
-                <h5 class="bb">{{ __('Estimated Billing Details') }}</h5>
-                <span class="h6 mb-0" style="float:right;   
+                <h5 style="margin-left: 14px;">{{ __('Estimated Billing Details') }}</h5>
+                <span class="h6 mb-0" style="float:right;    margin-top: -27px;
 ">{{__('Guest Count')}} : {{ $lead->guest_count }}</span>
             </div>
             <dl class="row">
