@@ -31,8 +31,8 @@ $leadId = decrypt(urldecode(request()->query('lead')));
 <style>
 .floorimages {
     height: 400px;
-    width: 600px;
-    margin: 26px;
+    width: 100%;
+    margin: 0px;
 }
 
 .selected-image {

@@ -10,77 +10,73 @@
 @section('action-btn')
 @endsection
 @section('content')
+<style>
+h6 {
+    font-size: 12px !important;
+}
+</style>
+
 <div class="container-field">
     <div id="wrapper">
         <div id="page-content-wrapper">
-            <div class="container-fluid xyz"  id="useradd-1">
+            <div class="container-fluid xyz" id="useradd-1">
                 <div class="row">
                     @if (\Auth::user()->type == 'owner'||\Auth::user()->type == 'Admin')
-                        <div class="col-lg-4 col-sm-12 totallead" style="padding: 15px;">
-                            <div class="card">
-                                <div class="card-body newcard_body" onclick="leads();">
-                                    <div class="theme-avtar bg-info">
-                                        <i class="fas fa-address-card"></i>
-                                    </div>
-                                    <div class="right_side">
-                                        <h6 class="mb-3">{{ __('Active Leads') }}</h6>
-                                        <h3 class="mb-0">{{ $data['totalLead'] }}</h3>
-                                    </div>
+                    <div class="col-lg-4 col-sm-12 totallead" style="padding: 15px;">
+                        <div class="card">
+                            <div class="card-body newcard_body" onclick="leads();">
+                                <div class="theme-avtar bg-info">
+                                    <i class="fas fa-address-card"></i>
+                                </div>
+                                <div class="right_side">
+                                    <h6 class="mb-3">{{ __('Active Leads') }}</h6>
+                                    <h3 class="mb-0">{{ $data['totalLead'] }}</h3>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-sm-12" id="toggleDiv" style="padding: 15px;">
-                            <div class="card">
-                                <div class="card-body newcard_body">
-                                    <div class="theme-avtar bg-warning">
+                    </div>
+                    <div class="col-lg-4 col-sm-12" id="toggleDiv" style="padding: 15px;">
+                        <div class="card">
+                            <div class="card-body newcard_body">
+                                <div class="theme-avtar bg-warning">
                                     <i class="fa fa-tasks"></i>
-                                    </div>
-                                    <div class="right_side">
-                                        <h6 class="mb-3">{{ __('Active/Upcoming Events') }}</h6>
-                                        <h3 class="mb-0">{{ @$totalevent }} </h3>
-                                    </div>
+                                </div>
+                                <div class="right_side">
+                                    <h6 class="mb-3">{{ __('Active/Upcoming Events') }}</h6>
+                                    <h3 class="mb-0">{{ @$totalevent }} </h3>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="col-lg-4 col-sm-12"style="padding: 15px;">
-                            <div class="card">
-                                <div class="card-body newcard_body">
-                                    <div class="theme-avtar bg-success">
-                                    <i class="fa fa-dollar-sign"></i>                                    </div>
-                                    <div class="right_side">
-                                        <h6 class="mb-3">{{ __('Finance') }}</h6>
-                                        <h3 class="mb-0"></h3>
+                    <div class="col-lg-4 col-sm-12" style="padding: 15px;">
+                        <div class="card">
+                            <div class="card-body newcard_body new-div">
+                                <div class="theme-avtar bg-success">
+                                    <i class="fa fa-dollar-sign"></i>
+                                </div>
+								
+                                <div class="flex-div">
+                                    <div style="   
+    ">
+                                        <h6 class="mb-0">{{ __('Amount(E)') }}</h6>
+                                        <h3 class="mb-0">
+                                            {{ $events_revenue != 0 ? '$'.number_format($events_revenue) : '--' }}</h3>
                                     </div>
+                                    <div class="mt10">
+                                        <h6 class="mb-0">{{ __('Amount Recieved(E)') }}</h6>
+                                        <h3 class="mb-0">
+                                            {{ $events_revenue_generated != 0 ? '$'.number_format($events_revenue_generated) : '--' }}
+                                        </h3>
+
+                                    </div>
+                                    <!-- </div>
+                                    <div class="right_side" style="    width: 35% !important;"> -->
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="col-lg-3 col-6 upcmg optionsContainer" style="padding: 15px;">
-                            <div class="card option" onclick="showUpcoming()">
-                                <div class="card-body newcard_body">
-                                    <div class="theme-avtar bg-info">
-                                        <i class="fas fa-address-card"></i>
-                                    </div>
-                                    <div class="right_side">
-                                        <h6 class="mb-3">{{ __('Upcoming Events') }}</h6>
-                                        <h4 class="mb-0">{{ @$upcoming }}</h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
-                        <!-- <div class="col-lg-3 col-6 cmplt optionsContainer" style="padding: 15px;">
-                            <div class="card option" onclick="showCompleted()">
-                                <div class="card-body newcard_body" style="">
-                                    <div class="theme-avtar bg-info">
-                                        <i class="fas fa-address-card"></i>
-                                    </div>
-                                    <div class="right_side">
-                                        <h6 class="mb-3">{{ __('Completed Events') }}</h6>
-                                        <h4 class="mb-0">{{ @$completed }}</h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
+                    </div>
+
                     @endif
                     @php
                     $setting = App\Models\Utility::settings();
@@ -91,7 +87,9 @@
                     <div class="col-sm">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Active Leads</h5>
+							<div class="scrol-card">
                             @foreach($activeLeads as $lead)
+							
                             <div class="card">
                                 <div class="card-body new_bottomcard">
                                     <h5 class="card-text">{{ $lead['leadname'] }}
@@ -105,18 +103,27 @@
                                     </p>
                                     @endif
                                     @can('Show Lead')
-                                        <div class="action-btn bg-warning ms-2">
-                                            <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$lead['id']) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Lead Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                <i class="ti ti-eye"></i>
-                                            </a>
-                                        </div>
+                                    <div class="action-btn bg-warning ms-2">
+                                        <a href="javascript:void(0);" data-size="md"
+                                            data-url="{{ route('lead.show',$lead['id']) }}" data-bs-toggle="tooltip"
+                                            title="{{__('Quick View')}}" data-ajax-popup="true"
+                                            data-title="{{__('Lead Details')}}"
+                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                            <i class="ti ti-eye"></i>
+                                        </a>
+                                    </div>
                                     @endcan
                                 </div>
-                            </div>
+                            
+							</div>
                             @endforeach
+							</div>
                             @can('Create Lead')
                             <div class="col-12 text-end mt-3">
-                                <a href="javascript:void(0);" data-url="{{ route('lead.create',['lead',0]) }}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('Create New Lead')}}" title="{{__('Create Lead')}}" class="btn btn-sm btn-primary btn-icon m-1">
+                                <a href="javascript:void(0);" data-url="{{ route('lead.create',['lead',0]) }}"
+                                    data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip"
+                                    data-title="{{__('Create New Lead')}}" title="{{__('Create Lead')}}"
+                                    class="btn btn-sm btn-primary btn-icon m-1">
                                     <i class="ti ti-plus"></i>
                                 </a>
                             </div>
@@ -127,8 +134,9 @@
                     <div class="col-sm">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Active/Upcoming Events</h5>
+							<div class="scrol-card">
                             @foreach($activeEvent as $event)
-                            
+
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-text">{{ $event['name'] }}
@@ -142,47 +150,72 @@
                                     </p>
                                     @endif
                                     @can('Show Meeting')
-                                        <div class="action-btn bg-warning ms-2">
-                                            <a href="javascript:void(0);" data-size="md"
-                                                data-url="{{ route('meeting.show', $event['id']) }}"
-                                                data-ajax-popup="true" data-bs-toggle="tooltip"
-                                                data-title="{{ __('Event Details') }}"title="{{ __('Quick View') }}"
-                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                <i class="ti ti-eye"></i>
-                                            </a>
-                                        </div>
+                                    <div class="action-btn bg-warning ms-2">
+                                        <a href="javascript:void(0);" data-size="md"
+                                            data-url="{{ route('meeting.show', $event['id']) }}" data-ajax-popup="true"
+                                            data-bs-toggle="tooltip" data-title="{{ __('Event Details') }}"
+                                            title="{{ __('Quick View') }}"
+                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                            <i class="ti ti-eye"></i>
+                                        </a>
+                                    </div>
                                     @endcan
                                 </div>
                             </div>
                             @endforeach
+							</div>
                             @can('Create Meeting')
                             <div class="col-12 text-end mt-3">
                                 <a href="{{ route('meeting.create',['meeting',0]) }}">
-                                    <button data-bs-toggle="tooltip" title="{{ __('Create Event') }}" class="btn btn-sm btn-primary btn-icon m-1">
+                                    <button data-bs-toggle="tooltip" title="{{ __('Create Event') }}"
+                                        class="btn btn-sm btn-primary btn-icon m-1">
                                         <i class="ti ti-plus"></i></button>
                                 </a>
                             </div>
                             @endcan
                         </div>
-                      
+
                     </div>
                     <div class="col-sm">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Finance</h5>
+							<div class="scrol-card">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-text">{{__('Total Amount(E)')}} -
-                                        <span>{{ $events_revenue != 0 ? '$'.$events_revenue : '--' }}</span>
-                                    </h5>
-                                    <h5 class="card-text">{{__('Amount Recieved(E)')}} -
-                                        <span>{{ $events_revenue_generated != 0 ? '$'.$events_revenue_generated : '--' }}</span>
-                                    </h5>
+                                    @foreach($events as $event)
+                                    <?php 
+                                            $pay = App\Models\PaymentLogs::where('event_id',$event['id'])->get();
+                                            $total = 0;
+                                            foreach($pay as $p){
+                                            $total += $p->amount;
+                                            }
+                                        ?>
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-text">{{ $event['name'] }}
+                                                <span>({{ $event['type'] }})</span>
+                                            </h5>
+
+                                            @if($event['start_date'] == $event['end_date'])
+                                            <p>{{ Carbon\Carbon::parse($event['start_date'])->format('M d, Y')}}</p>
+                                            @else
+                                            <p>{{ Carbon\Carbon::parse($event['start_date'])->format('M d, Y')}} -
+                                                {{ \Auth::user()->dateFormat($event['end_date'])}}
+                                            </p>
+                                            @endif
+                                            <div style="    color: #a99595;">
+                                                Billing Amount: ${{ number_format($event['total'])}}<br>
+                                                Pending Amount: ${{number_format($event['total']- $total)}}
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    @endforeach
                                 </div>
                             </div>
+							</div>
                         </div>
                     </div>
-
-                    
                 </div>
             </div>
         </div>
@@ -190,208 +223,54 @@
 
 </div>
 <style>
-    h5.card-text {
+h5.card-text {
     font-size: 16px;
+}
+
+
+	.flex-div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.inner_col {
+    padding: 10px;
+    border: 1px dotted #ccc;
+    border-radius: 20px;
+    margin-top: 10px;
+}
+.right_side {
+    /* width: 70%; */
+    float: left;
+    text-align: left;
+}
+.theme-avtar {
+    margin-right: 10px;
+}
+.inner_col .scrol-card {
+    padding: 10px;
+    border: 1px dotted #ccc;
+    border-radius: 20px;
+    margin-top: 10px;
+    max-height: 210px;
+    overflow-y: scroll;
+}
+.inner_col
+{
+	    min-height: 320px;
+}
+@media only screen and (max-width: 600px) {
+ .flex-div {
+    display: block !important;
+}
+.new-div
+{
+	display:flex;
+	align-items:center;
+}
+    .mt10 {
+        margin-top: 10px;
+    }
 }
 </style>
 @endsection
-@push('script-page')
-<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "dc4641f860664c6e824b093274f50291"}'></script>
-<script src="{{ asset('assets/js/plugins/main.min.js') }}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-
-<!-- <script type="text/javascript">
-    @php
-    $segment = Request::segment(2);
-    @endphp
-    $(document).ready(function() {
-        get_data();
-    });
-
-    function get_data() {
-        var segment = "{{$segment}}";
-        if (segment == 'call') {
-            var urls = $("#path_admin").val() + "/call/get_call_data";
-        } else if (segment == 'meeting') {
-            var urls = $("#path_admin").val() + "/meeting/get_meeting_data";
-        } else if (segment == 'task') {
-            var urls = $("#path_admin").val() + "/task/get_task_data";
-        } else {
-            var urls = $("#path_admin").val() + "/all-data";
-        }
-
-        var calender_type = $('#calender_type :selected').val();
-
-        if (calender_type == undefined) {
-            calender_type = 'local_calender';
-        }
-        $('#calendar').addClass(calender_type);
-        $.ajax({
-            url: urls,
-            method: "POST",
-            data: {
-                "_token": "{{ csrf_token() }}",
-                'calender_type': calender_type
-            },
-            success: function(data) {
-                (function() {
-                    var etitle;
-                    var etype;
-                    var etypeclass;
-                    var calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
-                        headerToolbar: {
-                            left: 'prev,next today',
-                            center: 'title',
-                            right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                        },
-                        buttonText: {
-                            timeGridDay: "{{ __('Day') }}",
-                            timeGridWeek: "{{ __('Week') }}",
-                            dayGridMonth: "{{ __('Month') }}",
-                        },
-                        slotLabelFormat: {
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            hour12: false,
-                        },
-                        themeSystem: 'bootstrap',
-                        navLinks: true,
-                        droppable: false,
-                        eventLimit: true,
-                        selectable: true,
-                        selectMirror: true,
-                        editable: false,
-                        dayMaxEvents: 1,
-                        handleWindowResize: true,
-                        height: 'auto',
-                        timeFormat: 'H(:mm)',
-                        events: data,
-                        select: function(info) {
-                            var startDate = info.startStr;
-                            var endDate = info.endStr;
-                            localStorage.setItem('startDate', JSON.stringify(info));
-                            openPopupForm(startDate, endDate);
-                        },
-                        eventContent: function(arg) {
-                            return {
-                                html: arg.event.title,
-                            };
-                        },
-                        eventMouseEnter: function(arg) {
-                            if (arg.event.extendedProps.blocked_by) {
-                                arg.el.innerHTML += '<div class="blocked-by-tooltip">' + 'By:' + arg.event.extendedProps.blocked_by + '</div>';
-                            }
-                        },
-
-                        eventMouseLeave: function(arg) {
-                            var tooltip = arg.el.querySelector('.blocked-by-tooltip');
-                            if (tooltip) {
-                                tooltip.remove();
-                            }
-                        },
-                    });
-                    calendar.render();
-                })();
-            }
-
-        });
-        $('.close-popup').on('click', function() {
-            closePopupForm();
-        });
-        $('input[name="venue[]"]').on('change', function() {
-            if ($(this).is(':checked')) {
-                const valueDataString = localStorage.getItem('startDate');
-                const valueDataArg = JSON.parse(valueDataString);
-                var startdate = valueDataArg.startStr;
-                var enddate = valueDataArg.endStr;
-                let venue = $(this).val();
-                ff(startdate, enddate, venue);
-            } else {
-                // console.log("deselect")
-                $('.venue-checkbox').prop('checked', false);
-                $('input[name="start_time"]').attr('min', '00:00');
-                $('input[name="start_time"]').val('00:00');
-                $('input[name="start_time"]').attr('value', '00:00');
-                $('input[name="end_time"]').attr('min', '00:00');
-            }
-        });
-
-        function ff(startdate, enddate, venue) {
-            var url = "{{url('/buffer-time')}}";
-
-            $.ajax({
-                url: url,
-                method: "POST",
-                data: {
-                    "_token": "{{ csrf_token() }}",
-                    startdate: startdate,
-                    enddate: enddate,
-                    venue: venue,
-                },
-                success: function(data, bufferedTime) {
-                    if (data.bufferedTime) {
-                        // console.log('Buffered Time:', data.bufferedTime);
-                        $('input[name="start_time"]').attr('min', data.bufferedTime);
-                        $('input[name="start_time"]').val(data.bufferedTime);
-                        $('input[name="start_time"]').attr('value', data.bufferedTime);
-                        $('input[name="end_time"]').attr('min', data.bufferedTime);
-                    } else {
-                        // console.log('No data found');
-                        $('input[name="start_time"]').attr('min', '00:00');
-                        $('input[name="start_time"]').val('00:00');
-                        $('input[name="start_time"]').attr('value', '00:00');
-                        $('input[name="end_time"]').attr('min', '00:00');
-                    }
-                },
-                error: function(data) {
-                    console.log('error');
-                },
-            });
-        }
-
-
-        function openPopupForm(start, end) {
-            var enddate = moment(end).subtract(1, 'days').format('yyyy-MM-DD');
-            $("input[name = 'start_date']").attr('value', start);
-            $("input[name = 'end_date']").attr('value', enddate);
-            $("div#popup-form").show();
-        }
-
-        function closePopupForm() {
-            $('#popup-form').hide();
-            $('#overlay').hide();
-
-            document.getElementById('purpose').value = '';
-            $('.venue-checkbox').prop('checked', false);
-            $('input[name="start_time"]').attr('min', '00:00');
-            $('input[name="start_time"]').val('00:00');
-            $('input[name="start_time"]').attr('value', '00:00');
-        }
-
-    }
-</script> -->
-<script>
-    /* function toggleOptions() {
-            var optionsContainer = document.getElementsByClassName('optionsContainer')[0];
-            optionsContainer.style.display = optionsContainer.style.display === 'none' ? 'block' : 'none';
-        } */
-
-    // function showUpcoming() {
-    //     window.location.href = "{{ url('/meeting-upcoming') }}";
-    // }
-
-    // function showCompleted() {
-    //     window.location.href = "{{ url('/meeting-completed') }}";
-    // }
-
-    // function leads() {
-    //     window.location.href = "{{ url('/lead') }}";
-    // }
-    // jQuery(function() {
-    //     $('div#toggleDiv').click(function(e) {
-    //         e.preventDefault();
-    //         $('div.optionsContainer').toggle('show');
-    //     })
-    // })
-</script>
-@endpush
