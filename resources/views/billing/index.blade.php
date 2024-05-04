@@ -28,6 +28,10 @@
                                                     {{ __('Event Date') }}</th>
                                                 <th scope="col" class="sort" data-sort="completion">
                                                     {{ __('Payment Status') }}</th>
+                                                <th scope="col" class="sort" data-sort="completion">
+                                                    {{ __('Billing Amount') }}</th>
+                                                <th scope="col" class="sort" data-sort="completion">
+                                                    {{ __('Paid Amount') }}</th>
                                                 <th scope="col" class="text-end">{{ __('Action') }}</th>
                                             </tr>
                                         </thead>
@@ -37,10 +41,11 @@
                                                 <td>
                                                     <a href="" data-size="md" data-title="{{ __('Invoice Details') }}"
                                                         class="action-item text-primary">
-                                                        <a href="{{route('meeting.detailview',urlencode(encrypt($event->id)))}}" data-size="md"
-                                                            title="{{ __('Detailed view ') }}" style="color: #1551c9 !important;"
-                                                          >   {{ ucfirst($event->name)}}</a>
-                                                     
+                                                        <a href="{{route('meeting.detailview',urlencode(encrypt($event->id)))}}"
+                                                            data-size="md" title="{{ __('Detailed view ') }}"
+                                                            style="color: #1551c9 !important;">
+                                                            {{ ucfirst($event->name)}}</a>
+
                                                     </a>
                                                 </td>
                                                 <td>
@@ -74,14 +79,23 @@
                                                         class=" text-danger ">{{__(\App\Models\Billing::$status[0]) }}</span>
                                                     @endif
                                                 </td>
+                                                <td>{{($event->total != 0)? '$'. number_format($event->total):'--'}}
+                                                </td>
+                                                <td> @if(\App\Models\PaymentLogs::where('event_id',$event->id)->exists())
+                                                <?php $pay = App\Models\PaymentLogs::where('event_id',$event->id)->get();
+                                                    $total = 0;
+                                                    foreach($pay as $p){
+                                                    $total += $p->amount;
+                                                    }?> {{($total != 0)?'$'.$total:'--'}}
+                                                    @endif</td>
                                                 <td class="text-end">
-                                                <!-- <div class="action-btn bg-primary ms-2">
+                                                    <!-- <div class="action-btn bg-primary ms-2">
                                                         <a href="{{route('billing.invoicepdf',$event->id)}}" data-size="md"
                                                            title="{{__('Create')}}"class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-invoice"></i>
                                                         </a>
                                                     </div>  -->
-                                                
+
                                                     @if(!(\App\Models\Billing::where('event_id',$event->id)->exists()))
 
                                                     @can('Create Payment')
@@ -104,7 +118,7 @@
                                                          $paymentInfo = App\Models\PaymentInfo::where('event_id',$event->id)->orderBy('id', 'desc')->first();
                                                      ?>
                                                     @if($paymentLog && $paymentInfo)
-                                                        @if($paymentLog->amount < $paymentInfo->amounttobepaid &&
+                                                    @if($paymentLog->amount < $paymentInfo->amounttobepaid &&
                                                         $paymentLog->amount != 0)
                                                         <div class="action-btn bg-primary ms-2">
                                                             <a href="#" data-size="md"
@@ -135,8 +149,8 @@
                                                         <div class="action-btn bg-info ms-2">
                                                             <a href="#" data-size="md"
                                                                 data-url="{{ route('billing.paymentinfo',urlencode(encrypt($event->id))) }}"
-                                                                data-bs-toggle="tooltip"
-                                                                title="{{__('Payment Details')}}" data-ajax-popup="true"
+                                                                data-bs-toggle="tooltip" title="{{__('Payment')}}"
+                                                                data-ajax-popup="true"
                                                                 data-title="{{__('Payment Information')}}"
                                                                 class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                                 <i class=" fa fa-credit-card "></i>

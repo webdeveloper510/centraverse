@@ -599,7 +599,7 @@ $(document).ready(function() {
                 // phoneInput.val(data.phone);
                 // // phoneInput.trigger('input');
                 // // phoneInput.addEventListener('input', enforceFormat);
-                // // phoneInput.addEventListener('input', formatToPhone); 
+                // // phoneInput.addEventListener('input', formatToPhone);
                 $('input[name ="relationship"]').val(data.relationship);
                 $('input[name ="start_date"]').val(data.start_date);
                 $('input[name ="end_date"]').val(data.end_date);

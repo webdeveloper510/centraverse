@@ -293,21 +293,16 @@ canvas#signatureCanvas {
 @push('script-page')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
 <script>
-// When the user clicks on <div>, open the popup
 function myFunction() {
     var popup = document.getElementById("myPopup");
     popup.classList.toggle("show");
 }
 </script>
 <script>
-    // function toggleCollapse(dataId) {
-    //     console.log(dataId);
-    //     var collapseTarget = document.getElementById(dataId);
-    //     var collapseBS = new bootstrap.Collapse(collapseTarget);
-    //     collapseBS.toggle();
 
-    // }
+
 </script>
+
 <script>
 function check_theme(color_val) {
     $('#theme_color').prop('checked', false);
@@ -416,9 +411,15 @@ var scrollSpy = new bootstrap.ScrollSpy(document.body, {
     offset: 300,
 })
 $(".list-group-item").click(function() {
-    $('.list-group-item').filter(function() {
-        return this.href == id;
-    }).parent().removeClass('text-primary');
+    if($(this).hasClass('active')){
+        $(this).removeClass('active');
+    }else{
+        $(this).addClass('active');
+
+    }
+    // $('.list-group-item').filter(function() {
+    //     return this.href == id;
+    // }).parent().removeClass('text-primary');
 });
 
 function check_theme(color_val) {
@@ -1024,7 +1025,7 @@ $(document).ready(function() {
                                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                                 data-bs-target="#collapse19" aria-expanded="false"
                                                 aria-controls="collapse19">
-                                                <h5>{{ __('Event Details Settings') }}</h5>
+                                                <h5>{{ __('Event Settings') }}</h5>
                                             </button>
                                         </h2>
                                         <div id="collapse19" class="accordion-collapse collapse"
@@ -1775,9 +1776,10 @@ $(document).ready(function() {
                                         <div id="collapse21" class="accordion-collapse collapse"
                                             aria-labelledby="heading-2-15" data-bs-parent="#accordionExample">
                                             <div class="accordion-body">
+                                                <div class="row">
                                                 {{ Form::open(['route' => 'buffer.setting', 'method' => 'post']) }}
                                                 @csrf
-                                                <div class="col-6">
+                                                <div class="col-12">
                                                     <div class="form-group">
                                                         {{ Form::label('buffer_time', __('Add Buffer Time'), ['class' => 'form-label']) }}
                                                         {!! Form::input('time', 'buffer_time', $settings['buffer_time'],
@@ -1785,13 +1787,14 @@ $(document).ready(function() {
                                                         'form-control', 'required' => 'required']) !!}
                                                     </div>
                                                 </div>
-                                                <div class="col-6">
+                                                <div class="col-12">
                                                     <div class="form-group">
                                                         {{ Form::label('buffer_day', __('Add Buffer Day'), ['class' => 'form-label']) }}
                                                         {!! Form::number('buffer_day', $settings['buffer_day'], ['class'
                                                         =>
                                                         'form-control', 'required' => 'required','min' => '0']) !!}
                                                     </div>
+                                                </div>
                                                 </div>
                                                 <div class="text-end">
                                                     {{ Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary']) }}
@@ -1848,7 +1851,58 @@ $(document).ready(function() {
                                 </div>
                             </div>
                         </div>
+                        <!-- <div id="pusher-settings" class="card">
+                        <div class="card-header">
+                            <h5>{{ __('Pusher Settings') }}</h5>
+                            <small class="text-muted">{{ __('Edit your pusher details') }}</small>
+                        </div>
+                        <div class="card-body">
+                            {{ Form::model($settings, ['route' => 'pusher.setting', 'method' => 'post']) }}
+                            <div class="row mt-3">
+                                <div class="form-group col-md-6">
+                                    {{ Form::label('pusher_app_id', __('Pusher App Id *'), ['class' => 'form-label']) }}
+                                    {{ Form::text('pusher_app_id', isset($settings['pusher_app_id']) ? $settings['pusher_app_id'] : '', ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Id', 'required' => 'required']) }}
+                                    @error('pusher_app_id')
+                                        <span class="invalid-pusher_app_id" role="alert">
+                                            <strong class="text-danger">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
 
+                                <div class="form-group col-md-6">
+                                    {{ Form::label('pusher_app_key', __('Pusher App Key *'), ['class' => 'form-label']) }}
+                                    {{ Form::text('pusher_app_key', isset($settings['pusher_app_key']) ? $settings['pusher_app_key'] : '', ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Key', 'required' => 'required']) }}
+                                    @error('pusher_app_key')
+                                        <span class="invalid-pusher_app_key" role="alert">
+                                            <strong class="text-danger">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                                <div class="form-group col-md-6">
+                                    {{ Form::label('pusher_app_secret', __('Pusher App Secret *'), ['class' => 'form-label']) }}
+                                    {{ Form::text('pusher_app_secret', isset($settings['pusher_app_secret']) ? $settings['pusher_app_secret'] : '', ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Key', 'required' => 'required']) }}
+                                    @error('pusher_app_secret')
+                                        <span class="invalid-pusher_app_secret" role="alert">
+                                            <strong class="text-danger">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                                <div class="form-group col-md-6">
+                                    {{ Form::label('pusher_app_cluster', __('Pusher App Cluster *'), ['class' => 'form-label']) }}
+                                    {{ Form::text('pusher_app_cluster', isset($settings['pusher_app_cluster']) ? $settings['pusher_app_cluster'] : '' , ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Cluster', 'required' => 'required']) }}
+                                    @error('pusher_app_cluster')
+                                        <span class="invalid-pusher_app_cluster" role="alert">
+                                            <strong class="text-danger">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                                <div class="text-end">
+                                    {{ Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary']) }}
+                                </div>
+                            </div>
+                            {{ Form::close() }}
+                        </div>
+                    </div> -->
                         <!-- <div id="brand-settings" class="card">
                             <div class="card-header">
                                 <h5>{{ __('Brand Settings') }}</h5>

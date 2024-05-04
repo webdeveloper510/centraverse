@@ -1,47 +1,64 @@
+<?php
+$pay = App\Models\PaymentLogs::where('event_id',$event->id)->get();
+$total = 0;
+foreach($pay as $p){
+$total += $p->amount;
+}
+?>
 <div class="row">
     <div class="col-md-12">
         <dl class="row">
-            <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('Type')}}</span></dt>
-            <dd class="col-md-6"><span class="text-md">{{ $event->type }}</span></dd>
+            <dt class="col-md-6"><span class="h6  mb-0">{{__('Type')}}</span></dt>
+            <dd class="col-md-6"><span class="">{{ $event->type }}</span></dd>
 
-            <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('Customer Name')}}</span></dt>
-            <dd class="col-md-6"><span class="text-md">{{ $event->name }}</span></dd>
+            <dt class="col-md-6"><span class="h6  mb-0">{{__('Customer Name')}}</span></dt>
+            <dd class="col-md-6"><span class="">{{ $event->name }}</span></dd>
             
-            <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('Email')}}</span></dt>
-            <dd class="col-md-6"><span class="text-md">{{ $event->email }}</span></dd>
+            <dt class="col-md-6"><span class="h6  mb-0">{{__('Email')}}</span></dt>
+            <dd class="col-md-6"><span class="">{{ $event->email }}</span></dd>
 
-            <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('Phone')}}</span></dt>
-            <dd class="col-md-6"><span class="text-md">{{ $event->phone }}</span></dd>
+            <dt class="col-md-6"><span class="h6  mb-0">{{__('Phone')}}</span></dt>
+            <dd class="col-md-6"><span class="">{{ $event->phone }}</span></dd>
 
-            <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('Address')}}</span></dt>
-            <dd class="col-md-6"><span class="text-md">{{ $event->lead_address }}</span></dd>
+            <dt class="col-md-6"><span class="h6  mb-0">{{__('Address')}}</span></dt>
+            <dd class="col-md-6"><span class="">{{ $event->lead_address }}</span></dd>
 
-            <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('Start Date')}}</span></dt>
-            <dd class="col-md-6"><span class="text-md">{{ \Auth::user()->dateFormat($event->start_date)}}</span></dd>
+            <dt class="col-md-6"><span class="h6  mb-0">{{__('Date')}}</span></dt>
+            <dd class="col-md-6"><span class="">{{ \Auth::user()->dateFormat($event->start_date)}}</span></dd>
 
-            <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('End Date')}}</span></dt>
-            <dd class="col-md-6"><span class="text-md">{{ \Auth::user()->dateFormat($event->end_date) }}</span></dd>
             
-            <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('Start Time')}}</span></dt>
-            <dd class="col-md-6"><span class="text-md">{{date('h:i A', strtotime($event->start_time))}}</span></dd>
+            <dt class="col-md-6"><span class="h6  mb-0">{{__(' Time')}}</span></dt>
+            <dd class="col-md-6"><span class="">
+                        @if($event->start_time == $event->end_time)
+                        --
+                        @else
+                        {{date('h:i A', strtotime($event->start_time))}} -
+                        {{date('h:i A', strtotime($event->end_time))}}
+                        @endif
+                    </span>
+                </dd>
+           
+            <dt class="col-md-6"><span class="h6  mb-0">{{__('Venue')}}</span></dt>
+            <dd class="col-md-6"><span class="">{{ $event->venue_selection }}</span></dd>
 
-            <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('End Time')}}</span></dt>
-            <dd class="col-md-6"><span class="text-md">{{date('h:i A', strtotime($event->end_time))}}</span></dd>
+            <dt class="col-md-6"><span class="h6  mb-0">{{__('Billing Amount')}}</span></dt>
+            <dd class="col-md-6"><span class="">${{ number_format($event->total) }}</span></dd>
 
-            <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('Venue')}}</span></dt>
-            <dd class="col-md-6"><span class="text-md">{{ $event->venue_selection }}</span></dd>
-
-            <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('Lead Created')}}</span></dt>
-            <dd class="col-md-6"><span class="text-md">{{\Auth::user()->dateFormat($event->created_at)}}</span></dd>
+            <dt class="col-md-6"><span class="h6  mb-0">{{__(' Amount Due')}}</span></dt>
+            <dd class="col-md-6"><span class="">${{ number_format($event->total - $total) }}</span></dd>
             
-            <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('Any Special Requirements')}}</span></dt>
+
+            <dt class="col-md-6"><span class="h6  mb-0">{{__('Event Created')}}</span></dt>
+            <dd class="col-md-6"><span class="">{{\Auth::user()->dateFormat($event->created_at)}}</span></dd>
+            
+            <dt class="col-md-6"><span class="h6  mb-0">{{__('Any Special Requirements')}}</span></dt>
             @if($event->spcl_req) 
-                <dd class="col-md-6"><span class="text-md">{{$event->spcl_req}}</span></dd>
+                <dd class="col-md-6"><span class="">{{$event->spcl_req}}</span></dd>
             @else
-                <dd class="col-md-6"><span class="text-md">--</span></dd>
+                <dd class="col-md-6"><span class="">--</span></dd>
             @endif
-            <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('Status')}}</span></dt>
-            <dd class="col-md-6"><span class="text-md">
+            <dt class="col-md-6"><span class="h6  mb-0">{{__('Status')}}</span></dt>
+            <dd class="col-md-6"><span class="">
                 @if($billing->status == 0)
                     <span class="badge bg-info p-2 px-3 rounded">{{__(\App\Models\Billing::$status[$billing->status]) }}</span>
                 @elseif($billing->status == 1)

@@ -1,4 +1,4 @@
-<?php 
+<?php
 $selectedvenue = explode(',', $lead->venue_selection);
 $billing = App\Models\ProposalInfo::where('lead_id',$lead->id)->orderby('id','desc')->first();
 if(isset($billing) && !empty($billing)){
@@ -8,7 +8,7 @@ $startdate = \Carbon\Carbon::createFromFormat('Y-m-d', $lead->start_date)->forma
 $enddate = \Carbon\Carbon::createFromFormat('Y-m-d', $lead->end_date)->format('d/m/Y');
 ?>
 <div class="row card" style="display:none">
-    <div class="col-md-12">
+    <div class="col-md-12 ">
         <h5 class="headings"><b>Billing Summary - ESTIMATE</b></h5>
         <table class="table table-bordered">
             <thead>
@@ -178,7 +178,7 @@ $enddate = \Carbon\Carbon::createFromFormat('Y-m-d', $lead->end_date)->format('d
     </div>
 </div>
 <div class="row ">
-    <div class="col-md-12">
+    <div class="col-md-12 half-col">
         <div class="card ">
             <div class="card-body">
 

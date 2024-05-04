@@ -1,4 +1,4 @@
-<?php 
+<?php
 $settings = App\Models\Utility::settings();
 $billings = json_decode($settings['fixed_billing'],true);
 $foodpcks = json_decode($lead->func_package,true);
@@ -34,7 +34,7 @@ if(isset($billings) && !empty($billings)){
     if(isset($barpcks) && !empty($barpcks)){
         foreach($barpcks as $key => $barpck){
                 $bar[]= $barpck;
-            
+           
         }
         $barpckge = implode(',',$bar);
         foreach ($bar as $barItem) {

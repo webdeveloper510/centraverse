@@ -15,7 +15,6 @@ h6 {
     font-size: 12px !important;
 }
 </style>
-
 <div class="container-field">
     <div id="wrapper">
         <div id="page-content-wrapper">
@@ -55,9 +54,9 @@ h6 {
                                 <div class="theme-avtar bg-success">
                                     <i class="fa fa-dollar-sign"></i>
                                 </div>
-								
+
                                 <div class="flex-div">
-                                    <div style="   
+                                    <div style="  
     ">
                                         <h6 class="mb-0">{{ __('Amount(E)') }}</h6>
                                         <h3 class="mb-0">
@@ -87,9 +86,9 @@ h6 {
                     <div class="col-sm">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Active Leads</h5>
-							<div class="scrol-card">
+<div class="scrol-card">
                             @foreach($activeLeads as $lead)
-							
+
                             <div class="card">
                                 <div class="card-body new_bottomcard">
                                     <h5 class="card-text">{{ $lead['leadname'] }}
@@ -114,10 +113,10 @@ h6 {
                                     </div>
                                     @endcan
                                 </div>
-                            
-							</div>
+                           
+</div>
                             @endforeach
-							</div>
+</div>
                             @can('Create Lead')
                             <div class="col-12 text-end mt-3">
                                 <a href="javascript:void(0);" data-url="{{ route('lead.create',['lead',0]) }}"
@@ -134,7 +133,7 @@ h6 {
                     <div class="col-sm">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Active/Upcoming Events</h5>
-							<div class="scrol-card">
+<div class="scrol-card">
                             @foreach($activeEvent as $event)
 
                             <div class="card">
@@ -163,7 +162,7 @@ h6 {
                                 </div>
                             </div>
                             @endforeach
-							</div>
+</div>
                             @can('Create Meeting')
                             <div class="col-12 text-end mt-3">
                                 <a href="{{ route('meeting.create',['meeting',0]) }}">
@@ -179,11 +178,11 @@ h6 {
                     <div class="col-sm">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Finance</h5>
-							<div class="scrol-card">
+<div class="scrol-card">
                             <div class="card">
                                 <div class="card-body">
                                     @foreach($events as $event)
-                                    <?php 
+                                    <?php
                                             $pay = App\Models\PaymentLogs::where('event_id',$event['id'])->get();
                                             $total = 0;
                                             foreach($pay as $p){
@@ -213,7 +212,7 @@ h6 {
                                     @endforeach
                                 </div>
                             </div>
-							</div>
+</div>
                         </div>
                     </div>
                 </div>
@@ -228,7 +227,7 @@ h5.card-text {
 }
 
 
-	.flex-div {
+.flex-div {
     display: flex;
     justify-content: space-between;
 }
@@ -257,7 +256,7 @@ h5.card-text {
 }
 .inner_col
 {
-	    min-height: 320px;
+   min-height: 320px;
 }
 @media only screen and (max-width: 600px) {
  .flex-div {
@@ -265,8 +264,8 @@ h5.card-text {
 }
 .new-div
 {
-	display:flex;
-	align-items:center;
+display:flex;
+align-items:center;
 }
     .mt10 {
         margin-top: 10px;

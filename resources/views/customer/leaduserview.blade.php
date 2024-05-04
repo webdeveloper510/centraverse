@@ -36,7 +36,7 @@
                                                 <th scope="col" class="sort">{{__('Event Date')}}</th>
                                                 <th scope="col" class="sort">{{__('Function')}}</th>
                                                 <th scope="col" class="sort">{{__('Bar')}}</th>
-                                                <th scope="col" class="sort">{{__('Status')}}</th>
+                                                <!-- <th scope="col" class="sort">{{__('Proposal Status')}}</th> -->
 
                                                 <th scope="col" class="sort">{{__('Created On')}}</th>
                                             
@@ -46,12 +46,12 @@
                                             @foreach($leads as $lead)
                                             <tr>
                                                 <td>
-                                                    <a href="{{ route('lead.info',urlencode(encrypt($lead->id))) }}"
+                                                    <!-- <a href="{{ route('lead.info',urlencode(encrypt($lead->id))) }}"
                                                         data-size="md" title="{{ __('Lead Details') }}"
                                                         class="action-item text-primary"
-                                                        style="color:#1551c9 !important;">
-                                                        <b> {{ ucfirst($lead->name) }}</b>
-                                                    </a>
+                                                        style="color:#1551c9 !important;"> -->
+                                                         {{ ucfirst($lead->name) }}
+                                                    <!-- </a> -->
                                                 </td>
                                                 <td><b> {{ ucfirst($lead->type) }}</b></td>
                                                 <td>
@@ -62,7 +62,7 @@
                                                 <td>{{ ucfirst($lead->function) }}</td>
                                                 <td>{{($lead->bar)}}</td>
 
-                                                <td>{{ __(\App\Models\Lead::$status[$lead->status]) }}</td>
+                                                <!-- <td>{{ __(\App\Models\Lead::$status[$lead->status]) }}</td> -->
                                                 <td>{{\Auth::user()->dateFormat($lead->created_at)}}</td>
 
                                             </tr>

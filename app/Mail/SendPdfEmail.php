@@ -20,12 +20,13 @@ class SendPdfEmail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct($lead,$subject,$content,$proposalinfo)
+    public function __construct($lead,$subject,$content,$proposalinfo,$propid)
     {
         $this->lead = $lead;
         $this->subject = $subject;
         $this->content = $content;
         $this->proposalinfo = $proposalinfo; 
+        $this->propid = $propid;
     }
 
     /**
@@ -45,7 +46,7 @@ class SendPdfEmail extends Mailable
     {
         return new Content(
             view: 'lead.mail.view',
-            with: ['content' => $this->content],
+            with: ['content' => $this->content ,'propid' =>$this->propid],
         );
     }
 
@@ -66,6 +67,7 @@ class SendPdfEmail extends Mailable
             return $this->subject($this->subject)
                 ->view('lead.mail.view') // Blade view for email content
                 ->with('content',$this->content)
+                ->with('propid', $this->propid)
                 ->attach($filePath, [
                     'as' => $this->proposalinfo->attachments, // File name
                     'mime' => Storage::disk('public')->mimeType('Proposal_attachments/'.$this->lead->id.'/'.$this->proposalinfo->attachments),
@@ -74,7 +76,8 @@ class SendPdfEmail extends Mailable
         // echo "<pre>";print_r($filePath);die;
         return $this->subject($this->subject)
             ->view('lead.mail.view') // Blade view for email content
-            ->with('content',$this->content);
+            ->with('content',$this->content)
+            ->with('propid', $this->propid);
         }
         
         }

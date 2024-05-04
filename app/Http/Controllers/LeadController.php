@@ -207,6 +207,46 @@ class LeadController extends Controller
                 Utility::send_twilio_msg($Assign_user_phone->phone, 'new_lead', $uArr);
                 
             }
+            $url = 'https://fcm.googleapis.com/fcm/send';
+            // $FcmToken = 'e0MpDEnykMLte1nJ0k3SU7:APA91bGpbv-KQEzEQhR1ApEgGFmn9H5tEkdpvG2FHuyiWP3JZsP_8CKJMi5tKyTn5DYgOmeDvAWFwdiDLeG_qTXZ6lUIWL2yqrFYJkUg-KUwTsQYupk0qYsi3OCZ8MZQNbCIDa6pbJ4j';
+           
+            $FcmToken = User::where('type','owner')->orwhere('type','admin')->pluck('device_key')->first();
+            // echo"<pre>";print_r($FcmToken);die;
+            $serverKey = 'AAAAn2kzNnQ:APA91bE68d4g8vqGKVWcmlM1bDvfvwOIvBl-S-KUNB5n_p4XEAcxUqtXsSg8TkexMR8fcJHCZxucADqim2QTxK2s_P0j5yuy6OBRHVFs_BfUE0B4xqgRCkVi86b8SwBYT953dE3X0wdY'; // ADD SERVER KEY HERE PROVIDED BY FCM
+            $data = [
+                "to" =>$FcmToken,
+                "notification" => [
+                    "title" => 'Lead created.',
+                    "body" => 'New Lead is Created',  
+                ]
+            ];
+            $encodedData = json_encode($data);
+        
+            $headers = [
+                'Authorization:key=' . $serverKey,
+                  'Content-Type: application/json',
+            ];
+        
+            $ch = curl_init();
+            
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+            // Disabling SSL Certificate support temporarly
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $encodedData);
+            // Execute post
+            $result = curl_exec($ch);
+            if ($result === FALSE) {
+                die('Curl failed: ' . curl_error($ch));
+            }        
+            // Close connection
+            curl_close($ch);
+            // FCM response
+            // dd($result);
             // if (Auth::user()) {
             //     return redirect()->back()->with('success', __('Lead created!') . ((isset($msg) ? '<br> <span class="text-danger">' . $msg . '</span>' : '')));
             // } else {
@@ -364,8 +404,9 @@ class LeadController extends Controller
             $leads = Lead::with('accounts','assign_user')->where('user_id', \Auth::user()->id)->get();
           
             }
+            return redirect()->route('lead.index', compact('leads','statuss'))->with('success', __('Lead successfully updated!'));
             // return view('lead.index', compact('leads','statuss'))->with('success', __('Lead  Updated.'));
-            return redirect()->back()->with('success', __('Lead  Updated.'));
+            // return redirect()->back()->with('success', __('Lead Updated.'));
         } else {
             return redirect()->back()->with('error', 'permission Denied');
         }
@@ -559,6 +600,7 @@ class LeadController extends Controller
         $proposalinfo->attachments = $filename ?? '';
         $proposalinfo->created_by = Auth::user()->id;
         $proposalinfo->save();
+        $propid = $proposalinfo->id;
         $subject = $request->subject;
         $content = $request->emailbody;
         try {
@@ -573,16 +615,16 @@ class LeadController extends Controller
                     'mail.from.name'    => $settings['mail_from_name'],
                 ]
             );
-            Mail::to($request->email)->send(new SendPdfEmail($lead,$subject,$content,$proposalinfo));
+            Mail::to($request->email)->send(new SendPdfEmail($lead,$subject,$content,$proposalinfo,$propid));
             $upd = Lead::where('id',$id)->update(['status' => 1]);
         } catch (\Exception $e) {
-              return response()->json(
-                        [
-                            'is_success' => false,
-                            'message' => $e->getMessage(),
-                        ]
-                    );
-        //   return redirect()->back()->with('success', 'Email Not Sent');
+            //   return response()->json(
+            //             [
+            //                 'is_success' => false,
+            //                 'message' => $e->getMessage(),
+            //             ]
+            //         );
+          return redirect()->back()->with('success', 'Email Not Sent');
       
         }
         return redirect()->back()->with('success', 'Email Sent Successfully');
@@ -597,7 +639,6 @@ class LeadController extends Controller
             return view('lead.proposal',compact('lead','venue','settings','fixed_cost','additional_items'));
     }
     public function proposal_resp(Request $request,$id){
-
             $settings = Utility::settings();
             $id = decrypt(urldecode($id));
 
@@ -612,9 +653,11 @@ class LeadController extends Controller
             //     return redirect()->back()->with('error','Proposal is already confirmed');
             // }
             $proposals = new Proposal();
+           
             $proposals['lead_id'] = $id;
             $proposals['image'] = $image;
             $proposals['notes'] = $request->comments;
+            $proposals['proposal_id'] = isset($request->proposal) && ($request->proposal != '')?$request->proposal :'';
             $proposals->save();
             $lead = Lead::find($id);
             $users = User::where('type','owner')->orwhere('type','Admin')->get();
@@ -826,6 +869,8 @@ class LeadController extends Controller
         $newlead['name']               = $lead->name;
         $newlead['leadname']          =  $lead->leadname;
         $newlead['assigned_user']      = $lead->user_id;
+        $newlead['start_date']      = date('Y-m-d');
+        $newlead['end_date']      = date('Y-m-d');
         $newlead['email']              = $lead->email;
         $newlead['phone']              = $lead->phone;
         $newlead['lead_address']       = $lead->lead_address;
@@ -848,8 +893,8 @@ class LeadController extends Controller
         return view('lead.leadinfo',compact('leads','lead','docs','notes'));
     }
     public function lead_user_info($id){
-        $id = decrypt(urldecode($id));
 
+        $id = decrypt(urldecode($id));
         $email = Lead::withTrashed()->find($id)->email;
         $leads = Lead::withTrashed()->where('email',$email)->get();
         $notes = NotesLeads::where('lead_id',$id)->orderby('id','desc')->get();

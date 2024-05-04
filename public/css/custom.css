@@ -843,6 +843,10 @@ display:none;
     display: flex;
     justify-content: space-between;
 }
+.flex-title {
+    display: flex;
+    justify-content: space-between;
+}
 @media only screen and (max-width: 1024px) {
     .navbar-expand-lg .navbar-toggler {
         display: block !important;
@@ -850,8 +854,8 @@ display:none;
     }
 .navbar-expand-lg .navbar-collapse
 {
-	display:none !important;
-	width: 100%;
+display:none !important;
+width: 100%;
         float: left;
 }
 
@@ -866,9 +870,9 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light {
 }
 .new_header
 {
-	height:50px;
-	   background: #dbdbdb !important;
-	   box-shadow:none !important;
+height:50px;
+  background: #dbdbdb !important;
+  box-shadow:none !important;
 }
 
 .p0 {
@@ -890,7 +894,6 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light {
 
 
 
-
 	table.table.table-share {
     table-layout: fixed;
     white-space: nowrap;
@@ -899,4 +902,39 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light {
 table.table.table-share td,table.table.table-share th {
     white-space: normal;
     overflow-wrap: break-word;
+}
+
+.p0 {
+    padding: 0;
+}
+.p0 {
+    padding: 0;
+}
+    .page-header {
+        padding: 0px !important;
+    }
+
+@media only screen and (max-width: 768px) {
+    .half-col .col-md-6 {
+        flex: 0 0 auto;
+        width: 50%;
+    }
+    span.badge.bg-warning.p-2.px-3.rounded {
+        white-space: normal;
+    }
+}
+
+
+
+table.table.table-share {
+    table-layout: fixed;
+    white-space: nowrap;
+}
+
+table.table.table-share td,table.table.table-share th {
+    white-space: normal;
+    overflow-wrap: break-word;
+}
+.newcard_body {
+    display: flex;
 }

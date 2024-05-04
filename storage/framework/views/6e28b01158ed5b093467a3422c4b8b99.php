@@ -293,21 +293,16 @@ canvas#signatureCanvas {
 <?php $__env->startPush('script-page'); ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
 <script>
-// When the user clicks on <div>, open the popup
 function myFunction() {
     var popup = document.getElementById("myPopup");
     popup.classList.toggle("show");
 }
 </script>
 <script>
-    // function toggleCollapse(dataId) {
-    //     console.log(dataId);
-    //     var collapseTarget = document.getElementById(dataId);
-    //     var collapseBS = new bootstrap.Collapse(collapseTarget);
-    //     collapseBS.toggle();
 
-    // }
+
 </script>
+
 <script>
 function check_theme(color_val) {
     $('#theme_color').prop('checked', false);
@@ -416,9 +411,15 @@ var scrollSpy = new bootstrap.ScrollSpy(document.body, {
     offset: 300,
 })
 $(".list-group-item").click(function() {
-    $('.list-group-item').filter(function() {
-        return this.href == id;
-    }).parent().removeClass('text-primary');
+    if($(this).hasClass('active')){
+        $(this).removeClass('active');
+    }else{
+        $(this).addClass('active');
+
+    }
+    // $('.list-group-item').filter(function() {
+    //     return this.href == id;
+    // }).parent().removeClass('text-primary');
 });
 
 function check_theme(color_val) {
@@ -1058,7 +1059,7 @@ $(document).ready(function() {
                                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                                 data-bs-target="#collapse19" aria-expanded="false"
                                                 aria-controls="collapse19">
-                                                <h5><?php echo e(__('Event Details Settings')); ?></h5>
+                                                <h5><?php echo e(__('Event Settings')); ?></h5>
                                             </button>
                                         </h2>
                                         <div id="collapse19" class="accordion-collapse collapse"
@@ -1856,10 +1857,11 @@ $(document).ready(function() {
                                         <div id="collapse21" class="accordion-collapse collapse"
                                             aria-labelledby="heading-2-15" data-bs-parent="#accordionExample">
                                             <div class="accordion-body">
+                                                <div class="row">
                                                 <?php echo e(Form::open(['route' => 'buffer.setting', 'method' => 'post'])); ?>
 
                                                 <?php echo csrf_field(); ?>
-                                                <div class="col-6">
+                                                <div class="col-12">
                                                     <div class="form-group">
                                                         <?php echo e(Form::label('buffer_time', __('Add Buffer Time'), ['class' => 'form-label'])); ?>
 
@@ -1869,7 +1871,7 @@ $(document).ready(function() {
 
                                                     </div>
                                                 </div>
-                                                <div class="col-6">
+                                                <div class="col-12">
                                                     <div class="form-group">
                                                         <?php echo e(Form::label('buffer_day', __('Add Buffer Day'), ['class' => 'form-label'])); ?>
 
@@ -1878,6 +1880,7 @@ $(document).ready(function() {
                                                         'form-control', 'required' => 'required','min' => '0']); ?>
 
                                                     </div>
+                                                </div>
                                                 </div>
                                                 <div class="text-end">
                                                     <?php echo e(Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary'])); ?>
@@ -1936,7 +1939,97 @@ $(document).ready(function() {
                                 </div>
                             </div>
                         </div>
+                        <!-- <div id="pusher-settings" class="card">
+                        <div class="card-header">
+                            <h5><?php echo e(__('Pusher Settings')); ?></h5>
+                            <small class="text-muted"><?php echo e(__('Edit your pusher details')); ?></small>
+                        </div>
+                        <div class="card-body">
+                            <?php echo e(Form::model($settings, ['route' => 'pusher.setting', 'method' => 'post'])); ?>
 
+                            <div class="row mt-3">
+                                <div class="form-group col-md-6">
+                                    <?php echo e(Form::label('pusher_app_id', __('Pusher App Id *'), ['class' => 'form-label'])); ?>
+
+                                    <?php echo e(Form::text('pusher_app_id', isset($settings['pusher_app_id']) ? $settings['pusher_app_id'] : '', ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Id', 'required' => 'required'])); ?>
+
+                                    <?php $__errorArgs = ['pusher_app_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                        <span class="invalid-pusher_app_id" role="alert">
+                                            <strong class="text-danger"><?php echo e($message); ?></strong>
+                                        </span>
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <?php echo e(Form::label('pusher_app_key', __('Pusher App Key *'), ['class' => 'form-label'])); ?>
+
+                                    <?php echo e(Form::text('pusher_app_key', isset($settings['pusher_app_key']) ? $settings['pusher_app_key'] : '', ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Key', 'required' => 'required'])); ?>
+
+                                    <?php $__errorArgs = ['pusher_app_key'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                        <span class="invalid-pusher_app_key" role="alert">
+                                            <strong class="text-danger"><?php echo e($message); ?></strong>
+                                        </span>
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <?php echo e(Form::label('pusher_app_secret', __('Pusher App Secret *'), ['class' => 'form-label'])); ?>
+
+                                    <?php echo e(Form::text('pusher_app_secret', isset($settings['pusher_app_secret']) ? $settings['pusher_app_secret'] : '', ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Key', 'required' => 'required'])); ?>
+
+                                    <?php $__errorArgs = ['pusher_app_secret'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                        <span class="invalid-pusher_app_secret" role="alert">
+                                            <strong class="text-danger"><?php echo e($message); ?></strong>
+                                        </span>
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <?php echo e(Form::label('pusher_app_cluster', __('Pusher App Cluster *'), ['class' => 'form-label'])); ?>
+
+                                    <?php echo e(Form::text('pusher_app_cluster', isset($settings['pusher_app_cluster']) ? $settings['pusher_app_cluster'] : '' , ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Cluster', 'required' => 'required'])); ?>
+
+                                    <?php $__errorArgs = ['pusher_app_cluster'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                        <span class="invalid-pusher_app_cluster" role="alert">
+                                            <strong class="text-danger"><?php echo e($message); ?></strong>
+                                        </span>
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                </div>
+                                <div class="text-end">
+                                    <?php echo e(Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary'])); ?>
+
+                                </div>
+                            </div>
+                            <?php echo e(Form::close()); ?>
+
+                        </div>
+                    </div> -->
                         <!-- <div id="brand-settings" class="card">
                             <div class="card-header">
                                 <h5><?php echo e(__('Brand Settings')); ?></h5>

@@ -10,13 +10,15 @@
 <?php $__env->startSection('breadcrumb'); ?>
 <li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Home')); ?></a></li>
 <li class="breadcrumb-item"><a href="<?php echo e(route('siteusers')); ?>"><?php echo e(__('Customers')); ?></a></li>
-<li class="breadcrumb-item"><?php echo e(__('External Customers')); ?></li>
+<li class="breadcrumb-item"><?php echo e($category . ' Customers'); ?></li>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('action-btn'); ?>
-<a href="#" data-url="<?php echo e(route('uploadusersinfo')); ?>" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('Upload User')); ?>" title="<?php echo e(__('Upload')); ?>" class="btn btn-sm btn-primary btn-icon m-1">
+<a href="#" data-url="<?php echo e(route('uploadusersinfo')); ?>" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip"
+    data-title="<?php echo e(__('Upload User')); ?>" title="<?php echo e(__('Upload')); ?>" class="btn btn-sm btn-primary btn-icon m-1">
     <i class="ti ti-plus"></i>
 </a>
-<a href="<?php echo e(route('exportuser')); ?>" data-bs-toggle="tooltip" data-title="<?php echo e(__('Export User')); ?>" title="<?php echo e(__('Export')); ?>" class="btn btn-sm btn-primary btn-icon m-1">
+<a href="<?php echo e(route('exportuser')); ?>" data-bs-toggle="tooltip" data-title="<?php echo e(__('Export User')); ?>" title="<?php echo e(__('Export')); ?>"
+    class="btn btn-sm btn-primary btn-icon m-1">
     <i class="ti ti-table-export"></i>
 </a>
 <?php $__env->stopSection(); ?>
@@ -40,45 +42,24 @@
                                                 <th scope="col" class="sort"><?php echo e(__('Category')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Address')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Notes')); ?></th>
-                                                <!-- <th scope="col" class="sort"><?php echo e(__('Actions')); ?></th> -->
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <tr>
-                                                
                                                 <td>
-                                                    <!-- <a href="#" data-size="md" data-url="<?php echo e(route('importcustomerview',$user->id)); ?>"
-                                                    data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('User Details')); ?>"  
-                                                        title="<?php echo e(__('User Details')); ?>"
+                                                    <a href="<?php echo e(route('customer.info',urlencode(encrypt($user->id)))); ?>?cat=<?php echo e($category); ?>"
+                                                        data-size="md" title="<?php echo e(__('User Details')); ?>"
                                                         class="action-item text-primary"
                                                         style="color:#1551c9 !important;">
                                                         <b> <?php echo e(ucfirst($user->name)); ?></b>
-                                                    </a> -->
-                                                    <a href="<?php echo e(route('customer.info',urlencode(encrypt($user->id)))); ?>" data-size="md" title="<?php echo e(__('User Details')); ?>"  class="action-item text-primary" style="color:#1551c9 !important;">
-                                               <b> <?php echo e(ucfirst($user->name)); ?></b>
-                                                        </a>
+                                                    </a>
                                                 </td>
                                                 <td><span><?php echo e($user->email); ?></span></td>
                                                 <td><span><?php echo e($user->phone); ?></span></td>
                                                 <td><span><?php echo e(ucfirst($user->category)); ?></span></td>
                                                 <td><span><?php echo e(ucfirst($user->address)); ?></span></td>
                                                 <td><span><?php if($user->notes == ''): ?> -- <?php else: ?><?php echo e($user->notes); ?><?php endif; ?></span></td>
-                                                <!-- <td>
-                                                <?php if($user->status == 0): ?>
-                                                    <span
-                                                        class="badge bg-success p-2 px-3 rounded"><?php echo e(App\Models\UserImport::$status[$user->status]); ?></span>
-                                                <?php else: ?>
-                                                    <span
-                                                        class="badge bg-danger p-2 px-3 rounded"><?php echo e(App\Models\UserImport::$status[$user->status]); ?></span>
-                                                <?php endif; ?>
-                                            </td>
-                                                <td><span><?php echo e(ucfirst($user->organization)); ?></span></td> -->
-                                                <!-- <td>
-                                                    <div class="action-btn bg-info ms-2">
-                                                        <a href="#" data-url="<?php echo e(route('lead.create',['lead',0])); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " id="<?php echo e($user->id); ?>" onclick="storeIdInLocalStorage(this)" data-bs-toggle="tooltip" title="<?php echo e(__('Convert Lead')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('Create Lead')); ?>"><i class="fas fa-exchange-alt"></i></a>
-                                                    </div>
-                                                </td> -->
                                             </tr>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tbody>
@@ -95,10 +76,10 @@
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script-page'); ?>
 <script>
-    function storeIdInLocalStorage(link) {
-        var id = link.id;
-        localStorage.setItem('clickedLinkId', id);
-    }
+function storeIdInLocalStorage(link) {
+    var id = link.id;
+    localStorage.setItem('clickedLinkId', id);
+}
 </script>
 <?php $__env->stopPush(); ?>
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/customer/new_user.blade.php ENDPATH**/ ?>

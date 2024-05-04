@@ -211,9 +211,10 @@ class CalenderController extends Controller
 
     public function unblock_this_date($id){
         $blockDate = Blockdate::find($id);
+        $blockeddate = Blockdate::all();
             if ($blockDate) {
                 $blockDate->delete();
-                return redirect()->back()->with('success', 'Date Unblocked');
+                return view('calender_new.index',compact('blockeddate'))->with('success', 'Date Unblocked');
             }
     }
    

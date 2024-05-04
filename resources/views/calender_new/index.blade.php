@@ -76,7 +76,7 @@ li.item-event>p:nth-child(2) {
 </style>
 @section('content')
 <div class="container">
-    <div class="row">
+    <div class="row" id="useradd-1">
         <div class="col-sm-8">
             <div id="calendar"></div>
         </div>
@@ -464,7 +464,8 @@ function display_count() {
                             start: startDate,
                             end: endDate,
                             textColor: '#fff',
-                            color: '#8fa6b3'
+                            color: '#8fa6b3',
+                            url:"{{url('/show-blocked-date-popup')}}"+'/'+event.id
                           
                         });
                     });

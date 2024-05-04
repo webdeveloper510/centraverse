@@ -8,13 +8,15 @@
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Home') }}</a></li>
 <li class="breadcrumb-item"><a href="{{ route('siteusers') }}">{{ __('Customers') }}</a></li>
-<li class="breadcrumb-item">{{ __('External Customers') }}</li>
+<li class="breadcrumb-item">{{ $category . ' Customers' }}</li>
 @endsection
 @section('action-btn')
-<a href="#" data-url="{{ route('uploadusersinfo') }}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('Upload User')}}" title="{{__('Upload')}}" class="btn btn-sm btn-primary btn-icon m-1">
+<a href="#" data-url="{{ route('uploadusersinfo') }}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip"
+    data-title="{{__('Upload User')}}" title="{{__('Upload')}}" class="btn btn-sm btn-primary btn-icon m-1">
     <i class="ti ti-plus"></i>
 </a>
-<a href="{{ route('exportuser') }}" data-bs-toggle="tooltip" data-title="{{__('Export User')}}" title="{{__('Export')}}" class="btn btn-sm btn-primary btn-icon m-1">
+<a href="{{ route('exportuser') }}" data-bs-toggle="tooltip" data-title="{{__('Export User')}}" title="{{__('Export')}}"
+    class="btn btn-sm btn-primary btn-icon m-1">
     <i class="ti ti-table-export"></i>
 </a>
 @endsection
@@ -38,45 +40,24 @@
                                                 <th scope="col" class="sort">{{__('Category')}}</th>
                                                 <th scope="col" class="sort">{{__('Address')}}</th>
                                                 <th scope="col" class="sort">{{__('Notes')}}</th>
-                                                <!-- <th scope="col" class="sort">{{__('Actions')}}</th> -->
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach($users as $user)
                                             <tr>
-                                                
                                                 <td>
-                                                    <!-- <a href="#" data-size="md" data-url="{{route('importcustomerview',$user->id)}}"
-                                                    data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('User Details')}}"  
-                                                        title="{{ __('User Details') }}"
+                                                    <a href="{{ route('customer.info',urlencode(encrypt($user->id))) }}?cat={{$category}}"
+                                                        data-size="md" title="{{ __('User Details') }}"
                                                         class="action-item text-primary"
                                                         style="color:#1551c9 !important;">
                                                         <b> {{ ucfirst($user->name) }}</b>
-                                                    </a> -->
-                                                    <a href="{{ route('customer.info',urlencode(encrypt($user->id))) }}" data-size="md" title="{{ __('User Details') }}"  class="action-item text-primary" style="color:#1551c9 !important;">
-                                               <b> {{ ucfirst($user->name) }}</b>
-                                                        </a>
+                                                    </a>
                                                 </td>
                                                 <td><span>{{$user->email}}</span></td>
                                                 <td><span>{{$user->phone}}</span></td>
                                                 <td><span>{{ucfirst($user->category)}}</span></td>
                                                 <td><span>{{ucfirst($user->address)}}</span></td>
                                                 <td><span>@if($user->notes == '') -- @else{{$user->notes}}@endif</span></td>
-                                                <!-- <td>
-                                                @if ($user->status == 0)
-                                                    <span
-                                                        class="badge bg-success p-2 px-3 rounded">{{App\Models\UserImport::$status[$user->status]}}</span>
-                                                @else
-                                                    <span
-                                                        class="badge bg-danger p-2 px-3 rounded">{{App\Models\UserImport::$status[$user->status]}}</span>
-                                                @endif
-                                            </td>
-                                                <td><span>{{ucfirst($user->organization)}}</span></td> -->
-                                                <!-- <td>
-                                                    <div class="action-btn bg-info ms-2">
-                                                        <a href="#" data-url="{{ route('lead.create',['lead',0]) }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " id="{{ $user->id }}" onclick="storeIdInLocalStorage(this)" data-bs-toggle="tooltip" title="{{__('Convert Lead')}}" data-ajax-popup="true" data-title="{{__('Create Lead')}}"><i class="fas fa-exchange-alt"></i></a>
-                                                    </div>
-                                                </td> -->
                                             </tr>
                                             @endforeach
                                         </tbody>
@@ -93,9 +74,9 @@
 @endsection
 @push('script-page')
 <script>
-    function storeIdInLocalStorage(link) {
-        var id = link.id;
-        localStorage.setItem('clickedLinkId', id);
-    }
+function storeIdInLocalStorage(link) {
+    var id = link.id;
+    localStorage.setItem('clickedLinkId', id);
+}
 </script>
 @endpush

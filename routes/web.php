@@ -19,11 +19,13 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\CalenderNewController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CustomerInformation;
+use App\Http\Controllers\WebNotificationController;
 use App\Http\Controllers\LeadController;
 use App\Http\Controllers\LeadSourceController;
 use App\Http\Controllers\OpportunitiesStageController;
 use App\Http\Controllers\CommonCaseController;
 use App\Http\Controllers\OpportunitiesController;
+use App\Http\Controllers\NotificationSendController;
 use App\Http\Controllers\CaseTypeController;
 use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\CallController;
@@ -45,6 +47,7 @@ use App\Http\Controllers\ProductTaxController;
 use App\Http\Controllers\ShippingProviderController;
 use App\Http\Controllers\StreamController;
 use App\Http\Controllers\CalenderController;
+use App\Http\Controllers\ContractsController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StripePaymentController;
@@ -525,7 +528,6 @@ Route::group(['middleware' => ['verified']], function () {
             Route::post('event/unblock-date/',[MeetingController::class,'unblock_date'])->name('meeting.unblock');
             Route::get('event/shareevent/{meeting}', [MeetingController::class, 'share_event'])->name('meeting.share');
             Route::post('event/share_event_info/{id}', [MeetingController::class, 'get_event_info'])->name('meeting.event_info');
-            Route::get('event/agreement/{id}', [MeetingController::class, 'agreement'])->name('meeting.agreement');
             Route::get('/meeting-download/{meeting}', [MeetingController::class, 'download_meeting']);
             Route::get('event/review-proposal/{id}', [MeetingController::class, 'review_agreement'])->name('meeting.review');
             Route::post('event/review-agreement/update/{id}', [MeetingController::class, 'review_agreement_data'])->name('meeting.review_agreement.update');
@@ -1025,6 +1027,8 @@ Route::group(['middleware' => ['verified']], function () {
             Route::get('customer/information/{id}',[CustomerInformation::class,'customer_info'])->name('customer.info');
             Route::post('upload-external-customer-info/{id}',[CustomerInformation::class,'uploadcustomerattachment'])->name('upload-info');
             Route::post('user-notes/{id}',[CustomerInformation::class,'usernotes'])->name('addusernotes');
+            Route::get('category/{category}', [CustomerInformation::class,'cate'])->name('categ');
+
             
         }
     );
@@ -1395,8 +1399,30 @@ Route::group(['middleware' => ['verified']], function () {
     // Storage setting
     Route::post('storage-settings', [SettingController::class, 'storageSettingStore'])->name('storage.setting.store')->middleware(['auth', 'XSS']);
 });
+Route::group(
+    [
+        'middleware' => [
+            'auth',
+            'XSS',
+        ],
+    ],
+    function () {
+        Route::get('contracts',[ContractsController::class,'index'])->name('contracts.index');
+        Route::get('contracts/create',[ContractsController::class,'create'])->name('contracts.create');
+        Route::post('contracts/store',[ContractsController::class,'store'])->name('contracts.store');
+    });
 
+  
 Route::get('/meeting-download/{meeting}', [MeetingController::class, 'download_meeting']);
+Route::get('event/agreement/{id}', [MeetingController::class, 'agreement'])->name('meeting.agreement');
+Route::get('/push-notificaiton', [WebNotificationController::class, 'index'])->name('push-notificaiton');
+
+Route::group(['middleware' => 'auth'],function(){
+    Route::post('/store-token', [WebNotificationController::class, 'updateDeviceToken'])->name('store.token');
+    Route::post('/send-web-notification', [WebNotificationController::class, 'sendNotification'])->name('send.web-notification');
+});
+// Route::post('/store-token', [WebNotificationController::class, 'storeToken'])->name('store.token');
+// Route::post('/send-web-notification', [WebNotificationController::class, 'sendWebNotification'])->name('send.web-notification');
 // 22-01
 
 Route::get('/show-blocked-date-popup/{id}',[CalenderController::class,'show_blocked_date_popup']);

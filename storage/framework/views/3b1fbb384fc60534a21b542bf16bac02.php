@@ -28,72 +28,6 @@
 
 <?php $__env->startSection('content'); ?>
     <div class="row">
-        <div class="col-xl-3 col-6">
-            <div class="card comp-card" style="min-height:110px;">
-                <div class="card-body">
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <h6 class=""><?php echo e(__('Total Contracts')); ?></h6>
-                            <h3 class="text-primary"><?php echo e($cnt_contract['total']); ?></h3>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-handshake bg-success text-white"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-3 col-6">
-            <div class="card comp-card" style="min-height:110px;">
-                <div class="card-body">
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <h6 class=""><?php echo e(__('This Month Total Contracts')); ?></h6>
-                            <h3 class="text-info"><?php echo e($cnt_contract['this_month']); ?></h3>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-handshake bg-info text-white"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-3 col-6">
-            <div class="card comp-card" style="min-height:110px;">
-                <div class="card-body">
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <h6 class=""><?php echo e(__('This Week Total Contracts')); ?></h6>
-                            <h3 class="text-warning"><?php echo e($cnt_contract['this_week']); ?></h3>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-handshake bg-warning text-white"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-3 col-6">
-            <div class="card comp-card" style="min-height:110px;">
-                <div class="card-body">
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <h6 class=""><?php echo e(__('Last 30 Days Total Contracts')); ?></h6>
-                            <h3 class="text-danger"><?php echo e($cnt_contract['last_30days']); ?></h3>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-handshake bg-danger text-white"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-
         <div class="col-md-12">
             <div class="card table-card">
                 <div class="card-header card-body table-border-style">
@@ -101,7 +35,7 @@
                         <table id="datatable" class="table datatable align-items-center">
                             <thead>
                                 <tr>
-                                    <th width="60px"><?php echo e(__('Contract')); ?></th>
+                                    <!-- <th width="60px"><?php echo e(__('Contracts')); ?></th> -->
                                     <th><?php echo e(__('Name')); ?></th>
                                     <th><?php echo e(__('Subject')); ?></th>
                                     <th><?php echo e(__('Value')); ?></th>

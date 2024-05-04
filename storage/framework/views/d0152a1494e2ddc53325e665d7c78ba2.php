@@ -8,6 +8,7 @@ $settings = App\Models\Utility::settings();
 $imagePath = public_path('upload/signature/autorised_signature.png');
 $imageData = base64_encode(file_get_contents($imagePath));
 $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base64,' . $imageData;
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,6 +27,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                 <form method="POST" action="<?php echo e(route('lead.proposalresponse',urlencode(encrypt($lead->id)))); ?>"
                     id='formdata'>
                     <?php echo csrf_field(); ?>
+                    <input type="hidden" name="proposal" value="<?php if(isset($_GET['prop'])){ echo $_GET['prop']; } ?>">
                     <div class="row">
                         <div class="col-md-4 mt-4">
                             <div class="img-section">
@@ -187,6 +189,23 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
 
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Bar Package</td>
+                                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                            $<?php echo e($billing['bar_package']['cost'] ?? 0); ?></td>
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                            <?php echo e($billing['bar_package']['quantity'] ?? 1); ?>
+
+                                        </td>
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                            $<?php echo e($total[] =($billing['bar_package']['cost'] ?? 0) * ($billing['bar_package']['quantity'] ?? 1)); ?>
+
+                                        </td>
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                            <?php echo e($lead->bar); ?></td>
+
                                     </tr>
 
                                     <tr>

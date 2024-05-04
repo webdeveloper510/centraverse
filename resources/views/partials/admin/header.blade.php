@@ -32,7 +32,7 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
 @media screen and (max-width: 1024px) {
     li.dash-item.active a span.dash-mtext {
         color: #0e0e0e !important;
- 
+
     }
 }
 </style>
@@ -67,8 +67,11 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                     </li>
                                     @if(Gate::check('Manage Lead') || Gate::check('Manage Meeting') ||
                                     Gate::check('Manage User'))
-                                    <li
-                                        class="dash-item {{ \Request::route()->getName() == 'customer-list' ? ' active' : '' }}">
+                                    <li class="dash-item {{ \Request::route()->getName() == 'siteusers'||\Request::route()->getName() == 'customer.info' ||
+                \Request::route()->getName() == 'event_customers'||
+                \Request::route()->getName() == 'lead_customers' || \Request::route()->getName() ==
+                'lead.userinfo'||\Request::route()->getName() ==
+                'event.userinfo'||\Request::route()->getName()=='categ' ? ' active' : '' }}">
                                         <a href="{{route('siteusers')}}" class="dash-link">
                                             <span class="dash-mtext">{{ __('Customers') }}</span>
                                         </a>
@@ -85,7 +88,7 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                     @endif
                                     @can('Manage Lead')
                                     <li
-                                        class="dash-item {{ \Request::route()->getName() == 'lead' || \Request::route()->getName() == 'lead.edit' ? ' active' : '' }}">
+                                        class="dash-item {{ \Request::route()->getName() == 'lead.index' || \Request::route()->getName() == 'lead.edit' ? ' active' : '' }}">
                                         <a href="{{  array_key_exists('lead',$defaultView) ? route($defaultView['lead']) : route('lead.index') }}"
                                             class="dash-link">
                                             <span class="dash-mtext">{{ __('Leads') }}</span>
@@ -94,7 +97,7 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                     @endcan
                                     @can('Manage Meeting')
                                     <li
-                                        class="dash-item {{ \Request::route()->getName() == 'meeting' || \Request::route()->getName() == 'meeting.show' || \Request::route()->getName() == 'meeting.edit' ? ' active' : '' }}">
+                                        class="dash-item {{ \Request::route()->getName() == 'meeting.index' || \Request::route()->getName() == 'meeting.show' || \Request::route()->getName() == 'meeting.edit' ? ' active' : '' }}">
                                         <a href="{{ array_key_exists('meeting',$defaultView) ? route($defaultView['meeting']) : route('meeting.index') }}"
                                             class="dash-link">
                                             <span class="dash-mtext">{{ __('Events') }}</span>
@@ -110,20 +113,29 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                     </li>
                                     @endcan
                                     @can('Manage Payment')
-                                    <li class="dash-item">
+                                    <li
+                                        class="dash-item {{ \Request::route()->getName() =='report.leadsanalytic' ||  \Request::route()->getName() =='report.eventanalytic'|| \Request::route()->getName() =='report.customersanalytic' || \Request::route()->getName() =='report.billinganalytic'? 'active' :'' }}">
                                         <a href="{{ route('report.leadsanalytic') }}" class="dash-link">
                                             <span class="dash-mtext">{{ __('Reports') }}</span></a>
                                     </li>
                                     @endcan
                                     @can('Manage Campaign')
-                                    <li class="dash-item">
+                                    <li
+                                        class="dash-item  {{ \Request::route()->getName() == 'customer.index' ||\Request::route()->getName() ==  'campaign-list' ? ' active' : '' }}">
                                         <a href="{{ route('customer.index') }}" class="dash-link">
                                             <span class="dash-mtext">{{ __('Campaigns') }}</span></a>
                                     </li>
                                     @endcan
-                                    <li class="dash-item">
+
+                                    <li
+                                        class="dash-item  {{ Request::route()->getName() == 'email.index' ? 'active' : '' }}">
                                         <a href="{{ route('email.index') }}" class="dash-link">
                                             <span class="dash-mtext">{{ __('Emails') }}</span></a>
+                                    </li>
+                                    <li
+                                        class="dash-item  {{ (Request::route()->getName() == 'contracts.index' || Request::route()->getName() == 'contract.show') ? 'active' : '' }}">
+                                        <a href="{{route('contracts.index')}}" class="dash-link"><span
+                                                class="dash-mtext">{{__('Contracts')}}</span></a>
                                     </li>
                                     <li
                                         class="dash-item  {{ Request::route()->getName() == 'settings' ? 'active' : '' }}">

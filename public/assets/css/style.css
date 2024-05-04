@@ -14,6 +14,9 @@ File: style.css
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    */
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap");
+    .flex-div {
+    display: flex;
+}
 
 :root {
     --bs-blue: #51459d;
@@ -672,6 +675,16 @@ progress {
 @media (min-width: 768px) {
     .container, .container-sm, .container-md {
         max-width: 720px;
+    }
+    #sidebar-wrapper
+    {
+        width: 200px !important;
+    }
+    .page-content {
+        margin-left: 200px !important;
+    }
+    ul.dash-navbar {
+        padding-left: 0;
     }
 }
 
@@ -18429,7 +18442,7 @@ body:not(.minimenu) .dash-sidebar .dash-submenu .dash-submenu .dash-submenu > .d
     position: fixed;
     top: 0;
     right: 0;
-    left: 250px;
+    left: 200px;
     z-index: 1002;
     background: #fff;
     box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
@@ -29667,4 +29680,3 @@ div#lead_select {
     margin: 10px !important;
 }
 }
-    

@@ -191,16 +191,14 @@
                                 <td>{{$result['rooms']}}</td>
                                 <td>{{$result['bar'] ?? '--' }}</td>
                                 <td><?php $barpackage = json_decode($result['bar_package'],true);
-                                if(isset($barpackage) && !empty($barpackage)){
-                                    foreach ($barpackage as $key => $value) {
-                                        echo implode(',',$value);
-                                    } 
-                                }else{
-                                    echo '--';
-                                }
-                                                
-                                                ?></td>
-                                <td>{{ isset($result['function'])&& !empty($result['function']) ? ucfirst($result['function']) : '--' }}</td>
+                                    if(isset($barpackage) && !empty($barpackage)){
+                                            echo implode(',',$barpackage);
+                                    }else{
+                                        echo '--';
+                                    }     
+                                ?></td>
+                                <td>{{ isset($result['function'])&& !empty($result['function']) ? ucfirst($result['function']) : '--' }}
+                                </td>
                                 <td><?php $package = json_decode($result['func_package'],true);
                                  if(isset($package) && !empty($package)){
                                                     foreach ($package as $key => $value) {

@@ -321,13 +321,10 @@ class CustomerInformation extends Controller
         // $distinctCustomers = Lead::withTrashed()->distinct()->get();
         // $uniqueLeads = Lead::withTrashed()->select('*')->distinct('email')->get();
         $leadcustomers = MasterCustomer::where('category','lead')->get();
-        // echo "<pre>";print_r($leadcustomers);die;
-
         return view('customer.lead_customer',compact('leadcustomers'));
     }
     public function import_customers_view($id){
         $users = UserImport::find($id);
-       
         return view('customer.userview',compact('users'));
     }
     public function customer_info($id){
@@ -336,6 +333,11 @@ class CustomerInformation extends Controller
         $notes = NotesCustomer::where('user_id',$id)->get();
         // echo "<pre>";print_r($notes);die;
         return view('customer.userview',compact('users','notes'));
+    }
+    public function cate($category){
+        $users = UserImport::where('category',$category)->get();
+        return view('customer.new_user', compact('users','category'));
+        // echo "<pre>";print_r($users);die;
     }
     public function uploadcustomerattachment(Request $request,$id){
         $id = decrypt(urldecode($id));
