@@ -104,8 +104,8 @@ $leaddata['bar_package_cost'] = $totalBarPackageCost;
             <!-- <hr> -->
             <div class="col-12  p-0 modaltitle pb-3 mb-3 flex-title">
                 <!-- <hr class="mt-2 mb-2"> -->
-                <h5 class="bb">{{ __('Estimated Billing Details') }}</h5>
-                <span class="h6 mb-0" style="float:right;  
+                <h5 style="margin-left: 14px;">{{ __('Estimated Billing Details') }}</h5>
+                <span class="h6 mb-0" style="float:right;    margin-top: -27px;
 ">{{__('Guest Count')}} : {{ $lead->guest_count }}</span>
             </div>
             <dl class="row">
