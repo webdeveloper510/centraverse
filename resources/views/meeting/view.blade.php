@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-lg-12 half-col">
         <div class="">
             <dl class="row">
                 <dt class="col-md-6"><span class="h6  mb-0">{{__('Event')}}</span></dt>

@@ -32,7 +32,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
 .floorimages {
     height: 400px;
     width: 100%;
-    margin: 0px;
+    margin: 0px !important;
 }
 
 .selected-image {
@@ -59,10 +59,10 @@ $leadId = decrypt(urldecode(request()->query('lead')));
 </style>
 <div class="container-field">
     <div id="wrapper">
-        <div id="page-content-wrapper">
-            <div class="container-fluid xyz">
+        <div id="page-content-wrapper p0">
+            <div class="container-fluid xyz p0">
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-12 ">
                         <div class="card-header">
                             <div class="row">
                                 <div class="col-lg-8 col-md-8 col-sm-8">
@@ -151,10 +151,10 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 </span>
                                                 @endif
                                             </div>
-                                            <div class="col-12  p-0 modaltitle pb-3 mb-3">
-                                                <h5 style="margin-left: 14px;">{{ __('Contact Information') }}</h5>
+                                            <div class="col-12  p-0 modaltitle pb-3 mb0">
+                                                <h5 style="margin-left: 14px;" class="mb-0">{{ __('Contact Information') }}</h5>
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     {{Form::label('name',__('Name'),['class'=>'form-label']) }}
                                                     {{Form::text('name',null,array('class'=>'form-control','placeholder'=>__('Enter Name'),'required'=>'required'))}}
@@ -599,7 +599,7 @@ $(document).ready(function() {
                 // phoneInput.val(data.phone);
                 // // phoneInput.trigger('input');
                 // // phoneInput.addEventListener('input', enforceFormat);
-                // // phoneInput.addEventListener('input', formatToPhone);
+                // // phoneInput.addEventListener('input', formatToPhone); 
                 $('input[name ="relationship"]').val(data.relationship);
                 $('input[name ="start_date"]').val(data.start_date);
                 $('input[name ="end_date"]').val(data.end_date);

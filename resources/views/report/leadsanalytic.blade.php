@@ -19,7 +19,7 @@
 
             <div class="cardcard-body">
 
-                <div class="collapse show float-end" id="collapseExample" style="">
+                <div class="collapse show float-end2" id="collapseExample" style="">
 
                     {{ Form::open(['route' => ['report.leadsanalytic'], 'method' => 'get']) }}
                     <div class="row filter-css">
@@ -42,8 +42,9 @@
                             </select>
                             <!-- {{ Form::select('status', ['' => 'Select Status'] + $status, isset($_GET['status']) ? $_GET['status'] : '', ['class' => 'form-control', 'style' => 'margin-left: 29px;']) }} -->
                         </div>
+                        <div class="col-auto">
                         <div class="action-btn bg-primary ms-5">
-                            <div class="col-auto ">
+                            <div class=" ">
                                 <button type="submit" class="mx-3 btn btn-sm align-items-center text-white"
                                     data-bs-toggle="tooltip" title="{{ __('Apply') }}" data-title="{{ __('Apply') }}"><i
                                         class="ti ti-search"></i></button>
@@ -51,13 +52,14 @@
                         </div>
                         {{ Form::close() }}
                         <div class="action-btn bg-danger ms-2">
-                            <div class="col-auto">
+                            <div class="">
                                 <a href="{{ route('report.leadsanalytic') }}" data-bs-toggle="tooltip"
                                     title="{{ __('Reset') }}" data-title="{{ __('Reset') }}"
                                     class=" btn btn-sm align-items-center text-white"><i
                                         class="ti ti-trash-off"></i></a>
                             </div>
                         </div>
+</div>
                         <!-- <div class="action-btn bg-primary ms-2">
                             <div class="col-auto">
                                 <a href="#" onclick="saveAsPDF();" class="mx-3 btn btn-sm align-items-center text-white"
@@ -78,7 +80,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <dl class="row">
+                    <dl class="row d">
                         @if (isset($report['startDateRange']) || isset($report['endDateRange']))
                         <input type="hidden"
                             value="{{ __('Lead Report of') . ' ' . $report['startDateRange'] . ' to ' . $report['endDateRange'] }}"
@@ -87,10 +89,10 @@
                         <input type="hidden" value="{{ __('Lead Report') }}" id="filesname">
                         @endif
 
-                        <div class="col">
+                        <div class="col-md-6 need_full">
                             {{ __('Report') }} : <h6>{{ __('Lead Summary') }}</h6>
                         </div>
-                        <div class="col">
+                        <div class="col-md-6 need_full">
                             {{ __('Duration') }} : <h6>
                                 {{ $report['startDateRange'] . ' to ' . $report['endDateRange'] }}
                             </h6>

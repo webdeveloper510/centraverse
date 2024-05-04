@@ -476,9 +476,9 @@ $(document).ready(function() {
 @endsection
 @section('content')
 <div class="container-field">
-    <div id="wrapper">
-        <div id="page-content-wrapper">
-            <div class="container-fluid xyz">
+    <div id="wrapper1">
+        <div id="page-content-wrapper" class="p0">
+            <div class="container-fluid xyz p0">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="faq justify-content-center">
@@ -496,7 +496,7 @@ $(document).ready(function() {
                                         </h2>
                                         <div id="collapse16" class="accordion-collapse collapse"
                                             aria-labelledby="heading-2-15" data-bs-parent="#accordionExample">
-                                            <div class="accordion-body">
+                                            <div class="accordion-body1">
                                                 {{ Form::open(['route' => 'email.setting', 'method' => 'post']) }}
                                                 <div class="card-body">
                                                     <div class="row mt-4">
@@ -653,7 +653,7 @@ $(document).ready(function() {
                                         </h2>
                                         <div id="collapse15" class="accordion-collapse collapse"
                                             aria-labelledby="heading-2-15" data-bs-parent="#accordionExample">
-                                            <div class="accordion-body">
+                                            <div class="accordion-body1">
                                                 {{ Form::model($settings, ['route' => 'twilio.setting', 'method' => 'post']) }}
                                                 @csrf
                                                 <div class="row mt-3">
@@ -782,7 +782,7 @@ $(document).ready(function() {
                                         </h2>
                                         <div id="collapse17" class="accordion-collapse collapse"
                                             aria-labelledby="heading-2-15" data-bs-parent="#accordionExample">
-                                            <div class="accordion-body">
+                                            <div class="accordion-body1">
                                                 <div class="table-responsive overflow_hidden">
                                                     <table id="datatable" class="table align-items-center datatable">
                                                         <thead class="thead-light">
@@ -944,7 +944,7 @@ $(document).ready(function() {
                                         </h2>
                                         <div id="collapse18" class="accordion-collapse collapse"
                                             aria-labelledby="heading-2-15" data-bs-parent="#accordionExample">
-                                            <div class="accordion-body">
+                                            <div class="accordion-body1">
                                                 <div class="card-body table-border-style">
                                                     <div class="table-responsive">
                                                         <table class="table datatable" id="datatable1">
@@ -1030,7 +1030,7 @@ $(document).ready(function() {
                                         </h2>
                                         <div id="collapse19" class="accordion-collapse collapse"
                                             aria-labelledby="heading-2-15" data-bs-parent="#accordionExample">
-                                            <div class="accordion-body">
+                                            <div class="accordion-body1">
                                                 <div id="eventtype-settings" class="card">
                                                     <div class="col-md-12">
                                                         <div class="card-header">
@@ -1637,7 +1637,7 @@ $(document).ready(function() {
                                         </h2>
                                         <div id="collapse20" class="accordion-collapse collapse"
                                             aria-labelledby="heading-2-15" data-bs-parent="#accordionExample">
-                                            <div class="accordion-body">
+                                            <div class="accordion-body1">
                                                 {{ Form::open(['route' => 'billing.setting', 'method' => 'post']) }}
                                                 @csrf
 
@@ -1775,7 +1775,7 @@ $(document).ready(function() {
                                         </h2>
                                         <div id="collapse21" class="accordion-collapse collapse"
                                             aria-labelledby="heading-2-15" data-bs-parent="#accordionExample">
-                                            <div class="accordion-body">
+                                            <div class="accordion-body1">
                                                 <div class="row">
                                                 {{ Form::open(['route' => 'buffer.setting', 'method' => 'post']) }}
                                                 @csrf
@@ -1813,17 +1813,17 @@ $(document).ready(function() {
                                         </h2>
                                         <div id="collapse22" class="accordion-collapse collapse"
                                             aria-labelledby="heading-2-15" data-bs-parent="#accordionExample">
-                                            <div class="accordion-body">
+                                            <div class="accordion-body1">
                                             <form method="POST" id='sign'>
                                                 @csrf
-                                                <div class="card-body">
+                                                <div class="card-body1">
                                                     <div class="row mt-3">
-                                                        <div class="col-6">
+                                                        <div class="col-6 need_full">
                                                             <strong>Existing Signature:</strong> <br>
                                                             <img src="{{$base64Image}}"
                                                                 style=" width: 55%;padding-right: 39px;border-bottom: 1px solid black;">
                                                         </div>
-                                                        <div class="col-6">
+                                                        <div class="col-6 need_full">
                                                             <strong> Signature:</strong>
                                                             <br>
                                                             <div id="sig" class="mt-5">
@@ -2996,7 +2996,7 @@ $(document).ready(function() {
                                                 </h2>
                                                 <div id="collapse15" class="accordion-collapse collapse"
                                                     aria-labelledby="heading-2-15" data-bs-parent="#accordionExample">
-                                                    <div class="accordion-body">
+                                                    <div class="accordion-body1">
                                                         <div class="row">
                                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pb-4">
                                                                 <div class="row pt-2">
@@ -3033,7 +3033,7 @@ $(document).ready(function() {
                                                 </h2>
                                                 <div id="collapse16" class="accordion-collapse collapse"
                                                     aria-labelledby="heading-2-16" data-bs-parent="#accordionExample">
-                                                    <div class="accordion-body">
+                                                    <div class="accordion-body1">
                                                         <div class="row gy-4">
                                                             <div class="col-md-12 mt-3">
                                                                 <div class="form-group">
@@ -3078,7 +3078,7 @@ $(document).ready(function() {
                                                 </h2>
                                                 <div id="collapse1" class="accordion-collapse collapse"
                                                     aria-labelledby="heading-2-2" data-bs-parent="#accordionExample">
-                                                    <div class="accordion-body">
+                                                    <div class="accordion-body1">
                                                         <div class="row gy-4">
                                                             <div class="col-md-6 mt-3">
                                                                 <div class="form-group">
@@ -3132,7 +3132,7 @@ $(document).ready(function() {
                                                 </h2>
                                                 <div id="collapse2" class="accordion-collapse collapse"
                                                     aria-labelledby="heading-2-3" data-bs-parent="#accordionExample">
-                                                    <div class="accordion-body">
+                                                    <div class="accordion-body1">
                                                         <div class="row">
                                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pb-4">
                                                                 <div class="row pt-2">
@@ -3225,7 +3225,7 @@ $(document).ready(function() {
                                                 </h2>
                                                 <div id="collapse3" class="accordion-collapse collapse"
                                                     aria-labelledby="heading-2-4" data-bs-parent="#accordionExample">
-                                                    <div class="accordion-body">
+                                                    <div class="accordion-body1">
                                                         <div class="row">
                                                             <div class="col-md-6 mt-3">
                                                                 <div class="form-group">
@@ -3278,7 +3278,7 @@ $(document).ready(function() {
                                                 </h2>
                                                 <div id="collapse4" class="accordion-collapse collapse"
                                                     aria-labelledby="heading-2-5" data-bs-parent="#accordionExample">
-                                                    <div class="accordion-body">
+                                                    <div class="accordion-body1">
                                                         <div class="row">
                                                             <div class="col-md-6 mt-3">
                                                                 <div class="form-group">
@@ -3330,7 +3330,7 @@ $(document).ready(function() {
                                                 </h2>
                                                 <div id="collapse5" class="accordion-collapse collapse"
                                                     aria-labelledby="heading-2-6" data-bs-parent="#accordionExample">
-                                                    <div class="accordion-body">
+                                                    <div class="accordion-body1">
                                                         <div class="row">
                                                             <div class="col-md-6 mt-3">
                                                                 <div class="form-group">
@@ -3382,7 +3382,7 @@ $(document).ready(function() {
                                                 </h2>
                                                 <div id="collapse6" class="accordion-collapse collapse"
                                                     aria-labelledby="heading-2-7" data-bs-parent="#accordionExample">
-                                                    <div class="accordion-body">
+                                                    <div class="accordion-body1">
                                                         <div class="row">
                                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pb-4">
                                                                 <div class="row pt-2">
@@ -3498,7 +3498,7 @@ $(document).ready(function() {
                                         </h2>
                                         <div id="collapse7" class="accordion-collapse collapse"
                                             aria-labelledby="heading-2-8" data-bs-parent="#accordionExample">
-                                            <div class="accordion-body">
+                                            <div class="accordion-body1">
                                                 <div class="row">
 
                                                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pb-4">
@@ -3584,7 +3584,7 @@ $(document).ready(function() {
                                         </h2>
                                         <div id="collapse8" class="accordion-collapse collapse"
                                             aria-labelledby="heading-2-9" data-bs-parent="#accordionExample">
-                                            <div class="accordion-body">
+                                            <div class="accordion-body1">
                                                 <div class="row">
 
                                                     <div class="row mt-2">
@@ -3647,7 +3647,7 @@ $(document).ready(function() {
                                         </h2>
                                         <div id="collapse9" class="accordion-collapse collapse"
                                             aria-labelledby="heading-2-10" data-bs-parent="#accordionExample">
-                                            <div class="accordion-body">
+                                            <div class="accordion-body1">
                                                 <div class="row">
 
                                                     <div class="col-md-6 mt-3">
@@ -3688,7 +3688,7 @@ $(document).ready(function() {
                                         </h2>
                                         <div id="collapse10" class="accordion-collapse collapse"
                                             aria-labelledby="heading-2-11" data-bs-parent="#accordionExample">
-                                            <div class="accordion-body">
+                                            <div class="accordion-body1">
                                                 <div class="row">
 
                                                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pb-4">
@@ -3775,7 +3775,7 @@ $(document).ready(function() {
                                         </h2>
                                         <div id="collapse11" class="accordion-collapse collapse"
                                             aria-labelledby="heading-2-12" data-bs-parent="#accordionExample">
-                                            <div class="accordion-body">
+                                            <div class="accordion-body1">
                                                 <div class="row">
 
                                                     <div class="col-md-6">
@@ -3825,7 +3825,7 @@ $(document).ready(function() {
                                         </h2>
                                         <div id="collapse12" class="accordion-collapse collapse"
                                             aria-labelledby="heading-2-13" data-bs-parent="#accordionExample">
-                                            <div class="accordion-body">
+                                            <div class="accordion-body1">
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
@@ -3878,7 +3878,7 @@ $(document).ready(function() {
                                         <div id="collapse14" class="accordion-collapse collapse"
                                             aria-labelledby="heading-2-14" data-bs-parent="#accordionExample">
 
-                                            <div class="accordion-body">
+                                            <div class="accordion-body1">
                                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pb-4">
                                                     <div class="row pt-2">
                                                         <label class="pb-2"
@@ -3978,7 +3978,7 @@ $(document).ready(function() {
                                         <div id="collapse15" class="accordion-collapse collapse"
                                             aria-labelledby="heading-2-14" data-bs-parent="#accordionExample">
 
-                                            <div class="accordion-body">
+                                            <div class="accordion-body1">
                                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pb-4">
                                                     <div class="row pt-2">
                                                         <label class="pb-2"
@@ -4065,7 +4065,7 @@ $(document).ready(function() {
                                         </h2>
                                         <div id="collapse16" class="accordion-collapse collapse"
                                             aria-labelledby="heading-2-16" data-bs-parent="#accordionExample">
-                                            <div class="accordion-body">
+                                            <div class="accordion-body1">
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
@@ -4113,7 +4113,7 @@ $(document).ready(function() {
                                         </h2>
                                         <div id="collapse17" class="accordion-collapse collapse"
                                             aria-labelledby="heading-2-17" data-bs-parent="#accordionExample">
-                                            <div class="accordion-body">
+                                            <div class="accordion-body1">
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
@@ -4171,7 +4171,7 @@ $(document).ready(function() {
                                         </h2>
                                         <div id="collapse18" class="accordion-collapse collapse"
                                             aria-labelledby="heading-2-18" data-bs-parent="#accordionExample">
-                                            <div class="accordion-body">
+                                            <div class="accordion-body1">
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
@@ -4219,7 +4219,7 @@ $(document).ready(function() {
                                         </h2>
                                         <div id="collapse19" class="accordion-collapse collapse"
                                             aria-labelledby="heading-2-19" data-bs-parent="#accordionExample">
-                                            <div class="accordion-body">
+                                            <div class="accordion-body1">
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
@@ -4267,7 +4267,7 @@ $(document).ready(function() {
                                         </h2>
                                         <div id="collapse20" class="accordion-collapse collapse"
                                             aria-labelledby="heading-2-20" data-bs-parent="#accordionExample">
-                                            <div class="accordion-body">
+                                            <div class="accordion-body1">
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
@@ -4326,7 +4326,7 @@ $(document).ready(function() {
 
                                         <div id="collapse21" class="accordion-collapse collapse"
                                             aria-labelledby="heading-2-21" data-bs-parent="#accordionExample">
-                                            <div class="accordion-body">
+                                            <div class="accordion-body1">
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
@@ -4385,7 +4385,7 @@ $(document).ready(function() {
 
                                         <div id="collapse22" class="accordion-collapse collapse"
                                             aria-labelledby="heading-2-22" data-bs-parent="#accordionExample">
-                                            <div class="accordion-body">
+                                            <div class="accordion-body1">
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
@@ -4434,7 +4434,7 @@ $(document).ready(function() {
 
                                         <div id="collapse23" class="accordion-collapse collapse"
                                             aria-labelledby="heading-2-23" data-bs-parent="#accordionExample">
-                                            <div class="accordion-body">
+                                            <div class="accordion-body1">
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
@@ -4473,7 +4473,7 @@ $(document).ready(function() {
 
                                         <div id="collapse24" class="accordion-collapse collapse"
                                             aria-labelledby="heading-2-24" data-bs-parent="#accordionExample">
-                                            <div class="accordion-body">
+                                            <div class="accordion-body1">
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">

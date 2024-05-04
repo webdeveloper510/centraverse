@@ -314,7 +314,7 @@
 
     #page-content-wrapper {
        
-        padding: 15px;
+        padding: 0px;
         width: 100%;
         overflow-x: hidden;
     }

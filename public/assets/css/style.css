@@ -4525,7 +4525,9 @@ textarea.is-invalid.dataTable-input {
         overflow-y: visible;
     }
 }
-
+span.badge {
+    white-space: normal;
+}
 @media (min-width: 992px) {
     .navbar-expand-lg {
         flex-wrap: nowrap;
@@ -4776,7 +4778,7 @@ textarea.is-invalid.dataTable-input {
     --bs-card-cap-padding-x: 25px;
     --bs-card-cap-bg: transparent;
     --bs-card-cap-color: ;
-  --bs-card-height:;
+  --bs-card-height:
     --bs-card-color: ;
   --bs-card-bg: #ffffff;
     --bs-card-img-overlay-padding: 1.25rem;
@@ -22091,15 +22093,9 @@ body .table thead th {
     padding: 0.9rem 0.75rem;
 }
 
-.card:not(.table-card) .dataTable-bottom,
-.card:not(.table-card) .dataTable-top {
-    padding: 25px 25px;
-}
 
-.card:not(.table-card) .table-responsive {
-    margin: -25px -25px 0 -25px;
-    width: calc(100% + 50px);
-}
+
+
 
 .card:not(.table-card) .table {
     margin-bottom: 0;

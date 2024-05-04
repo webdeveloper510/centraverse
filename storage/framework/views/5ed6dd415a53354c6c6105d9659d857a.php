@@ -37,7 +37,7 @@
 <?php echo e(Form::open(array('url'=>'user','method'=>'post','enctype'=>'multipart/form-data'))); ?>
 
 <div class="row">
-    <div class="col-6">
+    <div class="col-6 need_full">
         <div class="form-group">
             <?php echo e(Form::label('name',__('Name'),['class'=>'form-label'])); ?>
 
@@ -45,7 +45,7 @@
 
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-6 need_full">
         <div class="form-group">
             <?php echo e(Form::label('name',__('Title'),['class'=>'form-label'])); ?>
 
@@ -54,7 +54,7 @@
         </div>
     </div>
 
-    <div class="col-6">
+    <div class="col-6 need_full">
         <div class="form-group">
             <?php echo e(Form::label('name',__('Phone'),['class'=>'form-label'])); ?>
 
@@ -65,7 +65,7 @@
             </div>
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-6 need_full">
         <div class="form-group ">
             <?php echo e(Form::label('name',__('Gender'),['class'=>'form-label'])); ?>
 
@@ -80,7 +80,7 @@
         <h5 style="margin-left: 14px;"><?php echo e(__('Login Details')); ?></h5>
         <!-- <hr class ="mt-3"> -->
     </div>
-    <div class="col-6">
+    <div class="col-6 need_full">
         <div class="form-group">
             <?php echo e(Form::label('email',__('Email'),['class'=>'form-label'])); ?>
 
@@ -88,7 +88,7 @@
 
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6 need_full">
         <div class="form-group">
             <?php echo e(Form::label('name',__('Password'),['class'=>'form-label'])); ?>
 
@@ -96,7 +96,7 @@
 
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-6 need_full">
         <div class="form-group">
             <?php echo e(Form::label('user_roles',__('Roles'),['class'=>'form-label'])); ?>
 
@@ -104,7 +104,7 @@
 
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-6 need_full">
         <div class="form-group" style="margin-top: 35px;">
             <?php echo e(Form::label('name',__('Active'),['class'=>'form-label'])); ?>
 

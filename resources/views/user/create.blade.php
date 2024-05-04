@@ -25,20 +25,20 @@
 @else
 {{Form::open(array('url'=>'user','method'=>'post','enctype'=>'multipart/form-data'))}}
 <div class="row">
-    <div class="col-6">
+    <div class="col-6 need_full">
         <div class="form-group">
             {{Form::label('name',__('Name'),['class'=>'form-label']) }}
             {{Form::text('name',null,array('class'=>'form-control','placeholder'=>__('Enter Name'),'required'=>'required'))}}
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-6 need_full">
         <div class="form-group">
             {{Form::label('name',__('Title'),['class'=>'form-label']) }}
             {{Form::text('title',null,array('class'=>'form-control','placeholder'=>__('Enter Title'),'required'=>'required'))}}
         </div>
     </div>
 
-    <div class="col-6">
+    <div class="col-6 need_full">
         <div class="form-group">
             {{Form::label('name',__('Phone'),['class'=>'form-label']) }}
             <div class="intl-tel-input">
@@ -48,7 +48,7 @@
             </div>
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-6 need_full">
         <div class="form-group ">
             {{Form::label('name',__('Gender'),['class'=>'form-label']) }}
             {!! Form::select('gender', $gender, null,array('class' => 'form-control','required'=>'required')) !!}
@@ -61,25 +61,25 @@
         <h5 style="margin-left: 14px;">{{__('Login Details')}}</h5>
         <!-- <hr class ="mt-3"> -->
     </div>
-    <div class="col-6">
+    <div class="col-6 need_full">
         <div class="form-group">
             {{Form::label('email',__('Email'),['class'=>'form-label']) }}
             {{Form::text('email',null,array('class'=>'form-control','placeholder'=>__('Enter Email'),'required'=>'required'))}}
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6 need_full">
         <div class="form-group">
             {{Form::label('name',__('Password'),['class'=>'form-label']) }}
             {{Form::password('password',array('class'=>'form-control','placeholder'=>__('Enter Password'),'required'=>'required'))}}
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-6 need_full">
         <div class="form-group">
             {{Form::label('user_roles',__('Roles'),['class'=>'form-label']) }}
             {!! Form::select('user_roles', $roles, null,array('class' => 'form-control ','required'=>'required')) !!}
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-6 need_full">
         <div class="form-group" style="margin-top: 35px;">
             {{Form::label('name',__('Active'),['class'=>'form-label']) }}
             <input type="checkbox" class="form-check-input" name="is_active" checked>
