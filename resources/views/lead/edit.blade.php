@@ -46,7 +46,7 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
     <div id="wrapper">
 
         <div id="page-content-wrapper">
-            <div class="container-fluid xyz">
+            <div class="container-fluid xyz p0">
                 <div class="row">
                     <div class="col-lg-12">
                         <div id="useradd-1" class="card">
@@ -57,7 +57,7 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                             </div>
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             {{Form::label('lead_name',__('Lead Name'),['class'=>'form-label']) }}
                                             <span class="text-sm">
@@ -66,16 +66,16 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                             {{Form::text('lead_name',$lead->leadname,array('class'=>'form-control','placeholder'=>__('Enter Lead Name'),'required'=>'required'))}}
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             {{Form::label('company_name',__('Company Name'),['class'=>'form-label']) }}
                                             {{Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Company Name')))}}
                                         </div>
                                     </div>
-                                    <div class="col-12  p-0 modaltitle pb-3 mb-3">
+                                    <div class="col-12  p-0 modaltitle ">
                                         <h5 style="margin-left: 14px;">{{ __('Contact Information') }}</h5>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             {{Form::label('name',__('Name'),['class'=>'form-label']) }}
                                             <span class="text-sm">
@@ -84,7 +84,7 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                             {{Form::text('name',null,array('class'=>'form-control','placeholder'=>__('Enter Name'),'required'=>'required'))}}
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group intl-tel-input">
                                             {{ Form::label('phone', __('Phone'), ['class' => 'form-label']) }}
                                             <span class="text-sm">
@@ -98,28 +98,28 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                         </div>
                                     </div>
 
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             {{Form::label('email',__('Email'),['class'=>'form-label']) }}
                                             {{Form::text('email',null,array('class'=>'form-control','placeholder'=>__('Enter Email'),'required' =>'required'))}}
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             {{Form::label('lead_address',__('Address'),['class'=>'form-label']) }}
                                             {{Form::text('lead_address',null,array('class'=>'form-control','placeholder'=>__('Address')))}}
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             {{Form::label('relationship',__('Relationship'),['class'=>'form-label']) }}
                                             {{Form::text('relationship',null,array('class'=>'form-control','placeholder'=>__('Enter Relationship')))}}
                                         </div>
                                     </div>
-                                    <div class="col-12  p-0 modaltitle pb-3 mb-3">
+                                    <div class="col-12  p-0 modaltitle ">
                                         <h5 style="margin-left: 14px;">{{ __('Event Details') }}</h5>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             {{Form::label('type',__('Event Type'),['class'=>'form-label']) }}
                                             <span class="text-sm">
@@ -134,7 +134,7 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             <label for="venue" class="form-label">{{ __('Venue') }}</label>
                                             <span class="text-sm">
@@ -150,7 +150,7 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                             @endforeach
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             {{ Form::label('start_date', __('Date of Event'), ['class' => 'form-label']) }}
                                             <span class="text-sm">
@@ -160,14 +160,14 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                         </div>
                                     </div>
 
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             {{Form::label('guest_count',__('Guest Count'),['class'=>'form-label']) }}
                                             {!! Form::number('guest_count', null,array('class' => 'form-control','min'=>
                                             0)) !!}
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             {{ Form::label('function', __('Function'), ['class' => 'form-label']) }}
                                             <span class="text-sm">
@@ -188,7 +188,7 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-6" id="mailFunctionSection">
+                                    <div class="col-6 need_full" id="mailFunctionSection">
                                         @if(isset($function) && !empty($function))
                                         @foreach($function as $key =>$value)
                                         <div class="form-group" data-main-index="{{$key}}"
@@ -220,7 +220,7 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                         @endforeach
                                         @endif
                                     </div>
-                                    <div class="col-6" id="additionalSection">
+                                    <div class="col-6 need_full" id="additionalSection">
                                         @if(isset($additional_items) && !empty($additional_items))
                                         {{ Form::label('additional', __('Additional items'), ['class' => 'form-label']) }}
                                         @foreach($additional_items as $ad_key =>$ad_value)
@@ -256,7 +256,7 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                         @endif
 
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             {{Form::label('Assign Staff',__('Assign Staff'),['class'=>'form-label']) }}
                                             <select class="form-control" name='user'>
@@ -270,31 +270,31 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                         </div>
                                     </div>
 
-                                    <div class="col-12  p-0 modaltitle pb-3 mb-3">
+                                    <div class="col-12  p-0 modaltitle ">
                                         <h5 style="margin-left: 14px;">{{ __('Other Information') }}</h5>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             {{Form::label('allergies',__('Allergies'),['class'=>'form-label']) }}
                                             {{Form::text('allergies',null,array('class'=>'form-control','placeholder'=>__('Enter Allergies(if any)')))}}
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             {{Form::label('spcl_req',__('Any Special Requirements'),['class'=>'form-label']) }}
                                             {{Form::textarea('spcl_req',null,array('class'=>'form-control','rows'=>2,'placeholder'=>__('Enter Any Special Requirements')))}}
                                         </div>
                                     </div>
-                                    <div class="col-12">
+                                    <div class="col-12 need_full">
                                         <div class="form-group">
                                             {{Form::label('Description',__('How did you hear about us?'),['class'=>'form-label']) }}
                                             {{Form::textarea('description',null,array('class'=>'form-control','rows'=>2))}}
                                         </div>
                                     </div>
-                                    <div class="col-12  p-0 modaltitle pb-3 mb-3">
+                                    <div class="col-12  p-0 modaltitle ">
                                         <h5 style="margin-left: 14px;">{{ __('Estimate Billing Summary Details') }}</h5>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             {!! Form::label('baropt', 'Bar') !!}
                                             @foreach($baropt as $key => $label)
@@ -305,7 +305,7 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                             @endforeach
                                         </div>
                                     </div>
-                                    <div class="col-6" id="barpacakgeoptions" style="display: none;">
+                                    <div class="col-6 need_full" id="barpacakgeoptions" style="display: none;">
                                         @if(isset($bar_package) && !empty($bar_package))
                                         @foreach($bar_package as $key =>$value)
                                         <div class="form-group" data-main-index="{{$key}}"
@@ -324,28 +324,28 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                         @endforeach
                                         @endif
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             {{Form::label('rooms',__('Room'),['class'=>'form-label']) }}
                                             <input type="number" name="rooms" value="{{$lead->rooms}}"
                                                 class="form-control">
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             {{ Form::label('start_time', __('Estimated Start Time'), ['class' => 'form-label']) }}
                                             {!! Form::input('time', 'start_time', $lead->start_time, ['class' =>
                                             'form-control']) !!}
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             {{ Form::label('end_time', __('Estimated End Time'), ['class' => 'form-label']) }}
                                             {!! Form::input('time', 'end_time', $lead->end_time, ['class' =>
                                             'form-control']) !!}
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             {{ Form::label('name', __('Active'), ['class' => 'form-label']) }}
                                             <div>
