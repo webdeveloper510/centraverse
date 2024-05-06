@@ -74,6 +74,7 @@ $leaddata['hotel_rooms_cost'] = $billings['hotel_rooms'] ?? 0;
 $leaddata['venue_rental_cost'] = $venueRentalCost;
 $leaddata['food_package_cost'] = $totalFoodPackageCost;
 
+// echo "<pre>";print_r($lead);die;  
 
 ?>
 <?php $__env->startSection('title'); ?>
@@ -94,9 +95,10 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
     position: absolute;
     padding: 1px;
 }
+
 .iti.iti--allow-dropdown.iti--separate-dial-code {
-                    width: 100%;
-                }
+    width: 100%;
+}
 </style>
 <div class="container-field">
     <div id="wrapper">
@@ -328,8 +330,20 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                             <?php $__currentLoopData = $packageVal; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $pac_key =>$item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <div class="form-check" data-additional-index="<?php echo e($pac_key); ?>"
                                                 data-additional-package="<?php echo e($pac_key); ?>">
+                                                <?php $isCheckedif = false;?>
+
+                                                <?php if(isset($fun_ad_opts) && !empty($fun_ad_opts )): ?>
+                                                <?php $__currentLoopData = $fun_ad_opts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $keys=>$valss): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+
+                                                <?php $__currentLoopData = $valss; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <?php if($pac_key == $val): ?>
+                                                <?php $isCheckedif = true;?>
+                                                <?php endif; ?>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                <?php endif; ?>
                                                 <?php echo Form::checkbox('additional_'.str_replace(' ', '_',
-                                                strtolower($fun_key)).'[]',$pac_key, null, ['data-function' => $fun_key,
+                                                strtolower($fun_key)).'[]',$pac_key,  $isCheckedif, ['data-function' => $fun_key,
                                                 'class' => 'form-check-input']); ?>
 
                                                 <?php echo e(Form::label($pac_key, $pac_key, ['class' => 'form-check-label'])); ?>
@@ -356,7 +370,6 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                             </select>
                                         </div>
                                     </div>
-
                                     <div class="col-12  p-0 modaltitle pb-3 mb-3">
                                         <h5 style="margin-left: 14px;"><?php echo e(__('Other Information')); ?></h5>
                                     </div>
@@ -469,7 +482,7 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                             </div>
                                         </div>
                                     </div>
-                                
+
                                     <div class="text-end">
                                         <?php echo e(Form::submit(__('Submit'), ['class' => 'btn-submit btn btn-primary'])); ?>
 
@@ -487,205 +500,205 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
 </div>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script-page'); ?>
-                <script>
-                $(document).ready(function() {
-                    $("input[type='text'][name='lead_name'],input[type='text'][name='name'], input[type='text'][name='email'], select[name='type'],input[type='tel'][name='phone']")
-                        .focusout(function() {
+<script>
+$(document).ready(function() {
+    $("input[type='text'][name='lead_name'],input[type='text'][name='name'], input[type='text'][name='email'], select[name='type'],input[type='tel'][name='phone']")
+        .focusout(function() {
 
-                            var input = $(this);
-                            var errorMessage = '';
-                            if (input.attr('name') === 'email' && input.val() !== '') {
-                                var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                                if (!emailPattern.test(input.val())) {
-                                    errorMessage = 'Invalid email address.';
-                                }
-                            } else if (input.val() == '') {
-                                errorMessage = 'This field is required.';
-                            }
+            var input = $(this);
+            var errorMessage = '';
+            if (input.attr('name') === 'email' && input.val() !== '') {
+                var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailPattern.test(input.val())) {
+                    errorMessage = 'Invalid email address.';
+                }
+            } else if (input.val() == '') {
+                errorMessage = 'This field is required.';
+            }
 
-                            if (errorMessage != '') {
-                                input.css('border', 'solid 2px red');
-                            } else {
-                                // If it is not blank. 
-                                input.css('border', 'solid 2px black');
-                            }
+            if (errorMessage != '') {
+                input.css('border', 'solid 2px red');
+            } else {
+                // If it is not blank. 
+                input.css('border', 'solid 2px black');
+            }
 
-                            // Remove any existing error message
-                            input.next('.validation-error').remove();
+            // Remove any existing error message
+            input.next('.validation-error').remove();
 
-                            // Append the error message if it exists
-                            if (errorMessage != '') {
-                                input.after(
-                                    '<div class="validation-error text-danger" style="padding:2px;">' +
-                                    errorMessage + '</div>');
-                            }
-                        });
-                });
-                </script>
+            // Append the error message if it exists
+            if (errorMessage != '') {
+                input.after(
+                    '<div class="validation-error text-danger" style="padding:2px;">' +
+                    errorMessage + '</div>');
+            }
+        });
+});
+</script>
 
-                <script>
-                $(document).ready(function() {
-                    var phoneNumber = "<?php echo $lead->phone;?>";
-                    var num = phoneNumber.trim();
-                    // if (phoneNumber.trim().length < 10) {
-                    //     alert('Please enter a valid phone number with at least 10 digits.');
-                    //     return;
-                    // }
-                    var lastTenDigits = phoneNumber.substr(-10);
-                    var formattedPhoneNumber = '(' + lastTenDigits.substr(0, 3) + ') ' + lastTenDigits.substr(3,
-                            3) + '-' +
-                        lastTenDigits.substr(6);
-                    $('#phone-input').val(formattedPhoneNumber);
-                })
-                $(document).ready(function() {
-                    var input = document.querySelector("#phone-input");
-                    var iti = window.intlTelInput(input, {
-                        separateDialCode: true,
-                    });
+<script>
+$(document).ready(function() {
+    var phoneNumber = "<?php echo $lead->phone;?>";
+    var num = phoneNumber.trim();
+    // if (phoneNumber.trim().length < 10) {
+    //     alert('Please enter a valid phone number with at least 10 digits.');
+    //     return;
+    // }
+    var lastTenDigits = phoneNumber.substr(-10);
+    var formattedPhoneNumber = '(' + lastTenDigits.substr(0, 3) + ') ' + lastTenDigits.substr(3,
+            3) + '-' +
+        lastTenDigits.substr(6);
+    $('#phone-input').val(formattedPhoneNumber);
+})
+$(document).ready(function() {
+    var input = document.querySelector("#phone-input");
+    var iti = window.intlTelInput(input, {
+        separateDialCode: true,
+    });
 
-                    var indiaCountryCode = iti.getSelectedCountryData().iso2;
-                    var countryCode = iti.getSelectedCountryData().dialCode;
-                    $('#country-code').val(countryCode);
-                    if (indiaCountryCode !== 'us') {
-                        iti.setCountry('us');
-                    }
-                });
-                </script>
+    var indiaCountryCode = iti.getSelectedCountryData().iso2;
+    var countryCode = iti.getSelectedCountryData().dialCode;
+    $('#country-code').val(countryCode);
+    if (indiaCountryCode !== 'us') {
+        iti.setCountry('us');
+    }
+});
+</script>
 
-                <script>
-                const isNumericInput = (event) => {
-                    const key = event.keyCode;
-                    return ((key >= 48 && key <= 57) || // Allow number line
-                        (key >= 96 && key <= 105) // Allow number pad
-                    );
-                };
+<script>
+const isNumericInput = (event) => {
+    const key = event.keyCode;
+    return ((key >= 48 && key <= 57) || // Allow number line
+        (key >= 96 && key <= 105) // Allow number pad
+    );
+};
 
-                const isModifierKey = (event) => {
-                    const key = event.keyCode;
-                    return (event.shiftKey === true || key === 35 || key === 36) || // Allow Shift, Home, End
-                        (key === 8 || key === 9 || key === 13 || key === 46) ||
-                        // Allow Backspace, Tab, Enter, Delete
-                        (key > 36 && key < 41) || // Allow left, up, right, down
-                        (
-                            // Allow Ctrl/Command + A,C,V,X,Z
-                            (event.ctrlKey === true || event.metaKey === true) &&
-                            (key === 65 || key === 67 || key === 86 || key === 88 || key === 90)
-                        )
-                };
+const isModifierKey = (event) => {
+    const key = event.keyCode;
+    return (event.shiftKey === true || key === 35 || key === 36) || // Allow Shift, Home, End
+        (key === 8 || key === 9 || key === 13 || key === 46) ||
+        // Allow Backspace, Tab, Enter, Delete
+        (key > 36 && key < 41) || // Allow left, up, right, down
+        (
+            // Allow Ctrl/Command + A,C,V,X,Z
+            (event.ctrlKey === true || event.metaKey === true) &&
+            (key === 65 || key === 67 || key === 86 || key === 88 || key === 90)
+        )
+};
 
-                const enforceFormat = (event) => {
-                    // Input must be of a valid number format or a modifier key, and not longer than ten digits
-                    if (!isNumericInput(event) && !isModifierKey(event)) {
-                        event.preventDefault();
-                    }
-                };
+const enforceFormat = (event) => {
+    // Input must be of a valid number format or a modifier key, and not longer than ten digits
+    if (!isNumericInput(event) && !isModifierKey(event)) {
+        event.preventDefault();
+    }
+};
 
-                const formatToPhone = (event) => {
-                    if (isModifierKey(event)) {
-                        return;
-                    }
+const formatToPhone = (event) => {
+    if (isModifierKey(event)) {
+        return;
+    }
 
-                    // I am lazy and don't like to type things more than once
-                    const target = event.target;
-                    const input = event.target.value.replace(/\D/g, '').substring(0,
-                        10); // First ten digits of input only
-                    const zip = input.substring(0, 3);
-                    const middle = input.substring(3, 6);
-                    const last = input.substring(6, 10);
+    // I am lazy and don't like to type things more than once
+    const target = event.target;
+    const input = event.target.value.replace(/\D/g, '').substring(0,
+        10); // First ten digits of input only
+    const zip = input.substring(0, 3);
+    const middle = input.substring(3, 6);
+    const last = input.substring(6, 10);
 
-                    if (input.length > 6) {
-                        target.value = `(${zip}) ${middle} - ${last}`;
-                    } else if (input.length > 3) {
-                        target.value = `(${zip}) ${middle}`;
-                    } else if (input.length > 0) {
-                        target.value = `(${zip}`;
-                    }
-                };
+    if (input.length > 6) {
+        target.value = `(${zip}) ${middle} - ${last}`;
+    } else if (input.length > 3) {
+        target.value = `(${zip}) ${middle}`;
+    } else if (input.length > 0) {
+        target.value = `(${zip}`;
+    }
+};
 
-                const inputElement = document.getElementById('phone-input');
-                inputElement.addEventListener('keydown', enforceFormat);
-                inputElement.addEventListener('keyup', formatToPhone);
-                </script>
-                <script>
-                var scrollSpy = new bootstrap.ScrollSpy(document.body, {
-                    target: '#useradd-sidenav',
-                    offset: 300
-                })
-                </script>
-                <script>
-                $('input:checkbox[name= "status"]').click(function() {
-                    var isChecked = $(this).prop('checked');
-                    var group = $(this).attr('name');
+const inputElement = document.getElementById('phone-input');
+inputElement.addEventListener('keydown', enforceFormat);
+inputElement.addEventListener('keyup', formatToPhone);
+</script>
+<script>
+var scrollSpy = new bootstrap.ScrollSpy(document.body, {
+    target: '#useradd-sidenav',
+    offset: 300
+})
+</script>
+<script>
+$('input:checkbox[name= "status"]').click(function() {
+    var isChecked = $(this).prop('checked');
+    var group = $(this).attr('name');
 
-                    if (isChecked) {
-                        $('input[name="' + group + '"]').not(this).prop('checked', false);
-                    }
-                });
-                </script>
-                <script>
-                $(document).ready(function() {
-                    $('div#mailFunctionSection > div').hide();
-                    $('input[name="function[]"]:checked').each(function() {
-                        var funVal = $(this).val();
-                        $('div#mailFunctionSection > div').each(function() {
-                            var attr_value = $(this).data('main-value');
-                            if (attr_value == funVal) {
-                                $(this).show();
-                            }
-                        });
-                    });
-                    $('div#additionalSection > div').hide();
-                    $('div#mailFunctionSection input[type=checkbox]:checked').each(function() {
-                        var funcValue = $(this).val();
-                        $('div#additionalSection > div').each(function() {
-                            var ad_val = $(this).data('additional-index');
-                            if (funcValue == ad_val) {
-                                $(this).show();
-                            }
-                        });
-                    });
+    if (isChecked) {
+        $('input[name="' + group + '"]').not(this).prop('checked', false);
+    }
+});
+</script>
+<script>
+$(document).ready(function() {
+    $('div#mailFunctionSection > div').hide();
+    $('input[name="function[]"]:checked').each(function() {
+        var funVal = $(this).val();
+        $('div#mailFunctionSection > div').each(function() {
+            var attr_value = $(this).data('main-value');
+            if (attr_value == funVal) {
+                $(this).show();
+            }
+        });
+    });
+    $('div#additionalSection > div').hide();
+    $('div#mailFunctionSection input[type=checkbox]:checked').each(function() {
+        var funcValue = $(this).val();
+        $('div#additionalSection > div').each(function() {
+            var ad_val = $(this).data('additional-index');
+            if (funcValue == ad_val) {
+                $(this).show();
+            }
+        });
+    });
 
-                });
-                jQuery(function() {
-                    $('input[name="function[]"]').change(function() {
-                        $('div#mailFunctionSection > div').hide();
-                        $('input[name="function[]"]:checked').each(function() {
-                            var funVal = $(this).val();
-                            $('div#mailFunctionSection > div').each(function() {
-                                var attr_value = $(this).data('main-value');
-                                if (attr_value == funVal) {
-                                    $(this).show();
-                                }
-                            });
-                        });
-                    });
-                });
-                jQuery(function() {
-                    $('div#mailFunctionSection input[type=checkbox]').change(function() {
-                        $('div#additionalSection > div').hide();
-                        $('div#mailFunctionSection input[type=checkbox]:checked').each(function() {
-                            var funcValue = $(this).val();
-                            $('div#additionalSection > div').each(function() {
-                                var ad_val = $(this).data('additional-index');
-                                if (funcValue == ad_val) {
-                                    $(this).show();
-                                }
-                            });
-                        });
-                    });
-                });
-                jQuery(function() {
-                    $('input[type=radio][name = baropt]').change(function() {
-                        $('div#barpacakgeoptions').hide();
-                        var value = $(this).val();
-                        if (value == 'Package Choice') {
-                            $('div#barpacakgeoptions').show();
-                        }
-                    });
-                });
-                </script>
+});
+jQuery(function() {
+    $('input[name="function[]"]').change(function() {
+        $('div#mailFunctionSection > div').hide();
+        $('input[name="function[]"]:checked').each(function() {
+            var funVal = $(this).val();
+            $('div#mailFunctionSection > div').each(function() {
+                var attr_value = $(this).data('main-value');
+                if (attr_value == funVal) {
+                    $(this).show();
+                }
+            });
+        });
+    });
+});
+jQuery(function() {
+    $('div#mailFunctionSection input[type=checkbox]').change(function() {
+        $('div#additionalSection > div').hide();
+        $('div#mailFunctionSection input[type=checkbox]:checked').each(function() {
+            var funcValue = $(this).val();
+            $('div#additionalSection > div').each(function() {
+                var ad_val = $(this).data('additional-index');
+                if (funcValue == ad_val) {
+                    $(this).show();
+                }
+            });
+        });
+    });
+});
+jQuery(function() {
+    $('input[type=radio][name = baropt]').change(function() {
+        $('div#barpacakgeoptions').hide();
+        var value = $(this).val();
+        if (value == 'Package Choice') {
+            $('div#barpacakgeoptions').show();
+        }
+    });
+});
+</script>
 
-                <!-- <script>
+<!-- <script>
         $(document).on('change', 'select[name=parent]', function() {
             console.log('h');
             var parent = $(this).val();
@@ -716,14 +729,14 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
             });
         }
     </script> -->
-                <script>
-                $(document).on('click', '#billing_data', function() {
-                    $("[name='shipping_address']").val($("[name='billing_address']").val());
-                    $("[name='shipping_city']").val($("[name='billing_city']").val());
-                    $("[name='shipping_state']").val($("[name='billing_state']").val());
-                    $("[name='shipping_country']").val($("[name='billing_country']").val());
-                    $("[name='shipping_postalcode']").val($("[name='billing_postalcode']").val());
-                });
-                </script>
+<script>
+$(document).on('click', '#billing_data', function() {
+    $("[name='shipping_address']").val($("[name='billing_address']").val());
+    $("[name='shipping_city']").val($("[name='billing_city']").val());
+    $("[name='shipping_state']").val($("[name='billing_state']").val());
+    $("[name='shipping_country']").val($("[name='billing_country']").val());
+    $("[name='shipping_postalcode']").val($("[name='billing_postalcode']").val());
+});
+</script>
 <?php $__env->stopPush(); ?>
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/crmcentraverse/public_html/resources/views/lead/review_proposal.blade.php ENDPATH**/ ?>

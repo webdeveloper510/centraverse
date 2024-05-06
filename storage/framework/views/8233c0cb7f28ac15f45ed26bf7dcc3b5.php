@@ -22,6 +22,7 @@ $bar_package = json_decode($setting['barpackage'],true);
 
 $func_package = json_decode($lead->func_package,true);
 $fun_ad_opts = json_decode($lead->ad_opts,true);
+
 ?>
 <?php $__env->startSection('title'); ?>
 <div class="page-header-title">
@@ -255,17 +256,21 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                         <div class="form-group" data-additional-index="<?php echo e($fun_key); ?>"
                                             data-additional-value="<?php echo e(key($packageVal)); ?>" id="ad_package"
                                             style="display: none;">
+
                                             <?php echo e(Form::label('additional', __($fun_key), ['class' => 'form-label'])); ?>
 
                                             <?php $__currentLoopData = $packageVal; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $pac_key =>$item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                           
                                             <div class="form-check" data-additional-index="<?php echo e($pac_key); ?>"
                                                 data-additional-package="<?php echo e($pac_key); ?>">
                                                 <?php $isCheckedif = false;?>
+
                                                 <?php if(isset($fun_ad_opts) && !empty($fun_ad_opts )): ?>
                                                 <?php $__currentLoopData = $fun_ad_opts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $keys=>$valss): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                <?php $__currentLoopData = $valss; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                               
+                                                <?php $__currentLoopData = $valss; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <?php if($pac_key == $val): ?>
-
+                                                <?php $isCheckedif = true;?>
                                                 <?php endif; ?>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -283,6 +288,7 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         <?php endif; ?>
+
 
                                     </div>
                                     <div class="col-6">
