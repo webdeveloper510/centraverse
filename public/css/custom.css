@@ -892,6 +892,9 @@ height:50px;
         flex: 0 0 auto;
         width: 50%;
     }
+    .card-body {
+        padding: 10px;
+    }
     .venue,.function,.bar {
         overflow-x: scroll;
         margin-top: 20px;
@@ -931,9 +934,16 @@ table.table.table-share td,table.table.table-share th {
     span.badge.bg-warning.p-2.px-3.rounded {
         white-space: normal;
     }
+    .need_half {
+        width: 50% !important;
+        float: left;
+    }
 }
 
-
+.dataTable-top, .dataTable-bottom
+{
+    padding: 0px !important;
+}
 
 table.table.table-share {
     table-layout: fixed;
@@ -944,9 +954,7 @@ table.table.table-share td,table.table.table-share th {
     white-space: normal;
     overflow-wrap: break-word;
 }
-.newcard_body {
-    display: flex;
-}
+
 .row.filter-css {
     align-items: center;
 }

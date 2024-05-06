@@ -135,11 +135,12 @@ class ContractsController extends Controller
                     Log::error('File upload failed: ' . $e->getMessage());
                     return redirect()->back()->with('error', 'File upload failed');
                 }
-            }                 // $url = Storage::url('app/public/Contracts/'.$contract->id.'/'. $filename);
+            }                 
 
                 $contract->update(['attachment'=> $filename]);
                 $name = 'doc';
-                $url = 'https://cdn2.hubspot.net/hubfs/2127247/public-templates/SamplePandaDocPdf_FormFields.pdf';
+                $url = Storage::url('app/public/Contracts/'.$contract->id.'/'. $filename);
+                // $url = 'https://cdn2.hubspot.net/hubfs/2127247/public-templates/SamplePandaDocPdf_FormFields.pdf';
                 $recipientEmail = 'sonali@codenomad.net';
                 $curl = curl_init();
                 curl_setopt_array($curl, array(
