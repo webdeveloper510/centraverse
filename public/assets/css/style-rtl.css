@@ -22047,10 +22047,7 @@ body .table thead th {
     padding: 25px 25px;
 }
 
-.card:not(.table-card) .table-responsive {
-    margin: -25px -25px 0 -25px;
-    width: calc(100% + 50px);
-}
+
 
 .card:not(.table-card) .table {
     margin-bottom: 0;
@@ -24512,6 +24509,7 @@ select.form-control[data-multiselectsplitter-firstselect-selector], select.custo
     .btn-chk-work .btn i {
         font-size: 40px;
     }
+  
 }
 
 .event-cards .card {

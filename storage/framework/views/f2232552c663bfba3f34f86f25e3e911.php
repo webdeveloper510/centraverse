@@ -26,7 +26,7 @@
         <div id="page-content-wrapper">
             <div class="container-fluid xyz">
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-12 p0">
                         <div id="useradd-1" class="card">
                             <div class="card-body table-border-style">
                                 <div class="table-responsive">

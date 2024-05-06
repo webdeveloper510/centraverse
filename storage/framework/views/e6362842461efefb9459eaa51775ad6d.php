@@ -314,7 +314,7 @@
 
     #page-content-wrapper {
        
-        padding: 15px;
+        padding: 0px;
         width: 100%;
         overflow-x: hidden;
     }
@@ -351,6 +351,7 @@
         text-decoration: none;
         color: #999999;
     }
+
 
     .sidebar-nav li a:hover {
         text-decoration: none;

@@ -569,7 +569,9 @@ a.b-brand {
     font-size: 20px;
     margin-right: 8px;
 }
-
+.accordion-body1 {
+    padding: 10px;
+}
 .faq .accordion .accordion-item .accordion-button:not(.collapsed) {
     border-radius: 10px;
     background: transparent;
@@ -890,6 +892,11 @@ height:50px;
         flex: 0 0 auto;
         width: 50%;
     }
+    .venue,.function,.bar {
+        overflow-x: scroll;
+        margin-top: 20px;
+        padding: 20px;
+    }
 	}
 
 
@@ -903,9 +910,11 @@ table.table.table-share td,table.table.table-share th {
     white-space: normal;
     overflow-wrap: break-word;
 }
-
+.iti.iti--allow-dropdown.iti--separate-dial-code {
+    width: 100%;
+}
 .p0 {
-    padding: 0;
+    padding: 0 !important
 }
 .p0 {
     padding: 0;
@@ -913,11 +922,14 @@ table.table.table-share td,table.table.table-share th {
     .page-header {
         padding: 0px !important;
     }
-}
+
 @media only screen and (max-width: 768px) {
     .half-col .col-md-6 {
         flex: 0 0 auto;
         width: 50%;
+    }
+    span.badge.bg-warning.p-2.px-3.rounded {
+        white-space: normal;
     }
 }
 
@@ -931,4 +943,19 @@ table.table.table-share {
 table.table.table-share td,table.table.table-share th {
     white-space: normal;
     overflow-wrap: break-word;
+}
+.newcard_body {
+    display: flex;
+}
+.row.filter-css {
+    align-items: center;
+}
+.table-border-style {
+    padding: 10px;
+}
+
+.venue,.function,.bar {
+   
+    margin-top: 20px;
+    padding: 20px;
 }

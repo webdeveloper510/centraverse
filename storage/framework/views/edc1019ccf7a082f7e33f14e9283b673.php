@@ -24,9 +24,9 @@
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 <div class="container-field">
-    <div id="wrapper">
-        <div id="page-content-wrapper">
-            <div class="container-fluid xyz">
+    <div id="wrapper0">
+        <div id="page-content-wrapper" class="p0">
+            <div class="container-fluid xyz p0">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="card" id="useradd-1">

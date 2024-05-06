@@ -8,6 +8,7 @@
 
 <?php $__env->stopSection(); ?>
 <?php
+
 $plansettings = App\Models\Utility::plansettings();
 $setting = App\Models\Utility::settings();
 $type_arr= explode(',',$setting['event_type']);
@@ -39,7 +40,7 @@ $func_package = json_decode($meeting->func_package,true);
     .floorimages {
         height: 400px;
         width: 600px;
-        margin: 26px;
+        margin: 0px !important;
     }
 
     .selected-image {
@@ -251,7 +252,7 @@ $func_package = json_decode($meeting->func_package,true);
                                 <div class="card-body">
                                     <div class="row">
 
-                                        <div class="col-6">
+                                        <div class="col-6 need_full">
                                             <div class="form-group">
                                                 <?php echo e(Form::label('type',__('Event Type'),['class'=>'form-label'])); ?>
 
@@ -259,7 +260,7 @@ $func_package = json_decode($meeting->func_package,true);
 
                                             </div>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-6 need_full">
                                             <div class="form-group">
                                                 <label for="venue" class="form-label"><?php echo e(__('Venue')); ?></label>
                                                 <?php $__currentLoopData = $venue; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $label): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -271,7 +272,7 @@ $func_package = json_decode($meeting->func_package,true);
                                             </div>
                                         </div>
 
-                                        <div class="col-6">
+                                        <div class="col-6 need_full">
                                             <div class="form-group">
                                                 <?php echo e(Form::label('start_date', __('Start Date'), ['class' => 'form-label'])); ?>
 
@@ -279,7 +280,7 @@ $func_package = json_decode($meeting->func_package,true);
 
                                             </div>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-6 need_full">
                                             <div class="form-group">
                                                 <?php echo e(Form::label('end_date', __('End Date'), ['class' => 'form-label'])); ?>
 
@@ -287,7 +288,7 @@ $func_package = json_decode($meeting->func_package,true);
 
                                             </div>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-6 need_full">
                                             <div class="form-group">
                                                 <?php echo e(Form::label('start_time', __('Start Time'), ['class' => 'form-label'])); ?>
 
@@ -295,7 +296,7 @@ $func_package = json_decode($meeting->func_package,true);
 
                                             </div>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-6 need_full">
                                             <div class="form-group">
                                                 <?php echo e(Form::label('end_time', __('End Time'), ['class' => 'form-label'])); ?>
 
@@ -303,7 +304,7 @@ $func_package = json_decode($meeting->func_package,true);
 
                                             </div>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-6 need_full">
                                             <div class="form-group">
                                                 <?php echo e(Form::label('guest_count',__('Guest Count'),['class'=>'form-label'])); ?>
 
@@ -311,7 +312,7 @@ $func_package = json_decode($meeting->func_package,true);
 
                                             </div>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-6 need_full">
                                             <div class="form-group">
                                                 <?php echo e(Form::label('function', __('Function'), ['class' => 'form-label'])); ?>
 
@@ -326,7 +327,7 @@ $func_package = json_decode($meeting->func_package,true);
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </div>
                                         </div>
-                                        <div class="col-6" id="mailFunctionSection">
+                                        <div class="col-6 need_full" id="mailFunctionSection">
                                             <?php if(isset($function) && !empty($function)): ?>
                                             <?php $__currentLoopData = $function; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key =>$value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <div class="form-group" data-main-index="<?php echo e($key); ?>" data-main-value="<?php echo e($value['function']); ?>" id="function_package" style="display: none;">
@@ -354,7 +355,7 @@ $func_package = json_decode($meeting->func_package,true);
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             <?php endif; ?>
                                         </div>
-                                        <div class="col-6" id="additionalSection">
+                                        <div class="col-6 need_full" id="additionalSection">
                                             <?php if(isset($additional_items) && !empty($additional_items)): ?>
                                             <?php echo e(Form::label('additional', __('Additional items'), ['class' => 'form-label'])); ?>
 
@@ -382,7 +383,7 @@ $func_package = json_decode($meeting->func_package,true);
                                             <div class="row">
                                                 <label><b>Setup</b></label>
                                                 <?php $__currentLoopData = $setup; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $s): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                <div class="col-6  mt-4">
+                                                <div class="col-6  mt-4 need_full">
                                                     <input type="radio" id="image_<?php echo e($loop->index); ?>" name="uploadedImage" class="form-check-input " value="<?php echo e(asset('floor_images/' .$s->image)); ?>" <?php echo e(asset('floor_images/' .$s->image)==$meeting->floor_plan ? 'checked' : ''); ?> style="display:none">
                                                     <label for="image_<?php echo e($loop->index); ?>" class="form-check-label">
                                                         <img src="<?php echo e(asset('floor_images/'. $s->image)); ?>" alt="Uploaded Image" class="img-thumbnail floorimages zoom" data-bs-toggle="tooltip" title="<?php echo e($s->Description); ?>">
@@ -411,7 +412,7 @@ $func_package = json_decode($meeting->func_package,true);
 
                                             <input type="number" name="rooms" min=0 class="form-control" value="<?php echo e($meeting->room); ?>">
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-6 need_full">
                                             <div class="form-group">
                                                 <?php echo Form::label('meal', 'Meal Preference'); ?>
 
@@ -425,7 +426,7 @@ $func_package = json_decode($meeting->func_package,true);
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </div>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-6 need_full">
                                             <div class="form-group">
                                                 <?php echo Form::label('baropt', 'Bar'); ?>
 
@@ -439,7 +440,7 @@ $func_package = json_decode($meeting->func_package,true);
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </div>
                                         </div>
-                                        <div class="col-6" id="barpacakgeoptions" style="display: none;">
+                                        <div class="col-6 need_full" id="barpacakgeoptions" style="display: none;">
                                             <?php if(isset($bar_package) && !empty($bar_package)): ?>
                                             <?php $__currentLoopData = $bar_package; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key =>$value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <div class="form-group" data-main-index="<?php echo e($key); ?>" data-main-value="<?php echo e($value['bar']); ?>">

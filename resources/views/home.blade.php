@@ -15,7 +15,6 @@ h6 {
     font-size: 12px !important;
 }
 </style>
-
 <div class="container-field">
     <div id="wrapper">
         <div id="page-content-wrapper">
@@ -55,10 +54,11 @@ h6 {
                                 <div class="theme-avtar bg-success">
                                     <i class="fa fa-dollar-sign"></i>
                                 </div>
-                                <div style="display:flex">
-                                    <div style="    margin-left: 47px;
-    margin-right: 23px;">
-                                        <h6 class="mb-3">{{ __('Amount(E)') }}</h6>
+
+                                <div class="flex-div">
+                                    <div style="  
+    ">
+                                        <h6 class="mb-0">{{ __('Amount(E)') }}</h6>
                                         <h3 class="mb-0">
                                             {{ $events_revenue != 0 ? '$'.number_format($events_revenue) : '--' }}</h3>
                                     </div>
@@ -86,7 +86,9 @@ h6 {
                     <div class="col-sm">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Active Leads</h5>
+<div class="scrol-card">
                             @foreach($activeLeads as $lead)
+
                             <div class="card">
                                 <div class="card-body new_bottomcard">
                                     <h5 class="card-text">{{ $lead['leadname'] }}
@@ -111,8 +113,10 @@ h6 {
                                     </div>
                                     @endcan
                                 </div>
-                            </div>
+                           
+</div>
                             @endforeach
+</div>
                             @can('Create Lead')
                             <div class="col-12 text-end mt-3">
                                 <a href="javascript:void(0);" data-url="{{ route('lead.create',['lead',0]) }}"
@@ -129,6 +133,7 @@ h6 {
                     <div class="col-sm">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Active/Upcoming Events</h5>
+<div class="scrol-card">
                             @foreach($activeEvent as $event)
 
                             <div class="card">
@@ -157,6 +162,7 @@ h6 {
                                 </div>
                             </div>
                             @endforeach
+</div>
                             @can('Create Meeting')
                             <div class="col-12 text-end mt-3">
                                 <a href="{{ route('meeting.create',['meeting',0]) }}">
@@ -172,6 +178,7 @@ h6 {
                     <div class="col-sm">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Finance</h5>
+<div class="scrol-card">
                             <div class="card">
                                 <div class="card-body">
                                     @foreach($events as $event)
@@ -182,29 +189,30 @@ h6 {
                                             $total += $p->amount;
                                             }
                                         ?>
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <h5 class="card-text">{{ $event['name'] }}
-                                                    <span>({{ $event['type'] }})</span>
-                                                </h5>
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-text">{{ $event['name'] }}
+                                                <span>({{ $event['type'] }})</span>
+                                            </h5>
 
-                                                @if($event['start_date'] == $event['end_date'])
-                                                <p>{{ Carbon\Carbon::parse($event['start_date'])->format('M d, Y')}}</p>
-                                                @else
-                                                <p>{{ Carbon\Carbon::parse($event['start_date'])->format('M d, Y')}} -
-                                                    {{ \Auth::user()->dateFormat($event['end_date'])}}
-                                                </p>
-                                                @endif
-                                                <div style="    color: #a99595;">
-                                                    Billing Amount: ${{ number_format($event['total'])}}<br>
-                                                    Pending Amount: ${{number_format($event['total']- $total)}}
-                                                </div>
+                                            @if($event['start_date'] == $event['end_date'])
+                                            <p>{{ Carbon\Carbon::parse($event['start_date'])->format('M d, Y')}}</p>
+                                            @else
+                                            <p>{{ Carbon\Carbon::parse($event['start_date'])->format('M d, Y')}} -
+                                                {{ \Auth::user()->dateFormat($event['end_date'])}}
+                                            </p>
+                                            @endif
+                                            <div style="    color: #a99595;">
+                                                Billing Amount: ${{ number_format($event['total'])}}<br>
+                                                Pending Amount: ${{number_format($event['total']- $total)}}
+                                            </div>
 
                                         </div>
                                     </div>
                                     @endforeach
                                 </div>
                             </div>
+</div>
                         </div>
                     </div>
                 </div>
@@ -216,6 +224,52 @@ h6 {
 <style>
 h5.card-text {
     font-size: 16px;
+}
+
+
+.flex-div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.inner_col {
+    padding: 10px;
+    border: 1px dotted #ccc;
+    border-radius: 20px;
+    margin-top: 10px;
+}
+.right_side {
+    /* width: 70%; */
+    float: left;
+    text-align: left;
+}
+.theme-avtar {
+    margin-right: 10px;
+}
+.inner_col .scrol-card {
+    padding: 10px;
+    border: 1px dotted #ccc;
+    border-radius: 20px;
+    margin-top: 10px;
+    max-height: 210px;
+    overflow-y: scroll;
+}
+.inner_col
+{
+   min-height: 320px;
+}
+@media only screen and (max-width: 600px) {
+ .flex-div {
+    display: block !important;
+}
+.new-div
+{
+display:flex;
+align-items:center;
+}
+    .mt10 {
+        margin-top: 10px;
+    }
 }
 </style>
 @endsection

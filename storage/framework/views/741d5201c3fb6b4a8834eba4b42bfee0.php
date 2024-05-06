@@ -99,14 +99,19 @@ $leaddata['bar_package_cost'] = $totalBarPackageCost;
                 <dt class="col-md-12"><span class="h6  mb-0"><?php echo e(__('Upload Document')); ?></span></dt>
                 <dd class="col-md-12"><input type="file" name="attachment" id="attachment" class="form-control"></dd>
             </dl>
-            <!-- <hr class="mt-2 mb-2"> -->
+      
 
             <hr class="mt-4 mb-4">
             <!-- <hr> -->
             <div class="col-12  p-0 modaltitle pb-3 mb-3 flex-title">
                 <!-- <hr class="mt-2 mb-2"> -->
+<<<<<<< HEAD
                 <h5 style="margin-left: 14px;"><?php echo e(__('Estimated Billing Details')); ?></h5>
                 <span class="h6 mb-0" style="float:right;    margin-top: -27px;
+=======
+                <h5 class="bb"><?php echo e(__('Estimated Billing Details')); ?></h5>
+                <span class="h6 mb-0" style="float:right;   
+>>>>>>> 9256a27257882e4eb7bcffd310cd3791f43c35af
 "><?php echo e(__('Guest Count')); ?> : <?php echo e($lead->guest_count); ?></span>
             </div>
             <dl class="row">
@@ -156,10 +161,10 @@ $leaddata['bar_package_cost'] = $totalBarPackageCost;
             </dl>
         </div>
         <div class="modal-footer">
-            <!-- <button type="button" class="btn btn-success" data-toggle="tooltip" onclick="getDataUrlAndCopy(this)"
+            <button type="button" class="btn btn-success" data-toggle="tooltip" onclick="getDataUrlAndCopy(this)"
                 data-url="<?php echo e(route('lead.signedproposal',urlencode(encrypt($lead->id)))); ?>" title='Copy To Clipboard'>
                 <i class="ti ti-copy"></i>
-            </button> -->
+            </button>
             <?php echo e(Form::submit(__('Share via mail'),array('class'=>'btn btn-primary'))); ?>
 
         </div>

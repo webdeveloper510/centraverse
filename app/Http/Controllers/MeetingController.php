@@ -215,7 +215,7 @@ class MeetingController extends Controller
             $meeting['alter_relationship']  = $request->alter_relationship;
             $meeting['alter_lead_address']  = $request->alter_lead_address;
             $meeting['attendees_lead']      = $request->lead;
-            $meeting['eventname']            = $request->eventname ?? $request->name ;
+            $meeting['eventname']           = $request->eventname ?? $request->name;
             $meeting['phone']               = $phone;
             $meeting['start_time']          = $request->start_time;
             $meeting['end_time']            = $request->end_time;

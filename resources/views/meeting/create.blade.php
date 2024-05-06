@@ -32,7 +32,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
 .floorimages {
     height: 400px;
     width: 100%;
-    margin: 0px;
+    margin: 0px !important;
 }
 
 .selected-image {
@@ -56,13 +56,20 @@ $leadId = decrypt(urldecode(request()->query('lead')));
     -webkit-transform: scale(1.5);
     transform: scale(1.2);
 }
+
+    
+.fa-asterisk{
+    font-size: xx-small;
+    position: absolute;
+    padding: 1px;
+}
 </style>
 <div class="container-field">
     <div id="wrapper">
-        <div id="page-content-wrapper">
-            <div class="container-fluid xyz">
+        <div id="page-content-wrapper p0">
+            <div class="container-fluid xyz p0">
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-12 ">
                         <div class="card-header">
                             <div class="row">
                                 <div class="col-lg-8 col-md-8 col-sm-8">
@@ -99,6 +106,9 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                             <div class="col-6" id="lead_select">
                                                 <div class="form-group">
                                                     {{ Form::label('lead', __('Lead'), ['class' => 'form-label']) }}
+                                                    <span class="text-sm">
+                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                </span>
                                                     {!! Form::select('lead', $attendees_lead, null, ['class' =>
                                                     'form-control']) !!}
                                                 </div>
@@ -106,6 +116,9 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                             <div class="col-6" id="new_event" style="display: none;">
                                                 <div class="form-group">
                                                     {{ Form::label('eventname', __('Event Name'), ['class' => 'form-label']) }}
+                                                    <span class="text-sm">
+                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                </span>
                                                     {{Form::text('eventname',null,array('class'=>'form-control','placeholder'=>__('Enter Event Name')))}}
                                                 </div>
                                             </div>
@@ -128,17 +141,18 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                     @endif
                                                 </div>
                                             </div>
+
                                             <div class="col-6 need_full">
-                                                <div class="form-group">
-                                                    {{Form::label('type',__('Event Type'),['class'=>'form-label']) }}
-                                                    {!! Form::select('type', $type_arr, null,array('class' =>
-                                                    'form-control')) !!}
-                                                </div>
-                                                @if ($errors->has('type'))
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $errors->first('type') }}</strong>
+                                                {{Form::label('type',__('Event Type'),['class'=>'form-label']) }}
+                                                <span class="text-sm">
+                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                                                 </span>
-                                                @endif
+                                                <select name="type" id="type" class="form-control" required>
+                                                    <option value="">Select Type</option>
+                                                    @foreach($type_arr as $type)
+                                                    <option value="{{$type}}">{{$type}}</option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                             <div class="col-6 need_full">
                                                 <div class="form-group">
@@ -151,12 +165,15 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 </span>
                                                 @endif
                                             </div>
-                                            <div class="col-12  p-0 modaltitle pb-3 mb-3">
-                                                <h5 style="margin-left: 14px;">{{ __('Contact Information') }}</h5>
+                                            <div class="col-12  p-0 modaltitle pb-3 mb0">
+                                                <h5 style="margin-left: 14px;" class="mb-0">{{ __('Contact Information') }}</h5>
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     {{Form::label('name',__('Name'),['class'=>'form-label']) }}
+                                                    <span class="text-sm">
+                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                </span>
                                                     {{Form::text('name',null,array('class'=>'form-control','placeholder'=>__('Enter Name'),'required'=>'required'))}}
                                                 </div>
                                                 @if ($errors->has('name'))
@@ -168,6 +185,9 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                             <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     {{Form::label('phone',__('Phone'),['class'=>'form-label']) }}
+                                                    <span class="text-sm">
+                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                </span>
                                                     <div class="intl-tel-input">
                                                         <input type="tel" id="phone-input" name="phone"
                                                             class="phone-input form-control" placeholder="Enter Phone"
@@ -180,6 +200,9 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                             <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     {{Form::label('email',__('Email'),['class'=>'form-label']) }}
+                                                    <span class="text-sm">
+                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                </span>
                                                     {{Form::text('email',null,array('class'=>'form-control','placeholder'=>__('Enter Email'),'required'=>'required'))}}
                                                 </div>
                                                 @if ($errors->has('email'))
@@ -191,6 +214,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                             <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     {{Form::label('lead_address',__('Address'),['class'=>'form-label']) }}
+
                                                     {{Form::text('lead_address',null,array('class'=>'form-control','placeholder'=>__('Address')))}}
                                                 </div>
 
@@ -283,6 +307,9 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                             <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     {{Form::label('guest_count',__('Guest Count'),['class'=>'form-label']) }}
+                                                    <span class="text-sm">
+                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                </span>
                                                     {!! Form::number('guest_count', null,array('class' =>
                                                     'form-control','min'=> 0)) !!}
                                                 </div>
@@ -295,6 +322,9 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                             <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     <label for="venue_selection" class="form-label">Venue</label>
+                                                    <span class="text-sm">
+                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                </span>
                                                     @foreach($venue as $key => $label)
                                                     <div>
                                                         <input type="checkbox" name="venue[]" value="{{ $label }}"
@@ -315,6 +345,9 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                             <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     {{ Form::label('start_date', __('Start Date'), ['class' => 'form-label']) }}
+                                                    <span class="text-sm">
+                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                </span>
                                                     {!! Form::date('start_date', date('Y-m-d'), ['class' =>
                                                     'form-control',
                                                     'required' => 'required']) !!}
@@ -342,6 +375,9 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                             <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     {{ Form::label('start_time', __('Start Time'), ['class' => 'form-label']) }}
+                                                    <span class="text-sm">
+                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                </span>
                                                     {!! Form::input('time', 'start_time', null, ['class' =>
                                                     'form-control', 'required' => 'required']) !!}
                                                 </div>
@@ -355,6 +391,9 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                             <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     {{ Form::label('end_time', __('End Time'), ['class' => 'form-label']) }}
+                                                    <span class="text-sm">
+                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                </span>
                                                     {!! Form::input('time', 'end_time', null, ['class' =>
                                                     'form-control', 'required' => 'required']) !!}
                                                 </div>
@@ -367,6 +406,9 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                             <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     {{ Form::label('function', __('Function'), ['class' => 'form-label']) }}
+                                                    <span class="text-sm">
+                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                </span>
                                                     @if(isset($function) && !empty($function))
                                                     @foreach($function as $key => $value)
                                                     <div class="form-check">
@@ -390,6 +432,9 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                     data-main-value="{{$value['function']}}" id="function_package"
                                                     style="display: none;">
                                                     {{ Form::label('package', __($value['function']), ['class' => 'form-label']) }}
+                                                    <span class="text-sm">
+                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                </span>
                                                     @foreach($value['package'] as $k => $package)
                                                     <div class="form-check" data-main-index="{{$k}}"
                                                         data-main-package="{{$package}}">
@@ -476,6 +521,9 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                             <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     {!! Form::label('meal', 'Meal Preference') !!}
+                                                    <span class="text-sm">
+                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                </span>
                                                     @foreach($meal as $key => $label)
                                                     <div>
                                                         {{ Form::radio('meal', $label , false, ['id' => $label]) }}
@@ -570,6 +618,41 @@ $leadId = decrypt(urldecode(request()->query('lead')));
 @push('script-page')
 <script>
 $(document).ready(function() {
+    $("input[type='text'][name='lead_name'],input[type='text'][name='name'], input[type='text'][name='email'], select[name='type'],input[type='tel'][name='phone'],input[name='guest_count'],input[name='start_date'],input[name='start_time'],input[name='end_time']")
+        .focusout(function() {
+
+            var input = $(this);
+            var errorMessage = '';
+            if (input.attr('name') === 'email' && input.val() !== '') {
+                var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailPattern.test(input.val())) {
+                    errorMessage = 'Invalid email address.';
+                }
+            } else if (input.val() == '') {
+                errorMessage = 'This field is required.';
+            }
+
+            if (errorMessage != '') {
+                input.css('border', 'solid 2px red');
+            } else {
+                // If it is not blank. 
+                input.css('border', 'solid 2px black');
+            }
+
+            // Remove any existing error message
+            input.next('.validation-error').remove();
+
+            // Append the error message if it exists
+            if (errorMessage != '') {
+                input.after('<div class="validation-error text-danger" style="padding:2px;">' +
+                    errorMessage + '</div>');
+            }
+        });
+});
+</script>
+
+<script>
+$(document).ready(function() {
     // Retrieve leadId from localStorage
     var leadId = localStorage.getItem('leadId');
 
@@ -599,7 +682,7 @@ $(document).ready(function() {
                 // phoneInput.val(data.phone);
                 // // phoneInput.trigger('input');
                 // // phoneInput.addEventListener('input', enforceFormat);
-                // // phoneInput.addEventListener('input', formatToPhone);
+                // // phoneInput.addEventListener('input', formatToPhone); 
                 $('input[name ="relationship"]').val(data.relationship);
                 $('input[name ="start_date"]').val(data.start_date);
                 $('input[name ="end_date"]').val(data.end_date);
@@ -749,7 +832,6 @@ $(document).ready(function() {
         $('input[name="function[]"]:checked').each(function() {
             var functionName = $(this).val();
             var checkboxName = 'package_' + functionName.replace(/ /g, '').toLowerCase() + '[]';
-
             // Check if at least one checkbox for this function is checked
             if ($('input[name="' + checkboxName + '"]:checked').length === 0) {
                 // If no checkbox is checked for this function, set isValid to false
@@ -757,7 +839,6 @@ $(document).ready(function() {
                 return false; // Exit the loop
             }
         });
-
         // If validation failed, prevent form submission
         if (!isValid) {
             event.preventDefault();
@@ -845,6 +926,7 @@ $(document).ready(function() {
                 "_token": "{{ csrf_token() }}",
             },
             success: function(data) {
+                console.log(data);
                 venue_str = data.venue_selection;
                 venue_arr = venue_str.split(",");
                 func_str = data.function;
@@ -857,6 +939,8 @@ $(document).ready(function() {
                 $('input[name ="end_date"]').val(data.end_date);
                 $('input[name ="start_time"]').val(data.start_time);
                 $('input[name ="end_time"]').val(data.end_time);
+                $('input[name ="spcl_request"]').val(data.spcl_req);
+                $('input[name ="allergies"]').val(data.allergies);
                 $('input[name ="rooms"]').val(data.rooms);
                 $('input[name ="email"]').val(data.email);
                 $('input[name ="lead_address"]').val(data.lead_address);

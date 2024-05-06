@@ -91,7 +91,7 @@
                                                     $total = 0;
                                                     foreach($pay as $p){
                                                     $total += $p->amount;
-                                                    }?> <?php echo e(($total != 0)?'$'.$deposit->deposits + $total:'--'); ?>
+                                                    }?> <?php echo e(($total != 0)?'$'.(isset($deposit)?$deposit->deposits:0) + $total:'--'); ?>
 
                                                     <?php endif; ?></td>
                                                 <td class="text-end">
