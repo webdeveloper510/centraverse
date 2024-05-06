@@ -617,6 +617,21 @@ $leadId = decrypt(urldecode(request()->query('lead')));
 @endsection
 @push('script-page')
 <script>
+    $(document).ready(function(){
+    // Attach a keyup event listener to input fields
+    $('input').on('keyup', function(){
+        // Get the input value
+        var value = $(this).val();
+        // Check if the input value contains spaces
+        if(value.indexOf(' ') !== -1) {
+            // Display validation message
+            $('#validationMessage').text('Spaces are not allowed in this field').show();
+        } else {
+            // Hide validation message if no spaces are found
+            $('#validationMessage').hide();
+        }
+    });
+});
 $(document).ready(function() {
     $("input[type='text'][name='lead_name'],input[type='text'][name='name'], input[type='text'][name='email'], select[name='type'],input[type='tel'][name='phone'],input[name='guest_count'],input[name='start_date'],input[name='start_time'],input[name='end_time']")
         .focusout(function() {
