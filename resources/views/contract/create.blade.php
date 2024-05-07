@@ -1,5 +1,7 @@
 @php
 $plansettings = App\Models\Utility::plansettings();
+$users= App\Models\MasterCustomer::all();
+
 @endphp
 {{ Form::open(['route' => 'contracts.store', 'method' => 'post', 'enctype' => 'multipart/form-data','id'=>'formdata'] )  }}
 
@@ -24,7 +26,22 @@ $plansettings = App\Models\Utility::plansettings();
             {{ Form::select('client_name', $client,null, array('class' => 'form-control select2','required'=>'required')) }}
         </div>
     </div>
-   
+    <!-- <div class="col-12">
+        <div class="form-group">
+            {{ Form::label('client_name', __('Recipients'),['class'=>'form-label']) }}
+            @foreach($users as $user)
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="user[]" value="{{ $user->id }}"
+                    id="user_{{ $user->id }}">
+                <label class="form-check-label" for="user_{{ $user->id }}">
+                    {{ $user->name }}
+                </label>
+            </div>
+            @endforeach
+           
+        </div>
+    </div> -->
+
     <div class="col-12">
         <div class="form-group">
             {{Form::label('atttachment',__('Upload File'),['class'=>'form-label']) }}

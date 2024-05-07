@@ -138,9 +138,8 @@ class ContractsController extends Controller
             }                 
 
                 $contract->update(['attachment'=> $filename]);
-                $name = 'doc';
+                $name =  $request->name;
                 $url = Storage::url('app/public/Contracts/'.$contract->id.'/'. $filename);
-                // $url = 'https://cdn2.hubspot.net/hubfs/2127247/public-templates/SamplePandaDocPdf_FormFields.pdf';
                 $recipientEmail = 'sonali@codenomad.net';
                 $curl = curl_init();
                 curl_setopt_array($curl, array(
@@ -164,25 +163,21 @@ class ContractsController extends Controller
                     ),
                 ));
                 // Replace 'YOUR_PANDADOC_API_KEY' with your actual PandaDoc API key
-
                 $response = curl_exec($curl);
-               
                 $err = curl_error($curl);
                 curl_close($curl);
                 if ($err) {
                     return response()->json(['status' => 'error', 'message' => $err], 500);
                 } else {
                     $data = json_decode($response, true);
-                
+                echo "<pre>";print_r($data);die;
                     $documentId = $data['id'];
                     sleep(2);
 
-                    // for ($i = 0; $i < 2; $i++) {
                         $curl2 = curl_init();
                         // Your code for the second cURL request...
                         curl_setopt_array($curl2, array(
                             CURLOPT_URL => "https://api.pandadoc.com/public/v1/documents/".$documentId, // Replace with the actual GET endpoint
-                            // "https://api.pandadoc.com/public/v1/documents/cDNbmGXhE96UYZ4LueLew9"
                             CURLOPT_RETURNTRANSFER => true,
                             CURLOPT_HTTPGET => true, // Specify that it's a GET request
                             CURLOPT_HTTPHEADER => array(
@@ -198,64 +193,13 @@ class ContractsController extends Controller
                             return response()->json(['status' => 'error', 'message' => $err2], 500);
                         } else {
                             $res= json_decode($response2, true);
-                            // echo"<pre>";print_r($res);die;
                             header('Location: https://app.pandadoc.com/a/#/documents/'. $res['id']);
                             exit();
                             // return response()->json(['status' => 'success', 'data' => json_decode($response2)], 200);
 
                             // Process the response of the second cURL request as needed
                         }
-                        
-                        // Introducing a delay between each iteration
-                    // }
-                    // echo "<pre>";print_r($response);
-                    // $data = json_decode($response, true);
-                    // // echo  $data['links'][0]['href'];die;
-                    // // Get the document ID from the response
-                    // $documentId = $data['id'];
-                    // $curl2 = curl_init();
-                    // curl_setopt_array($curl2, array(
-                    //     CURLOPT_URL => "https://api.pandadoc.com/public/v1/documents/".$documentId, // Replace with the actual GET endpoint
-                    //     // "https://api.pandadoc.com/public/v1/documents/cDNbmGXhE96UYZ4LueLew9"
-                    //     CURLOPT_RETURNTRANSFER => true,
-                    //     CURLOPT_HTTPGET => true, // Specify that it's a GET request
-                    //     CURLOPT_HTTPHEADER => array(
-                    //         "Content-Type: application/json",
-                    //         "Authorization: API-Key a9450fe8468cbf168f3eae8ced825d020e84408d",
-                    //     ),
-                    // ));
-                    // $response2 = curl_exec($curl2);
-                    // echo "<pre>";print_r($response2);die;
-
-                    // $err2 = curl_error($curl2);                
-                    // curl_close($curl2);
-                
-                    // if ($err2) {
-                    //     // Handle cURL error for the second API call
-                    //     return response()->json(['status' => 'error', 'message' => $err2], 500);
-                    // } else {
-                    //     return response()->json(['status' => 'success', 'data' => json_decode($response2)], 200);
-
-                        // $res= json_decode($response2, true);
-                        // echo "<pre>";print_r($res) ;die;
-                        // header('Location: https://app.pandadoc.com/a/#/templates/'. $res['id'].'/content');
-                        // Handle successful response for the second API call
-                        // return response()->json(['status' => 'success', 'data' => json_decode($response2)], 200);
-                    // }
-                        // Handle successful response
-                        // $data = json_decode($response, true);
-        
-                        // Get the document ID from the response
-                        // $documentId = $data['id'];
-                    
-                        // Redirect the user to the PandaDoc editor for this document
-                        // header('Location:  https://app.pandadoc.com/a/#/templates/'. $documentId.'/content');
-                        // header('Location: https://app.pandadoc.com/a/#/templates/'. $documentId);
-
-                    
                    
-                    // exit();
-                    // }
                 }
                
             
