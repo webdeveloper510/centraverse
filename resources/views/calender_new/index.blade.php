@@ -221,73 +221,33 @@ $(document).on('click', 'button.fc-next-button', function() {
                         method: 'GET',
                         dataType: 'json',
                         success: function(response) {
+
                             var encodedId = response.encodedId;
 
                             // Now you have the encoded ID, use it as needed
                             var url =
                                 '{{ route("meeting.detailview", ":encodedId") }}';
                             url = url.replace(':encodedId', encodedId);
+                            // console.error(url);
+                            html += `<a href="${url}"><li class="list-group-item card mb-3">
+                <div class="row align-items-center justify-content-between">
+                    <div class="col-auto mb-3 mb-sm-0">
+                        <div class="d-flex align-items-center">
+                            <div class="theme-avtar bg-info">
+                                <i class="ti ti-calendar-event"></i>
+                            </div>
+                            <div class="ms-3">
+                                <h6 class="m-0">${element.eventname} (${element.name})</h6>
+                                <small class="text-muted">${start_date}</small><br>
+                                <small class="text-muted">${start_time} - ${end_time}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li></a>`;
+                            $('#listEvent').html(html);
 
-                            var listItem = $(
-                                '<li class="list-group-item card mb-3"></li>');
-                            var link = $('<a></a>').attr('href', url);
-                            var row = $(
-                                '<div class="row align-items-center justify-content-between"></div>'
-                            );
-                            var col = $(
-                                '<div class="col-auto mb-3 mb-sm-0"></div>');
-                            var flexContainer = $(
-                                '<div class="d-flex align-items-center"></div>');
-                            var avatar = $(
-                                '<div class="theme-avtar bg-info"><i class="ti ti-calendar-event"></i></div>'
-                            );
-                            var details = $('<div class="ms-3"></div>');
-                            var eventName = $('<h6 class="m-0"></h6>').text(element
-                                .eventname + ' (' + element.name + ')');
-                            var startDate = $('<small class="text-muted"></small>')
-                                .text(start_date);
-                            var timeRange = $('<small class="text-muted"></small>')
-                                .text(start_time + ' - ' + end_time);
-
-                            details.append(eventName, $('<br>'), startDate, $(
-                                '<br>'), timeRange);
-                            flexContainer.append(avatar, details);
-                            col.append(flexContainer);
-                            row.append(col);
-                            link.append(row);
-                            listItem.append(link);
-
-                            $('#listEvent').append(listItem);
-
-                            console.log(listItem.html());
-
-
-                            //                 var encodedId = response.encodedId;
-
-                            //                 // Now you have the encoded ID, use it as needed
-                            //                 var url =
-                            //                     '{{ route("meeting.detailview", ":encodedId") }}';
-                            //                 url = url.replace(':encodedId', encodedId);
-                            //                 // console.error(url);
-                            //                 html += `<a href="${url}"><li class="list-group-item card mb-3">
-                            //     <div class="row align-items-center justify-content-between">
-                            //         <div class="col-auto mb-3 mb-sm-0">
-                            //             <div class="d-flex align-items-center">
-                            //                 <div class="theme-avtar bg-info">
-                            //                     <i class="ti ti-calendar-event"></i>
-                            //                 </div>
-                            //                 <div class="ms-3">
-                            //                     <h6 class="m-0">${element.eventname} (${element.name})</h6>
-                            //                     <small class="text-muted">${start_date}</small><br>
-                            //                     <small class="text-muted">${start_time} - ${end_time}</small>
-                            //                 </div>
-                            //             </div>
-                            //         </div>
-                            //     </div>
-                            // </li></a>`;
-                            //                 $('#listEvent').html(html);
-
-                            //                 console.log(html)
+                            console.log(html)
                             // Use the URL as needed
                         },
                     });
@@ -346,74 +306,29 @@ $(document).on('click', 'button.fc-prev-button', function() {
                         dataType: 'json',
                         success: function(response) {
                             var encodedId = response.encodedId;
-
                             // Now you have the encoded ID, use it as needed
                             var url =
                                 '{{ route("meeting.detailview", ":encodedId") }}';
                             url = url.replace(':encodedId', encodedId);
+                            // console.error(url);
+                            html += `<a href="${url}"><li class="list-group-item card mb-3">
+                            <div class="row align-items-center justify-content-between">
+                                <div class="col-auto mb-3 mb-sm-0">
+                                    <div class="d-flex align-items-center">
+                                        <div class="theme-avtar bg-info">
+                                            <i class="ti ti-calendar-event"></i>
+                                        </div>
+                                        <div class="ms-3">
+                                            <h6 class="m-0">${element.eventname} (${element.name})</h6>
+                                            <small class="text-muted">${start_date}</small><br>
+                                            <small class="text-muted">${start_time} - ${end_time}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li></a>`;
 
-                            var listItem = $(
-                                '<li class="list-group-item card mb-3"></li>'
-                            );
-                            var link = $('<a></a>').attr('href', url);
-                            var row = $(
-                                '<div class="row align-items-center justify-content-between"></div>'
-                            );
-                            var col = $(
-                                '<div class="col-auto mb-3 mb-sm-0"></div>');
-                            var flexContainer = $(
-                                '<div class="d-flex align-items-center"></div>'
-                            );
-                            var avatar = $(
-                                '<div class="theme-avtar bg-info"><i class="ti ti-calendar-event"></i></div>'
-                            );
-                            var details = $('<div class="ms-3"></div>');
-                            var eventName = $('<h6 class="m-0"></h6>').text(
-                                element
-                                .eventname + ' (' + element.name + ')');
-                            var startDate = $(
-                                    '<small class="text-muted"></small>')
-                                .text(start_date);
-                            var timeRange = $(
-                                    '<small class="text-muted"></small>')
-                                .text(start_time + ' - ' + end_time);
-
-                            details.append(eventName, $('<br>'), startDate, $(
-                                '<br>'), timeRange);
-                            flexContainer.append(avatar, details);
-                            col.append(flexContainer);
-                            row.append(col);
-                            link.append(row);
-                            listItem.append(link);
-
-                            $('#listEvent').append(listItem);
-
-                            console.log(listItem.html());
-
-                            //     var encodedId = response.encodedId;
-                            //     // Now you have the encoded ID, use it as needed
-                            //     var url =
-                            //         '{{ route("meeting.detailview", ":encodedId") }}';
-                            //     url = url.replace(':encodedId', encodedId);
-                            //     // console.error(url);
-                            //     html += `<a href="${url}"><li class="list-group-item card mb-3">
-                            //     <div class="row align-items-center justify-content-between">
-                            //         <div class="col-auto mb-3 mb-sm-0">
-                            //             <div class="d-flex align-items-center">
-                            //                 <div class="theme-avtar bg-info">
-                            //                     <i class="ti ti-calendar-event"></i>
-                            //                 </div>
-                            //                 <div class="ms-3">
-                            //                     <h6 class="m-0">${element.eventname} (${element.name})</h6>
-                            //                     <small class="text-muted">${start_date}</small><br>
-                            //                     <small class="text-muted">${start_time} - ${end_time}</small>
-                            //                 </div>
-                            //             </div>
-                            //         </div>
-                            //     </div>
-                            // </li></a>`;
-
-                            //     $('#listEvent').html(html);
+                            $('#listEvent').html(html);
 
                             // Use the URL as needed
                         },
@@ -435,7 +350,7 @@ $(document).on('click', 'button.fc-prev-button', function() {
 });
 $(document).ready(function() {
     display_count();
-    setTimeout(() => {
+    // setTimeout(() => {
         var month = $('.fc-toolbar-title').text();
         var date = new Date(month);
         // Get the month and year separately
@@ -454,197 +369,54 @@ $(document).ready(function() {
                 var html = '';
                 $(data).each(function(index, element) {
                     var start = element.start_time;
-                    var start_time = moment(start, 'HH:mm:ss').format('h:mm A');
+                    var start_time = moment(start, 'HH:mm:ss')
+                        .format('h:mm A');
                     var end = element.end_time;
-                    var end_time = moment(end, 'HH:mm:ss').format('h:mm A');
-                    var start_date = moment(element.start_date).format('D MMM, YYYY');
+                    var end_time = moment(end, 'HH:mm:ss').format(
+                        'h:mm A');
+                    var start_date = moment(element.start_date).format(
+                        'D MMM, YYYY');
                     var id = element.id;
                     $.ajax({
-                        url: '{{ route("get.encoded.id", ":id") }}'.replace(':id', id),
+                        url: '{{ route("get.encoded.id", ":id") }}'.replace(
+                            ':id', id),
                         method: 'GET',
                         dataType: 'json',
                         success: function(response) {
                             var encodedId = response.encodedId;
-                            var url = '{{ route("meeting.detailview", ":encodedId") }}';
+                            // Now you have the encoded ID, use it as needed
+                            var url =
+                                '{{ route("meeting.detailview", ":encodedId") }}';
                             url = url.replace(':encodedId', encodedId);
+                            html += `<a href="${url}"><li class="list-group-item card mb-3">
+                <div class="row align-items-center justify-content-between">
+                    <div class="col-auto mb-3 mb-sm-0">
+                        <div class="d-flex align-items-center">
+                            <div class="theme-avtar bg-info">
+                                <i class="ti ti-calendar-event"></i>
+                            </div>
+                            <div class="ms-3">
+                                <h6 class="m-0">${element.eventname} (${element.name})</h6>
+                                <small class="text-muted">${start_date}</small><br>
+                                <small class="text-muted">${start_time} - ${end_time}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li></a>`;
+                            $('#listEvent').html(html);
 
-                            var listItem = document.createElement('li');
-                            listItem.className = 'list-group-item card mb-3';
-
-                            var link = document.createElement('a');
-                            link.href = url;
-
-                            var row = document.createElement('div');
-                            row.className = 'row align-items-center justify-content-between';
-
-                            var col = document.createElement('div');
-                            col.className = 'col-auto mb-3 mb-sm-0';
-
-                            var flexContainer = document.createElement('div');
-                            flexContainer.className = 'd-flex align-items-center';
-
-                            var avatar = document.createElement('div');
-                            avatar.className = 'theme-avtar bg-info';
-                            avatar.innerHTML = '<i class="ti ti-calendar-event"></i>';
-
-                            var details = document.createElement('div');
-                            details.className = 'ms-3';
-
-                            var eventName = document.createElement('h6');
-                            eventName.className = 'm-0';
-                            eventName.textContent = element.eventname + ' (' + element.name + ')';
-
-                            var startDate = document.createElement('small');
-                            startDate.className = 'text-muted';
-                            startDate.textContent = start_date;
-
-                            var timeRange = document.createElement('small');
-                            timeRange.className = 'text-muted';
-                            timeRange.textContent = start_time + ' - ' + end_time;
-
-                            details.appendChild(eventName);
-                            details.appendChild(document.createElement('br'));
-                            details.appendChild(startDate);
-                            details.appendChild(document.createElement('br'));
-                            details.appendChild(timeRange);
-
-                            flexContainer.appendChild(avatar);
-                            flexContainer.appendChild(details);
-
-                            col.appendChild(flexContainer);
-                            row.appendChild(col);
-
-                            link.appendChild(row);
-                            listItem.appendChild(link);
-
-                            document.getElementById('listEvent').appendChild(listItem);
-                        }
+                            // Use the URL as needed
+                        },
                     });
+
                 });
             }
         });
-    }, 2450);
+        // console.log('dsf'+ month);
+    // }, 2450);
+
 });
-
-// $(document).ready(function() {
-//     display_count();
-//     setTimeout(() => {
-//         var month = $('.fc-toolbar-title').text();
-//         var date = new Date(month);
-//         // Get the month and year separately
-//         var monthNumber = date.getMonth() + 1; // Adding 1 because month index starts from 0
-//         var year = date.getFullYear();
-//         $.ajax({
-//             url: "{{route('monthbaseddata')}}",
-//             type: 'POST',
-//             data: {
-//                 "month": monthNumber,
-//                 "year": year,
-//                 "_token": "{{ csrf_token() }}",
-//             },
-//             success: function(data) {
-//                 console.log(data);
-//                 var html = '';
-//                 $(data).each(function(index, element) {
-//                     var start = element.start_time;
-//                     var start_time = moment(start, 'HH:mm:ss')
-//                         .format('h:mm A');
-//                     var end = element.end_time;
-//                     var end_time = moment(end, 'HH:mm:ss').format(
-//                         'h:mm A');
-//                     var start_date = moment(element.start_date).format(
-//                         'D MMM, YYYY');
-//                     var id = element.id;
-//                     $.ajax({
-//                         url: '{{ route("get.encoded.id", ":id") }}'.replace(
-//                             ':id', id),
-//                         method: 'GET',
-//                         dataType: 'json',
-//                         success: function(response) {
-//                             //                 var encodedId = response.encodedId;
-//                             //                 // Now you have the encoded ID, use it as needed
-//                             //                 var url =
-//                             //                     '{{ route("meeting.detailview", ":encodedId") }}';
-//                             //                 url = url.replace(':encodedId', encodedId);
-//                             //                 html += `<a href="${url}"><li class="list-group-item card mb-3">
-//                             //     <div class="row align-items-center justify-content-between">
-//                             //         <div class="col-auto mb-3 mb-sm-0">
-//                             //             <div class="d-flex align-items-center">
-//                             //                 <div class="theme-avtar bg-info">
-//                             //                     <i class="ti ti-calendar-event"></i>
-//                             //                 </div>
-//                             //                 <div class="ms-3">
-//                             //                     <h6 class="m-0">${element.eventname} (${element.name})</h6>
-//                             //                     <small class="text-muted">${start_date}</small><br>
-//                             //                     <small class="text-muted">${start_time} - ${end_time}</small>
-//                             //                 </div>
-//                             //             </div>
-//                             //         </div>
-//                             //     </div>
-//                             // </li></a>`;
-//                             //                 $('#listEvent').html(html);
-//                             var encodedId = response.encodedId;
-
-//                             // Now you have the encoded ID, use it as needed
-//                             var url =
-//                                 '{{ route("meeting.detailview", ":encodedId") }}';
-//                             url = url.replace(':encodedId', encodedId);
-
-//                             var listItem = $(
-//                                 '<li class="list-group-item card mb-3"></li>'
-//                                 );
-//                             var link = $('<a></a>').attr('href', url);
-//                             var row = $(
-//                                 '<div class="row align-items-center justify-content-between"></div>'
-//                             );
-//                             var col = $(
-//                                 '<div class="col-auto mb-3 mb-sm-0"></div>'
-//                                 );
-//                             var flexContainer = $(
-//                                 '<div class="d-flex align-items-center"></div>'
-//                                 );
-//                             var avatar = $(
-//                                 '<div class="theme-avtar bg-info"><i class="ti ti-calendar-event"></i></div>'
-//                             );
-//                             var details = $('<div class="ms-3"></div>');
-//                             var eventName = $('<h6 class="m-0"></h6>')
-//                                 .text(element
-//                                     .eventname + ' (' + element.name +
-//                                     ')');
-//                             var startDate = $(
-//                                     '<small class="text-muted"></small>'
-//                                     )
-//                                 .text(start_date);
-//                             var timeRange = $(
-//                                     '<small class="text-muted"></small>'
-//                                     )
-//                                 .text(start_time + ' - ' + end_time);
-
-//                             details.append(eventName, $('<br>'),
-//                                 startDate, $(
-//                                     '<br>'), timeRange);
-//                             flexContainer.append(avatar, details);
-//                             col.append(flexContainer);
-//                             row.append(col);
-//                             link.append(row);
-//                             listItem.append(link);
-
-//                             $('#listEvent').append(listItem);
-
-//                             console.log(listItem.html());
-
-
-//                             // Use the URL as needed
-//                         },
-//                     });
-
-//                 });
-//             }
-//         });
-//         // console.log('dsf'+ month);
-//     }, 2450);
-
-// });
 
 function display_count() {
     var events = new Array();
