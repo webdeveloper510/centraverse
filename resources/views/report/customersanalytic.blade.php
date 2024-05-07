@@ -52,8 +52,7 @@
                             <div class="col-auto">
                                 <a href="{{ route('report.customersanalytic') }}" data-bs-toggle="tooltip"
                                     title="{{ __('Reset') }}" data-title="{{ __('Reset') }}"
-                                    class=" btn btn-sm align-items-center text-white"><i
-                                        class="ti ti-trash-off"></i></a>
+                                    class=" btn btn-sm align-items-center text-white"><i class="ti ti-refresh" style="    margin-right: 7px;" aria-hidden="true"></i></a>
                             </div>
                         </div>
                        

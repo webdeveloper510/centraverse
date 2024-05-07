@@ -3,7 +3,6 @@ $settings = App\Models\Utility::settings();
 $category= explode(',',$settings['campaign_type']);
 ?>
 <div id="sidebar-wrapper">
-
     <div class="card">
         <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
             <div class="navbar-brand-box">
@@ -133,11 +132,11 @@ $category= explode(',',$settings['campaign_type']);
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Create Billing')); ?> </span></a>
                 <?php endif; ?>
-                <?php if(\Request::route()->getName() == 'customer.index'): ?>
-                <a href="#useradd-1" class="list-group-item list-group-item-action">
+                <?php if(\Request::route()->getName() == 'customer.index' || \Request::route()->getName() == 'campaign-list'): ?>
+                <a href="<?php echo e(route('customer.index')); ?>"class="list-group-item list-group-item-action <?php echo e(\Request::route()->getName() == 'customer.index' ?'active' : ''); ?>">
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Campaign')); ?> </span></a>
-                <a href="<?php echo e(route('campaign-list')); ?>" class="list-group-item list-group-item-action">
+                <a href="<?php echo e(route('campaign-list')); ?>" class="list-group-item list-group-item-action <?php echo e(\Request::route()->getName() == 'campaign-list' ?'active' : ''); ?>">
                     <span class="fa-stack fa-lg pull-left"></span>
                     <span class="dash-mtext"><?php echo e(__('View Campaigns')); ?> </span></a>
                 <?php endif; ?>
@@ -146,14 +145,14 @@ $category= explode(',',$settings['campaign_type']);
                 \Request::route()->getName() == 'lead_customers' || \Request::route()->getName() ==
                 'lead.userinfo'||\Request::route()->getName() ==
                 'event.userinfo'||\Request::route()->getName()=='categ'): ?>
-                <a href="<?php echo e(route('siteusers')); ?>" class="list-group-item list-group-item-action">
+                <a href="<?php echo e(route('siteusers')); ?>" class="list-group-item list-group-item-action <?php echo e(\Request::route()->getName() == 'siteusers' ?'active' : ''); ?>">
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-users"></i></span>
                     <span class="dash-mtext"><?php echo e(__('All Customers')); ?> </span></a>
 
-                <a href="<?php echo e(route('event_customers')); ?>" class="list-group-item list-group-item-action">
+                <a href="<?php echo e(route('event_customers')); ?>" class="list-group-item list-group-item-action <?php echo e(\Request::route()->getName() == 'event_customers' ?'active' : ''); ?>">
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-user" title="Event Customers"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Events ')); ?> </span></a>
-                <a href="<?php echo e(route('lead_customers')); ?>" class="list-group-item list-group-item-action">
+                <a href="<?php echo e(route('lead_customers')); ?>" class="list-group-item list-group-item-action <?php echo e(\Request::route()->getName() == 'lead_customers' ?'active' : ''); ?>">
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-user" title="Lead Customers"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Leads')); ?> </span></a>
 
@@ -166,11 +165,6 @@ $category= explode(',',$settings['campaign_type']);
                 <?php endif; ?>
                 <?php endif; ?>
 
-                <?php if(\Request::route()->getName() == 'campaign-list' ): ?>
-                <a href="#useradd-1" class="list-group-item list-group-item-action">
-                    <span class="fa-stack fa-lg pull-left"></span>
-                    <span class="dash-mtext"><?php echo e(__('View Campaigns')); ?> </span></a>
-                <?php endif; ?>
                 <?php if(\Request::route()->getName() == 'meeting.index'): ?>
                 <a href="#useradd-1" class="list-group-item list-group-item-action"><span
                         class="fa-stack fa-lg pull-left"><i class="fa fa-tasks"></i></span>
@@ -185,23 +179,23 @@ $category= explode(',',$settings['campaign_type']);
                 'report.customersanalytic' || \Request::route()->getName() == 'report.billinganalytic' ? ' active ' :
                 ''): ?>
 
-                <a href="<?php echo e(route('report.leadsanalytic')); ?>" class="list-group-item list-group-item-action"><span
+                <a href="<?php echo e(route('report.leadsanalytic')); ?>" class="list-group-item list-group-item-action <?php echo e(\Request::route()->getName() == 'report.leadsanalytic' ?'active' : ''); ?>"><span
                         class="fa-stack fa-lg pull-left"></span>
                     <span class="dash-mtext"><?php echo e(__('Leads')); ?> </span></a>
 
                 </a>
 
-                <a href="<?php echo e(route('report.eventanalytic')); ?>" class="list-group-item list-group-item-action"><span
+                <a href="<?php echo e(route('report.eventanalytic')); ?>" class="list-group-item list-group-item-action <?php echo e(\Request::route()->getName() == 'report.eventanalytic' ?'active' : ''); ?>"><span
                         class="fa-stack fa-lg pull-left"></span>
                     <span class="dash-mtext"><?php echo e(__('Events')); ?> </span></a>
 
                 </a>
-                <a href="<?php echo e(route('report.customersanalytic')); ?>" class="list-group-item list-group-item-action"><span
+                <a href="<?php echo e(route('report.customersanalytic')); ?>" class="list-group-item list-group-item-action <?php echo e(\Request::route()->getName() == 'report.customersanalytic' ?'active' : ''); ?>"><span
                         class="fa-stack fa-lg pull-left"></span>
                     <span class="dash-mtext"><?php echo e(__('Customers')); ?> </span></a>
 
                 </a>
-                <a href="<?php echo e(route('report.billinganalytic')); ?>" class="list-group-item list-group-item-action"><span
+                <a href="<?php echo e(route('report.billinganalytic')); ?>" class="list-group-item list-group-item-action <?php echo e(\Request::route()->getName() == 'report.billinganalytic' ?'active' : ''); ?>"><span
                         class="fa-stack fa-lg pull-left"></span>
                     <span class="dash-mtext"><?php echo e(__('Financial')); ?> </span></a>
 

@@ -58,7 +58,7 @@ class Lead extends Model
         'Resent'
     ];
     public static $stat = [
-        'In Active',
+        'Inactive',
         'Active'
     ];
     private static $account_name = null;

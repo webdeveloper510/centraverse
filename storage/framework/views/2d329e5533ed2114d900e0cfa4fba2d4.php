@@ -90,7 +90,9 @@ $additional_items = json_decode($settings['additional_items'],true);
         <div class="form-group">
             <?php echo e(Form::label('email',__('Email'),['class'=>'form-label'])); ?>
 
-            
+            <span class="text-sm"> 
+                <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+            </span>
             <?php echo e(Form::text('email',null,array('class'=>'form-control','placeholder'=>__('Enter Email')))); ?>
 
         </div>
