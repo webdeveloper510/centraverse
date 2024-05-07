@@ -350,7 +350,7 @@ $(document).on('click', 'button.fc-prev-button', function() {
 });
 $(document).ready(function() {
     display_count();
-    // setTimeout(() => {
+    setTimeout(() => {
         var month = $('.fc-toolbar-title').text();
         var date = new Date(month);
         // Get the month and year separately
@@ -414,8 +414,7 @@ $(document).ready(function() {
             }
         });
         // console.log('dsf'+ month);
-    // }, 2450);
-
+    }, 2450);
 });
 
 function display_count() {

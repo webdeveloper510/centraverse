@@ -364,11 +364,22 @@ $(document).on('click', 'button.fc-prev-button', function() {
 });
 $(document).ready(function() {
     display_count();
-    // setTimeout(() => {
+    setTimeout(() => {
+       
         var month = $('.fc-toolbar-title').text();
-        var date = new Date(month);
+         var parts = month.split(' ');
+var monthName = parts[0];
+var year = parts[1];
+
+// Create a new date object by specifying the month and year
+var date = new Date(monthName + ' 1, ' + year);
+
+console.log(date);
+        //var date = new Date(month);
+         //console.log(date);
         // Get the month and year separately
         var monthNumber = date.getMonth() + 1; // Adding 1 because month index starts from 0
+       
         var year = date.getFullYear();
         $.ajax({
             url: "<?php echo e(route('monthbaseddata')); ?>",
@@ -428,8 +439,7 @@ $(document).ready(function() {
             }
         });
         // console.log('dsf'+ month);
-    // }, 2450);
-
+    }, 2450);
 });
 
 function display_count() {
