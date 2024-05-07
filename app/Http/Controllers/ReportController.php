@@ -406,6 +406,7 @@ class ReportController extends Controller
 
             // $leadFilter->where('created_by', \Auth::user()->creatorId());
             $leadFilter = $leadFilter->get();
+            echo "<pre>";print
 
             $data[]      = count($leadFilter);
             $labels[]    = date('M Y', $currentdate);

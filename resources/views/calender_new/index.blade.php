@@ -192,7 +192,13 @@ $(document).on('click', 'button.fc-next-button', function() {
     document.getElementById('daySelected')
         .innerHTML = '';
     var month = $('.fc-toolbar-title').text();
-    var date = new Date(month);
+    var parts = month.split(' ');
+        var monthName = parts[0];
+        var year = parts[1];
+
+        // Create a new date object by specifying the month and year
+        var date = new Date(monthName + ' 1, ' + year);
+    // var date = new Date(month);
     // Get the month and year separately
     var monthNumber = date.getMonth() + 1; // Adding 1 because month index starts from 0
     var year = date.getFullYear();
@@ -269,7 +275,13 @@ $(document).on('click', 'button.fc-prev-button', function() {
     document.getElementById('daySelected')
         .innerHTML = '';
     var month = $('.fc-toolbar-title').text();
-    var date = new Date(month);
+    var parts = month.split(' ');
+        var monthName = parts[0];
+        var year = parts[1];
+
+        // Create a new date object by specifying the month and year
+        var date = new Date(monthName + ' 1, ' + year);
+    // var date = new Date(month);
     // Get the month and year separately
     var monthNumber = date.getMonth() + 1; // Adding 1 because month index starts from 0
     var year = date.getFullYear();
@@ -352,9 +364,19 @@ $(document).ready(function() {
     display_count();
     setTimeout(() => {
         var month = $('.fc-toolbar-title').text();
-        var date = new Date(month);
+        // var date = new Date(month);
+        // var month = $('.fc-toolbar-title').text();
+        var parts = month.split(' ');
+        var monthName = parts[0];
+        var year = parts[1];
+
+        // Create a new date object by specifying the month and year
+        var date = new Date(monthName + ' 1, ' + year);
+        console.log(date);
         // Get the month and year separately
         var monthNumber = date.getMonth() + 1; // Adding 1 because month index starts from 0
+        console.log(monthNumber);
+
         var year = date.getFullYear();
         $.ajax({
             url: "{{route('monthbaseddata')}}",
@@ -383,6 +405,7 @@ $(document).ready(function() {
                         method: 'GET',
                         dataType: 'json',
                         success: function(response) {
+                            console.log(response);
                             var encodedId = response.encodedId;
                             // Now you have the encoded ID, use it as needed
                             var url =

@@ -53,10 +53,9 @@
                         </div>
                     </div>
                     <hr>
-                  
                     <div class="row mb-4">
                         <div class="col-md-12">
-                            <table class ="table table-bordered" style="width:100%">
+                            <table class="table table-bordered" style="width:100%">
                                 <thead>
                                     <tr style="background-color:#d3ead3; text-align:center">
                                         <th>Event Date</th>
@@ -68,7 +67,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr  style="text-align:center">
+                                    <tr style="text-align:center">
                                         <td>Start Date:
                                             {{\Carbon\Carbon::parse($meeting->start_date)->format('d M, Y')}} <br>
                                             End Date: {{\Carbon\Carbon::parse($meeting->start_date)->format('d M, Y')}}
@@ -84,24 +83,26 @@
                                             {{$meeting->function}}</td>
                                         <td>{{$meeting->rooms}}
                                         </td>
-                                      </tr>
+                                    </tr>
 
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                   
                     <div class="row mt-3">
                         <div class="col-md-12">
-                            <p class="text"><b>This contract defines the terms and conditions under which Lotus Estate, LLC
-                                dba The Bond 1786, (hereinafter referred to as The Bond or The
-                                Bond 1786), and <b>{{$meeting->name}}</b>(hereafter referred to as the Customer) agree
-                                to the Customer’s use of The Bond 1786 facilities on
-                                <b>{{ \Carbon\Carbon::parse($meeting->start_date)->format('d M, Y') }}</b>
-                                (reception/event date). This contract constitutes the entire agreement between the
-                                parties and becomes binding upon the signature of
-                                both parties. The contract may not be amended or changed unless executed in writing and
-                                signed by The Bond 1786 and the Customer.</b>
+                            <p class="text"><b>This contract defines the terms and conditions under which Lotus Estate,
+                                    LLC
+                                    dba The Bond 1786, (hereinafter referred to as The Bond or The
+                                    Bond 1786), and <b>{{$meeting->name}}</b>(hereafter referred to as the Customer)
+                                    agree
+                                    to the Customer’s use of The Bond 1786 facilities on
+                                    <b>{{ \Carbon\Carbon::parse($meeting->start_date)->format('d M, Y') }}</b>
+                                    (reception/event date). This contract constitutes the entire agreement between the
+                                    parties and becomes binding upon the signature of
+                                    both parties. The contract may not be amended or changed unless executed in writing
+                                    and
+                                    signed by The Bond 1786 and the Customer.</b>
                             </p>
                         </div>
                     </div>
@@ -321,7 +322,7 @@
                                         <td colspan="3"
                                             style="background-color:#d7e7d7;padding:5px 5px; margin-left:5px;font-size:13px;">
                                             ${{$deposit= $billing->deposits}}</td>
-                                        <td  style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                     </tr>
                                     <tr>
                                         <td
@@ -336,7 +337,7 @@
                                 </tbody>
                             </table>
                             <input type="hidden" value="{{$grandtotal}}" name="grandtotal">
-                            <h3 class=" mt-5"style="text-align:center ">TERMS AND CONDITIONS</h3>
+                            <h3 class=" mt-5" style="text-align:center ">TERMS AND CONDITIONS</h3>
                             <h6 class="headings">FOOD AND ALCOHOLIC BEVERAGES and 3RD PARTY / ON-SITE VENDORS</h6>
                             <p class="text">
                                 The Client and their guests agree to not bring in any unauthorized food or beverage into
@@ -793,39 +794,37 @@
 
                         </div>
                     </div>
-            </div>
-            <div class="row">
-                        <div class="col-md-10">
+                    <div class="row">
+                        <div class="col-md-12">
                             <label for="comments" class="form-label">Comments</label>
                             <textarea name="comments" id="comments" cols="30" rows="5" class="form-control"></textarea>
                         </div>
                     </div>
-            <div class="row mt-3">
-                <div class="col-md-6">
-                    <strong>Authorized Signature:</strong> <br>
-                    <img src="{{$base64Image}}" style="width:30%; border-bottom:1px solid black;">
-                </div>
-                <div class="col-md-6">
-
-                    <strong> Signature:</strong>
-                    <br>
-                    <div id="sig" class="mt-3">
-                        <canvas id="signatureCanvas" width="300" class="signature-canvas"></canvas>
-                        <input type="hidden" name="imageData" id="imageData">
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <strong>Authorized Signature:</strong> <br>
+                            <img src="{{$base64Image}}" style="width:30%; border-bottom:1px solid black;">
+                        </div>
+                        <div class="col-md-6">
+                            <strong> Signature:</strong>
+                            <br>
+                            <div id="sig" class="mt-3">
+                                <canvas id="signatureCanvas" width="500" class="signature-canvas"></canvas>
+                                <input type="hidden" name="imageData" id="imageData">
+                            </div>
+                            <button type="button" id="clearButton" class="btn btn-danger btn-sm mt-1">Clear
+                                Signature</button>
+                            <!-- <button id="clearButton" class="btn btn-danger btn-sm mt-1">Clear Signature</button> -->
+                        </div>
                     </div>
-                    <button type="button" id="clearButton" class="btn btn-danger btn-sm mt-1">Clear Signature</button>
-
-                    <!-- <button id="clearButton" class="btn btn-danger btn-sm mt-1">Clear Signature</button> -->
-                </div>
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <button class="btn btn-success mt-1" style="float:right">Submit</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div class="row">
-                <div class="col-md-12 mb-3">
-                    <button class="btn btn-success" style="float:right;margin-top:-40px">Submit</button>
-                </div>
-            </div>
-            </form>
         </div>
-    </div>
     </div>
 </body>
 
@@ -833,14 +832,14 @@
 <style>
 canvas#signatureCanvas {
     border: 1px solid black;
-    width: 60%;
-    height: 157px;
+    width: 100%;
+    /* height: 157px; */
     border-radius: 8px;
 }
+
 .row {
     --bs-gutter-x: -11.5rem !important;
 }
-
 </style>
 @include('partials.admin.head')
 @include('partials.admin.footer')
