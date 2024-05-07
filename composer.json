@@ -31,6 +31,7 @@
         "nwidart/laravel-modules": "10.0.2",
         "obydul/laraskrill": "^1.2",
         "orhanerday/open-ai": "^4.7",
+        "pandadoc/php-client": "^6.2",
         "paymentwall/paymentwall-php": "^2.2",
         "paypal/paypal-checkout-sdk": "^1.0",
         "paytabscom/laravel_paytabs": "^1.4",

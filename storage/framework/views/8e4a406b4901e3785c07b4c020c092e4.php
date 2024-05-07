@@ -89,6 +89,7 @@ h6 {
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Active Leads</h5>
 <div class="scrol-card">
+
                             <?php $__currentLoopData = $activeLeads; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $lead): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                             <div class="card">
@@ -97,6 +98,7 @@ h6 {
 
                                         <span>(<?php echo e($lead['type']); ?>)</span>
                                     </h5>
+
                                     <?php if($lead['start_date'] == $lead['end_date']): ?>
                                     <p><?php echo e(Carbon\Carbon::parse($lead['start_date'])->format('M d')); ?></p>
                                     <?php else: ?>
@@ -138,9 +140,9 @@ h6 {
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Active/Upcoming Events</h5>
 <div class="scrol-card">
-                            <?php $__currentLoopData = $activeEvent; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $event): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+<?php $__currentLoopData = $activeEvent; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $event): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
-                            <div class="card">
+<div class="card">
                                 <div class="card-body">
                                     <h5 class="card-text"><?php echo e($event['name']); ?>
 
@@ -202,6 +204,13 @@ h6 {
                                                 <span>(<?php echo e($event['type']); ?>)</span>
                                             </h5>
 
+                                            <div style="    color: #a99595;">
+                                                Billing Amount: $<?php echo e(number_format($event['total'])); ?><br>
+                                                Pending Amount: $<?php echo e(number_format($event['total']- $total)); ?>
+
+                                            </div>
+
+                                            <div class="date-y">
                                             <?php if($event['start_date'] == $event['end_date']): ?>
                                             <p><?php echo e(Carbon\Carbon::parse($event['start_date'])->format('M d, Y')); ?></p>
                                             <?php else: ?>
@@ -210,11 +219,7 @@ h6 {
 
                                             </p>
                                             <?php endif; ?>
-                                            <div style="    color: #a99595;">
-                                                Billing Amount: $<?php echo e(number_format($event['total'])); ?><br>
-                                                Pending Amount: $<?php echo e(number_format($event['total']- $total)); ?>
-
-                                            </div>
+                                        </div>
 
                                         </div>
                                     </div>
@@ -246,6 +251,17 @@ h5.card-text {
     border: 1px dotted #ccc;
     border-radius: 20px;
     margin-top: 10px;
+}
+.date-y {
+    float: right;
+    padding-bottom: 10px;
+    text-align: right;
+    width: 100%;
+    margin-top: 10px;
+}
+.inner_col p
+{
+position: intial !important;
 }
 .right_side {
     /* width: 70%; */

@@ -33,6 +33,7 @@
                         <div id="useradd-1" class="card">
                             <div class="card-body table-border-style">
                                 <div class="row align-items-center">
+                                <div class="table-responsive">
                                     <table class="table datatable" id="datatable">
                                         <thead>
                                             <tr>
@@ -85,6 +86,7 @@
                                             @endforeach
                                         </tbody>
                                     </table>
+                                        </div>
                                 </div>
                             </div>
                         </div>

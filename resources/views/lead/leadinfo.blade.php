@@ -243,26 +243,26 @@ if(isset($billing) && !empty($billing)){
                                     <h4> {{ucfirst($lead->name)}}</h4>
                                     <hr>
                                     <dl class="row">
-                                        <dt class="col-md-6"><span class="h6  mb-0">{{__('Guest Count')}}</span></dt>
-                                        <dd class="col-md-6"><span class="">{{ $lead->guest_count }}</span></dd>
-                                        <dt class="col-md-6"><span class="h6  mb-0">{{__('Venue ')}}</span></dt>
-                                        <dd class="col-md-6"><span class="">{{ $lead->venue_selection ??'--' }}</span></dd>
-                                        <dt class="col-md-6"><span class="h6  mb-0">{{__('Function')}}</span></dt>
-                                        <dd class="col-md-6"><span class="">{{$lead->function ?? '--'}}</span></dd>
-                                        <dt class="col-md-6"><span class="h6  mb-0">{{__('Assigned User')}}</span></dt>
-                                        <dd class="col-md-6"><span
+                                        <dt class="col-md-6 need_half"><span class="h6  mb-0">{{__('Guest Count')}}</span></dt>
+                                        <dd class="col-md-6 need_half"><span class="">{{ $lead->guest_count }}</span></dd>
+                                        <dt class="col-md-6 need_half"><span class="h6  mb-0">{{__('Venue ')}}</span></dt>
+                                        <dd class="col-md-6 need_half"><span class="">{{ $lead->venue_selection ??'--' }}</span></dd>
+                                        <dt class="col-md-6 need_half"><span class="h6  mb-0">{{__('Function')}}</span></dt>
+                                        <dd class="col-md-6 need_half"><span class="">{{$lead->function ?? '--'}}</span></dd>
+                                        <dt class="col-md-6 need_half"><span class="h6  mb-0">{{__('Assigned User')}}</span></dt>
+                                        <dd class="col-md-6 need_half"><span
                                                 class="">@if($lead->assigned_user != 0)
             {{ App\Models\User::where('id', $lead->assigned_user)->first()->name }}
         @else
             --
         @endif</span>
                                         </dd>
-                                        <dt class="col-md-6"><span class="h6  mb-0">{{__('Description')}}</span></dt>
-                                        <dd class="col-md-6"><span class="">{{ $lead->description ??' --' }}</span></dd>
-                                        <dt class="col-md-6"><span class="h6  mb-0">{{__('Bar')}}</span></dt>
-                                        <dd class="col-md-6"><span class="">{{ $lead->bar ?? '--' }}</span></dd>
-                                        <dt class="col-md-6"><span class="h6  mb-0">{{__('Package')}}</span></dt>
-                                        <dd class="col-md-6"><span class="">
+                                        <dt class="col-md-6 need_half"><span class="h6  mb-0">{{__('Description')}}</span></dt>
+                                        <dd class="col-md-6 need_half"><span class="">{{ $lead->description ??' --' }}</span></dd>
+                                        <dt class="col-md-6 need_half"><span class="h6  mb-0">{{__('Bar')}}</span></dt>
+                                        <dd class="col-md-6 need_half"><span class="">{{ $lead->bar ?? '--' }}</span></dd>
+                                        <dt class="col-md-6 need_half"><span class="h6  mb-0">{{__('Package')}}</span></dt>
+                                        <dd class="col-md-6 need_half"><span class="">
                                                 <?php $package = json_decode($lead->func_package,true);
                                                  if(isset($package) && !empty($package)){
                                                     foreach ($package as $key => $value) {
@@ -273,9 +273,9 @@ if(isset($billing) && !empty($billing)){
                                                 }
                                                 ?>
                                             </span></dd>
-                                        <dt class="col-md-6"><span class="h6  mb-0">{{__('Additional Items')}}</span>
+                                        <dt class="col-md-6 need_half"><span class="h6  mb-0">{{__('Additional Items')}}</span>
                                         </dt>
-                                        <dd class="col-md-6"><span class="">
+                                        <dd class="col-md-6 need_half"><span class="">
                                                 <?php $additional = json_decode($lead->ad_opts,true);
                                                 if(isset($additional) && !empty($additional)){
                                                     foreach ($additional as $key => $value) {
@@ -287,20 +287,20 @@ if(isset($billing) && !empty($billing)){
                                                     
                                                 ?>
                                             </span></dd>
-                                        <dt class="col-md-6"><span
+                                        <dt class="col-md-6 need_half"><span
                                                 class="h6  mb-0">{{__('Any Special Requests')}}</span></dt>
-                                        <dd class="col-md-6"><span class="">{{$lead->spcl_req ?? '--'}}</span></dd>
-                                        <dt class="col-md-6"><span class="h6  mb-0">{{__('Proposal Response')}}</span>
+                                        <dd class="col-md-6 need_half"><span class="">{{$lead->spcl_req ?? '--'}}</span></dd>
+                                        <dt class="col-md-6 need_half"><span class="h6  mb-0">{{__('Proposal Response')}}</span>
                                         </dt>
-                                        <dd class="col-md-6"><span class="">@if(App\Models\Proposal::where('lead_id',$lead->id)->exists())
+                                        <dd class="col-md-6 need_half"><span class="">@if(App\Models\Proposal::where('lead_id',$lead->id)->exists())
                                         <?php  $proposal = App\Models\Proposal::where('lead_id',$lead->id)->first()->notes; ?>
 
                                         {{$proposal}}
                                             @else --
                                             @endif</span></dd>
-                                        <dt class="col-md-6"><span class="h6  mb-0">{{__('Estimate Amount')}}</span>
+                                        <dt class="col-md-6 need_half"><span class="h6  mb-0">{{__('Estimate Amount')}}</span>
                                         </dt>
-                                        <dd class="col-md-6"><span
+                                        <dd class="col-md-6 need_half"><span
                                                 class="">{{ $grandtotal != 0 ? '$'. $grandtotal : '--' }}</span></dd>
                                     </dl>
                                     @endforeach
@@ -356,7 +356,7 @@ if(isset($billing) && !empty($billing)){
                                     }else{
                                         echo "<tr>";
                                         echo "<td></td>";
-                                        echo "<td style='text-align: center;'><b><h4 class='text-secondary'>Lead Not Converted to Event Yet.</h4><b></td>";
+                                        echo "<td style='text-align: center;'><b><h6 class='text-secondary'>Lead Not Converted to Event Yet.</h6><b></td>";
                                         echo "<td></td>";
                                         echo "</tr>";
                                     }
@@ -389,6 +389,7 @@ if(isset($billing) && !empty($billing)){
                         <div class="card" id="useradd-1">
                             <div class="card-body table-border-style">
                                 <h3>Attachments</h3>
+                                <div class="table-responsive ">
                                 <table class="table table-bordered">
                                     <thead>
                                         <th>Attachment</th>
@@ -407,7 +408,7 @@ if(isset($billing) && !empty($billing)){
                                         @endforeach
                                     </tbody>
                                 </table>
-
+                                </div>
                             </div>
                         </div>
                     </div>

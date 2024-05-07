@@ -103,7 +103,7 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
 <div class="container-field">
     <div id="wrapper">
         <div id="page-content-wrapper">
-            <div class="container-fluid xyz">
+            <div class="container-fluid xyz p0">
                 <div class="row">
                     <div class="col-sm-12">
                         <div id="useradd-1" class="card">
@@ -113,9 +113,9 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                 <h5><?php echo e(__('Overview')); ?></h5>
                                 <small class="text-muted"><?php echo e(__('Review Lead Information')); ?></small>
                             </div>
-                            <div class="card-body">
+                            <div class="card-body ">
                                 <div class="row">
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             <?php echo e(Form::label('lead_name',__('Lead Name'),['class'=>'form-label'])); ?>
 
@@ -126,7 +126,7 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
 
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             <?php echo e(Form::label('company_name',__('Company Name'),['class'=>'form-label'])); ?>
 
@@ -137,7 +137,7 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                     <div class="col-12  p-0 modaltitle pb-3 mb-3">
                                         <h5 style="margin-left: 14px;"><?php echo e(__('Contact Information')); ?></h5>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             <?php echo e(Form::label('name',__('Name'),['class'=>'form-label'])); ?>
 
@@ -148,7 +148,7 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
 
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             <?php echo e(Form::label('phone',__('Phone'),['class'=>'form-label'])); ?>
 
@@ -163,7 +163,7 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                         </div>
                                     </div>
 
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             <?php echo e(Form::label('email',__('Email'),['class'=>'form-label'])); ?>
 
@@ -171,7 +171,7 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
 
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             <?php echo e(Form::label('lead_address',__('Address'),['class'=>'form-label'])); ?>
 
@@ -179,7 +179,7 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
 
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             <?php echo e(Form::label('relationship',__('Relationship'),['class'=>'form-label'])); ?>
 
@@ -190,7 +190,7 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                     <div class="col-12  p-0 modaltitle pb-3 mb-3">
                                         <h5 style="margin-left: 14px;"><?php echo e(__('Event Details')); ?></h5>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             <?php echo e(Form::label('type',__('Event Type'),['class'=>'form-label'])); ?>
 
@@ -206,7 +206,7 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             <label for="venue" class="form-label"><?php echo e(__('Venue')); ?></label>
                                             <span class="text-sm">
@@ -222,7 +222,7 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             <?php echo e(Form::label('start_date', __('Date of Event'), ['class' => 'form-label'])); ?>
 
@@ -244,7 +244,7 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                         </div>
                                     </div> -->
 
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             <?php echo e(Form::label('guest_count',__('Guest Count'),['class'=>'form-label'])); ?>
 
@@ -256,7 +256,7 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                     </div>
 
                                     <?php if(isset($function) && !empty($function)): ?>
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             <?php echo e(Form::label('function', __('Function'), ['class' => 'form-label'])); ?>
 
@@ -278,7 +278,7 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                         </div>
                                     </div>
                                     <?php endif; ?>
-                                    <div class="col-6" id="mailFunctionSection">
+                                    <div class="col-6 need_full" id="mailFunctionSection">
                                         <?php if(isset($function) && !empty($function)): ?>
                                         <?php $__currentLoopData = $function; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key =>$value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <div class="form-group" data-main-index="<?php echo e($key); ?>"
@@ -316,7 +316,7 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         <?php endif; ?>
                                     </div>
-                                    <div class="col-6" id="additionalSection">
+                                    <div class="col-6 need_full" id="additionalSection">
                                         <?php if(isset($additional_items) && !empty($additional_items)): ?>
                                         <?php echo e(Form::label('additional', __('Additional items'), ['class' => 'form-label'])); ?>
 
@@ -356,7 +356,7 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                         <?php endif; ?>
 
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             <?php echo e(Form::label('Assign Staff',__('Assign Staff'),['class'=>'form-label'])); ?>
 
@@ -373,7 +373,7 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                     <div class="col-12  p-0 modaltitle pb-3 mb-3">
                                         <h5 style="margin-left: 14px;"><?php echo e(__('Other Information')); ?></h5>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             <?php echo e(Form::label('allergies',__('Allergies'),['class'=>'form-label'])); ?>
 
@@ -381,7 +381,7 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
 
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             <?php echo e(Form::label('spcl_req',__('Any Special Requirements'),['class'=>'form-label'])); ?>
 
@@ -401,7 +401,7 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                         <!-- <hr class="mt-2 mb-2"> -->
                                         <h5 style="margin-left: 14px;"><?php echo e(__('Estimate Billing Summary Details')); ?></h5>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             <?php echo Form::label('baropt', 'Bar'); ?>
 
@@ -415,7 +415,7 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </div>
                                     </div>
-                                    <div class="col-6" id="barpacakgeoptions" style="display: none;">
+                                    <div class="col-6 need_full" id="barpacakgeoptions" style="display: none;">
                                         <?php if(isset($bar_package) && !empty($bar_package)): ?>
                                         <?php $__currentLoopData = $bar_package; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key =>$value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <div class="form-group" data-main-index="<?php echo e($key); ?>"
@@ -437,7 +437,7 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         <?php endif; ?>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             <?php echo e(Form::label('rooms',__('Room'),['class'=>'form-label'])); ?>
 
@@ -445,7 +445,7 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                                 class="form-control">
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             <?php echo e(Form::label('start_time', __('Estimated Start Time'), ['class' => 'form-label'])); ?>
 
@@ -454,7 +454,7 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
 
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             <?php echo e(Form::label('end_time', __('Estimated End Time'), ['class' => 'form-label'])); ?>
 
@@ -463,7 +463,7 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
 
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             <?php echo e(Form::label('status', __('Status'), ['class' => 'form-label'])); ?>
 

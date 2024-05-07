@@ -87,6 +87,7 @@ h6 {
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Active Leads</h5>
 <div class="scrol-card">
+
                             @foreach($activeLeads as $lead)
 
                             <div class="card">
@@ -94,6 +95,7 @@ h6 {
                                     <h5 class="card-text">{{ $lead['leadname'] }}
                                         <span>({{ $lead['type'] }})</span>
                                     </h5>
+
                                     @if($lead['start_date'] == $lead['end_date'])
                                     <p>{{ Carbon\Carbon::parse($lead['start_date'])->format('M d')}}</p>
                                     @else
@@ -134,9 +136,9 @@ h6 {
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Active/Upcoming Events</h5>
 <div class="scrol-card">
-                            @foreach($activeEvent as $event)
+@foreach($activeEvent as $event)
 
-                            <div class="card">
+<div class="card">
                                 <div class="card-body">
                                     <h5 class="card-text">{{ $event['name'] }}
                                         <span>({{ $event['type'] }})</span>
@@ -195,6 +197,12 @@ h6 {
                                                 <span>({{ $event['type'] }})</span>
                                             </h5>
 
+                                            <div style="    color: #a99595;">
+                                                Billing Amount: ${{ number_format($event['total'])}}<br>
+                                                Pending Amount: ${{number_format($event['total']- $total)}}
+                                            </div>
+
+                                            <div class="date-y">
                                             @if($event['start_date'] == $event['end_date'])
                                             <p>{{ Carbon\Carbon::parse($event['start_date'])->format('M d, Y')}}</p>
                                             @else
@@ -202,10 +210,7 @@ h6 {
                                                 {{ \Auth::user()->dateFormat($event['end_date'])}}
                                             </p>
                                             @endif
-                                            <div style="    color: #a99595;">
-                                                Billing Amount: ${{ number_format($event['total'])}}<br>
-                                                Pending Amount: ${{number_format($event['total']- $total)}}
-                                            </div>
+                                        </div>
 
                                         </div>
                                     </div>
@@ -237,6 +242,17 @@ h5.card-text {
     border: 1px dotted #ccc;
     border-radius: 20px;
     margin-top: 10px;
+}
+.date-y {
+    float: right;
+    padding-bottom: 10px;
+    text-align: right;
+    width: 100%;
+    margin-top: 10px;
+}
+.inner_col p
+{
+position: intial !important;
 }
 .right_side {
     /* width: 70%; */

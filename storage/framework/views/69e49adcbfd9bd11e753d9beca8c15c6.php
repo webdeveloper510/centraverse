@@ -28,6 +28,7 @@
                         <div id="useradd-1" class="card">
                             <div class="card-body table-border-style">
                                 <div class="row align-items-center">
+                                <div class="table-responsive">
                                     <table class="table datatable" id="datatable">
                                         <thead>
                                             <tr>
@@ -71,6 +72,7 @@
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tbody>
                                     </table>
+</div>
                                 </div>
                             </div>
                         </div>
@@ -85,6 +87,7 @@
                             <div class="card" id="useradd-1">
                                 <div class="card-body table-border-style">
                                     <h3>Attachments</h3>
+                                    <div class="table-responsive">
                                     <table class="table table-bordered">
                                         <thead>
                                             <th>Attachment</th>
@@ -103,6 +106,7 @@
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tbody>
                                     </table>
+</div>
 
                                 </div>
                             </div>
@@ -111,6 +115,7 @@
                             <div class="card" id="useradd-1">
                                 <div class="card-body table-border-style">
                                     <h3>Notes</h3>
+                                    <div class="table-responsive">
                                     <table class="table table-bordered">
                                         <thead>
                                             <th>Notes</th>
@@ -129,6 +134,7 @@
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tbody>
                                     </table>
+</div>
                                 </div>
                             </div>
                         </div>
