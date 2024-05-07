@@ -778,7 +778,7 @@ $(document).ready(function() {
                 // // phoneInput.addEventListener('input', formatToPhone); 
                 $('input[name ="relationship"]').val(data.relationship);
                 $('input[name ="start_date"]').val(data.start_date);
-                $('input[name ="end_date"]').val(data.end_date);
+                // $('input[name ="end_date"]').val(data.end_date);
                 $('input[name ="start_time"]').val(data.start_time);
                 $('input[name ="end_time"]').val(data.end_time);
                 $('input[name ="rooms"]').val(data.rooms);
@@ -850,16 +850,16 @@ $(document).ready(function() {
         iti.setCountry('us');
     }
 
-    $('#start_date, #end_date').change(function() {
-        var startDate = new Date($('#start_date').val());
-        var endDate = new Date($('#end_date').val());
+    // $('#start_date, #end_date').change(function() {
+    //     var startDate = new Date($('#start_date').val());
+    //     var endDate = new Date($('#end_date').val());
 
-        if ($(this).attr('id') === 'start_date' && endDate < startDate) {
-            $('#end_date').val($('#start_date').val());
-        } else if ($(this).attr('id') === 'end_date' && endDate < startDate) {
-            $('#start_date').val($('#end_date').val());
-        }
-    });
+    //     if ($(this).attr('id') === 'start_date' && endDate < startDate) {
+    //         $('#end_date').val($('#start_date').val());
+    //     } else if ($(this).attr('id') === 'end_date' && endDate < startDate) {
+    //         $('#start_date').val($('#end_date').val());
+    //     }
+    // });
     $('input[name="uploadedImage"]').change(function() {
         $('.floorimages').removeClass('selected-image');
         if ($(this).is(':checked')) {
@@ -1029,7 +1029,7 @@ $(document).ready(function() {
                 $('input[name ="relationship"]').val(data.relationship);
                 $('input[name ="phone"]').val(data.phone);
                 $('input[name ="start_date"]').val(data.start_date);
-                $('input[name ="end_date"]').val(data.end_date);
+                // $('input[name ="end_date"]').val(data.end_date);
                 $('input[name ="start_time"]').val(data.start_time);
                 $('input[name ="end_time"]').val(data.end_time);
                 $('input[name ="spcl_request"]').val(data.spcl_req);

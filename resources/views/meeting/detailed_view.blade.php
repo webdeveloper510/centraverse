@@ -96,7 +96,7 @@ $files = Storage::files('app/public/Event/'.$event->id);
 
                         <dt class="col-md-6"><span class="h6  mb-0">{{__('Billing Amount')}}</span></dt>
                         <dd class="col-md-6"><span class="">@if($event->total != 0)${{$event->total}}@else Billing Not
-                                Created @endif</span>
+                                Created @endif</span></dd>
                             <hr class="mt-5">
                             <div class="row">
                                 <div class="col-lg-8 col-md-8 col-sm-8">

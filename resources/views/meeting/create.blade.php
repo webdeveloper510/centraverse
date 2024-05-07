@@ -700,7 +700,7 @@ $(document).ready(function() {
                 // // phoneInput.addEventListener('input', formatToPhone); 
                 $('input[name ="relationship"]').val(data.relationship);
                 $('input[name ="start_date"]').val(data.start_date);
-                $('input[name ="end_date"]').val(data.end_date);
+                // $('input[name ="end_date"]').val(data.end_date);
                 $('input[name ="start_time"]').val(data.start_time);
                 $('input[name ="end_time"]').val(data.end_time);
                 $('input[name ="rooms"]').val(data.rooms);
@@ -772,16 +772,16 @@ $(document).ready(function() {
         iti.setCountry('us');
     }
 
-    $('#start_date, #end_date').change(function() {
-        var startDate = new Date($('#start_date').val());
-        var endDate = new Date($('#end_date').val());
+    // $('#start_date, #end_date').change(function() {
+    //     var startDate = new Date($('#start_date').val());
+    //     var endDate = new Date($('#end_date').val());
 
-        if ($(this).attr('id') === 'start_date' && endDate < startDate) {
-            $('#end_date').val($('#start_date').val());
-        } else if ($(this).attr('id') === 'end_date' && endDate < startDate) {
-            $('#start_date').val($('#end_date').val());
-        }
-    });
+    //     if ($(this).attr('id') === 'start_date' && endDate < startDate) {
+    //         $('#end_date').val($('#start_date').val());
+    //     } else if ($(this).attr('id') === 'end_date' && endDate < startDate) {
+    //         $('#start_date').val($('#end_date').val());
+    //     }
+    // });
     $('input[name="uploadedImage"]').change(function() {
         $('.floorimages').removeClass('selected-image');
         if ($(this).is(':checked')) {
@@ -863,53 +863,6 @@ $(document).ready(function() {
     });
 });
 </script>
-
-
-<script>
-// document.addEventListener('DOMContentLoaded', async function() {
-// try {
-// const getSessionStorage = () => {
-//     return new Promise((resolve, reject) => {
-//         try {
-//             const storedSessionData = window.sessionStorage.getItem("selectedDate");
-//             resolve(storedSessionData);
-//         } catch (error) {
-//             reject(error);
-//         }
-//     });
-// };
-// const storedSessionData = await getSessionStorage();
-// if (storedSessionData) {
-//     console.log(`sessionStorage: ${storedSessionData}`);
-//     document.getElementById('newevent').click();
-//     const startDateInput = document.getElementById('start_date');
-//     if (startDateInput) {
-//         startDateInput.setAttribute('value', storedSessionData);
-//         startDateInput.value = storedSessionData;
-//         console.log("Value set successfully.");
-//     } else {
-//         console.error("Element with ID 'start_date' not found.");
-//     }
-// } else {
-//     console.log("No sessionStorage data found.");
-// }
-//     const removeSessionStorage = () => {
-//         return new Promise((resolve, reject) => {
-//             try {
-//                 window.sessionStorage.removeItem("selectedDate");
-//                 resolve();
-//             } catch (error) {
-//                 reject(error);
-//             }
-//         });
-//     };
-//     await removeSessionStorage();
-//     console.log("SessionStorage data removed successfully.");
-// } catch (error) {
-//     console.error("Error occurred while retrieving sessionStorage:", error);
-// }
-// });
-</script>
 <script>
 $(document).ready(function() {
 
@@ -951,7 +904,7 @@ $(document).ready(function() {
                 $('input[name ="relationship"]').val(data.relationship);
                 $('input[name ="phone"]').val(data.phone);
                 $('input[name ="start_date"]').val(data.start_date);
-                $('input[name ="end_date"]').val(data.end_date);
+                // $('input[name ="end_date"]').val(data.end_date);
                 $('input[name ="start_time"]').val(data.start_time);
                 $('input[name ="end_time"]').val(data.end_time);
                 $('input[name ="spcl_request"]').val(data.spcl_req);

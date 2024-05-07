@@ -221,9 +221,11 @@ class MeetingController extends Controller
             $meeting['end_time']            = $request->end_time;
             $meeting['ad_opts']             = $additional;
             $meeting['floor_plan']          = $request->uploadedImage;
+            $meeting['allergies']          = $request->allergies;
             $meeting['created_by']          = \Auth::user()->creatorId();
 
             $meeting->save();
+            // echo "<pre>";print_r($meeting);die;
             
             if (!empty($request->file('atttachment'))) {
                 $file= $request->file('atttachment');
@@ -271,14 +273,14 @@ class MeetingController extends Controller
             $uArr = [
                 'meeting_name' => $request->name,
                 'meeting_start_date' => $request->start_date,
-                'meeting_due_date' => $request->end_date,
+                'meeting_due_date' => $request->start_date,
             ];
             $resp = Utility::sendEmailTemplate('meeting_assigned', [$meeting->id => $Assign_user_phone->email], $uArr);
             if (isset($setting['twilio_meeting_create']) && $setting['twilio_meeting_create'] == 1) {
                 $uArr = [
                     'meeting_name' => $request->name,
                     'meeting_start_date' => $request->start_date,
-                    'meeting_due_date' => $request->end_date,
+                    'meeting_due_date' => $request->start_date,
                     'user_name' => \Auth::user()->name,
                 ];
                 Utility::send_twilio_msg($Assign_user_phone->phone, 'new_meeting', $uArr);
@@ -288,7 +290,7 @@ class MeetingController extends Controller
                 $request1 = new Meeting();
                 $request1->title = $request->name;
                 $request1->start_date = $request->start_date;
-                $request1->end_date = $request->end_date;
+                $request1->end_date = $request->start_date;
                 Utility::addCalendarData($request1, $type);
             }
             $url = 'https://fcm.googleapis.com/fcm/send';
@@ -384,7 +386,7 @@ class MeetingController extends Controller
             $food_package =  json_decode($meeting->func_package, true);
             $user_id = explode(',', $meeting->user_id);
             $setup = Setup::all();
-            return view('meeting.edit', compact('user_id', 'users', 'setup', 'food_package', 'function_p', 'venue_function', 'meeting', 'status', 'attendees_lead'))->with('start_date', $meeting->start_date)->with('end_date', $meeting->end_date);
+            return view('meeting.edit', compact('user_id', 'users', 'setup', 'food_package', 'function_p', 'venue_function', 'meeting', 'status', 'attendees_lead'))->with('start_date', $meeting->start_date)->with('end_date', $meeting->start_date);
         } else {
             return redirect()->back()->with('error', 'permission Denied');
         }
@@ -407,7 +409,7 @@ class MeetingController extends Controller
                 [
                     'name' => 'required|max:120',
                     'start_date' => 'required',
-                    'end_date' => 'required',
+                    // 'end_date' => 'required',
                     'email' => 'required|email|max:120',
                     'lead_address' => 'required|max:120',
                     'type' => 'required',
@@ -425,7 +427,7 @@ class MeetingController extends Controller
                 ->withInput();
             }
             $start_date = $request->input('start_date');
-            $end_date = $request->input('end_date');
+            $end_date = $request->input('start_date');
             $start_time = $request->input('start_time');
             $end_time = $request->input('end_time');
             $venue_selected = $request->input('venue');
@@ -518,7 +520,7 @@ class MeetingController extends Controller
             $meeting['user_id']           = implode(',', $request->user);
             $meeting['name']              = $request->name;
             $meeting['start_date']        = $request->start_date;
-            $meeting['end_date']          = $request->end_date;
+            $meeting['end_date']          = $request->start_date;
             $meeting['relationship']       = $request->relationship;
             $meeting['type']               = $request->type;
             $meeting['venue_selection']    = $request->venue_selection;
@@ -530,7 +532,7 @@ class MeetingController extends Controller
             $meeting['guest_count']        = $request->guest_count;
             $meeting['room']                = $request->rooms;
             $meeting['meal']                = $meal ??'';
-            $meeting['bar']                 = $request->bar;
+            $meeting['bar']                 = $request->baropt;
             $meeting['bar_package']         = $bar_pack;
             $meeting['spcl_request']        = $request->spcl_request;
             $meeting['alter_name']          = $request->alter_name;
@@ -542,6 +544,7 @@ class MeetingController extends Controller
             $meeting['end_time']            = $request->end_time;
             $meeting['ad_opts']             = isset($additional) ? $additional : '';
             $meeting['floor_plan']          = $request->uploadedImage;
+            $meeting['allergies']          = $request->allergies;
             $meeting['created_by']        = \Auth::user()->creatorId();
             $meeting->update();
             if (!empty($request->file('atttachment'))) {
@@ -573,7 +576,12 @@ class MeetingController extends Controller
             //         return redirect()->back()->with('error', 'File upload failed');
             //     }
             // }
-            return redirect()->back()->with('success', __('Event Updated.'));
+            if (\Auth::user()->type == 'owner') {
+                $meetings = Meeting::with('assign_user')->orderby('id','desc')->get();
+            } else {
+                $meetings = Meeting::with('assign_user')->where('user_id', \Auth::user()->id)->orderby('id','desc')->get();
+            }
+            return redirect()->route('meeting.index', compact('meetings'))->with('success', __('Event Updated!'));
         } else {
             return redirect()->back()->with('error', 'Permission Denied');
         }
@@ -995,7 +1003,7 @@ class MeetingController extends Controller
         $user_id = explode(',', $meeting->user_id);
         $setup = Setup::all();
         $bar =  explode(',', $meeting->bar);
-        return view('meeting.agreement.review_agreement', compact('user_id', 'users', 'setup', 'food_package', 'function_p', 'venue_function', 'meeting', 'status', 'attendees_lead'))->with('start_date', $meeting->start_date)->with('end_date', $meeting->end_date);
+        return view('meeting.agreement.review_agreement', compact('user_id', 'users', 'setup', 'food_package', 'function_p', 'venue_function', 'meeting', 'status', 'attendees_lead'))->with('start_date', $meeting->start_date)->with('end_date', $meeting->start_date);
     }
     public function mail_testing()
     {
@@ -1113,7 +1121,7 @@ class MeetingController extends Controller
         $meeting['user_id']           = implode(',', $request->user);
         $meeting['name']              = $request->name;
         $meeting['start_date']        = $request->start_date;
-        $meeting['end_date']          = $request->end_date;
+        $meeting['end_date']          = $request->start_date;
         $meeting['relationship']       = $request->relationship;
         $meeting['type']               = $request->type;
         $meeting['email']              = $request->email;
@@ -1137,6 +1145,7 @@ class MeetingController extends Controller
         $meeting['end_time']        = $request->end_time;
         $meeting['ad_opts']             = isset($additional) ? $additional : '';
         $meeting['floor_plan']          = $request->uploadedImage;
+        $meeting['allergies']          = $request->allergies;
         $meeting['created_by']        = \Auth::user()->creatorId();
         $meeting->update();
         if (!empty($request->file('attachment'))){
@@ -1151,7 +1160,14 @@ class MeetingController extends Controller
             }
         }
         if ($status == 3) {
-            return redirect()->back()->with('success', __('Event  Approved.'));
+            if (\Auth::user()->type == 'owner') {
+                $meetings = Meeting::with('assign_user')->orderby('id','desc')->get();
+             
+            } else {
+                $meetings = Meeting::with('assign_user')->where('user_id', \Auth::user()->id)->orderby('id','desc')->get();
+              
+            }
+            return redirect()->route('meeting.index', compact('meetings'))->with('success', __('Event Approved!'));
         } elseif ($status == 4) {
             Agreement::where('event_id', $id)->delete();
             try {
@@ -1178,16 +1194,36 @@ class MeetingController extends Controller
                 // );
                 return redirect()->back()->with('success', 'Email Not Sent');
             }
-            return redirect()->back()->with('success', __('Event  Resent.'));
+            if (\Auth::user()->type == 'owner') {
+                $meetings = Meeting::with('assign_user')->orderby('id','desc')->get();
+             
+            } else {
+                $meetings = Meeting::with('assign_user')->where('user_id', \Auth::user()->id)->orderby('id','desc')->get();
+              
+            }
+            return redirect()->route('meeting.index', compact('meetings'))->with('success', __('Event Resent!'));
         } elseif ($status == 5) {
-            return redirect()->back()->with('success', __('Event  Withdrawn.'));
+            if (\Auth::user()->type == 'owner') {
+                $meetings = Meeting::with('assign_user')->orderby('id','desc')->get();
+             
+            } else {
+                $meetings = Meeting::with('assign_user')->where('user_id', \Auth::user()->id)->orderby('id','desc')->get();
+              
+            }
+            return redirect()->route('meeting.index', compact('meetings'))->with('success', __('Event Withdrawn!'));
         }
-        return redirect()->back()->with('success', __('Event  Updated.'));
+        if (\Auth::user()->type == 'owner') {
+            $meetings = Meeting::with('assign_user')->orderby('id','desc')->get();
+         
+        } else {
+            $meetings = Meeting::with('assign_user')->where('user_id', \Auth::user()->id)->orderby('id','desc')->get();
+          
+        }
+        return redirect()->route('meeting.index', compact('meetings'))->with('success', __('Event Updated!'));
+
     }
     public function buffer_time(Request $request)
     {
-        // echo "<pre>";
-        // print_r($request->all());
 
         $startDate = $request->startdate;
         $endDate = date('Y-m-d', strtotime($request->enddate . ' -1 day'));
