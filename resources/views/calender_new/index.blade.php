@@ -24,55 +24,55 @@ li.item-event>p:nth-child(2) {
 }
 </style>
 <style>
+#popup-form {
+    display: none;
+    /*position: fixed; */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    border-radius: 2px;
+    width: 600px;
+}
 
-    #popup-form {
-        display: none;
-        /*position: fixed; */
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        padding: 20px;
-        background-color: #fff;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        z-index: 1000;
-        border-radius: 2px;
-        width: 600px;
-    }
-
-    #overlay {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 999;
-    }
+#overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
 
 
-    .blocked-by-tooltip {
-        position: absolute;
-        background-color: #145388;
-        color: #fff;
-        padding: 10px;
-        border-radius: 8px;
-        z-index: 2000;
-        margin-top: -28px;
-        margin-left: -94px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        transition: background-color 0.3s ease, transform 0.2s ease;
-        background: linear-gradient(45deg, #145388, #145388);
-    }
+.blocked-by-tooltip {
+    position: absolute;
+    background-color: #145388;
+    color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    z-index: 2000;
+    margin-top: -28px;
+    margin-left: -94px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    background: linear-gradient(45deg, #145388, #145388);
+}
 
-    .blocked-by-tooltip:hover {
-        background-color: #145388;
-        transform: scale(1.05);
-    }
-    p.close-popup {
-        margin-bottom: 0 !important;
-    }
+.blocked-by-tooltip:hover {
+    background-color: #145388;
+    transform: scale(1.05);
+}
+
+p.close-popup {
+    margin-bottom: 0 !important;
+}
 </style>
 @section('content')
 <div class="container">
@@ -221,33 +221,73 @@ $(document).on('click', 'button.fc-next-button', function() {
                         method: 'GET',
                         dataType: 'json',
                         success: function(response) {
-
                             var encodedId = response.encodedId;
 
                             // Now you have the encoded ID, use it as needed
                             var url =
                                 '{{ route("meeting.detailview", ":encodedId") }}';
                             url = url.replace(':encodedId', encodedId);
-                            // console.error(url);
-                            html += `<a href="${url}"><li class="list-group-item card mb-3">
-                <div class="row align-items-center justify-content-between">
-                    <div class="col-auto mb-3 mb-sm-0">
-                        <div class="d-flex align-items-center">
-                            <div class="theme-avtar bg-info">
-                                <i class="ti ti-calendar-event"></i>
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="m-0">${element.eventname} (${element.name})</h6>
-                                <small class="text-muted">${start_date}</small><br>
-                                <small class="text-muted">${start_time} - ${end_time}</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </li></a>`;
-                            $('#listEvent').html(html);
 
-                            console.log(html)
+                            var listItem = $(
+                                '<li class="list-group-item card mb-3"></li>');
+                            var link = $('<a></a>').attr('href', url);
+                            var row = $(
+                                '<div class="row align-items-center justify-content-between"></div>'
+                                );
+                            var col = $(
+                            '<div class="col-auto mb-3 mb-sm-0"></div>');
+                            var flexContainer = $(
+                                '<div class="d-flex align-items-center"></div>');
+                            var avatar = $(
+                                '<div class="theme-avtar bg-info"><i class="ti ti-calendar-event"></i></div>'
+                                );
+                            var details = $('<div class="ms-3"></div>');
+                            var eventName = $('<h6 class="m-0"></h6>').text(element
+                                .eventname + ' (' + element.name + ')');
+                            var startDate = $('<small class="text-muted"></small>')
+                                .text(start_date);
+                            var timeRange = $('<small class="text-muted"></small>')
+                                .text(start_time + ' - ' + end_time);
+
+                            details.append(eventName, $('<br>'), startDate, $(
+                                '<br>'), timeRange);
+                            flexContainer.append(avatar, details);
+                            col.append(flexContainer);
+                            row.append(col);
+                            link.append(row);
+                            listItem.append(link);
+
+                            $('#listEvent').append(listItem);
+
+                            console.log(listItem.html());
+
+
+                            //                 var encodedId = response.encodedId;
+
+                            //                 // Now you have the encoded ID, use it as needed
+                            //                 var url =
+                            //                     '{{ route("meeting.detailview", ":encodedId") }}';
+                            //                 url = url.replace(':encodedId', encodedId);
+                            //                 // console.error(url);
+                            //                 html += `<a href="${url}"><li class="list-group-item card mb-3">
+                            //     <div class="row align-items-center justify-content-between">
+                            //         <div class="col-auto mb-3 mb-sm-0">
+                            //             <div class="d-flex align-items-center">
+                            //                 <div class="theme-avtar bg-info">
+                            //                     <i class="ti ti-calendar-event"></i>
+                            //                 </div>
+                            //                 <div class="ms-3">
+                            //                     <h6 class="m-0">${element.eventname} (${element.name})</h6>
+                            //                     <small class="text-muted">${start_date}</small><br>
+                            //                     <small class="text-muted">${start_time} - ${end_time}</small>
+                            //                 </div>
+                            //             </div>
+                            //         </div>
+                            //     </div>
+                            // </li></a>`;
+                            //                 $('#listEvent').html(html);
+
+                            //                 console.log(html)
                             // Use the URL as needed
                         },
                     });
@@ -455,7 +495,7 @@ function display_count() {
                 method: 'GET',
                 dataType: 'json',
                 success: function(blockedDates) {
-                   
+
                     blockedDates.forEach(function(event) {
                         var startDate = moment(event.start_date).format('YYYY-MM-DD');
                         var endDate = moment(event.end_date).format('YYYY-MM-DD');
@@ -465,8 +505,9 @@ function display_count() {
                             end: endDate,
                             textColor: '#fff',
                             color: '#8fa6b3',
-                            url:"{{url('/show-blocked-date-popup')}}"+'/'+event.id
-                          
+                            url: "{{url('/show-blocked-date-popup')}}" + '/' +
+                                event.id
+
                         });
                     });
                     let calendarEl = document.getElementById('calendar');
@@ -581,7 +622,8 @@ function display_count() {
                                                 '');
                                     } else {
                                         // localStorage.setItem('startDate', JSON.stringify(start));
-                                        openPopupForm(selectedStartDate,selectedEndDate);
+                                        openPopupForm(selectedStartDate,
+                                            selectedEndDate);
                                         lists =
                                             `<h6 class="m-0">No event found!</h6>`;
                                         document.getElementById('listEvent')
