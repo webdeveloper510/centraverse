@@ -382,55 +382,54 @@ $(document).ready(function() {
             success: function(data) {
                 console.log(data);
                 var html = '';
-            //     $(data).each(function(index, element) {
-            //         var start = element.start_time;
-            //         var start_time = moment(start, 'HH:mm:ss')
-            //             .format('h:mm A');
-            //         var end = element.end_time;
-            //         var end_time = moment(end, 'HH:mm:ss').format(
-            //             'h:mm A');
-            //         var start_date = moment(element.start_date).format(
-            //             'D MMM, YYYY');
-            //         var id = element.id;
-            //         $.ajax({
-            //             url: '<?php echo e(route("get.encoded.id", ":id")); ?>'.replace(
-            //                 ':id', id),
-            //             method: 'GET',
-            //             dataType: 'json',
-            //             success: function(response) {
-            //                 var encodedId = response.encodedId;
-            //                 // Now you have the encoded ID, use it as needed
-            //                 var url =
-            //                     '<?php echo e(route("meeting.detailview", ":encodedId")); ?>';
-            //                 url = url.replace(':encodedId', encodedId);
-            //                 html += `<a href="${url}"><li class="list-group-item card mb-3">
-            //     <div class="row align-items-center justify-content-between">
-            //         <div class="col-auto mb-3 mb-sm-0">
-            //             <div class="d-flex align-items-center">
-            //                 <div class="theme-avtar bg-info">
-            //                     <i class="ti ti-calendar-event"></i>
-            //                 </div>
-            //                 <div class="ms-3">
-            //                     <h6 class="m-0">${element.eventname} (${element.name})</h6>
-            //                     <small class="text-muted">${start_date}</small><br>
-            //                     <small class="text-muted">${start_time} - ${end_time}</small>
-            //                 </div>
-            //             </div>
-            //         </div>
-            //     </div>
-            // </li></a>`;
-            //                 $('#listEvent').html(html);
+                $(data).each(function(index, element) {
+                    var start = element.start_time;
+                    var start_time = moment(start, 'HH:mm:ss')
+                        .format('h:mm A');
+                    var end = element.end_time;
+                    var end_time = moment(end, 'HH:mm:ss').format(
+                        'h:mm A');
+                    var start_date = moment(element.start_date).format(
+                        'D MMM, YYYY');
+                    var id = element.id;
+                    $.ajax({
+                        url: '<?php echo e(route("get.encoded.id", ":id")); ?>'.replace(
+                            ':id', id),
+                        method: 'GET',
+                        dataType: 'json',
+                        success: function(response) {
+                            var encodedId = response.encodedId;
+                            // Now you have the encoded ID, use it as needed
+                            var url =
+                                '<?php echo e(route("meeting.detailview", ":encodedId")); ?>';
+                            url = url.replace(':encodedId', encodedId);
+                            html += `<a href="${url}"><li class="list-group-item card mb-3">
+                <div class="row align-items-center justify-content-between">
+                    <div class="col-auto mb-3 mb-sm-0">
+                        <div class="d-flex align-items-center">
+                            <div class="theme-avtar bg-info">
+                                <i class="ti ti-calendar-event"></i>
+                            </div>
+                            <div class="ms-3">
+                                <h6 class="m-0">${element.eventname} (${element.name})</h6>
+                                <small class="text-muted">${start_date}</small><br>
+                                <small class="text-muted">${start_time} - ${end_time}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li></a>`;
+                            $('#listEvent').html(html);
 
-            //                 // Use the URL as needed
-            //             },
-            //         });
+                            // Use the URL as needed
+                        },
+                    });
 
-            //     });
+                });
             }
         });
         // console.log('dsf'+ month);
     }, 2450);
-
 });
 
 function display_count() {
