@@ -3,7 +3,6 @@ $settings = App\Models\Utility::settings();
 $category= explode(',',$settings['campaign_type']);
 ?>
 <div id="sidebar-wrapper">
-
     <div class="card">
         <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
             <div class="navbar-brand-box">
@@ -132,11 +131,11 @@ $category= explode(',',$settings['campaign_type']);
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
                     <span class="dash-mtext">{{ __('Create Billing') }} </span></a>
                 @endif
-                @if(\Request::route()->getName() == 'customer.index')
-                <a href="#useradd-1" class="list-group-item list-group-item-action">
+                @if(\Request::route()->getName() == 'customer.index' || \Request::route()->getName() == 'campaign-list')
+                <a href="{{route('customer.index')}}"class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'customer.index' ?'active' : ''}}">
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
                     <span class="dash-mtext">{{ __('Campaign') }} </span></a>
-                <a href="{{route('campaign-list')}}" class="list-group-item list-group-item-action">
+                <a href="{{route('campaign-list')}}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'campaign-list' ?'active' : ''}}">
                     <span class="fa-stack fa-lg pull-left"></span>
                     <span class="dash-mtext">{{ __('View Campaigns') }} </span></a>
                 @endif
@@ -145,14 +144,14 @@ $category= explode(',',$settings['campaign_type']);
                 \Request::route()->getName() == 'lead_customers' || \Request::route()->getName() ==
                 'lead.userinfo'||\Request::route()->getName() ==
                 'event.userinfo'||\Request::route()->getName()=='categ')
-                <a href="{{route('siteusers')}}" class="list-group-item list-group-item-action">
+                <a href="{{route('siteusers')}}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'siteusers' ?'active' : ''}}">
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-users"></i></span>
                     <span class="dash-mtext">{{ __('All Customers') }} </span></a>
 
-                <a href="{{route('event_customers')}}" class="list-group-item list-group-item-action">
+                <a href="{{route('event_customers')}}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'event_customers' ?'active' : ''}}">
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-user" title="Event Customers"></i></span>
                     <span class="dash-mtext">{{ __('Events ') }} </span></a>
-                <a href="{{route('lead_customers')}}" class="list-group-item list-group-item-action">
+                <a href="{{route('lead_customers')}}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'lead_customers' ?'active' : ''}}">
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-user" title="Lead Customers"></i></span>
                     <span class="dash-mtext">{{ __('Leads') }} </span></a>
 
@@ -165,11 +164,6 @@ $category= explode(',',$settings['campaign_type']);
                 @endif
                 @endif
 
-                @if(\Request::route()->getName() == 'campaign-list' )
-                <a href="#useradd-1" class="list-group-item list-group-item-action">
-                    <span class="fa-stack fa-lg pull-left"></span>
-                    <span class="dash-mtext">{{ __('View Campaigns') }} </span></a>
-                @endif
                 @if(\Request::route()->getName() == 'meeting.index')
                 <a href="#useradd-1" class="list-group-item list-group-item-action"><span
                         class="fa-stack fa-lg pull-left"><i class="fa fa-tasks"></i></span>
@@ -184,23 +178,23 @@ $category= explode(',',$settings['campaign_type']);
                 'report.customersanalytic' || \Request::route()->getName() == 'report.billinganalytic' ? ' active ' :
                 '')
 
-                <a href="{{ route('report.leadsanalytic') }}" class="list-group-item list-group-item-action"><span
+                <a href="{{ route('report.leadsanalytic') }}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'report.leadsanalytic' ?'active' : ''}}"><span
                         class="fa-stack fa-lg pull-left"></span>
                     <span class="dash-mtext">{{ __('Leads') }} </span></a>
 
                 </a>
 
-                <a href="{{ route('report.eventanalytic') }}" class="list-group-item list-group-item-action"><span
+                <a href="{{ route('report.eventanalytic') }}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'report.eventanalytic' ?'active' : ''}}"><span
                         class="fa-stack fa-lg pull-left"></span>
                     <span class="dash-mtext">{{ __('Events') }} </span></a>
 
                 </a>
-                <a href="{{ route('report.customersanalytic') }}" class="list-group-item list-group-item-action"><span
+                <a href="{{ route('report.customersanalytic') }}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'report.customersanalytic' ?'active' : ''}}"><span
                         class="fa-stack fa-lg pull-left"></span>
                     <span class="dash-mtext">{{ __('Customers') }} </span></a>
 
                 </a>
-                <a href="{{ route('report.billinganalytic') }}" class="list-group-item list-group-item-action"><span
+                <a href="{{ route('report.billinganalytic') }}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'report.billinganalytic' ?'active' : ''}}"><span
                         class="fa-stack fa-lg pull-left"></span>
                     <span class="dash-mtext">{{ __('Financial') }} </span></a>
 

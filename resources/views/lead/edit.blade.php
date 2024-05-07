@@ -138,9 +138,9 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                     <div class="col-6 need_full">
                                         <div class="form-group">
                                             <label for="venue" class="form-label">{{ __('Venue') }}</label>
-                                            <span class="text-sm">
+                                            <!-- <span class="text-sm">
                                                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                            </span>
+                                            </span> -->
                                             @foreach($venue as $key => $label)
                                             <div>
                                                 <input type="checkbox" name="venue[]" id="{{ $label }}"
@@ -171,9 +171,9 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                     <div class="col-6 need_full">
                                         <div class="form-group">
                                             {{ Form::label('function', __('Function'), ['class' => 'form-label']) }}
-                                            <span class="text-sm">
+                                            <!-- <span class="text-sm">
                                                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                            </span>
+                                            </span> -->
                                             <div class="checkbox-group">
                                                 @foreach($function as $key => $value)
 

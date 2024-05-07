@@ -289,7 +289,6 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         <?php endif; ?>
-                                        <?php  echo"<pre>";print_r($val); ?>
 
 
                                     </div>

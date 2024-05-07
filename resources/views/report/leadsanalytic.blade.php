@@ -42,9 +42,9 @@
                             </select>
                             <!-- {{ Form::select('status', ['' => 'Select Status'] + $status, isset($_GET['status']) ? $_GET['status'] : '', ['class' => 'form-control', 'style' => 'margin-left: 29px;']) }} -->
                         </div>
-                        <div class="col-auto">
+                        <!-- <div class="c"> -->
                         <div class="action-btn bg-primary ms-5">
-                            <div class=" ">
+                            <div class=" col-auto">
                                 <button type="submit" class="mx-3 btn btn-sm align-items-center text-white"
                                     data-bs-toggle="tooltip" title="{{ __('Apply') }}" data-title="{{ __('Apply') }}"><i
                                         class="ti ti-search"></i></button>
@@ -52,15 +52,15 @@
                         </div>
                         {{ Form::close() }}
                         <div class="action-btn bg-danger ms-2">
-                            <div class="">
+                            <div class="col-auto">
                                 <a href="{{ route('report.leadsanalytic') }}" data-bs-toggle="tooltip"
                                     title="{{ __('Reset') }}" data-title="{{ __('Reset') }}"
-                                    class=" btn btn-sm align-items-center text-white"><i
-                                        class="ti ti-trash-off"></i></a>
+                                    class=" btn btn-sm align-items-center text-white"><i class="ti ti-refresh"
+                                        style="    margin-right: 1px;" aria-hidden="true"></i></a>
                             </div>
                         </div>
-</div>
-                        <!-- <div class="action-btn bg-primary ms-2">
+                    </div>
+                    <!-- <div class="action-btn bg-primary ms-2">
                             <div class="col-auto">
                                 <a href="#" onclick="saveAsPDF();" class="mx-3 btn btn-sm align-items-center text-white"
                                     data-bs-toggle="tooltip" data-title="{{ __('Download') }}"
@@ -69,11 +69,11 @@
                                 </a>
                             </div>
                         </div> -->
-                    </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 <div id="printableArea">
     <div class="row">

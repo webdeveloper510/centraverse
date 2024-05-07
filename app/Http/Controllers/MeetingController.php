@@ -72,7 +72,7 @@ class MeetingController extends Controller
             $status            = Meeting::$status;
             $parent            = Meeting::$parent;
             $users              = User::where('created_by', \Auth::user()->creatorId())->get();
-            $attendees_lead    = Lead::where('created_by', \Auth::user()->creatorId())->where('status',4)->get()->pluck('leadname', 'id');
+            $attendees_lead    = Lead::where('created_by', \Auth::user()->creatorId())->where('status',4)->where('lead_status',1)->get()->pluck('leadname', 'id');
             $attendees_lead->prepend('Select Lead', 0);
             $setup = Setup::all();
             return view('meeting.create', compact('status', 'type',  'setup', 'parent', 'users', 'attendees_lead'));
@@ -379,7 +379,7 @@ class MeetingController extends Controller
     {
         if (\Auth::user()->can('Edit Meeting')) {
             $status            = Meeting::$status;
-            $attendees_lead    = Lead::where('id', $meeting->attendees_lead)->get()->pluck('leadname')->first();
+            $attendees_lead    = Lead::where('id', $meeting->attendees_lead)->where('lead_status',1)->get()->pluck('leadname')->first();
             $users  = User::where('created_by', \Auth::user()->creatorId())->get();
             $function_p = explode(',', $meeting->function);
             $venue_function = explode(',', $meeting->venue_selection);
@@ -995,7 +995,7 @@ class MeetingController extends Controller
         $id = decrypt(urldecode($id));
         $meeting = Meeting::where('id', $id)->first();
         $status            = Meeting::$status;
-        $attendees_lead    = Lead::where('id', $meeting->attendees_lead)->get()->pluck('leadname')->first();
+        $attendees_lead    = Lead::where('id', $meeting->attendees_lead)->where('lead_status',1)->get()->pluck('leadname')->first();
         $users  = User::where('created_by', \Auth::user()->creatorId())->get();
         $function_p = explode(',', $meeting->function);
         $venue_function = explode(',', $meeting->venue_selection);

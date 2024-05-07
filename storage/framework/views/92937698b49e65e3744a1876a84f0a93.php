@@ -19,7 +19,7 @@
         <div class="page-content-wrapper p0" id="useradd-1 " >
             <div class="container-fluid xyz p0">
                 <div class="row" >
-                    <div class="col-lg-12">
+                    <div class="col-lg-12 p0">
                         <div class="row">
                         <div class="col-md-4">
                                 <label for="title">Select Recipients</label>
