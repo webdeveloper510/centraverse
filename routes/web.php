@@ -121,8 +121,17 @@ use Illuminate\Support\Facades\DB;
 // })->middleware(['auth'])->name('dashboard');
 
 require __DIR__ . '/auth.php';
+Route::group(
+    [
+        'middleware' => [
+            'auth',
+            'XSS',
+        ],
+    ],
+    function () {
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard')->middleware(['XSS']);
 
-Route::get('/', [DashboardController::class, 'index'])->name('dashboard')->middleware(['XSS']);
+    });
 
 Route::any('/cookie-consent', [SettingController::class, 'CookieConsent'])->name('cookie-consent');
 
@@ -1445,10 +1454,19 @@ Route::get('/testview', function(){
 Route::get('/paypal-payment-success',[BillingController::class,'paypalpaymentsuccess']);
 // Dashboard Testing route
 Route::get('/dashboard-testing',[DashboardTestingController::class,'index']);
-Route::post('/calender-meeting-data', [CalenderNewController::class, 'get_event_data']);
-Route::get('/calender-new', [CalenderNewController::class, 'index'])->name('calendernew.index');
-Route::post('/edit-addittional-items',[SettingController::class,'editadditionalcost'])->name('additionalitems.edit');
-Route::post('/function-packages', [MeetingController::class, 'getpackages'])->name('function.packages');
-Route::get('/event-info',[CalenderNewController::class,'eventinfo'])->name('eventinformation');
-Route::get('/blocked-data-info',[CalenderNewController::class,'blockeddateinfo'])->name('blockedDatesInformation');
-Route::post('calender-data',[CalenderNewController::class,'monthbaseddata'])->name('monthbaseddata');
+Route::group(
+    [
+        'middleware' => [
+            'auth',
+            'XSS',
+        ],
+    ],
+    function () {
+        Route::post('/calender-meeting-data', [CalenderNewController::class, 'get_event_data']);
+        Route::get('/calender-new', [CalenderNewController::class, 'index'])->name('calendernew.index');
+        Route::post('/edit-addittional-items',[SettingController::class,'editadditionalcost'])->name('additionalitems.edit');
+        Route::post('/function-packages', [MeetingController::class, 'getpackages'])->name('function.packages');
+        Route::get('/event-info',[CalenderNewController::class,'eventinfo'])->name('eventinformation');
+        Route::get('/blocked-data-info',[CalenderNewController::class,'blockeddateinfo'])->name('blockedDatesInformation');
+        Route::post('calender-data',[CalenderNewController::class,'monthbaseddata'])->name('monthbaseddata');
+    });
