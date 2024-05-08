@@ -875,23 +875,7 @@ width: 100%;
     display: block !important;
 }
 }
-.fc .fc-daygrid-body-unbalanced .fc-daygrid-day-events {
-    position: relative;
-    min-height: 5em;
-    float: left;
-    background: red;
-    width: 100%;
-}
-.fc .fc-daygrid-body-unbalanced .fc-daygrid-day-events {
-    position: relative;
-    min-height: 5em;
-    float: left;
-    background: red;
-    width: 100%;
-}
-.fc-daygrid-body.fc-daygrid-body-unbalanced.fc-daygrid-body-natural {
-    overflow: scroll;
-}
+
 .table-bordered td, .table-bordered th {
     border: 1px solid #f1f1f1;
     width:200px;
