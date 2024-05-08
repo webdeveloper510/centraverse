@@ -48,7 +48,7 @@ $total += $p->amount;
                 {{Form::label('adjustments',__('Adjustments'),['class'=>'form-label']) }}
                 {{Form::number('adjustments',$adjustments,array('class'=>'form-control','placeholder'=>__('Enter Adjustments')))}}
             </div>
-        </div>
+</div>
         <!-- <div class="col-6">
             <div class="form-group">
                 {{Form::label('other',__('Other Charges'),['class'=>'form-label']) }}
@@ -61,7 +61,7 @@ $total += $p->amount;
                 {{Form::number('amountpaid',null,array('class'=>'form-control','placeholder'=>__('Enter Amount Paid'),'readonly'))}}
             </div>
         </div>
-    </div>
+ 
     <div class="col-6">
         <div class="form-group">
             {{Form::label('amountpaid',__('Total Paid'),['class'=>'form-label']) }}
@@ -86,7 +86,7 @@ $total += $p->amount;
                 {{Form::number('balance',null,array('class'=>'form-control','placeholder'=>__('Enter Balance Due'),'readonly'))}}
             </div>
         </div>
-        <div class="col-6 need_full">
+        <div class="col-6 nee.d_full">
             <div class="form-group">
                 {{Form::label('amountcollect',__('Collect Amount'),['class'=>'form-label']) }}
                 {{Form::number('amountcollect',null,array('class'=>'form-control','required'))}}
@@ -137,7 +137,7 @@ $total += $p->amount;
         </div>
 
 
-    </div>
+   
     <div class="col-6">
         <div class="form-group">
             {{Form::label('amountcollect',__('Collect Amount'),['class'=>'form-label']) }}
@@ -180,6 +180,7 @@ $total += $p->amount;
                 placeholder='Enter Notes'></textarea>
         </div>
     </div>
+</div>
 </div>
 <div class="modal-footer">
     <button type="button" class="btn  btn-light" data-bs-dismiss="modal">Close</button>

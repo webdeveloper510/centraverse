@@ -856,6 +856,14 @@ display:none;
         display: block !important;
         float: right;
     }
+    .conversation.border.p-3.rounded {
+        height: auto !important;
+        float: left;
+        text-align: left !important;
+    }
+    .conversation.border.p-3.rounded span {
+        float: left !important;
+    }
 .navbar-expand-lg .navbar-collapse
 {
 display:none !important;

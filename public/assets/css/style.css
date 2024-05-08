@@ -676,10 +676,7 @@ progress {
     .container, .container-sm, .container-md {
         max-width: 720px;
     }
-    #sidebar-wrapper
-    {
-        width: 200px !important;
-    }
+  
     .page-content {
         margin-left: 200px !important;
     }
@@ -19959,10 +19956,15 @@ body:not(.minimenu) .dash-sidebar .dash-submenu .dash-submenu .dash-submenu > .d
     .product-progress-card .pp-cont {
         padding: 15px 0;
     }
-
+    .tooltip{display: none !important;}
     .product-progress-card .pp-cont:after {
         display: none;
     }
+    .calender .col-sm-8 {
+        width: 100% !important;
+        margin-bottom: 20px;
+    }
+
 }
 
 .product-progress-card .pp-main > div:first-child > .pp-cont:after {
@@ -29573,6 +29575,9 @@ h5.card-title.mb-2 {
         min-width: 110px;
     }}
  @media screen and (max-width: 1024px) {
+    .inner_col {
+        min-height: 335px !important;
+    }
         .dash-header ul {
             margin-bottom: 0;
             display: inline-block; 
@@ -29595,7 +29600,7 @@ h5.card-title.mb-2 {
             border-radius: 5px !important;
             font-weight: 600 !important;
         }
-
+     
     #sidebar-wrapper {
         width: 70px !important;
       
@@ -29675,4 +29680,26 @@ div#lead_select {
     width: auto !important;
     margin: 10px !important;
 }
+}
+.dataTable-container {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.mobile.navbar-collapse.collapse.show {
+   
+    height: 500px;
+    overflow: scroll;
+    box-shadow: 0 5px 7px -1px rgb(61 65 68 / 30%);
+    margin-bottom: 20px;
+}
+div#navbarCollapse ul.dash-navbar {
+    box-shadow: none !important;
+}
+.mobile.navbar-collapse.collapse.show ul.dash-navbar {
+    margin-bottom: 0;
+}
+
+.tooltip.show {
+
+    z-index: 1;
 }
