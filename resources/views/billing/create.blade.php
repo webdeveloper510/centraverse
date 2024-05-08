@@ -104,6 +104,7 @@ $meetingData['setup_cost'] = '';
     color: white;
     padding: 11px;
     border-radius: 5px;"><b>Guest Count: {{$event->guest_count}}</b></h4>
+    <div class="table-responsive">
         <table class="table">
             <thead>
                 <tr>
@@ -134,6 +135,7 @@ $meetingData['setup_cost'] = '';
                 @endforeach
             </tbody>
         </table>
+</div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
@@ -149,5 +151,9 @@ $meetingData['setup_cost'] = '';
 <style>
 .modal-dialog.modal-md {
     max-width: max-content;
+}
+.table-responsive {
+    float: left;
+    width: 100%;
 }
 </style>

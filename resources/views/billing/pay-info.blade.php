@@ -16,31 +16,31 @@ foreach($pay as $p){
 @endphp
 {{Form::open(array('route' => ['billing.paymentinfoupdate', urlencode(encrypt($event->id))],'method'=>'post','enctype'=>'multipart/form-data'))}}
     <div class="row">
-        <div class="col-6">
+        <div class="col-6 need_full">
             <div class="form-group">
                 {{Form::label('amount',__('Contract Amount'),['class'=>'form-label']) }}
                 {{Form::number('amount', $event->total + $bill->deposits,array('class'=>'form-control','placeholder'=>__('Enter Amount'),'required'=>'required','readonly'))}}
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-6 need_full">
             <div class="form-group">
                 {{Form::label('date',__('Contract Date'),['class'=>'form-label']) }}
                 <input type="date" name="date" id="date" class="form-control" value="{{$event->start_date ?? date('Y-m-d')}}">
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-6 need_full">
             <div class="form-group">
                 {{Form::label('deposits',__('Deposits on Account'),['class'=>'form-label']) }}
                 {{Form::number('deposits', $bill->deposits + $total,array('class'=>'form-control','placeholder'=>__('Enter Deposits'),'readonly'))}}
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-6 need_full">
             <div class="form-group">
                 {{Form::label('latefee',__('Late Fee'),['class'=>'form-label']) }}
                 {{Form::number('latefee', $latefee, array('class'=>'form-control','placeholder'=>__('Enter Late Fee')))}}
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-6 need_full">
             <div class="form-group">
                 {{Form::label('adjustments',__('Adjustments'),['class'=>'form-label']) }}
                 {{Form::number('adjustments',$adjustments,array('class'=>'form-control','placeholder'=>__('Enter Adjustments')))}}
@@ -52,7 +52,7 @@ foreach($pay as $p){
                 {{Form::number('other',null ,array('class'=>'form-control','placeholder'=>__('Enter Other Charges(If Any)')))}}
             </div>
         </div> -->
-        <div class="col-6">
+        <div class="col-6 need_full">
             <div class="form-group">
                 {{Form::label('amountpaid',__('Total Paid'),['class'=>'form-label']) }}
                 {{Form::number('amountpaid',null,array('class'=>'form-control','placeholder'=>__('Enter Amount Paid'),'readonly'))}}
@@ -70,19 +70,19 @@ foreach($pay as $p){
                 {{Form::number('amounttobepaid',null,array('class'=>'form-control','placeholder'=>__('Enter Adjustments'),'readonly'))}}
             </div>
         </div> -->
-        <div class="col-6">
+        <div class="col-6 need_full">
             <div class="form-group">
                 {{Form::label('balance',__('Balance Due'),['class'=>'form-label']) }}
                 {{Form::number('balance',null,array('class'=>'form-control','placeholder'=>__('Enter Balance Due'),'readonly'))}}
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-6 need_full">
             <div class="form-group">
                 {{Form::label('amountcollect',__('Collect Amount'),['class'=>'form-label']) }}
                 {{Form::number('amountcollect',null,array('class'=>'form-control','required'))}}
             </div>
         </div> 
-        <div class="col-6">
+        <div class="col-6 need_full">
             <div class="form-group">
                 {{Form::label('mode',__('Mode of Payment'),['class'=>'form-label']) }}
                 <select name="mode" id="mode" class='form-select' required>
@@ -105,7 +105,7 @@ foreach($pay as $p){
                 <!-- </div> -->
             </div>
         </div>
-        <div class="col-12">
+        <div class="col-12 ">
             <div class="form-group">
                 {{Form::label('reference',__('Payment Reference'),['class'=>'form-label']) }}
                 {{Form::text('reference',$payment->reference ?? '',array('class'=>'form-control','placeholder'=>__('Enter Reference Id ')))}}

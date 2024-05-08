@@ -17,7 +17,7 @@ foreach($pay as $p){
 <?php echo e(Form::open(array('route' => ['billing.paymentinfoupdate', urlencode(encrypt($event->id))],'method'=>'post','enctype'=>'multipart/form-data'))); ?>
 
     <div class="row">
-        <div class="col-6">
+        <div class="col-6 need_full">
             <div class="form-group">
                 <?php echo e(Form::label('amount',__('Contract Amount'),['class'=>'form-label'])); ?>
 
@@ -25,14 +25,14 @@ foreach($pay as $p){
 
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-6 need_full">
             <div class="form-group">
                 <?php echo e(Form::label('date',__('Contract Date'),['class'=>'form-label'])); ?>
 
                 <input type="date" name="date" id="date" class="form-control" value="<?php echo e($event->start_date ?? date('Y-m-d')); ?>">
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-6 need_full">
             <div class="form-group">
                 <?php echo e(Form::label('deposits',__('Deposits on Account'),['class'=>'form-label'])); ?>
 
@@ -40,7 +40,7 @@ foreach($pay as $p){
 
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-6 need_full">
             <div class="form-group">
                 <?php echo e(Form::label('latefee',__('Late Fee'),['class'=>'form-label'])); ?>
 
@@ -48,7 +48,7 @@ foreach($pay as $p){
 
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-6 need_full">
             <div class="form-group">
                 <?php echo e(Form::label('adjustments',__('Adjustments'),['class'=>'form-label'])); ?>
 
@@ -64,7 +64,7 @@ foreach($pay as $p){
 
             </div>
         </div> -->
-        <div class="col-6">
+        <div class="col-6 need_full">
             <div class="form-group">
                 <?php echo e(Form::label('amountpaid',__('Total Paid'),['class'=>'form-label'])); ?>
 
@@ -88,7 +88,7 @@ foreach($pay as $p){
 
             </div>
         </div> -->
-        <div class="col-6">
+        <div class="col-6 need_full">
             <div class="form-group">
                 <?php echo e(Form::label('balance',__('Balance Due'),['class'=>'form-label'])); ?>
 
@@ -96,7 +96,7 @@ foreach($pay as $p){
 
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-6 need_full">
             <div class="form-group">
                 <?php echo e(Form::label('amountcollect',__('Collect Amount'),['class'=>'form-label'])); ?>
 
@@ -104,7 +104,7 @@ foreach($pay as $p){
 
             </div>
         </div> 
-        <div class="col-6">
+        <div class="col-6 need_full">
             <div class="form-group">
                 <?php echo e(Form::label('mode',__('Mode of Payment'),['class'=>'form-label'])); ?>
 
@@ -128,7 +128,7 @@ foreach($pay as $p){
                 <!-- </div> -->
             </div>
         </div>
-        <div class="col-12">
+        <div class="col-12 ">
             <div class="form-group">
                 <?php echo e(Form::label('reference',__('Payment Reference'),['class'=>'form-label'])); ?>
 
@@ -487,7 +487,6 @@ jQuery(function() {
     var latefee = parseFloat($("input[name='latefee']").val()) || 0;
     var adjustments = parseFloat($("input[name='adjustments']").val()) || 0;
     var amountpaid = deposits+latefee-adjustments;
-    // var amounttobepaid = amount - deposits + latefee - adjustments;
     var balance = amount - amountpaid;
     $("input[name='balance']").val(balance);
     $("input[name='amountpaid']").val(amountpaid);

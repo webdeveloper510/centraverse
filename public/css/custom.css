@@ -876,7 +876,13 @@ height:50px;
   background: #dbdbdb !important;
   box-shadow:none !important;
 }
+.form-group1 label {
+    font-weight: 600;
+}
 
+.form-group1 input {
+    margin-bottom: 20px;
+}
 .p0 {
     padding: 0;
 }
