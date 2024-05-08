@@ -58,8 +58,7 @@
                             <div class="col-auto">
                                 <a href="<?php echo e(route('report.leadsanalytic')); ?>" data-bs-toggle="tooltip"
                                     title="<?php echo e(__('Reset')); ?>" data-title="<?php echo e(__('Reset')); ?>"
-                                    class=" btn btn-sm align-items-center text-white"><i
-                                        class="ti ti-trash-off"></i></a>
+                                    class=" btn btn-sm align-items-center text-white"><i class="ti ti-refresh" style="    margin-right: 7px;" aria-hidden="true"></i></a>
                             </div>
                         </div>
                         <!-- <div class="action-btn bg-primary ms-2">

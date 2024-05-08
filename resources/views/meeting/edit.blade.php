@@ -29,7 +29,7 @@ $func_package = json_decode($meeting->func_package,true);
 @endphp
 
 @section('breadcrumb')
-<li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Home') }}</a></li>
+<li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
 <li class="breadcrumb-item"><a href="{{ route('meeting.index') }}">{{ __('Event') }}</a></li>
 <li class="breadcrumb-item">{{ __('Edit') }}</li>
 @endsection
@@ -247,12 +247,12 @@ $func_package = json_decode($meeting->func_package,true);
                                                 {!! Form::date('start_date', null, ['class' => 'form-control', 'required' => 'required']) !!}
                                             </div>
                                         </div>
-                                        <div class="col-6 need_full">
+                                        <!-- <div class="col-6 need_full">
                                             <div class="form-group">
                                                 {{ Form::label('end_date', __('End Date'), ['class' => 'form-label']) }}
                                                 {!! Form::date('end_date', null, ['class' => 'form-control', 'required' => 'required']) !!}
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <div class="col-6 need_full">
                                             <div class="form-group">
                                                 {{ Form::label('start_time', __('Start Time'), ['class' => 'form-label']) }}
@@ -447,6 +447,7 @@ $func_package = json_decode($meeting->func_package,true);
         </div>
     </div>
 </div>
+
 @endsection
 @push('script-page')
 <style>
@@ -483,18 +484,18 @@ $(document).ready(function() {
         iti.setCountry('us');
     }
 });
-$(document).ready(function() {
-    $('#start_date, #end_date').change(function() {
-        var startDate = new Date($('#start_date').val());
-        var endDate = new Date($('#end_date').val());
+// $(document).ready(function() {
+//     $('#start_date, #end_date').change(function() {
+//         var startDate = new Date($('#start_date').val());
+//         var endDate = new Date($('#end_date').val());
 
-        if ($(this).attr('id') === 'start_date' && endDate < startDate) {
-            $('#end_date').val($('#start_date').val());
-        } else if ($(this).attr('id') === 'end_date' && endDate < startDate) {
-            $('#start_date').val($('#end_date').val());
-        }
-    });
-});
+//         if ($(this).attr('id') === 'start_date' && endDate < startDate) {
+//             $('#end_date').val($('#start_date').val());
+//         } else if ($(this).attr('id') === 'end_date' && endDate < startDate) {
+//             $('#start_date').val($('#end_date').val());
+//         }
+//     });
+// });
 </script>
 <script>
 const isNumericInput = (event) => {

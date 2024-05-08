@@ -79,7 +79,9 @@ $additional_items = json_decode($settings['additional_items'],true);
     <div class="col-6 need_full">
         <div class="form-group">
             {{Form::label('email',__('Email'),['class'=>'form-label']) }}
-            
+            <span class="text-sm"> 
+                <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+            </span>
             {{Form::text('email',null,array('class'=>'form-control','placeholder'=>__('Enter Email')))}}
         </div>
     </div>

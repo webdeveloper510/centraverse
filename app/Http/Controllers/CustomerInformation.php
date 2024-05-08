@@ -201,7 +201,7 @@ class CustomerInformation extends Controller
             $UsersImports->created_by = \Auth::user()->creatorId();
             $UsersImports->save();
           
-            return redirect()->back()->with('success', 'Insert successfully');
+            return redirect()->back()->with('success', 'Customer added successfully');
         }
     }
     public function mailformatting() 

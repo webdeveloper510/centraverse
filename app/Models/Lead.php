@@ -31,7 +31,11 @@ class Lead extends Model
         'proposal_status',
         'leadname',
         'start_time',
-        'end_time'
+        'end_time',
+        'spcl_req',
+        'allergies',
+        'bar',
+        'description'
     ];
     protected $appends = [
         'status_name',
@@ -54,7 +58,7 @@ class Lead extends Model
         'Resent'
     ];
     public static $stat = [
-        'In Active',
+        'Inactive',
         'Active'
     ];
     private static $account_name = null;

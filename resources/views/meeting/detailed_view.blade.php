@@ -21,7 +21,7 @@ $files = Storage::files('app/public/Event/'.$event->id);
 {{ __('Event Information') }}
 @endsection
 @section('breadcrumb')
-<li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Home') }}</a></li>
+<li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
 <li class="breadcrumb-item">{{ __('Event Information') }}</li>
 @endsection
 @section('action-btn')

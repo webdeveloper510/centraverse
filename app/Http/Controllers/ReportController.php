@@ -355,6 +355,7 @@ class ReportController extends Controller
         $leadsource->prepend('Select Source', 0);
         $status= Lead::$status;
         $leadstatus = Lead::select('status')->distinct()->get();
+        
         // foreach($leadstatus as $stat){
         //     $status[] = Lead::$status[$stat->status];
         // }
@@ -384,13 +385,14 @@ class ReportController extends Controller
         {
             $leads->where('status', $request->status);
         }
-
+      
         // $leads->where('created_by', \Auth::user()->creatorId());
         $leads = $leads->get();
 
         $currentdate = $start;
         while($currentdate <= $end)
         {
+           
             $month = date('m', $currentdate);
             $year  = date('Y', $currentdate);
 
@@ -406,6 +408,7 @@ class ReportController extends Controller
 
             // $leadFilter->where('created_by', \Auth::user()->creatorId());
             $leadFilter = $leadFilter->get();
+          
 
             $data[]      = count($leadFilter);
             $labels[]    = date('M Y', $currentdate);

@@ -8,12 +8,15 @@ $info = App\Models\PaymentInfo::where('event_id',$event->id)->get();
 $total = 0;
 $latefee = 0;
 $adjustments = 0;
+foreach($info as $inf){
+$latefee += $inf->latefee;
+$adjustments += $inf->adjustments;
+}
 foreach($pay as $p){
-    $total += $p->amount;
-    $latefee += $p->latefee;
-    $adjustments += $p->adjustments;
+$total += $p->amount;
 }
 @endphp
+@if($event->status == 3)
 {{Form::open(array('route' => ['billing.paymentinfoupdate', urlencode(encrypt($event->id))],'method'=>'post','enctype'=>'multipart/form-data'))}}
     <div class="row">
         <div class="col-6 need_full">
@@ -58,7 +61,14 @@ foreach($pay as $p){
                 {{Form::number('amountpaid',null,array('class'=>'form-control','placeholder'=>__('Enter Amount Paid'),'readonly'))}}
             </div>
         </div>
-        <!-- <div class="col-6">
+    </div>
+    <div class="col-6">
+        <div class="form-group">
+            {{Form::label('amountpaid',__('Total Paid'),['class'=>'form-label']) }}
+            {{Form::number('amountpaid',null,array('class'=>'form-control','placeholder'=>__('Enter Amount Paid'),'readonly'))}}
+        </div>
+    </div>
+    <!-- <div class="col-6">
             <div class="form-group">
                 {{Form::label('amountpaid',__('Paid Amount'),['class'=>'form-label']) }}
                 {{Form::number('amountpaid',$total,array('class'=>'form-control','placeholder'=>__('Enter Amount Paid'),'readonly'))}}
@@ -128,10 +138,64 @@ foreach($pay as $p){
 
 
     </div>
-    <div class="modal-footer">
-        <button type="button" class="btn  btn-light" data-bs-dismiss="modal">Close</button>
-        {{Form::submit(__('Save'),array('class'=>'btn btn-primary '))}}
+    <div class="col-6">
+        <div class="form-group">
+            {{Form::label('amountcollect',__('Collect Amount'),['class'=>'form-label']) }}
+            {{Form::number('amountcollect',null,array('class'=>'form-control','required'))}}
+        </div>
     </div>
+    <div class="col-6">
+        <div class="form-group">
+            {{Form::label('mode',__('Mode of Payment'),['class'=>'form-label']) }}
+            <select name="mode" id="mode" class='form-select' required>
+                <option value="">Please select</option>
+                <option value="online"
+                    <?php echo isset($payment->modeofpayment) ?($payment->modeofpayment == 'online') ?'selected' :'' : ''?>>
+                    Online</option>
+                <option value="credit"
+                    <?php  echo isset($payment->modeofpayment) ?($payment->modeofpayment == 'credit') ?'selected' :'' : ''?>>
+                    Credit</option>
+                <option value="cash"
+                    <?php echo isset($payment->modeofpayment) ?($payment->modeofpayment == 'cash') ?'selected' :'': '' ?>>
+                    Cash</option>
+                <option value="cheque"
+                    <?php  echo isset($payment->modeofpayment) ?($payment->modeofpayment == 'cheque') ?'selected' :'' : ''?>>
+                    Cheque</option>
+            </select>
+            <!-- <div class="mt-4"> -->
+            <span class="msg" style="color:#5e7ebd !important"></span>
+            <!-- </div> -->
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="form-group">
+            {{Form::label('reference',__('Payment Reference'),['class'=>'form-label']) }}
+            {{Form::text('reference',$payment->reference ?? '',array('class'=>'form-control','placeholder'=>__('Enter Reference Id ')))}}
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="form-group">
+            {{Form::label('notes',__('Notes'),['class'=>'form-label']) }}
+            <textarea name="notes" id="notes" cols="30" rows="5" class='form-control'
+                placeholder='Enter Notes'></textarea>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn  btn-light" data-bs-dismiss="modal">Close</button>
+    {{Form::submit(__('Save'),array('class'=>'btn btn-primary '))}}
+</div>
+@else
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="alert alert-success">
+                Contract must be approved by customer/admin before any further payment .
+            </div>
+        </div>
+    </div>
+</div>
+@endif
 <!-- @if($event->status == 3)
     @if(isset($paymentinfo))
         @if($paymentinfo->amounttobepaid == $total)
@@ -410,12 +474,13 @@ jQuery(function() {
     var deposits = parseFloat($("input[name='deposits']").val()) || 0;
     var latefee = parseFloat($("input[name='latefee']").val()) || 0;
     var adjustments = parseFloat($("input[name='adjustments']").val()) || 0;
-    var amountpaid = deposits+latefee-adjustments;
-    var balance = amount - amountpaid;
+    var other = parseFloat($("input[name='other']").val()) || 0;
+    var amountpaid = deposits;
+    var balance = amount  - amountpaid;
     $("input[name='balance']").val(balance);
     $("input[name='amountpaid']").val(amountpaid);
-    $("input[name='amountcollect']").attr('max',balance);
-    $("input[name='amount'],input[name='deposits'], input[name='latefee'], input[name='adjustments'], input[name='amountpaid']")
+    $("input[name='amountcollect']").attr('max', balance);
+    $("input[name='amount'],input[name='deposits'], input[name='latefee'], input[name='adjustments'], input[name='amountpaid'],input[name='other']")
         .keyup(function() {
             $("input[name='amountpaid']").empty();
             $("input[name='balance']").empty();
@@ -423,11 +488,13 @@ jQuery(function() {
             var deposits = parseFloat($("input[name='deposits']").val()) || 0;
             var latefee = parseFloat($("input[name='latefee']").val()) || 0;
             var adjustments = parseFloat($("input[name='adjustments']").val()) || 0;
+            var other = parseFloat($("input[name='other']").val()) || 0;
+
             // var amountpaid = parseFloat($("input[name='amountpaid']").val()) || 0;
-            var amountpaid = deposits+latefee-adjustments;
+            var amountpaid = deposits;
             $("input[name='amountpaid']").val(amountpaid);
             // var amounttobepaid = amount - deposits + latefee - adjustments;
-            var balance = amount - amountpaid;
+            var balance = amount + other + latefee - adjustments - amountpaid;
 
             // Assuming you want to store the balance in an input field with name 'balance'
             $("input[name='balance']").val(balance);

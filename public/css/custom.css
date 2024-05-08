@@ -822,6 +822,8 @@ li.dash-item.active a span.dash-mtext {
     transition: all 0.5s ease;
 }
 
+
+
 .close-sidebar{
     width:70px !important;
     -webkit-transition: all 0.5s ease;

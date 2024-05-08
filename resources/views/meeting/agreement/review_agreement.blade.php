@@ -25,7 +25,7 @@ $additional_items = json_decode($setting['additional_items'],true);
 @endphp
 
 @section('breadcrumb')
-<li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Home') }}</a></li>
+<li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
 <li class="breadcrumb-item"><a href="{{ route('meeting.index') }}">{{ __('Event') }}</a></li>
 <li class="breadcrumb-item">{{ __('Review') }}</li>
 @endsection
