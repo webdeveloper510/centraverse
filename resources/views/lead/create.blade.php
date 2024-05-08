@@ -185,6 +185,7 @@ $additional_items = json_decode($settings['additional_items'],true);
     </div>
     @if(isset($additional_items) && !empty($additional_items))
     <div class="col-6 need_full" id="additionalSection">
+        <div class="form-group">
         {{ Form::label('additional', __('Additional items'), ['class' => 'form-label']) }}
         @foreach($additional_items as $ad_key =>$ad_value)
         @foreach($ad_value as $fun_key =>$packageVal)
@@ -202,6 +203,7 @@ $additional_items = json_decode($settings['additional_items'],true);
         @endforeach
         @endforeach
     </div>
+                </div>
     @endif
 
     @endif
