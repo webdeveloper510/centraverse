@@ -92,10 +92,18 @@ right: 0;
         margin-right:0;
     }
 }
+
+
 @media (max-width:991px) {
     html[dir="rtl"] .main-banner .dash-preview{
         left:-15px;
     }
+}
+@media (min-width:767px){
+#sidebar-wrapper
+{
+    width: 200px !important;
+}
 }
 @media (max-width:767px){
     html[dir="rtl"] .main-banner .dash-preview{

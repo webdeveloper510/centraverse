@@ -19,86 +19,52 @@ $total += $p->amount;
 <?php if($event->status == 3): ?>
 <?php echo e(Form::open(array('route' => ['billing.paymentinfoupdate', urlencode(encrypt($event->id))],'method'=>'post','enctype'=>'multipart/form-data'))); ?>
 
-<<<<<<< HEAD
-<div class="row">
-    <div class="col-6">
-        <div class="form-group">
-            <?php echo e(Form::label('amount',__('Contract Amount'),['class'=>'form-label'])); ?>
-=======
     <div class="row">
         <div class="col-6 need_full">
             <div class="form-group">
                 <?php echo e(Form::label('amount',__('Contract Amount'),['class'=>'form-label'])); ?>
->>>>>>> 6543d6850b9160dd72907e0a0807f7f19a9aa5a8
 
-            <?php echo e(Form::number('amount', $event->total,array('class'=>'form-control','placeholder'=>__('Enter Amount'),'required'=>'required','readonly'))); ?>
+                <?php echo e(Form::number('amount', $event->total + $bill->deposits,array('class'=>'form-control','placeholder'=>__('Enter Amount'),'required'=>'required','readonly'))); ?>
 
+            </div>
         </div>
-<<<<<<< HEAD
-    </div>
-    <div class="col-6">
-        <div class="form-group">
-            <?php echo e(Form::label('date',__('Contract Date'),['class'=>'form-label'])); ?>
-=======
         <div class="col-6 need_full">
             <div class="form-group">
                 <?php echo e(Form::label('date',__('Contract Date'),['class'=>'form-label'])); ?>
->>>>>>> 6543d6850b9160dd72907e0a0807f7f19a9aa5a8
 
-            <input type="date" name="date" id="date" class="form-control"
-                value="<?php echo e($event->start_date ?? date('Y-m-d')); ?>">
+                <input type="date" name="date" id="date" class="form-control" value="<?php echo e($event->start_date ?? date('Y-m-d')); ?>">
+            </div>
         </div>
-<<<<<<< HEAD
-    </div>
-    <div class="col-6">
-        <div class="form-group">
-            <?php echo e(Form::label('deposits',__('Deposits on Account'),['class'=>'form-label'])); ?>
-=======
         <div class="col-6 need_full">
             <div class="form-group">
                 <?php echo e(Form::label('deposits',__('Deposits on Account'),['class'=>'form-label'])); ?>
->>>>>>> 6543d6850b9160dd72907e0a0807f7f19a9aa5a8
 
-            <?php echo e(Form::number('deposits', $bill->deposits + $total,array('class'=>'form-control','placeholder'=>__('Enter Deposits'),'readonly'))); ?>
+                <?php echo e(Form::number('deposits', $bill->deposits + $total,array('class'=>'form-control','placeholder'=>__('Enter Deposits'),'readonly'))); ?>
 
+            </div>
         </div>
-<<<<<<< HEAD
-    </div>
-    <div class="col-6">
-        <div class="form-group">
-            <?php echo e(Form::label('latefee',__('Late Fee'),['class'=>'form-label'])); ?>
-=======
         <div class="col-6 need_full">
             <div class="form-group">
                 <?php echo e(Form::label('latefee',__('Late Fee'),['class'=>'form-label'])); ?>
->>>>>>> 6543d6850b9160dd72907e0a0807f7f19a9aa5a8
 
-            <?php echo e(Form::number('latefee', $latefee, array('class'=>'form-control','placeholder'=>__('Enter Late Fee'),'min'=>0))); ?>
+                <?php echo e(Form::number('latefee', $latefee, array('class'=>'form-control','placeholder'=>__('Enter Late Fee')))); ?>
 
+            </div>
         </div>
-<<<<<<< HEAD
-    </div>
-    <div class="col-6">
-        <div class="form-group">
-            <?php echo e(Form::label('adjustments',__('Adjustments'),['class'=>'form-label'])); ?>
-=======
         <div class="col-6 need_full">
             <div class="form-group">
                 <?php echo e(Form::label('adjustments',__('Adjustments'),['class'=>'form-label'])); ?>
->>>>>>> 6543d6850b9160dd72907e0a0807f7f19a9aa5a8
 
-            <?php echo e(Form::number('adjustments',$adjustments,array('class'=>'form-control','placeholder'=>__('Enter Adjustments'),'min'=>0))); ?>
+                <?php echo e(Form::number('adjustments',$adjustments,array('class'=>'form-control','placeholder'=>__('Enter Adjustments')))); ?>
 
-        </div>
-    </div>
-    <div class="col-6">
-        <div class="form-group">
-            <?php echo e(Form::label('other',__('Other Charges'),['class'=>'form-label'])); ?>
+            </div>
+</div>
+        <!-- <div class="col-6">
+            <div class="form-group">
+                <?php echo e(Form::label('other',__('Other Charges'),['class'=>'form-label'])); ?>
 
-            <?php echo e(Form::number('other',null ,array('class'=>'form-control','placeholder'=>__('Enter Other Charges(If Any)')))); ?>
+                <?php echo e(Form::number('other',null ,array('class'=>'form-control','placeholder'=>__('Enter Other Charges(If Any)')))); ?>
 
-<<<<<<< HEAD
-=======
             </div>
         </div> -->
         <div class="col-6 need_full">
@@ -108,9 +74,8 @@ $total += $p->amount;
                 <?php echo e(Form::number('amountpaid',null,array('class'=>'form-control','placeholder'=>__('Enter Amount Paid'),'readonly'))); ?>
 
             </div>
->>>>>>> 6543d6850b9160dd72907e0a0807f7f19a9aa5a8
         </div>
-    </div>
+ 
     <div class="col-6">
         <div class="form-group">
             <?php echo e(Form::label('amountpaid',__('Total Paid'),['class'=>'form-label'])); ?>
@@ -135,22 +100,15 @@ $total += $p->amount;
 
             </div>
         </div> -->
-<<<<<<< HEAD
-    <div class="col-6">
-        <div class="form-group">
-            <?php echo e(Form::label('balance',__('Balance Due'),['class'=>'form-label'])); ?>
-=======
         <div class="col-6 need_full">
             <div class="form-group">
                 <?php echo e(Form::label('balance',__('Balance Due'),['class'=>'form-label'])); ?>
->>>>>>> 6543d6850b9160dd72907e0a0807f7f19a9aa5a8
 
-            <?php echo e(Form::number('balance',null,array('class'=>'form-control','placeholder'=>__('Enter Balance Due'),'readonly'))); ?>
+                <?php echo e(Form::number('balance',null,array('class'=>'form-control','placeholder'=>__('Enter Balance Due'),'readonly'))); ?>
 
+            </div>
         </div>
-<<<<<<< HEAD
-=======
-        <div class="col-6 need_full">
+        <div class="col-6 nee.d_full">
             <div class="form-group">
                 <?php echo e(Form::label('amountcollect',__('Collect Amount'),['class'=>'form-label'])); ?>
 
@@ -209,8 +167,7 @@ $total += $p->amount;
         </div>
 
 
->>>>>>> 6543d6850b9160dd72907e0a0807f7f19a9aa5a8
-    </div>
+   
     <div class="col-6">
         <div class="form-group">
             <?php echo e(Form::label('amountcollect',__('Collect Amount'),['class'=>'form-label'])); ?>
@@ -259,6 +216,7 @@ $total += $p->amount;
                 placeholder='Enter Notes'></textarea>
         </div>
     </div>
+</div>
 </div>
 <div class="modal-footer">
     <button type="button" class="btn  btn-light" data-bs-dismiss="modal">Close</button>
@@ -601,14 +559,9 @@ jQuery(function() {
     var deposits = parseFloat($("input[name='deposits']").val()) || 0;
     var latefee = parseFloat($("input[name='latefee']").val()) || 0;
     var adjustments = parseFloat($("input[name='adjustments']").val()) || 0;
-<<<<<<< HEAD
     var other = parseFloat($("input[name='other']").val()) || 0;
     var amountpaid = deposits;
     var balance = amount  - amountpaid;
-=======
-    var amountpaid = deposits+latefee-adjustments;
-    var balance = amount - amountpaid;
->>>>>>> 6543d6850b9160dd72907e0a0807f7f19a9aa5a8
     $("input[name='balance']").val(balance);
     $("input[name='amountpaid']").val(amountpaid);
     $("input[name='amountcollect']").attr('max', balance);

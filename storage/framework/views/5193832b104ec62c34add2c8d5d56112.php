@@ -54,11 +54,7 @@ $adjustments += $inf->adjustments;
                     <input type="number" name="latefee" class="form-control" min="0" value="<?php echo e($latefee); ?>">
                 </div>
             </div>
-<<<<<<< HEAD
-            <!-- <div class="row form-group">
-=======
             <div class="row form-group1">
->>>>>>> 6543d6850b9160dd72907e0a0807f7f19a9aa5a8
                 <div class="col-md-6">
                     <label for="paidamount" class="form-label">Total Paid</label>
                     <input type="number" name="paidamount" class="form-control" value="<?php echo e($total); ?>" readonly>
@@ -67,7 +63,7 @@ $adjustments += $inf->adjustments;
                     <label for="balance" class="form-label">Balance</label>
                     <input type="number" name="balance" class="form-control">
                 </div>
-            </div> -->
+            </div> 
             <div class="row form-group">
                 <div class="col-md-6">
                     <label for="paidamount" class="form-label">Amount to be paid</label>

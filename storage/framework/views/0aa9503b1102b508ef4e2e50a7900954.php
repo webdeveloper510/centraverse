@@ -941,53 +941,6 @@ $(document).ready(function() {
     });
 });
 </script>
-
-
-<script>
-// document.addEventListener('DOMContentLoaded', async function() {
-// try {
-// const getSessionStorage = () => {
-//     return new Promise((resolve, reject) => {
-//         try {
-//             const storedSessionData = window.sessionStorage.getItem("selectedDate");
-//             resolve(storedSessionData);
-//         } catch (error) {
-//             reject(error);
-//         }
-//     });
-// };
-// const storedSessionData = await getSessionStorage();
-// if (storedSessionData) {
-//     console.log(`sessionStorage: ${storedSessionData}`);
-//     document.getElementById('newevent').click();
-//     const startDateInput = document.getElementById('start_date');
-//     if (startDateInput) {
-//         startDateInput.setAttribute('value', storedSessionData);
-//         startDateInput.value = storedSessionData;
-//         console.log("Value set successfully.");
-//     } else {
-//         console.error("Element with ID 'start_date' not found.");
-//     }
-// } else {
-//     console.log("No sessionStorage data found.");
-// }
-//     const removeSessionStorage = () => {
-//         return new Promise((resolve, reject) => {
-//             try {
-//                 window.sessionStorage.removeItem("selectedDate");
-//                 resolve();
-//             } catch (error) {
-//                 reject(error);
-//             }
-//         });
-//     };
-//     await removeSessionStorage();
-//     console.log("SessionStorage data removed successfully.");
-// } catch (error) {
-//     console.error("Error occurred while retrieving sessionStorage:", error);
-// }
-// });
-</script>
 <script>
 $(document).ready(function() {
 

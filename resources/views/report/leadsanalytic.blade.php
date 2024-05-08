@@ -127,33 +127,33 @@
                         <button class="btn btn-light-primary btn-sm pdf">Export pdf</button> --}}
                 </div>
                 <div class="table-responsive mt-3">
-                    <table class="table" id="pc-dt-export">
+                    <table class="table datatable" id="pc-dt-export">
                         <thead>
                             <tr>
                                 <th scope="col" class="sort" data-sort="name">{{ __('Name') }}</th>
-                                <th scope="col" class="sort" data-sort="budget">{{ __(' Lead Status') }}</th>
-                                <th scope="col" class="sort" data-sort="budget">{{ __('Status') }}</th>
-                                <th scope="col" class="sort" data-sort="budget">{{ __('Created By') }}</th>
-                                <th scope="col" class="sort" data-sort="name">{{ __('Type') }}</th>
-                                <th scope="col" class="sort" data-sort="name">{{ __('Phone') }}</th>
-                                <th scope="col" class="sort" data-sort="name">{{ __('Email') }}</th>
-                                <th scope="col" class="sort" data-sort="name">{{ __('Date') }}</th>
-                                <th scope="col" class="sort" data-sort="name">{{ __('Time') }}</th>
-                                <th scope="col" class="sort" data-sort="name">{{ __('Assigned Staff') }}</th>
-                                <th scope="col" class="sort" data-sort="name">{{ __('Rooms required') }}</th>
-                                <th scope="col" class="sort" data-sort="name">{{ __('Bar') }}</th>
-                                <th scope="col" class="sort" data-sort="name">{{ __('Bar Package') }}</th>
-                                <th scope="col" class="sort" data-sort="name">{{ __('Function') }}</th>
-                                <th scope="col" class="sort" data-sort="name">{{ __('Package') }}</th>
-                                <th scope="col" class="sort" data-sort="name">{{ __('Additional Items') }}</th>
-                                <th scope="col" class="sort" data-sort="name">{{ __('Any Special Requests') }}</th>
-                                <th scope="col" class="sort" data-sort="name">{{ __('Guest Count') }}</th>
-                                <th scope="col" class="sort" data-sort="budget">{{ __('Converted To Event') }}</th>
-                                <th scope="col" class="sort" data-sort="budget">{{ __('Created At') }}</th>
-                                <th scope="col" class="sort" data-sort="budget">{{ __('Comments') }}</th>
-                                <th scope="col" class="sort" data-sort="budget">{{ __('Proposal Signed By Customer') }}
+                                <th scope="col" class="sort" data-sort="budget">{{ __(' Lead Status') }} <span class="opticy"> dddd</span> </th>
+                                <th scope="col" class="sort" data-sort="budget">{{ __('Status') }} <span class="opticy"> dddd</span> </th>
+                                <th scope="col" class="sort" data-sort="budget">{{ __('Created By') }} <span class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name">{{ __('Type') }} <span class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name">{{ __('Phone') }}<span class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name">{{ __('Email') }}<span class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name">{{ __('Date') }} <span class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name">{{ __('Time') }} <span class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name">{{ __('Assigned Staff') }} <span class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name">{{ __('Rooms required') }} <span class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name">{{ __('Bar') }} <span class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name">{{ __('Bar Package') }} <span class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name">{{ __('Function') }} <span class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name">{{ __('Package') }} <span class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name">{{ __('Additional Items') }} <span class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name">{{ __('Any Special Requests') }} <span class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name">{{ __('Guest Count') }} <span class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="budget">{{ __('Converted To Event') }} <span class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="budget">{{ __('Created At') }} <span class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="budget">{{ __('Comments') }} <span class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="budget">{{ __('Proposal Signed By Customer') }} <span class="opticy"> dddd</span>
                                 </th>
-                                <th scope="col" class="sort" data-sort="budget">{{ __('Any Attachments') }}</th>
+                                <th scope="col" class="sort" data-sort="budget">{{ __('Any Attachments') }} <span class="opticy"> dddd</span></th>
 
                             </tr>
                         </thead>
@@ -169,45 +169,45 @@
                                         <b> {{ ucfirst($result['name'])  }}</b>
                                     </a>
                                 </td>
-                                <td> {{ __(\App\Models\Lead::$stat[$result->lead_status]) }}</td>
-                                <td> {{ __(\App\Models\Lead::$status[$result['status']]) }}</td>
+                                <td> {{ __(\App\Models\Lead::$stat[$result->lead_status]) }}     <span class="empytu"></span></td>
+                                <td> {{ __(\App\Models\Lead::$status[$result['status']]) }} <span class="empytu"></span></td>
 
-                                <td>{{ucfirst(App\Models\User::where('id',$result['created_by'])->first()->name)}}</td>
-                                <td>{{ ucfirst($result['type']) }}</td>
-                                <td>{{ $result['phone'] }}</td>
-                                <td>{{ $result['email'] }}</td>
+                                <td>{{ucfirst(App\Models\User::where('id',$result['created_by'])->first()->name)}} <span class="empytu"></span></td>
+                                <td>{{ ucfirst($result['type']) }} <span class="empytu"></span></td>
+                                <td>{{ $result['phone'] }} <span class="empytu"></span></td>
+                                <td>{{ $result['email'] }} <span class="empytu"></span></td>
                                 <td> @if($result['start_date'] == $result['end_date'])
                                     {{ \Auth::user()->dateFormat($result['start_date']) }}
                                     @else
                                     {{ \Auth::user()->dateFormat($result['start_date']) }} -
                                     {{ \Auth::user()->dateFormat($result['end_date'])}}
-                                    @endif</td>
+                                    @endif <span class="empytu"></span></td>
                                 <td> @if($result['start_time'] == $result['end_time'])
                                     --
                                     @else
                                     {{date('h:i A', strtotime($result['start_time']))}} -
                                     {{date('h:i A', strtotime($result['end_time']))}}
-                                    @endif</td>
+                                    @endif <span class="empytu"></span></td>
                                 <td>{{!empty($result['assign_user'])? $result['assign_user']->name :'Not Assigned Yet' }}
                                     {{!empty($result['assign_user'])?'('.$result['assign_user']->type.')':''}}</td>
-                                <td>{{$result['rooms']}}</td>
-                                <td>{{$result['bar'] ?? '--' }}</td>
+                                <td>{{$result['rooms']}} <span class="empytu"></span></td>
+                                <td>{{$result['bar'] ?? '--' }} <span class="empytu"></span></td>
                                 <td><?php $barpackage = json_decode($result['bar_package'],true);
                                     if(isset($barpackage) && !empty($barpackage)){
                                             echo implode(',',$barpackage);
                                     }else{
                                         echo '--';
                                     }     
-                                ?></td>
+                                ?> <span class="empytu"></span></td>
                                 <td>{{ isset($result['function'])&& !empty($result['function']) ? ucfirst($result['function']) : '--' }}
-                                </td>
+                                <span class="empytu"></span> </td>
                                 <td><?php $package = json_decode($result['func_package'],true);
                                  if(isset($package) && !empty($package)){
                                                     foreach ($package as $key => $value) {
                                                         echo implode(',',$value);
                                                     } 
                                                 }
-                                                ?></td>
+                                                ?> <span class="empytu"></span></td>
                                 <td> <?php
                                  if(isset($additional) && !empty($additional)){
                                      $additional = json_decode($result['ad_opts'],true);
@@ -215,9 +215,9 @@
                                                         echo implode(',',$value);
                                                     } 
                                                 }
-                                ?></td>
-                                <td>{{$result['spcl_req'] ?? '--'}}</td>
-                                <td>{{$result['guest_count']}}</td>
+                                ?> <span class="empytu"></span></td>
+                                <td>{{$result['spcl_req'] ?? '--'}} <span class="empytu"></span></td>
+                                <td>{{$result['guest_count']}} <span class="empytu"></span></td>
                                 <td>
 
                                     @if($event) Yes @else No @endif
@@ -227,10 +227,10 @@
                                     @if(isset($comment) && !empty($comment))
                                     {{$comment->notes}}
                                     @else -- @endif
-                                </td>
+                                    <span class="empytu"></span> </td>
                                 <td><?php $prop = App\Models\Proposal::where('lead_id',$result['id'])->orderby('id','desc')->exists(); ?>
                                     @if($prop) Yes @else No @endif
-                                </td>
+                                    <span class="empytu"></span>  </td>
                                 <td><?php  $attachment=   App\Models\LeadDoc::where('lead_id',$result['id'])->get();?>
                                     @if($attachment)
                                     @foreach ($attachment as $attach)
@@ -242,7 +242,7 @@
                                     @endforeach
                                     @endif
 
-                                </td>
+                                    <span class="empytu"></span></td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -407,3 +407,8 @@
     })();
     </script>
     @endpush
+    <style>
+    span.opticy {
+    opacity: 0;
+}
+</style>
