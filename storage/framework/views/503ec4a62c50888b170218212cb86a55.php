@@ -101,7 +101,7 @@ $files = Storage::files('app/public/Event/'.$event->id);
 
                         <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Billing Amount')); ?></span></dt>
                         <dd class="col-md-6"><span class=""><?php if($event->total != 0): ?>$<?php echo e($event->total); ?><?php else: ?> Billing Not
-                                Created <?php endif; ?></span>
+                                Created <?php endif; ?></span></dd>
                             <hr class="mt-5">
                             <div class="row">
                                 <div class="col-lg-8 col-md-8 col-sm-8">

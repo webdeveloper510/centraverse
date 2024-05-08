@@ -21,35 +21,35 @@
                     <div class="col-lg-12">
                         <div class="card" id="useradd-1">
                             <div class="card-body table-border-style">
-                                <div class="row align-items-center">
-                                    <div class="col-md-4">
+                                <div class="row align-items-center ">
+                                    <div class="col-md-4 need_half">
                                         <small class="h6  mb-3 mb-md-0"><?php echo e(__('Name')); ?> </small>
                                     </div>
-                                    <div class="col-md-5">
+                                    <div class="col-md-5 need_half ">
                                         <span class=""><?php echo e($users->name); ?></span>
                                     </div>
-                                    <div class="col-md-4  mt-1">
+                                    <div class="col-md-4  mt-1 need_half">
                                         <small class="h6  mb-3 mb-md-0"><?php echo e(__('Email')); ?></small>
                                     </div>
-                                    <div class="col-md-5  mt-1">
+                                    <div class="col-md-5  mt-1 need_half">
                                         <span class=""><?php echo e($users->email); ?></span>
                                     </div>
-                                    <div class="col-md-4  mt-1">
+                                    <div class="col-md-4  mt-1 need_half">
                                         <small class="h6  mb-3 mb-md-0"><?php echo e(__('Phone')); ?></small>
                                     </div>
-                                    <div class="col-md-5  mt-1">
+                                    <div class="col-md-5  mt-1 need_half">
                                         <span class=""><?php echo e($users->phone); ?></span>
                                     </div>
-                                    <div class="col-md-4  mt-1">
+                                    <div class="col-md-4  mt-1 need_half">
                                         <small class="h6  mb-3 mb-md-0"><?php echo e(__('Address')); ?></small>
                                     </div>
-                                    <div class="col-md-5  mt-1">
+                                    <div class="col-md-5  mt-1 need_half">
                                         <span class=""><?php echo e($users->address); ?></span>
                                     </div>
-                                    <div class="col-md-4  mt-1">
+                                    <div class="col-md-4  mt-1 need_half">
                                         <small class="h6  mb-3 mb-md-0"><?php echo e(__('Category')); ?></small>
                                     </div>
-                                    <div class="col-md-5  mt-1">
+                                    <div class="col-md-5  mt-1 need_half">
                                         <span class=""><?php echo e($users->category); ?></span>
                                     </div>
                                    
@@ -61,6 +61,7 @@
                         <div class="card" id="useradd-1">
                             <div class="card-body table-border-style">
                                 <h3>Attachments</h3>
+                                <div class="table-responsive">
                                 <table class="table table-bordered">
                                     <thead>
                                         <th>Attachment</th>
@@ -81,6 +82,7 @@
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </tbody>
                                 </table>
+</div>
                                 <!-- <h3>Attachments</h3>
                                 <?php   
                                     $files = Storage::files('app/public/External_customer/'.$users->id);
@@ -115,6 +117,7 @@
                         <div class="card" id="useradd-1">
                             <div class="card-body table-border-style">
                                 <h3>Notes</h3>
+                                <div class="table-responsive">
                                 <table class="table table-bordered">
                                     <thead>
                                         <th>Notes</th>
@@ -135,6 +138,7 @@
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </tbody>
                                 </table>
+</div>
                             </div>
                         </div>
                     </div>

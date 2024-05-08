@@ -28,12 +28,13 @@
 <div class="container-field">
     <div id="wrapper">
         <div id="page-content-wrapper">
-            <div class="container-fluid xyz">
+            <div class="container-fluid xyz p0">
                 <div class="row">
                     <div class="col-lg-12">
                         <div id="useradd-1" class="card">
                             <div class="card-body table-border-style">
                                 <div class="row align-items-center">
+                                <div class="table-responsive">
                                     <table class="table datatable" id="datatable">
                                         <thead>
                                             <tr>
@@ -86,6 +87,7 @@
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tbody>
                                     </table>
+                                        </div>
                                 </div>
                             </div>
                         </div>
