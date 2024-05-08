@@ -865,6 +865,24 @@ width: 100%;
     display: block !important;
 }
 }
+.fc .fc-daygrid-body-unbalanced .fc-daygrid-day-events {
+    position: relative;
+    min-height: 5em;
+    float: left;
+    background: red;
+    width: 100%;
+}
+.fc .fc-daygrid-body-unbalanced .fc-daygrid-day-events {
+    position: relative;
+    min-height: 5em;
+    float: left;
+    background: red;
+    width: 100%;
+}
+#popup-form
+{
+    max-width: 100% !important;
+}
 @media only screen and (max-width: 991px) {
 nav.navbar.navbar-expand-lg.navbar-light.bg-light {
     background: #dbdbdb !important;
