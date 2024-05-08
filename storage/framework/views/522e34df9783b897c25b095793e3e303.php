@@ -26,7 +26,7 @@ $additional_items = json_decode($setting['additional_items'],true);
 ?>
 
 <?php $__env->startSection('breadcrumb'); ?>
-<li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Home')); ?></a></li>
+<li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Dashboard')); ?></a></li>
 <li class="breadcrumb-item"><a href="<?php echo e(route('meeting.index')); ?>"><?php echo e(__('Event')); ?></a></li>
 <li class="breadcrumb-item"><?php echo e(__('Review')); ?></li>
 <?php $__env->stopSection(); ?>

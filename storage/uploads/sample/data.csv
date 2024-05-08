@@ -85,3 +85,7 @@ IP,Date,Time,Accepted cookies,Device type,Browser language,Browser name,OS Name
 124.253.89.76,2024-05-08,03:07:15 UTC,["necessary"],mobile,en,Chrome,Android,India,CH,Chandigarh,Chandigarh,160025,30.7339,76.7889
 27.255.183.12,2024-05-08,03:26:53 UTC,["necessary"],desktop,en,Safari,OS X,India,CH,Chandigarh,Chandigarh,160047,30.7339,76.7889
 59.178.80.192,2024-05-08,03:53:37 UTC,["necessary"],mobile,en,Chrome,iOS,India,HR,Haryana,Kaithal,136027,29.8015,76.4
+185.44.131.204,2024-05-08,04:04:27 UTC,["necessary"],mobile,en,Safari,iOS,The Netherlands,NH,North Holland,Amsterdam,1019,52.367,4.93433
+185.44.131.197,2024-05-08,04:12:21 UTC,["necessary"],mobile,en,Safari,iOS,The Netherlands,NH,North Holland,Amsterdam,1019,52.367,4.93433
+185.44.131.195,2024-05-08,04:19:13 UTC,["necessary"],desktop,en,Safari,OS X,The Netherlands,NH,North Holland,Amsterdam,1019,52.367,4.93433
+185.200.102.221,2024-05-08,04:26:22 UTC,["necessary"],mobile,en,Safari,iOS,The Netherlands,NH,North Holland,Amsterdam,1018,52.3672,4.918

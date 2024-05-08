@@ -216,6 +216,7 @@ $additional_items = json_decode($settings['additional_items'],true);
     </div>
     <?php if(isset($additional_items) && !empty($additional_items)): ?>
     <div class="col-6 need_full" id="additionalSection">
+        <div class="form-group">
         <?php echo e(Form::label('additional', __('Additional items'), ['class' => 'form-label'])); ?>
 
         <?php $__currentLoopData = $additional_items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ad_key =>$ad_value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -237,6 +238,7 @@ $additional_items = json_decode($settings['additional_items'],true);
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     </div>
+                </div>
     <?php endif; ?>
 
     <?php endif; ?>
