@@ -879,6 +879,13 @@ width: 100%;
     background: red;
     width: 100%;
 }
+.fc-daygrid-body.fc-daygrid-body-unbalanced.fc-daygrid-body-natural {
+    overflow: scroll;
+}
+.table-bordered td, .table-bordered th {
+    border: 1px solid #f1f1f1;
+    width:200px;
+}
 #popup-form
 {
     max-width: 100% !important;
