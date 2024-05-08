@@ -50,7 +50,9 @@ img{
     max-width: 180px;
     width: 100%;
 }
-
+.dataTable-top {
+    margin-bottom: 20px;
+}
 .announcement p {
     margin-bottom: 0rem !important;
 }

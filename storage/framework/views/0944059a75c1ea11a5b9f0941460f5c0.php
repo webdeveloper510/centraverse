@@ -37,43 +37,43 @@ $files = Storage::files('app/public/Event/'.$event->id);
         <div id="page-content-wrapper">
             <div class="container-fluid xyz">
                 <div class="row">
-                    <dl class="row">
-                        <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Event')); ?></span></dt>
+                    <dl class="row ">
+                        <dt class="col-md-6 need_half"><span class="h6  mb-0"><?php echo e(__('Event')); ?></span></dt>
                         <?php if($event->attendees_lead != 0): ?>
-                        <dd class="col-md-6"><span
+                        <dd class="col-md-6 need_half"><span
                                 class=""><?php echo e(!empty($event->attendees_leads->leadname)?$event->attendees_leads->leadname:'--'); ?></span>
                         </dd>
                         <?php else: ?>
-                        <dd class="col-md-6"><span class=""><?php echo e($event->eventname); ?></span></dd>
+                        <dd class="col-md-6 need_half"><span class=""><?php echo e($event->eventname); ?></span></dd>
                         <?php endif; ?>
-                        <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Event Type')); ?></span></dt>
-                        <dd class="col-md-6"><span class=""><?php echo e($event->type); ?></span></dd>
+                        <dt class="col-md-6 need_half"><span class="h6  mb-0"><?php echo e(__('Event Type')); ?></span></dt>
+                        <dd class="col-md-6 need_half"><span class=""><?php echo e($event->type); ?></span></dd>
 
-                        <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Date')); ?></span></dt>
+                        <dt class="col-md-6 need_half"><span class="h6  mb-0"><?php echo e(__('Date')); ?></span></dt>
                         <?php if($event->start_date == $event->end_date): ?>
-                        <dd class="col-md-6"><span class=""><?php echo e(\Auth::user()->dateFormat($event->start_date)); ?></span>
+                        <dd class="col-md-6 need_half"><span class=""><?php echo e(\Auth::user()->dateFormat($event->start_date)); ?></span>
                         </dd>
                         <?php else: ?>
-                        <dd class="col-md-6"><span class=""><?php echo e(\Auth::user()->dateFormat($event->start_date)); ?> -
+                        <dd class="col-md-6 need_half "><span class=""><?php echo e(\Auth::user()->dateFormat($event->start_date)); ?> -
                                 <?php echo e(\Auth::user()->dateFormat($event->end_date)); ?></span></dd>
                         <?php endif; ?>
 
-                        <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Time')); ?></span></dt>
-                        <dd class="col-md-6"><span class=""><?php echo e(date('h:i A', strtotime($event->start_time))); ?> -
+                        <dt class="col-md-6 need_half"><span class="h6  mb-0"><?php echo e(__('Time')); ?></span></dt>
+                        <dd class="col-md-6 need_half"><span class=""><?php echo e(date('h:i A', strtotime($event->start_time))); ?> -
                                 <?php echo e(date('h:i A', strtotime($event->end_time))); ?></span></dd>
 
-                        <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Guest Count')); ?></span></dt>
-                        <dd class="col-md-6"><span class=""><?php echo e($event->guest_count); ?></span></dd>
+                        <dt class="col-md-6 need_half"><span class="h6  mb-0"><?php echo e(__('Guest Count')); ?></span></dt>
+                        <dd class="col-md-6 need_half"><span class=""><?php echo e($event->guest_count); ?></span></dd>
 
-                        <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Venue')); ?></span></dt>
-                        <dd class="col-md-6"><span class=""><?php echo e($event->venue_selection); ?></span></dd>
+                        <dt class="col-md-6 need_half"><span class="h6  mb-0"><?php echo e(__('Venue')); ?></span></dt>
+                        <dd class="col-md-6 need_half"><span class=""><?php echo e($event->venue_selection); ?></span></dd>
 
-                        <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Room')); ?></span></dt>
-                        <dd class="col-md-6"><span class=""><?php if($event->room != 0): ?><?php echo e($event->room); ?><?php else: ?> -- <?php endif; ?></span>
+                        <dt class="col-md-6 need_half"><span class="h6  mb-0"><?php echo e(__('Room')); ?></span></dt>
+                        <dd class="col-md-6 need_half"><span class=""><?php if($event->room != 0): ?><?php echo e($event->room); ?><?php else: ?> -- <?php endif; ?></span>
                         </dd>
                         <?php if(isset($package) && !empty($package)): ?>
-                        <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Package')); ?></span></dt>
-                        <dd class="col-md-6"><span class=""><?php $__currentLoopData = $package; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <dt class="col-md-6 need_half"><span class="h6  mb-0"><?php echo e(__('Package')); ?></span></dt>
+                        <dd class="col-md-6 need_half"><span class=""><?php $__currentLoopData = $package; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <?php echo e(implode(',',$value)); ?>
 
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -82,8 +82,8 @@ $files = Storage::files('app/public/Event/'.$event->id);
                         <?php endif; ?>
 
                         <?php if(isset($additional) && !empty($additional)): ?>
-                        <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Additional Items')); ?></span></dt>
-                        <dd class="col-md-6"><span class=""><?php $__currentLoopData = $additional; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <dt class="col-md-6 need_half"><span class="h6  mb-0"><?php echo e(__('Additional Items')); ?></span></dt>
+                        <dd class="col-md-6 need_half"><span class=""><?php $__currentLoopData = $additional; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <?php echo e(implode(',',$value)); ?>
 
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -91,20 +91,27 @@ $files = Storage::files('app/public/Event/'.$event->id);
                         </dd>
                         <?php endif; ?>
                         <?php if(isset($bar) && !empty($bar)): ?>
-                        <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Bar Package')); ?></span></dt>
-                        <dd class="col-md-6"><span class="">
+                        <dt class="col-md-6 need_half"><span class="h6  mb-0"><?php echo e(__('Bar Package')); ?></span></dt>
+                        <dd class="col-md-6 need_half"><span class="">
                                 <?php echo e(implode(',',$bar)); ?>
 
                             </span>
                         </dd>
                         <?php endif; ?>
 
+<<<<<<< HEAD
                         <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Billing Amount')); ?></span></dt>
                         <dd class="col-md-6"><span class=""><?php if($event->total != 0): ?>$<?php echo e($event->total); ?><?php else: ?> Billing Not
                                 Created <?php endif; ?></span></dd>
+=======
+                        <dt class="col-md-6 need_half"><span class="h6  mb-0"><?php echo e(__('Billing Amount')); ?></span></dt>
+                        <dd class="col-md-6 need_half"><span class=""><?php if($event->total != 0): ?>$<?php echo e($event->total); ?><?php else: ?> Billing Not
+                                Created <?php endif; ?></span>
+</dd>
+>>>>>>> 6543d6850b9160dd72907e0a0807f7f19a9aa5a8
                             <hr class="mt-5">
                             <div class="row">
-                                <div class="col-lg-8 col-md-8 col-sm-8">
+                                <div class="col-lg-8 col-md-8 col-sm-12">
                                     <h3><?php echo e(__('Setup')); ?></h3>
                                 </div>
                             </div>

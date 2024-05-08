@@ -39,5 +39,12 @@ class CalenderNewController extends Controller
         $data = Meeting::whereBetween('start_date', [$startDate, $endDate])->get();
         return $data;
     }
+    public function weekbaseddata(Request $request){
+        $startDate = $request->startdate;
+        $endDate = $request->enddate;
+        $data = Meeting::whereBetween('start_date', [$startDate, $endDate])->get();
+        return $data;
+        print_r($request->all()) ;
+    }
     
 }

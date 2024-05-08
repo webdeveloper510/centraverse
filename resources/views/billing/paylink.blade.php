@@ -22,17 +22,18 @@ $adjustments += $inf->adjustments;
         {{Form::open(array('route' => ['billing.sharepaymentlink', urlencode(encrypt($event->id))],'method'=>'post','enctype'=>'multipart/form-data'))}}
 
         <div class="">
-            <dl class="row">
-                <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('Name')}}</span></dt>
-                <dd class="col-md-6">
+            <div class="row form-group1">
+            <div class="col-md-6">
+            <label  class="form-label">{{__('Name')}}</label>
+               
                     <input type="text" name="name" class="form-control" value="{{$event->name}}" readonly>
-                </dd>
-                <dt class="col-md-6"><span class="h6 text-md mb-0">{{__('Email')}}</span></dt>
-                <dd class="col-md-6">
+</div>
+<div class="col-md-6"> <label  class="form-label">{{__('Email')}}</label>
+            
                     <input type="text" name="email" class="form-control" value="{{$event->email}}">
-                </dd>
-            </dl>
-            <div class="row form-group">
+</div>
+</div>
+            <div class="row form-group1">
                 <div class="col-md-6">
                     <label for="amount" class="form-label">Contract Amount</label>
                     <input type="number" name="amount" class="form-control" value="{{$event->total}}" readonly>
@@ -42,7 +43,7 @@ $adjustments += $inf->adjustments;
                     <input type="number" name="deposit" value="{{$total + $bill->deposits}}" class="form-control">
                 </div>
             </div>
-            <div class="row form-group">
+            <div class="row form-group1">
                 <div class="col-md-6">
                     <label for="adjustment" class="form-label">Adjustments</label>
                     <input type="number" name="adjustment" class="form-control" min="0" value="{{$adjustments}}">
@@ -52,7 +53,7 @@ $adjustments += $inf->adjustments;
                     <input type="number" name="latefee" class="form-control" min="0" value="{{$latefee}}">
                 </div>
             </div>
-            <!-- <div class="row form-group">
+            <div class="row form-group1">
                 <div class="col-md-6">
                     <label for="paidamount" class="form-label">Total Paid</label>
                     <input type="number" name="paidamount" class="form-control" value="{{$total}}" readonly>
@@ -61,7 +62,7 @@ $adjustments += $inf->adjustments;
                     <label for="balance" class="form-label">Balance</label>
                     <input type="number" name="balance" class="form-control">
                 </div>
-            </div> -->
+            </div> 
             <div class="row form-group">
                 <div class="col-md-6">
                     <label for="paidamount" class="form-label">Amount to be paid</label>
@@ -72,17 +73,21 @@ $adjustments += $inf->adjustments;
                     <input type="number" name="balance" class="form-control">
                 </div>
             </div>
-            <div class="col-6">
-                <div class="form-group">
+            <div class="row form-group1">
+            <div class="col-6 need_full">
+                <div class="form-group1">
                     {{Form::label('amountcollect',__('Collect Amount'),['class'=>'form-label']) }}
                     {{Form::number('amountcollect',null,array('class'=>'form-control','required'))}}
                 </div>
             </div>
+</div>
+<div class="row form-group1">
             <div class="col-12">
-                {{Form::label('notes',__('Notes'),['class'=>'form-label']) }}
+            <label  class="form-label">  {{Form::label('notes',__('Notes'),['class'=>'form-label']) }} </label>
                 <textarea name="notes" id="notes" cols="30" rows="5" class='form-control'
                     placeholder='Enter Notes'></textarea>
             </div>
+</div>
         </div>
 
         <div class="modal-footer">

@@ -23,17 +23,18 @@ $adjustments += $inf->adjustments;
 
 
         <div class="">
-            <dl class="row">
-                <dt class="col-md-6"><span class="h6 text-md mb-0"><?php echo e(__('Name')); ?></span></dt>
-                <dd class="col-md-6">
+            <div class="row form-group1">
+            <div class="col-md-6">
+            <label  class="form-label"><?php echo e(__('Name')); ?></label>
+               
                     <input type="text" name="name" class="form-control" value="<?php echo e($event->name); ?>" readonly>
-                </dd>
-                <dt class="col-md-6"><span class="h6 text-md mb-0"><?php echo e(__('Email')); ?></span></dt>
-                <dd class="col-md-6">
+</div>
+<div class="col-md-6"> <label  class="form-label"><?php echo e(__('Email')); ?></label>
+            
                     <input type="text" name="email" class="form-control" value="<?php echo e($event->email); ?>">
-                </dd>
-            </dl>
-            <div class="row form-group">
+</div>
+</div>
+            <div class="row form-group1">
                 <div class="col-md-6">
                     <label for="amount" class="form-label">Contract Amount</label>
                     <input type="number" name="amount" class="form-control" value="<?php echo e($event->total); ?>" readonly>
@@ -43,7 +44,7 @@ $adjustments += $inf->adjustments;
                     <input type="number" name="deposit" value="<?php echo e($total + $bill->deposits); ?>" class="form-control">
                 </div>
             </div>
-            <div class="row form-group">
+            <div class="row form-group1">
                 <div class="col-md-6">
                     <label for="adjustment" class="form-label">Adjustments</label>
                     <input type="number" name="adjustment" class="form-control" min="0" value="<?php echo e($adjustments); ?>">
@@ -53,7 +54,11 @@ $adjustments += $inf->adjustments;
                     <input type="number" name="latefee" class="form-control" min="0" value="<?php echo e($latefee); ?>">
                 </div>
             </div>
+<<<<<<< HEAD
             <!-- <div class="row form-group">
+=======
+            <div class="row form-group1">
+>>>>>>> 6543d6850b9160dd72907e0a0807f7f19a9aa5a8
                 <div class="col-md-6">
                     <label for="paidamount" class="form-label">Total Paid</label>
                     <input type="number" name="paidamount" class="form-control" value="<?php echo e($total); ?>" readonly>
@@ -73,20 +78,23 @@ $adjustments += $inf->adjustments;
                     <input type="number" name="balance" class="form-control">
                 </div>
             </div>
-            <div class="col-6">
-                <div class="form-group">
+            <div class="row form-group1">
+            <div class="col-6 need_full">
+                <div class="form-group1">
                     <?php echo e(Form::label('amountcollect',__('Collect Amount'),['class'=>'form-label'])); ?>
 
                     <?php echo e(Form::number('amountcollect',null,array('class'=>'form-control','required'))); ?>
 
                 </div>
             </div>
+</div>
+<div class="row form-group1">
             <div class="col-12">
-                <?php echo e(Form::label('notes',__('Notes'),['class'=>'form-label'])); ?>
-
+            <label  class="form-label">  <?php echo e(Form::label('notes',__('Notes'),['class'=>'form-label'])); ?> </label>
                 <textarea name="notes" id="notes" cols="30" rows="5" class='form-control'
                     placeholder='Enter Notes'></textarea>
             </div>
+</div>
         </div>
 
         <div class="modal-footer">

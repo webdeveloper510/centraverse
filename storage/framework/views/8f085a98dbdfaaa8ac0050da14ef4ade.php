@@ -105,6 +105,7 @@ $meetingData['setup_cost'] = '';
     color: white;
     padding: 11px;
     border-radius: 5px;"><b>Guest Count: <?php echo e($event->guest_count); ?></b></h4>
+    <div class="table-responsive">
         <table class="table">
             <thead>
                 <tr>
@@ -135,6 +136,7 @@ $meetingData['setup_cost'] = '';
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </tbody>
         </table>
+</div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
@@ -152,5 +154,9 @@ $meetingData['setup_cost'] = '';
 <style>
 .modal-dialog.modal-md {
     max-width: max-content;
+}
+.table-responsive {
+    float: left;
+    width: 100%;
 }
 </style><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/billing/create.blade.php ENDPATH**/ ?>

@@ -21,7 +21,7 @@ $files = Storage::files('app/public/Event/'.$event->id);
 {{ __('Event Information') }}
 @endsection
 @section('breadcrumb')
-<li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Home') }}</a></li>
+<li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
 <li class="breadcrumb-item">{{ __('Event Information') }}</li>
 @endsection
 @section('action-btn')
@@ -35,43 +35,43 @@ $files = Storage::files('app/public/Event/'.$event->id);
         <div id="page-content-wrapper">
             <div class="container-fluid xyz">
                 <div class="row">
-                    <dl class="row">
-                        <dt class="col-md-6"><span class="h6  mb-0">{{__('Event')}}</span></dt>
+                    <dl class="row ">
+                        <dt class="col-md-6 need_half"><span class="h6  mb-0">{{__('Event')}}</span></dt>
                         @if($event->attendees_lead != 0)
-                        <dd class="col-md-6"><span
+                        <dd class="col-md-6 need_half"><span
                                 class="">{{ !empty($event->attendees_leads->leadname)?$event->attendees_leads->leadname:'--' }}</span>
                         </dd>
                         @else
-                        <dd class="col-md-6"><span class="">{{$event->eventname}}</span></dd>
+                        <dd class="col-md-6 need_half"><span class="">{{$event->eventname}}</span></dd>
                         @endif
-                        <dt class="col-md-6"><span class="h6  mb-0">{{__('Event Type')}}</span></dt>
-                        <dd class="col-md-6"><span class="">{{$event->type}}</span></dd>
+                        <dt class="col-md-6 need_half"><span class="h6  mb-0">{{__('Event Type')}}</span></dt>
+                        <dd class="col-md-6 need_half"><span class="">{{$event->type}}</span></dd>
 
-                        <dt class="col-md-6"><span class="h6  mb-0">{{__('Date')}}</span></dt>
+                        <dt class="col-md-6 need_half"><span class="h6  mb-0">{{__('Date')}}</span></dt>
                         @if($event->start_date == $event->end_date)
-                        <dd class="col-md-6"><span class="">{{\Auth::user()->dateFormat($event->start_date)}}</span>
+                        <dd class="col-md-6 need_half"><span class="">{{\Auth::user()->dateFormat($event->start_date)}}</span>
                         </dd>
                         @else
-                        <dd class="col-md-6"><span class="">{{\Auth::user()->dateFormat($event->start_date)}} -
+                        <dd class="col-md-6 need_half "><span class="">{{\Auth::user()->dateFormat($event->start_date)}} -
                                 {{\Auth::user()->dateFormat($event->end_date)}}</span></dd>
                         @endif
 
-                        <dt class="col-md-6"><span class="h6  mb-0">{{__('Time')}}</span></dt>
-                        <dd class="col-md-6"><span class="">{{date('h:i A', strtotime($event->start_time))}} -
+                        <dt class="col-md-6 need_half"><span class="h6  mb-0">{{__('Time')}}</span></dt>
+                        <dd class="col-md-6 need_half"><span class="">{{date('h:i A', strtotime($event->start_time))}} -
                                 {{date('h:i A', strtotime($event->end_time))}}</span></dd>
 
-                        <dt class="col-md-6"><span class="h6  mb-0">{{__('Guest Count')}}</span></dt>
-                        <dd class="col-md-6"><span class="">{{$event->guest_count}}</span></dd>
+                        <dt class="col-md-6 need_half"><span class="h6  mb-0">{{__('Guest Count')}}</span></dt>
+                        <dd class="col-md-6 need_half"><span class="">{{$event->guest_count}}</span></dd>
 
-                        <dt class="col-md-6"><span class="h6  mb-0">{{__('Venue')}}</span></dt>
-                        <dd class="col-md-6"><span class="">{{$event->venue_selection}}</span></dd>
+                        <dt class="col-md-6 need_half"><span class="h6  mb-0">{{__('Venue')}}</span></dt>
+                        <dd class="col-md-6 need_half"><span class="">{{$event->venue_selection}}</span></dd>
 
-                        <dt class="col-md-6"><span class="h6  mb-0">{{__('Room')}}</span></dt>
-                        <dd class="col-md-6"><span class="">@if($event->room != 0){{$event->room}}@else -- @endif</span>
+                        <dt class="col-md-6 need_half"><span class="h6  mb-0">{{__('Room')}}</span></dt>
+                        <dd class="col-md-6 need_half"><span class="">@if($event->room != 0){{$event->room}}@else -- @endif</span>
                         </dd>
                         @if(isset($package) && !empty($package))
-                        <dt class="col-md-6"><span class="h6  mb-0">{{__('Package')}}</span></dt>
-                        <dd class="col-md-6"><span class="">@foreach ($package as $key => $value)
+                        <dt class="col-md-6 need_half"><span class="h6  mb-0">{{__('Package')}}</span></dt>
+                        <dd class="col-md-6 need_half"><span class="">@foreach ($package as $key => $value)
                                 {{implode(',',$value)}}
                                 @endforeach
                             </span>
@@ -79,27 +79,28 @@ $files = Storage::files('app/public/Event/'.$event->id);
                         @endif
 
                         @if(isset($additional) && !empty($additional))
-                        <dt class="col-md-6"><span class="h6  mb-0">{{__('Additional Items')}}</span></dt>
-                        <dd class="col-md-6"><span class="">@foreach ($additional as $key => $value)
+                        <dt class="col-md-6 need_half"><span class="h6  mb-0">{{__('Additional Items')}}</span></dt>
+                        <dd class="col-md-6 need_half"><span class="">@foreach ($additional as $key => $value)
                                 {{implode(',',$value)}}
                                 @endforeach
                             </span>
                         </dd>
                         @endif
                         @if(isset($bar) && !empty($bar))
-                        <dt class="col-md-6"><span class="h6  mb-0">{{__('Bar Package')}}</span></dt>
-                        <dd class="col-md-6"><span class="">
+                        <dt class="col-md-6 need_half"><span class="h6  mb-0">{{__('Bar Package')}}</span></dt>
+                        <dd class="col-md-6 need_half"><span class="">
                                 {{implode(',',$bar)}}
                             </span>
                         </dd>
                         @endif
 
-                        <dt class="col-md-6"><span class="h6  mb-0">{{__('Billing Amount')}}</span></dt>
-                        <dd class="col-md-6"><span class="">@if($event->total != 0)${{$event->total}}@else Billing Not
-                                Created @endif</span></dd>
+                        <dt class="col-md-6 need_half"><span class="h6  mb-0">{{__('Billing Amount')}}</span></dt>
+                        <dd class="col-md-6 need_half"><span class="">@if($event->total != 0)${{$event->total}}@else Billing Not
+                                Created @endif</span>
+</dd>
                             <hr class="mt-5">
                             <div class="row">
-                                <div class="col-lg-8 col-md-8 col-sm-8">
+                                <div class="col-lg-8 col-md-8 col-sm-12">
                                     <h3>{{ __('Setup') }}</h3>
                                 </div>
                             </div>
