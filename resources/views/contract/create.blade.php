@@ -52,11 +52,12 @@ $users= App\Models\MasterCustomer::all();
                                             @foreach($result as $res)
                                             <tr>
                                                 <td>
-                                                    <a href="{{ route('contracts.detail',$res['id']) }}" data-size="md"
+                                                    <!-- <a href="{{ route('contracts.detail',$res['id']) }}" data-size="md"
                                                         class="action-item text-primary"
                                                         style="color:#1551c9 !important;">
                                                         <b> {{ ucfirst(str_replace('[DEV] ', '', $res['name'])) }}</b>
-                                                    </a>
+                                                    </a> -->
+                                                    {{ ucfirst(str_replace('[DEV] ', '', $res['name'])) }}
                                                 </td>
                                                 <td><span class="budget">{{$res['status'] }}</span></td>
                                                 <td>{{\Auth::user()->dateFormat($res['date_created'])}}</td>
