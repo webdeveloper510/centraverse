@@ -6,7 +6,7 @@
 {{ __('Customer Analytics') }}
 @endsection
 @section('breadcrumb')
-<li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Home') }}</a></li>
+<li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
 <li class="breadcrumb-item">{{ __('Report') }}</li>
 <li class="breadcrumb-item">{{ __('Financial Analytics') }}</li>
 @endsection
@@ -46,8 +46,7 @@
                             <div class="col-auto">
                                 <a href="{{ route('report.billinganalytic') }}" data-bs-toggle="tooltip"
                                     title="{{ __('Reset') }}" data-title="{{ __('Reset') }}"
-                                    class=" btn btn-sm align-items-center text-white"><i
-                                        class="ti ti-trash-off"></i></a>
+                                    class=" btn btn-sm align-items-center text-white"><i class="ti ti-refresh" style="    margin-right: 7px;" aria-hidden="true"></i></a>
                             </div>
                         </div>
 

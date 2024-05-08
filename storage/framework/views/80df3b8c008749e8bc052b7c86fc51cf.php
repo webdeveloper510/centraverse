@@ -1,5 +1,7 @@
 <?php
 $plansettings = App\Models\Utility::plansettings();
+$users= App\Models\MasterCustomer::all();
+
 ?>
 <?php echo e(Form::open(['route' => 'contracts.store', 'method' => 'post', 'enctype' => 'multipart/form-data','id'=>'formdata'] )); ?>
 
@@ -31,7 +33,24 @@ $plansettings = App\Models\Utility::plansettings();
 
         </div>
     </div>
-   
+    <!-- <div class="col-12">
+        <div class="form-group">
+            <?php echo e(Form::label('client_name', __('Recipients'),['class'=>'form-label'])); ?>
+
+            <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="user[]" value="<?php echo e($user->id); ?>"
+                    id="user_<?php echo e($user->id); ?>">
+                <label class="form-check-label" for="user_<?php echo e($user->id); ?>">
+                    <?php echo e($user->name); ?>
+
+                </label>
+            </div>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+           
+        </div>
+    </div> -->
+
     <div class="col-12">
         <div class="form-group">
             <?php echo e(Form::label('atttachment',__('Upload File'),['class'=>'form-label'])); ?>

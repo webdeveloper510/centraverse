@@ -22,6 +22,7 @@ $bar_package = json_decode($setting['barpackage'],true);
 
 $func_package = json_decode($lead->func_package,true);
 $fun_ad_opts = json_decode($lead->ad_opts,true);
+
 @endphp
 @section('title')
 <div class="page-header-title">
@@ -29,7 +30,7 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
 </div>
 @endsection
 @section('breadcrumb')
-<li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Home') }}</a></li>
+<li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
 <li class="breadcrumb-item"><a href="{{ route('lead.index') }}">{{ __('Lead') }}</a></li>
 <li class="breadcrumb-item">{{ __('Details') }}</li>
 @endsection
@@ -137,9 +138,9 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                     <div class="col-6 need_full">
                                         <div class="form-group">
                                             <label for="venue" class="form-label">{{ __('Venue') }}</label>
-                                            <span class="text-sm">
+                                            <!-- <span class="text-sm">
                                                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                            </span>
+                                            </span> -->
                                             @foreach($venue as $key => $label)
                                             <div>
                                                 <input type="checkbox" name="venue[]" id="{{ $label }}"
@@ -170,9 +171,9 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                     <div class="col-6 need_full">
                                         <div class="form-group">
                                             {{ Form::label('function', __('Function'), ['class' => 'form-label']) }}
-                                            <span class="text-sm">
+                                            <!-- <span class="text-sm">
                                                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                            </span>
+                                            </span> -->
                                             <div class="checkbox-group">
                                                 @foreach($function as $key => $value)
 
@@ -229,16 +230,20 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                         <div class="form-group" data-additional-index="{{$fun_key}}"
                                             data-additional-value="{{key($packageVal)}}" id="ad_package"
                                             style="display: none;">
+
                                             {{ Form::label('additional', __($fun_key), ['class' => 'form-label']) }}
                                             @foreach($packageVal as $pac_key =>$item)
+                                           
                                             <div class="form-check" data-additional-index="{{$pac_key}}"
                                                 data-additional-package="{{$pac_key}}">
                                                 <?php $isCheckedif = false;?>
+
                                                 @if(isset($fun_ad_opts) && !empty($fun_ad_opts ))
                                                 @foreach($fun_ad_opts as $keys=>$valss)
-                                                @foreach($valss as $key=>$val)
+                                               
+                                                @foreach($valss as $val)
                                                 @if($pac_key == $val)
-
+                                                <?php $isCheckedif = true;?>
                                                 @endif
                                                 @endforeach
                                                 @endforeach
@@ -254,6 +259,7 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                         @endforeach
                                         @endforeach
                                         @endif
+
 
                                     </div>
                                     <div class="col-6 need_full">

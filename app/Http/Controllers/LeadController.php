@@ -732,16 +732,16 @@ class LeadController extends Controller
     public function review_proposal($id){
        
         $id = decrypt(urldecode($id));
-        $lead = Lead::where('id',$id)->first();
+        $lead = Lead::find($id);
         $venue_function = explode(',', $lead->venue_selection);
         $function_package =  explode(',', $lead->function);
         $status   = Lead::$status;
         $users     = User::where('created_by', \Auth::user()->creatorId())->get();           
         // $proposal = ProposalInfo::where('lead_id',$id)->orderby('id','desc')->first();
-        // echo "<pre>";print_r($proposal);die;  
         return view('lead.review_proposal',compact('lead','venue_function','function_package','users','status'));
     }
     public function review_proposal_data(Request $request, $id){
+        // echo "<pre>";print_r($request->all());die;
         $settings = Utility::settings();
         $validator = \Validator::make($request->all(), [
             'status' => 'required|in:Approve,Resend,Withdraw',
@@ -788,18 +788,26 @@ class LeadController extends Controller
                 'status'           => $status,
                 'guest_count'        =>$request->guest_count,
                 'description'      =>$request->description,
-                'spcl_req'      =>$request->spcl_req,
-                'allergies'       =>$request->allergies,
+                'spcl_req'      => $request->spcl_req,
+                'allergies'       => $request->allergies,
                 'start_time'        =>$request->start_time,
                 'end_time'       =>$request->end_time,
-                'bar'       =>  $request->bar,
+                'bar'       =>  $request->baropt,
                 'rooms'         =>$request->rooms,
                 'created_by'        => \Auth::user()->creatorId()
             ];
             $lead->update($data);
+            
 
+            $statuss = Lead::$stat;
+                if(\Auth::user()->type == 'owner'){
+                    $leads = Lead::with('accounts','assign_user')->where('created_by', \Auth::user()->creatorId())->orderby('id','desc')->get();
+                }
+                else{
+                    $leads = Lead::with('accounts','assign_user')->where('user_id', \Auth::user()->id)->get();
+                }
             if($status == 4){
-                return redirect()->back()->with('success', __('Lead  Approved.'));
+                return redirect()->route('lead.index', compact('leads','statuss'))->with('success', __('Lead Approved!'));
             }elseif($status == 3 ){
                 Proposal::where('lead_id',$id)->delete();
                 try {
@@ -811,10 +819,9 @@ class LeadController extends Controller
                             'mail.username'     => $settings['mail_username'],
                             'mail.password'     => $settings['mail_password'],
                             'mail.from.address' => $settings['mail_from_address'],
-                            'mail.from.name'    => $settings['mail_from_name'],
+                            'mail.from.name'    => $settings['mail_from_name']
                         ]
                     );
-        
                     Mail::to($lead->email)->send(new LeadWithrawMail($lead));
                 } catch (\Exception $e) {
                     // return response()->json(
@@ -823,13 +830,14 @@ class LeadController extends Controller
                     //         'message' => $e->getMessage(),
                     //     ]
                     // );
-                      return redirect()->back()->with('success', 'Email Not Sent');
+                    return redirect()->route('lead.index', compact('leads','statuss'))->with('danger', __('Email Not Sent!'));
                 }
-                return redirect()->back()->with('success', __('Lead  Withdrawn.'));
+                return redirect()->route('lead.index', compact('leads','statuss'))->with('danger', __('Lead Withdrawn!'));
             }elseif($status == 5){
                 $subject = 'Lead Details';
                 $content = '';
                 $proposalinfo = ProposalInfo::where('lead_id',$id)->orderby('id','desc')->first();
+                $propid = $proposalinfo->id;
                 try {
                     config(
                         [
@@ -842,8 +850,7 @@ class LeadController extends Controller
                             'mail.from.name'    => $settings['mail_from_name'],
                         ]
                     );
-                    Mail::to($request->email)->send(new SendPdfEmail($lead,$subject,$content,$proposalinfo));
-
+                    Mail::to($request->email)->send(new SendPdfEmail($lead,$subject,$content,$proposalinfo,$propid));
                     // Mail::to($request->email)->send(new SendPdfEmail($lead,$subject,$content,$tempFilePath = NULL));
                     // unlink($tempFilePath);
                     // $upd = Lead::where('id',$id)->update(['status' => 1]);
@@ -854,10 +861,9 @@ class LeadController extends Controller
                     //                 'message' => $e->getMessage(),
                     //             ]
                     //         );
-                      return redirect()->back()->with('success', 'Email Not Sent');
-              
+                    return redirect()->route('lead.index', compact('leads','statuss'))->with('danger', __('Email Not Sent!'));              
                 }
-                return redirect()->back()->with('success', __('Lead Resent.'));
+                return redirect()->route('lead.index', compact('leads','statuss'))->with('danger', __('Lead Resent!'));
             }
     }
     public function duplicate($id){

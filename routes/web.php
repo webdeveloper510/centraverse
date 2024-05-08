@@ -121,8 +121,17 @@ use Illuminate\Support\Facades\DB;
 // })->middleware(['auth'])->name('dashboard');
 
 require __DIR__ . '/auth.php';
+Route::group(
+    [
+        'middleware' => [
+            'auth',
+            'XSS',
+        ],
+    ],
+    function () {
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard')->middleware(['XSS']);
 
-Route::get('/', [DashboardController::class, 'index'])->name('dashboard')->middleware(['XSS']);
+});
 
 Route::any('/cookie-consent', [SettingController::class, 'CookieConsent'])->name('cookie-consent');
 
@@ -885,15 +894,9 @@ Route::group(['middleware' => ['verified']], function () {
             Route::get('report/eventanalytic', [ReportController::class, 'eventanalytic'])->name('report.eventanalytic');
             Route::get('report/customeranalytic', [ReportController::class, 'customersanalytic'])->name('report.customersanalytic');
             Route::get('report/billinganalytic', [ReportController::class, 'billinganalytic'])->name('report.billinganalytic');
-
-
-
             Route::post('report/usersrate', [ReportController::class, 'usersrate'])->name('report.usersrate');
             Route::post('report/getparent', [ReportController::class, 'getparent'])->name('report.getparent');
             Route::post('report/supportanalytic', [ReportController::class, 'supportanalytic'])->name('report.supportanalytic');
-
-
-
             Route::resource('report', ReportController::class);
         }
     );
@@ -1445,10 +1448,23 @@ Route::get('/testview', function(){
 Route::get('/paypal-payment-success',[BillingController::class,'paypalpaymentsuccess']);
 // Dashboard Testing route
 Route::get('/dashboard-testing',[DashboardTestingController::class,'index']);
-Route::post('/calender-meeting-data', [CalenderNewController::class, 'get_event_data']);
-Route::get('/calender-new', [CalenderNewController::class, 'index'])->name('calendernew.index');
-Route::post('/edit-addittional-items',[SettingController::class,'editadditionalcost'])->name('additionalitems.edit');
-Route::post('/function-packages', [MeetingController::class, 'getpackages'])->name('function.packages');
-Route::get('/event-info',[CalenderNewController::class,'eventinfo'])->name('eventinformation');
-Route::get('/blocked-data-info',[CalenderNewController::class,'blockeddateinfo'])->name('blockedDatesInformation');
-Route::post('calender-data',[CalenderNewController::class,'monthbaseddata'])->name('monthbaseddata');
+Route::group(
+    [
+        'middleware' => [
+            'auth',
+            'XSS',
+        ],
+    ],
+    function () {
+        Route::post('/calender-meeting-data', [CalenderNewController::class, 'get_event_data']);
+        Route::get('/calender-new', [CalenderNewController::class, 'index'])->name('calendernew.index');
+        Route::post('/edit-addittional-items',[SettingController::class,'editadditionalcost'])->name('additionalitems.edit');
+        Route::post('/function-packages', [MeetingController::class, 'getpackages'])->name('function.packages');
+        Route::get('/event-info',[CalenderNewController::class,'eventinfo'])->name('eventinformation');
+        Route::get('/blocked-data-info',[CalenderNewController::class,'blockeddateinfo'])->name('blockedDatesInformation');
+        Route::post('calender-data',[CalenderNewController::class,'monthbaseddata'])->name('monthbaseddata');
+        Route::post('week-calender-data',[CalenderNewController::class,'weekbaseddata'])->name('weekbaseddata');
+        Route::post('day-calender-data',[CalenderNewController::class,'daybaseddata'])->name('daybaseddata');
+
+        
+});

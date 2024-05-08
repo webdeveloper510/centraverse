@@ -8,7 +8,7 @@
     </div>
 @endsection
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Home') }}</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
     <li class="breadcrumb-item">{{ __('Report') }}</li>
     <li class="breadcrumb-item">{{ __('Custom Report') }}</li>
 @endsection
