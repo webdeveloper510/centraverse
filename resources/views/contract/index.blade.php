@@ -17,9 +17,11 @@
 @section('action-btn')
     @if (\Auth::user()->type == 'owner' && \Auth::user()->type != 'Accountant' && \Auth::user()->type != 'Manager')
         @can('Create Contract')
-            <a href="#" class="btn btn-sm btn-primary btn-icon m-1" data-bs-toggle="tooltip" data-bs-placement="top"
+            <!-- <a href="#" class="btn btn-sm btn-primary btn-icon m-1" data-bs-toggle="tooltip" data-bs-placement="top"
                 title="{{ __('Create') }}" data-ajax-popup="true" data-size="lg" data-title="{{ __('Create New Contract') }}"
-                data-url="{{ route('contracts.create') }}"><i class="ti ti-plus text-white"></i></a>
+                data-url="{{ route('contracts.create') }}"><i class="ti ti-plus text-white"></i></a> -->
+                <a href="{{ route('contracts.create') }}" class="btn btn-sm btn-primary btn-icon m-1" data-bs-toggle="tooltip" data-bs-placement="top"
+                title="{{ __('Create New Contract') }}" ><i class="ti ti-plus text-white"></i></a>
         @endcan
     @endif
 @endsection
@@ -33,7 +35,6 @@
                         <table id="datatable" class="table datatable align-items-center">
                             <thead>
                                 <tr>
-                                    <!-- <th width="60px">{{ __('Contracts') }}</th> -->
                                     <th>{{ __('Name') }}</th>
                                     <th>{{ __('User') }}</th>
                                     <th>{{ __('Title') }}</th>
@@ -44,14 +45,7 @@
                             <tbody>
                                 @foreach ($contracts as $contract)
                                     <tr>
-                                        <!-- <td class="Id">
-                                            @can('Show Contract')
-                                                <a href="{{ route('contract.show', $contract->id) }}"
-                                                    class="btn btn-outline-primary">{{ Auth::user()->contractNumberFormat($contract->id) }}</a>
-                                                {{-- @else --}}
-                                                {{-- {{ \Auth::User()->contractNumberFormat($contract->id) }} --}}
-                                            @endcan
-                                        </td> -->
+                                     
                                         <td>{{ $contract->name }}</td>
                                         <td>{{ App\Models\User::find($contract->user_id)->first()->name }}</td>
                                         <td>{{ $contract->subject }}</td>
@@ -70,49 +64,7 @@
                                                     class="status_badge badge bg-warning p-2 px-3 rounded">{{ __('Pending') }}</span>
                                             @endif
                                         </td>
-                                        <!-- <td class="">
-
-
-                                            @can('Show Contract')
-                                                <div class="action-btn bg-warning ms-2">
-                                                    <a href="{{ route('contract.show', $contract->id) }}" data-size="md" data-bs-toggle="tooltip"
-                                                        data-title="{{ __('View') }}" title="{{ __('Quick View') }}"
-                                                        class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                        <i class="ti ti-eye text-white"></i>
-                                                    </a>
-                                                </div>
-                                            @endcan
-
-                                            @if (\Auth::user()->type == 'owner' && \Auth::user()->type != 'Accountant' && \Auth::user()->type != 'Manager')
-                                                @can('Edit Contract')
-
-                                                    <div class="action-btn bg-info ms-2">
-                                                        <a href="#" data-size="md"
-                                                        data-url="{{ URL::to('contract/' . $contract->id . '/edit') }}"
-                                                            data-ajax-popup="true" data-bs-toggle="tooltip"
-                                                            data-title="{{ __('Edit type') }}" title="{{ __('Details') }}"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class="ti ti-edit"></i>
-                                                        </a>
-                                                    </div>
-                                                @endcan
-                                            @endif
-
-                                            @if (\Auth::user()->type == 'owner' && \Auth::user()->type != 'Accountant' && \Auth::user()->type != 'Manager')
-                                                @can('Delete Contract')
-                                                    <div class="action-btn bg-danger ms-2">
-                                                        {!! Form::open(['method' => 'DELETE', 'route' => ['contract.destroy', $contract->id]]) !!}
-                                                        <a href="#!"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center show_confirm"
-                                                            data-bs-toggle="tooltip" data-bs-placement="top"
-                                                            title="{{ __('Delete') }}">
-                                                            <span class="text-white"> <i class="ti ti-trash"></i></span>
-                                                        </a>
-                                                            {!! Form::close() !!}
-                                                    </div>
-                                                @endcan
-                                            @endif
-                                        </td> -->
+                                       
                                     </tr>
                                 @endforeach
                             </tbody>

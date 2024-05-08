@@ -1413,6 +1413,8 @@ Route::group(
         Route::get('contracts',[ContractsController::class,'index'])->name('contracts.index');
         Route::get('contracts/create',[ContractsController::class,'create'])->name('contracts.create');
         Route::post('contracts/store',[ContractsController::class,'store'])->name('contracts.store');
+        Route::get('contracts/detail/{id}',[ContractsController::class,'templatedetail'])->name('contracts.detail');
+        Route::get('contracts/create-new-template',[ContractsController::class,'newtemplate'])->name('contracts.newtemplate');
     });
 
   

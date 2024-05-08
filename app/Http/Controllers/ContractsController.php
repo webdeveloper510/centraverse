@@ -81,11 +81,34 @@ class ContractsController extends Controller
     public function create()
     {
         if (\Auth::user()->can('Create Contract')) {
-            $client    = User::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            // $client       = User::where('type', '=', 'Client')->get()->pluck('name', 'id');
-            $contractType = ContractType::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => "https://api.pandadoc.com/public/v1/documents",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HTTPGET => true, // Specify that it's a GET request
+                CURLOPT_HTTPHEADER => array(
+                    "Content-Type: application/json",
+                    "Authorization: API-Key a9450fe8468cbf168f3eae8ced825d020e84408d",
+                ),
+            ));
+            // Replace 'YOUR_PANDADOC_API_KEY' with your actual PandaDoc API key
+            $response = curl_exec($curl);
+            $err = curl_error($curl);
+            curl_close($curl);
+            if ($err) {
+                return response()->json(['status' => 'error', 'message' => $err], 500);
+            } else {
+                $results = json_decode($response,true);
+                $client    = User::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+                return view('contract.create',compact('results','client'));
+                // return response()->json(['status' => 'success', 'data' => json_decode($response)], 200);
+            }
+               
+         
+            // // $client       = User::where('type', '=', 'Client')->get()->pluck('name', 'id');
+            // $contractType = ContractType::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
-            return view('contract.create', compact('contractType', 'client'));
+           
         } else {
             return response()->json(['error' => __('Permission Denied.')], 401);
         }
@@ -170,10 +193,8 @@ class ContractsController extends Controller
                     return response()->json(['status' => 'error', 'message' => $err], 500);
                 } else {
                     $data = json_decode($response, true);
-                echo "<pre>";print_r($data);die;
                     $documentId = $data['id'];
                     sleep(2);
-
                         $curl2 = curl_init();
                         // Your code for the second cURL request...
                         curl_setopt_array($curl2, array(
@@ -188,7 +209,6 @@ class ContractsController extends Controller
                         $response2 = curl_exec($curl2);
                         $err2 = curl_error($curl2);
                         curl_close($curl2);
-                        
                         if ($err2) {
                             return response()->json(['status' => 'error', 'message' => $err2], 500);
                         } else {
@@ -196,10 +216,8 @@ class ContractsController extends Controller
                             header('Location: https://app.pandadoc.com/a/#/documents/'. $res['id']);
                             exit();
                             // return response()->json(['status' => 'success', 'data' => json_decode($response2)], 200);
-
                             // Process the response of the second cURL request as needed
                         }
-                   
                 }
                
             
@@ -226,6 +244,15 @@ class ContractsController extends Controller
         } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
+    }
+
+    public function templatedetail($id){
+        echo $id;
+    }
+    public function newtemplate(){
+        $client    = User::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+
+        return view('contract.newtemplate',compact('client'));
     }
 
     public function contract_status_edit(Request $request, $id)
