@@ -1464,6 +1464,7 @@ Route::group(
         Route::get('/blocked-data-info',[CalenderNewController::class,'blockeddateinfo'])->name('blockedDatesInformation');
         Route::post('calender-data',[CalenderNewController::class,'monthbaseddata'])->name('monthbaseddata');
         Route::post('week-calender-data',[CalenderNewController::class,'weekbaseddata'])->name('weekbaseddata');
+        Route::post('day-calender-data',[CalenderNewController::class,'daybaseddata'])->name('daybaseddata');
 
         
 });
