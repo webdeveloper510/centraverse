@@ -30,7 +30,7 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
 </div>
 @endsection
 @section('breadcrumb')
-<li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Home') }}</a></li>
+<li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
 <li class="breadcrumb-item"><a href="{{ route('lead.index') }}">{{ __('Lead') }}</a></li>
 <li class="breadcrumb-item">{{ __('Details') }}</li>
 @endsection

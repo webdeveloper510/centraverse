@@ -6,7 +6,7 @@
     {{ __('Users Logs') }}
 @endsection
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Home') }}</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
     <li class="breadcrumb-item"><a href="{{ url('user') }}">{{__('User')}}</a></li>
     <li class="breadcrumb-item">{{ __('User Logs') }}</li>
 @endsection
