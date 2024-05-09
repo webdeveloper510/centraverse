@@ -158,6 +158,8 @@ class ContractsController extends Controller
                 $contract->update(['attachment'=> $filename]);
                 $name =  $request->name;
                 $url = Storage::url('app/public/Contracts/'.$contract->id.'/'. $filename);
+         // Assuming $filename is the name of the file stored in Laravel's storage
+
                 $recipientEmail = 'sonali@codenomad.net';
                 $curl = curl_init();
                 curl_setopt_array($curl, array(
@@ -188,7 +190,6 @@ class ContractsController extends Controller
                     return response()->json(['status' => 'error', 'message' => $err], 500);
                 } else {
                     $data = json_decode($response, true);
-                    // echo "<pre>";print_r($data);die;
                     $documentId = $data['id'];
                     sleep(2);
                         $curl2 = curl_init();
