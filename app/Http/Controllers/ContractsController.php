@@ -158,9 +158,8 @@ class ContractsController extends Controller
                 $contract->update(['attachment'=> $filename]);
                 $name =  $request->name;
                 $url = Storage::url('app/public/Contracts/'.$contract->id.'/'. $filename);
-         // Assuming $filename is the name of the file stored in Laravel's storage
-
-                $recipientEmail = 'sonali@codenomad.net';
+                // Assuming $filename is the name of the file stored in Laravel's storage
+                $recipientEmail = 'testing.test3215@gmail.com';
                 $curl = curl_init();
                 curl_setopt_array($curl, array(
                     CURLOPT_URL => "https://api.pandadoc.com/public/v1/documents",
@@ -182,15 +181,19 @@ class ContractsController extends Controller
                         "Authorization: API-Key a9450fe8468cbf168f3eae8ced825d020e84408d",
                     ),
                 ));
+                // echo"<pre>";print_r($curl);die;
                 // Replace 'YOUR_PANDADOC_API_KEY' with your actual PandaDoc API key
                 $response = curl_exec($curl);
+              
                 $err = curl_error($curl);
                 curl_close($curl);
                 if ($err) {
                     return response()->json(['status' => 'error', 'message' => $err], 500);
                 } else {
                     $data = json_decode($response, true);
+                   
                     $documentId = $data['id'];
+                   
                     sleep(2);
                         $curl2 = curl_init();
                         // Your code for the second cURL request...
@@ -212,7 +215,7 @@ class ContractsController extends Controller
                             $res= json_decode($response2, true);
                             header('Location: https://app.pandadoc.com/a/#/documents/'. $res['id']);
                             exit();
-                            // return response()->json(['status' => 'success', 'data' => json_decode($response2)], 200);
+                            // return response()->json(['status' => 'success', 'data' => json_decode($response)], 200);
                             // Process the response of the second cURL request as needed
                         }
                 }
@@ -244,7 +247,7 @@ class ContractsController extends Controller
     }
 
     public function templatedetail($id){
-        // $url = "https://api.pandadoc.com/public/v1/documents/".$id."/details";
+        // $url = "https://api.pandadoc.com/public/v1/documents/".$id."/download";
        
         // $curl = curl_init();
         // curl_setopt_array($curl, array(
@@ -262,7 +265,7 @@ class ContractsController extends Controller
         // if ($err) {
         //     return response()->json(['status' => 'error', 'message' => $err], 500);
         // } else {
-        //     return response()->json(['status' => 'success', 'data' => json_decode($response)], 200);
+        //     return $response;
         // }
 
         header('Location: https://app.pandadoc.com/a/#/documents/'. $id);

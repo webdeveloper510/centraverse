@@ -195,7 +195,7 @@ $enddate = \Carbon\Carbon::createFromFormat('Y-m-d', $meeting['end_date'])->form
                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                     </tr>
 
-                    <?php if(!$billing_data['setup']['cost'] == ''): ?>
+                    <?php if(!isset($billing_data['setup']) && !$billing_data['setup']['cost'] == ''): ?>
                     <tr>
                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Welcome / Rehearsal / Special Setup</td>
                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px"></td>

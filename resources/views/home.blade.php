@@ -139,7 +139,7 @@ h6 {
 @foreach($activeEvent as $event)
 
 <div class="card">
-                                <div class="card-body">
+                                <div class="card-body new_bottomcard">
                                     <h5 class="card-text">{{ $event['name'] }}
                                         <span>({{ $event['type'] }})</span>
                                     </h5>
@@ -285,7 +285,7 @@ position: intial !important;
 .new-div
 {
 display:flex;
-align-items:center;
+
 }
     .mt10 {
         margin-top: 10px;

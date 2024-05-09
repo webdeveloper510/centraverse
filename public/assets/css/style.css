@@ -2193,7 +2193,7 @@ progress {
     border-color: var(--bs-table-border-color);
 }
 
-.table-responsive {
+.table-responsive .dataTable-container {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
 }
@@ -4551,6 +4551,7 @@ span.badge {
     .navbar-expand-lg .navbar-collapse {
         display: flex !important;
         flex-basis: auto;
+        justify-content: space-between;
     }
 
     .navbar-expand-lg .navbar-toggler {
@@ -18421,6 +18422,7 @@ body:not(.minimenu) .dash-sidebar .dash-submenu .dash-submenu .dash-submenu > .d
         transition: all 0.15s ease-in-out;
     }
 
+
     .scrollbar span.dash-mtext {
         display: block !important;
         float: left;
@@ -29537,7 +29539,12 @@ table.dataTable tbody > tr.selected th.select-checkbox:after {
     padding: 15px;
 	position: relative;
     background-color: #f8f9fa !important;
+    
 }
+.new_bottomcard
+{    display: flex;
+    justify-content: space-between;
+    gap: 10px;}
 h5.card-text {
     font-size: 11px;
     color: #333;
@@ -29552,7 +29559,7 @@ h5.card-text {
     right: 10px;
 }
 .inner_col .action-btn {
-    position: absolute;
+
     right: 6px;
     top: 13px;
 }
@@ -29722,13 +29729,6 @@ div#navbarCollapse ul.dash-navbar {
 }
 
 
-::-webkit-scrollbar {
-    display: block;
-}
 
-/* For Firefox */
-html {
-    scrollbar-width: auto;
-    scrollbar-color: dark;
-}
+
 
