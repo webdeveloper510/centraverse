@@ -473,7 +473,7 @@ $(document).ready(function() {
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('breadcrumb'); ?>
-<li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Home')); ?></a></li>
+<li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Dashboard')); ?></a></li>
 <li class="breadcrumb-item"><?php echo e(__('Settings')); ?></li>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
@@ -1624,7 +1624,7 @@ $(document).ready(function() {
                                                             <div class="row mt-3">
                                                                 <div class="form-group col-md-12">
                                                                     <label class="form-label">Additional Items</label>
-
+                                                                    <div class="table-responsive">
                                                                     <table class="table table-striped table-bordered"
                                                                         style=" border: 1px solid #9b8c8c">
                                                                         <thead>
@@ -1686,7 +1686,7 @@ $(document).ready(function() {
                                                                         </tbody>
                                                                     </table>
 
-
+                                                                            </div>
                                                                 </div>
                                                             </div>
                                                             <?php endif; ?>
@@ -1919,15 +1919,21 @@ $(document).ready(function() {
                                                                     class="signature-canvas"></canvas>
                                                                 <input type="hidden" name="imageData" id="imageData">
                                                             </div>
+                                                            <div class="row">
+                                                            <div class="col-6 need_full">
                                                             <button type="button" id="clearButton"
                                                                 class="btn btn-danger btn-sm mt-1">Clear
                                                                 Signature</button>
-
                                                         </div>
-                                                        <div class="text-end">
+                                                        <div class="col-6 need_full">
+                                                                <div class="text-end mobile-text">
                                                             <input type="submit" value="Save"
                                                                 class="btn-submit btn btn-primary">
                                                         </div>
+                                                        </div>
+                                                        </div>
+                                                        </div>
+                                                        
                                                     </div>
                                                 </div>
                                             </form>

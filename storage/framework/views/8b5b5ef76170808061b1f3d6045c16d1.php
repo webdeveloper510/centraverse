@@ -1,9 +1,6 @@
 <?php echo e(Form::open(['route' => 'contracts.store', 'method' => 'post', 'enctype' => 'multipart/form-data','id'=>'formdata'] )); ?>
 
-
-
 <div class="row">
-
     <div class="col-6">
         <div class="form-group">
             <?php echo e(Form::label('name', __('Contract Name'),['class'=>'form-label'])); ?>
