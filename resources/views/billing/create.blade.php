@@ -108,10 +108,10 @@ $meetingData['setup_cost'] = '';
         <table class="table">
             <thead>
                 <tr>
-                    <th>{{__('Description')}} </th>
-                    <th>{{__('Cost(per person)')}} </th>
-                    <th>{{__('Quantity')}} </th>
-                    <th>{{__('Notes')}} </th>
+                    <th>{{__('Description')}}  <span class="opticy"> dddd</span></th>
+                    <th>{{__('Cost(per person)')}}  <span class="opticy"> dddd</span></th>
+                    <th>{{__('Quantity')}}  <span class="opticy"> dddd</span></th>
+                    <th>{{__('Notes')}}  <span class="opticy"> dddd</span></th>
                 </tr>
             </thead>
             <tbody>

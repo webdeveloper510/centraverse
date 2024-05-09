@@ -2035,7 +2035,7 @@ unset($__errorArgs, $__bag); ?>
 
                         </div>
                     </div> -->
-                        <!-- <div id="brand-settings" class="card">
+                        <div id="brand-settings" class="card">
                             <div class="card-header">
                                 <h5><?php echo e(__('Brand Settings')); ?></h5>
                                 <small class="text-muted"><?php echo e(__('Edit your brand details')); ?></small>

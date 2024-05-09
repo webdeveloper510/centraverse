@@ -62,7 +62,7 @@
                                 <a href="<?php echo e(route('report.leadsanalytic')); ?>" data-bs-toggle="tooltip"
                                     title="<?php echo e(__('Reset')); ?>" data-title="<?php echo e(__('Reset')); ?>"
                                     class=" btn btn-sm align-items-center text-white"><i class="ti ti-refresh"
-                                        style="    margin-right: 1px;" aria-hidden="true"></i></a>
+                                        style="    margin-right: 0px;" aria-hidden="true"></i></a>
                             </div>
                         </div>
 </div>

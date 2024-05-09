@@ -22,17 +22,17 @@
                                     <table id="datatable" class="table datatable align-items-center">
                                         <thead class="thead-light">
                                             <tr>
-                                                <th scope="col" class="sort" data-sort="name">{{ __('Name') }}</th>
-                                                <th scope="col" class="sort" data-sort="status">{{ __('Event') }}</th>
+                                                <th scope="col" class="sort" data-sort="name">{{ __('Name') }} <span class="opticy"> dddd</span></th>
+                                                <th scope="col" class="sort" data-sort="status">{{ __('Event') }} <span class="opticy"> dddd</span></th>
                                                 <th scope="col" class="sort" data-sort="completion">
-                                                    {{ __('Event Date') }}</th>
+                                                    {{ __('Event Date') }} <span class="opticy"> dddd</span></th>
                                                 <th scope="col" class="sort" data-sort="completion">
-                                                    {{ __('Payment Status') }}</th>
+                                                    {{ __('Payment Status') }} <span class="opticy"> dddd</span></th>
                                                 <th scope="col" class="sort" data-sort="completion">
-                                                    {{ __('Billing Amount') }}</th>
+                                                    {{ __('Billing Amount') }}<span class="opticy"> dddd</span></th>
                                                 <th scope="col" class="sort" data-sort="completion">
-                                                    {{ __('Paid Amount') }}</th>
-                                                <th scope="col" class="text-end">{{ __('Action') }}</th>
+                                                    {{ __('Paid Amount') }} <span class="opticy"> dddd</span></th>
+                                                <th scope="col" class="text-end">{{ __('Action') }}<span class="opticy"> dddd</span> </th>
                                             </tr>
                                         </thead>
                                         <tbody>

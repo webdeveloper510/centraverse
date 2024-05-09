@@ -38,15 +38,15 @@
                                         <thead>
                                             <tr>
                                                 <!-- <th scope="col" class="sort" data-sort="name">{{__('Lead')}}</th> -->
-                                                <th scope="col" class="sort" data-sort="name">{{__('Name')}}</th>
-                                                <th scope="col" class="sort" data-sort="budget">{{__('Email')}}</th>
-                                                <th scope="col" class="sort">{{__('Status')}}</th>
+                                                <th scope="col" class="sort" data-sort="name">{{__('Name')}} <span class="opticy"> dddd</span></th>
+                                                <th scope="col" class="sort" data-sort="budget">{{__('Email')}} <span class="opticy"> dddd</span></th>
+                                                <th scope="col" class="sort">{{__('Status')}} <span class="opticy"> dddd</span></th>
                                                 <!-- <th scope="col" class="sort">{{__('Proposal Status')}}</th> -->
-                                                <th scope="col" class="sort">{{__('Lead Status')}}</th>
-                                                <th scope="col" class="sort">{{__('Created On')}}</th>
+                                                <th scope="col" class="sort">{{__('Lead Status')}}<span class="opticy"> dddd</span></th>
+                                                <th scope="col" class="sort">{{__('Created On')}}<span class="opticy"> dddd</span></th>
                                                 @if(Gate::check('Show Lead') || Gate::check('Edit Lead') ||
                                                 Gate::check('Delete Lead'))
-                                                <th scope="col" class="text-end">{{__('Action')}}</th>
+                                                <th scope="col" class="text-end">{{__('Action')}} <span class="opticy"> dddd</span></th>
                                                 @endif
                                             </tr>
                                         </thead>

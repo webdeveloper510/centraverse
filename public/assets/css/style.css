@@ -29697,7 +29697,7 @@ div#lead_select {
     text-align: left !important;
 }
 .need_full {
-    width: 100%;
+    width: 100% !important;
 }
 .floorimages {
     height: 100px !important;

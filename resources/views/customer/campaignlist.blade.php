@@ -25,10 +25,10 @@
                                     <table class="table datatable" id="datatable">
                                         <thead>
                                             <tr>
-                                                <th scope="col" class="sort" data-sort="name">{{__('Campaign Title')}}</th>
-                                                <th scope="col" class="sort" data-sort="name">{{__('Campaign Type')}}</th>
-                                                <th scope="col" class="sort" data-sort="budget">{{__('Created At')}}</th>
-                                                <th scope="col" class="sort">{{__('Action')}}</th>                                               
+                                                <th scope="col" class="sort" data-sort="name">{{__('Campaign Title')}} <span class="opticy"> dddd</span></th>
+                                                <th scope="col" class="sort" data-sort="name">{{__('Campaign Type')}} <span class="opticy"> dddd</span></th>
+                                                <th scope="col" class="sort" data-sort="budget">{{__('Created At')}} <span class="opticy"> dddd</span></th>
+                                                <th scope="col" class="sort">{{__('Action')}} <span class="opticy"> dddd</span></th>                                               
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -38,7 +38,7 @@
                                                     <td><span class="budget"><b>{{ucfirst($campaign->type)}}</b></span></td>
                                                     <td><span class="budget">{{ \Carbon\Carbon::parse($campaign->created_at)->format('d M, Y')}}</span></td>
                                                     <td><button onclick="toggleRowVisibility(<?php echo $key + 1 ?>)" style="border-radius: 35px;">
-                                                    <span class="dash-arrow"><i data-feather="chevron-right"></i></span>
+                                                    <span class="dash-arrow"><i class="ti ti-chevron-right"></i> </span>
                                                     </button></td>
                                                 </tr>
                                                 <tr class="hidden-row" id="hiddenRow{{ $key + 1 }}" style="display: none;    background: #e6ebf2;">
