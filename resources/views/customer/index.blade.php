@@ -16,7 +16,7 @@
         <div class="page-content-wrapper p0" id="useradd-1 " >
             <div class="container-fluid xyz p0">
                 <div class="row" >
-                    <div class="col-lg-12 p0">
+                    <div class="col-lg-12 ">
                         <div class="row">
                         <div class="col-md-4">
                                 <label for="title">Select Recipients</label>
@@ -94,11 +94,11 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <a href="#" data-url="{{route('campaign.existinguser')}}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('Edit Recipients')}}" title="{{__('Select Recipients')}}" class="btn btn-primary btn-icon m-1 close" style="float: right;">{{__('User Recipients')}}</a>
+                        <a href="#" data-url="{{route('campaign.existinguser')}}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('Edit Recipients')}}" title="{{__('Select Recipients')}}" class="btn btn-primary btn-icon m-1 close width_100" >{{__('User Recipients')}}</a>
                     </div>
 
                     <div class="col-md-6">
-                        <a href="#" data-url="{{route('campaign.addeduser')}}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('Edit Recipients')}}" title="{{__('Select Recipients')}}" class="btn btn-primary btn-icon m-1 close" style=" width: 45%;">{{__('List')}}</a>
+                        <a href="#" data-url="{{route('campaign.addeduser')}}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('Edit Recipients')}}" title="{{__('Select Recipients')}}" class="btn btn-primary btn-icon m-1 close width_100" >{{__('List')}}</a>
                     </div>
                 </div>
             </div>

@@ -32,11 +32,11 @@
                                     <table class="table datatable" id="datatable">
                                         <thead>
                                             <tr>
-                                                <th scope="col" class="sort" data-sort="name">{{__('Name')}}</th>
-                                                <th scope="col" class="sort" data-sort="budget">{{__('Email')}}</th>
-                                                <th scope="col" class="sort">{{__('Phone')}}</th>
-                                                <th scope="col" class="sort">{{__('Address')}}</th>
-                                                <th scope="col" class="sort">{{__('Category')}}</th>
+                                                <th scope="col" class="sort" data-sort="name">{{__('Name')}} <span class="opticy"> dddd</span></th>
+                                                <th scope="col" class="sort" data-sort="budget">{{__('Email')}} <span class="opticy"> dddd</span></th>
+                                                <th scope="col" class="sort">{{__('Phone')}} <span class="opticy"> dddd</span></th>
+                                                <th scope="col" class="sort">{{__('Address')}} <span class="opticy"> dddd</span></th>
+                                                <th scope="col" class="sort">{{__('Category')}} <span class="opticy"> dddd</span></th>
                                             </tr>
                                         </thead>
                                         <tbody>
