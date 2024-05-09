@@ -10,7 +10,8 @@ $plansettings = App\Models\Utility::plansettings();
 @endsection
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
-<li class="breadcrumb-item">{{ __('Contracts') }}</li>
+<li class="breadcrumb-item "><a href="{{ route('contracts.index') }}">{{ __('Contracts') }}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ __('New Contract') }}</li>
 @endsection
 @section('action-btn')
 <!-- <a href="{{ route('contact.grid') }}" class="btn btn-sm btn-primary btn-icon m-1"

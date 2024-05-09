@@ -158,8 +158,8 @@ class ContractsController extends Controller
                 $contract->update(['attachment'=> $filename]);
                 $name =  $request->name;
                 $url = Storage::url('app/public/Contracts/'.$contract->id.'/'. $filename);
-         // Assuming $filename is the name of the file stored in Laravel's storage
-                $recipientEmail = 'sonali@codenomad.net';
+                // Assuming $filename is the name of the file stored in Laravel's storage
+                $recipientEmail = 'testing.test3215@gmail.com';
                 $curl = curl_init();
                 curl_setopt_array($curl, array(
                     CURLOPT_URL => "https://api.pandadoc.com/public/v1/documents",
@@ -215,7 +215,7 @@ class ContractsController extends Controller
                             $res= json_decode($response2, true);
                             header('Location: https://app.pandadoc.com/a/#/documents/'. $res['id']);
                             exit();
-                            // return response()->json(['status' => 'success', 'data' => json_decode($response2)], 200);
+                            // return response()->json(['status' => 'success', 'data' => json_decode($response)], 200);
                             // Process the response of the second cURL request as needed
                         }
                 }
@@ -247,7 +247,7 @@ class ContractsController extends Controller
     }
 
     public function templatedetail($id){
-        // $url = "https://api.pandadoc.com/public/v1/documents/".$id."/details";
+        // $url = "https://api.pandadoc.com/public/v1/documents/".$id."/download";
        
         // $curl = curl_init();
         // curl_setopt_array($curl, array(
@@ -265,7 +265,7 @@ class ContractsController extends Controller
         // if ($err) {
         //     return response()->json(['status' => 'error', 'message' => $err], 500);
         // } else {
-        //     return response()->json(['status' => 'success', 'data' => json_decode($response)], 200);
+        //     return $response;
         // }
 
         header('Location: https://app.pandadoc.com/a/#/documents/'. $id);

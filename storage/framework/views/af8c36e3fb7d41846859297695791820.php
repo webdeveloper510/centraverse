@@ -32,7 +32,7 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
 </div>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('breadcrumb'); ?>
-<li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Home')); ?></a></li>
+<li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Dashboard')); ?></a></li>
 <li class="breadcrumb-item"><a href="<?php echo e(route('lead.index')); ?>"><?php echo e(__('Lead')); ?></a></li>
 <li class="breadcrumb-item"><?php echo e(__('Details')); ?></li>
 <?php $__env->stopSection(); ?>
@@ -155,9 +155,9 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                     <div class="col-6 need_full">
                                         <div class="form-group">
                                             <label for="venue" class="form-label"><?php echo e(__('Venue')); ?></label>
-                                            <span class="text-sm">
+                                            <!-- <span class="text-sm">
                                                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                            </span>
+                                            </span> -->
                                             <?php $__currentLoopData = $venue; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $label): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <div>
                                                 <input type="checkbox" name="venue[]" id="<?php echo e($label); ?>"
@@ -193,9 +193,9 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                         <div class="form-group">
                                             <?php echo e(Form::label('function', __('Function'), ['class' => 'form-label'])); ?>
 
-                                            <span class="text-sm">
+                                            <!-- <span class="text-sm">
                                                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                            </span>
+                                            </span> -->
                                             <div class="checkbox-group">
                                                 <?php $__currentLoopData = $function; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 

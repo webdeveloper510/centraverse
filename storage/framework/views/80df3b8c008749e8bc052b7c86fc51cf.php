@@ -12,7 +12,8 @@ $plansettings = App\Models\Utility::plansettings();
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('breadcrumb'); ?>
 <li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Dashboard')); ?></a></li>
-<li class="breadcrumb-item"><?php echo e(__('Contracts')); ?></li>
+<li class="breadcrumb-item "><a href="<?php echo e(route('contracts.index')); ?>"><?php echo e(__('Contracts')); ?></a></li>
+    <li class="breadcrumb-item active" aria-current="page"><?php echo e(__('New Contract')); ?></li>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('action-btn'); ?>
 <!-- <a href="<?php echo e(route('contact.grid')); ?>" class="btn btn-sm btn-primary btn-icon m-1"

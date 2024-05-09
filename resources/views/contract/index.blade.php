@@ -10,7 +10,7 @@
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
-    <li class="breadcrumb-item active" aria-current="page">{{ __('Contract') }}</li>
+    <li class="breadcrumb-item active" aria-current="page">{{ __('Contracts') }}</li>
 @endsection
 
 
@@ -31,7 +31,7 @@
         <div class="col-md-12">
             <div class="card table-card">
                 <div class="card-header card-body table-border-style">
-                    <div class="table-responsive">
+                    <div class="table-responsive" id="useradd-1">
                         <table id="datatable" class="table datatable align-items-center">
                             <thead>
                                 <tr>
