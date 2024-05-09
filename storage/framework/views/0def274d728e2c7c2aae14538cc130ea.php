@@ -144,7 +144,7 @@ h6 {
 <?php $__currentLoopData = $activeEvent; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $event): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
 <div class="card">
-                                <div class="card-body">
+                                <div class="card-body new_bottomcard">
                                     <h5 class="card-text"><?php echo e($event['name']); ?>
 
                                         <span>(<?php echo e($event['type']); ?>)</span>
@@ -295,7 +295,7 @@ position: intial !important;
 .new-div
 {
 display:flex;
-align-items:center;
+
 }
     .mt10 {
         margin-top: 10px;

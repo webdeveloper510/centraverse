@@ -851,6 +851,26 @@ display:none;
     display: flex;
     justify-content: space-between;
 }
+@media only screen and (max-width: 1341px) {
+.dash-header ul li.dash-item a.dash-link
+{
+padding: 5px !important;
+}
+}
+@media only screen and (max-width: 1220px) {
+    .dash-header ul li.dash-item a.dash-link
+    {
+    padding: 2px !important;
+    }
+    .dash-header ul li.dash-item a.dash-link span {
+        font-size: 12px !important;
+    }
+    }
+    @media only screen and (max-width: 1100px) {
+    .dash-header ul li.dash-item a.dash-link span {
+        font-size: 10px !important;
+    }
+}
 @media only screen and (max-width: 1024px) {
     .navbar-expand-lg .navbar-toggler {
         display: block !important;

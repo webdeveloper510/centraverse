@@ -147,7 +147,7 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                 </ul>
                             </div>
 
-                            <div class="navbar-nav ms-auto">
+                            <div class="navbar-nav ">
                                 <li class="dropdown dash-h-item drp-company">
                                     <a class="dash-head-link dropdown-toggle arrow-none me-0"
                                         data-target="#sidenav-main" data-bs-toggle="dropdown" href="#" role="button"
