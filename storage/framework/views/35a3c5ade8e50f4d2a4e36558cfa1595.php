@@ -40,15 +40,15 @@
                                         <thead>
                                             <tr>
                                                 <!-- <th scope="col" class="sort" data-sort="name"><?php echo e(__('Lead')); ?></th> -->
-                                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Name')); ?></th>
-                                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Email')); ?></th>
-                                                <th scope="col" class="sort"><?php echo e(__('Status')); ?></th>
+                                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Name')); ?> <span class="opticy"> dddd</span></th>
+                                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Email')); ?> <span class="opticy"> dddd</span></th>
+                                                <th scope="col" class="sort"><?php echo e(__('Status')); ?> <span class="opticy"> dddd</span></th>
                                                 <!-- <th scope="col" class="sort"><?php echo e(__('Proposal Status')); ?></th> -->
-                                                <th scope="col" class="sort"><?php echo e(__('Lead Status')); ?></th>
-                                                <th scope="col" class="sort"><?php echo e(__('Created On')); ?></th>
+                                                <th scope="col" class="sort"><?php echo e(__('Lead Status')); ?><span class="opticy"> dddd</span></th>
+                                                <th scope="col" class="sort"><?php echo e(__('Created On')); ?><span class="opticy"> dddd</span></th>
                                                 <?php if(Gate::check('Show Lead') || Gate::check('Edit Lead') ||
                                                 Gate::check('Delete Lead')): ?>
-                                                <th scope="col" class="text-end"><?php echo e(__('Action')); ?></th>
+                                                <th scope="col" class="text-end"><?php echo e(__('Action')); ?> <span class="opticy"> dddd</span></th>
                                                 <?php endif; ?>
                                             </tr>
                                         </thead>

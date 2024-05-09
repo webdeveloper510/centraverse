@@ -34,17 +34,17 @@
                                     <table id="datatable" class="table datatable align-items-center">
                                         <thead class="thead-light">
                                             <tr>
-                                                <th scope="col" class="sort" data-sort="name">{{ __('Event') }}</th>
-                                                <th scope="col" class="sort" data-sort="status">{{ __('Status') }}</th>
+                                                <th scope="col" class="sort" data-sort="name">{{ __('Event') }} <span class="opticy"> dddd</span></th>
+                                                <th scope="col" class="sort" data-sort="status">{{ __('Status') }} <span class="opticy"> dddd</span></th>
                                                 <th scope="col" class="sort" data-sort="completion">
-                                                    {{ __('Date Start') }}</th>
+                                                    {{ __('Date Start') }} <span class="opticy"> dddd</span></th>
                                                 <th scope="col" class="sort" data-sort="completion">{{ __('Event') }}
-                                                </th>
+                                                <span class="opticy"> dddd</span> </th>
                                                 <th scope="col" class="sort" data-sort="completion">
-                                                    {{ __('Assigned Staff') }}</th>
+                                                    {{ __('Assigned Staff') }} <span class="opticy"> dddd</span></th>
                                                 @if (Gate::check('Show Meeting') || Gate::check('Edit Meeting') ||
                                                 Gate::check('Delete Meeting'))
-                                                <th scope="col" class="text-end">{{ __('Action') }}</th>
+                                                <th scope="col" class="text-end">{{ __('Action') }} <span class="opticy"> dddd</span></th>
                                                 @endif
                                             </tr>
                                         </thead>
