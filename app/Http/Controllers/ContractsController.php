@@ -243,29 +243,29 @@ class ContractsController extends Controller
     }
 
     public function templatedetail($id){
-        $url = "https://api.pandadoc.com/public/v1/documents/".$id."/details";
+        // $url = "https://api.pandadoc.com/public/v1/documents/".$id."/details";
        
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => $url,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HTTPGET => true, // Specify that it's a GET request
-            CURLOPT_HTTPHEADER => array(
-                "Content-Type: application/json",
-                "Authorization: API-Key a9450fe8468cbf168f3eae8ced825d020e84408d",
-            ),
-        ));
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
-        curl_close($curl);
-        if ($err) {
-            return response()->json(['status' => 'error', 'message' => $err], 500);
-        } else {
-            return response()->json(['status' => 'success', 'data' => json_decode($response)], 200);
-        }
+        // $curl = curl_init();
+        // curl_setopt_array($curl, array(
+        //     CURLOPT_URL => $url,
+        //     CURLOPT_RETURNTRANSFER => true,
+        //     CURLOPT_HTTPGET => true, // Specify that it's a GET request
+        //     CURLOPT_HTTPHEADER => array(
+        //         "Content-Type: application/json",
+        //         "Authorization: API-Key a9450fe8468cbf168f3eae8ced825d020e84408d",
+        //     ),
+        // ));
+        // $response = curl_exec($curl);
+        // $err = curl_error($curl);
+        // curl_close($curl);
+        // if ($err) {
+        //     return response()->json(['status' => 'error', 'message' => $err], 500);
+        // } else {
+        //     return response()->json(['status' => 'success', 'data' => json_decode($response)], 200);
+        // }
 
-        // header('Location: https://app.pandadoc.com/a/#/documents/'. $id);
-        // exit();
+        header('Location: https://app.pandadoc.com/a/#/documents/'. $id);
+        exit();
     }
     public function newtemplate(){
         $client    = User::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');

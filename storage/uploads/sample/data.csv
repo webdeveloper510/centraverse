@@ -96,3 +96,7 @@ IP,Date,Time,Accepted cookies,Device type,Browser language,Browser name,OS Name
 122.176.121.119,2024-05-09,01:26:40 UTC,["necessary"],mobile,en,Safari,iOS,India,DL,National Capital Territory of Delhi,Delhi,110001,28.6542,77.2373
 103.126.7.226,2024-05-09,01:51:39 UTC,["necessary"],mobile,en,Safari,iOS,India,MH,Maharashtra,Airoli,400701,19.151,72.9962
 103.126.7.229,2024-05-09,02:09:31 UTC,["necessary"],mobile,en,Safari,iOS,India,MH,Maharashtra,Airoli,400701,19.151,72.9962
+61.246.6.198,2024-05-09,02:21:13 UTC,["necessary"],desktop,en,Chrome,Windows,India,DL,National Capital Territory of Delhi,New Delhi,110043,28.652,77.1663
+13.235.197.133,2024-05-09,02:36:35 UTC,["necessary"],mobile,en,Safari,iOS,India,MH,Maharashtra,Mumbai,400001,19.076,72.8777
+13.235.197.142,2024-05-09,02:42:15 UTC,["necessary"],mobile,en,Safari,iOS,India,MH,Maharashtra,Mumbai,400001,19.076,72.8777
+13.235.197.142,2024-05-09,02:58:03 UTC,["necessary"],desktop,en,Safari,OS X,India,MH,Maharashtra,Mumbai,400001,19.076,72.8777
