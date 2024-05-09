@@ -91,24 +91,19 @@ class ContractsController extends Controller
                     "Authorization: API-Key a9450fe8468cbf168f3eae8ced825d020e84408d",
                 ),
             ));
-            // Replace 'YOUR_PANDADOC_API_KEY' with your actual PandaDoc API key
             $response = curl_exec($curl);
             $err = curl_error($curl);
             curl_close($curl);
             if ($err) {
+            
                 return response()->json(['status' => 'error', 'message' => $err], 500);
             } else {
+
                 $results = json_decode($response,true);
                 $client    = User::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
                 return view('contract.create',compact('results','client'));
                 // return response()->json(['status' => 'success', 'data' => json_decode($response)], 200);
             }
-               
-         
-            // // $client       = User::where('type', '=', 'Client')->get()->pluck('name', 'id');
-            // $contractType = ContractType::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-
-           
         } else {
             return response()->json(['error' => __('Permission Denied.')], 401);
         }
@@ -193,6 +188,7 @@ class ContractsController extends Controller
                     return response()->json(['status' => 'error', 'message' => $err], 500);
                 } else {
                     $data = json_decode($response, true);
+                    // echo "<pre>";print_r($data);die;
                     $documentId = $data['id'];
                     sleep(2);
                         $curl2 = curl_init();
@@ -247,7 +243,29 @@ class ContractsController extends Controller
     }
 
     public function templatedetail($id){
-        echo $id;
+        $url = "https://api.pandadoc.com/public/v1/documents/".$id."/details";
+       
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPGET => true, // Specify that it's a GET request
+            CURLOPT_HTTPHEADER => array(
+                "Content-Type: application/json",
+                "Authorization: API-Key a9450fe8468cbf168f3eae8ced825d020e84408d",
+            ),
+        ));
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+        curl_close($curl);
+        if ($err) {
+            return response()->json(['status' => 'error', 'message' => $err], 500);
+        } else {
+            return response()->json(['status' => 'success', 'data' => json_decode($response)], 200);
+        }
+
+        // header('Location: https://app.pandadoc.com/a/#/documents/'. $id);
+        // exit();
     }
     public function newtemplate(){
         $client    = User::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
