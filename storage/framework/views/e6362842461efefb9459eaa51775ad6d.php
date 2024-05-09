@@ -398,7 +398,7 @@
         }
 
         #sidebar-wrapper {
-            width: 250px;
+            width: 200px;
         }
 
         #wrapper.toggled #sidebar-wrapper {
@@ -448,4 +448,11 @@
             width: auto;
         }
     }
+    div#sidebar-wrapper .list-group-item-action {
+    display: flex;
+    align-items: center;
+}
+div#sidebar-wrapper .fa-stack {
+    width: 50px !important;
+}
 </style><?php /**PATH /home/crmcentraverse/public_html/resources/views/partials/admin/content.blade.php ENDPATH**/ ?>

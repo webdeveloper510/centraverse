@@ -274,9 +274,13 @@ position: intial !important;
 {
    min-height: 320px;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 1280px) {
  .flex-div {
     display: block !important;
+}
+.card {
+   
+    height: 100%;
 }
 .new-div
 {

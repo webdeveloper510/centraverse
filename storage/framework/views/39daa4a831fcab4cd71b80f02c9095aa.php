@@ -58,7 +58,7 @@ $total += $p->amount;
                 <?php echo e(Form::number('adjustments',$adjustments,array('class'=>'form-control','placeholder'=>__('Enter Adjustments')))); ?>
 
             </div>
-        </div>
+</div>
         <!-- <div class="col-6">
             <div class="form-group">
                 <?php echo e(Form::label('other',__('Other Charges'),['class'=>'form-label'])); ?>
@@ -75,7 +75,7 @@ $total += $p->amount;
 
             </div>
         </div>
-    </div>
+ 
     <div class="col-6">
         <div class="form-group">
             <?php echo e(Form::label('amountpaid',__('Total Paid'),['class'=>'form-label'])); ?>
@@ -108,7 +108,7 @@ $total += $p->amount;
 
             </div>
         </div>
-        <div class="col-6 need_full">
+        <div class="col-6 nee.d_full">
             <div class="form-group">
                 <?php echo e(Form::label('amountcollect',__('Collect Amount'),['class'=>'form-label'])); ?>
 
@@ -167,7 +167,7 @@ $total += $p->amount;
         </div>
 
 
-    </div>
+   
     <div class="col-6">
         <div class="form-group">
             <?php echo e(Form::label('amountcollect',__('Collect Amount'),['class'=>'form-label'])); ?>
@@ -216,6 +216,7 @@ $total += $p->amount;
                 placeholder='Enter Notes'></textarea>
         </div>
     </div>
+</div>
 </div>
 <div class="modal-footer">
     <button type="button" class="btn  btn-light" data-bs-dismiss="modal">Close</button>

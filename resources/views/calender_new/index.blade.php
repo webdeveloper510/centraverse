@@ -76,7 +76,7 @@ p.close-popup {
 </style>
 @section('content')
 <div class="container">
-    <div class="row" id="useradd-1">
+    <div class="row calender" id="useradd-1">
         <div class="col-sm-8">
             <div id="calendar"></div>
         </div>
@@ -87,7 +87,7 @@ p.close-popup {
                         <a href="{{ route('meeting.create',['meeting',0]) }}" style="float: right;"
                             data-date-selected="" id="selectedDate">
                             <button data-bs-toggle="tooltip" title="{{ __('Create') }}"
-                                class="btn btn-sm btn-primary btn-icon m-1" data-bs-original-title="Create"><i
+                                class="btn btn-sm btn-primary btn-icon m-1"   data-bs-placement="top"  data-bs-original-title="Create"><i
                                     class="ti ti-plus"></i></button>
                         </a>
                     </h3>

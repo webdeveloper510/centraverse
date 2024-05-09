@@ -36,7 +36,7 @@
                 <div class="card-body table-border-style">
                     <div class="table-responsive overflow_hidden">
                         <div class="card body table-border-style"></div>
-                        <table id="datatable" class="table datatable align-items-center" id="pc-dt-export">
+                        <table id="datatable" class="table datatable align-items-center dataTable-table" id="pc-dt-export">
                             <thead class="thead-light">
                                 <tr>
                                     <th scope="col" class="sort" data-sort="name">{{ __('Name') }}</th>

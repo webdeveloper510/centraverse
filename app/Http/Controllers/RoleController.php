@@ -54,7 +54,6 @@ class RoleController extends Controller
             else
             {
                 $permissions = new Collection();
-
                 foreach($user->roles as $role)
                 {
                     $permissions = $permissions->merge($role->permissions);

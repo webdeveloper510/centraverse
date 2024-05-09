@@ -23,7 +23,7 @@ $files = Storage::files('app/public/Event/'.$event->id);
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('breadcrumb'); ?>
-<li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Home')); ?></a></li>
+<li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Dashboard')); ?></a></li>
 <li class="breadcrumb-item"><?php echo e(__('Event Information')); ?></li>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('action-btn'); ?>
@@ -99,16 +99,10 @@ $files = Storage::files('app/public/Event/'.$event->id);
                         </dd>
                         <?php endif; ?>
 
-<<<<<<< HEAD
-                        <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Billing Amount')); ?></span></dt>
-                        <dd class="col-md-6"><span class=""><?php if($event->total != 0): ?>$<?php echo e($event->total); ?><?php else: ?> Billing Not
-                                Created <?php endif; ?></span></dd>
-=======
                         <dt class="col-md-6 need_half"><span class="h6  mb-0"><?php echo e(__('Billing Amount')); ?></span></dt>
                         <dd class="col-md-6 need_half"><span class=""><?php if($event->total != 0): ?>$<?php echo e($event->total); ?><?php else: ?> Billing Not
                                 Created <?php endif; ?></span>
 </dd>
->>>>>>> 6543d6850b9160dd72907e0a0807f7f19a9aa5a8
                             <hr class="mt-5">
                             <div class="row">
                                 <div class="col-lg-8 col-md-8 col-sm-12">
