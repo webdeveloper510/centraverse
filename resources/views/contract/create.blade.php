@@ -14,7 +14,7 @@ $plansettings = App\Models\Utility::plansettings();
     <li class="breadcrumb-item active" aria-current="page">{{ __('New Contract') }}</li>
 @endsection
 @section('action-btn')
-<!-- <a href="{{ route('contact.grid') }}" class="btn btn-sm btn-primary btn-icon m-1"
+    <!-- <a href="{{ route('contact.grid') }}" class="btn btn-sm btn-primary btn-icon m-1"
             data-bs-toggle="tooltip"title="{{ __('Grid View') }}">
             <i class="ti ti-layout-grid text-white"></i>
     </a> -->

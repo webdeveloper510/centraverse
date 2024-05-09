@@ -39,7 +39,7 @@ $category= explode(',',$settings['campaign_type']);
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-envelope  "></i></span>
                     <span class="dash-mtext">{{ __('Email') }} </span></a>
                 </a> -->
-                <a href="#twilio-settings" class="list-group-item list-group-item-action border-0"   onclick="showAccordion('collapse15')">
+                <a href="#twilio-settings" class="list-group-item list-group-item-action border-0"  onclick="showAccordion('collapse15')">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-sms"></i></span>
                     <span class="dash-mtext">{{ __('Twilio') }}</span>
                 </a>
@@ -98,7 +98,7 @@ $category= explode(',',$settings['campaign_type']);
                 @if (\Auth::user()->type == 'owner')
                 <a href="#buffer-settings" class="list-group-item list-group-item-action border-0" onclick="showAccordion('collapse21')">
                     <span class="fa-stack fa-lg pull-left"><img src="{{asset('icons/loading.png')}}" alt=""
-                            style="    width: 22px;"></span>
+                            style="width: 22px;"></span>
                     <span class="dash-mtext">{{ __('Buffer') }}</span>
                 </a>
                  <a href="#add-signature" class="list-group-item list-group-item-action border-0"  onclick="showAccordion('collapse22')">
@@ -152,7 +152,7 @@ $category= explode(',',$settings['campaign_type']);
                 @if(isset($category) && !empty($category))
                 @foreach($category as $cat)
                 <a href="{{route('categ', $cat)}}" class="list-group-item list-group-item-action">
-                    <span class="fa-stack fa-lg pull-left"><i class="ti ti-user" title="{{$cat}} Customers"></i></span>
+                    <span class="fa-stack fa-lg pull-left"><i class="ti ti-user" title="{{$cat}}"></i></span>
                     <span class="dash-mtext">{{ $cat }} </span></a>
                 @endforeach
                 @endif
