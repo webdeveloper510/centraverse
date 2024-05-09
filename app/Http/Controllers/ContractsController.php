@@ -159,7 +159,6 @@ class ContractsController extends Controller
                 $name =  $request->name;
                 $url = Storage::url('app/public/Contracts/'.$contract->id.'/'. $filename);
          // Assuming $filename is the name of the file stored in Laravel's storage
-
                 $recipientEmail = 'sonali@codenomad.net';
                 $curl = curl_init();
                 curl_setopt_array($curl, array(
@@ -182,15 +181,19 @@ class ContractsController extends Controller
                         "Authorization: API-Key a9450fe8468cbf168f3eae8ced825d020e84408d",
                     ),
                 ));
+                // echo"<pre>";print_r($curl);die;
                 // Replace 'YOUR_PANDADOC_API_KEY' with your actual PandaDoc API key
                 $response = curl_exec($curl);
+              
                 $err = curl_error($curl);
                 curl_close($curl);
                 if ($err) {
                     return response()->json(['status' => 'error', 'message' => $err], 500);
                 } else {
                     $data = json_decode($response, true);
+                   
                     $documentId = $data['id'];
+                   
                     sleep(2);
                         $curl2 = curl_init();
                         // Your code for the second cURL request...
