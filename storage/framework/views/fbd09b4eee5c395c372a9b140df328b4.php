@@ -207,7 +207,6 @@ $campaign_type = explode(',',$settings['campaign_type']);
 // });
 $(document).ready(function() {  
     $("input[type='text'][name= 'name'],input[type='text'][name= 'email'], select[name='category'],input[type='tel'][name='phone']").focusout(function() {  
-          
         var input = $(this);
         var errorMessage = '';
         if (input.attr('name') === 'email' && input.val() !== '') {
