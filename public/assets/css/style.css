@@ -18421,7 +18421,7 @@ body:not(.minimenu) .dash-sidebar .dash-submenu .dash-submenu .dash-submenu > .d
         transition: all 0.15s ease-in-out;
     }
 
-    
+
     .scrollbar span.dash-mtext {
         display: block !important;
         float: left;
@@ -29723,13 +29723,6 @@ div#navbarCollapse ul.dash-navbar {
 }
 
 
-::-webkit-scrollbar {
-    display: block;
-}
 
-/* For Firefox */
-html {
-    scrollbar-width: auto;
-    scrollbar-color: dark;
-}
+
 
