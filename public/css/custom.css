@@ -889,6 +889,12 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light {
     background: #dbdbdb !important;
     padding: 0px;
 }
+.text-end input {
+    margin-top: 10px;
+}
+.chat-container {
+    padding: 8px !important;
+}
 .new_header
 {
 height:50px;
@@ -991,4 +997,23 @@ table.table.table-share td,table.table.table-share th {
    
     margin-top: 20px;
     padding: 20px;
+}
+.opticy
+{
+opacity: 0;
+}
+.width_100 {
+    width: 100%;
+}
+.new-ac {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: auto;
+    text-align: center;
+}
+
+.new-ac .btn {
+    padding: 0px !important;
+    width: 100%;
 }
