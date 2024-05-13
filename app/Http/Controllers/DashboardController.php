@@ -60,7 +60,7 @@ class DashboardController extends Controller
                 $date = today()->format('Y-m-d');
 
                 $activeLeads = Lead::where('created_by', \Auth::user()->creatorId())->
-                where('lead_status', 1)->take(4)->get();
+                where('lead_status', 1)->get();
                 $revenue = Meeting::all();
                 $events_revenue = 0;
                 foreach ($revenue as $key => $value) {
@@ -74,7 +74,7 @@ class DashboardController extends Controller
                 }
 
                 $lostLeads = Lead::where('created_by', \Auth::user()->creatorId())->where('proposal_status', '==',3)->take(4)->get(); 
-                $activeEvent = Meeting::where('created_by', \Auth::user()->creatorId())->where('start_date', '>=', $date)->take(4)->get();
+                $activeEvent = Meeting::where('created_by', \Auth::user()->creatorId())->where('start_date', '>=', $date)->get();
                 $pastEvents = Meeting::where('created_by', \Auth::user()->creatorId())->where('start_date', '<', $date)->take(4)->get();
 
                 $upcoming = Meeting::where('created_by', \Auth::user()->creatorId())->where('start_date', '>=', $date)->get()->count();

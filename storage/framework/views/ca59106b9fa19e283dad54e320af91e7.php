@@ -8,21 +8,17 @@
     <link rel="stylesheet" href="https://pd-js-sdk.s3.amazonaws.com/0.2.20/pandadoc-js-sdk.css" />
     <style>
     .pandadoc iframe {
-        width: 900px;
-        height: 700px;
+        width: 100%;
+        height: 600px;
     }
     </style>
 </head>
-<?php echo "<pre>";
-print_r($res);die;
 
-?>
 <body>
-    <iframe src="https://app.pandadoc.com/s/<?php echo e($res['id']); ?>/"></iframe>
 
-    <!-- <div id="pandadoc-sdk" class="pandadoc"></div> -->
+    <div id="pandadoc-sdk" class="pandadoc"></div>
 
-    <!-- <script>
+     <script>
     var editor = new PandaDoc.DocEditor();
     editor.show({
         el: '#pandadoc-sdk',
@@ -39,8 +35,8 @@ print_r($res);die;
             onClose: function() {}
         }
     });
-    </script> -->
-
+    </script> 
 </body>
 
-</html><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/pandadoc.blade.php ENDPATH**/ ?>
+</html>
+<?php /**PATH C:\xampp\htdocs\centraverse\resources\views/pandadoc.blade.php ENDPATH**/ ?>

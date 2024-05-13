@@ -157,9 +157,10 @@ class ContractsController extends Controller
 
                 $contract->update(['attachment'=> $filename]);
                 $name =  $request->name;
-                $url = Storage::url('app/public/Contracts/'.$contract->id.'/'. $filename);
+                $url = "https://cdn2.hubspot.net/hubfs/2127247/public-templates/SamplePandaDocPdf_FormFields.pdf";
+                // $url = Storage::url('app/public/Contracts/'.$contract->id.'/'. $filename);
                 // Assuming $filename is the name of the file stored in Laravel's storage
-                $recipientEmail = 'testing.test3215@gmail.com';
+                $recipientEmail = 'sonali@codenomad.net';
                 $curl = curl_init();
                 curl_setopt_array($curl, array(
                     CURLOPT_URL => "https://api.pandadoc.com/public/v1/documents",
@@ -212,14 +213,14 @@ class ContractsController extends Controller
                         if ($err2) {
                             return response()->json(['status' => 'error', 'message' => $err2], 500);
                         } else {
-                            
                             $res= json_decode($response2, true);
                             return view('pandadoc',compact('res'));
                             // header('Location: https://app.pandadoc.com/a/#/documents/'. $res['id']);
                             // exit();
-                            // return response()->json(['status' => 'success', 'data' => json_decode($response)], 200);
+                            return response()->json(['status' => 'success', 'data' => json_decode($response2)], 200);
                             // Process the response of the second cURL request as needed
-                        }
+                        
+                    }
                 }
                
             

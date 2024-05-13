@@ -103,62 +103,60 @@
                                                         </a>
                                                     </div>  -->
                                                     <?php if(!(\App\Models\Billing::where('event_id',$event->id)->exists())): ?>
-
-                                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Payment')): ?>
-                                                    <div class="action-btn bg-primary ms-2">
-                                                        <a href="#" data-size="md"
-                                                            data-url="<?php echo e(route('billing.create',['billing',$event->id])); ?>"
-                                                            data-bs-toggle="tooltip" title="<?php echo e(__('Create')); ?>"
-                                                            data-ajax-popup="true"
-                                                            data-title="<?php echo e(__('Invoice Details')); ?>"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class="ti ti-plus"></i>
-                                                        </a>
-                                                    </div>
-                                                    <?php endif; ?>
+                                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Payment')): ?>
+                                                        <div class="action-btn bg-primary ms-2">
+                                                            <a href="#" data-size="md"
+                                                                data-url="<?php echo e(route('billing.create',['billing',$event->id])); ?>"
+                                                                data-bs-toggle="tooltip" title="<?php echo e(__('Create')); ?>"
+                                                                data-ajax-popup="true"
+                                                                data-title="<?php echo e(__('Invoice Details')); ?>"
+                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                                <i class="ti ti-plus"></i>
+                                                            </a>
+                                                        </div>
+                                                        <?php endif; ?>
                                                     <?php endif; ?>
                                                     <?php if(\App\Models\Billing::where('event_id',$event->id)->exists()): ?>
-                                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Payment')): ?>
-                                                    <?php 
-                                                         $paymentLog = App\Models\PaymentLogs::where('event_id', $event->id)->orderBy('id', 'desc')->first();
-                                                         $paymentInfo = App\Models\PaymentInfo::where('event_id',$event->id)->orderBy('id', 'desc')->first();
-                                                     ?>
-                                                    <?php if($paymentLog): ?>
-                                                    <?php if($paymentLog->amount != 0): ?>
-                                                    <div class="action-btn bg-primary ms-2">
-                                                        <a href="#" data-size="md"
-                                                            data-url="<?php echo e(route('billing.paylink',$event->id)); ?>"
-                                                            data-bs-toggle="tooltip"
-                                                            title="<?php echo e(__('Share Payment Link')); ?>" data-ajax-popup="true"
-                                                            data-title="<?php echo e(__('Payment Link')); ?>"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class="ti ti-share"></i>
-                                                        </a>
-                                                    </div>
-                                                    <?php endif; ?>
-                                                    <?php else: ?>
-                                                    <div class="action-btn bg-primary ms-2">
-                                                        <a href="#" data-size="md"
-                                                            data-url="<?php echo e(route('billing.paylink',$event->id)); ?>"
-                                                            data-bs-toggle="tooltip"
-                                                            title="<?php echo e(__('Share Payment Link')); ?>" data-ajax-popup="true"
-                                                            data-title="<?php echo e(__('Payment Link')); ?>"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class="ti ti-share"></i>
-                                                        </a>
-                                                    </div>
-                                                    <?php endif; ?>
-
-                                                    <div class="action-btn bg-info ms-2">
-                                                        <a href="#" data-size="md"
-                                                            data-url="<?php echo e(route('billing.paymentinfo',urlencode(encrypt($event->id)))); ?>"
-                                                            data-bs-toggle="tooltip" title="<?php echo e(__('Payment')); ?>"
-                                                            data-ajax-popup="true"
-                                                            data-title="<?php echo e(__('Payment Information')); ?>"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class=" fa fa-credit-card "></i>
-                                                        </a>
-                                                    </div>
+                                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Payment')): ?>
+                                                        <?php 
+                                                            $paymentLog = App\Models\PaymentLogs::where('event_id', $event->id)->orderBy('id', 'desc')->first();
+                                                            $paymentInfo = App\Models\PaymentInfo::where('event_id',$event->id)->orderBy('id', 'desc')->first();
+                                                        ?>
+                                                        <?php if($paymentLog): ?>
+                                                            <?php if($paymentLog->amount != 0): ?>
+                                                            <div class="action-btn bg-primary ms-2">
+                                                                <a href="#" data-size="md"
+                                                                    data-url="<?php echo e(route('billing.paylink',$event->id)); ?>"
+                                                                    data-bs-toggle="tooltip"
+                                                                    title="<?php echo e(__('Share Payment Link')); ?>" data-ajax-popup="true"
+                                                                    data-title="<?php echo e(__('Payment Link')); ?>"
+                                                                    class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                                    <i class="ti ti-share"></i>
+                                                                </a>
+                                                            </div>
+                                                            <?php endif; ?>
+                                                        <?php else: ?>
+                                                        <div class="action-btn bg-primary ms-2">
+                                                            <a href="#" data-size="md"
+                                                                data-url="<?php echo e(route('billing.paylink',$event->id)); ?>"
+                                                                data-bs-toggle="tooltip"
+                                                                title="<?php echo e(__('Share Payment Link')); ?>" data-ajax-popup="true"
+                                                                data-title="<?php echo e(__('Payment Link')); ?>"
+                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                                <i class="ti ti-share"></i>
+                                                            </a>
+                                                        </div>
+                                                        <?php endif; ?>
+                                                        <div class="action-btn bg-info ms-2">
+                                                            <a href="#" data-size="md"
+                                                                data-url="<?php echo e(route('billing.paymentinfo',urlencode(encrypt($event->id)))); ?>"
+                                                                data-bs-toggle="tooltip" title="<?php echo e(__('Payment')); ?>"
+                                                                data-ajax-popup="true"
+                                                                data-title="<?php echo e(__('Payment Information')); ?>"
+                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                                <i class=" fa fa-credit-card "></i>
+                                                            </a>
+                                                        </div>
                                                     <?php endif; ?>
                                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Payment')): ?>
                                                     <div class="action-btn bg-warning ms-2">

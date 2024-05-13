@@ -999,7 +999,7 @@ Route::group(['middleware' => ['verified']], function () {
 
         }
     );
-    Route::get('pandadoc',[ContractsController::class,'docs']);
+    Route::get('create-contract',[ContractsController::class,'docs']);
     Route::group(
         [
             'middleware' => [
