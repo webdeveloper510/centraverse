@@ -114,6 +114,7 @@ $leaddata['bar_package_cost'] = $totalBarPackageCost;
                 <!-- <div class="col-md-12"> -->
 
                 <div class="form-group">
+                    <div class="table-res">
                     <table class="table table-share">
                         <thead>
                             <tr>
@@ -144,6 +145,7 @@ $leaddata['bar_package_cost'] = $totalBarPackageCost;
                             @endforeach
                         </tbody>
                     </table>
+</div>
                 </div>
                 <div class="row form-group">
                     <div class="col-md-12">

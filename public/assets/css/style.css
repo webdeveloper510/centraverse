@@ -29727,8 +29727,14 @@ div#navbarCollapse ul.dash-navbar {
 
     z-index: 1;
 }
+.table-responsive {
+    float: left;
+    width: 100%;
+    overflow-x: scroll;
+}
 
-
-
+.table-responsive.mt-4 {
+    overflow-x: scroll;
+}
 
 
