@@ -22,42 +22,45 @@ h6 {
                 <div class="row">
                     @if (\Auth::user()->type == 'owner'||\Auth::user()->type == 'Admin')
                     <div class="col-lg-4 col-sm-12 totallead" style="padding: 15px;">
-                        <div class="card">
-                            <div class="card-body newcard_body" onclick="leads();">
-                                <div class="theme-avtar bg-info">
-                                    <i class="fas fa-address-card"></i>
-                                </div>
-                                <div class="right_side">
-                                    <h6 class="mb-3">{{ __('Active Leads') }}</h6>
-                                    <h3 class="mb-0">{{ $data['totalLead'] }}</h3>
+                        <a href="{{route('lead.index')}}" target="_blank">
+                            <div class="card">
+                                <div class="card-body newcard_body" onclick="leads();">
+                                    <div class="theme-avtar bg-info">
+                                        <i class="fas fa-address-card"></i>
+                                    </div>
+                                    <div class="right_side">
+                                        <h6 class="mb-3">{{ __('Active Leads') }}</h6>
+                                        <h3 class="mb-0">{{ $data['totalLead'] }}</h3>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
                     <div class="col-lg-4 col-sm-12" id="toggleDiv" style="padding: 15px;">
-                        <div class="card">
-                            <div class="card-body newcard_body">
-                                <div class="theme-avtar bg-warning">
-                                    <i class="fa fa-tasks"></i>
-                                </div>
-                                <div class="right_side">
-                                    <h6 class="mb-3">{{ __('Active/Upcoming Events') }}</h6>
-                                    <h3 class="mb-0">{{ @$totalevent }} </h3>
+                        <a href="{{route('meeting.index')}}" target="_blank">
+                            <div class="card">
+                                <div class="card-body newcard_body">
+                                    <div class="theme-avtar bg-warning">
+                                        <i class="fa fa-tasks"></i>
+                                    </div>
+                                    <div class="right_side">
+                                        <h6 class="mb-3">{{ __('Active/Upcoming Events') }}</h6>
+                                        <h3 class="mb-0">{{ @$upcoming }} </h3>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
 
                     <div class="col-lg-4 col-sm-12" style="padding: 15px;">
+                    <a href="{{route('billing.index')}}" target="_blank">
                         <div class="card">
                             <div class="card-body newcard_body new-div">
                                 <div class="theme-avtar bg-success">
                                     <i class="fa fa-dollar-sign"></i>
                                 </div>
-
                                 <div class="flex-div">
-                                    <div style="  
-    ">
+                                    <div style="">
                                         <h6 class="mb-0">{{ __('Amount(E)') }}</h6>
                                         <h3 class="mb-0">
                                             {{ $events_revenue != 0 ? '$'.number_format($events_revenue) : '--' }}</h3>
@@ -75,7 +78,7 @@ h6 {
                             </div>
                         </div>
                     </div>
-
+                    </a>
                     @endif
                     @php
                     $setting = App\Models\Utility::settings();
@@ -86,39 +89,39 @@ h6 {
                     <div class="col-sm">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Active Leads</h5>
-<div class="scrol-card">
+                            <div class="scrol-card">
 
-                            @foreach($activeLeads as $lead)
+                                @foreach($activeLeads as $lead)
 
-                            <div class="card">
-                                <div class="card-body new_bottomcard">
-                                    <h5 class="card-text">{{ $lead['leadname'] }}
-                                        <span>({{ $lead['type'] }})</span>
-                                    </h5>
+                                <div class="card">
+                                    <div class="card-body new_bottomcard">
+                                        <h5 class="card-text">{{ $lead['leadname'] }}
+                                            <span>({{ $lead['type'] }})</span>
+                                        </h5>
 
-                                    @if($lead['start_date'] == $lead['end_date'])
-                                    <p>{{ Carbon\Carbon::parse($lead['start_date'])->format('M d')}}</p>
-                                    @else
-                                    <p>{{ Carbon\Carbon::parse($lead['start_date'])->format('M d')}} -
-                                        {{ \Auth::user()->dateFormat($lead['end_date'])}}
-                                    </p>
-                                    @endif
-                                    @can('Show Lead')
-                                    <div class="action-btn bg-warning ms-2">
-                                        <a href="javascript:void(0);" data-size="md"
-                                            data-url="{{ route('lead.show',$lead['id']) }}" data-bs-toggle="tooltip"
-                                            title="{{__('Quick View')}}" data-ajax-popup="true"
-                                            data-title="{{__('Lead Details')}}"
-                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                            <i class="ti ti-eye"></i>
-                                        </a>
+                                        @if($lead['start_date'] == $lead['end_date'])
+                                        <p>{{ Carbon\Carbon::parse($lead['start_date'])->format('M d')}}</p>
+                                        @else
+                                        <p>{{ Carbon\Carbon::parse($lead['start_date'])->format('M d')}} -
+                                            {{ \Auth::user()->dateFormat($lead['end_date'])}}
+                                        </p>
+                                        @endif
+                                        @can('Show Lead')
+                                        <div class="action-btn bg-warning ms-2">
+                                            <a href="javascript:void(0);" data-size="md"
+                                                data-url="{{ route('lead.show',$lead['id']) }}" data-bs-toggle="tooltip"
+                                                title="{{__('Quick View')}}" data-ajax-popup="true"
+                                                data-title="{{__('Lead Details')}}"
+                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                <i class="ti ti-eye"></i>
+                                            </a>
+                                        </div>
+                                        @endcan
                                     </div>
-                                    @endcan
+
                                 </div>
-                           
-</div>
-                            @endforeach
-</div>
+                                @endforeach
+                            </div>
                             @can('Create Lead')
                             <div class="col-12 text-end mt-3">
                                 <a href="javascript:void(0);" data-url="{{ route('lead.create',['lead',0]) }}"
@@ -135,36 +138,36 @@ h6 {
                     <div class="col-sm">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Active/Upcoming Events</h5>
-<div class="scrol-card">
-@foreach($activeEvent as $event)
+                            <div class="scrol-card">
+                                @foreach($activeEvent as $event)
 
-<div class="card">
-                                <div class="card-body new_bottomcard">
-                                    <h5 class="card-text">{{ $event['name'] }}
-                                        <span>({{ $event['type'] }})</span>
-                                    </h5>
-                                    @if($event['start_date'] == $event['end_date'])
-                                    <p>{{ Carbon\Carbon::parse($event['start_date'])->format('M d')}}</p>
-                                    @else
-                                    <p>{{ Carbon\Carbon::parse($event['start_date'])->format('M d')}} -
-                                        {{ \Auth::user()->dateFormat($event['end_date'])}}
-                                    </p>
-                                    @endif
-                                    @can('Show Meeting')
-                                    <div class="action-btn bg-warning ms-2">
-                                        <a href="javascript:void(0);" data-size="md"
-                                            data-url="{{ route('meeting.show', $event['id']) }}" data-ajax-popup="true"
-                                            data-bs-toggle="tooltip" data-title="{{ __('Event Details') }}"
-                                            title="{{ __('Quick View') }}"
-                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                            <i class="ti ti-eye"></i>
-                                        </a>
+                                <div class="card">
+                                    <div class="card-body new_bottomcard">
+                                        <h5 class="card-text">{{ $event['name'] }}
+                                            <span>({{ $event['type'] }})</span>
+                                        </h5>
+                                        @if($event['start_date'] == $event['end_date'])
+                                        <p>{{ Carbon\Carbon::parse($event['start_date'])->format('M d')}}</p>
+                                        @else
+                                        <p>{{ Carbon\Carbon::parse($event['start_date'])->format('M d')}} -
+                                            {{ \Auth::user()->dateFormat($event['end_date'])}}
+                                        </p>
+                                        @endif
+                                        @can('Show Meeting')
+                                        <div class="action-btn bg-warning ms-2">
+                                            <a href="javascript:void(0);" data-size="md"
+                                                data-url="{{ route('meeting.show', $event['id']) }}"
+                                                data-ajax-popup="true" data-bs-toggle="tooltip"
+                                                data-title="{{ __('Event Details') }}" title="{{ __('Quick View') }}"
+                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                <i class="ti ti-eye"></i>
+                                            </a>
+                                        </div>
+                                        @endcan
                                     </div>
-                                    @endcan
                                 </div>
+                                @endforeach
                             </div>
-                            @endforeach
-</div>
                             @can('Create Meeting')
                             <div class="col-12 text-end mt-3">
                                 <a href="{{ route('meeting.create',['meeting',0]) }}">
@@ -180,44 +183,58 @@ h6 {
                     <div class="col-sm">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Finance</h5>
-<div class="scrol-card">
-                            <div class="card">
-                                <div class="card-body">
-                                    @foreach($events as $event)
-                                    <?php
+                            <div class="scrol-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        @foreach($events as $event)
+                                        <?php
                                             $pay = App\Models\PaymentLogs::where('event_id',$event['id'])->get();
                                             $total = 0;
                                             foreach($pay as $p){
                                             $total += $p->amount;
                                             }
                                         ?>
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <h5 class="card-text">{{ $event['name'] }}
-                                                <span>({{ $event['type'] }})</span>
-                                            </h5>
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h5 class="card-text">{{ $event['name'] }}
+                                                    <span>({{ $event['type'] }})</span>
+                                                </h5>
 
-                                            <div style="    color: #a99595;">
-                                                Billing Amount: ${{ number_format($event['total'])}}<br>
-                                                Pending Amount: ${{number_format($event['total']- $total)}}
+                                                <div style="color: #a99595;">
+                                                    Billing Amount: ${{ number_format($event['total'])}}<br>
+                                                    Pending Amount: ${{number_format($event['total']- $total)}}
+                                                </div>
+
+                                                <div class="date-y">
+                                                    @if($event['start_date'] == $event['end_date'])
+                                                    <p>{{ Carbon\Carbon::parse($event['start_date'])->format('M d, Y')}}
+                                                    </p>
+                                                    @else
+                                                    <p>{{ Carbon\Carbon::parse($event['start_date'])->format('M d, Y')}}
+                                                        -
+                                                        {{ \Auth::user()->dateFormat($event['end_date'])}}
+                                                    </p>
+                                                    @endif
+                                                </div>
+                                                @can('Show Invoice')
+                                                <div class="action-btn bg-warning ms-2">
+                                                        <a href="#" data-size="md"
+                                                            data-url="{{ route('billing.show',$event['id']) }}"
+                                                            data-bs-toggle="tooltip" title="{{__('Quick View')}}"
+                                                            data-ajax-popup="true"
+                                                            data-title="{{__('Invoice Details')}}"
+                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                            <i class="ti ti-eye"></i>
+                                                        </a>
+                                                    </div>
+                                        @endcan
+
                                             </div>
-
-                                            <div class="date-y">
-                                            @if($event['start_date'] == $event['end_date'])
-                                            <p>{{ Carbon\Carbon::parse($event['start_date'])->format('M d, Y')}}</p>
-                                            @else
-                                            <p>{{ Carbon\Carbon::parse($event['start_date'])->format('M d, Y')}} -
-                                                {{ \Auth::user()->dateFormat($event['end_date'])}}
-                                            </p>
-                                            @endif
                                         </div>
-
-                                        </div>
+                                        @endforeach
                                     </div>
-                                    @endforeach
                                 </div>
                             </div>
-</div>
                         </div>
                     </div>
                 </div>
@@ -243,6 +260,7 @@ h5.card-text {
     border-radius: 20px;
     margin-top: 10px;
 }
+
 .date-y {
     float: right;
     padding-bottom: 10px;
@@ -250,18 +268,21 @@ h5.card-text {
     width: 100%;
     margin-top: 10px;
 }
-.inner_col p
-{
-position: intial !important;
+
+.inner_col p {
+    position: intial !important;
 }
+
 .right_side {
     /* width: 70%; */
     float: left;
     text-align: left;
 }
+
 .theme-avtar {
     margin-right: 10px;
 }
+
 .inner_col .scrol-card {
     padding: 10px;
     border: 1px dotted #ccc;
@@ -270,23 +291,26 @@ position: intial !important;
     max-height: 210px;
     overflow-y: scroll;
 }
-.inner_col
-{
-   min-height: 320px;
-}
-@media only screen and (max-width: 1280px) {
- .flex-div {
-    display: block !important;
-}
-.card {
-   
-    height: 100%;
-}
-.new-div
-{
-display:flex;
 
+.inner_col {
+    min-height: 320px;
 }
+
+@media only screen and (max-width: 1280px) {
+    .flex-div {
+        display: block !important;
+    }
+
+    .card {
+
+        height: 100%;
+    }
+
+    .new-div {
+        display: flex;
+
+    }
+
     .mt10 {
         margin-top: 10px;
     }
