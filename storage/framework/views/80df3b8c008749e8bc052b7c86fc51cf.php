@@ -16,7 +16,7 @@ $plansettings = App\Models\Utility::plansettings();
     <li class="breadcrumb-item active" aria-current="page"><?php echo e(__('New Contract')); ?></li>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('action-btn'); ?>
-<!-- <a href="<?php echo e(route('contact.grid')); ?>" class="btn btn-sm btn-primary btn-icon m-1"
+    <!-- <a href="<?php echo e(route('contact.grid')); ?>" class="btn btn-sm btn-primary btn-icon m-1"
             data-bs-toggle="tooltip"title="<?php echo e(__('Grid View')); ?>">
             <i class="ti ti-layout-grid text-white"></i>
     </a> -->
