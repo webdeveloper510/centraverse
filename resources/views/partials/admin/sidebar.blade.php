@@ -2,6 +2,7 @@
 $settings = App\Models\Utility::settings();
 $category= explode(',',$settings['campaign_type']);
 ?>
+
 <div id="sidebar-wrapper">
     <div class="card">
         <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
@@ -13,8 +14,10 @@ $category= explode(',',$settings['campaign_type']);
             </div>
             <div class="scrollbar">
                 @if(\Request::route()->getName() == 'lead.review')
-                <a href="#useradd-1" class="list-group-item list-group-item-action border-0">{{ __('Review Lead') }}
-                    <div class="float-end"><i class="ti ti-chevron-right"></i></div>
+                <a href="#useradd-1" class="list-group-item list-group-item-action border-0">
+                <span class="fa-stack fa-lg pull-left"><i class="ti ti-home-2"></i></span>
+                    <span class="dash-mtext">{{ __('Review Lead') }}</span>
+                    <!-- <div class="float-end"><i class="ti ti-chevron-right"></i></div> -->
                 </a>
                 @endif
                 @if(\Request::route()->getName() == 'dashboard')
@@ -36,7 +39,7 @@ $category= explode(',',$settings['campaign_type']);
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-envelope  "></i></span>
                     <span class="dash-mtext">{{ __('Email') }} </span></a>
                 </a> -->
-                <a href="#twilio-settings" class="list-group-item list-group-item-action border-0"   onclick="showAccordion('collapse15')">
+                <a href="#twilio-settings" class="list-group-item list-group-item-action border-0"  onclick="showAccordion('collapse15')">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-sms"></i></span>
                     <span class="dash-mtext">{{ __('Twilio') }}</span>
                 </a>
@@ -95,7 +98,7 @@ $category= explode(',',$settings['campaign_type']);
                 @if (\Auth::user()->type == 'owner')
                 <a href="#buffer-settings" class="list-group-item list-group-item-action border-0" onclick="showAccordion('collapse21')">
                     <span class="fa-stack fa-lg pull-left"><img src="{{asset('icons/loading.png')}}" alt=""
-                            style="    width: 22px;"></span>
+                            style="width: 22px;"></span>
                     <span class="dash-mtext">{{ __('Buffer') }}</span>
                 </a>
                  <a href="#add-signature" class="list-group-item list-group-item-action border-0"  onclick="showAccordion('collapse22')">
@@ -103,21 +106,12 @@ $category= explode(',',$settings['campaign_type']);
                             style="    width: 22px;"></span>
                     <span class="dash-mtext">{{ __('Authorised Signature') }}</span>
                 </a>
-                <!--<a href="#campaign-type" class="list-group-item list-group-item-action border-0"  onclick="showAccordion('collapse19')">
-                    <span class="fa-stack fa-lg pull-left"><img src="{{asset('icons/marketing.png')}}" alt=""
-                            style="    width: 22px;"></span>
-                    <span class="dash-mtext">{{ __('Campaign Type') }}</span>
-                </a> -->
-                <!-- <a href="#additional-settings" class="list-group-item list-group-item-action border-0" onclick="showAccordion('collapse19')">
-                    <span class="fa-stack fa-lg pull-left"><img src="{{asset('icons/addition-thick-symbol.png')}}"
-                            alt="" style="    width: 22px;"></span>
-                    <span class="dash-mtext">{{ __('Additional') }}</span>
-                </a> -->
+             
                 @endif
                 @endif
                 @if(\Request::route()->getName() == 'billing.index')
                 <a href="#useradd-1" class="list-group-item list-group-item-action">
-                    <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
+                    <span class="fa-stack fa-lg pull-left"><i class="fas fa-file-invoice"></i></span>
                     <span class="dash-mtext">{{ __('Billing') }} </span></a>
                 @endif
                 @if(\Request::route()->getName() == 'calendernew.index')
@@ -128,15 +122,15 @@ $category= explode(',',$settings['campaign_type']);
 
                 @if(\Request::route()->getName() == 'billing.create')
                 <a href="#useradd-1" class="list-group-item list-group-item-action">
-                    <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
+                    <span class="fa-stack fa-lg pull-left"><i class="fas fa-file-invoice"></i></span>
                     <span class="dash-mtext">{{ __('Create Billing') }} </span></a>
                 @endif
                 @if(\Request::route()->getName() == 'customer.index' || \Request::route()->getName() == 'campaign-list')
                 <a href="{{route('customer.index')}}"class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'customer.index' ?'active' : ''}}">
-                    <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
+                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-bullhorn"></i></span>
                     <span class="dash-mtext">{{ __('Campaign') }} </span></a>
                 <a href="{{route('campaign-list')}}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'campaign-list' ?'active' : ''}}">
-                    <span class="fa-stack fa-lg pull-left"></span>
+                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-list"></i></span>
                     <span class="dash-mtext">{{ __('View Campaigns') }} </span></a>
                 @endif
                 @if(\Request::route()->getName() == 'customer.info' ||
@@ -158,7 +152,7 @@ $category= explode(',',$settings['campaign_type']);
                 @if(isset($category) && !empty($category))
                 @foreach($category as $cat)
                 <a href="{{route('categ', $cat)}}" class="list-group-item list-group-item-action">
-                    <span class="fa-stack fa-lg pull-left"><i class="ti ti-user" title="{{$cat}} Customers"></i></span>
+                    <span class="fa-stack fa-lg pull-left"><i class="ti ti-user" title="{{$cat}}"></i></span>
                     <span class="dash-mtext">{{ $cat }} </span></a>
                 @endforeach
                 @endif
@@ -179,23 +173,23 @@ $category= explode(',',$settings['campaign_type']);
                 '')
 
                 <a href="{{ route('report.leadsanalytic') }}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'report.leadsanalytic' ?'active' : ''}}"><span
-                        class="fa-stack fa-lg pull-left"></span>
+                        class="fa-stack fa-lg pull-left"><i class="fas fa-address-card"></i></span>
                     <span class="dash-mtext">{{ __('Leads') }} </span></a>
 
                 </a>
 
                 <a href="{{ route('report.eventanalytic') }}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'report.eventanalytic' ?'active' : ''}}"><span
-                        class="fa-stack fa-lg pull-left"></span>
+                        class="fa-stack fa-lg pull-left"><i class="fa fa-tasks"></i></span>
                     <span class="dash-mtext">{{ __('Events') }} </span></a>
 
                 </a>
                 <a href="{{ route('report.customersanalytic') }}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'report.customersanalytic' ?'active' : ''}}"><span
-                        class="fa-stack fa-lg pull-left"></span>
+                        class="fa-stack fa-lg pull-left"><i class="fa fa-users"></i></span>
                     <span class="dash-mtext">{{ __('Customers') }} </span></a>
 
                 </a>
                 <a href="{{ route('report.billinganalytic') }}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'report.billinganalytic' ?'active' : ''}}"><span
-                        class="fa-stack fa-lg pull-left"></span>
+                        class="fa-stack fa-lg pull-left"><i class="fas fa-file-invoice"></i></span>
                     <span class="dash-mtext">{{ __('Financial') }} </span></a>
 
                 </a>
@@ -203,16 +197,16 @@ $category= explode(',',$settings['campaign_type']);
                 @if(\Request::route()->getName() == 'meeting.create' ||\Request::route()->getName() == 'meeting.edit' )
                 <a href="#useradd-1" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-tasks"></i></span>
-                    <span class="dash-mtext">{{ __('Event') }} </span></a>
-                <a href="#event-details" class="list-group-item list-group-item-action">
-                    <span class="fa-stack fa-lg pull-left"></span>
+                    <span class="dash-mtext">{{ __('Event Details') }} </span></a>
+                <!-- <a href="#event-details" class="list-group-item list-group-item-action">
+                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-info"></i></span>
                     <span class="dash-mtext">{{ __('Event Details') }} </span></a>
                 <a href="#special_req" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"></span>
                     <span class="dash-mtext">{{ __('Special Requirements') }} </span></a>
                 <a href="#other_info" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"></span>
-                    <span class="dash-mtext">{{ __('Other Information') }} </span></a>
+                    <span class="dash-mtext">{{ __('Other Information') }} </span></a> -->
                 @endif
                 @if(\Request::route()->getName() == 'meeting.review' )
                 <a href="#useradd-1" class="list-group-item list-group-item-action">
@@ -221,20 +215,32 @@ $category= explode(',',$settings['campaign_type']);
                 @endif
                 @if(\Request::route()->getName() == 'lead.index' )
                 <a href="#useradd-1" class="list-group-item list-group-item-action"><span
-                        class="fa-stack fa-lg pull-left"><i class="ti ti-home-2"></i></span>
+                        class="fa-stack fa-lg pull-left"><i class="fas fa-address-card"></i></span>
                     <span class="dash-mtext">{{ __('Leads') }} </span></a>
                 </a>
                 @endif
                 @if(\Request::route()->getName() == 'lead.edit' )
                 <a href="#useradd-1" class="list-group-item list-group-item-action"><span
-                        class="fa-stack fa-lg pull-left"><i class="ti ti-home-2"></i></span>
+                        class="fa-stack fa-lg pull-left"><i class="fas fa-address-card"></i></span>
                     <span class="dash-mtext">{{ __('Edit Lead') }} </span></a>
                 </a>
                 @endif
                 @if(\Request::route()->getName() == 'lead.info')
                 <a href="#useradd-1" class="list-group-item list-group-item-action"><span
-                        class="fa-stack fa-lg pull-left"><i class="ti ti-home-2"></i></span>
+                        class="fa-stack fa-lg pull-left"><i class="fas fa-address-card"></i></span>
                     <span class="dash-mtext">{{ __('Leads') }} </span></a>
+                </a>
+                @endif
+                @if(\Request::route()->getName() == 'email.index' ||\Request::route()->getName() == 'email.details'||\Request::route()->getName() == 'email.conversations')
+                <a href="#useradd-1" class="list-group-item list-group-item-action"><span
+                        class="fa-stack fa-lg pull-left"><i class="fa fa-envelope" aria-hidden="true"></i></span>
+                    <span class="dash-mtext">{{ __('Emails') }} </span></a>
+                </a>
+                @endif
+                @if(\Request::route()->getName() == 'contracts.index' ||\Request::route()->getName() == 'contracts.create')
+                <a href="#useradd-1" class="list-group-item list-group-item-action"><span
+                        class="fa-stack fa-lg pull-left"><i class="fa fa-file-contract"></i></span>
+                    <span class="dash-mtext">{{ __('Contracts') }} </span></a>
                 </a>
                 @endif
                 <!-- <li

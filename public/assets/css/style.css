@@ -20802,6 +20802,10 @@ body:not(.minimenu) .dash-sidebar .dash-submenu .dash-submenu .dash-submenu > .d
     .location-sale .card-icon {
         display: none;
     }
+    .scrollbar a {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
 }
 
 .card-Impression .imp-icon {
@@ -29736,5 +29740,23 @@ div#navbarCollapse ul.dash-navbar {
 .table-responsive.mt-4 {
     overflow-x: scroll;
 }
+.fa-stack
+{
+    height:auto !important;
+}
 
 
+.form-group.center-text h4 {
+    text-align: center;
+}
+
+.form-group.center-text img {
+    margin: 0 auto !important;
+    text-align: center;
+}
+
+label.form-check-label {}
+
+.form-group.center-text label {
+    text-align: center !important;
+}

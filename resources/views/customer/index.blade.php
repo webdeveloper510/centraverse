@@ -118,17 +118,17 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-6  mt-4">
-                        <div class="form-group">
+                        <div class="form-group center-text">
                             <input type="radio" name="format" id="format" class="form-check-input" value="html" style="display: none;">
                             <label for="format" class="form-check-label">
-                                <img src="{{asset('assets/images/html-formatter.svg')}}" alt="Uploaded Image" class="img-thumbnail formatter" id="html_mail" data-bs-toggle="tooltip" title="HTML Mail" style="float: inline-end;">
+                                <img src="{{asset('assets/images/html-formatter.svg')}}" alt="Uploaded Image" class="img-thumbnail formatter" id="html_mail" data-bs-toggle="tooltip" title="HTML Mail" style="">
                             </label>
-                            <h4 style="float: inline-end;">HTML Mail</h4>
+                            <h4 class="mt-2">HTML Mail</h4>
                         </div>
 
                     </div>
                     <div class="col-6  mt-4">
-                        <div class="form-group">
+                        <div class="form-group center-text">
                             <input type="radio" name="format" id="txt" class="form-check-input " value="text" style="display: none;">
                             <label for="txt" class="form-check-label">
                                 <img src="{{asset('assets/images/text.svg')}}" alt="Uploaded Image" class="img-thumbnail formatter" id="text_mail" data-bs-toggle="tooltip" title="Text Mail">
