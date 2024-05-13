@@ -109,10 +109,10 @@ $meetingData['setup_cost'] = '';
         <table class="table">
             <thead>
                 <tr>
-                    <th><?php echo e(__('Description')); ?> </th>
-                    <th><?php echo e(__('Cost(per person)')); ?> </th>
-                    <th><?php echo e(__('Quantity')); ?> </th>
-                    <th><?php echo e(__('Notes')); ?> </th>
+                    <th><?php echo e(__('Description')); ?>  <span class="opticy"> dddd</span></th>
+                    <th><?php echo e(__('Cost(per person)')); ?>  <span class="opticy"> dddd</span></th>
+                    <th><?php echo e(__('Quantity')); ?>  <span class="opticy"> dddd</span></th>
+                    <th><?php echo e(__('Notes')); ?>  <span class="opticy"> dddd</span></th>
                 </tr>
             </thead>
             <tbody>

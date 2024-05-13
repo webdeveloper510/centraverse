@@ -212,9 +212,11 @@ class ContractsController extends Controller
                         if ($err2) {
                             return response()->json(['status' => 'error', 'message' => $err2], 500);
                         } else {
+                            
                             $res= json_decode($response2, true);
-                            header('Location: https://app.pandadoc.com/a/#/documents/'. $res['id']);
-                            exit();
+                            return view('pandadoc',compact('res'));
+                            // header('Location: https://app.pandadoc.com/a/#/documents/'. $res['id']);
+                            // exit();
                             // return response()->json(['status' => 'success', 'data' => json_decode($response)], 200);
                             // Process the response of the second cURL request as needed
                         }
@@ -245,7 +247,9 @@ class ContractsController extends Controller
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
     }
-
+    public function docs(){
+        return view('pandadoc');
+    }
     public function templatedetail($id){
         // $url = "https://api.pandadoc.com/public/v1/documents/".$id."/download";
        
