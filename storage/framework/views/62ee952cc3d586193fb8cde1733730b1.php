@@ -23,17 +23,17 @@
                                     <table id="datatable" class="table datatable align-items-center">
                                         <thead class="thead-light">
                                             <tr>
-                                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Name')); ?></th>
-                                                <th scope="col" class="sort" data-sort="status"><?php echo e(__('Event')); ?></th>
+                                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Name')); ?> <span class="opticy"> dddd</span></th>
+                                                <th scope="col" class="sort" data-sort="status"><?php echo e(__('Event')); ?> <span class="opticy"> dddd</span></th>
                                                 <th scope="col" class="sort" data-sort="completion">
-                                                    <?php echo e(__('Event Date')); ?></th>
+                                                    <?php echo e(__('Event Date')); ?> <span class="opticy"> dddd</span></th>
                                                 <th scope="col" class="sort" data-sort="completion">
-                                                    <?php echo e(__('Payment Status')); ?></th>
+                                                    <?php echo e(__('Payment Status')); ?> <span class="opticy"> dddd</span></th>
                                                 <th scope="col" class="sort" data-sort="completion">
-                                                    <?php echo e(__('Billing Amount')); ?></th>
+                                                    <?php echo e(__('Billing Amount')); ?><span class="opticy"> dddd</span></th>
                                                 <th scope="col" class="sort" data-sort="completion">
-                                                    <?php echo e(__('Paid Amount')); ?></th>
-                                                <th scope="col" class="text-end"><?php echo e(__('Action')); ?></th>
+                                                    <?php echo e(__('Paid Amount')); ?> <span class="opticy"> dddd</span></th>
+                                                <th scope="col" class="text-end"><?php echo e(__('Action')); ?><span class="opticy"> dddd</span> </th>
                                             </tr>
                                         </thead>
                                         <tbody>

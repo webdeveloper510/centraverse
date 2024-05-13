@@ -1909,7 +1909,7 @@ $(document).ready(function() {
                             {{ Form::close() }}
                         </div>
                     </div> -->
-                        <div id="brand-settings" class="card">
+                        <!-- <div id="brand-settings" class="card">
                             <div class="card-header">
                                 <h5>{{ __('Brand Settings') }}</h5>
                                 <small class="text-muted">{{ __('Edit your brand details') }}</small>

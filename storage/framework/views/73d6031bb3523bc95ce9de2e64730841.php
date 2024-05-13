@@ -38,23 +38,24 @@
                         <div class="col-auto" style="margin-left: -29px;">
 
                         </div>
-                        <div class="action-btn bg-primary ms-5">
-                            <div class="col-auto ">
-                                <button type="submit" class="mx-3 btn btn-sm align-items-center text-white"
+                        <div class=" new-ac">
+                        <div class="action-btn bg-primary ">
+                            <div class="new-btn">
+                                <button type="submit" class="btn btn-sm align-items-center text-white"
                                     data-bs-toggle="tooltip" title="<?php echo e(__('Apply')); ?>" data-title="<?php echo e(__('Apply')); ?>"><i
                                         class="ti ti-search"></i></button>
                             </div>
                         </div>
                         <?php echo e(Form::close()); ?>
 
-                        <div class="action-btn bg-danger ms-2">
-                            <div class="col-auto">
+                        <div class="action-btn bg-danger">
+                            <div class="new-btn">
                                 <a href="<?php echo e(route('report.billinganalytic')); ?>" data-bs-toggle="tooltip"
                                     title="<?php echo e(__('Reset')); ?>" data-title="<?php echo e(__('Reset')); ?>"
-                                    class=" btn btn-sm align-items-center text-white"><i class="ti ti-refresh" style="    margin-right: 7px;" aria-hidden="true"></i></a>
+                                    class=" btn btn-sm align-items-center text-white"><i class="ti ti-refresh" style="    margin-right: 0px;" aria-hidden="true"></i></a>
                             </div>
                         </div>
-
+</div>
                     </div>
                 </div>
             </div>

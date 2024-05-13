@@ -35,18 +35,18 @@
                                     <table id="datatable" class="table datatable align-items-center">
                                         <thead class="thead-light">
                                             <tr>
-                                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Event')); ?></th>
-                                                <th scope="col" class="sort" data-sort="status"><?php echo e(__('Status')); ?></th>
+                                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Event')); ?> <span class="opticy"> dddd</span></th>
+                                                <th scope="col" class="sort" data-sort="status"><?php echo e(__('Status')); ?> <span class="opticy"> dddd</span></th>
                                                 <th scope="col" class="sort" data-sort="completion">
-                                                    <?php echo e(__('Date Start')); ?></th>
+                                                    <?php echo e(__('Date Start')); ?> <span class="opticy"> dddd</span></th>
                                                 <th scope="col" class="sort" data-sort="completion"><?php echo e(__('Event')); ?>
 
-                                                </th>
+                                                <span class="opticy"> dddd</span> </th>
                                                 <th scope="col" class="sort" data-sort="completion">
-                                                    <?php echo e(__('Assigned Staff')); ?></th>
+                                                    <?php echo e(__('Assigned Staff')); ?> <span class="opticy"> dddd</span></th>
                                                 <?php if(Gate::check('Show Meeting') || Gate::check('Edit Meeting') ||
                                                 Gate::check('Delete Meeting')): ?>
-                                                <th scope="col" class="text-end"><?php echo e(__('Action')); ?></th>
+                                                <th scope="col" class="text-end"><?php echo e(__('Action')); ?> <span class="opticy"> dddd</span></th>
                                                 <?php endif; ?>
                                             </tr>
                                         </thead>
