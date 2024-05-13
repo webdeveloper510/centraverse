@@ -259,21 +259,19 @@
                                             Others</td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            $<?php echo e($billing_data['additional_items']['cost']); ?></td>
+                                            $<?php echo e($billing_data['special_req']['cost']); ?></td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            <?php echo e($billing_data['additional_items']['quantity']); ?></td>
+                                            <?php echo e($billing_data['special_req']['quantity']); ?></td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            $<?php echo e($total[] =$billing_data['additional_items']['cost'] * $billing_data['additional_items']['quantity']); ?>
+                                            $<?php echo e($total[] =$billing_data['special_req']['cost'] * $billing_data['special_req']['quantity']); ?>
 
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-
                                     </tr>
                                     <tr>
                                         <td>-</td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                         <td colspan="3" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                     </tr>
                                     <tr>
