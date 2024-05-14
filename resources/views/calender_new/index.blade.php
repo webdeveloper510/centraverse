@@ -394,14 +394,7 @@ $(document).on('click', 'button.fc-next-button', function() {
     document.getElementById('daySelected')
         .innerHTML = '';
     var month = $('.fc-toolbar-title').text();
-//     var pattern = /^[A-Z]+\s\d{1,2},\s\d{4}$/;
 
-// // Check if the string matches the pattern
-// if (pattern.test(month)) {
-//     console.log("The string is in the correct format.");
-// } else {
-//     console.log("The string is not in the correct format.");
-// }
     var parts = month.split(' ');
     var monthName = parts[0];
     var year = parts[1];
@@ -822,6 +815,7 @@ function display_count() {
                         editable: false,
                         dayMaxEvents: true,
                         handleWindowResize: true,
+                        showNonCurrentDates: false ,           
                         height: 'auto',
                         timeFormat: 'H(:mm)',
                         initialView: 'dayGridMonth',

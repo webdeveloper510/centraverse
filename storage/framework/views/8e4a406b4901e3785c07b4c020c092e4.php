@@ -54,31 +54,33 @@ h6 {
                     </div>
 
                     <div class="col-lg-4 col-sm-12" style="padding: 15px;">
-                    <a href="<?php echo e(route('billing.index')); ?>" target="_blank">
-                        <div class="card">
-                            <div class="card-body newcard_body new-div">
-                                <div class="theme-avtar bg-success">
-                                    <i class="fa fa-dollar-sign"></i>
-                                </div>
-                                <div class="flex-div">
-                                    <div style="">
-                                        <h6 class="mb-0"><?php echo e(__('Amount(E)')); ?></h6>
-                                        <h3 class="mb-0">
-                                            <?php echo e($events_revenue != 0 ? '$'.number_format($events_revenue) : '--'); ?></h3>
+                        <a href="<?php echo e(route('billing.index')); ?>" target="_blank">
+                            <div class="card">
+                                <div class="card-body newcard_body new-div">
+                                    <div class="theme-avtar bg-success">
+                                        <i class="fa fa-dollar-sign"></i>
                                     </div>
-                                    <div class="mt10">
-                                        <h6 class="mb-0"><?php echo e(__('Amount Recieved(E)')); ?></h6>
-                                        <h3 class="mb-0">
-                                            <?php echo e($events_revenue_generated != 0 ? '$'.number_format($events_revenue_generated) : '--'); ?>
+                                    <div class="flex-div">
+                                        <div style="">
+                                            <h6 class="mb-0"><?php echo e(__('Amount(E)')); ?></h6>
+                                            <h3 class="mb-0">
+                                                <?php echo e($events_revenue != 0 ? '$'.number_format($events_revenue) : '--'); ?>
 
-                                        </h3>
+                                            </h3>
+                                        </div>
+                                        <div class="mt10">
+                                            <h6 class="mb-0"><?php echo e(__('Amount Recieved(E)')); ?></h6>
+                                            <h3 class="mb-0">
+                                                <?php echo e($events_revenue_generated != 0 ? '$'.number_format($events_revenue_generated) : '--'); ?>
 
-                                    </div>
-                                    <!-- </div>
+                                            </h3>
+
+                                        </div>
+                                        <!-- </div>
                                     <div class="right_side" style="    width: 35% !important;"> -->
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                     </div>
                     </a>
                     <?php endif; ?>
@@ -86,7 +88,6 @@ h6 {
                     $setting = App\Models\Utility::settings();
                     ?>
                 </div>
-
                 <div class="row">
                     <div class="col-sm">
                         <div class="inner_col">
@@ -137,7 +138,6 @@ h6 {
                             </div>
                             <?php endif; ?>
                         </div>
-
                     </div>
                     <div class="col-sm">
                         <div class="inner_col">
@@ -184,7 +184,6 @@ h6 {
                             </div>
                             <?php endif; ?>
                         </div>
-
                     </div>
                     <div class="col-sm">
                         <div class="inner_col">
@@ -229,16 +228,15 @@ h6 {
                                                 </div>
                                                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Invoice')): ?>
                                                 <div class="action-btn bg-warning ms-2">
-                                                        <a href="#" data-size="md"
-                                                            data-url="<?php echo e(route('billing.show',$event['id'])); ?>"
-                                                            data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>"
-                                                            data-ajax-popup="true"
-                                                            data-title="<?php echo e(__('Invoice Details')); ?>"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class="ti ti-eye"></i>
-                                                        </a>
-                                                    </div>
-                                        <?php endif; ?>
+                                                    <a href="#" data-size="md"
+                                                        data-url="<?php echo e(route('billing.show',$event['id'])); ?>"
+                                                        data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>"
+                                                        data-ajax-popup="true" data-title="<?php echo e(__('Invoice Details')); ?>"
+                                                        class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                        <i class="ti ti-eye"></i>
+                                                    </a>
+                                                </div>
+                                                <?php endif; ?>
 
                                             </div>
                                         </div>
@@ -252,7 +250,6 @@ h6 {
             </div>
         </div>
     </div>
-
 </div>
 <style>
 h5.card-text {
@@ -327,5 +324,73 @@ h5.card-text {
     }
 }
 </style>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.3.2/firebase.js"></script>
+<script>
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+        navigator.serviceWorker.register('firebase-messaging-sw.js')
+            .then(function(registration) {
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            })
+            .catch(function(err) {
+                console.error('ServiceWorker registration failed: ', err);
+            });
+    });
+}
+</script>
+
+<script>
+$(document).ready(function() {
+    var firebaseConfig = {
+        apiKey: "AIzaSyB3y7uzZSAP39LOIvZwOjJOdFD2myDnvQk",
+        authDomain: "notify-71d80.firebaseapp.com",
+        projectId: "notify-71d80",
+        storageBucket: "notify-71d80.appspot.com",
+        messagingSenderId: "684664764020",
+        appId: "1:684664764020:web:71f82128ffc0e20e3fc321",
+        measurementId: "G-FTD60E8WG9"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const messaging = firebase.messaging();
+
+    messaging
+        .requestPermission()
+        .then(function() {
+            return messaging.getToken()
+        })
+        .then(function(response) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: '<?php echo e(route("store.token")); ?>',
+                type: 'POST',
+                data: {
+                    token: response
+                },
+                dataType: 'JSON',
+                success: function(response) {
+                    console.log('Token stored.');
+                },
+                error: function(error) {
+                    console.log(error);
+                },
+            });
+        }).catch(function(error) {
+            console.log(error);
+        });
+    messaging.onMessage(function(payload) {
+        const title = payload.notification.title;
+        const options = {
+            body: payload.notification.body,
+            icon: payload.notification.icon,
+        };
+        new Notification(title, options);
+    });
+})
+</script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/crmcentraverse/public_html/resources/views/home.blade.php ENDPATH**/ ?>

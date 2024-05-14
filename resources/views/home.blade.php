@@ -53,30 +53,31 @@ h6 {
                     </div>
 
                     <div class="col-lg-4 col-sm-12" style="padding: 15px;">
-                    <a href="{{route('billing.index')}}" target="_blank">
-                        <div class="card">
-                            <div class="card-body newcard_body new-div">
-                                <div class="theme-avtar bg-success">
-                                    <i class="fa fa-dollar-sign"></i>
-                                </div>
-                                <div class="flex-div">
-                                    <div style="">
-                                        <h6 class="mb-0">{{ __('Amount(E)') }}</h6>
-                                        <h3 class="mb-0">
-                                            {{ $events_revenue != 0 ? '$'.number_format($events_revenue) : '--' }}</h3>
+                        <a href="{{route('billing.index')}}" target="_blank">
+                            <div class="card">
+                                <div class="card-body newcard_body new-div">
+                                    <div class="theme-avtar bg-success">
+                                        <i class="fa fa-dollar-sign"></i>
                                     </div>
-                                    <div class="mt10">
-                                        <h6 class="mb-0">{{ __('Amount Recieved(E)') }}</h6>
-                                        <h3 class="mb-0">
-                                            {{ $events_revenue_generated != 0 ? '$'.number_format($events_revenue_generated) : '--' }}
-                                        </h3>
+                                    <div class="flex-div">
+                                        <div style="">
+                                            <h6 class="mb-0">{{ __('Amount(E)') }}</h6>
+                                            <h3 class="mb-0">
+                                                {{ $events_revenue != 0 ? '$'.number_format($events_revenue) : '--' }}
+                                            </h3>
+                                        </div>
+                                        <div class="mt10">
+                                            <h6 class="mb-0">{{ __('Amount Recieved(E)') }}</h6>
+                                            <h3 class="mb-0">
+                                                {{ $events_revenue_generated != 0 ? '$'.number_format($events_revenue_generated) : '--' }}
+                                            </h3>
 
-                                    </div>
-                                    <!-- </div>
+                                        </div>
+                                        <!-- </div>
                                     <div class="right_side" style="    width: 35% !important;"> -->
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                     </div>
                     </a>
                     @endif
@@ -84,7 +85,6 @@ h6 {
                     $setting = App\Models\Utility::settings();
                     @endphp
                 </div>
-
                 <div class="row">
                     <div class="col-sm">
                         <div class="inner_col">
@@ -133,7 +133,6 @@ h6 {
                             </div>
                             @endcan
                         </div>
-
                     </div>
                     <div class="col-sm">
                         <div class="inner_col">
@@ -178,7 +177,6 @@ h6 {
                             </div>
                             @endcan
                         </div>
-
                     </div>
                     <div class="col-sm">
                         <div class="inner_col">
@@ -218,16 +216,15 @@ h6 {
                                                 </div>
                                                 @can('Show Invoice')
                                                 <div class="action-btn bg-warning ms-2">
-                                                        <a href="#" data-size="md"
-                                                            data-url="{{ route('billing.show',$event['id']) }}"
-                                                            data-bs-toggle="tooltip" title="{{__('Quick View')}}"
-                                                            data-ajax-popup="true"
-                                                            data-title="{{__('Invoice Details')}}"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class="ti ti-eye"></i>
-                                                        </a>
-                                                    </div>
-                                        @endcan
+                                                    <a href="#" data-size="md"
+                                                        data-url="{{ route('billing.show',$event['id']) }}"
+                                                        data-bs-toggle="tooltip" title="{{__('Quick View')}}"
+                                                        data-ajax-popup="true" data-title="{{__('Invoice Details')}}"
+                                                        class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                        <i class="ti ti-eye"></i>
+                                                    </a>
+                                                </div>
+                                                @endcan
 
                                             </div>
                                         </div>
@@ -241,7 +238,6 @@ h6 {
             </div>
         </div>
     </div>
-
 </div>
 <style>
 h5.card-text {
@@ -316,4 +312,72 @@ h5.card-text {
     }
 }
 </style>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.3.2/firebase.js"></script>
+<script>
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+        navigator.serviceWorker.register('firebase-messaging-sw.js')
+            .then(function(registration) {
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            })
+            .catch(function(err) {
+                console.error('ServiceWorker registration failed: ', err);
+            });
+    });
+}
+</script>
+
+<script>
+$(document).ready(function() {
+    var firebaseConfig = {
+        apiKey: "AIzaSyB3y7uzZSAP39LOIvZwOjJOdFD2myDnvQk",
+        authDomain: "notify-71d80.firebaseapp.com",
+        projectId: "notify-71d80",
+        storageBucket: "notify-71d80.appspot.com",
+        messagingSenderId: "684664764020",
+        appId: "1:684664764020:web:71f82128ffc0e20e3fc321",
+        measurementId: "G-FTD60E8WG9"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const messaging = firebase.messaging();
+
+    messaging
+        .requestPermission()
+        .then(function() {
+            return messaging.getToken()
+        })
+        .then(function(response) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: '{{ route("store.token") }}',
+                type: 'POST',
+                data: {
+                    token: response
+                },
+                dataType: 'JSON',
+                success: function(response) {
+                    console.log('Token stored.');
+                },
+                error: function(error) {
+                    console.log(error);
+                },
+            });
+        }).catch(function(error) {
+            console.log(error);
+        });
+    messaging.onMessage(function(payload) {
+        const title = payload.notification.title;
+        const options = {
+            body: payload.notification.body,
+            icon: payload.notification.icon,
+        };
+        new Notification(title, options);
+    });
+})
+</script>
 @endsection
