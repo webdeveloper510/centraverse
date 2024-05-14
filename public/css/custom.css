@@ -955,10 +955,6 @@ height:50px;
 
 
 
-	table.table.table-share {
-    table-layout: fixed;
-    white-space: nowrap;
-}
 
 table.table.table-share td,table.table.table-share th {
     white-space: normal;
@@ -997,8 +993,7 @@ table.table.table-share td,table.table.table-share th {
 }
 
 table.table.table-share {
-    table-layout: fixed;
-    white-space: nowrap;
+    width: max-content;
 }
 
 table.table.table-share td,table.table.table-share th {
@@ -1036,4 +1031,11 @@ opacity: 0;
 .new-ac .btn {
     padding: 0px !important;
     width: 100%;
+}
+
+.table-res {
+    overflow-x: scroll;
+}
+.table-responsive.mt-4 {
+    overflow-x: scroll;
 }
