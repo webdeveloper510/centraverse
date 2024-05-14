@@ -85,7 +85,7 @@ class CustomerInformation extends Controller
             foreach ($uArr as  $value) {
                 try {
                     $client = new Client($account_sid, $auth_token);
-                    $client->messages->create('+91' . $value['user'][0], [
+                    $client->messages->create('+1' . $value['user'][0], [
                         'from' => $twilio_number,
                         'body' => $value['content'],
                     ]);
@@ -95,8 +95,6 @@ class CustomerInformation extends Controller
                 }
             }
         }
-
-
         $customers = explode(',', $request->recepient_names);
         $subject = $request->description;
         $settings = Utility::settings();
@@ -119,8 +117,8 @@ class CustomerInformation extends Controller
                     if ($attachment !== null) {
                         $mail->attach($attachmentPath);
                     }
-                    Mail::to($customer)->send($mail);
-                    // Mail::to($customer)->send(new SendCampaignMail($campaignlist, $attachmentPath));
+                    // Mail::to($customer)->send($mail);
+                    Mail::to('sonali@codenomad.net')->send(new SendCampaignMail($campaignlist, $attachmentPath));
                 } elseif (($request->format) && $request->format == 'text') {
                     Mail::to($customer)->send(new CampaigntextMail($content));
                 }
