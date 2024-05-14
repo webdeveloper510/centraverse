@@ -180,7 +180,7 @@ h6 {
                     </div>
                     <div class="col-sm">
                         <div class="inner_col">
-                            <h5 class="card-title mb-2">Finance</h5>
+                            <h5 class="card-title mb-2">Finances</h5>
                             <div class="scrol-card">
                                 <div class="card">
                                     <div class="card-body">
