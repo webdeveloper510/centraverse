@@ -312,7 +312,9 @@ h5.card-text {
     }
 }
 </style>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+@endsection
+@push('script-page')
 <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase.js"></script>
 <script>
 if ('serviceWorker' in navigator) {
@@ -380,4 +382,4 @@ $(document).ready(function() {
     });
 })
 </script>
-@endsection
+@endpush
