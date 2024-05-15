@@ -52,16 +52,6 @@ doclist.init({
     var editor = new PandaDoc.DocEditor();
     editor.show({
         el: '#pandadoc-sdk',
-        docName: 'Document Name',
-        recipients: [{
-            first_name: "Sonali",
-            last_name: "Khanijo",
-            email: "sonali@codenomad.net",
-            phone: "+1 415-012-3456",
-            company: "Sample Company",
-            roleName: "Client",
-            default: true
-        }],
         data: {
             metadata: {
                 abc: 'asasdad'
@@ -70,10 +60,9 @@ doclist.init({
         cssClass: 'style-me',
         events: {
             onInit: function() {},
-            onDocumentCreated: function() {
-            },
-            onDocumentSent: function() { alert('Document Sent!');},
-            onClose: function() {console.log('Editor Modal Closed!')}
+            onDocumentCreated: function() {},
+            onDocumentSent: function() {},
+            onClose: function() {}
         }
     });
     </script>

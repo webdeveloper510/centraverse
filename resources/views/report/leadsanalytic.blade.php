@@ -43,24 +43,24 @@
                             <!-- {{ Form::select('status', ['' => 'Select Status'] + $status, isset($_GET['status']) ? $_GET['status'] : '', ['class' => 'form-control', 'style' => 'margin-left: 29px;']) }} -->
                         </div>
                         <!-- <div class="c"> -->
-                            <div class=" new-ac">
-                        <div class="action-btn bg-primary ">
-                            <div class="new-btn">
-                                <button type="submit" class=" btn btn-sm align-items-center text-white"
-                                    data-bs-toggle="tooltip" title="{{ __('Apply') }}" data-title="{{ __('Apply') }}"><i
-                                        class="ti ti-search"></i></button>
+                        <div class=" new-ac">
+                            <div class="action-btn bg-primary ">
+                                <div class="new-btn">
+                                    <button type="submit" class=" btn btn-sm align-items-center text-white"
+                                        data-bs-toggle="tooltip" title="{{ __('Apply') }}"
+                                        data-title="{{ __('Apply') }}"><i class="ti ti-search"></i></button>
+                                </div>
+                            </div>
+                            {{ Form::close() }}
+                            <div class="action-btn bg-danger ">
+                                <div class="new-btn">
+                                    <a href="{{ route('report.leadsanalytic') }}" data-bs-toggle="tooltip"
+                                        title="{{ __('Reset') }}" data-title="{{ __('Reset') }}"
+                                        class=" btn btn-sm align-items-center text-white"><i class="ti ti-refresh"
+                                            style="    margin-right: 0px;" aria-hidden="true"></i></a>
+                                </div>
                             </div>
                         </div>
-                        {{ Form::close() }}
-                        <div class="action-btn bg-danger ">
-                            <div class="new-btn">
-                                <a href="{{ route('report.leadsanalytic') }}" data-bs-toggle="tooltip"
-                                    title="{{ __('Reset') }}" data-title="{{ __('Reset') }}"
-                                    class=" btn btn-sm align-items-center text-white"><i class="ti ti-refresh"
-                                        style="    margin-right: 0px;" aria-hidden="true"></i></a>
-                            </div>
-                        </div>
-</div>
                     </div>
                     <!-- <div class="action-btn bg-primary ms-2">
                             <div class="col-auto">
@@ -133,29 +133,51 @@
                         <thead>
                             <tr>
                                 <th scope="col" class="sort" data-sort="name">{{ __('Name') }}</th>
-                                <th scope="col" class="sort" data-sort="budget">{{ __(' Lead Status') }} <span class="opticy"> dddd</span> </th>
-                                <th scope="col" class="sort" data-sort="budget">{{ __('Status') }} <span class="opticy"> dddd</span> </th>
-                                <th scope="col" class="sort" data-sort="budget">{{ __('Created By') }} <span class="opticy"> dddd</span></th>
-                                <th scope="col" class="sort" data-sort="name">{{ __('Type') }} <span class="opticy"> dddd</span></th>
-                                <th scope="col" class="sort" data-sort="name">{{ __('Phone') }}<span class="opticy"> dddd</span></th>
-                                <th scope="col" class="sort" data-sort="name">{{ __('Email') }}<span class="opticy"> dddd</span></th>
-                                <th scope="col" class="sort" data-sort="name">{{ __('Date') }} <span class="opticy"> dddd</span></th>
-                                <th scope="col" class="sort" data-sort="name">{{ __('Time') }} <span class="opticy"> dddd</span></th>
-                                <th scope="col" class="sort" data-sort="name">{{ __('Assigned Staff') }} <span class="opticy"> dddd</span></th>
-                                <th scope="col" class="sort" data-sort="name">{{ __('Rooms required') }} <span class="opticy"> dddd</span></th>
-                                <th scope="col" class="sort" data-sort="name">{{ __('Bar') }} <span class="opticy"> dddd</span></th>
-                                <th scope="col" class="sort" data-sort="name">{{ __('Bar Package') }} <span class="opticy"> dddd</span></th>
-                                <th scope="col" class="sort" data-sort="name">{{ __('Function') }} <span class="opticy"> dddd</span></th>
-                                <th scope="col" class="sort" data-sort="name">{{ __('Package') }} <span class="opticy"> dddd</span></th>
-                                <th scope="col" class="sort" data-sort="name">{{ __('Additional Items') }} <span class="opticy"> dddd</span></th>
-                                <th scope="col" class="sort" data-sort="name">{{ __('Any Special Requests') }} <span class="opticy"> dddd</span></th>
-                                <th scope="col" class="sort" data-sort="name">{{ __('Guest Count') }} <span class="opticy"> dddd</span></th>
-                                <th scope="col" class="sort" data-sort="budget">{{ __('Converted To Event') }} <span class="opticy"> dddd</span></th>
-                                <th scope="col" class="sort" data-sort="budget">{{ __('Created At') }} <span class="opticy"> dddd</span></th>
-                                <th scope="col" class="sort" data-sort="budget">{{ __('Comments') }} <span class="opticy"> dddd</span></th>
-                                <th scope="col" class="sort" data-sort="budget">{{ __('Proposal Signed By Customer') }} <span class="opticy"> dddd</span>
+                                <th scope="col" class="sort" data-sort="budget">{{ __(' Lead Status') }} <span
+                                        class="opticy"> dddd</span> </th>
+                                <th scope="col" class="sort" data-sort="budget">{{ __('Status') }} <span class="opticy">
+                                        dddd</span> </th>
+                                <th scope="col" class="sort" data-sort="budget">{{ __('Created By') }} <span
+                                        class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name">{{ __('Type') }} <span class="opticy">
+                                        dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name">{{ __('Phone') }}<span class="opticy">
+                                        dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name">{{ __('Email') }}<span class="opticy">
+                                        dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name">{{ __('Date') }} <span class="opticy">
+                                        dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name">{{ __('Time') }} <span class="opticy">
+                                        dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name">{{ __('Assigned Staff') }} <span
+                                        class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name">{{ __('Rooms required') }} <span
+                                        class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name">{{ __('Bar') }} <span class="opticy">
+                                        dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name">{{ __('Bar Package') }} <span
+                                        class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name">{{ __('Function') }} <span class="opticy">
+                                        dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name">{{ __('Package') }} <span class="opticy">
+                                        dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name">{{ __('Additional Items') }} <span
+                                        class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name">{{ __('Any Special Requests') }} <span
+                                        class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name">{{ __('Guest Count') }} <span
+                                        class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="budget">{{ __('Converted To Event') }} <span
+                                        class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="budget">{{ __('Created At') }} <span
+                                        class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="budget">{{ __('Comments') }} <span
+                                        class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="budget">{{ __('Proposal Signed By Customer') }}
+                                    <span class="opticy"> dddd</span>
                                 </th>
-                                <th scope="col" class="sort" data-sort="budget">{{ __('Any Attachments') }} <span class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="budget">{{ __('Any Attachments') }} <span
+                                        class="opticy"> dddd</span></th>
 
                             </tr>
                         </thead>
@@ -171,10 +193,13 @@
                                         <b> {{ ucfirst($result['name'])  }}</b>
                                     </a>
                                 </td>
-                                <td> {{ __(\App\Models\Lead::$stat[$result->lead_status]) }}     <span class="empytu"></span></td>
-                                <td> {{ __(\App\Models\Lead::$status[$result['status']]) }} <span class="empytu"></span></td>
+                                <td> {{ __(\App\Models\Lead::$stat[$result->lead_status]) }} <span
+                                        class="empytu"></span></td>
+                                <td> {{ __(\App\Models\Lead::$status[$result['status']]) }} <span class="empytu"></span>
+                                </td>
 
-                                <td>{{ucfirst(App\Models\User::where('id',$result['created_by'])->first()->name)}} <span class="empytu"></span></td>
+                                <td>{{ucfirst(App\Models\User::where('id',$result['created_by'])->first()->name)}} <span
+                                        class="empytu"></span></td>
                                 <td>{{ ucfirst($result['type']) }} <span class="empytu"></span></td>
                                 <td>{{ $result['phone'] }} <span class="empytu"></span></td>
                                 <td>{{ $result['email'] }} <span class="empytu"></span></td>
@@ -202,7 +227,8 @@
                                     }     
                                 ?> <span class="empytu"></span></td>
                                 <td>{{ isset($result['function'])&& !empty($result['function']) ? ucfirst($result['function']) : '--' }}
-                                <span class="empytu"></span> </td>
+                                    <span class="empytu"></span>
+                                </td>
                                 <td><?php $package = json_decode($result['func_package'],true);
                                  if(isset($package) && !empty($package)){
                                                     foreach ($package as $key => $value) {
@@ -229,10 +255,12 @@
                                     @if(isset($comment) && !empty($comment))
                                     {{$comment->notes}}
                                     @else -- @endif
-                                    <span class="empytu"></span> </td>
+                                    <span class="empytu"></span>
+                                </td>
                                 <td><?php $prop = App\Models\Proposal::where('lead_id',$result['id'])->orderby('id','desc')->exists(); ?>
                                     @if($prop) Yes @else No @endif
-                                    <span class="empytu"></span>  </td>
+                                    <span class="empytu"></span>
+                                </td>
                                 <td><?php  $attachment=   App\Models\LeadDoc::where('lead_id',$result['id'])->get();?>
                                     @if($attachment)
                                     @foreach ($attachment as $attach)
@@ -244,7 +272,8 @@
                                     @endforeach
                                     @endif
 
-                                    <span class="empytu"></span></td>
+                                    <span class="empytu"></span>
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -255,10 +284,8 @@
     </div>
     @endsection
     @push('script-page')
-    <script>
-    < script type = "text/javascript"
-    src = "{{ asset('js/html2pdf.bundle.min.js') }}" >
-    </script>
+
+    <script type="text/javascript" src="{{ asset('js/html2pdf.bundle.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/dataTables.buttons.min.js')}}"></script>
     <script type="text/javascript" src="{{ asset('js/jszip.min.js')}}"></script>
     <script type="text/javascript" src="{{ asset('js/pdfmake.min.js')}}"></script>
@@ -315,11 +342,8 @@
         })
     })
     </script>
-
-
     <script>
     var filename = $('#filesname').val();
-
     function saveAsPDF() {
         var element = document.getElementById('printableArea');
         var opt = {
@@ -342,11 +366,21 @@
         html2pdf().set(opt).from(element).save();
     }
     </script>
-
-
-
+    <script>
+    $(document).ready(function() {
+        var startMonthInput = $('input[name = "start_month"]').val();
+        var endMonthInput = $('input[name = "end_month"]').val();
+        endMonthInput.addEventListener('change', function() {
+            // Parse the values to compare
+            var startMonth = new Date(startMonthInput.value);
+            var endMonth = new Date(endMonthInput.value);
+            if (startMonth > endMonth) {
+                startMonthInput.value = endMonthInput.value;
+            }
+        });
+    })
+    </script>
     <script src="{{ asset('assets/js/plugins/apexcharts.min.js') }}"></script>
-
     <script>
     var WorkedHoursChart = (function() {
         var $chart = $('#report-chart');
@@ -411,6 +445,6 @@
     @endpush
     <style>
     span.opticy {
-    opacity: 0;
-}
-</style>
+        opacity: 0;
+    }
+    </style>

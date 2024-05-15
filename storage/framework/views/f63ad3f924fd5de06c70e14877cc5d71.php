@@ -48,25 +48,25 @@
                             <!-- <?php echo e(Form::select('status', ['' => 'Select Status'] + $status, isset($_GET['status']) ? $_GET['status'] : '', ['class' => 'form-control', 'style' => 'margin-left: 29px;'])); ?> -->
                         </div>
                         <!-- <div class="c"> -->
-                            <div class=" new-ac">
-                        <div class="action-btn bg-primary ">
-                            <div class="new-btn">
-                                <button type="submit" class=" btn btn-sm align-items-center text-white"
-                                    data-bs-toggle="tooltip" title="<?php echo e(__('Apply')); ?>" data-title="<?php echo e(__('Apply')); ?>"><i
-                                        class="ti ti-search"></i></button>
+                        <div class=" new-ac">
+                            <div class="action-btn bg-primary ">
+                                <div class="new-btn">
+                                    <button type="submit" class=" btn btn-sm align-items-center text-white"
+                                        data-bs-toggle="tooltip" title="<?php echo e(__('Apply')); ?>"
+                                        data-title="<?php echo e(__('Apply')); ?>"><i class="ti ti-search"></i></button>
+                                </div>
                             </div>
-                        </div>
-                        <?php echo e(Form::close()); ?>
+                            <?php echo e(Form::close()); ?>
 
-                        <div class="action-btn bg-danger ">
-                            <div class="new-btn">
-                                <a href="<?php echo e(route('report.leadsanalytic')); ?>" data-bs-toggle="tooltip"
-                                    title="<?php echo e(__('Reset')); ?>" data-title="<?php echo e(__('Reset')); ?>"
-                                    class=" btn btn-sm align-items-center text-white"><i class="ti ti-refresh"
-                                        style="    margin-right: 0px;" aria-hidden="true"></i></a>
+                            <div class="action-btn bg-danger ">
+                                <div class="new-btn">
+                                    <a href="<?php echo e(route('report.leadsanalytic')); ?>" data-bs-toggle="tooltip"
+                                        title="<?php echo e(__('Reset')); ?>" data-title="<?php echo e(__('Reset')); ?>"
+                                        class=" btn btn-sm align-items-center text-white"><i class="ti ti-refresh"
+                                            style="    margin-right: 0px;" aria-hidden="true"></i></a>
+                                </div>
                             </div>
                         </div>
-</div>
                     </div>
                     <!-- <div class="action-btn bg-primary ms-2">
                             <div class="col-auto">
@@ -137,29 +137,52 @@
                         <thead>
                             <tr>
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Name')); ?></th>
-                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__(' Lead Status')); ?> <span class="opticy"> dddd</span> </th>
-                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Status')); ?> <span class="opticy"> dddd</span> </th>
-                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Created By')); ?> <span class="opticy"> dddd</span></th>
-                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Type')); ?> <span class="opticy"> dddd</span></th>
-                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Phone')); ?><span class="opticy"> dddd</span></th>
-                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Email')); ?><span class="opticy"> dddd</span></th>
-                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Date')); ?> <span class="opticy"> dddd</span></th>
-                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Time')); ?> <span class="opticy"> dddd</span></th>
-                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Assigned Staff')); ?> <span class="opticy"> dddd</span></th>
-                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Rooms required')); ?> <span class="opticy"> dddd</span></th>
-                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Bar')); ?> <span class="opticy"> dddd</span></th>
-                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Bar Package')); ?> <span class="opticy"> dddd</span></th>
-                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Function')); ?> <span class="opticy"> dddd</span></th>
-                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Package')); ?> <span class="opticy"> dddd</span></th>
-                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Additional Items')); ?> <span class="opticy"> dddd</span></th>
-                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Any Special Requests')); ?> <span class="opticy"> dddd</span></th>
-                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Guest Count')); ?> <span class="opticy"> dddd</span></th>
-                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Converted To Event')); ?> <span class="opticy"> dddd</span></th>
-                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Created At')); ?> <span class="opticy"> dddd</span></th>
-                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Comments')); ?> <span class="opticy"> dddd</span></th>
-                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Proposal Signed By Customer')); ?> <span class="opticy"> dddd</span>
+                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__(' Lead Status')); ?> <span
+                                        class="opticy"> dddd</span> </th>
+                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Status')); ?> <span class="opticy">
+                                        dddd</span> </th>
+                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Created By')); ?> <span
+                                        class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Type')); ?> <span class="opticy">
+                                        dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Phone')); ?><span class="opticy">
+                                        dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Email')); ?><span class="opticy">
+                                        dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Date')); ?> <span class="opticy">
+                                        dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Time')); ?> <span class="opticy">
+                                        dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Assigned Staff')); ?> <span
+                                        class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Rooms required')); ?> <span
+                                        class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Bar')); ?> <span class="opticy">
+                                        dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Bar Package')); ?> <span
+                                        class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Function')); ?> <span class="opticy">
+                                        dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Package')); ?> <span class="opticy">
+                                        dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Additional Items')); ?> <span
+                                        class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Any Special Requests')); ?> <span
+                                        class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Guest Count')); ?> <span
+                                        class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Converted To Event')); ?> <span
+                                        class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Created At')); ?> <span
+                                        class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Comments')); ?> <span
+                                        class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Proposal Signed By Customer')); ?>
+
+                                    <span class="opticy"> dddd</span>
                                 </th>
-                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Any Attachments')); ?> <span class="opticy"> dddd</span></th>
+                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Any Attachments')); ?> <span
+                                        class="opticy"> dddd</span></th>
 
                             </tr>
                         </thead>
@@ -175,10 +198,13 @@
                                         <b> <?php echo e(ucfirst($result['name'])); ?></b>
                                     </a>
                                 </td>
-                                <td> <?php echo e(__(\App\Models\Lead::$stat[$result->lead_status])); ?>     <span class="empytu"></span></td>
-                                <td> <?php echo e(__(\App\Models\Lead::$status[$result['status']])); ?> <span class="empytu"></span></td>
+                                <td> <?php echo e(__(\App\Models\Lead::$stat[$result->lead_status])); ?> <span
+                                        class="empytu"></span></td>
+                                <td> <?php echo e(__(\App\Models\Lead::$status[$result['status']])); ?> <span class="empytu"></span>
+                                </td>
 
-                                <td><?php echo e(ucfirst(App\Models\User::where('id',$result['created_by'])->first()->name)); ?> <span class="empytu"></span></td>
+                                <td><?php echo e(ucfirst(App\Models\User::where('id',$result['created_by'])->first()->name)); ?> <span
+                                        class="empytu"></span></td>
                                 <td><?php echo e(ucfirst($result['type'])); ?> <span class="empytu"></span></td>
                                 <td><?php echo e($result['phone']); ?> <span class="empytu"></span></td>
                                 <td><?php echo e($result['email']); ?> <span class="empytu"></span></td>
@@ -211,7 +237,8 @@
                                 ?> <span class="empytu"></span></td>
                                 <td><?php echo e(isset($result['function'])&& !empty($result['function']) ? ucfirst($result['function']) : '--'); ?>
 
-                                <span class="empytu"></span> </td>
+                                    <span class="empytu"></span>
+                                </td>
                                 <td><?php $package = json_decode($result['func_package'],true);
                                  if(isset($package) && !empty($package)){
                                                     foreach ($package as $key => $value) {
@@ -239,10 +266,12 @@
                                     <?php echo e($comment->notes); ?>
 
                                     <?php else: ?> -- <?php endif; ?>
-                                    <span class="empytu"></span> </td>
+                                    <span class="empytu"></span>
+                                </td>
                                 <td><?php $prop = App\Models\Proposal::where('lead_id',$result['id'])->orderby('id','desc')->exists(); ?>
                                     <?php if($prop): ?> Yes <?php else: ?> No <?php endif; ?>
-                                    <span class="empytu"></span>  </td>
+                                    <span class="empytu"></span>
+                                </td>
                                 <td><?php  $attachment=   App\Models\LeadDoc::where('lead_id',$result['id'])->get();?>
                                     <?php if($attachment): ?>
                                     <?php $__currentLoopData = $attachment; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $attach): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -254,7 +283,8 @@
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     <?php endif; ?>
 
-                                    <span class="empytu"></span></td>
+                                    <span class="empytu"></span>
+                                </td>
                             </tr>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </tbody>
@@ -265,10 +295,8 @@
     </div>
     <?php $__env->stopSection(); ?>
     <?php $__env->startPush('script-page'); ?>
-    <script>
-    < script type = "text/javascript"
-    src = "<?php echo e(asset('js/html2pdf.bundle.min.js')); ?>" >
-    </script>
+
+    <script type="text/javascript" src="<?php echo e(asset('js/html2pdf.bundle.min.js')); ?>"></script>
     <script type="text/javascript" src="<?php echo e(asset('js/dataTables.buttons.min.js')); ?>"></script>
     <script type="text/javascript" src="<?php echo e(asset('js/jszip.min.js')); ?>"></script>
     <script type="text/javascript" src="<?php echo e(asset('js/pdfmake.min.js')); ?>"></script>
@@ -325,11 +353,8 @@
         })
     })
     </script>
-
-
     <script>
     var filename = $('#filesname').val();
-
     function saveAsPDF() {
         var element = document.getElementById('printableArea');
         var opt = {
@@ -352,11 +377,21 @@
         html2pdf().set(opt).from(element).save();
     }
     </script>
-
-
-
+    <script>
+    $(document).ready(function() {
+        var startMonthInput = $('input[name = "start_month"]').val();
+        var endMonthInput = $('input[name = "end_month"]').val();
+        endMonthInput.addEventListener('change', function() {
+            // Parse the values to compare
+            var startMonth = new Date(startMonthInput.value);
+            var endMonth = new Date(endMonthInput.value);
+            if (startMonth > endMonth) {
+                startMonthInput.value = endMonthInput.value;
+            }
+        });
+    })
+    </script>
     <script src="<?php echo e(asset('assets/js/plugins/apexcharts.min.js')); ?>"></script>
-
     <script>
     var WorkedHoursChart = (function() {
         var $chart = $('#report-chart');
@@ -421,7 +456,7 @@
     <?php $__env->stopPush(); ?>
     <style>
     span.opticy {
-    opacity: 0;
-}
-</style>
+        opacity: 0;
+    }
+    </style>
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/report/leadsanalytic.blade.php ENDPATH**/ ?>
