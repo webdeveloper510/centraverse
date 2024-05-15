@@ -154,6 +154,7 @@ class ContractsController extends Controller
                     return redirect()->back()->with('error', 'File upload failed');
                 }
             }                 
+           
 
                 $contract->update(['attachment'=> $filename]);
                 $name =  $request->name;
@@ -217,7 +218,7 @@ class ContractsController extends Controller
                             return view('pandadoc',compact('res'));
                             // header('Location: https://app.pandadoc.com/a/#/documents/'. $res['id']);
                             // exit();
-                            return response()->json(['status' => 'success', 'data' => json_decode($response2)], 200);
+                            // return response()->json(['status' => 'success', 'data' => json_decode($response2)], 200);
                             // Process the response of the second cURL request as needed
                         
                     }
@@ -248,7 +249,8 @@ class ContractsController extends Controller
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
     }
-    public function docs(){
+
+    public function new_contract(){
         return view('pandadoc');
     }
     public function templatedetail($id){

@@ -188,7 +188,7 @@ h6 {
                     </div>
                     <div class="col-sm">
                         <div class="inner_col">
-                            <h5 class="card-title mb-2">Finance</h5>
+                            <h5 class="card-title mb-2">Finances</h5>
                             <div class="scrol-card">
                                 <div class="card">
                                     <div class="card-body">
@@ -325,7 +325,9 @@ h5.card-text {
     }
 }
 </style>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startPush('script-page'); ?>
 <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase.js"></script>
 <script>
 if ('serviceWorker' in navigator) {
@@ -393,5 +395,5 @@ $(document).ready(function() {
     });
 })
 </script>
-<?php $__env->stopSection(); ?>
+<?php $__env->stopPush(); ?>
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/home.blade.php ENDPATH**/ ?>
