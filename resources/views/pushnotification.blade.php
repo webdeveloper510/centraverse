@@ -16,7 +16,8 @@
 @endsection
 @section('filter')
 @endsection
-@section('content')<div class="container">
+@section('content')
+<div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <button onclick="startFCM()" class="btn btn-danger btn-flat"> Allow notification </button>
