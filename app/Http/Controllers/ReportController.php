@@ -349,6 +349,7 @@ class ReportController extends Controller
 
     public function leadsanalytic(Request $request)
     {
+       
         $report['source'] = __('All');
         $report['status'] = __('All');
         $leadsource       = LeadSource::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
@@ -377,15 +378,18 @@ class ReportController extends Controller
         $leads = Lead::orderBy('id');
 
         $leads->where('created_at', '>=', date('Y-m-01', $start))->where('created_at', '<=', date('Y-m-t', $end));
-        if(!empty($request->leadsource))
-        {
-            $leads->where('source', $request->leadsource);
-        }
+
+        // if(!empty($request->leadsource))
+        // {
+        //     $leads->where('source', $request->leadsource);
+        // }
         if(!empty($request->status))
         {
-            $leads->where('status', $request->status);
+            $leads->where('status',$request->status);
         }
-      
+       
+        
+
         // $leads->where('created_by', \Auth::user()->creatorId());
         $leads = $leads->get();
 

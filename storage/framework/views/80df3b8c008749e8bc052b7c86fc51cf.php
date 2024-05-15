@@ -27,7 +27,19 @@ $plansettings = App\Models\Utility::plansettings();
 <?php endif; ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
-<div class="container-field">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://pd-js-sdk.s3.amazonaws.com/0.2.20/pandadoc-js-sdk.min.js"></script>
+    <link rel="stylesheet" href="https://pd-js-sdk.s3.amazonaws.com/0.2.20/pandadoc-js-sdk.css" />
+    <style>
+    .pandadoc iframe {
+        width: 100%;
+        height: 480px;
+    }
+    </style>
+</head>
+<body>
+<!-- <div class="container-field">
     <div id="wrapper">
         <div id="page-content-wrapper">
             <div class="container-fluid xyz p0">
@@ -42,9 +54,7 @@ $plansettings = App\Models\Utility::plansettings();
                                     </ul>
                                     <ul class="list-group"
                                         style="display: grid; grid-template-columns: repeat(3, 1fr);">
-                                        <!-- <li class="list-group-item list-group-header" style=" background: #dbe1e6;"><b> Use Templates</b></li>
-                                <li class="list-group-item list-group-header" style=" background: #dbe1e6;"></li>
-                                <li class="list-group-item list-group-header" style=" background: #dbe1e6;"></li> -->
+                                      
                                         <?php $__currentLoopData = $results; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $result): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <?php $__currentLoopData = $result; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $res): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <li class="list-group-item list-item-style">
@@ -66,15 +76,28 @@ $plansettings = App\Models\Utility::plansettings();
         </div>
 
     </div>
-</div>
+</div> -->
+<div id="pandadoc-sdk" class="pandadoc"></div>
 
 
+<script>
+ var doclist = new PandaDoc.DocList({mode: PandaDoc.DOC_LIST_MODE.LIST});
+doclist.init({
+    el: '#pandadoc-sdk',
+    data: {
+        metadata: {
+            Status: 'Completed' 
+        }
+    },
+    cssClass: 'style-me',
+    events: {
+        onInit: function(){},
+        onDocumentCreate: function(){}
+    }
+});
+    </script>
+</body>
 
 <?php $__env->stopSection(); ?>
 
-<script>
-document.querySelector("#pc-daterangepicker-2").flatpickr({
-    mode: "range"
-});
-</script>
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/contract/create.blade.php ENDPATH**/ ?>
