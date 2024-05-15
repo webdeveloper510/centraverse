@@ -90,6 +90,7 @@ $campaigntypes = explode(',',$settings['campaign_type']);
             var selectedValues = $('#pagebox1 input[type="checkbox"]:checked').map(function() {
                 return $(this).val();
             }).get();
+            console.log(selectedValues);
             var selectedCount = selectedValues.length;
             localStorage.setItem('selectedValues', JSON.stringify(selectedValues));
             setTimeout(function(){

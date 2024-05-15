@@ -43,6 +43,7 @@ class CustomerInformation extends Controller
                 'title' => 'required',
             ]
         );
+        
         if ($validator->fails()) {
             $messages = $validator->getMessageBag();
             return redirect()->back()->with('error', $messages->first());
@@ -56,7 +57,6 @@ class CustomerInformation extends Controller
         $campaignlist['template'] = $request->template_html;
         $campaignlist['description'] = $request->description;
         $campaignlist->save();
-
         $notifyvia = $request->notify[1][0];
         $attachment = $request->file('document');
         if ($attachment) {
@@ -198,7 +198,6 @@ class CustomerInformation extends Controller
             $UsersImports->status =  ($request->is_active == 'on') ? 0 : 1;
             $UsersImports->created_by = \Auth::user()->creatorId();
             $UsersImports->save();
-          
             return redirect()->back()->with('success', 'Customer added successfully');
         }
     }
@@ -241,65 +240,67 @@ class CustomerInformation extends Controller
         $campaign = Campaigndata::where('id', $request->id)->get();
         $settings = Utility::settings();
         $customers = explode(',', $request->recepient_names);
-        if (!empty($campaign->template)) {
-            foreach ($customers as $customer) {
-                try {
-                    config(
-                        [
-                            'mail.driver'       => $settings['mail_driver'],
-                            'mail.host'         => $settings['mail_host'],
-                            'mail.port'         => $settings['mail_port'],
-                            'mail.username'     => $settings['mail_username'],
-                            'mail.password'     => $settings['mail_password'],
-                            'mail.from.address' => $settings['mail_from_address'],
-                            'mail.from.name'    => $settings['mail_from_name'],
-                        ]
-                    );
-                    Mail::to($customer)->send(new SendCampaignMail($campaign));
+        return $customers;
+        // echo "<pre>";print_r($campaign);die;
+        // if (!empty($campaign->template)) {
+        //     foreach ($customers as $customer) {
+        //         try {
+        //             config(
+        //                 [
+        //                     'mail.driver'       => $settings['mail_driver'],
+        //                     'mail.host'         => $settings['mail_host'],
+        //                     'mail.port'         => $settings['mail_port'],
+        //                     'mail.username'     => $settings['mail_username'],
+        //                     'mail.password'     => $settings['mail_password'],
+        //                     'mail.from.address' => $settings['mail_from_address'],
+        //                     'mail.from.name'    => $settings['mail_from_name'],
+        //                 ]
+        //             );
+        //             Mail::to($customer)->send(new SendCampaignMail($campaign));
 
-                    return redirect()->back()->with('success','Email Sent Successfully');
-                } catch (\Exception $e) {
-                    return redirect()->back()->with('error','Email Not Sent');
-                    // return response()->json(
-                    //     [
-                    //         'is_success' => false,
-                    //         'message' => $e->getMessage(),
-                    //     ]
-                    // );
-                }
-            }
-        } else {
+        //             return redirect()->back()->with('success','Email Sent Successfully');
+        //         } catch (\Exception $e) {
+        //             return redirect()->back()->with('error','Email Not Sent');
+        //             // return response()->json(
+        //             //     [
+        //             //         'is_success' => false,
+        //             //         'message' => $e->getMessage(),
+        //             //     ]
+        //             // );
+        //         }
+        //     }
+        // } else {
 
-            foreach ($customers as $customer) {
-                $lead = Lead::where('email', $customer)->exists();
-                $existinguser = UserImport::where('email', $customer)->exists();
-                if ($lead) {
-                    $user =  Lead::where('email', $customer)->pluck('phone');
-                }
-                if ($existinguser) {
-                    $user =   UserImport::where('email', $customer)->pluck('phone');
-                }
-                $uArr[] = [
-                    'user' => $user,
-                    'content' => $request->content,
-                ];
-            }
-            $account_sid = $settings['twilio_sid'];
-            $auth_token = $settings['twilio_token'];
-            $twilio_number = $settings['twilio_from'];
-            foreach ($uArr as  $value) {
-                try {
-                    $client = new Client($account_sid, $auth_token);
-                    $client->messages->create('+91' . $value['user'][0], [
-                        'from' => $twilio_number,
-                        'body' => $value['content'],
-                    ]);
-                    return 'Message Sent successfully';
-                } catch (\Exception $e) {
-                    return "Message couldn't be sent";
-                }
-            }
-        }
+        //     foreach ($customers as $customer) {
+        //         $lead = Lead::where('email', $customer)->exists();
+        //         $existinguser = UserImport::where('email', $customer)->exists();
+        //         if ($lead) {
+        //             $user =  Lead::where('email', $customer)->pluck('phone');
+        //         }
+        //         if ($existinguser) {
+        //             $user =   UserImport::where('email', $customer)->pluck('phone');
+        //         }
+        //         $uArr[] = [
+        //             'user' => $user,
+        //             'content' => $request->content,
+        //         ];
+        //     }
+        //     $account_sid = $settings['twilio_sid'];
+        //     $auth_token = $settings['twilio_token'];
+        //     $twilio_number = $settings['twilio_from'];
+        //     foreach ($uArr as  $value) {
+        //         try {
+        //             $client = new Client($account_sid, $auth_token);
+        //             $client->messages->create('+91' . $value['user'][0], [
+        //                 'from' => $twilio_number,
+        //                 'body' => $value['content'],
+        //             ]);
+        //             return 'Message Sent successfully';
+        //         } catch (\Exception $e) {
+        //             return "Message couldn't be sent";
+        //         }
+        //     }
+        // }
     }
     public function siteusers(){
         // $leadcust = Lead::distinct()->withTrashed()->get();

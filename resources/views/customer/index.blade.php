@@ -13,7 +13,7 @@
 {{ Form::open(array('route' => 'customer.sendmail','method' =>'post','files' => true)) }}
 <div class="container-field">
     <div id="wrapper1" class="mt-3">
-        <div class="page-content-wrapper p0" id="useradd-1 " >
+        <div class="page-content-wrapper p0" id="useradd-1" >
             <div class="container-fluid xyz p0">
                 <div class="row" >
                     <div class="col-lg-12 ">
