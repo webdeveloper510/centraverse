@@ -395,8 +395,4 @@ $(document).ready(function() {
 })
 </script>
 <?php $__env->stopPush(); ?>
-<<<<<<< HEAD:storage/framework/views/8e4a406b4901e3785c07b4c020c092e4.php
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/crmcentraverse/public_html/resources/views/home.blade.php ENDPATH**/ ?>
-=======
-<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/home.blade.php ENDPATH**/ ?>
->>>>>>> 53eea7721725f8f06a355081c1c9b881272edbf3:storage/framework/views/0def274d728e2c7c2aae14538cc130ea.php
