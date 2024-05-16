@@ -203,13 +203,19 @@ p.close-popup {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script>
 $(document).on('click', 'button.fc-timeGridDay-button', function() {
-    fetchDayData();
+    setTimeout(() => {
+         fetchDayData();
+        },200)
 });
 $(document).on('click', 'button.fc-timeGridWeek-button', function() {
+    setTimeout(() => {
     fetchWeekData();
+},200)
 });
 $(document).on('click', 'button.fc-dayGridMonth-button', function() {
+    setTimeout(() => {
     fetchMonthData();
+},200)
 });
 $(document).ready(function() {
     display_count();
@@ -323,18 +329,18 @@ function fetchMonthData(){
                 var monthString = dates[0].split(' ')[0]; // Extract month
                 // Map month string to month number
                 var monthMap = {
-                    "January": 0,
-                    "February": 1,
-                    "March": 2,
-                    "April": 3,
+                    "Jan": 0,
+                    "Feb": 1,
+                    "Mar": 2,
+                    "Apr": 3,
                     "May": 4,
-                    "June": 5,
-                    "July": 6,
-                    "August": 7,
-                    "September": 8,
-                    "October": 9,
-                    "November": 10,
-                    "December": 11
+                    "Jun": 5,
+                    "Jul": 6,
+                    "Aug": 7,
+                    "Sep": 8,
+                    "Oct": 9,
+                    "Nov": 10,
+                    "Dec": 11
                 };
                 var month = monthMap[monthString];
                 // Get the year
