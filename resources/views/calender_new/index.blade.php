@@ -717,7 +717,7 @@ function display_count() {
                     $(document).on('click', 'button.fc-next-button', function() {
                         var view = calendar.view.type;
                         if (view == 'dayGridMonth') {
-                            fetchMonthata();
+                            fetchMonthData();
                         }
                         else if(view == 'timeGridWeek') {
                             fetchWeekData();
@@ -729,7 +729,7 @@ function display_count() {
                     $(document).on('click', 'button.fc-prev-button', function() {
                         var view = calendar.view.type;
                         if (view == 'dayGridMonth') {
-                            fetchMonthata();
+                            fetchMonthData();
                         }
                         else if(view == 'timeGridWeek') {
                             fetchWeekData();
