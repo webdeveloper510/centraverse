@@ -316,17 +316,28 @@ function fetchWeekData(){
     document.getElementById('daySelected').innerHTML = '';
     var week = $('.fc-toolbar-title').text();
     // var dateString = "May 5 – 11, 2024";
-
     // Split the string by comma and space
     var parts = week.split(', ');
-
     if (parts.length === 2) {
         var dates = parts[0].split(' – '); // Split the first part by " – " to get start and end dates
 
         if (dates.length === 2) {
-            var startDay = parseInt(dates[0].split(' ')[1]); // Extract start day
-            var endDay = parseInt(dates[1]); // Extract end day
-            var monthString = dates[0].split(' ')[0]; // Extract month
+            // Extract month and day for start date
+            var startParts = dates[0].split(' ');
+            var startDay = parseInt(startParts[1]); // Extract start day
+            var startMonthString = startParts[0]; // Extract start month
+
+            // Extract month and day for end date
+            var endParts = dates[1].split(' ');
+            var endDay, endMonthString;
+            if (endParts.length === 2) {
+                endMonthString = endParts[0]; // Extract end month
+                endDay = parseInt(endParts[1]); // Extract end day
+            } else {
+                endMonthString = startMonthString; // Use the same month as start date
+                endDay = parseInt(endParts[0]); // Extract end day
+            }
+
             // Map month string to month number
             var monthMap = {
                 "Jan": 0,
@@ -342,21 +353,22 @@ function fetchWeekData(){
                 "Nov": 10,
                 "Dec": 11
             };
-            var month = monthMap[monthString];
+
+            var startMonth = monthMap[startMonthString];
+            var endMonth = monthMap[endMonthString];
             // Get the year
             var year = parseInt(parts[1]);
+
             // Create start date
-            var startDate = new Date(year, month, startDay);
+            var startDate = new Date(year, startMonth, startDay);
             // Create end date
-            var endDate = new Date(year, month, endDay);
+            var endDate = new Date(year, endMonth, endDay);
+
             // Format start date as YYYY-MM-DD
-            var formattedStartDate = startDate.getFullYear() + '-' + ('0' + (startDate.getMonth() + 1)).slice(-
-                2) + '-' + ('0' + startDate.getDate()).slice(-2);
+            var formattedStartDate = startDate.getFullYear() + '-' + ('0' + (startDate.getMonth() + 1)).slice(-2) + '-' + ('0' + startDate.getDate()).slice(-2);
 
             // Format end date as YYYY-MM-DD
-            var formattedEndDate = endDate.getFullYear() + '-' + ('0' + (endDate.getMonth() + 1)).slice(-2) +
-                '-' + ('0' + endDate.getDate()).slice(-2);
-
+            var formattedEndDate = endDate.getFullYear() + '-' + ('0' + (endDate.getMonth() + 1)).slice(-2) + '-' + ('0' + endDate.getDate()).slice(-2);
 
             $.ajax({
                 url: "<?php echo e(route('weekbaseddata')); ?>",
@@ -372,16 +384,13 @@ function fetchWeekData(){
                     if (data.length != 0)
                         $(data).each(function(index, element) {
                             var start = element.start_time;
-                            var start_time = moment(start, 'HH:mm:ss')
-                                .format('h:mm A');
+                            var start_time = moment(start, 'HH:mm:ss').format('h:mm A');
                             var end = element.end_time;
-                            var end_time = moment(end, 'HH:mm:ss').format(
-                                'h:mm A');
+                            var end_time = moment(end, 'HH:mm:ss').format('h:mm A');
                             var start_date = moment(element.start_date).format('D MMM, YYYY');
                             var id = element.id;
                             $.ajax({
-                                url: '<?php echo e(route("get.encoded.id", ":id")); ?>'.replace(
-                                    ':id', id),
+                                url: '<?php echo e(route("get.encoded.id", ":id")); ?>'.replace(':id', id),
                                 method: 'GET',
                                 dataType: 'json',
                                 success: function(response) {
@@ -389,26 +398,25 @@ function fetchWeekData(){
                                     var encodedId = response.encodedId;
 
                                     // Now you have the encoded ID, use it as needed
-                                    var url =
-                                        '<?php echo e(route("meeting.detailview", ":encodedId")); ?>';
+                                    var url = '<?php echo e(route("meeting.detailview", ":encodedId")); ?>';
                                     url = url.replace(':encodedId', encodedId);
                                     // console.error(url);
                                     html += `<a href="${url}"><li class="list-group-item card mb-3">
-                                <div class="row align-items-center justify-content-between">
-                                    <div class="col-auto mb-3 mb-sm-0">
-                                        <div class="d-flex align-items-center">
-                                            <div class="theme-avtar bg-info">
-                                                <i class="ti ti-calendar-event"></i>
-                                            </div>
-                                            <div class="ms-3">
-                                                <h6 class="m-0">${element.eventname} (${element.name})</h6>
-                                                <small class="text-muted">${start_date}</small><br>
-                                                <small class="text-muted">${start_time} - ${end_time}</small>
+                                        <div class="row align-items-center justify-content-between">
+                                            <div class="col-auto mb-3 mb-sm-0">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="theme-avtar bg-info">
+                                                        <i class="ti ti-calendar-event"></i>
+                                                    </div>
+                                                    <div class="ms-3">
+                                                        <h6 class="m-0">${element.eventname} (${element.name})</h6>
+                                                        <small class="text-muted">${start_date}</small><br>
+                                                        <small class="text-muted">${start_time} - ${end_time}</small>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </li></a>`;
+                                    </li></a>`;
                                     $('#listEvent').html(html);
 
                                     console.log(html)
@@ -418,12 +426,9 @@ function fetchWeekData(){
                         });
                     else {
 
-                        html =
-                            `<h6 class="m-0">No event found!</h6>`;
-                        document.getElementById('daySelected')
-                            .innerHTML = '';
-                        document.getElementById('listEvent')
-                            .innerHTML = html;
+                        html = `<h6 class="m-0">No event found!</h6>`;
+                        document.getElementById('daySelected').innerHTML = '';
+                        document.getElementById('listEvent').innerHTML = html;
                     }
                 }
             });
@@ -709,6 +714,7 @@ function display_count() {
                                 })
                                 .catch(console.error);
                         },
+                         longPressDelay: 1000, 
                         events: backgroundEvents,
                         eventContent: function(arg) {
                             return {
