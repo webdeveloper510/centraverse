@@ -34,17 +34,21 @@
                                     <table id="datatable" class="table datatable align-items-center">
                                         <thead class="thead-light">
                                             <tr>
-                                                <th scope="col" class="sort" data-sort="name">{{ __('Event') }} <span class="opticy"> dddd</span></th>
-                                                <th scope="col" class="sort" data-sort="status">{{ __('Status') }} <span class="opticy"> dddd</span></th>
+                                                <th scope="col" class="sort" data-sort="name">{{ __('Event') }} <span
+                                                        class="opticy"> dddd</span></th>
+                                                <th scope="col" class="sort" data-sort="status">{{ __('Status') }} <span
+                                                        class="opticy"> dddd</span></th>
                                                 <th scope="col" class="sort" data-sort="completion">
                                                     {{ __('Date Start') }} <span class="opticy"> dddd</span></th>
                                                 <th scope="col" class="sort" data-sort="completion">{{ __('Event') }}
-                                                <span class="opticy"> dddd</span> </th>
+                                                    <span class="opticy"> dddd</span>
+                                                </th>
                                                 <th scope="col" class="sort" data-sort="completion">
                                                     {{ __('Assigned Staff') }} <span class="opticy"> dddd</span></th>
                                                 @if (Gate::check('Show Meeting') || Gate::check('Edit Meeting') ||
                                                 Gate::check('Delete Meeting'))
-                                                <th scope="col" class="text-end">{{ __('Action') }} <span class="opticy"> dddd</span></th>
+                                                <th scope="col" class="text-end">{{ __('Action') }} <span
+                                                        class="opticy"> dddd</span></th>
                                                 @endif
                                             </tr>
                                         </thead>
@@ -54,7 +58,8 @@
                                                 <td>
                                                     <a href="{{ route('meeting.edit', $meeting->id) }}" data-size="md"
                                                         data-title="{{ __('Event Details') }}"
-                                                        class="action-item text-primary" style=" color: #1551c9 !important;">
+                                                        class="action-item text-primary"
+                                                        style=" color: #1551c9 !important;">
                                                         @if($meeting->attendees_lead != 0)
                                                         {{ucfirst(\App\Models\Lead::where('id',$meeting->attendees_lead)->pluck('leadname')->first())}}
                                                         @else
@@ -91,7 +96,6 @@
                                                 <td>
                                                     <span class="budget">{{ $meeting->type }}</span>
                                                 </td>
-
                                                 <td>
                                                     <span
                                                         class="budget">{{ App\Models\User::where('id',$meeting->user_id)->pluck('name')->first() }}</span>
@@ -100,8 +104,8 @@
                                                 Gate::check('Delete Meeting'))
                                                 <td class="text-end">
                                                     <div class="action-btn bg-secondary ms-2">
-                                                        <a href="{{route('meeting.detailview',urlencode(encrypt($meeting->id)))}}" data-size="md"
-                                                            title="{{ __('Detailed view ') }}"
+                                                        <a href="{{route('meeting.detailview',urlencode(encrypt($meeting->id)))}}"
+                                                            data-size="md" title="{{ __('Detailed view ') }}"
                                                             class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="fa fa-info"></i> </a>
                                                     </div>
@@ -138,7 +142,8 @@
                                                     @if(App\Models\Billing::where('event_id',$meeting->id)->exists())
                                                     <div class="action-btn bg-success ms-2">
                                                         <a href="{{route('meeting.agreement',urlencode(encrypt($meeting->id))) }}"
-                                                        target="_blank" data-bs-toggle="tooltip" data-title="{{__('Agreement')}}"
+                                                            target="_blank" data-bs-toggle="tooltip"
+                                                            data-title="{{__('Agreement')}}"
                                                             title="{{__('View Agreement')}}"
                                                             class="mx-3 btn btn-sm d-inline-flex align-items-center text-white">
                                                             <i class="ti ti-receipt"></i>
@@ -159,12 +164,14 @@
                                                     </div>
                                                     @endcan
                                                     @can('Edit Meeting')
+                                                    @if($meeting->status == 0)
                                                     <div class="action-btn bg-info ms-2">
                                                         <a href="{{ route('meeting.edit', $meeting->id) }}"
                                                             class="mx-3 btn btn-sm d-inline-flex align-items-center text-white"
                                                             data-bs-toggle="tooltip" data-title="{{ __('Details') }}"
                                                             title="{{ __('Edit') }}"><i class="ti ti-edit"></i></a>
                                                     </div>
+                                                    @endif
                                                     @endcan
                                                     @can('Delete Meeting')
                                                     <div class="action-btn bg-danger ms-2">

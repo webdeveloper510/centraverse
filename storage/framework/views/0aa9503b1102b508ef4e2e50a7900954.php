@@ -710,6 +710,36 @@ unset($__errorArgs, $__bag); ?>
         }
     });
 });
+$('#formdata').on('submit', function (event) {
+        let isValid = true;
+
+        // Remove previous error messages
+        $('.error-message').remove();
+
+        // Function to display error messages
+        function displayError(inputId, message) {
+            $(`<span class="error-message">${message}</span>`).insertAfter(`#${inputId}`);
+        }
+
+
+        // Name validation
+        let name = $('#name').val().trim();
+        if (name === '') {
+            displayError('name', 'Name is required and must not contain only spaces.');
+            isValid = false;
+        }
+        let startTime = $('#start_time').val();
+        let endTime = $('#end_time').val();
+        if (startTime != '' && endTime <= startTime) {
+            displayError('end_time', 'End time must be after start time.');
+            isValid = false;
+        }
+
+        // Prevent form submission if any validation fails
+        if (!isValid) {
+            event.preventDefault();
+        }
+    });
 $(document).ready(function() {
     $("input[type='text'][name='lead_name'],input[type='text'][name='name'], input[type='text'][name='email'], select[name='type'],input[type='tel'][name='phone'],input[name='guest_count'],input[name='start_date'],input[name='start_time'],input[name='end_time']")
         .focusout(function() {

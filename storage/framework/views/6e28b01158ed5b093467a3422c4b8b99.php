@@ -1712,7 +1712,6 @@ $(document).ready(function() {
                                                 <?php echo e(Form::open(['route' => 'billing.setting', 'method' => 'post'])); ?>
 
                                                 <?php echo csrf_field(); ?>
-
                                                 <div class="row cst-border">
                                                     <?php if(isset($venue) && !empty($venue)): ?>
                                                     <div class="col-sm-6 venue">
@@ -1831,6 +1830,15 @@ $(document).ready(function() {
                                                             <input type="number" name="special_req" class="form-control"
                                                                 value="<?php echo e(isset($billing['special_req']) ? $billing['special_req'] : ''); ?>"
                                                                 placeholder="Enter  Cost" required>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <?php echo e(Form::label('setup', __('Setup'), ['class' => 'form-label'])); ?>
+
+                                                            <input type="number" name="setup" id=""
+                                                                class="form-control"
+                                                                value="<?php echo e(isset($billing['setup']) ? $billing['setup'] : ''); ?>"
+                                                                placeholder="Enter setup Cost"
+                                                                required>
                                                         </div>
                                                     </div>
                                                 </div>

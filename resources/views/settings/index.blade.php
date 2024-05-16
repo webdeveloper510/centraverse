@@ -1640,7 +1640,6 @@ $(document).ready(function() {
                                             <div class="accordion-body1">
                                                 {{ Form::open(['route' => 'billing.setting', 'method' => 'post']) }}
                                                 @csrf
-
                                                 <div class="row cst-border">
                                                     @if(isset($venue) && !empty($venue))
                                                     <div class="col-sm-6 venue">
@@ -1752,6 +1751,14 @@ $(document).ready(function() {
                                                             <input type="number" name="special_req" class="form-control"
                                                                 value="{{ isset($billing['special_req']) ? $billing['special_req'] : ''}}"
                                                                 placeholder="Enter  Cost" required>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            {{ Form::label('setup', __('Setup'), ['class' => 'form-label']) }}
+                                                            <input type="number" name="setup" id=""
+                                                                class="form-control"
+                                                                value="{{ isset($billing['setup']) ? $billing['setup'] : ''}}"
+                                                                placeholder="Enter setup Cost"
+                                                                required>
                                                         </div>
                                                     </div>
                                                 </div>

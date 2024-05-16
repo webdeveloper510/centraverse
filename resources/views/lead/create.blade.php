@@ -307,6 +307,49 @@ $additional_items = json_decode($settings['additional_items'],true);
 }
 </style>
 <script>
+
+    $(document).ready(function () {
+        
+    $('#formdata').on('submit', function (event) {
+        let isValid = true;
+
+        // Remove previous error messages
+        $('.error-message').remove();
+
+        // Function to display error messages
+        function displayError(inputId, message) {
+            $(`<span class="error-message">${message}</span>`).insertAfter(`#${inputId}`);
+        }
+
+        // Lead Name validation
+        let leadName = $('#lead_name').val().trim();
+        if (leadName === '') {
+            displayError('lead_name', 'Lead name is required and must not contain only spaces.');
+            isValid = false;
+        }
+
+        // Name validation
+        let name = $('#name').val().trim();
+        if (name === '') {
+            displayError('name', 'Name is required and must not contain only spaces.');
+            isValid = false;
+        }
+        let startTime = $('#start_time').val();
+        let endTime = $('#end_time').val();
+        if (startTime != '' && endTime <= startTime) {
+            displayError('end_time', 'End time must be after start time.');
+            isValid = false;
+        }
+
+        // Prevent form submission if any validation fails
+        if (!isValid) {
+            event.preventDefault();
+        }
+    });
+});
+
+</script>
+<script>
  $(document).ready(function() {  
     $("input[type='text'][name='lead_name'],input[type='text'][name='name'], input[type='text'][name='email'], select[name='type'],input[type='tel'][name='phone']").focusout(function() {  
           

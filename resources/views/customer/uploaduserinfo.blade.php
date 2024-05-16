@@ -158,6 +158,38 @@ $campaign_type = explode(',',$settings['campaign_type']);
     }
 </style>
 <script>
+       $('#imported').on('submit', function (event) {
+        let isValid = true;
+        // Remove previous error messages
+        $('.error-message').remove();
+        // Function to display error messages
+        function displayError(inputId, message) {
+            $(`<span class="error-message">${message}</span>`).insertAfter(`#${inputId}`);
+        }
+        // Lead Name validation
+        let leadName = $('#phone').val().trim();
+        if (leadName === '') {
+            displayError('phone', 'Phone is required and must not contain only spaces.');
+            isValid = false;
+        }
+
+        // Name validation
+        let name = $('#name').val().trim();
+        if (name === '') {
+            displayError('name', 'Name is required and must not contain only spaces.');
+            isValid = false;
+        }
+        let email = $('#email').val().trim();
+        if (name === '') {
+            displayError('email', 'Email is required.');
+            isValid = false;
+        }
+     
+        // Prevent form submission if any validation fails
+        if (!isValid) {
+            event.preventDefault();
+        }
+    });
 //      $(document).ready(function() {  
 //     $("input[type='text'][name= 'name'],input[type='text'][name= 'email'], select[name='category'],input[type='tel'][name='phone']").focusout(function() {  
           
