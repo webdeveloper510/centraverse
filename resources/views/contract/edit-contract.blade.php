@@ -9,7 +9,6 @@
 	<body>
  		<!-- Element where PSPDFKit will be mounted. -->
 		<div id="pspdfkit" style="height: 100vh"></div>
-       
         <script src="{{asset('assets/pspdfkit/pspdfkit.js')}}"></script>
 		
         @if(Storage::disk('public')->exists('Contracts/' . $contract->id . '/' . $contract->attachment))

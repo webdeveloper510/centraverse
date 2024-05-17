@@ -33,6 +33,7 @@ use Mail;
 use Str;
 use App\Models\LeadDoc;
 use Storage;
+use DB;
 
 class LeadController extends Controller
 {
@@ -106,6 +107,26 @@ class LeadController extends Controller
                 return redirect()->back()->with('error', $messages->first()) 
                 ->withErrors($validator)
                 ->withInput();
+            }
+            $startDateTime = $request->start_date . ' ' . $request->start_time;
+            $endDateTime = $request->start_date . ' ' . $request->end_time;
+    
+            // Check for overlapping leads
+            $overlappingLeads = Lead::where('start_date', $request->start_date)
+                ->where(function ($query) use ($startDateTime, $endDateTime) {
+                    $query->whereBetween(DB::raw("CONCAT(start_date, ' ', start_time)"), [$startDateTime, $endDateTime])
+                        ->orWhereBetween(DB::raw("CONCAT(start_date, ' ', end_time)"), [$startDateTime, $endDateTime])
+                        ->orWhere(function ($query) use ($startDateTime, $endDateTime) {
+                            $query->where(DB::raw("CONCAT(start_date, ' ', start_time)"), '<=', $startDateTime)
+                                  ->where(DB::raw("CONCAT(start_date, ' ', end_time)"), '>=', $endDateTime);
+                        });
+                })
+                ->exists();
+    
+            if ($overlappingLeads) {
+                return redirect()->back()
+                    ->with('error', 'Cannot create lead as it overlaps with an existing lead.')
+                    ->withInput();
             }
             $data = $request->all();
             $package = [];
