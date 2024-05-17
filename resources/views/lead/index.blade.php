@@ -43,7 +43,7 @@
                                                 <th scope="col" class="sort">{{__('Status')}} <span class="opticy"> dddd</span></th>
                                                 <!-- <th scope="col" class="sort">{{__('Proposal Status')}}</th> -->
                                                 <th scope="col" class="sort">{{__('Lead Status')}}<span class="opticy"> dddd</span></th>
-                                                <th scope="col" class="sort">{{__('Created On')}}<span class="opticy"> dddd</span></th>
+                                                <th scope="col" class="sort">{{__('Event Date')}}<span class="opticy"> dddd</span></th>
                                                 @if(Gate::check('Show Lead') || Gate::check('Edit Lead') ||
                                                 Gate::check('Delete Lead'))
                                                 <th scope="col" class="text-end">{{__('Action')}} <span class="opticy"> dddd</span></th>
@@ -92,9 +92,10 @@
                                                         class="badge bg-warning p-2 px-3 rounded">{{ __(\App\Models\Lead::$status[$lead->status]) }}</span>
                                                     @endif
                                                 </td>
-                                                <td>{{\Auth::user()->dateFormat($lead->created_at)}}</td>
+                                                <td>{{\Auth::user()->dateFormat($lead->start_date)}}</td>
                                                 @if(Gate::check('Show Lead') || Gate::check('Edit Lead') ||
                                                 Gate::check('Delete Lead') ||Gate::check('Manage Lead') )
+                                             
                                                 <td class="text-end">
                                                     @if($lead->status == 4)
                                                     <div class="action-btn bg-secondary ms-2">
