@@ -1,3 +1,6 @@
+@php  
+$agreestatus= \App\Models\Meeting::$status;
+@endphp
 @extends('layouts.admin')
 @section('page-title')
 {{ __('Events') }}
@@ -68,6 +71,16 @@
                                                     </a>
                                                 </td>
                                                 <td>
+                                                    <select name="drop_status" id="drop_status" class="form-select"
+                                                        data-id="{{$meeting->id}}">
+                                                        @foreach($agreestatus as $key => $stat)
+                                                        <option value="{{ $key }}"
+                                                            {{ isset($meeting->status) && $meeting->status == $key ? "selected" : "" }}>
+                                                            {{ $stat }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                                <!-- <td>
                                                     @if ($meeting->status == 0)
                                                     <span
                                                         class="badge bg-info p-2 px-3 rounded">{{ __(\App\Models\Meeting::$status[$meeting->status]) }}</span>
@@ -88,7 +101,7 @@
                                                         class="badge bg-danger p-2 px-3 rounded">{{ __(\App\Models\Meeting::$status[$meeting->status]) }}</span>
 
                                                     @endif
-                                                </td>
+                                                </td> -->
                                                 <td>
                                                     <span
                                                         class="budget">{{ \Auth::user()->dateFormat($meeting->start_date) }}</span>
@@ -203,37 +216,63 @@
 @endsection
 @push('script-page')
 <script>
-$(document).on('change', 'select[name=parent]', function() {
-
-    var parent = $(this).val();
-
-    getparent(parent);
-});
-
-function getparent(bid) {
-
+    $('select[name = "drop_status"]').on('change', function() {
+    var val = $(this).val();
+    var id = $(this).attr('data-id');
+    var url = "{{route('event.changeagreementstat')}}";
     $.ajax({
-        url: '{{ route("meeting.getparent") }}',
+        url: url,
         type: 'POST',
         data: {
-            "parent": bid,
-            "_token": "{{ csrf_token() }}",
+            "status": val,
+            'id': id,
+            "_token": "{{ csrf_token() }}"
         },
         success: function(data) {
-            console.log(data);
-            $('#parent_id').empty(); {
-                {
-                    --$('#parent_id').append('<option value="">{{__('
-                        Select Parent ')}}</option>');
-                    --
-                }
-            }
+            console.log(data)
+            if (data == 1) {
+                show_toastr('Primary', 'Event Status Updated Successfully', 'success');
+            } else {
+                show_toastr('Success', 'Event Status is not updated', 'danger');
 
-            $.each(data, function(key, value) {
-                $('#parent_id').append('<option value="' + key + '">' + value + '</option>');
-            });
+            }
+            // console.log(val)
+
         }
     });
-}
+})
+// $(document).on('change', 'select[name=parent]', function() {
+
+//     var parent = $(this).val();
+
+//     getparent(parent);
+// });
+
+// function getparent(bid) {
+
+//     $.ajax({
+//         url: '{{ route("meeting.getparent") }}',
+//         type: 'POST',
+//         data: {
+//             "parent": bid,
+//             "_token": "{{ csrf_token() }}",
+//         },
+//         success: function(data) {
+//             console.log(data);
+//             $('#parent_id').empty(); {
+//                 {
+//                     --$('#parent_id').append('<option value="">{{__('
+//                         Select Parent ')}}</option>');
+//                     --
+//                 }
+//             }
+
+//             $.each(data, function(key, value) {
+//                 $('#parent_id').append('<option value="' + key + '">' + value + '</option>');
+//             });
+//         }
+//     });
+// }
+
 </script>
 @endpush

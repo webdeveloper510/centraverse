@@ -51,7 +51,6 @@ h6 {
                             </div>
                         </a>
                     </div>
-
                     <div class="col-lg-4 col-sm-12" style="padding: 15px;">
                         <a href="{{route('billing.index')}}" target="_blank">
                             <div class="card">
@@ -73,13 +72,11 @@ h6 {
                                             </h3>
 
                                         </div>
-                                        <!-- </div>
-                                    <div class="right_side" style="    width: 35% !important;"> -->
                                     </div>
                                 </div>
                             </div>
+                        </a>
                     </div>
-                    </a>
                     @endif
                     @php
                     $setting = App\Models\Utility::settings();
@@ -184,14 +181,21 @@ h6 {
                             <div class="scrol-card">
                                 <div class="card">
                                     <div class="card-body">
+                                 
+
+                                        @if(isset($events) && !empty($events))
                                         @foreach($events as $event)
                                         <?php
-                                            $pay = App\Models\PaymentLogs::where('event_id',$event['id'])->get();
+                                            $pay = App\Models\PaymentLogs::where('event_id',$event['id'])->exists();
                                             $total = 0;
-                                            foreach($pay as $p){
-                                            $total += $p->amount;
-                                            }
+                                            if($pay){
+                                                $pay = App\Models\PaymentLogs::where('event_id',$event['id'])->get();
+                                                foreach($pay as $p){
+                                                    $total += $p->amount;
+                                                }
+                                            } 
                                         ?>
+                                        
                                         <div class="card">
                                             <div class="card-body">
                                                 <h5 class="card-text">{{ $event['name'] }}
@@ -202,9 +206,9 @@ h6 {
                                                     Billing Amount: ${{ number_format($event['total'])}}<br>
                                                     Pending Amount: ${{number_format($event['total']- $total)}}
                                                 </div>
-
                                                 <div class="date-y">
                                                     @if($event['start_date'] == $event['end_date'])
+
                                                     <p>{{ Carbon\Carbon::parse($event['start_date'])->format('M d, Y')}}
                                                     </p>
                                                     @else
@@ -229,6 +233,7 @@ h6 {
                                             </div>
                                         </div>
                                         @endforeach
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -296,17 +301,14 @@ h5.card-text {
     .flex-div {
         display: block !important;
     }
-
     .card {
 
         height: 100%;
     }
-
     .new-div {
         display: flex;
 
     }
-
     .mt10 {
         margin-top: 10px;
     }

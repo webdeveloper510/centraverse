@@ -87,10 +87,13 @@ class DashboardController extends Controller
                 $statuss  = Invoice::$status;
 
                 $eventinvoice = Billing::pluck('event_id')->toArray();
-                 $events = [];
-                foreach ($eventinvoice as  $value) {
-                    $events= Meeting::find($value);
+                $events = [];
+                if(isset($eventinvoice) && !empty($eventinvoice)){
+                    foreach ($eventinvoice as  $value) {
+                        $events[]= Meeting::find($value);
+                    }
                 }
+                
                 $invoices = [];
                 foreach ($statuss as $id => $status) {
                     $invoice                   = $total = Invoice::where('status', $id)->where('created_by', \Auth::user()->creatorId())->count();

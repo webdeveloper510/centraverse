@@ -428,6 +428,7 @@ Route::group(['middleware' => ['verified']], function () {
             Route::get('lead/billinfo/{id}',[LeadController::class,'lead_billinfo'])->name('lead.billinfo');
             Route::get('lead/uploaded_docs/{id}',[LeadController::class,'uploaded_docs'])->name('lead.uploaded_docs');
             Route::post('lead/change_status/',[LeadController::class,'status'])->name('lead.changeleadstat');
+            Route::post('lead/change_proposal_status/',[LeadController::class,'propstatus'])->name('lead.changeproposalstat');
             Route::post('lead-notes/{id}',[LeadController::class,'leadnotes'])->name('addleadnotes');
             Route::get('lead/user-information/{id}',[LeadController::class,'lead_user_info'])->name('lead.userinfo');
 
@@ -543,6 +544,7 @@ Route::group(['middleware' => ['verified']], function () {
             Route::get('event/detailed-view/{id}', [MeetingController::class, 'detailed_info'])->name('meeting.detailview');
             Route::get('event/user-information/{id}',[MeetingController::class,'event_user_info'])->name('event.userinfo');
             Route::post('event/upload_doc/{id}',[MeetingController::class,'event_upload_doc'])->name('event.uploaddoc');
+            Route::post('event/change_agree_status/',[MeetingController::class,'agreementstatus'])->name('event.changeagreementstat');
             Route::post('event-notes/{id}',[MeetingController::class,'eventnotes'])->name('addeventnotes');
             Route::get('/get-encoded-id/{id}', function ($id) {
                 $encryptedId = Crypt::encrypt($id);

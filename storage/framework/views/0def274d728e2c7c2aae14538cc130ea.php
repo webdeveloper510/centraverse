@@ -53,7 +53,6 @@ h6 {
                             </div>
                         </a>
                     </div>
-
                     <div class="col-lg-4 col-sm-12" style="padding: 15px;">
                         <a href="<?php echo e(route('billing.index')); ?>" target="_blank">
                             <div class="card">
@@ -77,13 +76,11 @@ h6 {
                                             </h3>
 
                                         </div>
-                                        <!-- </div>
-                                    <div class="right_side" style="    width: 35% !important;"> -->
                                     </div>
                                 </div>
                             </div>
+                        </a>
                     </div>
-                    </a>
                     <?php endif; ?>
                     <?php
                     $setting = App\Models\Utility::settings();
@@ -192,14 +189,21 @@ h6 {
                             <div class="scrol-card">
                                 <div class="card">
                                     <div class="card-body">
+                                 
+
+                                        <?php if(isset($events) && !empty($events)): ?>
                                         <?php $__currentLoopData = $events; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $event): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <?php
-                                            $pay = App\Models\PaymentLogs::where('event_id',$event['id'])->get();
+                                            $pay = App\Models\PaymentLogs::where('event_id',$event['id'])->exists();
                                             $total = 0;
-                                            foreach($pay as $p){
-                                            $total += $p->amount;
-                                            }
+                                            if($pay){
+                                                $pay = App\Models\PaymentLogs::where('event_id',$event['id'])->get();
+                                                foreach($pay as $p){
+                                                    $total += $p->amount;
+                                                }
+                                            } 
                                         ?>
+                                        
                                         <div class="card">
                                             <div class="card-body">
                                                 <h5 class="card-text"><?php echo e($event['name']); ?>
@@ -212,9 +216,9 @@ h6 {
                                                     Pending Amount: $<?php echo e(number_format($event['total']- $total)); ?>
 
                                                 </div>
-
                                                 <div class="date-y">
                                                     <?php if($event['start_date'] == $event['end_date']): ?>
+
                                                     <p><?php echo e(Carbon\Carbon::parse($event['start_date'])->format('M d, Y')); ?>
 
                                                     </p>
@@ -242,6 +246,7 @@ h6 {
                                             </div>
                                         </div>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </div>
@@ -309,17 +314,14 @@ h5.card-text {
     .flex-div {
         display: block !important;
     }
-
     .card {
 
         height: 100%;
     }
-
     .new-div {
         display: flex;
 
     }
-
     .mt10 {
         margin-top: 10px;
     }

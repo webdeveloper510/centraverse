@@ -19,6 +19,7 @@ use App\Models\Proposal;
 use App\Models\ProposalInfo;
 use App\Mail\ProposalResponseMail;
 use App\Models\User;
+use App\Models\Meeting;
 use App\Models\UserDefualtView;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -440,6 +441,12 @@ class LeadController extends Controller
     public function destroy(Lead $lead)
     {
         if (\Auth::user()->can('Delete Lead')) {
+            $event = Meeting::where('attendees_lead',$lead->id)->exists();
+            if($event){
+                $eventid = Meeting::where('attendees_lead',$lead->id)->first()->id;
+                Meeting::where('attendees_lead',$lead->id)->delete();
+                Billing::where('event_id',$eventid)->delete();
+            }
             $lead->delete();
             return redirect()->back()->with('success', __('Lead  Deleted.'));
         } else {
@@ -974,6 +981,13 @@ class LeadController extends Controller
             'lead_status' => $request->status
         ]);
        return true;
+    }
+    public function propstatus(Request $request){
+        $id = $request->id;
+        Lead::where('id',$id)->update([
+            'status' => $request->status
+        ]);
+       return true; 
     }
     public function leadnotes(Request $request,$id){
         $notes = new NotesLeads();

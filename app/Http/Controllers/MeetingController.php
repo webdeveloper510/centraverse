@@ -862,6 +862,14 @@ class MeetingController extends Controller
         }
         return redirect()->back()->with('success', 'Email Sent Successfully');
     }
+    
+    public function agreementstatus(Request $request){
+        $id = $request->id;
+        Meeting::where('id',$id)->update([
+            'status' => $request->status
+        ]);
+       return true; 
+    }
     public function download_meeting($id)
     {
         $meeting = Meeting::findOrFail($id);
