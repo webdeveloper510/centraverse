@@ -392,7 +392,7 @@ class ReportController extends Controller
 
         // $leads->where('created_by', \Auth::user()->creatorId());
         $leads = $leads->get();
-
+ 
         $currentdate = $start;
         while($currentdate <= $end)
         {

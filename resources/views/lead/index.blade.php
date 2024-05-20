@@ -1,3 +1,8 @@
+@php
+    use Carbon\Carbon;
+    $currentDate = Carbon::now();
+  
+@endphp
 @extends('layouts.admin')
 @section('page-title')
 {{__('Leads')}}
@@ -95,8 +100,15 @@
                                                 <td>{{\Auth::user()->dateFormat($lead->start_date)}}</td>
                                                 @if(Gate::check('Show Lead') || Gate::check('Edit Lead') ||
                                                 Gate::check('Delete Lead') ||Gate::check('Manage Lead') )
+                                                <?php     $startDate = Carbon::parse($lead->start_date); ?>
                                              
                                                 <td class="text-end">
+                                                @if($startDate->lt($currentDate) && $lead->status == 0)
+                                              <b><span
+                                                        class=" text-danger p-2 px-3">{{__('Lead Not converted to Event')}}</span></b> 
+@else
+
+
                                                     @if($lead->status == 4)
                                                     <div class="action-btn bg-secondary ms-2">
                                                         <a href="{{ route('meeting.create',['meeting',0])}}"
@@ -185,6 +197,7 @@
                                                     </div>
                                                     @endcan
                                                 </td>
+                                                @endif
                                                 @endif
                                             </tr>
                                             @endforeach

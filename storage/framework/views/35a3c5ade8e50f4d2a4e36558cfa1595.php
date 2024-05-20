@@ -1,3 +1,8 @@
+<?php
+    use Carbon\Carbon;
+    $currentDate = Carbon::now();
+  
+?>
 
 <?php $__env->startSection('page-title'); ?>
 <?php echo e(__('Leads')); ?>
@@ -97,8 +102,15 @@
                                                 <td><?php echo e(\Auth::user()->dateFormat($lead->start_date)); ?></td>
                                                 <?php if(Gate::check('Show Lead') || Gate::check('Edit Lead') ||
                                                 Gate::check('Delete Lead') ||Gate::check('Manage Lead') ): ?>
+                                                <?php     $startDate = Carbon::parse($lead->start_date); ?>
                                              
                                                 <td class="text-end">
+                                                <?php if($startDate->lt($currentDate) && $lead->status == 0): ?>
+                                              <b><span
+                                                        class=" text-danger p-2 px-3"><?php echo e(__('Lead Not converted to Event')); ?></span></b> 
+<?php else: ?>
+
+
                                                     <?php if($lead->status == 4): ?>
                                                     <div class="action-btn bg-secondary ms-2">
                                                         <a href="<?php echo e(route('meeting.create',['meeting',0])); ?>"
@@ -189,6 +201,7 @@
                                                     </div>
                                                     <?php endif; ?>
                                                 </td>
+                                                <?php endif; ?>
                                                 <?php endif; ?>
                                             </tr>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
