@@ -44,7 +44,7 @@
                                                 <th scope="col" class="sort"><?php echo e(__('Status')); ?> <span class="opticy"> dddd</span></th>
                                                 <!-- <th scope="col" class="sort"><?php echo e(__('Proposal Status')); ?></th> -->
                                                 <th scope="col" class="sort"><?php echo e(__('Lead Status')); ?><span class="opticy"> dddd</span></th>
-                                                <th scope="col" class="sort"><?php echo e(__('Created On')); ?><span class="opticy"> dddd</span></th>
+                                                <th scope="col" class="sort"><?php echo e(__('Event Date')); ?><span class="opticy"> dddd</span></th>
                                                 <?php if(Gate::check('Show Lead') || Gate::check('Edit Lead') ||
                                                 Gate::check('Delete Lead')): ?>
                                                 <th scope="col" class="text-end"><?php echo e(__('Action')); ?> <span class="opticy"> dddd</span></th>
@@ -93,9 +93,10 @@
                                                         class="badge bg-warning p-2 px-3 rounded"><?php echo e(__(\App\Models\Lead::$status[$lead->status])); ?></span>
                                                     <?php endif; ?>
                                                 </td>
-                                                <td><?php echo e(\Auth::user()->dateFormat($lead->created_at)); ?></td>
+                                                <td><?php echo e(\Auth::user()->dateFormat($lead->start_date)); ?></td>
                                                 <?php if(Gate::check('Show Lead') || Gate::check('Edit Lead') ||
                                                 Gate::check('Delete Lead') ||Gate::check('Manage Lead') ): ?>
+                                             
                                                 <td class="text-end">
                                                     <?php if($lead->status == 4): ?>
                                                     <div class="action-btn bg-secondary ms-2">

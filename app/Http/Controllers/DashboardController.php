@@ -87,9 +87,9 @@ class DashboardController extends Controller
                 $statuss  = Invoice::$status;
 
                 $eventinvoice = Billing::pluck('event_id')->toArray();
-                
+                 $events = [];
                 foreach ($eventinvoice as  $value) {
-                    $events[]= Meeting::find($value);
+                    $events= Meeting::find($value);
                 }
                 $invoices = [];
                 foreach ($statuss as $id => $status) {

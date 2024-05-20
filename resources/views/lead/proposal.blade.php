@@ -9,6 +9,13 @@ $imagePath = public_path('upload/signature/autorised_signature.png');
 $imageData = base64_encode(file_get_contents($imagePath));
 $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base64,' . $imageData;
 
+    $bufferedDate = \Carbon\Carbon::parse($lead->start_date)->subDays($settings['buffer_day']);
+    $currentDate = \Carbon\Carbon::now();
+    $finalDate = $bufferedDate->lt($currentDate) ? $currentDate : $bufferedDate;
+
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -283,7 +290,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
 
                             <p class="text mt-2">
                                 Please return the signed proposal no later than
-                                <b>{{ \Carbon\Carbon::parse($lead->start_date)->subDays($settings['buffer_day'])->format('d M, Y') }}</b>
+                                <b>{{ $finalDate->format('d M, Y') }}</b>
                                 or this proposal is no longer valid.<br>
                             </p>
 
