@@ -1,3 +1,6 @@
+@php
+ $logo = URL::asset('storage/uploads/logo/');
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,7 +49,7 @@
 </head>
 <body>
     <div class="header">
-        <img src="http://127.0.0.1/main-file/storage/uploads/logo/logo.png" alt="Logo" class="logo">
+        <img src="{{$logo.'/3_logo-light.png' }}" alt="Logo" class="logo">
         <h1>Meeting Details</h1>
     </div>
     <div class="details">

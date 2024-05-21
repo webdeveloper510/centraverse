@@ -15,48 +15,49 @@ $latefee += $inf->latefee;
 $adjustments += $inf->adjustments;
 }
 ?>
-@if($event->status == 3)
+<?php if($event->status == 3): ?>
 <div class="row">
     <div class="col-lg-12">
         <div id="notification" class="alert alert-success mt-1">Link copied to clipboard!</div>
-        {{Form::open(array('route' => ['billing.sharepaymentlink', urlencode(encrypt($event->id))],'method'=>'post','enctype'=>'multipart/form-data'))}}
+        <?php echo e(Form::open(array('route' => ['billing.sharepaymentlink', urlencode(encrypt($event->id))],'method'=>'post','enctype'=>'multipart/form-data'))); ?>
+
 
         <div class="">
             <div class="row form-group1">
             <div class="col-md-6">
-            <label  class="form-label">{{__('Name')}}</label>
+            <label  class="form-label"><?php echo e(__('Name')); ?></label>
                
-                    <input type="text" name="name" class="form-control" value="{{$event->name}}" readonly>
+                    <input type="text" name="name" class="form-control" value="<?php echo e($event->name); ?>" readonly>
 </div>
-<div class="col-md-6"> <label  class="form-label">{{__('Email')}}</label>
+<div class="col-md-6"> <label  class="form-label"><?php echo e(__('Email')); ?></label>
             
-                    <input type="text" name="email" class="form-control" value="{{$event->email}}">
+                    <input type="text" name="email" class="form-control" value="<?php echo e($event->email); ?>">
 </div>
 </div>
             <div class="row form-group1">
                 <div class="col-md-6">
                     <label for="amount" class="form-label">Contract Amount</label>
-                    <input type="number" name="amount" class="form-control" value="{{$event->total}}" readonly>
+                    <input type="number" name="amount" class="form-control" value="<?php echo e($event->total); ?>" readonly>
                 </div>
                 <div class="col-md-6">
                     <label for="deposit" class="form-label">Deposits</label>
-                    <input type="number" name="deposit" value="{{$total + $bill->deposits}}" class="form-control">
+                    <input type="number" name="deposit" value="<?php echo e($total + $bill->deposits); ?>" class="form-control">
                 </div>
             </div>
             <div class="row form-group1">
                 <div class="col-md-6">
                     <label for="adjustment" class="form-label">Adjustments</label>
-                    <input type="number" name="adjustment" class="form-control" min="0" value="{{$adjustments}}">
+                    <input type="number" name="adjustment" class="form-control" min="0" value="<?php echo e($adjustments); ?>">
                 </div>
                 <div class="col-md-6">
                     <label for="latefee" class="form-label">Late fee(if Any)</label>
-                    <input type="number" name="latefee" class="form-control" min="0" value="{{$latefee}}">
+                    <input type="number" name="latefee" class="form-control" min="0" value="<?php echo e($latefee); ?>">
                 </div>
             </div>
             <div class="row form-group1">
                 <div class="col-md-6">
                     <label for="paidamount" class="form-label">Total Paid</label>
-                    <input type="number" name="paidamount" class="form-control" value="{{$total}}" readonly>
+                    <input type="number" name="paidamount" class="form-control" value="<?php echo e($total); ?>" readonly>
                 </div>
                 <div class="col-md-6">
                     <label for="balance" class="form-label">Balance</label>
@@ -76,14 +77,16 @@ $adjustments += $inf->adjustments;
             <div class="row form-group1">
             <div class="col-6 need_full">
                 <div class="form-group1">
-                    {{Form::label('amountcollect',__('Collect Amount'),['class'=>'form-label']) }}
-                    {{Form::number('amountcollect',null,array('class'=>'form-control','required'))}}
+                    <?php echo e(Form::label('amountcollect',__('Collect Amount'),['class'=>'form-label'])); ?>
+
+                    <?php echo e(Form::number('amountcollect',null,array('class'=>'form-control','required'))); ?>
+
                 </div>
             </div>
 </div>
 <div class="row form-group1">
             <div class="col-12">
-            <label  class="form-label">  {{Form::label('notes',__('Notes'),['class'=>'form-label']) }} </label>
+            <label  class="form-label">  <?php echo e(Form::label('notes',__('Notes'),['class'=>'form-label'])); ?> </label>
                 <textarea name="notes" id="notes" cols="30" rows="5" class='form-control'
                     placeholder='Enter Notes'></textarea>
             </div>
@@ -92,17 +95,19 @@ $adjustments += $inf->adjustments;
 
         <div class="modal-footer">
             <button type="button" class="btn btn-success" data-toggle="tooltip" onclick="getDataUrlAndCopy(this)"
-                data-url="{{route('billing.getpaymentlink',urlencode(encrypt($id)))}}" title='Copy To Clipboard'>
+                data-url="<?php echo e(route('billing.getpaymentlink',urlencode(encrypt($id)))); ?>" title='Copy To Clipboard'>
                 <i class="ti ti-copy"></i>
             </button>
-            {{Form::submit(__('Share via mail'),array('class'=>'btn btn-primary'))}}
+            <?php echo e(Form::submit(__('Share via mail'),array('class'=>'btn btn-primary'))); ?>
+
         </div>
     </div>
 
-    {{Form::close()}}
+    <?php echo e(Form::close()); ?>
+
 </div>
 </div>
-@else
+<?php else: ?>
 <div class="container mt-4">
     <div class="row">
         <div class="col-md-12">
@@ -112,7 +117,7 @@ $adjustments += $inf->adjustments;
         </div>
     </div>
 </div>
-@endif
+<?php endif; ?>
 <style>
 #notification {
     display: none;
@@ -175,11 +180,11 @@ function getDataUrlAndCopy(button) {
         var balance = $('input[name="balance"]').val();
         
         $.ajax({
-            url: '{{ route("billing.addpayinfooncopyurl",$event->id) }}',
+            url: '<?php echo e(route("billing.addpayinfooncopyurl",$event->id)); ?>',
             type: 'POST',
             data: {
                 "url": url,
-                "_token": "{{ csrf_token() }}",
+                "_token": "<?php echo e(csrf_token()); ?>",
                 "amount": amount,
                 "deposit": deposit,
                 "adjustment": adjustment,
@@ -248,4 +253,4 @@ function hideNotification() {
     var notification = document.getElementById('notification');
     notification.style.display = 'none';
 }
-</script>
+</script><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/billing/paylink.blade.php ENDPATH**/ ?>

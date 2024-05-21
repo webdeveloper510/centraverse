@@ -20,8 +20,7 @@ $additional_items = json_decode($settings['additional_items'],true);
 
 ?>
 <style>
-    
-.fa-asterisk{
+.fa-asterisk {
     font-size: xx-small;
     position: absolute;
     padding: 1px;
@@ -35,7 +34,7 @@ $additional_items = json_decode($settings['additional_items'],true);
         <div class="form-group">
             <?php echo e(Form::label('lead_name',__('Lead Name'),['class'=>'form-label'])); ?>
 
-            <span class="text-sm"> 
+            <span class="text-sm">
                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
             </span>
             <?php echo e(Form::text('lead_name',null,array('class'=>'form-control','placeholder'=>__('Enter Lead Name'),'required'=>'required'))); ?>
@@ -57,7 +56,7 @@ $additional_items = json_decode($settings['additional_items'],true);
         <div class="form-group">
             <?php echo e(Form::label('name',__('Name'),['class'=>'form-label'])); ?>
 
-            <span class="text-sm"> 
+            <span class="text-sm">
                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
             </span>
             <?php echo e(Form::text('name',null,array('class'=>'form-control','placeholder'=>__('Enter Name'),'required'=>'required'))); ?>
@@ -76,7 +75,7 @@ $additional_items = json_decode($settings['additional_items'],true);
         <div class="form-group ">
             <?php echo e(Form::label('name',__('Phone'),['class'=>'form-label'])); ?>
 
-            <span class="text-sm"> 
+            <span class="text-sm">
                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
             </span>
             <div class="intl-tel-input">
@@ -90,7 +89,7 @@ $additional_items = json_decode($settings['additional_items'],true);
         <div class="form-group">
             <?php echo e(Form::label('email',__('Email'),['class'=>'form-label'])); ?>
 
-            <span class="text-sm"> 
+            <span class="text-sm">
                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
             </span>
             <?php echo e(Form::text('email',null,array('class'=>'form-control','placeholder'=>__('Enter Email')))); ?>
@@ -120,7 +119,7 @@ $additional_items = json_decode($settings['additional_items'],true);
         <div class="form-group">
             <?php echo e(Form::label('type',__('Event Type'),['class'=>'form-label'])); ?>
 
-            <span class="text-sm"> 
+            <span class="text-sm">
                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
             </span>
             <select name="type" id="type" class="form-control" required>
@@ -151,21 +150,13 @@ $additional_items = json_decode($settings['additional_items'],true);
         <div class="form-group">
             <?php echo e(Form::label('start_date', __('Date of Event'), ['class' => 'form-label'])); ?>
 
-            <span class="text-sm"> 
+            <span class="text-sm">
                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
             </span>
             <?php echo Form::date('start_date', date('Y-m-d'), ['class' => 'form-control','required' =>'required']); ?>
 
         </div>
     </div>
-    <!-- <div class="col-6">
-        <div class="form-group">
-            <?php echo e(Form::label('end_date', __('End Date'), ['class' => 'form-label'])); ?>
-
-            <?php echo Form::date('end_date', date('Y-m-d'), ['class' => 'form-control']); ?>
-
-        </div>
-    </div> -->
 
     <div class="col-6 need_full">
         <div class="form-group">
@@ -203,7 +194,7 @@ $additional_items = json_decode($settings['additional_items'],true);
             <?php $__currentLoopData = $value['package']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $k => $package): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <div class="form-check" data-main-index="<?php echo e($k); ?>" data-main-package="<?php echo e($package); ?>">
                 <?php echo Form::checkbox('package_'.str_replace(' ', '', strtolower($value['function'])).'[]',$package,
-                     null,
+                null,
                 ['id' => 'package_' . $key.$k, 'data-function' => $value['function'], 'class' => 'form-check-input']); ?>
 
                 <?php echo e(Form::label($package, $package, ['class' => 'form-check-label'])); ?>
@@ -217,28 +208,28 @@ $additional_items = json_decode($settings['additional_items'],true);
     <?php if(isset($additional_items) && !empty($additional_items)): ?>
     <div class="col-6 need_full" id="additionalSection">
         <div class="form-group">
-        <?php echo e(Form::label('additional', __('Additional items'), ['class' => 'form-label'])); ?>
+            <?php echo e(Form::label('additional', __('Additional items'), ['class' => 'form-label'])); ?>
 
-        <?php $__currentLoopData = $additional_items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ad_key =>$ad_value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-        <?php $__currentLoopData = $ad_value; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $fun_key =>$packageVal): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-        <div class="form-group" data-additional-index="<?php echo e($fun_key); ?>" data-additional-value="<?php echo e(key($packageVal)); ?>"
-            id="ad_package" style="display:none;">
-            <?php echo e(Form::label('additional', __($fun_key), ['class' => 'form-label'])); ?>
+            <?php $__currentLoopData = $additional_items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ad_key =>$ad_value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <?php $__currentLoopData = $ad_value; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $fun_key =>$packageVal): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <div class="form-group" data-additional-index="<?php echo e($fun_key); ?>" data-additional-value="<?php echo e(key($packageVal)); ?>"
+                id="ad_package" style="display:none;">
+                <?php echo e(Form::label('additional', __($fun_key), ['class' => 'form-label'])); ?>
 
-            <?php $__currentLoopData = $packageVal; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $pac_key =>$item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            <div class="form-check" data-additional-index="<?php echo e($pac_key); ?>" data-additional-package="<?php echo e($pac_key); ?>">
-                <?php echo Form::checkbox('additional_'.str_replace(' ', '_', strtolower($fun_key)).'[]',$pac_key, null,
-                ['data-function' => $fun_key, 'class' => 'form-check-input']); ?>
+                <?php $__currentLoopData = $packageVal; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $pac_key =>$item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <div class="form-check" data-additional-index="<?php echo e($pac_key); ?>" data-additional-package="<?php echo e($pac_key); ?>">
+                    <?php echo Form::checkbox('additional_'.str_replace(' ', '_', strtolower($fun_key)).'[]',$pac_key, null,
+                    ['data-function' => $fun_key, 'class' => 'form-check-input']); ?>
 
-                <?php echo e(Form::label($pac_key, $pac_key, ['class' => 'form-check-label'])); ?>
+                    <?php echo e(Form::label($pac_key, $pac_key, ['class' => 'form-check-label'])); ?>
 
+                </div>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </div>
-        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     </div>
-                </div>
     <?php endif; ?>
 
     <?php endif; ?>
@@ -362,10 +353,9 @@ $additional_items = json_decode($settings['additional_items'],true);
 }
 </style>
 <script>
+$(document).ready(function() {
 
-    $(document).ready(function () {
-        
-    $('#formdata').on('submit', function (event) {
+    $('#formdata').on('submit', function(event) {
         let isValid = true;
 
         // Remove previous error messages
@@ -402,39 +392,39 @@ $additional_items = json_decode($settings['additional_items'],true);
         }
     });
 });
-
 </script>
 <script>
- $(document).ready(function() {  
-    $("input[type='text'][name='lead_name'],input[type='text'][name='name'], input[type='text'][name='email'], select[name='type'],input[type='tel'][name='phone']").focusout(function() {  
-          
-        var input = $(this);
-        var errorMessage = '';
-        if (input.attr('name') === 'email' && input.val() !== '') {
-            var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailPattern.test(input.val())) {
-                errorMessage = 'Invalid email address.';
+$(document).ready(function() {
+    $("input[type='text'][name='lead_name'],input[type='text'][name='name'], input[type='text'][name='email'], select[name='type'],input[type='tel'][name='phone']")
+        .focusout(function() {
+
+            var input = $(this);
+            var errorMessage = '';
+            if (input.attr('name') === 'email' && input.val() !== '') {
+                var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailPattern.test(input.val())) {
+                    errorMessage = 'Invalid email address.';
+                }
+            } else if (input.val() == '') {
+                errorMessage = 'This field is required.';
             }
-        } else if (input.val() == '') {
-            errorMessage = 'This field is required.';
-        }
-        
-        if(errorMessage  != '') {  
-            input.css('border', 'solid 2px red');
-        } 
-        else { 
-            // If it is not blank. 
-            input.css('border', 'solid 2px black');
-        }
-        
-        // Remove any existing error message
-        input.next('.validation-error').remove();
-        
-        // Append the error message if it exists
-        if(errorMessage != '') {
-            input.after('<div class="validation-error text-danger" style="padding:2px;">' + errorMessage + '</div>');
-        }
-    }); 
+
+            if (errorMessage != '') {
+                input.css('border', 'solid 2px red');
+            } else {
+                // If it is not blank. 
+                input.css('border', 'solid 2px black');
+            }
+
+            // Remove any existing error message
+            input.next('.validation-error').remove();
+
+            // Append the error message if it exists
+            if (errorMessage != '') {
+                input.after('<div class="validation-error text-danger" style="padding:2px;">' +
+                    errorMessage + '</div>');
+            }
+        });
 });
 
 

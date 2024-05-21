@@ -57,8 +57,8 @@ $leadId = decrypt(urldecode(request()->query('lead')));
     transform: scale(1.2);
 }
 
-    
-.fa-asterisk{
+
+.fa-asterisk {
     font-size: xx-small;
     position: absolute;
     padding: 1px;
@@ -107,8 +107,8 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 <div class="form-group">
                                                     {{ Form::label('lead', __('Lead'), ['class' => 'form-label']) }}
                                                     <span class="text-sm">
-                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                                </span>
+                                                        <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                    </span>
                                                     {!! Form::select('lead', $attendees_lead, null, ['class' =>
                                                     'form-control']) !!}
                                                 </div>
@@ -117,14 +117,17 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 <div class="form-group">
                                                     {{ Form::label('eventname', __('Event Name'), ['class' => 'form-label']) }}
                                                     <span class="text-sm">
-                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                                </span>
+                                                        <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                    </span>
                                                     {{Form::text('eventname',null,array('class'=>'form-control','placeholder'=>__('Enter Event Name')))}}
                                                 </div>
                                             </div>
                                             <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     {{Form::label('Assigned Staff',__('Assigned Staff'),['class'=>'form-label']) }}
+                                                    <span class="text-sm">
+                                                        <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                    </span>
                                                     @foreach($users as $user)
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="checkbox" name="user[]"
@@ -166,14 +169,15 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 @endif
                                             </div>
                                             <div class="col-12  p-0 modaltitle pb-3 mb0">
-                                                <h5 style="margin-left: 14px;" class="mb-0">{{ __('Contact Information') }}</h5>
+                                                <h5 style="margin-left: 14px;" class="mb-0">
+                                                    {{ __('Contact Information') }}</h5>
                                             </div>
                                             <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     {{Form::label('name',__('Name'),['class'=>'form-label']) }}
                                                     <span class="text-sm">
-                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                                </span>
+                                                        <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                    </span>
                                                     {{Form::text('name',null,array('class'=>'form-control','placeholder'=>__('Enter Name'),'required'=>'required'))}}
                                                 </div>
                                                 @if ($errors->has('name'))
@@ -186,8 +190,8 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 <div class="form-group">
                                                     {{Form::label('phone',__('Phone'),['class'=>'form-label']) }}
                                                     <span class="text-sm">
-                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                                </span>
+                                                        <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                    </span>
                                                     <div class="intl-tel-input">
                                                         <input type="tel" id="phone-input" name="phone"
                                                             class="phone-input form-control" placeholder="Enter Phone"
@@ -201,8 +205,8 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 <div class="form-group">
                                                     {{Form::label('email',__('Email'),['class'=>'form-label']) }}
                                                     <span class="text-sm">
-                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                                </span>
+                                                        <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                    </span>
                                                     {{Form::text('email',null,array('class'=>'form-control','placeholder'=>__('Enter Email'),'required'=>'required'))}}
                                                 </div>
                                                 @if ($errors->has('email'))
@@ -308,8 +312,8 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 <div class="form-group">
                                                     {{Form::label('guest_count',__('Guest Count'),['class'=>'form-label']) }}
                                                     <span class="text-sm">
-                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                                </span>
+                                                        <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                    </span>
                                                     {!! Form::number('guest_count', null,array('class' =>
                                                     'form-control','min'=> 0)) !!}
                                                 </div>
@@ -323,8 +327,8 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 <div class="form-group">
                                                     <label for="venue_selection" class="form-label">Venue</label>
                                                     <span class="text-sm">
-                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                                </span>
+                                                        <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                    </span>
                                                     @foreach($venue as $key => $label)
                                                     <div>
                                                         <input type="checkbox" name="venue[]" value="{{ $label }}"
@@ -346,8 +350,8 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 <div class="form-group">
                                                     {{ Form::label('start_date', __('Start Date'), ['class' => 'form-label']) }}
                                                     <span class="text-sm">
-                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                                </span>
+                                                        <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                    </span>
                                                     {!! Form::date('start_date', date('Y-m-d'), ['class' =>
                                                     'form-control',
                                                     'required' => 'required']) !!}
@@ -376,8 +380,8 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 <div class="form-group">
                                                     {{ Form::label('start_time', __('Start Time'), ['class' => 'form-label']) }}
                                                     <span class="text-sm">
-                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                                </span>
+                                                        <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                    </span>
                                                     {!! Form::input('time', 'start_time', null, ['class' =>
                                                     'form-control', 'required' => 'required']) !!}
                                                 </div>
@@ -392,8 +396,8 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 <div class="form-group">
                                                     {{ Form::label('end_time', __('End Time'), ['class' => 'form-label']) }}
                                                     <span class="text-sm">
-                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                                </span>
+                                                        <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                    </span>
                                                     {!! Form::input('time', 'end_time', null, ['class' =>
                                                     'form-control', 'required' => 'required']) !!}
                                                 </div>
@@ -407,8 +411,8 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 <div class="form-group">
                                                     {{ Form::label('function', __('Function'), ['class' => 'form-label']) }}
                                                     <span class="text-sm">
-                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                                </span>
+                                                        <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                    </span>
                                                     @if(isset($function) && !empty($function))
                                                     @foreach($function as $key => $value)
                                                     <div class="form-check">
@@ -433,8 +437,8 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                     style="display: none;">
                                                     {{ Form::label('package', __($value['function']), ['class' => 'form-label']) }}
                                                     <span class="text-sm">
-                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                                </span>
+                                                        <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                    </span>
                                                     @foreach($value['package'] as $k => $package)
                                                     <div class="form-check" data-main-index="{{$k}}"
                                                         data-main-package="{{$package}}">
@@ -522,8 +526,8 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 <div class="form-group">
                                                     {!! Form::label('meal', 'Meal Preference') !!}
                                                     <span class="text-sm">
-                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                                </span>
+                                                        <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                    </span>
                                                     @foreach($meal as $key => $label)
                                                     <div>
                                                         {{ Form::radio('meal', $label , false, ['id' => $label]) }}
@@ -617,13 +621,32 @@ $leadId = decrypt(urldecode(request()->query('lead')));
 @endsection
 @push('script-page')
 <script>
-    $(document).ready(function(){
+function validateCheckboxGroup(groupName) {
+    var checkboxes = $("input[name='" + groupName + "']");
+    var isChecked = checkboxes.is(":checked");
+    var errorMessage = '';
+
+    if (!isChecked) {
+        errorMessage = 'At least one ' + groupName.replace('[]', '') + ' must be selected.';
+    }
+
+    // Remove any existing error message
+    checkboxes.closest('.form-group').find('.validation-error').remove();
+
+    // Append the error message if it exists
+    if (errorMessage != '') {
+        checkboxes.closest('.form-group').append(
+            '<div class="validation-error text-danger" style="padding:2px;">' +
+            errorMessage + '</div>');
+    }
+}
+$(document).ready(function() {
     // Attach a keyup event listener to input fields
-    $('input').on('keyup', function(){
+    $('input').on('keyup', function() {
         // Get the input value
         var value = $(this).val();
         // Check if the input value contains spaces
-        if(value.indexOf(' ') !== -1) {
+        if (value.indexOf(' ') !== -1) {
             // Display validation message
             $('#validationMessage').text('Spaces are not allowed in this field').show();
         } else {
@@ -632,38 +655,38 @@ $leadId = decrypt(urldecode(request()->query('lead')));
         }
     });
 });
-$('#formdata').on('submit', function (event) {
-        let isValid = true;
+$('#formdata').on('submit', function(event) {
+    let isValid = true;
 
-        // Remove previous error messages
-        $('.error-message').remove();
+    // Remove previous error messages
+    $('.error-message').remove();
 
-        // Function to display error messages
-        function displayError(inputId, message) {
-            $(`<span class="error-message">${message}</span>`).insertAfter(`#${inputId}`);
-        }
+    // Function to display error messages
+    function displayError(inputId, message) {
+        $(`<span class="error-message">${message}</span>`).insertAfter(`#${inputId}`);
+    }
 
 
-        // Name validation
-        let name = $('#name').val().trim();
-        if (name === '') {
-            displayError('name', 'Name is required and must not contain only spaces.');
-            isValid = false;
-        }
-        let startTime = $('#start_time').val();
-        let endTime = $('#end_time').val();
-        if (startTime != '' && endTime <= startTime) {
-            displayError('end_time', 'End time must be after start time.');
-            isValid = false;
-        }
+    // Name validation
+    let name = $('#name').val().trim();
+    if (name === '') {
+        displayError('name', 'Name is required and must not contain only spaces.');
+        isValid = false;
+    }
+    let startTime = $('#start_time').val();
+    let endTime = $('#end_time').val();
+    if (startTime != '' && endTime <= startTime) {
+        displayError('end_time', 'End time must be after start time.');
+        isValid = false;
+    }
 
-        // Prevent form submission if any validation fails
-        if (!isValid) {
-            event.preventDefault();
-        }
-    });
+    // Prevent form submission if any validation fails
+    if (!isValid) {
+        event.preventDefault();
+    }
+});
 $(document).ready(function() {
-    $("input[type='text'][name='lead_name'],input[type='text'][name='name'], input[type='text'][name='email'], select[name='type'],input[type='tel'][name='phone'],input[name='guest_count'],input[name='start_date'],input[name='start_time'],input[name='end_time']")
+    $("input[type='text'][name='lead_name'],input[type='text'][name='name'], input[type='text'][name='email'], select[name='type'],input[type='tel'][name='phone'],input[name='guest_count'],input[name='start_date'],input[name='start_time'],input[name='end_time'],input[type='checkbox']")
         .focusout(function() {
 
             var input = $(this);
@@ -692,6 +715,12 @@ $(document).ready(function() {
                 input.after('<div class="validation-error text-danger" style="padding:2px;">' +
                     errorMessage + '</div>');
             }
+            $("input[name='user[]']").change(validateCheckboxGroup('user[]'));
+            $("input[name='user[]']").focusout(validateCheckboxGroup('user[]'));
+            $("input[name='venue[]']").change(validateCheckboxGroup('venue[]'));
+            $("input[name='venue[]']").focusout(validateCheckboxGroup('venue[]'));
+            $("input[name='function[]']").change(validateCheckboxGroup('function[]'));
+            $("input[name='function[]']").focusout(validateCheckboxGroup('function[]'));
         });
 });
 </script>

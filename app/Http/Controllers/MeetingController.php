@@ -409,15 +409,12 @@ class MeetingController extends Controller
                 [
                     'name' => 'required|max:120',
                     'start_date' => 'required',
-                    // 'end_date' => 'required',
                     'email' => 'required|email|max:120',
-                    'lead_address' => 'required|max:120',
                     'type' => 'required',
                     'venue' => 'required|max:120',
                     'function' => 'required|max:120',
                     'guest_count' => 'required',
-                    'start_time' => 'required',
-                    'end_time' => 'required',
+                    'user'=>'required'
                 ]
             );
             if ($validator->fails()) {
@@ -1133,7 +1130,7 @@ class MeetingController extends Controller
         $meeting['relationship']       = $request->relationship;
         $meeting['type']               = $request->type;
         $meeting['email']              = $request->email;
-        $meeting['lead_address']      = $request->lead_address;
+        $meeting['lead_address']       = $request->lead_address;
         $meeting['status']               = $status;
         $meeting['function']           = $function;
         $meeting['venue_selection']    = $venue;
@@ -1177,7 +1174,9 @@ class MeetingController extends Controller
             }
             return redirect()->route('meeting.index', compact('meetings'))->with('success', __('Event Approved!'));
         } elseif ($status == 4) {
-            Agreement::where('event_id', $id)->delete();
+            $subject = 'Event Details';
+            $content = 'Following are the details of event:-';
+            $agrementinfo = Agreement::where('event_id',$id)->first();
             try {
                 config(
                     [
@@ -1190,8 +1189,7 @@ class MeetingController extends Controller
                         'mail.from.name'    => $settings['mail_from_name'],
                     ]
                 );
-
-                Mail::to($meeting->email)->send(new SendEventMail($meeting));
+                Mail::to($request->email)->send(new SendEventMail($meeting,$subject,$content,$agrementinfo));
             } catch (\Exception $e) {
                 // \Log::error('Error sending email: ' . $e->getMessage());
                 // return response()->json(
@@ -1202,6 +1200,8 @@ class MeetingController extends Controller
                 // );
                 return redirect()->back()->with('success', 'Email Not Sent');
             }
+            Agreement::where('event_id', $id)->delete();
+
             if (\Auth::user()->type == 'owner') {
                 $meetings = Meeting::with('assign_user')->orderby('id','desc')->get();
              

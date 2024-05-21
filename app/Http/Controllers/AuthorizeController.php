@@ -159,7 +159,6 @@ class AuthorizeController extends Controller
                             $folder = 'Invoice/' . $id; 
                             $path = Storage::disk('public')->put($folder . '/' . $filename, $pdf->output());
                             $newpayment->update(['attachment' => $filename]);
-                         
                         } catch (\Exception $e) {
                             // Log the error for future reference
                             \Log::error('File upload failed: ' . $e->getMessage());
@@ -203,7 +202,6 @@ class AuthorizeController extends Controller
                             }
                             $data =  Billing::where('event_id',$id)->get();
                             // Billing::where('event_id',$id)->update(['status' => 4]);
-                        
                             return view('calendar.welcome')->with('success',$message_text);
                         } catch (\Exception $e) {
                             //   return response()->json(
@@ -212,7 +210,8 @@ class AuthorizeController extends Controller
                             //                 'message' => $e->getMessage(),
                             //             ]
                             //         );
-                            return redirect()->back()->with('success', 'Email Not Sent');
+                           
+                            return redirect()->route('billing.index')->with('success', 'Email Not Sent');
                         }
                 } else {
                     echo "Transaction Failed \n";
@@ -247,7 +246,7 @@ class AuthorizeController extends Controller
         } else {
             $msg_type = 'error_msg';
             $message_text = 'No reponse returned';
-        }
+        }die;
         return view('calendar.paymentfailed')->with($msg_type, $message_text);
     }
 }

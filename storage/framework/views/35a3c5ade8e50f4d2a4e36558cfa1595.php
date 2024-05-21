@@ -117,7 +117,10 @@ $proposalstatus = \App\Models\Lead::$status;
                                                         class="badge bg-warning p-2 px-3 rounded"><?php echo e(__(\App\Models\Lead::$status[$lead->status])); ?></span>
                                                     <?php endif; ?>
                                                 </td> -->
-                                                <td><?php echo e(\Auth::user()->dateFormat($lead->start_date)); ?></td>
+                                                <td>
+                                                    <?php echo e(\Auth::user()->dateFormat($lead->start_date)); ?>
+
+                                                </td>
                                                 <?php if(Gate::check('Show Lead') || Gate::check('Edit Lead') ||
                                                 Gate::check('Delete Lead') ||Gate::check('Manage Lead') ): ?>
                                                 <?php     $startDate = Carbon::parse($lead->start_date); ?>

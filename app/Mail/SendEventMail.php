@@ -64,13 +64,24 @@ class SendEventMail extends Mailable
 
     public function build()
     {
-                    $filePath = storage_path('app/public/Agreement_attachments/'. $this->meeting->id.'/'.$this->agreementinfo->attachments);
-        return $this->subject($this->subject)
-            ->view('lead.mail.view') // Blade view for email content
-            ->with('content',$this->content)
-            ->attach($filePath, [
-                'as' => $this->agreementinfo->attachments, // File name
-                'mime' => Storage::disk('public')->mimeType('Agreement_attachments/'.$this->meeting->id.'/'.$this->agreementinfo->attachments),
-            ]);
+        $email = $this->subject($this->subject)
+        ->view('lead.mail.view') // Blade view for email content
+        ->with('content', $this->content);
+        // Check if attachments is not null
+        if (!is_null($this->agreementinfo)) {
+        $filePath = storage_path('app/public/Agreement_attachments/' . $this->meeting->id . '/' . $this->agreementinfo->attachments);
+
+        // Check if the file exists before attaching it
+        if (file_exists($filePath)) {
+        $email->attach($filePath, [
+            'as' => $this->agreementinfo->attachments, // File name
+            'mime' => Storage::disk('public')->mimeType('Agreement_attachments/' . $this->meeting->id . '/' . $this->agreementinfo->attachments),
+        ]);
         }
+        }
+
+        return $email;
+
+
     }
+}

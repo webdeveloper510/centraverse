@@ -172,7 +172,6 @@ class BillingController extends Controller
                 'name_of_card' => $event->name,
                 'event_id' =>$id
             ]);
-             
         }
          return redirect()->back()->with('success','Payment Information Updated Sucessfully');
   

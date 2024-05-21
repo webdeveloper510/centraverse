@@ -1,4 +1,4 @@
-@php
+<?php
 
 $bill = App\Models\Billing::where('event_id',$event->id)->first();
 
@@ -15,71 +15,90 @@ $adjustments += $inf->adjustments;
 foreach($pay as $p){
 $total += $p->amount;
 }
-@endphp
-@if($event->status == 3)
-{{Form::open(array('route' => ['billing.paymentinfoupdate', urlencode(encrypt($event->id))],'method'=>'post','enctype'=>'multipart/form-data'))}}
+?>
+<?php if($event->status == 3): ?>
+<?php echo e(Form::open(array('route' => ['billing.paymentinfoupdate', urlencode(encrypt($event->id))],'method'=>'post','enctype'=>'multipart/form-data'))); ?>
+
 <div class="row">
     <div class="col-6 need_full">
         <div class="form-group">
-            {{Form::label('amount',__('Contract Amount'),['class'=>'form-label']) }}
-            {{Form::number('amount', $event->total + $bill->deposits,array('class'=>'form-control','placeholder'=>__('Enter Amount'),'required'=>'required','readonly'))}}
+            <?php echo e(Form::label('amount',__('Contract Amount'),['class'=>'form-label'])); ?>
+
+            <?php echo e(Form::number('amount', $event->total + $bill->deposits,array('class'=>'form-control','placeholder'=>__('Enter Amount'),'required'=>'required','readonly'))); ?>
+
         </div>
     </div>
     <div class="col-6 need_full">
         <div class="form-group">
-            {{Form::label('date',__('Contract Date'),['class'=>'form-label']) }}
+            <?php echo e(Form::label('date',__('Contract Date'),['class'=>'form-label'])); ?>
+
             <input type="date" name="date" id="date" class="form-control"
-                value="{{$event->start_date ?? date('Y-m-d')}}">
+                value="<?php echo e($event->start_date ?? date('Y-m-d')); ?>">
         </div>
     </div>
     <div class="col-6 need_full">
         <div class="form-group">
-            {{Form::label('deposits',__('Deposits on Account'),['class'=>'form-label']) }}
-            {{Form::number('deposits', $bill->deposits + $total,array('class'=>'form-control','placeholder'=>__('Enter Deposits'),'readonly'))}}
+            <?php echo e(Form::label('deposits',__('Deposits on Account'),['class'=>'form-label'])); ?>
+
+            <?php echo e(Form::number('deposits', $bill->deposits + $total,array('class'=>'form-control','placeholder'=>__('Enter Deposits'),'readonly'))); ?>
+
         </div>
     </div>
     <div class="col-6 need_full">
         <div class="form-group">
-            {{Form::label('latefee',__('Late Fee'),['class'=>'form-label']) }}
-            {{Form::number('latefee', $latefee, array('class'=>'form-control','placeholder'=>__('Enter Late Fee')))}}
+            <?php echo e(Form::label('latefee',__('Late Fee'),['class'=>'form-label'])); ?>
+
+            <?php echo e(Form::number('latefee', $latefee, array('class'=>'form-control','placeholder'=>__('Enter Late Fee')))); ?>
+
         </div>
     </div>
     <div class="col-6 need_full">
         <div class="form-group">
-            {{Form::label('adjustments',__('Adjustments'),['class'=>'form-label']) }}
-            {{Form::number('adjustments',$adjustments,array('class'=>'form-control','placeholder'=>__('Enter Adjustments')))}}
+            <?php echo e(Form::label('adjustments',__('Adjustments'),['class'=>'form-label'])); ?>
+
+            <?php echo e(Form::number('adjustments',$adjustments,array('class'=>'form-control','placeholder'=>__('Enter Adjustments')))); ?>
+
         </div>
     </div>
 
     <div class="col-6 need_full">
         <div class="form-group">
-            {{Form::label('amountpaid',__('Total Paid'),['class'=>'form-label']) }}
-            {{Form::number('amountpaid',null,array('class'=>'form-control','placeholder'=>__('Enter Amount Paid'),'readonly'))}}
+            <?php echo e(Form::label('amountpaid',__('Total Paid'),['class'=>'form-label'])); ?>
+
+            <?php echo e(Form::number('amountpaid',null,array('class'=>'form-control','placeholder'=>__('Enter Amount Paid'),'readonly'))); ?>
+
         </div>
     </div>
 
     <div class="col-6">
         <div class="form-group">
-            {{Form::label('amountpaid',__('Total Paid'),['class'=>'form-label']) }}
-            {{Form::number('amountpaid',null,array('class'=>'form-control','placeholder'=>__('Enter Amount Paid'),'readonly'))}}
+            <?php echo e(Form::label('amountpaid',__('Total Paid'),['class'=>'form-label'])); ?>
+
+            <?php echo e(Form::number('amountpaid',null,array('class'=>'form-control','placeholder'=>__('Enter Amount Paid'),'readonly'))); ?>
+
         </div>
     </div>
 
     <div class="col-6 need_full">
         <div class="form-group">
-            {{Form::label('balance',__('Balance Due'),['class'=>'form-label']) }}
-            {{Form::number('balance',null,array('class'=>'form-control','placeholder'=>__('Enter Balance Due'),'readonly'))}}
+            <?php echo e(Form::label('balance',__('Balance Due'),['class'=>'form-label'])); ?>
+
+            <?php echo e(Form::number('balance',null,array('class'=>'form-control','placeholder'=>__('Enter Balance Due'),'readonly'))); ?>
+
         </div>
     </div>
     <div class="col-6 nee.d_full">
         <div class="form-group">
-            {{Form::label('amountcollect',__('Collect Amount'),['class'=>'form-label']) }}
-            {{Form::number('amountcollect',null,array('class'=>'form-control','required'))}}
+            <?php echo e(Form::label('amountcollect',__('Collect Amount'),['class'=>'form-label'])); ?>
+
+            <?php echo e(Form::number('amountcollect',null,array('class'=>'form-control','required'))); ?>
+
         </div>
     </div>
     <div class="col-6 need_full">
         <div class="form-group">
-            {{Form::label('mode',__('Mode of Payment'),['class'=>'form-label']) }}
+            <?php echo e(Form::label('mode',__('Mode of Payment'),['class'=>'form-label'])); ?>
+
             <select name="mode" id="mode" class='form-select' required>
                 <option value="">Please select</option>
                 <option value="online"
@@ -102,14 +121,17 @@ $total += $p->amount;
     </div>
     <div class="col-12 ">
         <div class="form-group">
-            {{Form::label('reference',__('Payment Reference'),['class'=>'form-label']) }}
-            {{Form::text('reference',$payment->reference ?? '',array('class'=>'form-control','placeholder'=>__('Enter Reference Id ')))}}
+            <?php echo e(Form::label('reference',__('Payment Reference'),['class'=>'form-label'])); ?>
+
+            <?php echo e(Form::text('reference',$payment->reference ?? '',array('class'=>'form-control','placeholder'=>__('Enter Reference Id ')))); ?>
+
         </div>
     </div>
 
     <div class="col-12">
         <div class="form-group">
-            {{Form::label('notes',__('Notes'),['class'=>'form-label']) }}
+            <?php echo e(Form::label('notes',__('Notes'),['class'=>'form-label'])); ?>
+
             <textarea name="notes" id="notes" cols="30" rows="5" class='form-control'
                 placeholder='Enter Notes'></textarea>
         </div>
@@ -118,9 +140,10 @@ $total += $p->amount;
 </div>
 <div class="modal-footer">
     <button type="button" class="btn  btn-light" data-bs-dismiss="modal">Close</button>
-    {{Form::submit(__('Save'),array('class'=>'btn btn-primary '))}}
+    <?php echo e(Form::submit(__('Save'),array('class'=>'btn btn-primary '))); ?>
+
 </div>
-@else
+<?php else: ?>
 <div class="container mt-4">
     <div class="row">
         <div class="col-md-12">
@@ -130,7 +153,7 @@ $total += $p->amount;
         </div>
     </div>
 </div>
-@endif
+<?php endif; ?>
 
 <script>
 $('#mode').change(function() {
@@ -191,4 +214,4 @@ jQuery(function() {
         }
     })
 });
-</script>
+</script><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/billing/pay-info.blade.php ENDPATH**/ ?>

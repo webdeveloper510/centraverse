@@ -52,7 +52,11 @@ $additional_items = json_decode($setting['additional_items'],true);
         background-color: none;
         transition: transform .2s;
     }
-
+    .fa-asterisk {
+    font-size: xx-small;
+    position: absolute;
+    padding: 1px;
+}
     .zoom:hover {
         -ms-transform: scale(1.5);
         -webkit-transform: scale(1.5);
@@ -95,6 +99,9 @@ $additional_items = json_decode($setting['additional_items'],true);
                                         <div class="col-6 need_full">
                                             <div class="form-group">
                                                 {{Form::label('Assigned Staff',__('Assigned Staff'),['class'=>'form-label']) }}
+                                                <span class="text-sm">
+                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                </span>
                                                 @foreach($users as $user)
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="checkbox" name="user[]" value="{{ $user->id }}" id="user_{{ $user->id }}" {{ in_array($user->id, $user_id) ? 'checked' : '' }}>
@@ -109,7 +116,7 @@ $additional_items = json_decode($setting['additional_items'],true);
                                         <div class="col-6 need_full">
                                             <div class="form-group">
                                                 {{Form::label('company_name',__('Company Name'),['class'=>'form-label']) }}
-                                                {{Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Company Name'),'required'=>'required'))}}
+                                                {{Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Company Name')))}}
                                             </div>
                                         </div>
 
@@ -119,26 +126,43 @@ $additional_items = json_decode($setting['additional_items'],true);
                                         <div class="col-6 need_full">
                                             <div class="form-group">
                                                 {{Form::label('name',__('Name'),['class'=>'form-label']) }}
+                                                <span class="text-sm">
+                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                </span>
                                                 {{Form::text('name',null,array('class'=>'form-control','placeholder'=>__('Enter Name'),'required'=>'required'))}}
                                             </div>
                                         </div>
                                         <div class="col-6 need_full">
                                             <div class="form-group">
                                                 {{Form::label('phone',__('Phone'),['class'=>'form-label']) }}
-                                                {{Form::text('phone',null,array('class'=>'form-control','placeholder'=>__('Enter Phone'),'required'=>'required'))}}
-                                            </div>
+                                                <span class="text-sm">
+                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                </span>
+                                                <div class="intl-tel-input">
+                                                    <input type="tel" id="phone-input" name="phone"
+                                                        class="phone-input form-control" placeholder="Enter Phone"
+                                                        maxlength="16" required>
+                                                    <input type="hidden" name="countrycode" id="country-code">
+                                                </div>
+                                            </div>                                            
                                         </div>
+                                        </div>
+                                        <div class="row">
                                         <div class="col-6 need_full">
                                             <div class="form-group">
                                                 {{Form::label('email',__('Email'),['class'=>'form-label']) }}
+                                                <span class="text-sm">
+                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                </span>
                                                 {{Form::text('email',null,array('class'=>'form-control','placeholder'=>__('Enter Email'),'required'=>'required'))}}
                                             </div>
                                         </div>
                                         <div class="col-6 need_full">
                                             <div class="form-group">
                                                 {{Form::label('lead_address',__('Address'),['class'=>'form-label']) }}
-                                                {{Form::text('lead_address',null,array('class'=>'form-control','placeholder'=>__('Address'),'required'=>'required'))}}
+                                                {{Form::text('lead_address',null,array('class'=>'form-control','placeholder'=>__('Address')))}}
                                             </div>
+                                        </div>
                                         </div>
                                         <div class="col-6 need_full">
                                             <div class="form-group">
@@ -217,12 +241,18 @@ $additional_items = json_decode($setting['additional_items'],true);
                                         <div class="col-6 need_full">
                                             <div class="form-group">
                                                 {{Form::label('type',__('Event Type'),['class'=>'form-label']) }}
+                                                <span class="text-sm">
+                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                </span>
                                                 {!! Form::select('type', $type_arr, null,array('class' => 'form-control')) !!}
                                             </div>
                                         </div>
                                         <div class="col-6 need_full">
                                             <div class="form-group">
                                                 <label for="venue" class="form-label">{{ __('Venue') }}</label>
+                                                <span class="text-sm">
+                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                </span>
                                                 @foreach($venue as $key => $label)
                                                 <div>
                                                     <input type="checkbox" name="venue[]" id="{{ $label }}" value="{{ $label }}" {{ in_array($label, $venue_function) ? 'checked' : '' }}>
@@ -235,36 +265,54 @@ $additional_items = json_decode($setting['additional_items'],true);
                                         <div class="col-6 need_full">
                                             <div class="form-group">
                                                 {{ Form::label('start_date', __('Start Date'), ['class' => 'form-label']) }}
+                                                <span class="text-sm">
+                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                </span>
                                                 {!! Form::date('start_date', null, ['class' => 'form-control', 'required' => 'required']) !!}
                                             </div>
                                         </div>
                                         <div class="col-6 need_full">
                                             <div class="form-group">
                                                 {{ Form::label('end_date', __('End Date'), ['class' => 'form-label']) }}
+                                                <span class="text-sm">
+                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                </span>
                                                 {!! Form::date('end_date', null, ['class' => 'form-control', 'required' => 'required']) !!}
                                             </div>
                                         </div>
                                         <div class="col-6 need_full">
                                             <div class="form-group">
                                                 {{ Form::label('start_time', __('Start Time'), ['class' => 'form-label']) }}
+                                                <span class="text-sm">
+                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                </span>
                                                 {!! Form::input('time', 'start_time',null, ['class' => 'form-control', 'required' => 'required']) !!}
                                             </div>
                                         </div>
                                         <div class="col-6 need_full">
                                             <div class="form-group">
                                                 {{ Form::label('end_time', __('End Time'), ['class' => 'form-label']) }}
+                                                <span class="text-sm">
+                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                </span>
                                                 {!! Form::input('time', 'end_time', null, ['class' => 'form-control', 'required' => 'required']) !!}
                                             </div>
                                         </div>
                                         <div class="col-6 need_full">
                                             <div class="form-group">
                                                 {{Form::label('guest_count',__('Guest Count'),['class'=>'form-label']) }}
+                                                <span class="text-sm">
+                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                </span>
                                                 {!! Form::number('guest_count', null,array('class' => 'form-control','min'=> 0)) !!}
                                             </div>
                                         </div>
                                         <div class="col-6 need_full">
                                             <div class="form-group">
                                                 {{ Form::label('function', __('Function'), ['class' => 'form-label']) }}
+                                                <span class="text-sm">
+                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                </span>
                                                 @if(isset($function) && !empty($function))
                                                 @foreach($function as $key => $value)
                                                 <div class="form-check">
@@ -281,6 +329,9 @@ $additional_items = json_decode($setting['additional_items'],true);
                                             @foreach($function as $key =>$value)
                                             <div class="form-group" data-main-index="{{$key}}" data-main-value="{{$value['function']}}" id="function_package" style="display: none;">
                                                 {{ Form::label('package', __($value['function']), ['class' => 'form-label']) }}
+                                                <span class="text-sm">
+                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                </span>
                                                 @foreach($value['package'] as $k => $package)
                                                 <?php $isChecked = false; ?>
                                             @if(isset($food_package) && !empty($food_package))
@@ -357,6 +408,9 @@ $additional_items = json_decode($setting['additional_items'],true);
                                         <div class="col-6 need_full">
                                             <div class="form-group">
                                                 {!! Form::label('meal', 'Meal Preference') !!}
+                                                <span class="text-sm">
+                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                </span>
                                                 @foreach($meal as $key => $label)
                                                 <div>
                                                     {{ Form::radio('meal', $label , false, ['id' => $label]) }}
@@ -466,6 +520,200 @@ $additional_items = json_decode($setting['additional_items'],true);
 
 @endsection
 @push('script-page')
+<style>
+.iti.iti--allow-dropdown.iti--separate-dial-code {
+    width: 100%;
+}
+</style>
+<script>
+function validateCheckboxGroup(groupName) {
+    var checkboxes = $("input[name='" + groupName + "']");
+    var isChecked = checkboxes.is(":checked");
+    var errorMessage = '';
+    if (!isChecked) {
+            if (checkboxes.attr('type') === 'checkbox') {
+                errorMessage = 'At least one ' + groupName.replace('[]', '') + ' must be selected.';
+            } else if (checkboxes.attr('type') === 'radio') {
+                errorMessage = 'Please select one ' + groupName.replace('[]', '') + '.';
+            }
+        }
+    // if (!isChecked) {
+    //     errorMessage = 'At least one ' + groupName.replace('[]', '') + ' must be selected.';
+    // }
+
+    // Remove any existing error message
+    checkboxes.closest('.form-group').find('.validation-error').remove();
+
+    // Append the error message if it exists
+    if (errorMessage != '') {
+        checkboxes.closest('.form-group').append(
+            '<div class="validation-error text-danger" style="padding:2px;">' +
+            errorMessage + '</div>');
+    }
+}
+$(document).ready(function() {
+    // Attach a keyup event listener to input fields
+    $('input').on('keyup', function() {
+        // Get the input value
+        var value = $(this).val();
+        // Check if the input value contains spaces
+        if (value.indexOf(' ') !== -1) {
+            // Display validation message
+            $('#validationMessage').text('Spaces are not allowed in this field').show();
+        } else {
+            // Hide validation message if no spaces are found
+            $('#validationMessage').hide();
+        }
+    });
+});
+$('#formdata').on('submit', function(event) {
+    let isValid = true;
+
+    // Remove previous error messages
+    $('.error-message').remove();
+
+    // Function to display error messages
+    function displayError(inputId, message) {
+        $(`<span class="error-message">${message}</span>`).insertAfter(`#${inputId}`);
+    }
+
+
+    // Name validation
+    let name = $('#name').val().trim();
+    if (name === '') {
+        displayError('name', 'Name is required and must not contain only spaces.');
+        isValid = false;
+    }
+    let startTime = $('#start_time').val();
+    let endTime = $('#end_time').val();
+    if (startTime != '' && endTime <= startTime) {
+        displayError('end_time', 'End time must be after start time.');
+        isValid = false;
+    }
+
+    // Prevent form submission if any validation fails
+    if (!isValid) {
+        event.preventDefault();
+    }
+});
+$(document).ready(function() {
+    $("input[type='text'][name='lead_name'],input[type='text'][name='name'],input[type='text'][name='email'], select[name='type'],input[type='tel'][name='phone'],input[name='guest_count'],input[name='start_date'],input[name='start_time'],input[name='end_time'],input[type='checkbox']")
+        .focusout(function() {
+
+            var input = $(this);
+            var errorMessage = '';
+            if (input.attr('name') === 'email' && input.val() !== '') {
+                var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailPattern.test(input.val())) {
+                    errorMessage = 'Invalid email address.';
+                }
+            } else if (input.val() == '') {
+                errorMessage = 'This field is required.';
+            }
+
+            if (errorMessage != '') {
+                input.css('border', 'solid 2px red');
+            } else {
+                // If it is not blank. 
+                input.css('border', 'solid 2px black');
+            }
+
+            // Remove any existing error message
+            input.next('.validation-error').remove();
+
+            // Append the error message if it exists
+            if (errorMessage != '') {
+                input.after('<div class="validation-error text-danger" style="padding:2px;">' +
+                    errorMessage + '</div>');
+            }
+            $("input[name='user[]']").change(validateCheckboxGroup('user[]'));
+            $("input[name='user[]']").focusout(validateCheckboxGroup('user[]'));
+            $("input[name='venue[]']").change(validateCheckboxGroup('venue[]'));
+            $("input[name='venue[]']").focusout(validateCheckboxGroup('venue[]'));
+            $("input[name='function[]']").change(validateCheckboxGroup('function[]'));
+            $("input[name='function[]']").focusout(validateCheckboxGroup('function[]'));
+            $("input[type='radio'][name='meal']").focusout(validateInputGroup('meal'));
+            $("input[type='radio'][name='meal']").change(validateInputGroup('meal'));
+});
+});
+</script>
+<script>
+$(document).ready(function() {
+    var phoneNumber = "<?php echo $meeting->phone;?>";
+    var num = phoneNumber.trim();
+    // if (phoneNumber.trim().length < 10) {
+    //     alert('Please enter a valid phone number with at least 10 digits.');
+    //     return;
+    // }
+    var lastTenDigits = phoneNumber.substr(-10);
+    var formattedPhoneNumber = '(' + lastTenDigits.substr(0, 3) + ') ' + lastTenDigits.substr(3, 3) + '-' +
+        lastTenDigits.substr(6);
+    $('#phone-input').val(formattedPhoneNumber);
+})
+</script>
+<script>
+$(document).ready(function() {
+    var input = document.querySelector("#phone-input");
+    var iti = window.intlTelInput(input, {
+        separateDialCode: true,
+    });
+
+    var indiaCountryCode = iti.getSelectedCountryData().iso2;
+    var countryCode = iti.getSelectedCountryData().dialCode;
+    $('#country-code').val(countryCode);
+    if (indiaCountryCode !== 'us') {
+        iti.setCountry('us');
+    }
+});
+
+</script>
+<script>
+const isNumericInput = (event) => {
+    const key = event.keyCode;
+    return ((key >= 48 && key <= 57) || // Allow number line
+        (key >= 96 && key <= 105) // Allow number pad
+    );
+};
+const isModifierKey = (event) => {
+    const key = event.keyCode;
+    return (event.shiftKey === true || key === 35 || key === 36) || // Allow Shift, Home, End
+        (key === 8 || key === 9 || key === 13 || key === 46) || // Allow Backspace, Tab, Enter, Delete
+        (key > 36 && key < 41) || // Allow left, up, right, down
+        (
+            // Allow Ctrl/Command + A,C,V,X,Z
+            (event.ctrlKey === true || event.metaKey === true) &&
+            (key === 65 || key === 67 || key === 86 || key === 88 || key === 90)
+        )
+};
+const enforceFormat = (event) => {
+    // Input must be of a valid number format or a modifier key, and not longer than ten digits
+    if (!isNumericInput(event) && !isModifierKey(event)) {
+        event.preventDefault();
+    }
+};
+const formatToPhone = (event) => {
+    if (isModifierKey(event)) {
+        return;
+    }
+    // I am lazy and don't like to type things more than once
+    const target = event.target;
+    const input = event.target.value.replace(/\D/g, '').substring(0, 10); // First ten digits of input only
+    const zip = input.substring(0, 3);
+    const middle = input.substring(3, 6);
+    const last = input.substring(6, 10);
+
+    if (input.length > 6) {
+        target.value = `(${zip}) ${middle} - ${last}`;
+    } else if (input.length > 3) {
+        target.value = `(${zip}) ${middle}`;
+    } else if (input.length > 0) {
+        target.value = `(${zip}`;
+    }
+};
+const inputElement = document.getElementById('phone-input');
+inputElement.addEventListener('keydown', enforceFormat);
+inputElement.addEventListener('keyup', formatToPhone);
+</script>
 <script>
     var scrollSpy = new bootstrap.ScrollSpy(document.body, {
         target: '#useradd-sidenav',

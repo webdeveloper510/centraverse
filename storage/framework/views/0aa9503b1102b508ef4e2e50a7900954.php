@@ -695,7 +695,26 @@ unset($__errorArgs, $__bag); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script-page'); ?>
 <script>
-    $(document).ready(function(){
+     function validateCheckboxGroup(groupName) {
+        var checkboxes = $("input[name='" + groupName + "']");
+        var isChecked = checkboxes.is(":checked");
+        var errorMessage = '';
+
+        if (!isChecked) {
+            errorMessage = 'At least one ' + groupName.replace('[]', '') + ' must be selected.';
+        }
+
+        // Remove any existing error message
+        checkboxes.closest('.form-group').find('.validation-error').remove();
+
+        // Append the error message if it exists
+        if (errorMessage != '') {
+            checkboxes.closest('.form-group').append(
+                '<div class="validation-error text-danger" style="padding:2px;">' +
+                errorMessage + '</div>');
+        }
+    }
+$(document).ready(function(){
     // Attach a keyup event listener to input fields
     $('input').on('keyup', function(){
         // Get the input value
@@ -741,7 +760,7 @@ $('#formdata').on('submit', function (event) {
         }
     });
 $(document).ready(function() {
-    $("input[type='text'][name='lead_name'],input[type='text'][name='name'], input[type='text'][name='email'], select[name='type'],input[type='tel'][name='phone'],input[name='guest_count'],input[name='start_date'],input[name='start_time'],input[name='end_time']")
+    $("input[type='text'][name='lead_name'],input[type='text'][name='name'], input[type='text'][name='email'], select[name='type'],input[type='tel'][name='phone'],input[name='guest_count'],input[name='start_date'],input[name='start_time'],input[name='end_time'],input[type='checkbox']")
         .focusout(function() {
 
             var input = $(this);
@@ -770,6 +789,12 @@ $(document).ready(function() {
                 input.after('<div class="validation-error text-danger" style="padding:2px;">' +
                     errorMessage + '</div>');
             }
+            $("input[name='user[]']").change(validateCheckboxGroup('user[]'));
+    $("input[name='user[]']").focusout(validateCheckboxGroup('user[]'));
+    $("input[name='venue[]']").change(validateCheckboxGroup('venue[]'));
+    $("input[name='venue[]']").focusout(validateCheckboxGroup('venue[]'));
+    $("input[name='function[]']").change(validateCheckboxGroup('function[]'));
+    $("input[name='function[]']").focusout(validateCheckboxGroup('function[]'));
         });
 });
 </script>

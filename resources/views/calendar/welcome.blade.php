@@ -80,7 +80,7 @@
 <body>
     <div class="welcome-container">
         <div class="logo-container">
-            <img src="{{$logo.'/logo.png' }}" alt="Logo" class="logo-img" style="width: 50%;">
+            <img src="{{$logo.'/3_logo-light.png' }}" alt="Logo" class="logo-img" style="width: 50%;">
         </div>
         <h1>Payment Success!</h1>
         <p>Thank you for your successful payment.</p>
