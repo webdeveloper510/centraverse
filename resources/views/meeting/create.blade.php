@@ -525,9 +525,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                             <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     {!! Form::label('meal', 'Meal Preference') !!}
-                                                    <span class="text-sm">
-                                                        <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                                    </span>
+                                                  
                                                     @foreach($meal as $key => $label)
                                                     <div>
                                                         {{ Form::radio('meal', $label , false, ['id' => $label]) }}

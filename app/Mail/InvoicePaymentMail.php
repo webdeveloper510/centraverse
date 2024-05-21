@@ -52,9 +52,7 @@ class InvoicePaymentMail extends Mailable
     }
     public function build()
     {
-
         $filePath = storage_path('app/public/Invoice/'. $this->newpayment->event_id.'/'.$this->newpayment->attachment);
-// echo "<pre>";print_r($filePath);die;
         return $this->subject('Invoice')
         ->view('billing.invoice')
         ->attach($filePath, [

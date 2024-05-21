@@ -55,7 +55,7 @@ $logo = URL::asset('storage/uploads/logo/');
                 <label for="modeofpayment"></label>
                 <input type="radio" name="modeofpayment" value="online"> Online
                 <input type="radio" name="modeofpayment" value="cash"> Cash
-                <input type="radio" name="modeofpayment" value="cheque"> Cheque
+                <input type="radio" name="modeofpayment" value="check"> Check
             </div>
         </div>
         <div class="paymentopt" style= "display:none;">

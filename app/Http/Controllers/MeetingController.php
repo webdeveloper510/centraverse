@@ -1191,13 +1191,13 @@ class MeetingController extends Controller
                 );
                 Mail::to($request->email)->send(new SendEventMail($meeting,$subject,$content,$agrementinfo));
             } catch (\Exception $e) {
-                // \Log::error('Error sending email: ' . $e->getMessage());
-                // return response()->json(
-                //     [
-                //         'is_success' => false,
-                //         'message' => $e->getMessage(),
-                //     ]
-                // );
+                \Log::error('Error sending email: ' . $e->getMessage());
+                return response()->json(
+                    [
+                        'is_success' => false,
+                        'message' => $e->getMessage(),
+                    ]
+                );
                 return redirect()->back()->with('success', 'Email Not Sent');
             }
             Agreement::where('event_id', $id)->delete();
