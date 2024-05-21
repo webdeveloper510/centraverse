@@ -31,14 +31,14 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
     <div class="container mt-5">
         <div class="row card">
             <div class="col-md-12 ">
-                <form method="POST" action="{{route('lead.proposalresponse',urlencode(encrypt($lead->id)))}}"
+                <form method="POST" action="<?php echo e(route('lead.proposalresponse',urlencode(encrypt($lead->id)))); ?>"
                     id='formdata'>
-                    @csrf
+                    <?php echo csrf_field(); ?>
                     <input type="hidden" name="proposal" value="<?php if(isset($_GET['prop'])){ echo $_GET['prop']; } ?>">
                     <div class="row">
                         <div class="col-md-4 mt-4">
                             <div class="img-section">
-                                <img class="logo-img" src="{{ Storage::url('uploads/logo/3_logo-light.png') }}" alt="Logo"
+                                <img class="logo-img" src="<?php echo e(Storage::url('uploads/logo/3_logo-light.png')); ?>" alt="Logo"
 "
                                     style="width:25%;">
                             </div>
@@ -52,18 +52,18 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                     <div class="row mt-3">
                         <div class="col-md-6">
                             <dl>
-                                <span>{{__('Name')}}: {{ $lead->name }}</span><br>
-                                <span>{{__('Phone & Email')}}: {{ $lead->phone }} , {{ $lead->email }}</span><br>
-                                <span>{{__('Address')}}: {{ $lead->lead_address }}</span><br>
-                                <span>{{__('Event Date')}}:{{ \Carbon\Carbon::parse($lead->start_date)->format('d M, Y') }}</span>
+                                <span><?php echo e(__('Name')); ?>: <?php echo e($lead->name); ?></span><br>
+                                <span><?php echo e(__('Phone & Email')); ?>: <?php echo e($lead->phone); ?> , <?php echo e($lead->email); ?></span><br>
+                                <span><?php echo e(__('Address')); ?>: <?php echo e($lead->lead_address); ?></span><br>
+                                <span><?php echo e(__('Event Date')); ?>:<?php echo e(\Carbon\Carbon::parse($lead->start_date)->format('d M, Y')); ?></span>
                             </dl>
                         </div>
 
                         <div class="col-md-6" style="text-align: end;">
                             <dl>
-                                <span>{{__('Primary Contact')}}: {{ $lead->name }}</span><br>
-                                <span>{{__('Phone')}}: {{ $lead->phone }}</span><br>
-                                <span>{{__('Email')}}: {{ $lead->email }}</span><br>
+                                <span><?php echo e(__('Primary Contact')); ?>: <?php echo e($lead->name); ?></span><br>
+                                <span><?php echo e(__('Phone')); ?>: <?php echo e($lead->phone); ?></span><br>
+                                <span><?php echo e(__('Email')); ?>: <?php echo e($lead->email); ?></span><br>
                             </dl>
                         </div>
                     </div>
@@ -87,21 +87,23 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                     <tr style="text-align:center">
 
                                         <td>
-                                            {{ \Carbon\Carbon::parse($lead->start_date)->format('d M, Y')}}
+                                            <?php echo e(\Carbon\Carbon::parse($lead->start_date)->format('d M, Y')); ?>
+
                                         </td>
 
                                         <td>
-                                            @if($lead->start_time == $lead->end_time)
+                                            <?php if($lead->start_time == $lead->end_time): ?>
                                             --
-                                            @else
-                                            {{date('h:i A', strtotime($lead->start_time))}} -
-                                            {{date('h:i A', strtotime($lead->end_time))}}
-                                            @endif</td>
-                                        <td>{{$lead->venue_selection}}</td>
-                                        <td>{{$lead->type}}</td>
-                                        <td>{{$lead->function}}</td>
-                                        <td>{{$lead->guest_count}}</td>
-                                        <td>{{$lead->rooms}}</td>
+                                            <?php else: ?>
+                                            <?php echo e(date('h:i A', strtotime($lead->start_time))); ?> -
+                                            <?php echo e(date('h:i A', strtotime($lead->end_time))); ?>
+
+                                            <?php endif; ?></td>
+                                        <td><?php echo e($lead->venue_selection); ?></td>
+                                        <td><?php echo e($lead->type); ?></td>
+                                        <td><?php echo e($lead->function); ?></td>
+                                        <td><?php echo e($lead->guest_count); ?></td>
+                                        <td><?php echo e($lead->rooms); ?></td>
                                         <!-- <td>Exp</td>
                                         <td>GTD</td>
                                         <td>Set</td>
@@ -120,13 +122,13 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                     <tr>
                                         <th
                                             style="text-align:left; font-size:13px;text-align:left; padding:5px 5px; margin-left:5px;">
-                                            Name : {{ucfirst($lead->name)}}</th>
+                                            Name : <?php echo e(ucfirst($lead->name)); ?></th>
                                         <th colspan="2" style="padding:5px 0px;margin-left: 5px;font-size:13px"></th>
                                         <th colspan="3"
                                             style="text-align:left;text-align:left; padding:5px 5px; margin-left:5px;">
                                             Date:<?php echo date("d/m/Y"); ?> </th>
                                         <th style="text-align:left; font-size:13px;padding:5px 5px; margin-left:5px;">
-                                            Event: {{ucfirst($lead->type)}}</th>
+                                            Event: <?php echo e(ucfirst($lead->type)); ?></th>
                                     </tr>
                                     <tr style="background-color:#063806;">
                                         <th>Description</th>
@@ -143,15 +145,18 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
 
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            ${{$billing['venue_rental']['cost'] ?? 0}}
+                                            $<?php echo e($billing['venue_rental']['cost'] ?? 0); ?>
+
                                         </td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$billing['venue_rental']['quantity'] ?? 1}}
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($billing['venue_rental']['quantity'] ?? 1); ?>
+
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            ${{$total[] = ($billing['venue_rental']['cost'] ?? 0)  * ($billing['venue_rental']['quantity'] ?? 1)}}
+                                            $<?php echo e($total[] = ($billing['venue_rental']['cost'] ?? 0)  * ($billing['venue_rental']['quantity'] ?? 1)); ?>
+
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            {{$lead->venue_selection}}</td>
+                                            <?php echo e($lead->venue_selection); ?></td>
                                     </tr>
 
                                     <tr>
@@ -159,15 +164,17 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                             Dinner Package</td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            ${{$billing['food_package']['cost'] ?? 0 }}</td>
+                                            $<?php echo e($billing['food_package']['cost'] ?? 0); ?></td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            {{$billing['food_package']['quantity'] ?? 1}}
+                                            <?php echo e($billing['food_package']['quantity'] ?? 1); ?>
+
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            ${{$total[] =($billing['food_package']['cost'] ?? 0) * ($billing['food_package']['quantity'] ?? 1)}}
+                                            $<?php echo e($total[] =($billing['food_package']['cost'] ?? 0) * ($billing['food_package']['quantity'] ?? 1)); ?>
+
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            {{$lead->function}}</td>
+                                            <?php echo e($lead->function); ?></td>
 
                                     </tr>
 
@@ -175,14 +182,17 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Hotel Rooms</td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;"></td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            ${{$billing['hotel_rooms']['cost'] ?? 0}}
+                                            $<?php echo e($billing['hotel_rooms']['cost'] ?? 0); ?>
+
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            {{$billing['hotel_rooms']['quantity'] ?? 1}}
+                                            <?php echo e($billing['hotel_rooms']['quantity'] ?? 1); ?>
+
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
 
-                                            ${{$total[] = ($billing['hotel_rooms']['cost'] ?? 0) *  ($billing['hotel_rooms']['quantity'] ?? 1)}}
+                                            $<?php echo e($total[] = ($billing['hotel_rooms']['cost'] ?? 0) *  ($billing['hotel_rooms']['quantity'] ?? 1)); ?>
+
 
 
                                         </td>
@@ -192,15 +202,17 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Bar Package</td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            ${{$billing['bar_package']['cost'] ?? 0 }}</td>
+                                            $<?php echo e($billing['bar_package']['cost'] ?? 0); ?></td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            {{$billing['bar_package']['quantity'] ?? 1}}
+                                            <?php echo e($billing['bar_package']['quantity'] ?? 1); ?>
+
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            ${{$total[] =($billing['bar_package']['cost'] ?? 0) * ($billing['bar_package']['quantity'] ?? 1)}}
+                                            $<?php echo e($total[] =($billing['bar_package']['cost'] ?? 0) * ($billing['bar_package']['quantity'] ?? 1)); ?>
+
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            {{$lead->bar}}</td>
+                                            <?php echo e($lead->bar); ?></td>
 
                                     </tr>
 
@@ -216,7 +228,8 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            ${{array_sum($total)}}
+                                            $<?php echo e(array_sum($total)); ?>
+
                                         </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                     </tr>
@@ -226,7 +239,8 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"> </td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            ${{ 7* array_sum($total)/100 }}
+                                            $<?php echo e(7* array_sum($total)/100); ?>
+
                                         </td>
                                         <td></td>
                                     </tr>
@@ -237,7 +251,8 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            ${{ 20 * array_sum($total)/100 }}
+                                            $<?php echo e(20 * array_sum($total)/100); ?>
+
                                         </td>
 
                                         <td></td>
@@ -257,7 +272,8 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            ${{$grandtotal= array_sum($total) + 20* array_sum($total)/100 + 7* array_sum($total)/100}}
+                                            $<?php echo e($grandtotal= array_sum($total) + 20* array_sum($total)/100 + 7* array_sum($total)/100); ?>
+
                                         </td>
 
                                         <td></td>
@@ -280,7 +296,8 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                                         <td colspan="3"
                                             style="padding:5px 5px; margin-left:5px;font-size:13px;background-color:#9fdb9f;">
-                                            ${{$grandtotal= array_sum($total) + 20* array_sum($total)/100 + 7* array_sum($total)/100}}
+                                            $<?php echo e($grandtotal= array_sum($total) + 20* array_sum($total)/100 + 7* array_sum($total)/100); ?>
+
 
                                         </td>
                                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
@@ -291,7 +308,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
 
                             <p class="text mt-2">
                                 Please return the signed proposal no later than
-                                <b>{{ $finalDate->format('d M, Y') }}</b>
+                                <b><?php echo e($finalDate->format('d M, Y')); ?></b>
                                 or this proposal is no longer valid.<br>
                             </p>
 
@@ -308,7 +325,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                         <strong>The Bond 1786</strong> <br>
 
                             <div  class="mt-3 auuthsig">
-                                <img src="{{$base64Image}}" style="margin-left: 100px;width: 40%;">
+                                <img src="<?php echo e($base64Image); ?>" style="margin-left: 100px;width: 40%;">
 
                             </div>
                             <h5 class="mt-2">Authorised Signature</h5>
@@ -353,8 +370,8 @@ canvas#signatureCanvas {
 }
 
 </style>
-@include('partials.admin.head')
-@include('partials.admin.footer')
+<?php echo $__env->make('partials.admin.head', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('partials.admin.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -385,4 +402,4 @@ document.addEventListener('DOMContentLoaded', function() {
 /* .table{
             border-collapse: unset;
         } */
-</style>
+</style><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/lead/proposal.blade.php ENDPATH**/ ?>

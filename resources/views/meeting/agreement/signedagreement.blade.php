@@ -25,7 +25,7 @@
                     <div class="row">
                         <div class="col-md-4 mt-4">
                             <div class="img-section">
-                                <img class="logo-img" src="{{ URL::asset('storage/uploads/logo/3_logo-light.png')}}"
+                                <img class="logo-img" src="{{ Storage::url('uploads/logo/3_logo-light.png') }}"
                                     style="width:25%;">
                             </div>
                         </div>

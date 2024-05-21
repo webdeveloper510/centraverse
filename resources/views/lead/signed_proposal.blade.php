@@ -27,7 +27,7 @@ if(isset($proposal) && ($proposal['image'] != null)){
         <div class="row">
             <div class="col-md-12 ">
                 <div class="img-section" style="width:30%; margin: 0 auto;display:flex;text-align: center;">
-                    <img class="logo-img" src="{{ URL::asset('storage/uploads/logo/3_logo-light.png')}}"
+                    <img class="logo-img" src="{{ Storage::url('uploads/logo/3_logo-light.png') }}"
                         style="width:40%;">
                 </div>
             </div>

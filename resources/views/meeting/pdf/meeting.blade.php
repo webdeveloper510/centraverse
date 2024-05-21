@@ -49,7 +49,7 @@
 </head>
 <body>
     <div class="header">
-        <img src="{{$logo.'/3_logo-light.png' }}" alt="Logo" class="logo">
+        <img src="{{ Storage::url('uploads/logo/3_logo-light.png') }}" alt="Logo" class="logo">
         <h1>Meeting Details</h1>
     </div>
     <div class="details">
