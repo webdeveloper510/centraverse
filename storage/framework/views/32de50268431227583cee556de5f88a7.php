@@ -462,9 +462,7 @@ $additional_items = json_decode($setting['additional_items'],true);
                                             <div class="form-group">
                                                 <?php echo Form::label('meal', 'Meal Preference'); ?>
 
-                                                <span class="text-sm">
-                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                                </span>
+                                               
                                                 <?php $__currentLoopData = $meal; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $label): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <div>
                                                     <?php echo e(Form::radio('meal', $label , false, ['id' => $label])); ?>
