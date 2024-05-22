@@ -782,7 +782,40 @@ class LeadController extends Controller
         $venue_function = isset($request->venue) ? implode(',',$_REQUEST['venue']) :'';
         $function =  isset($request->function) ? implode(',',$_REQUEST['function']) :'';
         $phone= preg_replace('/\D/', '', $request->input('phone'));
-
+        $package = [];
+        $additional = [];
+        $bar_pack = [];
+      $dataa = $request->all();
+      
+        foreach ($dataa as $key => $values) {
+            if (strpos($key, 'package_') === 0) {
+                $newKey = strtolower(str_replace('package_', '', $key));
+                $package[$newKey] = $values;
+            }
+            if (strpos($key, 'additional_') === 0) {
+                // Extract the suffix from the key
+                $newKey = strtolower(str_replace('additional_', '', $key));
+                // Check if the key exists in the output array, if not, initialize it
+                if (!isset($additional[$newKey])) {
+                    $additional[$newKey] = [];
+                }
+                $additional[$newKey] = $values;
+            }
+            if (strpos($key, 'bar_') === 0) {
+                // Extract the suffix from the key
+                $newKey = ucfirst(strtolower(str_replace('bar_', '', $key)));
+                // Check if the key exists in the output array, if not, initialize it
+                if (!isset($bar_pack[$newKey])) {
+                    $bar_pack[$newKey] = [];
+                }
+                // Assign the values to the new key in the output array
+                $bar_pack[$newKey] = $values;
+            }
+        }
+       
+        $package = json_encode($package);
+        $additional = json_encode($additional);
+            $bar_pack = json_encode($bar_pack);
             if($request->status == 'Approve'){  
                 $status = 4;              
                 // $status = 2;
@@ -797,40 +830,41 @@ class LeadController extends Controller
                 // $status = 3;
                 // $lead->proposal_status = 3;
             }
-            $data = [
-                'user_id'=> $request->user,
-                'name'      => $request->name,
-                'email'=>   $request->email,
-                'phone'=>   $phone,
-                'lead_address'=>$request->lead_address,
-                'company_name'      =>$request->company_name,
-                'relationship'       =>$request->relationship,
-                'start_date'        =>$request->start_date,
-                'end_date'           =>$request->start_date,
-                'type'              =>$request->type,
-                'venue_selection'    =>$venue_function,
-                'function'           =>$function,
-                'status'           => $status,
-                'guest_count'        =>$request->guest_count,
-                'description'      =>$request->description,
-                'spcl_req'      => $request->spcl_req,
-                'allergies'       => $request->allergies,
-                'start_time'        =>$request->start_time,
-                'end_time'       =>$request->end_time,
-                'bar'       =>  $request->baropt,
-                'rooms'         =>$request->rooms,
-                'created_by'        => \Auth::user()->creatorId()
-            ];
-            $lead->update($data);
-            
-
+            $lead['user_id']            = $request->user;
+            $lead['name']               = $request->name;
+            $lead['email']              = $request->email;
+            $lead['assigned_user']      = $request->user ?? '';
+            $lead['phone']              = $phone;
+            $lead['lead_address']       = $request->lead_address;
+            $lead['company_name']       = $request->company_name;
+            $lead['relationship']       = $request->relationship;
+            $lead['start_date']         = $request->start_date;
+            $lead['end_date']           = $request->start_date;
+            $lead['type']               = $request->type;
+            $lead['venue_selection']    = isset($venue_function) && (!empty($venue_function)) ? $venue_function : '';
+            $lead['function']           = $function;
+            $lead['guest_count']        = $request->guest_count ?? 0 ;
+            $lead['status']                = $status;
+            $lead['description']        = $request->description;
+            $lead['spcl_req']           = $request->spcl_request;
+            $lead['allergies']          = $request->allergies;
+            $lead['start_time']         = $request->start_time;
+            $lead['end_time']           = $request->end_time;
+            $lead['func_package']       = isset($package) && (!empty($package)) ? $package : '';
+            $lead['bar_package']        = isset($bar_pack) && !empty($bar_pack) ? $bar_pack : '';
+            $lead['ad_opts']            = isset($additional) && !empty($additional) ? $additional : '';
+            $lead['bar']                = $request->baropt;
+            $lead['rooms']              = $request->rooms ?? 0;
+            $lead['lead_status']        = ($request->is_active == 'on') ? 1 : 0;
+            $lead['created_by']         = \Auth::user()->creatorId();
+            $lead->update();            
             $statuss = Lead::$stat;
-                if(\Auth::user()->type == 'owner'){
-                    $leads = Lead::with('accounts','assign_user')->where('created_by', \Auth::user()->creatorId())->orderby('id','desc')->get();
-                }
-                else{
-                    $leads = Lead::with('accounts','assign_user')->where('user_id', \Auth::user()->id)->get();
-                }
+            if(\Auth::user()->type == 'owner'){
+                $leads = Lead::with('accounts','assign_user')->where('created_by', \Auth::user()->creatorId())->orderby('id','desc')->get();
+            }
+            else{
+                $leads = Lead::with('accounts','assign_user')->where('user_id', \Auth::user()->id)->get();
+            }
             if($status == 4){
                 return redirect()->route('lead.index', compact('leads','statuss'))->with('success', __('Lead Approved!'));
             }elseif($status == 3 ){

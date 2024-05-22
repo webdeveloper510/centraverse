@@ -96,8 +96,7 @@ h6 {
 
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
-                                        <h5 class="card-text"><?php echo e($lead['leadname']); ?>
-
+                                        <h5 class="card-text"><a href="<?php echo e(route('lead.info',urlencode(encrypt($lead['id'])))); ?>" style= "color:#8490a7;"><?php echo e($lead['leadname']); ?></a>
                                             <span>(<?php echo e($lead['type']); ?>)</span>
                                         </h5>
 
@@ -145,8 +144,7 @@ h6 {
 
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
-                                        <h5 class="card-text"><?php echo e($event['name']); ?>
-
+                                        <h5 class="card-text"><a href="<?php echo e(route('meeting.detailview',urlencode(encrypt($event['id'])))); ?>" style= "color:#8490a7;"><?php echo e($event['name']); ?></a>
                                             <span>(<?php echo e($event['type']); ?>)</span>
                                         </h5>
                                         <?php if($event['start_date'] == $event['end_date']): ?>
@@ -268,13 +266,6 @@ h5.card-text {
     justify-content: space-between;
 }
 
-.inner_col {
-    padding: 10px;
-    border: 1px dotted #ccc;
-    border-radius: 20px;
-    margin-top: 10px;
-}
-
 .date-y {
     float: right;
     padding-bottom: 10px;
@@ -299,7 +290,6 @@ h5.card-text {
 
 .inner_col .scrol-card {
     padding: 10px;
-    border: 1px dotted #ccc;
     border-radius: 20px;
     margin-top: 10px;
     max-height: 210px;

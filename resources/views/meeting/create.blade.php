@@ -525,7 +525,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                             <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     {!! Form::label('meal', 'Meal Preference') !!}
-                                                  
+
                                                     @foreach($meal as $key => $label)
                                                     <div>
                                                         {{ Form::radio('meal', $label , false, ['id' => $label]) }}
@@ -742,6 +742,11 @@ $(document).ready(function() {
                 "_token": "{{ csrf_token() }}",
             },
             success: function(data) {
+                console.log(data);
+                var jsonObject = JSON.parse(data.func_package);
+                var jsonadObject = JSON.parse(data.ad_opts);
+
+                console.log(jsonObject);
                 // func_pack = json_decode(data.func_package);
                 venue_str = data.venue_selection;
                 venue_arr = venue_str.split(",");
@@ -749,23 +754,20 @@ $(document).ready(function() {
                 func_arr = func_str.split(",");
                 $('input[name ="company_name"]').val(data.company_name);
                 $('input[name ="name"]').val(data.name);
-                // Phone number formatting
-                // var phoneInput = $('input[name ="phone"]');
-                // phoneInput.val(data.phone);
-                // // phoneInput.trigger('input');
-                // // phoneInput.addEventListener('input', enforceFormat);
-                // // phoneInput.addEventListener('input', formatToPhone); 
+                var phoneInput = $('input[name ="phone"]');
+                phoneInput.val(data.phone);
                 $('input[name ="relationship"]').val(data.relationship);
                 $('input[name ="start_date"]').val(data.start_date);
-                // $('input[name ="end_date"]').val(data.end_date);
                 $('input[name ="start_time"]').val(data.start_time);
                 $('input[name ="end_time"]').val(data.end_time);
                 $('input[name ="rooms"]').val(data.rooms);
                 $('input[name ="email"]').val(data.email);
+                $('input[name ="allergies"]').val(data.allergies);
+                $('input[name ="spcl_request"]').val(data.spcl_req);
                 $('input[name ="lead_address"]').val(data.lead_address);
                 $("select[name='type'] option[value='" + data.type + "']").prop("selected",
                     true);
-                $("input[name='bar'][value='" + data.bar + "']").prop('checked', true);
+                $("input[name='baropt'][value='" + data.bar + "']").prop('checked', true);
                 $("input[name='user[]'][value='" + data.assigned_user + "']").prop(
                     'checked', true);
                 $.each(venue_arr, function(i, val) {
@@ -782,16 +784,84 @@ $(document).ready(function() {
                     function() {
                         return $(this).val();
                     }).get();
+
                 var mailFunctionSection = document.getElementById('mailFunctionSection');
                 var divs = mailFunctionSection.querySelectorAll('.form-group');
                 divs.forEach(function(div) {
                     var mainValue = div.getAttribute('data-main-value');
                     if (checkedFunctions.includes(mainValue)) {
+                        for (var key in jsonObject) {
+                            if (jsonObject.hasOwnProperty(key)) {
+                                // Access the original key and value
+                                var originalKey = key;
+                                var value = jsonObject[key][
+                                    0
+                                ]; // Assuming the value is always an array and we need the first element
+                                // Convert the first letter of the key to uppercase
+                                var transformedKey = originalKey.charAt(0).toUpperCase() +
+                                    originalKey.slice(1);
+
+                                var dynamicName = 'package_' + transformedKey.toLowerCase()
+                                    .replace(/\s+/g, '') + '[]';
+                                var selector =
+                                    `input[name='${dynamicName}'][value='${value}'] `;
+                                if (transformedKey == mainValue) {
+                                    $(selector).prop('checked', true);
+                                    setTimeout(() => {
+                                        
+                                        var checkedPackages = $(`input[name='${dynamicName}']:checked`).map(
+                                            function() {
+                                                return $(this).val();
+                                        }).get();
+                                        var additionalSection = document.getElementById('additionalSection');
+                                        var divads = additionalSection.querySelectorAll('.form-group');
+                                        divads.forEach(function(div) {
+                                            console.log(additionalSection);
+                                            var mainValue = div.getAttribute('data-additional-index');
+                                            if (checkedPackages.includes(mainValue)) {
+                                                console.log(mainValue);
+                                                console.log('jsonadObject',jsonadObject)
+                                                for (var key in jsonadObject) {
+                                                    if (jsonadObject.hasOwnProperty(key)) {
+                                                        // Access the original key and value
+                                                        var originalKey = key;
+                                                        var value = jsonadObject[key][0]; // Assuming the value is always an array and we need the first element
+                                                        var transformedKey = originalKey.charAt(0).toUpperCase() +
+                                                            originalKey.slice(1);
+
+                                                            var dynamicadName = 'additional_' + transformedKey.toLowerCase().replace(/\s+/g, '_') +'[]';
+                                                        // var dynamicName = 'package_' + transformedKey.toLowerCase()
+                                                        //     .replace(/\s+/g, '') + '[]';
+                                                        var adselector =`input[name='${dynamicadName}'][value = '${value}'] `;
+                                                        console.log(adselector);
+
+                                                        // if (transformedKey == mainValue ) {
+
+                                                            $(adselector).prop('checked', true);
+                                                        // }
+                                                }
+                                                }
+                                                div.style.display = 'block';
+                                            } else {
+                                                div.style.display ='none';
+                                            }
+                                        });
+                                    }, 600);
+
+
+                                }
+
+
+
+
+                            }
+                        }
                         div.style.display = 'block';
                     } else {
                         div.style.display = 'none';
                     }
                 });
+
             }
         });
         // Clear the leadId from localStorage (optional)
@@ -922,7 +992,7 @@ $(document).ready(function() {
 </script>
 <script>
 $(document).ready(function() {
-
+    
     //$('input[name=newevent]').prop('checked', false);
     $('input[name="newevent"]').on('click', function() {
         $('#lead_select').hide();
@@ -936,12 +1006,16 @@ $(document).ready(function() {
             $('input#resetForm').trigger('click');
         }
     });
+    // function clearForm() {
+        // $('#formdata').find('input[type="text"], input[type="password"], input[type="email"], input[type="number"], input[type="date"], input[type="url"], input[type="search"], input[type="tel"], textarea').val(''); // Clear text inputs and textareas
+        // $('#formdata').find('input[type="checkbox"], input[type="radio"]').prop('checked', false); // Uncheck all checkboxes and radio buttons
+        // $('#formdata').find('select').prop('selectedIndex', 0); // Reset all select elements to their default value
+    // }
+
     $('select[name= "lead"]').on('change', function() {
-        $("input[name='user[]'").prop('checked', false);
-        $("input[name='bar']").prop('checked', false);
-        $("input[name='user[]']").prop('checked', false);
-        $("input[name='venue[]']").prop('checked', false);
-        $("input[name='function[]']").prop('checked', false);
+        $("input[type='text'], input[type='tel'], input[type='email'], input[type='number']").val('');
+        $("input[type='checkbox'], input[type='radio']").prop('checked', false);
+       
         var venu = this.value;
         $.ajax({
             url: "{{ route('meeting.lead') }}",
@@ -952,6 +1026,8 @@ $(document).ready(function() {
             },
             success: function(data) {
                 console.log(data);
+                var jsonObject = JSON.parse(data.func_package);
+                var jsonadObject = JSON.parse(data.ad_opts);
                 venue_str = data.venue_selection;
                 venue_arr = venue_str.split(",");
                 func_str = data.function;
@@ -993,6 +1069,72 @@ $(document).ready(function() {
                 divs.forEach(function(div) {
                     var mainValue = div.getAttribute('data-main-value');
                     if (checkedFunctions.includes(mainValue)) {
+                        for (var key in jsonObject) {
+                            if (jsonObject.hasOwnProperty(key)) {
+                                // Access the original key and value
+                                var originalKey = key;
+                                var value = jsonObject[key][
+                                    0
+                                ]; // Assuming the value is always an array and we need the first element
+                                // Convert the first letter of the key to uppercase
+                                var transformedKey = originalKey.charAt(0).toUpperCase() +
+                                    originalKey.slice(1);
+
+                                var dynamicName = 'package_' + transformedKey.toLowerCase()
+                                    .replace(/\s+/g, '') + '[]';
+                                var selector =
+                                    `input[name='${dynamicName}'][value='${value}'] `;
+                                if (transformedKey == mainValue) {
+                                    $(selector).prop('checked', true);
+                                    setTimeout(() => {
+                                        
+                                        var checkedPackages = $(`input[name='${dynamicName}']:checked`).map(
+                                            function() {
+                                                return $(this).val();
+                                        }).get();
+                                        var additionalSection = document.getElementById('additionalSection');
+                                        var divads = additionalSection.querySelectorAll('.form-group');
+                                        divads.forEach(function(div) {
+                                            console.log(additionalSection);
+                                            var mainValue = div.getAttribute('data-additional-index');
+                                            if (checkedPackages.includes(mainValue)) {
+                                                console.log(mainValue);
+                                                console.log('jsonadObject',jsonadObject)
+                                                for (var key in jsonadObject) {
+                                                    if (jsonadObject.hasOwnProperty(key)) {
+                                                        // Access the original key and value
+                                                        var originalKey = key;
+                                                        var value = jsonadObject[key][0]; // Assuming the value is always an array and we need the first element
+                                                        var transformedKey = originalKey.charAt(0).toUpperCase() +
+                                                            originalKey.slice(1);
+
+                                                            var dynamicadName = 'additional_' + transformedKey.toLowerCase().replace(/\s+/g, '_') +'[]';
+                                                        // var dynamicName = 'package_' + transformedKey.toLowerCase()
+                                                        //     .replace(/\s+/g, '') + '[]';
+                                                        var adselector =`input[name='${dynamicadName}'][value = '${value}'] `;
+                                                        console.log(adselector);
+
+                                                        // if (transformedKey == mainValue ) {
+
+                                                            $(adselector).prop('checked', true);
+                                                        // }
+                                                }
+                                                }
+                                                div.style.display = 'block';
+                                            } else {
+                                                div.style.display ='none';
+                                            }
+                                        });
+                                    }, 600);
+
+
+                                }
+
+
+
+
+                            }
+                        }
                         div.style.display = 'block';
                     } else {
                         div.style.display = 'none';

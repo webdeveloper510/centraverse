@@ -59,8 +59,8 @@ $leadId = decrypt(urldecode(request()->query('lead')));
     transform: scale(1.2);
 }
 
-    
-.fa-asterisk{
+
+.fa-asterisk {
     font-size: xx-small;
     position: absolute;
     padding: 1px;
@@ -116,8 +116,8 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                     <?php echo e(Form::label('lead', __('Lead'), ['class' => 'form-label'])); ?>
 
                                                     <span class="text-sm">
-                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                                </span>
+                                                        <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                    </span>
                                                     <?php echo Form::select('lead', $attendees_lead, null, ['class' =>
                                                     'form-control']); ?>
 
@@ -128,8 +128,8 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                     <?php echo e(Form::label('eventname', __('Event Name'), ['class' => 'form-label'])); ?>
 
                                                     <span class="text-sm">
-                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                                </span>
+                                                        <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                    </span>
                                                     <?php echo e(Form::text('eventname',null,array('class'=>'form-control','placeholder'=>__('Enter Event Name')))); ?>
 
                                                 </div>
@@ -138,6 +138,9 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 <div class="form-group">
                                                     <?php echo e(Form::label('Assigned Staff',__('Assigned Staff'),['class'=>'form-label'])); ?>
 
+                                                    <span class="text-sm">
+                                                        <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                    </span>
                                                     <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="checkbox" name="user[]"
@@ -182,15 +185,16 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 <?php endif; ?>
                                             </div>
                                             <div class="col-12  p-0 modaltitle pb-3 mb0">
-                                                <h5 style="margin-left: 14px;" class="mb-0"><?php echo e(__('Contact Information')); ?></h5>
+                                                <h5 style="margin-left: 14px;" class="mb-0">
+                                                    <?php echo e(__('Contact Information')); ?></h5>
                                             </div>
                                             <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     <?php echo e(Form::label('name',__('Name'),['class'=>'form-label'])); ?>
 
                                                     <span class="text-sm">
-                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                                </span>
+                                                        <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                    </span>
                                                     <?php echo e(Form::text('name',null,array('class'=>'form-control','placeholder'=>__('Enter Name'),'required'=>'required'))); ?>
 
                                                 </div>
@@ -205,8 +209,8 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                     <?php echo e(Form::label('phone',__('Phone'),['class'=>'form-label'])); ?>
 
                                                     <span class="text-sm">
-                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                                </span>
+                                                        <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                    </span>
                                                     <div class="intl-tel-input">
                                                         <input type="tel" id="phone-input" name="phone"
                                                             class="phone-input form-control" placeholder="Enter Phone"
@@ -221,8 +225,8 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                     <?php echo e(Form::label('email',__('Email'),['class'=>'form-label'])); ?>
 
                                                     <span class="text-sm">
-                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                                </span>
+                                                        <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                    </span>
                                                     <?php echo e(Form::text('email',null,array('class'=>'form-control','placeholder'=>__('Enter Email'),'required'=>'required'))); ?>
 
                                                 </div>
@@ -343,8 +347,8 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                     <?php echo e(Form::label('guest_count',__('Guest Count'),['class'=>'form-label'])); ?>
 
                                                     <span class="text-sm">
-                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                                </span>
+                                                        <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                    </span>
                                                     <?php echo Form::number('guest_count', null,array('class' =>
                                                     'form-control','min'=> 0)); ?>
 
@@ -359,8 +363,8 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 <div class="form-group">
                                                     <label for="venue_selection" class="form-label">Venue</label>
                                                     <span class="text-sm">
-                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                                </span>
+                                                        <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                    </span>
                                                     <?php $__currentLoopData = $venue; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $label): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <div>
                                                         <input type="checkbox" name="venue[]" value="<?php echo e($label); ?>"
@@ -383,8 +387,8 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                     <?php echo e(Form::label('start_date', __('Start Date'), ['class' => 'form-label'])); ?>
 
                                                     <span class="text-sm">
-                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                                </span>
+                                                        <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                    </span>
                                                     <?php echo Form::date('start_date', date('Y-m-d'), ['class' =>
                                                     'form-control',
                                                     'required' => 'required']); ?>
@@ -417,8 +421,8 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                     <?php echo e(Form::label('start_time', __('Start Time'), ['class' => 'form-label'])); ?>
 
                                                     <span class="text-sm">
-                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                                </span>
+                                                        <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                    </span>
                                                     <?php echo Form::input('time', 'start_time', null, ['class' =>
                                                     'form-control', 'required' => 'required']); ?>
 
@@ -435,8 +439,8 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                     <?php echo e(Form::label('end_time', __('End Time'), ['class' => 'form-label'])); ?>
 
                                                     <span class="text-sm">
-                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                                </span>
+                                                        <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                    </span>
                                                     <?php echo Form::input('time', 'end_time', null, ['class' =>
                                                     'form-control', 'required' => 'required']); ?>
 
@@ -452,8 +456,8 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                     <?php echo e(Form::label('function', __('Function'), ['class' => 'form-label'])); ?>
 
                                                     <span class="text-sm">
-                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                                </span>
+                                                        <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                    </span>
                                                     <?php if(isset($function) && !empty($function)): ?>
                                                     <?php $__currentLoopData = $function; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <div class="form-check">
@@ -481,8 +485,8 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                     <?php echo e(Form::label('package', __($value['function']), ['class' => 'form-label'])); ?>
 
                                                     <span class="text-sm">
-                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                                </span>
+                                                        <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                    </span>
                                                     <?php $__currentLoopData = $value['package']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $k => $package): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <div class="form-check" data-main-index="<?php echo e($k); ?>"
                                                         data-main-package="<?php echo e($package); ?>">
@@ -584,9 +588,7 @@ unset($__errorArgs, $__bag); ?>
                                                 <div class="form-group">
                                                     <?php echo Form::label('meal', 'Meal Preference'); ?>
 
-                                                    <span class="text-sm">
-                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                                </span>
+
                                                     <?php $__currentLoopData = $meal; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $label): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <div>
                                                         <?php echo e(Form::radio('meal', $label , false, ['id' => $label])); ?>
@@ -695,32 +697,32 @@ unset($__errorArgs, $__bag); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script-page'); ?>
 <script>
-     function validateCheckboxGroup(groupName) {
-        var checkboxes = $("input[name='" + groupName + "']");
-        var isChecked = checkboxes.is(":checked");
-        var errorMessage = '';
+function validateCheckboxGroup(groupName) {
+    var checkboxes = $("input[name='" + groupName + "']");
+    var isChecked = checkboxes.is(":checked");
+    var errorMessage = '';
 
-        if (!isChecked) {
-            errorMessage = 'At least one ' + groupName.replace('[]', '') + ' must be selected.';
-        }
-
-        // Remove any existing error message
-        checkboxes.closest('.form-group').find('.validation-error').remove();
-
-        // Append the error message if it exists
-        if (errorMessage != '') {
-            checkboxes.closest('.form-group').append(
-                '<div class="validation-error text-danger" style="padding:2px;">' +
-                errorMessage + '</div>');
-        }
+    if (!isChecked) {
+        errorMessage = 'At least one ' + groupName.replace('[]', '') + ' must be selected.';
     }
-$(document).ready(function(){
+
+    // Remove any existing error message
+    checkboxes.closest('.form-group').find('.validation-error').remove();
+
+    // Append the error message if it exists
+    if (errorMessage != '') {
+        checkboxes.closest('.form-group').append(
+            '<div class="validation-error text-danger" style="padding:2px;">' +
+            errorMessage + '</div>');
+    }
+}
+$(document).ready(function() {
     // Attach a keyup event listener to input fields
-    $('input').on('keyup', function(){
+    $('input').on('keyup', function() {
         // Get the input value
         var value = $(this).val();
         // Check if the input value contains spaces
-        if(value.indexOf(' ') !== -1) {
+        if (value.indexOf(' ') !== -1) {
             // Display validation message
             $('#validationMessage').text('Spaces are not allowed in this field').show();
         } else {
@@ -729,36 +731,36 @@ $(document).ready(function(){
         }
     });
 });
-$('#formdata').on('submit', function (event) {
-        let isValid = true;
+$('#formdata').on('submit', function(event) {
+    let isValid = true;
 
-        // Remove previous error messages
-        $('.error-message').remove();
+    // Remove previous error messages
+    $('.error-message').remove();
 
-        // Function to display error messages
-        function displayError(inputId, message) {
-            $(`<span class="error-message">${message}</span>`).insertAfter(`#${inputId}`);
-        }
+    // Function to display error messages
+    function displayError(inputId, message) {
+        $(`<span class="error-message">${message}</span>`).insertAfter(`#${inputId}`);
+    }
 
 
-        // Name validation
-        let name = $('#name').val().trim();
-        if (name === '') {
-            displayError('name', 'Name is required and must not contain only spaces.');
-            isValid = false;
-        }
-        let startTime = $('#start_time').val();
-        let endTime = $('#end_time').val();
-        if (startTime != '' && endTime <= startTime) {
-            displayError('end_time', 'End time must be after start time.');
-            isValid = false;
-        }
+    // Name validation
+    let name = $('#name').val().trim();
+    if (name === '') {
+        displayError('name', 'Name is required and must not contain only spaces.');
+        isValid = false;
+    }
+    let startTime = $('#start_time').val();
+    let endTime = $('#end_time').val();
+    if (startTime != '' && endTime <= startTime) {
+        displayError('end_time', 'End time must be after start time.');
+        isValid = false;
+    }
 
-        // Prevent form submission if any validation fails
-        if (!isValid) {
-            event.preventDefault();
-        }
-    });
+    // Prevent form submission if any validation fails
+    if (!isValid) {
+        event.preventDefault();
+    }
+});
 $(document).ready(function() {
     $("input[type='text'][name='lead_name'],input[type='text'][name='name'], input[type='text'][name='email'], select[name='type'],input[type='tel'][name='phone'],input[name='guest_count'],input[name='start_date'],input[name='start_time'],input[name='end_time'],input[type='checkbox']")
         .focusout(function() {
@@ -790,11 +792,11 @@ $(document).ready(function() {
                     errorMessage + '</div>');
             }
             $("input[name='user[]']").change(validateCheckboxGroup('user[]'));
-    $("input[name='user[]']").focusout(validateCheckboxGroup('user[]'));
-    $("input[name='venue[]']").change(validateCheckboxGroup('venue[]'));
-    $("input[name='venue[]']").focusout(validateCheckboxGroup('venue[]'));
-    $("input[name='function[]']").change(validateCheckboxGroup('function[]'));
-    $("input[name='function[]']").focusout(validateCheckboxGroup('function[]'));
+            $("input[name='user[]']").focusout(validateCheckboxGroup('user[]'));
+            $("input[name='venue[]']").change(validateCheckboxGroup('venue[]'));
+            $("input[name='venue[]']").focusout(validateCheckboxGroup('venue[]'));
+            $("input[name='function[]']").change(validateCheckboxGroup('function[]'));
+            $("input[name='function[]']").focusout(validateCheckboxGroup('function[]'));
         });
 });
 </script>
@@ -818,6 +820,11 @@ $(document).ready(function() {
                 "_token": "<?php echo e(csrf_token()); ?>",
             },
             success: function(data) {
+                console.log(data);
+                var jsonObject = JSON.parse(data.func_package);
+                var jsonadObject = JSON.parse(data.ad_opts);
+
+                console.log(jsonObject);
                 // func_pack = json_decode(data.func_package);
                 venue_str = data.venue_selection;
                 venue_arr = venue_str.split(",");
@@ -825,23 +832,20 @@ $(document).ready(function() {
                 func_arr = func_str.split(",");
                 $('input[name ="company_name"]').val(data.company_name);
                 $('input[name ="name"]').val(data.name);
-                // Phone number formatting
-                // var phoneInput = $('input[name ="phone"]');
-                // phoneInput.val(data.phone);
-                // // phoneInput.trigger('input');
-                // // phoneInput.addEventListener('input', enforceFormat);
-                // // phoneInput.addEventListener('input', formatToPhone); 
+                var phoneInput = $('input[name ="phone"]');
+                phoneInput.val(data.phone);
                 $('input[name ="relationship"]').val(data.relationship);
                 $('input[name ="start_date"]').val(data.start_date);
-                // $('input[name ="end_date"]').val(data.end_date);
                 $('input[name ="start_time"]').val(data.start_time);
                 $('input[name ="end_time"]').val(data.end_time);
                 $('input[name ="rooms"]').val(data.rooms);
                 $('input[name ="email"]').val(data.email);
+                $('input[name ="allergies"]').val(data.allergies);
+                $('input[name ="spcl_request"]').val(data.spcl_req);
                 $('input[name ="lead_address"]').val(data.lead_address);
                 $("select[name='type'] option[value='" + data.type + "']").prop("selected",
                     true);
-                $("input[name='bar'][value='" + data.bar + "']").prop('checked', true);
+                $("input[name='baropt'][value='" + data.bar + "']").prop('checked', true);
                 $("input[name='user[]'][value='" + data.assigned_user + "']").prop(
                     'checked', true);
                 $.each(venue_arr, function(i, val) {
@@ -858,16 +862,84 @@ $(document).ready(function() {
                     function() {
                         return $(this).val();
                     }).get();
+
                 var mailFunctionSection = document.getElementById('mailFunctionSection');
                 var divs = mailFunctionSection.querySelectorAll('.form-group');
                 divs.forEach(function(div) {
                     var mainValue = div.getAttribute('data-main-value');
                     if (checkedFunctions.includes(mainValue)) {
+                        for (var key in jsonObject) {
+                            if (jsonObject.hasOwnProperty(key)) {
+                                // Access the original key and value
+                                var originalKey = key;
+                                var value = jsonObject[key][
+                                    0
+                                ]; // Assuming the value is always an array and we need the first element
+                                // Convert the first letter of the key to uppercase
+                                var transformedKey = originalKey.charAt(0).toUpperCase() +
+                                    originalKey.slice(1);
+
+                                var dynamicName = 'package_' + transformedKey.toLowerCase()
+                                    .replace(/\s+/g, '') + '[]';
+                                var selector =
+                                    `input[name='${dynamicName}'][value='${value}'] `;
+                                if (transformedKey == mainValue) {
+                                    $(selector).prop('checked', true);
+                                    setTimeout(() => {
+                                        
+                                        var checkedPackages = $(`input[name='${dynamicName}']:checked`).map(
+                                            function() {
+                                                return $(this).val();
+                                        }).get();
+                                        var additionalSection = document.getElementById('additionalSection');
+                                        var divads = additionalSection.querySelectorAll('.form-group');
+                                        divads.forEach(function(div) {
+                                            console.log(additionalSection);
+                                            var mainValue = div.getAttribute('data-additional-index');
+                                            if (checkedPackages.includes(mainValue)) {
+                                                console.log(mainValue);
+                                                console.log('jsonadObject',jsonadObject)
+                                                for (var key in jsonadObject) {
+                                                    if (jsonadObject.hasOwnProperty(key)) {
+                                                        // Access the original key and value
+                                                        var originalKey = key;
+                                                        var value = jsonadObject[key][0]; // Assuming the value is always an array and we need the first element
+                                                        var transformedKey = originalKey.charAt(0).toUpperCase() +
+                                                            originalKey.slice(1);
+
+                                                            var dynamicadName = 'additional_' + transformedKey.toLowerCase().replace(/\s+/g, '_') +'[]';
+                                                        // var dynamicName = 'package_' + transformedKey.toLowerCase()
+                                                        //     .replace(/\s+/g, '') + '[]';
+                                                        var adselector =`input[name='${dynamicadName}'][value = '${value}'] `;
+                                                        console.log(adselector);
+
+                                                        // if (transformedKey == mainValue ) {
+
+                                                            $(adselector).prop('checked', true);
+                                                        // }
+                                                }
+                                                }
+                                                div.style.display = 'block';
+                                            } else {
+                                                div.style.display ='none';
+                                            }
+                                        });
+                                    }, 600);
+
+
+                                }
+
+
+
+
+                            }
+                        }
                         div.style.display = 'block';
                     } else {
                         div.style.display = 'none';
                     }
                 });
+
             }
         });
         // Clear the leadId from localStorage (optional)
@@ -998,7 +1070,7 @@ $(document).ready(function() {
 </script>
 <script>
 $(document).ready(function() {
-
+    
     //$('input[name=newevent]').prop('checked', false);
     $('input[name="newevent"]').on('click', function() {
         $('#lead_select').hide();
@@ -1012,12 +1084,16 @@ $(document).ready(function() {
             $('input#resetForm').trigger('click');
         }
     });
+    // function clearForm() {
+        // $('#formdata').find('input[type="text"], input[type="password"], input[type="email"], input[type="number"], input[type="date"], input[type="url"], input[type="search"], input[type="tel"], textarea').val(''); // Clear text inputs and textareas
+        // $('#formdata').find('input[type="checkbox"], input[type="radio"]').prop('checked', false); // Uncheck all checkboxes and radio buttons
+        // $('#formdata').find('select').prop('selectedIndex', 0); // Reset all select elements to their default value
+    // }
+
     $('select[name= "lead"]').on('change', function() {
-        $("input[name='user[]'").prop('checked', false);
-        $("input[name='bar']").prop('checked', false);
-        $("input[name='user[]']").prop('checked', false);
-        $("input[name='venue[]']").prop('checked', false);
-        $("input[name='function[]']").prop('checked', false);
+        $("input[type='text'], input[type='tel'], input[type='email'], input[type='number']").val('');
+        $("input[type='checkbox'], input[type='radio']").prop('checked', false);
+       
         var venu = this.value;
         $.ajax({
             url: "<?php echo e(route('meeting.lead')); ?>",
@@ -1028,6 +1104,8 @@ $(document).ready(function() {
             },
             success: function(data) {
                 console.log(data);
+                var jsonObject = JSON.parse(data.func_package);
+                var jsonadObject = JSON.parse(data.ad_opts);
                 venue_str = data.venue_selection;
                 venue_arr = venue_str.split(",");
                 func_str = data.function;
@@ -1069,6 +1147,72 @@ $(document).ready(function() {
                 divs.forEach(function(div) {
                     var mainValue = div.getAttribute('data-main-value');
                     if (checkedFunctions.includes(mainValue)) {
+                        for (var key in jsonObject) {
+                            if (jsonObject.hasOwnProperty(key)) {
+                                // Access the original key and value
+                                var originalKey = key;
+                                var value = jsonObject[key][
+                                    0
+                                ]; // Assuming the value is always an array and we need the first element
+                                // Convert the first letter of the key to uppercase
+                                var transformedKey = originalKey.charAt(0).toUpperCase() +
+                                    originalKey.slice(1);
+
+                                var dynamicName = 'package_' + transformedKey.toLowerCase()
+                                    .replace(/\s+/g, '') + '[]';
+                                var selector =
+                                    `input[name='${dynamicName}'][value='${value}'] `;
+                                if (transformedKey == mainValue) {
+                                    $(selector).prop('checked', true);
+                                    setTimeout(() => {
+                                        
+                                        var checkedPackages = $(`input[name='${dynamicName}']:checked`).map(
+                                            function() {
+                                                return $(this).val();
+                                        }).get();
+                                        var additionalSection = document.getElementById('additionalSection');
+                                        var divads = additionalSection.querySelectorAll('.form-group');
+                                        divads.forEach(function(div) {
+                                            console.log(additionalSection);
+                                            var mainValue = div.getAttribute('data-additional-index');
+                                            if (checkedPackages.includes(mainValue)) {
+                                                console.log(mainValue);
+                                                console.log('jsonadObject',jsonadObject)
+                                                for (var key in jsonadObject) {
+                                                    if (jsonadObject.hasOwnProperty(key)) {
+                                                        // Access the original key and value
+                                                        var originalKey = key;
+                                                        var value = jsonadObject[key][0]; // Assuming the value is always an array and we need the first element
+                                                        var transformedKey = originalKey.charAt(0).toUpperCase() +
+                                                            originalKey.slice(1);
+
+                                                            var dynamicadName = 'additional_' + transformedKey.toLowerCase().replace(/\s+/g, '_') +'[]';
+                                                        // var dynamicName = 'package_' + transformedKey.toLowerCase()
+                                                        //     .replace(/\s+/g, '') + '[]';
+                                                        var adselector =`input[name='${dynamicadName}'][value = '${value}'] `;
+                                                        console.log(adselector);
+
+                                                        // if (transformedKey == mainValue ) {
+
+                                                            $(adselector).prop('checked', true);
+                                                        // }
+                                                }
+                                                }
+                                                div.style.display = 'block';
+                                            } else {
+                                                div.style.display ='none';
+                                            }
+                                        });
+                                    }, 600);
+
+
+                                }
+
+
+
+
+                            }
+                        }
                         div.style.display = 'block';
                     } else {
                         div.style.display = 'none';

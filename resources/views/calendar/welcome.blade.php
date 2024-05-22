@@ -84,10 +84,11 @@
         </div>
         <h1>Payment Success!</h1>
         <p>Thank you for your successful payment.</p>
-    </div>
-    <div class="button-container">
-            <a href="{{ url('/') }}" class="button">Return to Homepage</a>
+        <div class="button-container">
+            <a href="{{ url('/') }}" class="button">Return to Home page</a>
         </div>
+    </div>
+   
 </body>
 
 </html>

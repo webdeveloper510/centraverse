@@ -92,7 +92,7 @@ h6 {
 
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
-                                        <h5 class="card-text">{{ $lead['leadname'] }}
+                                        <h5 class="card-text"><a href="{{ route('lead.info',urlencode(encrypt($lead['id'])))}}" style= "color:#8490a7;">{{ $lead['leadname'] }}</a>
                                             <span>({{ $lead['type'] }})</span>
                                         </h5>
 
@@ -139,7 +139,7 @@ h6 {
 
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
-                                        <h5 class="card-text">{{ $event['name'] }}
+                                        <h5 class="card-text"><a href="{{ route('meeting.detailview',urlencode(encrypt($event['id'])))}}" style= "color:#8490a7;">{{ $event['name'] }}</a>
                                             <span>({{ $event['type'] }})</span>
                                         </h5>
                                         @if($event['start_date'] == $event['end_date'])
@@ -255,13 +255,6 @@ h5.card-text {
     justify-content: space-between;
 }
 
-.inner_col {
-    padding: 10px;
-    border: 1px dotted #ccc;
-    border-radius: 20px;
-    margin-top: 10px;
-}
-
 .date-y {
     float: right;
     padding-bottom: 10px;
@@ -286,7 +279,6 @@ h5.card-text {
 
 .inner_col .scrol-card {
     padding: 10px;
-    border: 1px dotted #ccc;
     border-radius: 20px;
     margin-top: 10px;
     max-height: 210px;

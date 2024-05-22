@@ -94,27 +94,7 @@ $proposalstatus = \App\Models\Lead::$status;
                                                         @endforeach
                                                     </select>
                                                 </td>
-                                                <!-- <td>
-                                                    @if($lead->status == 0)
-                                                    <span
-                                                        class="badge bg-info p-2 px-3 rounded">{{ __(\App\Models\Lead::$status[$lead->status]) }}</span>
-                                                    @elseif($lead->status == 1)
-                                                    <span
-                                                        class="badge bg-warning p-2 px-3 rounded">{{ __(\App\Models\Lead::$status[$lead->status]) }}</span>
-                                                    @elseif($lead->status == 2)
-                                                    <span
-                                                        class="badge bg-secondary p-2 px-3 rounded">{{ __(\App\Models\Lead::$status[$lead->status]) }}</span>
-                                                    @elseif($lead->status == 3)
-                                                    <span
-                                                        class="badge bg-danger p-2 px-3 rounded">{{ __(\App\Models\Lead::$status[$lead->status]) }}</span>
-                                                    @elseif($lead->status == 4)
-                                                    <span
-                                                        class="badge bg-success p-2 px-3 rounded">{{ __(\App\Models\Lead::$status[$lead->status]) }}</span>
-                                                    @elseif($lead->status == 5)
-                                                    <span
-                                                        class="badge bg-warning p-2 px-3 rounded">{{ __(\App\Models\Lead::$status[$lead->status]) }}</span>
-                                                    @endif
-                                                </td> -->
+
                                                 <td>
                                                     {{\Auth::user()->dateFormat($lead->start_date)}}
                                                 </td>
@@ -129,7 +109,7 @@ $proposalstatus = \App\Models\Lead::$status;
                                                     @else
 
 
-                                                    @if($lead->status == 4)
+                                                    @if($lead->status == 4 && $lead->converted_to == 0)
                                                     <div class="action-btn bg-secondary ms-2">
                                                         <a href="{{ route('meeting.create',['meeting',0])}}"
                                                             id="convertLink" data-size="md" data-url="#"
@@ -180,10 +160,6 @@ $proposalstatus = \App\Models\Lead::$status;
                                                     @endif
                                                     @can('Show Lead')
                                                     <div class="action-btn bg-warning ms-2">
-                                                        <!-- <a href="{{ route('lead.show',$lead->id) }}" title="{{__('Quick View')}}"
-                                                            data-ajax-popup="true" data-title="{{__('Lead Details')}}"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class="ti ti-eye"></i> -->
                                                         <a href="javascript:void(0);" data-size="md"
                                                             data-url="{{ route('lead.show',$lead->id) }}"
                                                             data-bs-toggle="tooltip" title="{{__('Quick View')}}"
@@ -200,7 +176,8 @@ $proposalstatus = \App\Models\Lead::$status;
                                                             class="mx-3 btn btn-sm d-inline-flex align-items-center text-white "
                                                             data-bs-toggle="tooltip" title="{{__('Details')}}"
                                                             data-title="{{__('Edit Lead')}}"><i
-                                                                class="ti ti-edit"></i></a>
+                                                                class="ti ti-edit"></i>
+                                                        </a>
                                                     </div>
                                                     @endcan
                                                     @endif
@@ -244,7 +221,6 @@ $(document).ready(function() {
         // Set the lead ID in localStorage after a delay
         setTimeout(function() {
             localStorage.setItem('leadId', leadId);
-
             // Redirect to the specified URL after setting the item
             window.location.href = "{{ route('meeting.create',['meeting',0])}}";
         }, 1000); // Adjust the delay time as needed (1000 milliseconds = 1 second)

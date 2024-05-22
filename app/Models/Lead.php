@@ -35,7 +35,8 @@ class Lead extends Model
         'spcl_req',
         'allergies',
         'bar',
-        'description'
+        'description',
+        'converted_to'
     ];
     protected $appends = [
         'status_name',

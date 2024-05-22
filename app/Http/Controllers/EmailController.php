@@ -12,13 +12,10 @@ use Crypt;
 class EmailController extends Controller
 {
     public function index(){
-    
-        
         $leads = Lead::where('status', '>=', 1)->get();
         $proposalUsers = ProposalInfo::select('created_by')->distinct()->get()->pluck('created_by')->toArray();
         $users = User::whereIn('id', $proposalUsers)->get();
         return view('email_integration.index', compact('leads', 'users'));
-
     }
     public function details($id){
         $id = decrypt(urldecode($id));

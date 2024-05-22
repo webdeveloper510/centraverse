@@ -29531,7 +29531,6 @@ table.dataTable tbody > tr.selected th.select-checkbox:after {
 /**====== End Sidebar scroll css  ======**/
 .inner_col {
     padding: 10px;
-    border: 1px dotted #ccc;
     border-radius: 20px;
 }
 
@@ -29584,8 +29583,8 @@ h5.card-text {
 }
 h5.card-title.mb-2 {
     background: #cccccc17;
-    padding: 5px;
-    color: #3ec9d6;
+    padding: 9px;
+    color: #ffa21d;
     font-size: 16px !important;
 }
 

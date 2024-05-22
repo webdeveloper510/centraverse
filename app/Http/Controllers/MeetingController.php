@@ -225,8 +225,10 @@ class MeetingController extends Controller
             $meeting['created_by']          = \Auth::user()->creatorId();
 
             $meeting->save();
-            // echo "<pre>";print_r($meeting);die;
-            
+         
+            if($meeting->attendees_lead != 0){
+                Lead::find($request->lead)->update(['converted_to'=> 1]);
+            } 
             if (!empty($request->file('atttachment'))) {
                 $file= $request->file('atttachment');
                 $originalName = $file->getClientOriginalName();
@@ -594,6 +596,9 @@ class MeetingController extends Controller
     public function destroy(Meeting $meeting)
     {
         if (\Auth::user()->can('Delete Meeting')) {
+            if($meeting->attendees_lead != 0){
+                Lead::find($meeting->attendees_lead)->update(['converted_to',0]);
+            }
             $meeting->delete();
             Billing::where('event_id',$meeting->id)->delete();
             // Billingdetail::where('event_id', $meeting->id)->delete();
