@@ -855,7 +855,6 @@ class LeadController extends Controller
             $lead['ad_opts']            = isset($additional) && !empty($additional) ? $additional : '';
             $lead['bar']                = $request->baropt;
             $lead['rooms']              = $request->rooms ?? 0;
-            $lead['lead_status']        = ($request->is_active == 'on') ? 1 : 0;
             $lead['created_by']         = \Auth::user()->creatorId();
             $lead->update();            
             $statuss = Lead::$stat;
@@ -932,15 +931,16 @@ class LeadController extends Controller
         $newlead = new Lead();
         $newlead['user_id']            = Auth::user()->id;
         $newlead['name']               = $lead->name;
-        $newlead['leadname']          =  $lead->leadname;
-        $newlead['assigned_user']      = $lead->user_id;
-        $newlead['start_date']      = date('Y-m-d');
-        $newlead['end_date']      = date('Y-m-d');
+        $newlead['leadname']           =  $lead->leadname;
+        $newlead['assigned_user']       = $lead->user_id;
+            $newlead['start_date']      = $lead->start_date;
+            $newlead['end_date']        = $lead->start_date;
         $newlead['email']              = $lead->email;
         $newlead['phone']              = $lead->phone;
         $newlead['lead_address']       = $lead->lead_address;
         $newlead['company_name']       = $lead->company_name;
         $newlead['relationship']       = $lead->relationship;
+        $newlead['lead_status']                   = 0;
         $newlead['created_by']         = \Auth::user()->creatorId();
         $newlead->save();
         return redirect()->back()->with('success','Lead Cloned successfully');
@@ -958,10 +958,11 @@ class LeadController extends Controller
         return view('lead.leadinfo',compact('leads','lead','docs','notes'));
     }
     public function lead_user_info($id){
-
         $id = decrypt(urldecode($id));
-        $email = Lead::withTrashed()->find($id)->email;
-        $leads = Lead::withTrashed()->where('email',$email)->get();
+        $leaddata = Lead::withTrashed()->find($id);
+        $email = $leaddata->email;
+        $phone = $leaddata->phone;
+        $leads = Lead::withTrashed()->where('email',$email)->orWhere('phone',$phone)->get();
         $notes = NotesLeads::where('lead_id',$id)->orderby('id','desc')->get();
         $docs = LeadDoc::where('lead_id',$id)->get();
         return view('customer.leaduserview',compact('leads','docs','notes'));

@@ -77,7 +77,7 @@ $func_package = json_decode($meeting->func_package,true);
             <div class="container-fluid xyz p0">
                 <div class="row1">
                     <div class="col-lg-12 p0">
-                        <?php echo e(Form::model($meeting, ['route' => ['meeting.update', $meeting->id], 'method' => 'PUT' ,'id'=> 'formdata'])); ?>
+                        <?php echo e(Form::model($meeting, ['route' => ['meeting.update', $meeting->id],'enctype' => 'multipart/form-data', 'method' => 'PUT' ,'id'=> 'formdata'])); ?>
 
                         <div id="useradd-1" class="card">
                             <div class="col-md-12">
@@ -449,8 +449,8 @@ $func_package = json_decode($meeting->func_package,true);
                                                 <div class="col-6  mt-4 need_full">
                                                     <input type="radio" id="image_<?php echo e($loop->index); ?>"
                                                         name="uploadedImage" class="form-check-input "
-                                                        value="<?php echo e(asset('floor_images/' .$s->image)); ?>"
-                                                        <?php echo e(asset('floor_images/' .$s->image)==$meeting->floor_plan ? 'checked' : ''); ?>
+                                                        value="<?php echo e($s->image); ?>"
+                                                        <?php echo e($s->image ==$meeting->floor_plan ? 'checked' : ''); ?>
 
                                                         style="display:none">
                                                     <label for="image_<?php echo e($loop->index); ?>" class="form-check-label">
@@ -462,6 +462,16 @@ $func_package = json_decode($meeting->func_package,true);
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </div>
                                         </div>
+                                        <div class="row">
+                                                    <label><b>Upload Setup plan</b></label>
+                                                    <div class="col-12">
+                                                        <input accept="image/*" type='file' id="imgInp"
+                                                            class="form-control" name = "setupplans"/>
+                                                    </div>
+                                                    <div class="col-12 mt-5">
+                                                        <img id="blah" src="<?php echo e(Storage::url('app/public/'.$meeting->setup_plans)); ?>" alt=" Preview" class="form-control" value= ""/>
+                                                    </div>
+                                                </div>
                                     </div>
                                 </div>
                             </div>
@@ -487,9 +497,7 @@ $func_package = json_decode($meeting->func_package,true);
                                             <div class="form-group">
                                                 <?php echo Form::label('meal', 'Meal Preference'); ?>
 
-                                                <span class="text-sm">
-                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                                </span>
+                                               
                                                 <?php $__currentLoopData = $meal; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $label): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <div>
                                                     <?php echo e(Form::radio('meal', $label , false, ['id' => $label])); ?>
@@ -602,14 +610,23 @@ $func_package = json_decode($meeting->func_package,true);
 }
 </style>
 <script>
+imgInp.onchange = evt => {
+    const [file] = imgInp.files
+    if (file) {
+        blah.src = URL.createObjectURL(file)
+    }
+}
+</script>
+<script>
+
 function validateCheckboxGroup(groupName) {
     var checkboxes = $("input[name='" + groupName + "']");
     var isChecked = checkboxes.is(":checked");
     var errorMessage = '';
     if (!isChecked) {
-            if (inputs.attr('type') === 'checkbox') {
+            if (checkboxes.attr('type') === 'checkbox') {
                 errorMessage = 'At least one ' + groupName.replace('[]', '') + ' must be selected.';
-            } else if (inputs.attr('type') === 'radio') {
+            } else if (checkboxes.attr('type') === 'radio') {
                 errorMessage = 'Please select one ' + groupName.replace('[]', '') + '.';
             }
         }
@@ -710,6 +727,7 @@ $(document).ready(function() {
             $("input[name='function[]']").focusout(validateCheckboxGroup('function[]'));
             $("input[type='radio'][name='meal']").focusout(validateInputGroup('meal'));
             $("input[type='radio'][name='meal']").change(validateInputGroup('meal'));
+});
 });
 </script>
 <script>

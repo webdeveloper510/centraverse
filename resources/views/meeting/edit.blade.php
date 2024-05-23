@@ -75,7 +75,7 @@ $func_package = json_decode($meeting->func_package,true);
             <div class="container-fluid xyz p0">
                 <div class="row1">
                     <div class="col-lg-12 p0">
-                        {{ Form::model($meeting, ['route' => ['meeting.update', $meeting->id], 'method' => 'PUT' ,'id'=> 'formdata']) }}
+                        {{ Form::model($meeting, ['route' => ['meeting.update', $meeting->id],'enctype' => 'multipart/form-data', 'method' => 'PUT' ,'id'=> 'formdata']) }}
                         <div id="useradd-1" class="card">
                             <div class="col-md-12">
                                 <div class="card-header">
@@ -399,8 +399,8 @@ $func_package = json_decode($meeting->func_package,true);
                                                 <div class="col-6  mt-4 need_full">
                                                     <input type="radio" id="image_{{ $loop->index }}"
                                                         name="uploadedImage" class="form-check-input "
-                                                        value="{{ asset('floor_images/' .$s->image) }}"
-                                                        {{ asset('floor_images/' .$s->image)==$meeting->floor_plan ? 'checked' : '' }}
+                                                        value="{{$s->image}}"
+                                                        {{ $s->image ==$meeting->floor_plan ? 'checked' : '' }}
                                                         style="display:none">
                                                     <label for="image_{{ $loop->index }}" class="form-check-label">
                                                         <img src="{{asset('floor_images/'. $s->image)}}"
@@ -411,6 +411,16 @@ $func_package = json_decode($meeting->func_package,true);
                                                 @endforeach
                                             </div>
                                         </div>
+                                        <div class="row">
+                                                    <label><b>Upload Setup plan</b></label>
+                                                    <div class="col-12">
+                                                        <input accept="image/*" type='file' id="imgInp"
+                                                            class="form-control" name = "setupplans"/>
+                                                    </div>
+                                                    <div class="col-12 mt-5">
+                                                        <img id="blah" src="{{ Storage::url('app/public/'.$meeting->setup_plans) }}" alt=" Preview" class="form-control" value= ""/>
+                                                    </div>
+                                                </div>
                                     </div>
                                 </div>
                             </div>
@@ -533,6 +543,15 @@ $func_package = json_decode($meeting->func_package,true);
 }
 </style>
 <script>
+imgInp.onchange = evt => {
+    const [file] = imgInp.files
+    if (file) {
+        blah.src = URL.createObjectURL(file)
+    }
+}
+</script>
+<script>
+
 function validateCheckboxGroup(groupName) {
     var checkboxes = $("input[name='" + groupName + "']");
     var isChecked = checkboxes.is(":checked");

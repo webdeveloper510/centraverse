@@ -535,12 +535,12 @@ $leadId = decrypt(urldecode(request()->query('lead')));
 
                                             <div class="col-12">
                                                 <div class="row">
-                                                    <label><b>Setup</b></label>
+                                                    <label><b>Select Setup</b></label>
                                                     <?php $__currentLoopData = $setup; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $s): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <div class="col-6 need_full mt-4">
                                                         <input type="radio" id="image_<?php echo e($loop->index); ?>"
                                                             name="uploadedImage" class="form-check-input "
-                                                            value="<?php echo e(asset('floor_images/' . $s->image)); ?>"
+                                                            value="<?php echo e($s->image); ?>"
                                                             style="display:none;">
                                                         <label for="image_<?php echo e($loop->index); ?>" class="form-check-label">
                                                             <img src="<?php echo e(asset('floor_images/'.$s->image)); ?>"
@@ -562,7 +562,18 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
                                             </div>
-
+                                            <!-- <div class="col-12"> -->
+                                                <div class="row">
+                                                    <label><b>Upload Setup</b></label>
+                                                    <div class="col-12">
+                                                        <input accept="image/*" type='file' id="imgInp"
+                                                            class="form-control" name = "setupplans"/>
+                                                    </div>
+                                                    <div class="col-12 mt-5">
+                                                        <img id="blah" src="#" alt=" Preview" class="form-control" />
+                                                    </div>
+                                                </div>
+                                            <!-- </div> -->
                                         </div>
                                     </div>
                                 </div>
@@ -696,6 +707,14 @@ unset($__errorArgs, $__bag); ?>
 </div>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script-page'); ?>
+<script>
+imgInp.onchange = evt => {
+    const [file] = imgInp.files
+    if (file) {
+        blah.src = URL.createObjectURL(file)
+    }
+}
+</script>
 <script>
 function validateCheckboxGroup(groupName) {
     var checkboxes = $("input[name='" + groupName + "']");
@@ -886,42 +905,72 @@ $(document).ready(function() {
                                 if (transformedKey == mainValue) {
                                     $(selector).prop('checked', true);
                                     setTimeout(() => {
-                                        
-                                        var checkedPackages = $(`input[name='${dynamicName}']:checked`).map(
+
+                                        var checkedPackages = $(
+                                            `input[name='${dynamicName}']:checked`
+                                        ).map(
                                             function() {
                                                 return $(this).val();
-                                        }).get();
-                                        var additionalSection = document.getElementById('additionalSection');
-                                        var divads = additionalSection.querySelectorAll('.form-group');
+                                            }).get();
+                                        var additionalSection = document
+                                            .getElementById('additionalSection');
+                                        var divads = additionalSection
+                                            .querySelectorAll('.form-group');
                                         divads.forEach(function(div) {
                                             console.log(additionalSection);
-                                            var mainValue = div.getAttribute('data-additional-index');
-                                            if (checkedPackages.includes(mainValue)) {
+                                            var mainValue = div
+                                                .getAttribute(
+                                                    'data-additional-index'
+                                                );
+                                            if (checkedPackages.includes(
+                                                    mainValue)) {
                                                 console.log(mainValue);
-                                                console.log('jsonadObject',jsonadObject)
-                                                for (var key in jsonadObject) {
-                                                    if (jsonadObject.hasOwnProperty(key)) {
+                                                console.log('jsonadObject',
+                                                    jsonadObject)
+                                                for (var key in
+                                                        jsonadObject) {
+                                                    if (jsonadObject
+                                                        .hasOwnProperty(key)
+                                                    ) {
                                                         // Access the original key and value
-                                                        var originalKey = key;
-                                                        var value = jsonadObject[key][0]; // Assuming the value is always an array and we need the first element
-                                                        var transformedKey = originalKey.charAt(0).toUpperCase() +
-                                                            originalKey.slice(1);
+                                                        var originalKey =
+                                                            key;
+                                                        var value =
+                                                            jsonadObject[
+                                                                key][
+                                                                0
+                                                            ]; // Assuming the value is always an array and we need the first element
+                                                        var transformedKey =
+                                                            originalKey
+                                                            .charAt(0)
+                                                            .toUpperCase() +
+                                                            originalKey
+                                                            .slice(1);
 
-                                                            var dynamicadName = 'additional_' + transformedKey.toLowerCase().replace(/\s+/g, '_') +'[]';
+                                                        var dynamicadName =
+                                                            'additional_' +
+                                                            transformedKey
+                                                            .toLowerCase()
+                                                            .replace(/\s+/g,
+                                                                '_') + '[]';
                                                         // var dynamicName = 'package_' + transformedKey.toLowerCase()
                                                         //     .replace(/\s+/g, '') + '[]';
-                                                        var adselector =`input[name='${dynamicadName}'][value = '${value}'] `;
-                                                        console.log(adselector);
+                                                        var adselector =
+                                                            `input[name='${dynamicadName}'][value = '${value}'] `;
+                                                        console.log(
+                                                            adselector);
 
                                                         // if (transformedKey == mainValue ) {
 
-                                                            $(adselector).prop('checked', true);
+                                                        $(adselector).prop(
+                                                            'checked',
+                                                            true);
                                                         // }
-                                                }
+                                                    }
                                                 }
                                                 div.style.display = 'block';
                                             } else {
-                                                div.style.display ='none';
+                                                div.style.display = 'none';
                                             }
                                         });
                                     }, 600);
@@ -1070,7 +1119,7 @@ $(document).ready(function() {
 </script>
 <script>
 $(document).ready(function() {
-    
+
     //$('input[name=newevent]').prop('checked', false);
     $('input[name="newevent"]').on('click', function() {
         $('#lead_select').hide();
@@ -1085,15 +1134,15 @@ $(document).ready(function() {
         }
     });
     // function clearForm() {
-        // $('#formdata').find('input[type="text"], input[type="password"], input[type="email"], input[type="number"], input[type="date"], input[type="url"], input[type="search"], input[type="tel"], textarea').val(''); // Clear text inputs and textareas
-        // $('#formdata').find('input[type="checkbox"], input[type="radio"]').prop('checked', false); // Uncheck all checkboxes and radio buttons
-        // $('#formdata').find('select').prop('selectedIndex', 0); // Reset all select elements to their default value
+    // $('#formdata').find('input[type="text"], input[type="password"], input[type="email"], input[type="number"], input[type="date"], input[type="url"], input[type="search"], input[type="tel"], textarea').val(''); // Clear text inputs and textareas
+    // $('#formdata').find('input[type="checkbox"], input[type="radio"]').prop('checked', false); // Uncheck all checkboxes and radio buttons
+    // $('#formdata').find('select').prop('selectedIndex', 0); // Reset all select elements to their default value
     // }
 
     $('select[name= "lead"]').on('change', function() {
         $("input[type='text'], input[type='tel'], input[type='email'], input[type='number']").val('');
         $("input[type='checkbox'], input[type='radio']").prop('checked', false);
-       
+
         var venu = this.value;
         $.ajax({
             url: "<?php echo e(route('meeting.lead')); ?>",
@@ -1155,52 +1204,103 @@ $(document).ready(function() {
                                     0
                                 ]; // Assuming the value is always an array and we need the first element
                                 // Convert the first letter of the key to uppercase
-                                var transformedKey = originalKey.charAt(0).toUpperCase() +
+                                var transformedKey = originalKey.charAt(0)
+                                    .toUpperCase() +
                                     originalKey.slice(1);
 
-                                var dynamicName = 'package_' + transformedKey.toLowerCase()
+                                var dynamicName = 'package_' + transformedKey
+                                    .toLowerCase()
                                     .replace(/\s+/g, '') + '[]';
                                 var selector =
                                     `input[name='${dynamicName}'][value='${value}'] `;
                                 if (transformedKey == mainValue) {
                                     $(selector).prop('checked', true);
                                     setTimeout(() => {
-                                        
-                                        var checkedPackages = $(`input[name='${dynamicName}']:checked`).map(
+
+                                        var checkedPackages = $(
+                                            `input[name='${dynamicName}']:checked`
+                                        ).map(
                                             function() {
                                                 return $(this).val();
-                                        }).get();
-                                        var additionalSection = document.getElementById('additionalSection');
-                                        var divads = additionalSection.querySelectorAll('.form-group');
+                                            }).get();
+                                        var additionalSection = document
+                                            .getElementById(
+                                                'additionalSection');
+                                        var divads = additionalSection
+                                            .querySelectorAll(
+                                                '.form-group');
                                         divads.forEach(function(div) {
-                                            console.log(additionalSection);
-                                            var mainValue = div.getAttribute('data-additional-index');
-                                            if (checkedPackages.includes(mainValue)) {
-                                                console.log(mainValue);
-                                                console.log('jsonadObject',jsonadObject)
-                                                for (var key in jsonadObject) {
-                                                    if (jsonadObject.hasOwnProperty(key)) {
+                                            console.log(
+                                                additionalSection
+                                            );
+                                            var mainValue = div
+                                                .getAttribute(
+                                                    'data-additional-index'
+                                                );
+                                            if (checkedPackages
+                                                .includes(mainValue)
+                                            ) {
+                                                console.log(
+                                                    mainValue);
+                                                console.log(
+                                                    'jsonadObject',
+                                                    jsonadObject
+                                                )
+                                                for (var key in
+                                                        jsonadObject) {
+                                                    if (jsonadObject
+                                                        .hasOwnProperty(
+                                                            key)) {
                                                         // Access the original key and value
-                                                        var originalKey = key;
-                                                        var value = jsonadObject[key][0]; // Assuming the value is always an array and we need the first element
-                                                        var transformedKey = originalKey.charAt(0).toUpperCase() +
-                                                            originalKey.slice(1);
+                                                        var originalKey =
+                                                            key;
+                                                        var value =
+                                                            jsonadObject[
+                                                                key]
+                                                            [
+                                                                0
+                                                            ]; // Assuming the value is always an array and we need the first element
+                                                        var transformedKey =
+                                                            originalKey
+                                                            .charAt(
+                                                                0)
+                                                            .toUpperCase() +
+                                                            originalKey
+                                                            .slice(
+                                                                1);
 
-                                                            var dynamicadName = 'additional_' + transformedKey.toLowerCase().replace(/\s+/g, '_') +'[]';
+                                                        var dynamicadName =
+                                                            'additional_' +
+                                                            transformedKey
+                                                            .toLowerCase()
+                                                            .replace(
+                                                                /\s+/g,
+                                                                '_'
+                                                            ) +
+                                                            '[]';
                                                         // var dynamicName = 'package_' + transformedKey.toLowerCase()
                                                         //     .replace(/\s+/g, '') + '[]';
-                                                        var adselector =`input[name='${dynamicadName}'][value = '${value}'] `;
-                                                        console.log(adselector);
+                                                        var adselector =
+                                                            `input[name='${dynamicadName}'][value = '${value}'] `;
+                                                        console.log(
+                                                            adselector
+                                                        );
 
                                                         // if (transformedKey == mainValue ) {
 
-                                                            $(adselector).prop('checked', true);
+                                                        $(adselector)
+                                                            .prop(
+                                                                'checked',
+                                                                true
+                                                            );
                                                         // }
+                                                    }
                                                 }
-                                                }
-                                                div.style.display = 'block';
+                                                div.style.display =
+                                                    'block';
                                             } else {
-                                                div.style.display ='none';
+                                                div.style.display =
+                                                    'none';
                                             }
                                         });
                                     }, 600);

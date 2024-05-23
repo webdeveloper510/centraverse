@@ -199,7 +199,7 @@ h6 {
                                         <div class="card">
                                             <div class="card-body">
                                                 <h5 class="card-text">{{ $event['name'] }}
-                                                    <span>({{ $event['type'] }})</span>
+                                                    <span>{{ isset($event['type']) ? '('. $event['type'] . ')': ''}}</span>
                                                 </h5>
 
                                                 <div style="color: #a99595;">

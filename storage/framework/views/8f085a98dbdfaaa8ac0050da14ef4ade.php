@@ -126,7 +126,7 @@ $meetingData['setup_cost'] = '';
                     </td>
                     <td>
                         <input type="number" name="billing[<?php echo e($key); ?>][quantity]" min='0' class="form-control"
-                            value="<?php echo e($meetingData[$key] ?? ''); ?>" required>
+                            value="<?php echo e(($key !== 'hotel_rooms') ? 1 : $meetingData[$key]); ?>" required>
                     </td>
                     <td>
                         <input type="text" name="billing[<?php echo e($key); ?>][notes]" class="form-control"

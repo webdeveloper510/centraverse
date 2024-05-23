@@ -332,37 +332,35 @@ if(isset($billing) && !empty($billing)){
                                         <tbody>
                                             @foreach($leads as $lead)
                                             <?php 
-                                    $event= App\Models\Meeting::where('attendees_lead',$lead->id)->first();
-                                
-                                    if($event)
-                                    {
-                                        $billing = App\Models\PaymentLogs::where('event_id',$event->id)->get();
-                                        
-                                            $lastpaid = App\Models\PaymentLogs::where('event_id',$event->id)->orderby('id','DESC')->first();
-                                        
-                                            if(isset($lastpaid) && !empty($lastpaid)){
-                                            $amount = App\Models\PaymentInfo::where('event_id',$event->id)->first();
-                                            $amounttobepaid = $amount->bill_amount+$amount->deposits;
-                                            $amountpaid = 0;
-                                            foreach($billing as $pay){
-                                                $amountpaid += $pay->amount;
-                                            }
-                                            
-                                            echo "<tr>";
-                                            echo "<td>".Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $lastpaid->created_at)->format('M d, Y')."</td>";
-                                            echo "<td>".$lead->name."</td>";
-                                            echo "<td>$".$amounttobepaid."</td>";
-                                            echo "<td>$".$amounttobepaid - $amountpaid."</td>";
-                                            echo "</tr>";
-                                        }
-                                    }else{
-                                        echo "<tr>";
-                                        echo "<td></td>";
-                                        echo "<td style='text-align: center;'><b><h6 class='text-secondary'>Lead Not Converted to Event Yet.</h6><b></td>";
-                                        echo "<td></td>";
-                                        echo "</tr>";
-                                    }
-                                ?>
+                                                $event= App\Models\Meeting::where('attendees_lead',$lead->id)->first();
+                                                if($event)
+                                                {
+                                                    $billing = App\Models\PaymentLogs::where('event_id',$event->id)->get();
+                                                    $lastpaid = App\Models\PaymentLogs::where('event_id',$event->id)->orderby('id','DESC')->first();
+                                                
+                                                    if(isset($lastpaid) && !empty($lastpaid)){
+                                                    $amount = App\Models\PaymentInfo::where('event_id',$event->id)->first();
+                                                    $amounttobepaid = $amount->bill_amount+$amount->deposits;
+                                                    $amountpaid = 0;
+                                                    foreach($billing as $pay){
+                                                        $amountpaid += $pay->amount;
+                                                    }
+                                                    
+                                                    echo "<tr>";
+                                                    echo "<td>".Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $lastpaid->created_at)->format('M d, Y')."</td>";
+                                                    echo "<td>".$lead->name."</td>";
+                                                    echo "<td>$".$amounttobepaid."</td>";
+                                                    echo "<td>$".$amounttobepaid - $amountpaid."</td>";
+                                                    echo "</tr>";
+                                                    }
+                                                }else{
+                                                    echo "<tr>";
+                                                    echo "<td></td>";
+                                                    echo "<td style='text-align: center;'><b><h6 class='text-secondary'>Lead Not Converted to Event Yet.</h6><b></td>";
+                                                    echo "<td></td>";
+                                                    echo "</tr>";
+                                                }
+                                            ?>
                                             @endforeach
                                         </tbody>
                                     </table>

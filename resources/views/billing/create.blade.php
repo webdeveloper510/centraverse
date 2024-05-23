@@ -125,7 +125,7 @@ $meetingData['setup_cost'] = '';
                     </td>
                     <td>
                         <input type="number" name="billing[{{$key}}][quantity]" min='0' class="form-control"
-                            value="{{$meetingData[$key] ?? ''}}" required>
+                            value="{{ ($key !== 'hotel_rooms') ? 1 : $meetingData[$key]}}" required>
                     </td>
                     <td>
                         <input type="text" name="billing[{{$key}}][notes]" class="form-control"

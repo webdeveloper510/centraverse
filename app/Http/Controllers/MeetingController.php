@@ -92,6 +92,7 @@ class MeetingController extends Controller
     // WORKING  17-01-2024
     public function store(Request $request)
     {
+        // echo"<pre>";print_r($request->all());die;
         if (\Auth::user()->can('Create Meeting')) {
             $validator = \Validator::make(
                 $request->all(),
@@ -113,7 +114,10 @@ class MeetingController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-           
+        $uploadedImage = $request->input('uploadedImage');
+        // Handle file upload
+       
+
             $data = $request->all();
             $package = [];
             $additional = [];
@@ -220,10 +224,15 @@ class MeetingController extends Controller
             $meeting['start_time']          = $request->start_time;
             $meeting['end_time']            = $request->end_time;
             $meeting['ad_opts']             = $additional;
-            $meeting['floor_plan']          = $request->uploadedImage;
+            $meeting['floor_plan']          = $uploadedImage;
             $meeting['allergies']          = $request->allergies;
             $meeting['created_by']          = \Auth::user()->creatorId();
-
+            if ($request->hasFile('setupplans')) {
+                $file = $request->file('setupplans');
+                $filePath = $file->store('setup_plans', 'public');
+                $meeting['setup_plans']  = $filePath;
+            }
+            
             $meeting->save();
          
             if($meeting->attendees_lead != 0){
@@ -430,6 +439,9 @@ class MeetingController extends Controller
             $start_time = $request->input('start_time');
             $end_time = $request->input('end_time');
             $venue_selected = $request->input('venue');
+            $uploadedImage = $request->input('uploadedImage');
+            // Handle file upload
+         
 
             $overlapping_event = Meeting::where('start_date', '<=', $end_date)
                 ->where('end_date', '>=', $start_date)
@@ -542,9 +554,15 @@ class MeetingController extends Controller
             $meeting['start_time']          = $request->start_time;
             $meeting['end_time']            = $request->end_time;
             $meeting['ad_opts']             = isset($additional) ? $additional : '';
-            $meeting['floor_plan']          = $request->uploadedImage;
+            $meeting['floor_plan']          = $uploadedImage;
             $meeting['allergies']          = $request->allergies;
             $meeting['created_by']        = \Auth::user()->creatorId();
+            if ($request->hasFile('setupplans')) {
+                $file = $request->file('setupplans');
+                $filePath = $file->store('setup_plans', 'public');
+                $meeting['setup_plans']         = $filePath;
+ 
+            }
             $meeting->update();
             if (!empty($request->file('atttachment'))) {
                 $file = $request->file('atttachment');

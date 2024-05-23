@@ -206,7 +206,7 @@ h6 {
                                             <div class="card-body">
                                                 <h5 class="card-text"><?php echo e($event['name']); ?>
 
-                                                    <span>(<?php echo e($event['type']); ?>)</span>
+                                                    <span><?php echo e(isset($event['type']) ? '('. $event['type'] . ')': ''); ?></span>
                                                 </h5>
 
                                                 <div style="color: #a99595;">

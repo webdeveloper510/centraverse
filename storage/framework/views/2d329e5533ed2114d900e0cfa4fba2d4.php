@@ -354,7 +354,6 @@ $additional_items = json_decode($settings['additional_items'],true);
 </style>
 <script>
 $(document).ready(function() {
-
     $('#formdata').on('submit', function(event) {
         let isValid = true;
 
