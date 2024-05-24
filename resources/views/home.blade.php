@@ -93,7 +93,7 @@ h6 {
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
                                         <h5 class="card-text"><a href="{{ route('lead.info',urlencode(encrypt($lead['id'])))}}" style= "color:#8490a7;">{{ $lead['leadname'] }}</a>
-                                            <span>({{ $lead['type'] }})</span>
+                                            <span>{{ isset($lead['type']) ? '('. $lead['type'] . ')': ''}}</span>
                                         </h5>
 
                                         @if($lead['start_date'] == $lead['end_date'])

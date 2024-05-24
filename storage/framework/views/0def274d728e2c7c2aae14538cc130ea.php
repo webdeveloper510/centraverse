@@ -97,7 +97,7 @@ h6 {
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
                                         <h5 class="card-text"><a href="<?php echo e(route('lead.info',urlencode(encrypt($lead['id'])))); ?>" style= "color:#8490a7;"><?php echo e($lead['leadname']); ?></a>
-                                            <span>(<?php echo e($lead['type']); ?>)</span>
+                                            <span><?php echo e(isset($lead['type']) ? '('. $lead['type'] . ')': ''); ?></span>
                                         </h5>
 
                                         <?php if($lead['start_date'] == $lead['end_date']): ?>

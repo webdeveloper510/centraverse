@@ -55,10 +55,11 @@
                                             <tbody>
                                                 @foreach($leads as $lead)
                                                 <?php 
+                                                 $total = 0;
+                                                 $amountpaid = 0;
                                                 if(\App\Models\Meeting::where('attendees_lead',$lead->id)->exists()){
                                                     $event = \App\Models\Meeting::where('attendees_lead',$lead->id)->first(); 
                                                     $total = $event->total;
-                                                    $amountpaid = 0;
                                                     if(\App\Models\PaymentLogs::where('event_id',$event->id)->exists()){
                                                         $payment = \App\Models\PaymentLogs::where('event_id',$event->id)->get();
                                                         foreach ($payment as  $value) {

@@ -105,9 +105,9 @@ $(document).ready(function() {
                         // console.log(result);
                         if (result == true) {
                             swal.fire("Done!", result.message, "success");
-                            // setTimeout(function(){
-                            //     location.reload();
-                            // },1000);
+                            setTimeout(function(){
+                                location.reload();
+                            },1000);
                         } else {
                             swal.fire("Error!", result.message, "error");
                         }
@@ -150,9 +150,9 @@ $(document).ready(function() {
                         // console.log(result);
                         if (result == true) {
                             swal.fire("Done!", result.message, "success");
-                            // setTimeout(function(){
-                            //     location.reload();
-                            // },1000);
+                            setTimeout(function(){
+                                location.reload();
+                            },1000);
                         } else {
                             swal.fire("Error!", result.message, "error");
                         }
@@ -196,9 +196,9 @@ $(document).ready(function() {
                         // console.log(result);
                         if (result == true) {
                             swal.fire("Done!", result.message, "success");
-                            // setTimeout(function(){
-                            //     location.reload();
-                            // },1000);
+                            setTimeout(function(){
+                                location.reload();
+                            },1000);
                         } else {
                             swal.fire("Error!", result.message, "error");
                         }
@@ -241,9 +241,9 @@ $(document).ready(function() {
                     success: function (result) {
                         if (result == true) {
                             swal.fire("Done!", result.message, "success");
-                            // setTimeout(function(){
-                            //     location.reload();
-                            // },1000);
+                            setTimeout(function(){
+                                location.reload();
+                            },1000);
                         } else {
                             swal.fire("Error!", result.message, "error");
                         }
@@ -404,9 +404,9 @@ $(document).ready(function() {
                         // console.log(result);
                         if (result == true) {
                             swal.fire("Done!", result.message, "success");
-                            // setTimeout(function(){
-                            //     location.reload();
-                            // },1000);
+                            setTimeout(function(){
+                                location.reload();
+                            },1000);
                         } else {
                             swal.fire("Error!", result.message, "error");
                         }
@@ -479,9 +479,9 @@ $(document).ready(function() {
                     success: function (result) {
                         if (result == true) {
                             swal.fire("Done!", result.message, "success");
-                            // setTimeout(function(){
-                            //     location.reload();
-                            // },1000);
+                            setTimeout(function(){
+                                location.reload();
+                            },1000);
                         } else {
                             swal.fire("Error!", result.message, "error");
                         }
