@@ -43,9 +43,12 @@ $additional_items = json_decode($settings['additional_items'],true);
     </div>
     <div class="col-6 need_full">
         <div class="form-group">
-            <?php echo e(Form::label('company_name',__('Company Name'),['class'=>'form-label'])); ?>
+            <!-- <?php echo e(Form::label('company_name',__('Event Name'),['class'=>'form-label'])); ?>
 
-            <?php echo e(Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Company Name')))); ?>
+            <?php echo e(Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Company Name')))); ?> -->
+            <?php echo e(Form::label('event_name',__('Event Name'),['class'=>'form-label'])); ?>
+
+            <?php echo e(Form::text('event_name',null,array('class'=>'form-control','placeholder'=>__('Enter Event Name')))); ?>
 
         </div>
     </div>
@@ -205,33 +208,35 @@ $additional_items = json_decode($settings['additional_items'],true);
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         <?php endif; ?>
     </div>
-    <?php if(isset($additional_items) && !empty($additional_items)): ?>
+
     <div class="col-6 need_full" id="additionalSection">
-        <div class="form-group">
-            <?php echo e(Form::label('additional', __('Additional items'), ['class' => 'form-label'])); ?>
+                                                <?php if(isset($additional_items) && !empty($additional_items)): ?>
+                                                <?php echo e(Form::label('additional', __('Additional items'), ['class' => 'form-label'])); ?>
 
-            <?php $__currentLoopData = $additional_items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ad_key =>$ad_value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            <?php $__currentLoopData = $ad_value; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $fun_key =>$packageVal): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            <div class="form-group" data-additional-index="<?php echo e($fun_key); ?>" data-additional-value="<?php echo e(key($packageVal)); ?>"
-                id="ad_package" style="display:none;">
-                <?php echo e(Form::label('additional', __($fun_key), ['class' => 'form-label'])); ?>
+                                                <?php $__currentLoopData = $additional_items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ad_key =>$ad_value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <?php $__currentLoopData = $ad_value; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $fun_key =>$packageVal): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <div class="form-group" data-additional-index="<?php echo e($fun_key); ?>"
+                                                    data-additional-value="<?php echo e(key($packageVal)); ?>" id="ad_package"
+                                                    style="display: none;">
+                                                    <?php echo e(Form::label('additional', __($fun_key), ['class' => 'form-label'])); ?>
 
-                <?php $__currentLoopData = $packageVal; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $pac_key =>$item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <div class="form-check" data-additional-index="<?php echo e($pac_key); ?>" data-additional-package="<?php echo e($pac_key); ?>">
-                    <?php echo Form::checkbox('additional_'.str_replace(' ', '_', strtolower($fun_key)).'[]',$pac_key, null,
-                    ['data-function' => $fun_key, 'class' => 'form-check-input']); ?>
+                                                    <?php $__currentLoopData = $packageVal; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $pac_key =>$item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <div class="form-check" data-additional-index="<?php echo e($pac_key); ?>"
+                                                        data-additional-package="<?php echo e($pac_key); ?>">
+                                                        <?php echo Form::checkbox('additional_'.str_replace(' ', '_',
+                                                        strtolower($fun_key)).'[]',$pac_key, null, ['data-function' =>
+                                                        $fun_key, 'class' => 'form-check-input']); ?>
 
-                    <?php echo e(Form::label($pac_key, $pac_key, ['class' => 'form-check-label'])); ?>
+                                                        <?php echo e(Form::label($pac_key, $pac_key, ['class' => 'form-check-label'])); ?>
 
-                </div>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-            </div>
-            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-        </div>
-    </div>
-    <?php endif; ?>
+                                                    </div>
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                </div>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                <?php endif; ?>
 
+                                            </div>
     <?php endif; ?>
     <div class="col-6 need_full">
         <div class="form-group">
@@ -522,19 +527,39 @@ jQuery(function() {
     });
 });
 jQuery(function() {
-    $('div#mailFunctionSection input[type=checkbox]').change(function() {
-        $('div#additionalSection > div').hide();
-        $('div#mailFunctionSection input[type=checkbox]:checked').each(function() {
-            var funcValue = $(this).val();
-            $('div#additionalSection > div').each(function() {
-                var ad_val = $(this).data('additional-index');
-                if (funcValue == ad_val) {
-                    $(this).show();
-                }
+        $('div#mailFunctionSection input[type=checkbox]').change(function() {
+            $('div#additionalSection > div').hide();
+            $('div#mailFunctionSection input[type=checkbox]:checked').each(function() {
+                var funcValue = $(this).val();
+                $('div#additionalSection > div').each(function() {
+                    var ad_val = $(this).data('additional-index');
+                    console.log(ad_val)
+                    if (funcValue == ad_val) {
+                        $(this).show();
+                    }
+                });
             });
         });
     });
-});
+// jQuery(function() {
+//     $('div#mailFunctionSection input[type=checkbox]').change(function() {
+//         $('div#additionalSection > div').hide();
+//         $('div#mailFunctionSection input[type=checkbox]:checked').each(function() {
+//             var funcValue = $(this).val();
+//             $('div#additionalSection > div').each(function() {
+//                 var ad_val = $(this).data('additional-value');
+//                 console.log('Div data-additional-value:', ad_val);
+//                 // var ad_val = $(this).html();
+//                 // // var ad_val = $(this).data('additional-index');
+//                 // console.log(ad_val);
+
+//                 // if (funcValue == ad_val) {
+//                 //     $(this).show();
+//                 // }
+//             });
+//         });
+//     });
+// });
 jQuery(function() {
     $('input[type=radio][name = baropt]').change(function() {
         $('div#barpacakgeoptions').hide();

@@ -93,7 +93,6 @@ h6 {
                             <div class="scrol-card">
 
                                 <?php $__currentLoopData = $activeLeads; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $lead): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
                                         <h5 class="card-text"><a href="<?php echo e(route('lead.info',urlencode(encrypt($lead['id'])))); ?>" style= "color:#8490a7;"><?php echo e($lead['leadname']); ?></a>
@@ -141,7 +140,6 @@ h6 {
                             <h5 class="card-title mb-2">Active/Upcoming Events</h5>
                             <div class="scrol-card">
                                 <?php $__currentLoopData = $activeEvent; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $event): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
                                         <h5 class="card-text"><a href="<?php echo e(route('meeting.detailview',urlencode(encrypt($event['id'])))); ?>" style= "color:#8490a7;"><?php echo e($event['name']); ?></a>
@@ -185,8 +183,8 @@ h6 {
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Finances</h5>
                             <div class="scrol-card">
-                                <div class="card">
-                                    <div class="card-body">
+                                <!-- <div class="card">
+                                    <div class="card-body"> -->
                                  
 
                                         <?php if(isset($events) && !empty($events)): ?>
@@ -195,11 +193,15 @@ h6 {
                                             $pay = App\Models\PaymentLogs::where('event_id',$event['id'])->exists();
                                             $total = 0;
                                             if($pay){
-                                                $pay = App\Models\PaymentLogs::where('event_id',$event['id'])->get();
-                                                foreach($pay as $p){
+                                                $paym = App\Models\PaymentLogs::where('event_id',$event['id'])->get();
+                                                
+                                                foreach($paym as $p){
+                                                  
                                                     $total += $p->amount;
+                                                   
                                                 }
                                             } 
+                                          
                                         ?>
                                         
                                         <div class="card">
@@ -211,7 +213,7 @@ h6 {
 
                                                 <div style="color: #a99595;">
                                                     Billing Amount: $<?php echo e(number_format($event['total'])); ?><br>
-                                                    Pending Amount: $<?php echo e(number_format($event['total']- $total)); ?>
+                                                    Pending Amount: $<?php echo e(number_format($event['total'] - $total)); ?>
 
                                                 </div>
                                                 <div class="date-y">
@@ -245,8 +247,8 @@ h6 {
                                         </div>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         <?php endif; ?>
-                                    </div>
-                                </div>
+                                    <!-- </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>

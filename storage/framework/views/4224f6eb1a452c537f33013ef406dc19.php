@@ -129,9 +129,9 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                     </div>
                                     <div class="col-6 need_full">
                                         <div class="form-group">
-                                            <?php echo e(Form::label('company_name',__('Company Name'),['class'=>'form-label'])); ?>
+                                            <?php echo e(Form::label('company_name',__('Event Name'),['class'=>'form-label'])); ?>
 
-                                            <?php echo e(Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Company Name')))); ?>
+                                            <?php echo e(Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Event Name')))); ?>
 
                                         </div>
                                     </div>
@@ -168,6 +168,9 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                         <div class="form-group">
                                             <?php echo e(Form::label('email',__('Email'),['class'=>'form-label'])); ?>
 
+                                            <span class="text-sm">
+                                                <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                            </span>
                                             <?php echo e(Form::text('email',null,array('class'=>'form-control','placeholder'=>__('Enter Email'),'required'=>'required'))); ?>
 
                                         </div>

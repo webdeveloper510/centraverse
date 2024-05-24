@@ -40,8 +40,8 @@ $additional_items = json_decode($settings['additional_items'],true);
     </div>
     <div class="col-6 need_full">
         <div class="form-group">
-            {{Form::label('company_name',__('Company Name'),['class'=>'form-label']) }}
-            {{Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Company Name')))}}
+           {{Form::label('company_name',__('Event Name'),['class'=>'form-label']) }}
+            {{Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Event Name')))}}
         </div>
     </div>
     <div class="col-12  p-0 modaltitle pb-3 mb-3">
@@ -176,29 +176,31 @@ $additional_items = json_decode($settings['additional_items'],true);
         @endforeach
         @endif
     </div>
-    @if(isset($additional_items) && !empty($additional_items))
-    <div class="col-6 need_full" id="additionalSection">
-        <div class="form-group">
-            {{ Form::label('additional', __('Additional items'), ['class' => 'form-label']) }}
-            @foreach($additional_items as $ad_key =>$ad_value)
-            @foreach($ad_value as $fun_key =>$packageVal)
-            <div class="form-group" data-additional-index="{{$fun_key}}" data-additional-value="{{key($packageVal)}}"
-                id="ad_package" style="display:none;">
-                {{ Form::label('additional', __($fun_key), ['class' => 'form-label']) }}
-                @foreach($packageVal as $pac_key =>$item)
-                <div class="form-check" data-additional-index="{{$pac_key}}" data-additional-package="{{$pac_key}}">
-                    {!! Form::checkbox('additional_'.str_replace(' ', '_', strtolower($fun_key)).'[]',$pac_key, null,
-                    ['data-function' => $fun_key, 'class' => 'form-check-input']) !!}
-                    {{ Form::label($pac_key, $pac_key, ['class' => 'form-check-label']) }}
-                </div>
-                @endforeach
-            </div>
-            @endforeach
-            @endforeach
-        </div>
-    </div>
-    @endif
 
+    <div class="col-6 need_full" id="additionalSection">
+                                                @if(isset($additional_items) && !empty($additional_items))
+                                                {{ Form::label('additional', __('Additional items'), ['class' => 'form-label']) }}
+                                                @foreach($additional_items as $ad_key =>$ad_value)
+                                                @foreach($ad_value as $fun_key =>$packageVal)
+                                                <div class="form-group" data-additional-index="{{$fun_key}}"
+                                                    data-additional-value="{{key($packageVal)}}" id="ad_package"
+                                                    style="display: none;">
+                                                    {{ Form::label('additional', __($fun_key), ['class' => 'form-label']) }}
+                                                    @foreach($packageVal as $pac_key =>$item)
+                                                    <div class="form-check" data-additional-index="{{$pac_key}}"
+                                                        data-additional-package="{{$pac_key}}">
+                                                        {!! Form::checkbox('additional_'.str_replace(' ', '_',
+                                                        strtolower($fun_key)).'[]',$pac_key, null, ['data-function' =>
+                                                        $fun_key, 'class' => 'form-check-input']) !!}
+                                                        {{ Form::label($pac_key, $pac_key, ['class' => 'form-check-label']) }}
+                                                    </div>
+                                                    @endforeach
+                                                </div>
+                                                @endforeach
+                                                @endforeach
+                                                @endif
+
+                                            </div>
     @endif
     <div class="col-6 need_full">
         <div class="form-group">
@@ -469,19 +471,39 @@ jQuery(function() {
     });
 });
 jQuery(function() {
-    $('div#mailFunctionSection input[type=checkbox]').change(function() {
-        $('div#additionalSection > div').hide();
-        $('div#mailFunctionSection input[type=checkbox]:checked').each(function() {
-            var funcValue = $(this).val();
-            $('div#additionalSection > div').each(function() {
-                var ad_val = $(this).data('additional-index');
-                if (funcValue == ad_val) {
-                    $(this).show();
-                }
+        $('div#mailFunctionSection input[type=checkbox]').change(function() {
+            $('div#additionalSection > div').hide();
+            $('div#mailFunctionSection input[type=checkbox]:checked').each(function() {
+                var funcValue = $(this).val();
+                $('div#additionalSection > div').each(function() {
+                    var ad_val = $(this).data('additional-index');
+                    console.log(ad_val)
+                    if (funcValue == ad_val) {
+                        $(this).show();
+                    }
+                });
             });
         });
     });
-});
+// jQuery(function() {
+//     $('div#mailFunctionSection input[type=checkbox]').change(function() {
+//         $('div#additionalSection > div').hide();
+//         $('div#mailFunctionSection input[type=checkbox]:checked').each(function() {
+//             var funcValue = $(this).val();
+//             $('div#additionalSection > div').each(function() {
+//                 var ad_val = $(this).data('additional-value');
+//                 console.log('Div data-additional-value:', ad_val);
+//                 // var ad_val = $(this).html();
+//                 // // var ad_val = $(this).data('additional-index');
+//                 // console.log(ad_val);
+
+//                 // if (funcValue == ad_val) {
+//                 //     $(this).show();
+//                 // }
+//             });
+//         });
+//     });
+// });
 jQuery(function() {
     $('input[type=radio][name = baropt]').change(function() {
         $('div#barpacakgeoptions').hide();

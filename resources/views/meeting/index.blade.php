@@ -59,7 +59,7 @@ $agreestatus= \App\Models\Meeting::$status;
                                             @foreach ($meetings as $meeting)
                                             <tr>
                                                 <td>
-                                                    <a href="{{ route('meeting.edit', $meeting->id) }}" data-size="md"
+                                                    <!-- <a href="{{ route('meeting.edit', $meeting->id) }}" data-size="md"
                                                         data-title="{{ __('Event Details') }}"
                                                         class="action-item text-primary"
                                                         style=" color: #1551c9 !important;">
@@ -68,7 +68,27 @@ $agreestatus= \App\Models\Meeting::$status;
                                                         @else
                                                         {{ucfirst($meeting->eventname)}}
                                                         @endif
-                                                    </a>
+                                                    </a> -->
+                                                    <!-- <a href="{{ route('meeting.edit', $meeting->id) }}" data-size="md"
+                                                        data-title="{{ __('Event Details') }}"
+                                                        class="action-item text-primary"
+                                                        style=" color: #1551c9 !important;"> -->
+                                                        
+                                                        @if($meeting->attendees_lead != 0)
+                                                        <?php $leaddata = \App\Models\Lead::where('id',$meeting->attendees_lead)->first() ?>
+                                                        <a href="{{ route('lead.info',urlencode(encrypt($leaddata->id)))}}" data-size="md"
+                                                        data-title="{{ __('Event Details') }}"
+                                                        class="action-item text-primary"
+                                                        style=" color: #1551c9 !important;">
+                                                        {{ucfirst($leaddata->leadname)}}
+                                                        </a>
+                                                        @else
+                                                           <a href="{{route('meeting.detailview',urlencode(encrypt($meeting->id)))}}"
+                                                            data-size="md" title="{{ __('Detailed view ') }}"
+                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                            {{ucfirst($meeting->eventname)}}</a>
+                                                       
+                                                        @endif
                                                 </td>
                                                 <td>
                                                     <select name="drop_status" id="drop_status" class="form-select"
@@ -116,12 +136,12 @@ $agreestatus= \App\Models\Meeting::$status;
                                                 @if (Gate::check('Show Meeting') || Gate::check('Edit Meeting') ||
                                                 Gate::check('Delete Meeting'))
                                                 <td class="text-end">
-                                                    <div class="action-btn bg-secondary ms-2">
+                                                    <!-- <div class="action-btn bg-secondary ms-2">
                                                         <a href="{{route('meeting.detailview',urlencode(encrypt($meeting->id)))}}"
                                                             data-size="md" title="{{ __('Detailed view ') }}"
                                                             class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="fa fa-info"></i> </a>
-                                                    </div>
+                                                    </div> -->
                                                     @if($meeting->status == 0)
                                                     <div class="action-btn bg-primary ms-2">
                                                         <a href="#" data-size="md"

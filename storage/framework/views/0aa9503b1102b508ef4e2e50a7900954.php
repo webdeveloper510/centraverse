@@ -173,9 +173,9 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                             </div>
                                             <div class="col-6 need_full">
                                                 <div class="form-group">
-                                                    <?php echo e(Form::label('company_name',__('Company Name'),['class'=>'form-label'])); ?>
+                                                    <?php echo e(Form::label('company_name',__('Event Name'),['class'=>'form-label'])); ?>
 
-                                                    <?php echo e(Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Company Name')))); ?>
+                                                    <?php echo e(Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Event Name')))); ?>
 
                                                 </div>
                                                 <?php if($errors->has('company_name')): ?>
@@ -401,21 +401,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 <?php endif; ?>
 
                                             </div>
-                                            <!-- <div class="col-6">
-                                                <div class="form-group">
-                                                    <?php echo e(Form::label('end_date', __('End Date'), ['class' => 'form-label'])); ?>
-
-                                                    <?php echo Form::date('end_date',date('Y-m-d'), ['class' => 'form-control',
-                                                    'required' => 'required']); ?>
-
-                                                </div>
-                                                <?php if($errors->has('end_date')): ?>
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong><?php echo e($errors->first('end_date')); ?></strong>
-                                                </span>
-                                                <?php endif; ?>
-
-                                            </div> -->
+                                        
                                             <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     <?php echo e(Form::label('start_time', __('Start Time'), ['class' => 'form-label'])); ?>
@@ -532,7 +518,13 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 <?php endif; ?>
 
                                             </div>
+                                            <div class ="col-12">
+                                            <div class="form-group">
 
+                                              <label><b>Food Description</b></label>
+                                                <textarea name="food_package_description" rows="4"class="form-control"></textarea>
+                                                        </div>
+                                            </div>                  
                                             <div class="col-12">
                                                 <div class="row">
                                                     <label><b>Select Setup</b></label>
@@ -562,18 +554,19 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
                                             </div>
-                                            <!-- <div class="col-12"> -->
-                                                <div class="row">
+                                            <div class="col-12">
+                                                <div class="form-group">
                                                     <label><b>Upload Setup</b></label>
-                                                    <div class="col-12">
                                                         <input accept="image/*" type='file' id="imgInp"
                                                             class="form-control" name = "setupplans"/>
-                                                    </div>
-                                                    <div class="col-12 mt-5">
-                                                        <img id="blah" src="#" alt=" Preview" class="form-control" />
-                                                    </div>
+                                                 
                                                 </div>
-                                            <!-- </div> -->
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                        <img id="blah" src="#" alt=" Preview" class="form-control" />
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -647,12 +640,20 @@ unset($__errorArgs, $__bag); ?>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 <?php endif; ?>
                                             </div>
+                                            <div class ="col-12">
+                                           <div class="form-group"> 
+                                              <label><b>Bar Description</b></label>
+                                                <textarea name="bar_package_description" rows="4"class="form-control"></textarea>
+                                            </div>
+                                            </div>
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <?php echo e(Form::label('spcl_request',__('Special Requests / Considerations'),['class'=>'form-label'])); ?>
 
                                                     <?php echo e(Form::text('spcl_request',null,array('class'=>'form-control'))); ?>
 
+
+                                           
                                                 </div>
                                             </div>
                                         </div>

@@ -92,7 +92,6 @@ class MeetingController extends Controller
     // WORKING  17-01-2024
     public function store(Request $request)
     {
-        // echo"<pre>";print_r($request->all());die;
         if (\Auth::user()->can('Create Meeting')) {
             $validator = \Validator::make(
                 $request->all(),
@@ -116,8 +115,6 @@ class MeetingController extends Controller
         }
         $uploadedImage = $request->input('uploadedImage');
         // Handle file upload
-       
-
             $data = $request->all();
             $package = [];
             $additional = [];
@@ -226,6 +223,8 @@ class MeetingController extends Controller
             $meeting['ad_opts']             = $additional;
             $meeting['floor_plan']          = $uploadedImage;
             $meeting['allergies']          = $request->allergies;
+            $meeting['food_description']          = $request->food_package_description;
+            $meeting['bar_description']          = $request->bar_package_description;
             $meeting['created_by']          = \Auth::user()->creatorId();
             if ($request->hasFile('setupplans')) {
                 $file = $request->file('setupplans');
@@ -236,8 +235,30 @@ class MeetingController extends Controller
             $meeting->save();
          
             if($meeting->attendees_lead != 0){
-                Lead::find($request->lead)->update(['converted_to'=> 1]);
+                Lead::find($request->lead)
+                ->update([
+                    'converted_to'=> 1 ,
+                    'lead_status'=> 0,
+                    'name'              =>$request->name,
+                    'start_date'        =>$request->start_date,
+                    'email'               => $request->email,
+                    'lead_address'        => $request->lead_address ??'',
+                    'company_name'        => $request->company_name,
+                    'relationship'        => $request->relationship,
+                    'type'                => $request->type,
+                    'venue_selection'     => implode(',', $request->venue),
+                    'func_package'        => $package,
+                    'function'            => implode(',', $request->function),
+                    'guest_count'         => $request->guest_count,
+                    'rooms'               => $request->rooms ?? 0,
+                    'bar'                 => $request->baropt,
+                    'bar_package'         => $bar_pack,
+                    'spcl_req'            => $request->spcl_request,
+                    'phone'               => $phone,
+                    'allergies'           => $request->allergies
+                ]);
             } 
+            
             if (!empty($request->file('atttachment'))) {
                 $file= $request->file('atttachment');
                 $originalName = $file->getClientOriginalName();
@@ -256,29 +277,19 @@ class MeetingController extends Controller
                 }
                
             } 
-            // if (!empty($request->file('atttachment'))){
-            //     $file =  $request->file('atttachment');
-            //     $filename = 'Event_'.Str::random(7) . '.' . $file->getClientOriginalExtension();
-            //     $folder = 'Event/' . $meeting->id; 
-            //     try {
-            //         $path = $file->storeAs($folder, $filename, 'public');
-            //     } catch (\Exception $e) {
-            //         Log::error('File upload failed: ' . $e->getMessage());
-            //         return redirect()->back()->with('error', 'File upload failed');
-            //     }
-            // }
-                $existingcustomer = MasterCustomer::where('email',$request->email)->first();
-                if(!$existingcustomer){
-                    $customer = new MasterCustomer();
-                    $customer->ref_id = $meeting->id;
-                    $customer->name = $request->name;
-                    $customer->email = $request->email;
-                    $customer->phone = $phone;
-                    $customer->address = $request->lead_address ?? '';
-                    $customer->category = 'event';
-                    $customer->type = $request->type;
-                    $customer->save();
-                }
+            
+            $existingcustomer = MasterCustomer::where('email',$request->email)->first();
+            if(!$existingcustomer){
+                $customer = new MasterCustomer();
+                $customer->ref_id = $meeting->id;
+                $customer->name = $request->name;
+                $customer->email = $request->email;
+                $customer->phone = $phone;
+                $customer->address = $request->lead_address ?? '';
+                $customer->category = 'event';
+                $customer->type = $request->type;
+                $customer->save();
+            }
             $Assign_user_phone = User::where('id', $request->user)->first();
             $setting  = Utility::settings(\Auth::user()->creatorId());
             $uArr = [
@@ -308,7 +319,6 @@ class MeetingController extends Controller
             // $FcmToken = 'e0MpDEnykMLte1nJ0k3SU7:APA91bGpbv-KQEzEQhR1ApEgGFmn9H5tEkdpvG2FHuyiWP3JZsP_8CKJMi5tKyTn5DYgOmeDvAWFwdiDLeG_qTXZ6lUIWL2yqrFYJkUg-KUwTsQYupk0qYsi3OCZ8MZQNbCIDa6pbJ4j';
            
             $FcmToken = User::where('type','owner')->orwhere('type','admin')->pluck('device_key')->first();
-            // echo"<pre>";print_r($FcmToken);die;
             $serverKey = 'AAAAn2kzNnQ:APA91bE68d4g8vqGKVWcmlM1bDvfvwOIvBl-S-KUNB5n_p4XEAcxUqtXsSg8TkexMR8fcJHCZxucADqim2QTxK2s_P0j5yuy6OBRHVFs_BfUE0B4xqgRCkVi86b8SwBYT953dE3X0wdY'; // ADD SERVER KEY HERE PROVIDED BY FCM
             $data = [
                 "to" =>$FcmToken,
@@ -844,19 +854,12 @@ class MeetingController extends Controller
         $agrementinfo->email = $request->email;
         $agrementinfo->subject = $request->subject;
         $agrementinfo->content = $request->emailbody;
+        $agrementinfo->signbefore = $request->signbefore;
         $agrementinfo->attachments = $filename ?? '';
         $agrementinfo->created_by = \Auth::user()->id;
         $agrementinfo->save();
         $subject = $request->subject;
         $content = $request->emailbody;
-        
-        // $file = $request->file('attachment');
-        // if(!empty($tempFilePath)){
-        //     $tempFilePath = $file->store('temp', 'local');
-        //     // Get the full path to the temporary file
-        //     $tempFilePath = storage_path('app/' . $tempFilePath);
-        // }
-       
         try {
             config(
                 [
@@ -1001,7 +1004,7 @@ class MeetingController extends Controller
             //                 'message' => $e->getMessage(),
             //             ]
             //         );
-          return redirect()->back()->with('success', 'Email Not Sent');
+          return redirect()->back()->with('error', 'Email Not Sent');
       
         }
         return $pdf->stream('agreement.pdf');
@@ -1221,7 +1224,7 @@ class MeetingController extends Controller
                 //         'message' => $e->getMessage(),
                 //     ]
                 // );
-                return redirect()->back()->with('success', 'Email Not Sent');
+                return redirect()->back()->with('error', 'Email Not Sent');
             }
             Agreement::where('event_id', $id)->delete();
 

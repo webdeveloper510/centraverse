@@ -124,7 +124,7 @@ $logo=\App\Models\Utility::get_file('uploads/logo/');
         <strong>The Bond 1786</strong></p>
 
         <div class="logo">
-            <img src="<?php echo e($logo.'3_logo-light.png'); ?>" alt="<?php echo e(config('app.name', 'The Bond 1786')); ?>"
+            <img src="<?php echo e(Storage::url('uploads/logo/3_logo-light.png')); ?>" alt="<?php echo e(config('app.name', 'The Bond 1786')); ?>"
                 height="50">
         </div>
     </div>

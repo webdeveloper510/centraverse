@@ -371,6 +371,13 @@ $additional_items = json_decode($setting['additional_items'],true);
                                             @endif
 
                                         </div>
+                                        <div class ="col-12">
+                                            <div class="form-group">
+
+                                              <label><b>Food Description</b></label>
+                                                <textarea name="food_package_description" rows="4"class="form-control"></textarea>
+                                                        </div>
+                                            </div>      
                                         <div class="col-12">
                                             <div class="row">
                                                 <label><b>Setup</b></label>
@@ -443,7 +450,12 @@ $additional_items = json_decode($setting['additional_items'],true);
                                             @endforeach
                                             @endif
                                         </div>
-
+                                        <div class ="col-12">
+                                           <div class="form-group"> 
+                                              <label><b>Bar Description</b></label>
+                                                <textarea name="bar_package_description" rows="4"class="form-control"></textarea>
+                                            </div>
+                                            </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 {{Form::label('spcl_request',__('Special Requests / Considerations'),['class'=>'form-label']) }}

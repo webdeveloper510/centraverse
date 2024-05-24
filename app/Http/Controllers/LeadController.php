@@ -49,7 +49,7 @@ class LeadController extends Controller
                 $statuss = Lead::$stat;
 
                 if(\Auth::user()->type == 'owner'){
-                $leads = Lead::with('accounts','assign_user')->where('created_by', \Auth::user()->creatorId())->orderby('id','desc')->get();
+                $leads = Lead::with('accounts','assign_user')->where('created_by', \Auth::user()->creatorId())->where('converted_to',0)->orderby('id','desc')->get();
                 $defualtView         = new UserDefualtView();
                 $defualtView->route  = \Request::route()->getName();
                 $defualtView->module = 'lead';
@@ -57,7 +57,7 @@ class LeadController extends Controller
                 User::userDefualtView($defualtView);
                 }
                 else{
-                $leads = Lead::with('accounts','assign_user')->where('user_id', \Auth::user()->id)->get();
+                $leads = Lead::with('accounts','assign_user')->where('user_id', \Auth::user()->id)->where('converted_to',0)->get();
                 $defualtView         = new UserDefualtView();
                 $defualtView->route  = \Request::route()->getName();
                 $defualtView->module = 'lead';
@@ -621,6 +621,7 @@ class LeadController extends Controller
         $proposalinfo->email = $request->email;
         $proposalinfo->subject = $request->subject;
         $proposalinfo->content = $request->emailbody;
+        $proposalinfo->signbefore = $request->signbefore;
         $proposalinfo->proposal_info = json_encode($request->billing,true);
         $proposalinfo->attachments = $filename ?? '';
         $proposalinfo->created_by = Auth::user()->id;
@@ -948,14 +949,14 @@ class LeadController extends Controller
     public function lead_info($id){
         $id = decrypt(urldecode($id));
         $lead = Lead::find($id);
-        if(!empty($lead->email)){
-            $leads = Lead::where('email',$lead->email)->get();
-        }else{
-            $leads = Lead::where('phone',$lead->phone)->get();
-        }
+        // if(!empty($lead->email)){
+        //     $leads = Lead::where('email',$lead->email)->get();
+        // }else{
+        //     $leads = Lead::where('phone',$lead->phone)->get();
+        // }
         $notes = NotesLeads::where('lead_id',$id)->orderby('id','desc')->get();
         $docs = LeadDoc::where('lead_id',$id)->get();
-        return view('lead.leadinfo',compact('leads','lead','docs','notes'));
+        return view('lead.leadinfo',compact('lead','docs','notes'));
     }
     public function lead_user_info($id){
         $id = decrypt(urldecode($id));
@@ -974,13 +975,13 @@ class LeadController extends Controller
         $validator = \Validator::make(
             $request->all(),
             [
-                'lead_file'=>'required|mimes:doc,docx,pdf',
+                'customerattachment'=>'required|mimes:doc,docx,pdf',
             ]);
         if ($validator->fails()) {
             $messages = $validator->getMessageBag();
             return redirect()->back()->with('error', $messages->first()) ;
         }
-        $file = $request->file('lead_file');
+        $file = $request->file('customerattachment');
         if ($file) {
             $originalName = $file->getClientOriginalName();
             $filename = Str::random(4) . '.' . $file->getClientOriginalExtension();

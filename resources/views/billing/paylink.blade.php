@@ -130,7 +130,6 @@ $(document).ready(function() {
     var amountpaid = deposits;
     var balance = amount + latefee  - adjustments - amountpaid;
     $("input[name='amountcollect']").attr('max', balance);
-
     // Assuming you want to store the balance in an input field with name 'balance'
     $("input[name='balance']").val(balance);
     $("input[name='amountpaid']").val(amountpaid);

@@ -110,8 +110,8 @@ $total += $p->amount;
                 <option value="cash"
                     <?php echo isset($payment->modeofpayment) ?($payment->modeofpayment == 'cash') ?'selected' :'': '' ?>>
                     Cash</option>
-                <option value="cheque"
-                    <?php  echo isset($payment->modeofpayment) ?($payment->modeofpayment == 'cheque') ?'selected' :'' : ''?>>
+                <option value="check"
+                    <?php  echo isset($payment->modeofpayment) ?($payment->modeofpayment == 'check') ?'selected' :'' : ''?>>
                     Cheque</option>
             </select>
             <!-- <div class="mt-4"> -->

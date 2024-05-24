@@ -89,7 +89,6 @@ h6 {
                             <div class="scrol-card">
 
                                 @foreach($activeLeads as $lead)
-
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
                                         <h5 class="card-text"><a href="{{ route('lead.info',urlencode(encrypt($lead['id'])))}}" style= "color:#8490a7;">{{ $lead['leadname'] }}</a>
@@ -136,7 +135,6 @@ h6 {
                             <h5 class="card-title mb-2">Active/Upcoming Events</h5>
                             <div class="scrol-card">
                                 @foreach($activeEvent as $event)
-
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
                                         <h5 class="card-text"><a href="{{ route('meeting.detailview',urlencode(encrypt($event['id'])))}}" style= "color:#8490a7;">{{ $event['name'] }}</a>
@@ -179,8 +177,8 @@ h6 {
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Finances</h5>
                             <div class="scrol-card">
-                                <div class="card">
-                                    <div class="card-body">
+                                <!-- <div class="card">
+                                    <div class="card-body"> -->
                                  
 
                                         @if(isset($events) && !empty($events))
@@ -189,13 +187,16 @@ h6 {
                                             $pay = App\Models\PaymentLogs::where('event_id',$event['id'])->exists();
                                             $total = 0;
                                             if($pay){
-                                                $pay = App\Models\PaymentLogs::where('event_id',$event['id'])->get();
-                                                foreach($pay as $p){
+                                                $paym = App\Models\PaymentLogs::where('event_id',$event['id'])->get();
+                                                
+                                                foreach($paym as $p){
+                                                  
                                                     $total += $p->amount;
+                                                   
                                                 }
                                             } 
+                                          
                                         ?>
-                                        
                                         <div class="card">
                                             <div class="card-body">
                                                 <h5 class="card-text">{{ $event['name'] }}
@@ -204,7 +205,7 @@ h6 {
 
                                                 <div style="color: #a99595;">
                                                     Billing Amount: ${{ number_format($event['total'])}}<br>
-                                                    Pending Amount: ${{number_format($event['total']- $total)}}
+                                                    Pending Amount: ${{number_format($event['total'] - $total)}}
                                                 </div>
                                                 <div class="date-y">
                                                     @if($event['start_date'] == $event['end_date'])
@@ -234,8 +235,8 @@ h6 {
                                         </div>
                                         @endforeach
                                         @endif
-                                    </div>
-                                </div>
+                                    <!-- </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>

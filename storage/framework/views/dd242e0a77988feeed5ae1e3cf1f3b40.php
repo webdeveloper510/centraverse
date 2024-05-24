@@ -25,7 +25,7 @@
                     <div class="row">
                         <div class="col-md-4 mt-4">
                             <div class="img-section">
-                                <img class="logo-img" src="<?php echo e(URL::asset('storage/uploads/logo/3_logo-light.png')); ?>"
+                                <img class="logo-img" src="<?php echo e(Storage::url('uploads/logo/3_logo-light.png')); ?>"
                                     style="width:25%;">
                             </div>
                         </div>
@@ -266,7 +266,7 @@
                                             $<?php echo e($total[] =$billing_data['special_req']['cost'] * $billing_data['special_req']['quantity']); ?>
 
                                         </td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($meeting->spcl_request); ?></td>
                                     </tr>
                                     <tr>
                                         <td>-</td>

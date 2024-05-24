@@ -256,7 +256,7 @@
                                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
                                             ${{$total[] =$billing_data['special_req']['cost'] * $billing_data['special_req']['quantity']}}
                                         </td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$meeting->spcl_request}}</td>
                                     </tr>
                                     <tr>
                                         <td>-</td>

@@ -67,14 +67,11 @@ $leaddata['hotel_rooms_cost'] = $billings['hotel_rooms'] ?? 0;
 $leaddata['venue_rental_cost'] = $venueRentalCost;
 $leaddata['food_package_cost'] = $totalFoodPackageCost;
 $leaddata['bar_package_cost'] = $totalBarPackageCost;
-
-
 ?>
 <div class="row">
     <div class="col-lg-12">
         <div id="notification" class="alert alert-success mt-1">Link copied to clipboard!</div>
         {{ Form::model($lead, ['route' => ['lead.pdf', urlencode(encrypt($lead->id))], 'method' => 'POST','enctype'=>'multipart/form-data']) }}
-
         <div class="">
             <dl class="row">
                 <input type="hidden" name="lead" value="{{ $lead->id }}">
@@ -98,61 +95,49 @@ $leaddata['bar_package_cost'] = $totalBarPackageCost;
                 <dt class="col-md-12"><span class="h6  mb-0">{{__('Upload Document')}}</span></dt>
                 <dd class="col-md-12"><input type="file" name="attachment" id="attachment" class="form-control"></dd>
             </dl>
-      
-
+            <dt class="col-md-12"><span class="h6  mb-0">{{__('Proposal due date:')}}</span></dt>
+                <dd class="col-md-12"><input type="date" name="signbefore" id="signbefore" value="<?php echo date('Y-m-d'); ?>" max="{{$lead->start_date}}" class="form-control"></dd>
+            
             <hr class="mt-4 mb-4">
-            <!-- <hr> -->
             <div class="col-12  p-0 modaltitle pb-3 mb-3 flex-title">
-                <!-- <hr class="mt-2 mb-2"> -->
                 <h5 class="bb">{{ __('Estimated Billing Details') }}</h5>
-                <span class="h6 mb-0" style="float:right;   
-">{{__('Guest Count')}} : {{ $lead->guest_count }}</span>
+                <span class="h6 mb-0" style="float:right;">{{__('Guest Count')}} : {{ $lead->guest_count }}</span>
             </div>
             <dl class="row">
-                <!-- <dt class="col-md-12"><span class="h6  mb-0">{{__('Guest Count')}} : {{ $lead->guest_count }}</span></dt>
-               <hr class="mt-2 mb-2"> -->
-                <!-- <div class="col-md-12"> -->
 
                 <div class="form-group">
                     <div class="table-res">
-                    <table class="table table-share">
-                        <thead>
-                            <tr>
-                                <th>{{__('Description')}} </th>
-                                <th>{{__('Cost(per person)')}} </th>
-                                <th>{{__('Quantity')}} </th>
-                                <th>{{__('Notes')}} </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($labels as $key=> $label)
-                            <tr>
-                                <td>{{ucfirst($label)}}</td>
-                                <td>
-                                    <input type="text" name="billing[{{$key}}][cost]"
-                                        value="{{ isset($leaddata[$key.'_cost']) ? $leaddata[$key.'_cost'] : '' }}"
-                                        class="form-control dlr">
-                                </td>
-                                <td>
-                                    <input type="number" name="billing[{{$key}}][quantity]" min='0' class="form-control"
-                                        value="{{$leaddata[$key] ?? ''}}" required>
-                                </td>
-                                <td>
-                                    <input type="text" name="billing[{{$key}}][notes]" class="form-control"
-                                        value="{{ isset($key) && ($key !== 'hotel_rooms') ? $leaddata[$key] ?? '' : ''  }}">
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-</div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-md-12">
-                        <label class="form-label"> Deposit on file: </label>
-                        <input type="number" name="deposits" min='0' class="form-control">
+                        <table class="table table-share">
+                            <thead>
+                                <tr>
+                                    <th>{{__('Description')}} </th>
+                                    <th>{{__('Cost(per person)')}} </th>
+                                    <th>{{__('Quantity')}} </th>
+                                    <th>{{__('Notes')}} </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($labels as $key=> $label)
+                                <tr>
+                                    <td>{{ucfirst($label)}}</td>
+                                    <td>
+                                        <input type="text" name="billing[{{$key}}][cost]"
+                                            value="{{ isset($leaddata[$key.'_cost']) ? $leaddata[$key.'_cost'] : '' }}"
+                                            class="form-control dlr">
+                                    </td>
+                                    <td>
+                                        <input type="number" name="billing[{{$key}}][quantity]" min='0'
+                                            class="form-control" value="{{ isset($key) && ($key !== 'hotel_rooms') ?  1: $leaddata[$key] }}" required>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="billing[{{$key}}][notes]" class="form-control"
+                                            value="{{ isset($key) && ($key !== 'hotel_rooms') ? $leaddata[$key] ?? '' : ''  }}">
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
-
                 </div>
             </dl>
         </div>
@@ -163,23 +148,20 @@ $leaddata['bar_package_cost'] = $totalBarPackageCost;
             </button> -->
             {{Form::submit(__('Share via mail'),array('class'=>'btn btn-primary'))}}
         </div>
-
     </div>
     {{Form::close()}}
 </div>
-
 <style>
-#notification {
-    display: none;
-}
+    #notification {
+        display: none;
+    }
 </style>
 <script>
 function getDataUrlAndCopy(button) {
+
     var dataUrl = button.getAttribute('data-url');
     copyToClipboard(dataUrl);
-    // alert("Copied the data URL: " + dataUrl);
 }
-
 function copyToClipboard(text) {
     /* Create a temporary input element */
     var tempInput = document.createElement("input");
@@ -202,12 +184,10 @@ function copyToClipboard(text) {
     /* Hide the notification after 2 seconds (adjust as needed) */
     setTimeout(hideNotification, 2000);
 }
-
 function showNotification() {
     var notification = document.getElementById('notification');
     notification.style.display = 'block';
 }
-
 function hideNotification() {
     var notification = document.getElementById('notification');
     notification.style.display = 'none';

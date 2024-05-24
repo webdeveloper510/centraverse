@@ -208,10 +208,10 @@ $enddate = \Carbon\Carbon::createFromFormat('Y-m-d', $meeting['end_date'])->form
                     <tr>
                         <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Special Requests / Others</td>
                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">$<?php echo e($billing_data['additional_items']['cost']); ?></td>
-                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($billing_data['additional_items']['quantity']); ?></td>
-                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">$<?php echo e($total[] =$billing_data['additional_items']['cost'] * $billing_data['additional_items']['quantity']); ?></td>
-                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">$<?php echo e($billing_data['special_req']['cost']); ?></td>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($billing_data['special_req']['quantity']); ?></td>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">$<?php echo e($total[] =$billing_data['special_req']['cost'] * $billing_data['special_req']['quantity']); ?></td>
+                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($meeting['spcl_request']); ?></td>
 
                     </tr>
                     <tr>

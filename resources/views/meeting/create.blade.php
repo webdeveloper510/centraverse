@@ -159,8 +159,8 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                             </div>
                                             <div class="col-6 need_full">
                                                 <div class="form-group">
-                                                    {{Form::label('company_name',__('Company Name'),['class'=>'form-label']) }}
-                                                    {{Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Company Name')))}}
+                                                    {{Form::label('company_name',__('Event Name'),['class'=>'form-label']) }}
+                                                    {{Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Event Name')))}}
                                                 </div>
                                                 @if ($errors->has('company_name'))
                                                 <span class="invalid-feedback" role="alert">
@@ -363,19 +363,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 @endif
 
                                             </div>
-                                            <!-- <div class="col-6">
-                                                <div class="form-group">
-                                                    {{ Form::label('end_date', __('End Date'), ['class' => 'form-label']) }}
-                                                    {!! Form::date('end_date',date('Y-m-d'), ['class' => 'form-control',
-                                                    'required' => 'required']) !!}
-                                                </div>
-                                                @if ($errors->has('end_date'))
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $errors->first('end_date') }}</strong>
-                                                </span>
-                                                @endif
-
-                                            </div> -->
+                                        
                                             <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     {{ Form::label('start_time', __('Start Time'), ['class' => 'form-label']) }}
@@ -478,7 +466,13 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 @endif
 
                                             </div>
+                                            <div class ="col-12">
+                                            <div class="form-group">
 
+                                              <label><b>Food Description</b></label>
+                                                <textarea name="food_package_description" rows="4"class="form-control"></textarea>
+                                                        </div>
+                                            </div>                  
                                             <div class="col-12">
                                                 <div class="row">
                                                     <label><b>Select Setup</b></label>
@@ -501,18 +495,19 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                                            <!-- <div class="col-12"> -->
-                                                <div class="row">
+                                            <div class="col-12">
+                                                <div class="form-group">
                                                     <label><b>Upload Setup</b></label>
-                                                    <div class="col-12">
                                                         <input accept="image/*" type='file' id="imgInp"
                                                             class="form-control" name = "setupplans"/>
-                                                    </div>
-                                                    <div class="col-12 mt-5">
-                                                        <img id="blah" src="#" alt=" Preview" class="form-control" />
-                                                    </div>
+                                                 
                                                 </div>
-                                            <!-- </div> -->
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                        <img id="blah" src="#" alt=" Preview" class="form-control" />
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -576,10 +571,18 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 @endforeach
                                                 @endif
                                             </div>
+                                            <div class ="col-12">
+                                           <div class="form-group"> 
+                                              <label><b>Bar Description</b></label>
+                                                <textarea name="bar_package_description" rows="4"class="form-control"></textarea>
+                                            </div>
+                                            </div>
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     {{Form::label('spcl_request',__('Special Requests / Considerations'),['class'=>'form-label']) }}
                                                     {{Form::text('spcl_request',null,array('class'=>'form-control'))}}
+
+                                           
                                                 </div>
                                             </div>
                                         </div>

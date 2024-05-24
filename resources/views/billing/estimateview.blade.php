@@ -62,7 +62,7 @@ $bar_pck = json_decode($event['bar_package'], true);
             <td style="padding:5px 5px; margin-left:5px;font-size:13px;">${{$billing_data['equipment']['cost']}}</td>
             <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$billing_data['equipment']['quantity']}}</td>
             <td style="padding:5px 5px; margin-left:5px;font-size:13px;">${{$total[] =$billing_data['equipment']['cost'] * $billing_data['equipment']['quantity']}}</td>
-            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$event['special_req']}}</td>
+            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
         </tr>
         @if(!$billing_data['setup']['cost'] == '')
         <tr>
@@ -77,10 +77,10 @@ $bar_pck = json_decode($event['bar_package'], true);
         <tr>
             <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Special Requests / Others</td>
             <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">${{$billing_data['additional_items']['cost']}}</td>
-            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$billing_data['additional_items']['quantity']}}</td>
-            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">${{$total[] =$billing_data['additional_items']['cost'] * $billing_data['additional_items']['quantity']}}</td>
-            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">${{$billing_data['special_req']['cost']}}</td>
+            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$billing_data['special_req']['quantity']}}</td>
+            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">${{$total[] =$billing_data['special_req']['cost'] * $billing_data['special_req']['quantity']}}</td>
+            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$event['special_req']}}</td>
 
         </tr>
         <tr>

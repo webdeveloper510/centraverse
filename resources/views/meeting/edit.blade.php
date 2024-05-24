@@ -391,7 +391,13 @@ $func_package = json_decode($meeting->func_package,true);
                                             @endif
 
                                         </div>
+                                        <div class ="col-12">
+                                            <div class="form-group">
 
+                                              <label><b>Food Description</b></label>
+                                                <textarea name="food_package_description" rows="4"class="form-control"></textarea>
+                                                        </div>
+                                            </div>      
                                         <div class="col-12">
                                             <div class="row">
                                                 <label><b>Setup</b></label>
@@ -484,6 +490,12 @@ $func_package = json_decode($meeting->func_package,true);
                                             @endforeach
                                             @endif
                                         </div>
+                                        <div class ="col-12">
+                                           <div class="form-group"> 
+                                              <label><b>Bar Description</b></label>
+                                                <textarea name="bar_package_description" rows="4"class="form-control"></textarea>
+                                            </div>
+                                            </div>
 
                                         <div class="col-12">
                                             <div class="form-group">

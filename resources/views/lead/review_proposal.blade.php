@@ -124,8 +124,8 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                     </div>
                                     <div class="col-6 need_full">
                                         <div class="form-group">
-                                            {{Form::label('company_name',__('Company Name'),['class'=>'form-label']) }}
-                                            {{Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Company Name')))}}
+                                            {{Form::label('company_name',__('Event Name'),['class'=>'form-label']) }}
+                                            {{Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Event Name')))}}
                                         </div>
                                     </div>
                                     <div class="col-12  p-0 modaltitle pb-3 mb-3">
@@ -157,6 +157,9 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                     <div class="col-6 need_full">
                                         <div class="form-group">
                                             {{Form::label('email',__('Email'),['class'=>'form-label']) }}
+                                            <span class="text-sm">
+                                                <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                            </span>
                                             {{Form::text('email',null,array('class'=>'form-control','placeholder'=>__('Enter Email'),'required'=>'required'))}}
                                         </div>
                                     </div>
