@@ -85,7 +85,6 @@
                                                     @if(\App\Models\PaymentLogs::where('event_id',$event->id)->exists())
                                                     <?php 
                                                         $pay = App\Models\PaymentLogs::where('event_id',$event->id)->get();
-                                                        $deposit = App\Models\Billing::where('event_id',$event->id)->first();
                                                         $total = 0;
                                                         foreach($pay as $p){
                                                         $total += $p->amount;
@@ -120,8 +119,38 @@
                                                         <?php 
                                                             $paymentLog = App\Models\PaymentLogs::where('event_id', $event->id)->orderBy('id', 'desc')->first();
                                                             $paymentInfo = App\Models\PaymentInfo::where('event_id',$event->id)->orderBy('id', 'desc')->first();
+                                                            $deposit = App\Models\Billing::where('event_id',$event->id)->first();
                                                         ?>
-                                                        @if(($total+$deposit->deposits) < $event->total)
+                                                        @if(isset($deposit))
+                                                            @if(($total + $deposit->deposits) < $event->total)
+                                                                @if($paymentLog)
+                                                                    @if($paymentLog->amount != 0)
+                                                                    <div class="action-btn bg-primary ms-2">
+                                                                        <a href="#" data-size="md"
+                                                                            data-url="{{ route('billing.paylink',$event->id) }}"
+                                                                            data-bs-toggle="tooltip"
+                                                                            title="{{__('Share Payment Link')}}" data-ajax-popup="true"
+                                                                            data-title="{{__('Payment Link')}}"
+                                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                                            <i class="ti ti-share"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                    @endif
+                                                                @else
+                                                                <div class="action-btn bg-primary ms-2">
+                                                                    <a href="#" data-size="md"
+                                                                        data-url="{{ route('billing.paylink',$event->id) }}"
+                                                                        data-bs-toggle="tooltip"
+                                                                        title="{{__('Share Payment Link')}}" data-ajax-popup="true"
+                                                                        data-title="{{__('Payment Link')}}"
+                                                                        class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                                        <i class="ti ti-share"></i>
+                                                                    </a>
+                                                                </div>
+                                                                @endif
+                                                            @endif
+                                                        @else
+                                                        @if(($total) < $event->total)
                                                         @if($paymentLog)
                                                             @if($paymentLog->amount != 0)
                                                             <div class="action-btn bg-primary ms-2">
@@ -148,6 +177,8 @@
                                                         </div>
                                                         @endif
                                                         @endif
+                                                        @endif
+                                                       
                                                         <div class="action-btn bg-info ms-2">
                                                             <a href="#" data-size="md"
                                                                 data-url="{{ route('billing.paymentinfo',urlencode(encrypt($event->id))) }}"
