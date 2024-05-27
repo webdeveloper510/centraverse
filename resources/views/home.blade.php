@@ -185,9 +185,19 @@ h6 {
                                         @foreach($events as $event)
                                         <?php
                                             $pay = App\Models\PaymentLogs::where('event_id',$event['id'])->exists();
+                                            $deposit = App\Models\Billing::where('event_id',$event['id'])->first();
+                                            $info = App\Models\PaymentInfo::where('event_id',$event->id)->get();
+
+                                            $latefee = 0;
+                                            $adjustments = 0;
+                                            foreach($info as $inf){
+                                            $latefee += $inf->latefee;
+                                            $adjustments += $inf->adjustments;
+                                            }
                                             $total = 0;
                                             if($pay){
-                                                $paym = App\Models\PaymentLogs::where('event_id',$event['id'])->get();  
+                                                $paym = App\Models\PaymentLogs::where('event_id',$event['id'])->get(); 
+
                                                 foreach($paym as $p){
                                                     $total += $p->amount; 
                                                 }
@@ -201,7 +211,7 @@ h6 {
 
                                                 <div style="color: #a99595;">
                                                     Billing Amount: ${{ number_format($event['total'])}}<br>
-                                                    Pending Amount: ${{number_format($event['total'] - $total)}}
+                                                    Pending Amount: {{($event['total'] - $total -$deposit->deposits == 0) ? '--' : '$'. number_format($event['total'] - $total -$deposit->deposits )}}
                                                 </div>
                                                 <div class="date-y">
                                                     @if($event['start_date'] == $event['end_date'])
