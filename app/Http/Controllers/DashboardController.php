@@ -69,9 +69,15 @@ class DashboardController extends Controller
                     $events_revenue += $value->total;
                 }
                 $paymentlogs = PaymentLogs::all();
+                $billingdep = Billing::all();
+                $depositss = 0;
                 $events_revenue_generated = 0;
                 foreach ($paymentlogs as $key => $value) {
                     $events_revenue_generated += $value->amount;  
+                    # code...
+                }
+                foreach ($billingdep as $key => $value) {
+                    $depositss += $value->deposits;  
                     # code...
                 }
 
@@ -155,7 +161,7 @@ class DashboardController extends Controller
                 // } else {
                 //     $storage_limit = 0;
                 // }
-                return view('home', compact('venue_dropdown','blockeddate','events_revenue','events','events_revenue_generated','data','users','plan','upcoming','completed','totalevent','activeLeads', 'lostLeads', 'activeEvent', 'pastEvents'));
+                return view('home', compact('venue_dropdown','blockeddate','events_revenue','events','depositss','events_revenue_generated','data','users','plan','upcoming','completed','totalevent','activeLeads', 'lostLeads', 'activeEvent', 'pastEvents'));
             }
         } else {
 

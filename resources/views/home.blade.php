@@ -68,7 +68,7 @@ h6 {
                                         <div class="mt10">
                                             <h6 class="mb-0">{{ __('Amount Recieved(E)') }}</h6>
                                             <h3 class="mb-0">
-                                                {{ $events_revenue_generated != 0 ? '$'.number_format($events_revenue_generated) : '--' }}
+                                                {{ $events_revenue_generated != 0 ? '$'.number_format($events_revenue_generated +$depositss) : '--' }}
                                             </h3>
 
                                         </div>

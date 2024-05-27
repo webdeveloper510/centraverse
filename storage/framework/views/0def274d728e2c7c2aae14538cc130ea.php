@@ -71,7 +71,7 @@ h6 {
                                         <div class="mt10">
                                             <h6 class="mb-0"><?php echo e(__('Amount Recieved(E)')); ?></h6>
                                             <h3 class="mb-0">
-                                                <?php echo e($events_revenue_generated != 0 ? '$'.number_format($events_revenue_generated) : '--'); ?>
+                                                <?php echo e($events_revenue_generated != 0 ? '$'.number_format($events_revenue_generated +$depositss) : '--'); ?>
 
                                             </h3>
 
