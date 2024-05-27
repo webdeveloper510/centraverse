@@ -1,8 +1,9 @@
 <?php
 $pay = App\Models\PaymentLogs::where('event_id',$event->id)->get();
+$deposit = App\Models\Billing::where('event_id',$event->id)->first();
 $total = 0;
 foreach($pay as $p){
-$total += $p->amount;
+$total += $p->amount + $deposit->deposits;
 }
 ?>
 <div class="row">
