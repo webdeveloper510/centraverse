@@ -89,7 +89,6 @@
                                                     <?php if(\App\Models\PaymentLogs::where('event_id',$event->id)->exists()): ?>
                                                     <?php 
                                                         $pay = App\Models\PaymentLogs::where('event_id',$event->id)->get();
-                                                        $deposit = App\Models\Billing::where('event_id',$event->id)->first();
                                                         $total = 0;
                                                         foreach($pay as $p){
                                                         $total += $p->amount;
@@ -123,36 +122,66 @@
                                                     <?php if(\App\Models\Billing::where('event_id',$event->id)->exists()): ?>
                                                         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Payment')): ?>
                                                         <?php 
-                                                            $paymentLog = App\Models\PaymentLogs::where('event_id', $event->id)->orderBy('id', 'desc')->first();
+                                                            $paymentLog = App\Models\PaymentLogs::where('event_id', $event->id)->exists();
                                                             $paymentInfo = App\Models\PaymentInfo::where('event_id',$event->id)->orderBy('id', 'desc')->first();
+                                                           
+                                                            $total = 0;
+                                                            if($paymentLog){
+                                                                $pay = App\Models\PaymentLogs::where('event_id',$event->id)->get();
+
+                                                                foreach($pay as $p){
+                                                                    $total += $p->amount;
+                                                                    }
+                                                            }
+                                                            
                                                         ?>
-                                                        <?php if(($total+$deposit->deposits) < $event->total): ?>
-                                                        <?php if($paymentLog): ?>
-                                                            <?php if($paymentLog->amount != 0): ?>
-                                                            <div class="action-btn bg-primary ms-2">
-                                                                <a href="#" data-size="md"
-                                                                    data-url="<?php echo e(route('billing.paylink',$event->id)); ?>"
-                                                                    data-bs-toggle="tooltip"
-                                                                    title="<?php echo e(__('Share Payment Link')); ?>" data-ajax-popup="true"
-                                                                    data-title="<?php echo e(__('Payment Link')); ?>"
-                                                                    class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                                    <i class="ti ti-share"></i>
-                                                                </a>
-                                                            </div>
+                                                            <?php if(App\Models\Billing::where('event_id',$event->id)->exists()): ?>
+                                                            <?php 
+                                                             $deposit = App\Models\Billing::where('event_id',$event->id)->first();
+                                                              ?>
+                                                                <?php if(($total + $deposit->deposits) < $event->total): ?>
+                                                                    <?php if($paymentLog): ?>
+                                                                        <div class="action-btn bg-primary ms-2">
+                                                                            <a href="#" data-size="md"
+                                                                                data-url="<?php echo e(route('billing.paylink',$event->id)); ?>"
+                                                                                data-bs-toggle="tooltip"
+                                                                                title="<?php echo e(__('Share Payment Link')); ?>" data-ajax-popup="true"
+                                                                                data-title="<?php echo e(__('Payment Link')); ?>"
+                                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                                                <i class="ti ti-share"></i>
+                                                                            </a>
+                                                                        </div>
+                                                                
+                                                                    <?php endif; ?>
+                                                                <?php endif; ?>
+                                                            <?php else: ?>
+                                                            <?php if(($total) < $event->total): ?>
+                                                                <?php if($paymentLog): ?>
+                                                                    <div class="action-btn bg-primary ms-2">
+                                                                        <a href="#" data-size="md"
+                                                                            data-url="<?php echo e(route('billing.paylink',$event->id)); ?>"
+                                                                            data-bs-toggle="tooltip"
+                                                                            title="<?php echo e(__('Share Payment Link')); ?>" data-ajax-popup="true"
+                                                                            data-title="<?php echo e(__('Payment Link')); ?>"
+                                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                                            <i class="ti ti-share"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                <?php else: ?>
+                                                                <div class="action-btn bg-primary ms-2">
+                                                                    <a href="#" data-size="md"
+                                                                        data-url="<?php echo e(route('billing.paylink',$event->id)); ?>"
+                                                                        data-bs-toggle="tooltip"
+                                                                        title="<?php echo e(__('Share Payment Link')); ?>" data-ajax-popup="true"
+                                                                        data-title="<?php echo e(__('Payment Link')); ?>"
+                                                                        class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                                        <i class="ti ti-share"></i>
+                                                                    </a>
+                                                                </div>
+                                                                <?php endif; ?>
                                                             <?php endif; ?>
-                                                        <?php else: ?>
-                                                        <div class="action-btn bg-primary ms-2">
-                                                            <a href="#" data-size="md"
-                                                                data-url="<?php echo e(route('billing.paylink',$event->id)); ?>"
-                                                                data-bs-toggle="tooltip"
-                                                                title="<?php echo e(__('Share Payment Link')); ?>" data-ajax-popup="true"
-                                                                data-title="<?php echo e(__('Payment Link')); ?>"
-                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                                <i class="ti ti-share"></i>
-                                                            </a>
-                                                        </div>
                                                         <?php endif; ?>
-                                                        <?php endif; ?>
+                                                       
                                                         <div class="action-btn bg-info ms-2">
                                                             <a href="#" data-size="md"
                                                                 data-url="<?php echo e(route('billing.paymentinfo',urlencode(encrypt($event->id)))); ?>"
