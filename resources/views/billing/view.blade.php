@@ -46,7 +46,7 @@ $total += $p->amount ;
             <dd class="col-md-6 need_half"><span class="">${{ number_format($event->total) }}</span></dd>
 
             <dt class="col-md-6 need_half"><span class="h6  mb-0">{{__(' Amount Due')}}</span></dt>
-            <dd class="col-md-6 need_half"><span class="">${{ number_format($event->total - $total + $deposit->deposits) }}</span></dd>
+            <dd class="col-md-6 need_half"><span class="">${{ number_format($event->total - $total - $deposit->deposits) }}</span></dd>
             
 
             <dt class="col-md-6 need_half"><span class="h6  mb-0">{{__('Event Created')}}</span></dt>
