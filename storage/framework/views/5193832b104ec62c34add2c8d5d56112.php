@@ -1,19 +1,21 @@
 <?php 
 
 $event = App\Models\Meeting::find($id);
-$paidamount = App\Models\PaymentLogs::where('event_id',$id)->get();
+// $paidamount = App\Models\PaymentLogs::where('event_id',$id)->get();
 $bill = App\Models\Billing::where('event_id',$event->id)->first();
-$total = 0;
-foreach ($paidamount as $key => $value) {
-   $total += $value->amount;
+// $total = 0;
+// foreach ($paidamount as $key => $value) {
+//    $total += $value->amount;
+// }
+$totalpaid = 0;
+if(\App\Models\PaymentLogs::where('event_id',$event->id)->exists()){
+    $pay = App\Models\PaymentLogs::where('event_id',$event->id)->get();
+    $deposit = App\Models\Billing::where('event_id',$event->id)->first();
+    foreach($pay as $p){
+    $totalpaid += $p->amount;
+    }
 }
 $info = App\Models\PaymentInfo::where('event_id',$event->id)->get();
-$latefee = 0;
-$adjustments = 0;
-foreach($info as $inf){
-$latefee += $inf->latefee;
-$adjustments += $inf->adjustments;
-}
 ?>
 <?php if($event->status == 3): ?>
 <div class="row">
@@ -23,74 +25,65 @@ $adjustments += $inf->adjustments;
 
 
         <div class="">
-            <div class="row form-group1">
-            <div class="col-md-6">
-            <label  class="form-label"><?php echo e(__('Name')); ?></label>
-               
+            <div class="row form-group">
+                <div class="col-md-6">
+                    <label class="form-label"><?php echo e(__('Name')); ?></label>
+
                     <input type="text" name="name" class="form-control" value="<?php echo e($event->name); ?>" readonly>
-</div>
-<div class="col-md-6"> <label  class="form-label"><?php echo e(__('Email')); ?></label>
-            
+                </div>
+                <div class="col-md-6"> <label class="form-label"><?php echo e(__('Email')); ?></label>
+
                     <input type="text" name="email" class="form-control" value="<?php echo e($event->email); ?>">
-</div>
-</div>
-            <div class="row form-group1">
+                </div>
+            </div>
+            <div class="row form-group">
                 <div class="col-md-6">
                     <label for="amount" class="form-label">Contract Amount</label>
                     <input type="number" name="amount" class="form-control" value="<?php echo e($event->total); ?>" readonly>
                 </div>
                 <div class="col-md-6">
                     <label for="deposit" class="form-label">Deposits</label>
-                    <input type="number" name="deposit" value="<?php echo e($total + $bill->deposits); ?>" class="form-control">
+                    <input type="number" name="deposit" value="<?php echo e($bill->deposits); ?>" class="form-control">
                 </div>
             </div>
-            <div class="row form-group1">
+            <div class="row form-group">
                 <div class="col-md-6">
                     <label for="adjustment" class="form-label">Adjustments</label>
-                    <input type="number" name="adjustment" class="form-control" min="0" value="<?php echo e($adjustments); ?>">
+                    <input type="number" name="adjustment" class="form-control" min="0" value="">
                 </div>
                 <div class="col-md-6">
                     <label for="latefee" class="form-label">Late fee(if Any)</label>
-                    <input type="number" name="latefee" class="form-control" min="0" value="<?php echo e($latefee); ?>">
+                    <input type="number" name="latefee" class="form-control" min="0" value="">
                 </div>
             </div>
-            <div class="row form-group1">
+            <div class="row form-group">
                 <div class="col-md-6">
                     <label for="paidamount" class="form-label">Total Paid</label>
-                    <input type="number" name="paidamount" class="form-control" value="<?php echo e($total); ?>" readonly>
+                    <input type="number" name="paidamount" class="form-control" value="<?php echo e($totalpaid +$bill->deposits); ?>" readonly>
                 </div>
                 <div class="col-md-6">
                     <label for="balance" class="form-label">Balance</label>
                     <input type="number" name="balance" class="form-control">
                 </div>
-            </div> 
-            <!-- <div class="row form-group">
-                <div class="col-md-6">
-                    <label for="paidamount" class="form-label">Amount to be paid</label>
-                    <input type="number" name="paidamount" class="form-control" value="" readonly>
-                </div>
-                <div class="col-md-6">
-                    <label for="balance" class="form-label">Balance</label>
-                    <input type="number" name="balance" class="form-control">
-                </div>
-            </div> -->
-            <div class="row form-group1">
-            <div class="col-6 need_full">
-                <div class="form-group1">
-                    <?php echo e(Form::label('amountcollect',__('Collect Amount'),['class'=>'form-label'])); ?>
+            </div>
+           
+            <div class="row form-group">
+                <div class="col-6 need_full">
+                    <div class="form-group">
+                        <?php echo e(Form::label('amountcollect',__('Collect Amount'),['class'=>'form-label'])); ?>
 
-                    <?php echo e(Form::number('amountcollect',null,array('class'=>'form-control','required'))); ?>
+                        <?php echo e(Form::number('amountcollect',null,array('class'=>'form-control','required'))); ?>
 
+                    </div>
                 </div>
             </div>
-</div>
-<div class="row form-group1">
-            <div class="col-12">
-            <label  class="form-label">  <?php echo e(Form::label('notes',__('Notes'),['class'=>'form-label'])); ?> </label>
-                <textarea name="notes" id="notes" cols="30" rows="5" class='form-control'
-                    placeholder='Enter Notes'></textarea>
+            <div class="row form-group">
+                <div class="col-12">
+                    <label class="form-label"> <?php echo e(Form::label('notes',__('Notes'),['class'=>'form-label'])); ?> </label>
+                    <textarea name="notes" id="notes" cols="30" rows="5" class='form-control'
+                        placeholder='Enter Notes'></textarea>
+                </div>
             </div>
-</div>
         </div>
 
         <div class="modal-footer">
@@ -129,19 +122,12 @@ $(document).ready(function() {
     var deposits = parseFloat($("input[name='deposit']").val()) || 0;
     var latefee = parseFloat($("input[name='latefee']").val()) || 0;
     var adjustments = parseFloat($("input[name='adjustment']").val()) || 0;
-    // var amttobepaid = parseFloat($("input[name='paidamount']").val()) || 0;
-
-    
-    var amountpaid = deposits;
-    var balance = amount + latefee  - adjustments - amountpaid;
+    var amttobepaid = parseFloat($("input[name='paidamount']").val()) || 0;
+    var balance = amount + latefee - adjustments- amttobepaid ;
+    // console.log(deposits,'33453453',balance)
     $("input[name='amountcollect']").attr('max', balance);
-
-    // Assuming you want to store the balance in an input field with name 'balance'
     $("input[name='balance']").val(balance);
-    $("input[name='amountpaid']").val(amountpaid);
-    $("input[name='paidamount']").val(amount + latefee  - adjustments -deposits);
 })
-
 $(" input[name='latefee'], input[name='adjustment']")
     .keyup(function() {
         $("input[name='balance']").empty();
@@ -149,19 +135,14 @@ $(" input[name='latefee'], input[name='adjustment']")
         var deposits = parseFloat($("input[name='deposit']").val()) || 0;
         var latefee = parseFloat($("input[name='latefee']").val()) || 0;
         var adjustments = parseFloat($("input[name='adjustment']").val()) || 0;
-        var amountpaid = deposits;
-        var balance = amount  + latefee - adjustments- amountpaid;
+        var amttobepaid = parseFloat($("input[name='paidamount']").val()) || 0;
+        var balance = amount + latefee - adjustments - amttobepaid;
         // Assuming you want to store the balance in an input field with name 'balance'
-        $("input[name='balance']").val(balance);
-        $("input[name='amountpaid']").val(amountpaid);
-        console.log('total', balance);
-    });
+        $("input[name='amountcollect']").attr('max', balance);
 
-// function getDataUrlAndCopy(button) {
-//     var dataUrl = button.getAttribute('data-url');
-//     copyToClipboard(dataUrl);
-//     // alert("Copied the data URL: " + dataUrl);
-// }
+        $("input[name='balance']").val(balance);
+        console.log('total', balance);
+});
 
 function getDataUrlAndCopy(button) {
     // Get the URL from the data attribute of the button
@@ -178,7 +159,7 @@ function getDataUrlAndCopy(button) {
         var notes = $('input[name="notes"]').val();
         var amountcollect = $('input[name="amountcollect"]').val();
         var balance = $('input[name="balance"]').val();
-        
+
         $.ajax({
             url: '<?php echo e(route("billing.addpayinfooncopyurl",$event->id)); ?>',
             type: 'POST',
@@ -191,7 +172,7 @@ function getDataUrlAndCopy(button) {
                 "latefee": latefee,
                 "notes": notes,
                 "amountcollect": amountcollect,
-                "balance" :balance
+                "balance": balance
             },
             success: function(response) {
                 // Handle success response

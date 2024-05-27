@@ -43,12 +43,9 @@ $additional_items = json_decode($settings['additional_items'],true);
     </div>
     <div class="col-6 need_full">
         <div class="form-group">
-            <!-- <?php echo e(Form::label('company_name',__('Event Name'),['class'=>'form-label'])); ?>
+           <?php echo e(Form::label('company_name',__('Event Name'),['class'=>'form-label'])); ?>
 
-            <?php echo e(Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Company Name')))); ?> -->
-            <?php echo e(Form::label('event_name',__('Event Name'),['class'=>'form-label'])); ?>
-
-            <?php echo e(Form::text('event_name',null,array('class'=>'form-control','placeholder'=>__('Enter Event Name')))); ?>
+            <?php echo e(Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Event Name')))); ?>
 
         </div>
     </div>

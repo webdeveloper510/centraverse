@@ -1,19 +1,21 @@
 <?php 
 
 $event = App\Models\Meeting::find($id);
-$paidamount = App\Models\PaymentLogs::where('event_id',$id)->get();
+// $paidamount = App\Models\PaymentLogs::where('event_id',$id)->get();
 $bill = App\Models\Billing::where('event_id',$event->id)->first();
-$total = 0;
-foreach ($paidamount as $key => $value) {
-   $total += $value->amount;
+// $total = 0;
+// foreach ($paidamount as $key => $value) {
+//    $total += $value->amount;
+// }
+$totalpaid = 0;
+if(\App\Models\PaymentLogs::where('event_id',$event->id)->exists()){
+    $pay = App\Models\PaymentLogs::where('event_id',$event->id)->get();
+    $deposit = App\Models\Billing::where('event_id',$event->id)->first();
+    foreach($pay as $p){
+    $totalpaid += $p->amount;
+    }
 }
 $info = App\Models\PaymentInfo::where('event_id',$event->id)->get();
-$latefee = 0;
-$adjustments = 0;
-foreach($info as $inf){
-$latefee += $inf->latefee;
-$adjustments += $inf->adjustments;
-}
 ?>
 @if($event->status == 3)
 <div class="row">
@@ -22,72 +24,63 @@ $adjustments += $inf->adjustments;
         {{Form::open(array('route' => ['billing.sharepaymentlink', urlencode(encrypt($event->id))],'method'=>'post','enctype'=>'multipart/form-data'))}}
 
         <div class="">
-            <div class="row form-group1">
-            <div class="col-md-6">
-            <label  class="form-label">{{__('Name')}}</label>
-               
+            <div class="row form-group">
+                <div class="col-md-6">
+                    <label class="form-label">{{__('Name')}}</label>
+
                     <input type="text" name="name" class="form-control" value="{{$event->name}}" readonly>
-</div>
-<div class="col-md-6"> <label  class="form-label">{{__('Email')}}</label>
-            
+                </div>
+                <div class="col-md-6"> <label class="form-label">{{__('Email')}}</label>
+
                     <input type="text" name="email" class="form-control" value="{{$event->email}}">
-</div>
-</div>
-            <div class="row form-group1">
+                </div>
+            </div>
+            <div class="row form-group">
                 <div class="col-md-6">
                     <label for="amount" class="form-label">Contract Amount</label>
                     <input type="number" name="amount" class="form-control" value="{{$event->total}}" readonly>
                 </div>
                 <div class="col-md-6">
                     <label for="deposit" class="form-label">Deposits</label>
-                    <input type="number" name="deposit" value="{{$total + $bill->deposits}}" class="form-control">
+                    <input type="number" name="deposit" value="{{ $bill->deposits}}" class="form-control">
                 </div>
             </div>
-            <div class="row form-group1">
+            <div class="row form-group">
                 <div class="col-md-6">
                     <label for="adjustment" class="form-label">Adjustments</label>
-                    <input type="number" name="adjustment" class="form-control" min="0" value="{{$adjustments}}">
+                    <input type="number" name="adjustment" class="form-control" min="0" value="">
                 </div>
                 <div class="col-md-6">
                     <label for="latefee" class="form-label">Late fee(if Any)</label>
-                    <input type="number" name="latefee" class="form-control" min="0" value="{{$latefee}}">
+                    <input type="number" name="latefee" class="form-control" min="0" value="">
                 </div>
             </div>
-            <div class="row form-group1">
+            <div class="row form-group">
                 <div class="col-md-6">
                     <label for="paidamount" class="form-label">Total Paid</label>
-                    <input type="number" name="paidamount" class="form-control" value="{{$total}}" readonly>
+                    <input type="number" name="paidamount" class="form-control" value="{{$totalpaid +$bill->deposits}}" readonly>
                 </div>
                 <div class="col-md-6">
                     <label for="balance" class="form-label">Balance</label>
                     <input type="number" name="balance" class="form-control">
                 </div>
-            </div> 
-            <!-- <div class="row form-group">
-                <div class="col-md-6">
-                    <label for="paidamount" class="form-label">Amount to be paid</label>
-                    <input type="number" name="paidamount" class="form-control" value="" readonly>
-                </div>
-                <div class="col-md-6">
-                    <label for="balance" class="form-label">Balance</label>
-                    <input type="number" name="balance" class="form-control">
-                </div>
-            </div> -->
-            <div class="row form-group1">
-            <div class="col-6 need_full">
-                <div class="form-group1">
-                    {{Form::label('amountcollect',__('Collect Amount'),['class'=>'form-label']) }}
-                    {{Form::number('amountcollect',null,array('class'=>'form-control','required'))}}
+            </div>
+           
+            <div class="row form-group">
+                <div class="col-6 need_full">
+                    <div class="form-group">
+                        {{Form::label('amountcollect',__('Collect Amount'),['class'=>'form-label']) }}
+                        {{Form::number('amountcollect',null,array('class'=>'form-control','required'))}}
+                    </div>
                 </div>
             </div>
-</div>
-<div class="row form-group1">
-            <div class="col-12">
-            <label  class="form-label">  {{Form::label('notes',__('Notes'),['class'=>'form-label']) }} </label>
-                <textarea name="notes" id="notes" cols="30" rows="5" class='form-control'
-                    placeholder='Enter Notes'></textarea>
+            <div class="row form-group">
+                <div class="col-12">
+                    <label class="form-label"> {{Form::label('notes',__('Notes'),['class'=>'form-label']) }} </label>
+                    <textarea name="notes" id="notes" cols="30" rows="5" class='form-control'
+                        placeholder='Enter Notes'></textarea>
+                </div>
             </div>
-</div>
         </div>
 
         <div class="modal-footer">
@@ -124,18 +117,12 @@ $(document).ready(function() {
     var deposits = parseFloat($("input[name='deposit']").val()) || 0;
     var latefee = parseFloat($("input[name='latefee']").val()) || 0;
     var adjustments = parseFloat($("input[name='adjustment']").val()) || 0;
-    // var amttobepaid = parseFloat($("input[name='paidamount']").val()) || 0;
-
-    
-    var amountpaid = deposits;
-    var balance = amount + latefee  - adjustments - amountpaid;
+    var amttobepaid = parseFloat($("input[name='paidamount']").val()) || 0;
+    var balance = amount + latefee - adjustments- amttobepaid ;
+    // console.log(deposits,'33453453',balance)
     $("input[name='amountcollect']").attr('max', balance);
-    // Assuming you want to store the balance in an input field with name 'balance'
     $("input[name='balance']").val(balance);
-    $("input[name='amountpaid']").val(amountpaid);
-    $("input[name='paidamount']").val(amount + latefee  - adjustments -deposits);
 })
-
 $(" input[name='latefee'], input[name='adjustment']")
     .keyup(function() {
         $("input[name='balance']").empty();
@@ -143,19 +130,14 @@ $(" input[name='latefee'], input[name='adjustment']")
         var deposits = parseFloat($("input[name='deposit']").val()) || 0;
         var latefee = parseFloat($("input[name='latefee']").val()) || 0;
         var adjustments = parseFloat($("input[name='adjustment']").val()) || 0;
-        var amountpaid = deposits;
-        var balance = amount  + latefee - adjustments- amountpaid;
+        var amttobepaid = parseFloat($("input[name='paidamount']").val()) || 0;
+        var balance = amount + latefee - adjustments - amttobepaid;
         // Assuming you want to store the balance in an input field with name 'balance'
-        $("input[name='balance']").val(balance);
-        $("input[name='amountpaid']").val(amountpaid);
-        console.log('total', balance);
-    });
+        $("input[name='amountcollect']").attr('max', balance);
 
-// function getDataUrlAndCopy(button) {
-//     var dataUrl = button.getAttribute('data-url');
-//     copyToClipboard(dataUrl);
-//     // alert("Copied the data URL: " + dataUrl);
-// }
+        $("input[name='balance']").val(balance);
+        console.log('total', balance);
+});
 
 function getDataUrlAndCopy(button) {
     // Get the URL from the data attribute of the button
@@ -172,7 +154,7 @@ function getDataUrlAndCopy(button) {
         var notes = $('input[name="notes"]').val();
         var amountcollect = $('input[name="amountcollect"]').val();
         var balance = $('input[name="balance"]').val();
-        
+
         $.ajax({
             url: '{{ route("billing.addpayinfooncopyurl",$event->id) }}',
             type: 'POST',
@@ -185,7 +167,7 @@ function getDataUrlAndCopy(button) {
                 "latefee": latefee,
                 "notes": notes,
                 "amountcollect": amountcollect,
-                "balance" :balance
+                "balance": balance
             },
             success: function(response) {
                 // Handle success response

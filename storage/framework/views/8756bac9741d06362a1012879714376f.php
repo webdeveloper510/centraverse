@@ -85,16 +85,20 @@
                                                 <td><?php echo e(($event->total != 0)? '$'. number_format($event->total):'--'); ?>
 
                                                 </td>
-                                                <td> <?php if(\App\Models\PaymentLogs::where('event_id',$event->id)->exists()): ?>
-                                                    <?php $pay = App\Models\PaymentLogs::where('event_id',$event->id)->get();
-                                                $deposit = App\Models\Billing::where('event_id',$event->id)->first();
-                                                    $total = 0;
-                                                    foreach($pay as $p){
-                                                    $total += $p->amount;
-                                                    }?>
+                                                <td> 
+                                                    <?php if(\App\Models\PaymentLogs::where('event_id',$event->id)->exists()): ?>
+                                                    <?php 
+                                                        $pay = App\Models\PaymentLogs::where('event_id',$event->id)->get();
+                                                        $deposit = App\Models\Billing::where('event_id',$event->id)->first();
+                                                        $total = 0;
+                                                        foreach($pay as $p){
+                                                        $total += $p->amount;
+                                                        }
+                                                    ?>
                                                     <?php echo e(($total != 0)?'$'.(isset($deposit)?$deposit->deposits:0) + $total:'--'); ?>
 
-                                                    <?php endif; ?></td>
+                                                    <?php endif; ?>
+                                                </td>
                                                 <td class="text-end">
                                                     <!-- <div class="action-btn bg-primary ms-2">
                                                         <a href="<?php echo e(route('billing.invoicepdf',$event->id)); ?>" data-size="md"
@@ -122,6 +126,7 @@
                                                             $paymentLog = App\Models\PaymentLogs::where('event_id', $event->id)->orderBy('id', 'desc')->first();
                                                             $paymentInfo = App\Models\PaymentInfo::where('event_id',$event->id)->orderBy('id', 'desc')->first();
                                                         ?>
+                                                        <?php if(($total+$deposit->deposits) < $event->total): ?>
                                                         <?php if($paymentLog): ?>
                                                             <?php if($paymentLog->amount != 0): ?>
                                                             <div class="action-btn bg-primary ms-2">
@@ -146,6 +151,7 @@
                                                                 <i class="ti ti-share"></i>
                                                             </a>
                                                         </div>
+                                                        <?php endif; ?>
                                                         <?php endif; ?>
                                                         <div class="action-btn bg-info ms-2">
                                                             <a href="#" data-size="md"

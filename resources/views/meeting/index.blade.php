@@ -85,7 +85,7 @@ $agreestatus= \App\Models\Meeting::$status;
                                                         @else
                                                            <a href="{{route('meeting.detailview',urlencode(encrypt($meeting->id)))}}"
                                                             data-size="md" title="{{ __('Detailed view ') }}"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                            class="action-item text-primary"  style=" color: #1551c9 !important;">
                                                             {{ucfirst($meeting->eventname)}}</a>
                                                        
                                                         @endif

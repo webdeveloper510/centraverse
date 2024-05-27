@@ -193,17 +193,12 @@ h6 {
                                             $pay = App\Models\PaymentLogs::where('event_id',$event['id'])->exists();
                                             $total = 0;
                                             if($pay){
-                                                $paym = App\Models\PaymentLogs::where('event_id',$event['id'])->get();
-                                                
+                                                $paym = App\Models\PaymentLogs::where('event_id',$event['id'])->get();  
                                                 foreach($paym as $p){
-                                                  
-                                                    $total += $p->amount;
-                                                   
+                                                    $total += $p->amount; 
                                                 }
                                             } 
-                                          
                                         ?>
-                                        
                                         <div class="card">
                                             <div class="card-body">
                                                 <h5 class="card-text"><?php echo e($event['name']); ?>

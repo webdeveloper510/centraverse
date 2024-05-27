@@ -96,7 +96,7 @@ $leaddata['bar_package_cost'] = $totalBarPackageCost;
                 <dt class="col-md-12"><span class="h6  mb-0"><?php echo e(__('Upload Document')); ?></span></dt>
                 <dd class="col-md-12"><input type="file" name="attachment" id="attachment" class="form-control"></dd>
             </dl>
-            <dt class="col-md-12"><span class="h6  mb-0"><?php echo e(__('Sign Proposal before date of Event ')); ?></span></dt>
+            <dt class="col-md-12"><span class="h6  mb-0"><?php echo e(__('Proposal due date:')); ?></span></dt>
                 <dd class="col-md-12"><input type="date" name="signbefore" id="signbefore" value="<?php echo date('Y-m-d'); ?>" max="<?php echo e($lead->start_date); ?>" class="form-control"></dd>
             
             <hr class="mt-4 mb-4">

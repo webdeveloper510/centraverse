@@ -1,10 +1,17 @@
 <?php
 
 $bill = App\Models\Billing::where('event_id',$event->id)->first();
-
-$pay = App\Models\PaymentLogs::where('event_id',$event->id)->get();
+$totalpaid = 0;
+if(\App\Models\PaymentLogs::where('event_id',$event->id)->exists()){
+    $pay = App\Models\PaymentLogs::where('event_id',$event->id)->get();
+    $deposit = App\Models\Billing::where('event_id',$event->id)->first();
+    foreach($pay as $p){
+    $totalpaid += $p->amount;
+    }
+}
 $paymentinfo = App\Models\PaymentInfo::where('event_id',$event->id)->orderBy('id', 'desc')->first();
 $info = App\Models\PaymentInfo::where('event_id',$event->id)->get();
+
 $total = 0;
 $latefee = 0;
 $adjustments = 0;
@@ -12,11 +19,54 @@ foreach($info as $inf){
 $latefee += $inf->latefee;
 $adjustments += $inf->adjustments;
 }
-foreach($pay as $p){
-$total += $p->amount;
-}
 ?>
 <?php if($event->status == 3): ?>
+<?php if(($totalpaid + $bill->deposits ) == $event->total ): ?>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+        <div class="row">
+    <div class="col-md-12">
+        <dl class="row">
+            <dt class="col-md-6 need_half"><span class="h6  mb-0"><?php echo e(__('Type')); ?></span></dt>
+            <dd class="col-md-6 need_half"><span class=""><?php echo e($event->type); ?></span></dd>
+
+            <dt class="col-md-6 need_half"><span class="h6  mb-0"><?php echo e(__('Customer Name')); ?></span></dt>
+            <dd class="col-md-6 need_half"><span class=""><?php echo e($event->name); ?></span></dd>
+            
+            <dt class="col-md-6 need_half"><span class="h6  mb-0"><?php echo e(__('Billing Amount')); ?></span></dt>
+            <dd class="col-md-6 need_half"><span class="">$<?php echo e(number_format($event->total)); ?></span></dd>
+
+            <dt class="col-md-6 need_half"><span class="h6  mb-0"><?php echo e(__('Late Fee')); ?></span></dt>
+            <dd class="col-md-6 need_half"><span class=""><?php echo e(($latefee == 0) ? '--': '$'.number_format($latefee)); ?></span></dd>
+
+            <dt class="col-md-6 need_half"><span class="h6  mb-0"><?php echo e(__('Adjustments')); ?></span></dt>
+            <dd class="col-md-6 need_half"><span class=""><?php echo e(($adjustments == 0) ? '--': '$'.number_format($adjustments)); ?></span></dd>
+
+            <dt class="col-md-6 need_half"><span class="h6  mb-0"><?php echo e(__('Amount Due')); ?></span></dt>
+            <dd class="col-md-6 need_half"><span class=""><?php echo e(($event->total -($totalpaid + $bill->deposits) == 0) ? ' -- ': '$'.number_format($event->total -($totalpaid + $bill->deposits))); ?></span></dd>
+            <!-- <dt class="col-md-6 need_half"><span class="h6  mb-0"><?php echo e(__('Paid Amount')); ?></span></dt> -->
+            <!-- <dd class="col-md-6 need_half"><span class=""><?php echo e((($totalpaid + $bill->deposits) == 0) ? ' -- ': '$'.number_format($totalpaid + $bill->deposits)); ?></span></dd> -->
+        </dl>
+    </div>
+    <div class="w-100 text-end pr-2">
+            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Payment')): ?>
+            <div class="action-btn bg-warning ms-2">
+                <a href="<?php echo e(route('billing.estimateview',urlencode(encrypt($event->id)))); ?>"> 
+                <button  data-bs-toggle="tooltip"title="<?php echo e(__('View Invoice')); ?>" class="btn btn-sm btn-secondary btn-icon m-1">
+                <i class="fa fa-print"></i></button>
+            </a>
+            </div>
+            <?php endif; ?>
+        </div>
+</div>
+            <!-- <div class="alert alert-success">
+                Amount is paid
+            </div> -->
+        </div>
+    </div>
+</div>
+<?php else: ?>
 <?php echo e(Form::open(array('route' => ['billing.paymentinfoupdate', urlencode(encrypt($event->id))],'method'=>'post','enctype'=>'multipart/form-data'))); ?>
 
 <div class="row">
@@ -24,7 +74,7 @@ $total += $p->amount;
         <div class="form-group">
             <?php echo e(Form::label('amount',__('Contract Amount'),['class'=>'form-label'])); ?>
 
-            <?php echo e(Form::number('amount', $event->total + $bill->deposits,array('class'=>'form-control','placeholder'=>__('Enter Amount'),'required'=>'required','readonly'))); ?>
+            <?php echo e(Form::number('amount',$event->total,array('class'=>'form-control','placeholder'=>__('Enter Amount'),'required'=>'required','readonly'))); ?>
 
         </div>
     </div>
@@ -40,7 +90,7 @@ $total += $p->amount;
         <div class="form-group">
             <?php echo e(Form::label('deposits',__('Deposits on Account'),['class'=>'form-label'])); ?>
 
-            <?php echo e(Form::number('deposits', $bill->deposits + $total,array('class'=>'form-control','placeholder'=>__('Enter Deposits'),'readonly'))); ?>
+            <?php echo e(Form::number('deposits', $bill->deposits ,array('class'=>'form-control','placeholder'=>__('Enter Deposits'),'readonly'))); ?>
 
         </div>
     </div>
@@ -48,7 +98,7 @@ $total += $p->amount;
         <div class="form-group">
             <?php echo e(Form::label('latefee',__('Late Fee'),['class'=>'form-label'])); ?>
 
-            <?php echo e(Form::number('latefee', $latefee, array('class'=>'form-control','placeholder'=>__('Enter Late Fee')))); ?>
+            <?php echo e(Form::number('latefee',0, array('class'=>'form-control','placeholder'=>__('Enter Late Fee')))); ?>
 
         </div>
     </div>
@@ -56,25 +106,15 @@ $total += $p->amount;
         <div class="form-group">
             <?php echo e(Form::label('adjustments',__('Adjustments'),['class'=>'form-label'])); ?>
 
-            <?php echo e(Form::number('adjustments',$adjustments,array('class'=>'form-control','placeholder'=>__('Enter Adjustments')))); ?>
+            <?php echo e(Form::number('adjustments',0,array('class'=>'form-control','placeholder'=>__('Enter Adjustments')))); ?>
 
         </div>
     </div>
-
-    <div class="col-6 need_full">
-        <div class="form-group">
-            <?php echo e(Form::label('amountpaid',__('Total Paid'),['class'=>'form-label'])); ?>
-
-            <?php echo e(Form::number('amountpaid',null,array('class'=>'form-control','placeholder'=>__('Enter Amount Paid'),'readonly'))); ?>
-
-        </div>
-    </div>
-
     <div class="col-6">
         <div class="form-group">
             <?php echo e(Form::label('amountpaid',__('Total Paid'),['class'=>'form-label'])); ?>
 
-            <?php echo e(Form::number('amountpaid',null,array('class'=>'form-control','placeholder'=>__('Enter Amount Paid'),'readonly'))); ?>
+            <?php echo e(Form::number('amountpaid',$totalpaid +$bill->deposits ,array('class'=>'form-control','placeholder'=>__('Enter Amount Paid'),'readonly'))); ?>
 
         </div>
     </div>
@@ -83,7 +123,7 @@ $total += $p->amount;
         <div class="form-group">
             <?php echo e(Form::label('balance',__('Balance Due'),['class'=>'form-label'])); ?>
 
-            <?php echo e(Form::number('balance',null,array('class'=>'form-control','placeholder'=>__('Enter Balance Due'),'readonly'))); ?>
+            <?php echo e(Form::number('balance',null ,array('class'=>'form-control','placeholder'=>__('Enter Balance Due'),'readonly'))); ?>
 
         </div>
     </div>
@@ -143,6 +183,7 @@ $total += $p->amount;
     <?php echo e(Form::submit(__('Save'),array('class'=>'btn btn-primary '))); ?>
 
 </div>
+<?php endif; ?>
 <?php else: ?>
 <div class="container mt-4">
     <div class="row">
@@ -167,8 +208,6 @@ $('#mode').change(function() {
     }
 });
 </script>
-
-
 <script>
 jQuery(function() {
     var amount = parseFloat($("input[name='amount']").val()) || 0;
@@ -176,31 +215,20 @@ jQuery(function() {
     var latefee = parseFloat($("input[name='latefee']").val()) || 0;
     var adjustments = parseFloat($("input[name='adjustments']").val()) || 0;
     var other = parseFloat($("input[name='other']").val()) || 0;
-    var amountpaid = deposits;
-    var balance = amount - amountpaid;
+    var amountpaid =  parseFloat($("input[name='amountpaid']").val()) || 0;;
+    var balance = amount + latefee - adjustments- amountpaid ;
     $("input[name='balance']").val(balance);
-    $("input[name='amountpaid']").val(amountpaid);
     $("input[name='amountcollect']").attr('max', balance);
     $("input[name='amount'],input[name='deposits'], input[name='latefee'], input[name='adjustments'], input[name='amountpaid'],input[name='other']")
         .keyup(function() {
-            $("input[name='amountpaid']").empty();
             $("input[name='balance']").empty();
             var amount = parseFloat($("input[name='amount']").val()) || 0;
             var deposits = parseFloat($("input[name='deposits']").val()) || 0;
             var latefee = parseFloat($("input[name='latefee']").val()) || 0;
             var adjustments = parseFloat($("input[name='adjustments']").val()) || 0;
-            var other = parseFloat($("input[name='other']").val()) || 0;
-
-            // var amountpaid = parseFloat($("input[name='amountpaid']").val()) || 0;
-            var amountpaid = deposits;
-            $("input[name='amountpaid']").val(amountpaid);
-            // var amounttobepaid = amount - deposits + latefee - adjustments;
-            var balance = amount + other + latefee - adjustments - amountpaid;
-
-            // Assuming you want to store the balance in an input field with name 'balance'
+            var balance = amount + latefee - adjustments- amountpaid;
+            $("input[name='amountcollect']").attr('max', balance);
             $("input[name='balance']").val(balance);
-            // $("input[name='amounttobepaid']").val(amounttobepaid);
-
             console.log('total', balance);
         });
     $('select[name = "mode"]').change(function() {

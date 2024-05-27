@@ -331,8 +331,7 @@ $converted_to_event = App\Models\Meeting::where('attendees_lead',$lead->id)->exi
                                                 </td>
                                                 <td>${{$billing_data['setup']['cost']}}</td>
                                                 <td>{{$billing_data['setup']['quantity']}}</td>
-                                                <td>${{$total[] =$billing_data['setup']['cost'] * $billing_data['setup']['quantity']}}
-                                                </td>
+                                                <td>${{$total[] =$billing_data['setup']['cost'] * $billing_data['setup']['quantity']}}</td>
                                                 <td></td>
                                             </tr>
                                             @endif

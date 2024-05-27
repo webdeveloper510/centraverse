@@ -91,7 +91,7 @@ $agreestatus= \App\Models\Meeting::$status;
                                                         <?php else: ?>
                                                            <a href="<?php echo e(route('meeting.detailview',urlencode(encrypt($meeting->id)))); ?>"
                                                             data-size="md" title="<?php echo e(__('Detailed view ')); ?>"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                            class="action-item text-primary"  style=" color: #1551c9 !important;">
                                                             <?php echo e(ucfirst($meeting->eventname)); ?></a>
                                                        
                                                         <?php endif; ?>

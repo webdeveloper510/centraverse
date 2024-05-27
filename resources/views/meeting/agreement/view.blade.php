@@ -215,6 +215,15 @@ $enddate = \Carbon\Carbon::createFromFormat('Y-m-d', $meeting['end_date'])->form
 
                     </tr>
                     <tr>
+            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Additional Items</td>
+            <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">${{$billing_data['additional_items']['cost']}}</td>
+            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$billing_data['additional_items']['quantity']}}</td>
+            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">${{$total[] =$billing_data['additional_items']['cost'] * $billing_data['additional_items']['quantity']}}</td>
+            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{$billing_data['additional_items']['notes']}}</td>
+
+        </tr>
+                    <tr>
                         <td>-</td>
                         <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                         <td colspan="3" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>

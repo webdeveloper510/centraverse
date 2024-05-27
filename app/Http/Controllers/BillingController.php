@@ -55,9 +55,12 @@ class BillingController extends Controller
         $items = $request->billing;
         $totalCost = 0;
         foreach ($items as $item) {
-            $totalCost += $item['cost'] * $item['quantity'];
-        }
-        $totalCost = $totalCost + 7 * ($totalCost)/100 + 20 * ($totalCost)/100;
+         
+            $totalCost += ($item['cost'] * $item['quantity']);
+           
+
+        } 
+        $totalCost = $totalCost + ( 7 * ($totalCost)/100 ) + (20 * ($totalCost)/100);
         $billing = new Billing();
         $billing['event_id'] = $id;
         $billing['data'] = serialize($items);
@@ -186,6 +189,8 @@ class BillingController extends Controller
             'billing_data' => unserialize($billing->data),
             'billing' => $billing
         ];
+        // echo"<pre>";print_r(unserialize($billing->data));die;
+
         $pdf = Pdf::loadView('billing.estimateview', $data);
         return $pdf->stream('estimate.pdf');
     }

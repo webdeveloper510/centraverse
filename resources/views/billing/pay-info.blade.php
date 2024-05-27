@@ -1,10 +1,17 @@
-@php
+<?php
 
 $bill = App\Models\Billing::where('event_id',$event->id)->first();
-
-$pay = App\Models\PaymentLogs::where('event_id',$event->id)->get();
+$totalpaid = 0;
+if(\App\Models\PaymentLogs::where('event_id',$event->id)->exists()){
+    $pay = App\Models\PaymentLogs::where('event_id',$event->id)->get();
+    $deposit = App\Models\Billing::where('event_id',$event->id)->first();
+    foreach($pay as $p){
+    $totalpaid += $p->amount;
+    }
+}
 $paymentinfo = App\Models\PaymentInfo::where('event_id',$event->id)->orderBy('id', 'desc')->first();
 $info = App\Models\PaymentInfo::where('event_id',$event->id)->get();
+
 $total = 0;
 $latefee = 0;
 $adjustments = 0;
@@ -12,17 +19,60 @@ foreach($info as $inf){
 $latefee += $inf->latefee;
 $adjustments += $inf->adjustments;
 }
-foreach($pay as $p){
-$total += $p->amount;
-}
-@endphp
+?>
 @if($event->status == 3)
+@if(($totalpaid + $bill->deposits ) == $event->total )
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+        <div class="row">
+    <div class="col-md-12">
+        <dl class="row">
+            <dt class="col-md-6 need_half"><span class="h6  mb-0">{{__('Type')}}</span></dt>
+            <dd class="col-md-6 need_half"><span class="">{{ $event->type }}</span></dd>
+
+            <dt class="col-md-6 need_half"><span class="h6  mb-0">{{__('Customer Name')}}</span></dt>
+            <dd class="col-md-6 need_half"><span class="">{{ $event->name }}</span></dd>
+            
+            <dt class="col-md-6 need_half"><span class="h6  mb-0">{{__('Billing Amount')}}</span></dt>
+            <dd class="col-md-6 need_half"><span class="">${{ number_format($event->total) }}</span></dd>
+
+            <dt class="col-md-6 need_half"><span class="h6  mb-0">{{__('Late Fee')}}</span></dt>
+            <dd class="col-md-6 need_half"><span class="">{{($latefee == 0) ? '--': '$'.number_format($latefee) }}</span></dd>
+
+            <dt class="col-md-6 need_half"><span class="h6  mb-0">{{__('Adjustments')}}</span></dt>
+            <dd class="col-md-6 need_half"><span class="">{{ ($adjustments == 0) ? '--': '$'.number_format($adjustments) }}</span></dd>
+
+            <dt class="col-md-6 need_half"><span class="h6  mb-0">{{__('Amount Due')}}</span></dt>
+            <dd class="col-md-6 need_half"><span class="">{{ ($event->total -($totalpaid + $bill->deposits) == 0) ? ' -- ': '$'.number_format($event->total -($totalpaid + $bill->deposits)) }}</span></dd>
+            <!-- <dt class="col-md-6 need_half"><span class="h6  mb-0">{{__('Paid Amount')}}</span></dt> -->
+            <!-- <dd class="col-md-6 need_half"><span class="">{{ (($totalpaid + $bill->deposits) == 0) ? ' -- ': '$'.number_format($totalpaid + $bill->deposits) }}</span></dd> -->
+        </dl>
+    </div>
+    <div class="w-100 text-end pr-2">
+            @can('Manage Payment')
+            <div class="action-btn bg-warning ms-2">
+                <a href="{{ route('billing.estimateview',urlencode(encrypt($event->id)))}}"> 
+                <button  data-bs-toggle="tooltip"title="{{ __('View Invoice') }}" class="btn btn-sm btn-secondary btn-icon m-1">
+                <i class="fa fa-print"></i></button>
+            </a>
+            </div>
+            @endcan
+        </div>
+</div>
+            <!-- <div class="alert alert-success">
+                Amount is paid
+            </div> -->
+        </div>
+    </div>
+</div>
+@else
 {{Form::open(array('route' => ['billing.paymentinfoupdate', urlencode(encrypt($event->id))],'method'=>'post','enctype'=>'multipart/form-data'))}}
 <div class="row">
     <div class="col-6 need_full">
         <div class="form-group">
             {{Form::label('amount',__('Contract Amount'),['class'=>'form-label']) }}
-            {{Form::number('amount', $event->total + $bill->deposits,array('class'=>'form-control','placeholder'=>__('Enter Amount'),'required'=>'required','readonly'))}}
+            {{Form::number('amount',$event->total,array('class'=>'form-control','placeholder'=>__('Enter Amount'),'required'=>'required','readonly'))}}
         </div>
     </div>
     <div class="col-6 need_full">
@@ -35,40 +85,32 @@ $total += $p->amount;
     <div class="col-6 need_full">
         <div class="form-group">
             {{Form::label('deposits',__('Deposits on Account'),['class'=>'form-label']) }}
-            {{Form::number('deposits', $bill->deposits + $total,array('class'=>'form-control','placeholder'=>__('Enter Deposits'),'readonly'))}}
+            {{Form::number('deposits', $bill->deposits ,array('class'=>'form-control','placeholder'=>__('Enter Deposits'),'readonly'))}}
         </div>
     </div>
     <div class="col-6 need_full">
         <div class="form-group">
             {{Form::label('latefee',__('Late Fee'),['class'=>'form-label']) }}
-            {{Form::number('latefee', $latefee, array('class'=>'form-control','placeholder'=>__('Enter Late Fee')))}}
+            {{Form::number('latefee',0, array('class'=>'form-control','placeholder'=>__('Enter Late Fee')))}}
         </div>
     </div>
     <div class="col-6 need_full">
         <div class="form-group">
             {{Form::label('adjustments',__('Adjustments'),['class'=>'form-label']) }}
-            {{Form::number('adjustments',$adjustments,array('class'=>'form-control','placeholder'=>__('Enter Adjustments')))}}
+            {{Form::number('adjustments',0,array('class'=>'form-control','placeholder'=>__('Enter Adjustments')))}}
         </div>
     </div>
-
-    <div class="col-6 need_full">
-        <div class="form-group">
-            {{Form::label('amountpaid',__('Total Paid'),['class'=>'form-label']) }}
-            {{Form::number('amountpaid',null,array('class'=>'form-control','placeholder'=>__('Enter Amount Paid'),'readonly'))}}
-        </div>
-    </div>
-
     <div class="col-6">
         <div class="form-group">
             {{Form::label('amountpaid',__('Total Paid'),['class'=>'form-label']) }}
-            {{Form::number('amountpaid',null,array('class'=>'form-control','placeholder'=>__('Enter Amount Paid'),'readonly'))}}
+            {{Form::number('amountpaid',$totalpaid +$bill->deposits ,array('class'=>'form-control','placeholder'=>__('Enter Amount Paid'),'readonly'))}}
         </div>
     </div>
 
     <div class="col-6 need_full">
         <div class="form-group">
             {{Form::label('balance',__('Balance Due'),['class'=>'form-label']) }}
-            {{Form::number('balance',null,array('class'=>'form-control','placeholder'=>__('Enter Balance Due'),'readonly'))}}
+            {{Form::number('balance',null ,array('class'=>'form-control','placeholder'=>__('Enter Balance Due'),'readonly'))}}
         </div>
     </div>
     <div class="col-6 nee.d_full">
@@ -120,6 +162,7 @@ $total += $p->amount;
     <button type="button" class="btn  btn-light" data-bs-dismiss="modal">Close</button>
     {{Form::submit(__('Save'),array('class'=>'btn btn-primary '))}}
 </div>
+@endif
 @else
 <div class="container mt-4">
     <div class="row">
@@ -144,8 +187,6 @@ $('#mode').change(function() {
     }
 });
 </script>
-
-
 <script>
 jQuery(function() {
     var amount = parseFloat($("input[name='amount']").val()) || 0;
@@ -153,31 +194,20 @@ jQuery(function() {
     var latefee = parseFloat($("input[name='latefee']").val()) || 0;
     var adjustments = parseFloat($("input[name='adjustments']").val()) || 0;
     var other = parseFloat($("input[name='other']").val()) || 0;
-    var amountpaid = deposits;
-    var balance = amount - amountpaid;
+    var amountpaid =  parseFloat($("input[name='amountpaid']").val()) || 0;;
+    var balance = amount + latefee - adjustments- amountpaid ;
     $("input[name='balance']").val(balance);
-    $("input[name='amountpaid']").val(amountpaid);
     $("input[name='amountcollect']").attr('max', balance);
     $("input[name='amount'],input[name='deposits'], input[name='latefee'], input[name='adjustments'], input[name='amountpaid'],input[name='other']")
         .keyup(function() {
-            $("input[name='amountpaid']").empty();
             $("input[name='balance']").empty();
             var amount = parseFloat($("input[name='amount']").val()) || 0;
             var deposits = parseFloat($("input[name='deposits']").val()) || 0;
             var latefee = parseFloat($("input[name='latefee']").val()) || 0;
             var adjustments = parseFloat($("input[name='adjustments']").val()) || 0;
-            var other = parseFloat($("input[name='other']").val()) || 0;
-
-            // var amountpaid = parseFloat($("input[name='amountpaid']").val()) || 0;
-            var amountpaid = deposits;
-            $("input[name='amountpaid']").val(amountpaid);
-            // var amounttobepaid = amount - deposits + latefee - adjustments;
-            var balance = amount + other + latefee - adjustments - amountpaid;
-
-            // Assuming you want to store the balance in an input field with name 'balance'
+            var balance = amount + latefee - adjustments- amountpaid;
+            $("input[name='amountcollect']").attr('max', balance);
             $("input[name='balance']").val(balance);
-            // $("input[name='amounttobepaid']").val(amounttobepaid);
-
             console.log('total', balance);
         });
     $('select[name = "mode"]').change(function() {
