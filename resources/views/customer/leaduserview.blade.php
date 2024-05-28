@@ -32,7 +32,7 @@
                                             <thead>
                                                 <tr>
                                                     <th scope="col" class="sort" data-sort="name">{{__('Name')}}</th>
-                                                    <th scope="col" class="sort" data-sort="budget">{{__('Lead Type')}}
+                                                    <th scope="col" class="sort" data-sort="budget">{{__('Event Type')}}
                                                     </th>
                                                     <th scope="col" class="sort">{{__('Guest Count')}}</th>
                                                     <th scope="col" class="sort">{{__('Event Date')}}</th>
@@ -75,8 +75,13 @@
                                                 }
                                                 ?>
                                                 <tr>
-                                                    <td>
-                                                        {{ ucfirst($lead->name) }}
+                                                    <td> <a href="{{ route('lead.info',urlencode(encrypt($lead->id)))}}"
+                                                        data-size="md" title="{{ __('Lead Details') }}"
+                                                        class="action-item text-primary"
+                                                        style="color:#1551c9 !important;">
+                                                        <b> {{ ucfirst($lead->name) }}</b>
+                                                    </a>
+                                                     
                                                     </td>
                                                     <td><b> {{ ucfirst($lead->type) }}</b></td>
                                                     <td>

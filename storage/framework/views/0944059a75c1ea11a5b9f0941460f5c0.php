@@ -134,7 +134,7 @@ $files = Storage::files('app/public/Event/'.$event->id);
                                                 <td><?php echo e(Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $payment->created_at)->format('M d, Y')); ?></td>
                                                 <td><?php echo e($payment->name_of_card); ?></td>
                                                 <td><?php echo e($payment->transaction_id); ?></td>
-                                                <td><a href="<?php echo e(Storage::url('app/public/Invoice/'.$payment->event_id.'/'.$payment->invoices)); ?>"download><?php echo e(ucfirst($payment->invoices)); ?></a></td>
+                                                <td><a href="<?php echo e(Storage::url('app/public/Invoice/'.$payment->event_id.'/'.$payment->invoices)); ?>"download style="    color: #1551c9 !important;"><?php echo e(ucfirst($payment->invoices)); ?></a></td>
                                                 <td><?php echo e($payment->amount); ?></td>
                                             </tr>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
