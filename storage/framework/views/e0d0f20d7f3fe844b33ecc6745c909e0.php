@@ -9,9 +9,7 @@ if(\App\Models\PaymentLogs::where('event_id',$event->id)->exists()){
     $totalpaid += $p->amount;
     }
 }
-$paymentinfo = App\Models\PaymentInfo::where('event_id',$event->id)->orderBy('id', 'desc')->first();
 $info = App\Models\PaymentInfo::where('event_id',$event->id)->get();
-
 $total = 0;
 $latefee = 0;
 $adjustments = 0;
@@ -21,48 +19,45 @@ $adjustments += $inf->adjustments;
 }
 ?>
 <?php if($event->status == 3): ?>
-<?php if(($totalpaid + $bill->deposits ) == $event->total ): ?>
+<?php if(($totalpaid + $bill->deposits +$adjustments - $latefee) == $event->total ): ?>
 <div class="container mt-4">
     <div class="row">
         <div class="col-md-12">
-        <div class="row">
-    <div class="col-md-12">
-        <dl class="row">
-            <dt class="col-md-6 need_half"><span class="h6  mb-0"><?php echo e(__('Type')); ?></span></dt>
-            <dd class="col-md-6 need_half"><span class=""><?php echo e($event->type); ?></span></dd>
+            <div class="row">
+                <div class="col-md-12">
+                    <dl class="row">
+                        <dt class="col-md-6 need_half"><span class="h6  mb-0"><?php echo e(__('Type')); ?></span></dt>
+                        <dd class="col-md-6 need_half"><span class=""><?php echo e($event->type); ?></span></dd>
 
-            <dt class="col-md-6 need_half"><span class="h6  mb-0"><?php echo e(__('Customer Name')); ?></span></dt>
-            <dd class="col-md-6 need_half"><span class=""><?php echo e($event->name); ?></span></dd>
-            
-            <dt class="col-md-6 need_half"><span class="h6  mb-0"><?php echo e(__('Billing Amount')); ?></span></dt>
-            <dd class="col-md-6 need_half"><span class="">$<?php echo e(number_format($event->total)); ?></span></dd>
+                        <dt class="col-md-6 need_half"><span class="h6  mb-0"><?php echo e(__('Customer Name')); ?></span></dt>
+                        <dd class="col-md-6 need_half"><span class=""><?php echo e($event->name); ?></span></dd>
+                        
+                        <dt class="col-md-6 need_half"><span class="h6  mb-0"><?php echo e(__('Billing Amount')); ?></span></dt>
+                        <dd class="col-md-6 need_half"><span class="">$<?php echo e(number_format($event->total)); ?></span></dd>
 
-            <dt class="col-md-6 need_half"><span class="h6  mb-0"><?php echo e(__('Late Fee')); ?></span></dt>
-            <dd class="col-md-6 need_half"><span class=""><?php echo e(($latefee == 0) ? '--': '$'.number_format($latefee)); ?></span></dd>
+                        <dt class="col-md-6 need_half"><span class="h6  mb-0"><?php echo e(__('Late Fee')); ?></span></dt>
+                        <dd class="col-md-6 need_half"><span class=""><?php echo e(($latefee == 0) ? '--': '$'.number_format($latefee)); ?></span></dd>
 
-            <dt class="col-md-6 need_half"><span class="h6  mb-0"><?php echo e(__('Adjustments')); ?></span></dt>
-            <dd class="col-md-6 need_half"><span class=""><?php echo e(($adjustments == 0) ? '--': '$'.number_format($adjustments)); ?></span></dd>
+                        <dt class="col-md-6 need_half"><span class="h6  mb-0"><?php echo e(__('Adjustments')); ?></span></dt>
+                        <dd class="col-md-6 need_half"><span class=""><?php echo e(($adjustments == 0) ? '--': '$'.number_format($adjustments)); ?></span></dd>
 
-            <dt class="col-md-6 need_half"><span class="h6  mb-0"><?php echo e(__('Amount Due')); ?></span></dt>
-            <dd class="col-md-6 need_half"><span class=""><?php echo e(($event->total -($totalpaid + $bill->deposits) == 0) ? ' -- ': '$'.number_format($event->total -($totalpaid + $bill->deposits))); ?></span></dd>
-            <!-- <dt class="col-md-6 need_half"><span class="h6  mb-0"><?php echo e(__('Paid Amount')); ?></span></dt> -->
-            <!-- <dd class="col-md-6 need_half"><span class=""><?php echo e((($totalpaid + $bill->deposits) == 0) ? ' -- ': '$'.number_format($totalpaid + $bill->deposits)); ?></span></dd> -->
-        </dl>
-    </div>
-    <div class="w-100 text-end pr-2">
-            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Payment')): ?>
-            <div class="action-btn bg-warning ms-2">
-                <a href="<?php echo e(route('billing.estimateview',urlencode(encrypt($event->id)))); ?>"> 
-                <button  data-bs-toggle="tooltip"title="<?php echo e(__('View Invoice')); ?>" class="btn btn-sm btn-secondary btn-icon m-1">
-                <i class="fa fa-print"></i></button>
-            </a>
+                        <dt class="col-md-6 need_half"><span class="h6  mb-0"><?php echo e(__('Amount Due')); ?></span></dt>
+                        <dd class="col-md-6 need_half"><span class=""><?php echo e(($event->total -($totalpaid + $bill->deposits + $adjustments - $latefee) == 0) ? ' -- ': '$'.number_format($event->total -($totalpaid + $bill->deposits + $adjustments - $latefee))); ?></span></dd>
+                        <!-- <dt class="col-md-6 need_half"><span class="h6  mb-0"><?php echo e(__('Paid Amount')); ?></span></dt> -->
+                        <!-- <dd class="col-md-6 need_half"><span class=""><?php echo e((($totalpaid + $bill->deposits) == 0) ? ' -- ': '$'.number_format($totalpaid + $bill->deposits)); ?></span></dd> -->
+                    </dl>
+                </div>
+                <div class="w-100 text-end pr-2">
+                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Payment')): ?>
+                        <div class="action-btn bg-warning ms-2">
+                            <a href="<?php echo e(route('billing.estimateview',urlencode(encrypt($event->id)))); ?>"> 
+                            <button  data-bs-toggle="tooltip"title="<?php echo e(__('View Invoice')); ?>" class="btn btn-sm btn-secondary btn-icon m-1">
+                            <i class="fa fa-print"></i></button>
+                        </a>
+                        </div>
+                        <?php endif; ?>
+                </div>
             </div>
-            <?php endif; ?>
-        </div>
-</div>
-            <!-- <div class="alert alert-success">
-                Amount is paid
-            </div> -->
         </div>
     </div>
 </div>
@@ -226,7 +221,7 @@ jQuery(function() {
             var deposits = parseFloat($("input[name='deposits']").val()) || 0;
             var latefee = parseFloat($("input[name='latefee']").val()) || 0;
             var adjustments = parseFloat($("input[name='adjustments']").val()) || 0;
-            var balance = amount + latefee - adjustments- amountpaid;
+            var balance = amount + latefee - adjustments - amountpaid;
             $("input[name='amountcollect']").attr('max', balance);
             $("input[name='balance']").val(balance);
             console.log('total', balance);

@@ -147,10 +147,19 @@ class AuthorizeController extends Controller
                         
                         // $payinformaton = PaymentLogs::latest()->first();
                         $paymentinfo = PaymentInfo::where('event_id',$id)->orderby('id','desc')->first();
+                        $payhistory = PaymentLogs::where('event_id',$id)->get();
+                        $deposit = Billing::where('event_id',$id)->first()->deposits;
+                        $totalpaid = 0;
+                        foreach ($payhistory as $key => $value) {
+                          $totalpaid+= $value->amount;
+                        }
                         // $paymentlog = PaymentLogs::where('event_id',$id)->orderby('id','desc')->first();
                         $data=[
                             'paymentinfo' =>$paymentinfo,
-                            'paymentlog'=>$newpayment
+                            'paymentlog'=>$newpayment,
+                            'event' =>$event,
+                            'totalpaid'=>$totalpaid,
+                            'deposit' =>$deposit
                         ];
                         $pdf = PDF::loadView('billing.mail.inv', $data);
                         // return $pdf->stream('invoice.pdf');          
@@ -158,7 +167,7 @@ class AuthorizeController extends Controller
                             $filename = 'invoice_' . time() . '.pdf'; // You can adjust the filename as needed
                             $folder = 'Invoice/' . $id; 
                             $path = Storage::disk('public')->put($folder . '/' . $filename, $pdf->output());
-                            $newpayment->update(['attachment' => $filename]);
+                            $newpayment->update(['invoices' => $filename]);
                         } catch (\Exception $e) {
                             // Log the error for future reference
                             \Log::error('File upload failed: ' . $e->getMessage());

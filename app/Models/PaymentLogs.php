@@ -15,7 +15,7 @@ class PaymentLogs extends Model
      * @var array
      */
     protected $fillable = [
-        'attachment',
+
         'event_id',
         'name_of_card',
         'amount',
@@ -23,5 +23,7 @@ class PaymentLogs extends Model
         'transaction_id',
         'auth_id',
         'message_code',
+        'attachment',
+        'invoices'
     ];
 }

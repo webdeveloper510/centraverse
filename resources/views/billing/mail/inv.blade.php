@@ -1,7 +1,5 @@
 <?php 
- $event= App\Models\Meeting::where('id',$paymentinfo->event_id)->first();
  $logo=\App\Models\Utility::get_file('uploads/logo/');
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -209,11 +207,11 @@
 
                     <tr>
                         <td colspan="2" class="text-right"><b>Total Amount</b></td>
-                        <td> <b>${{$paymentinfo->amount}}</b></td>
+                        <td> <b>${{$event['total']}}</b></td>
                     </tr>
                     <tr>
                         <td colspan="2" class="text-right"><b>Adjustments</b></td>
-                        <td> <b>${{$paymentinfo->adjustments}} </b></td>
+                        <td> <b>{{($paymentinfo->adjustments == 0)? '--' :'$'.$paymentinfo->adjustments }} </b></td>
                     </tr>
                     <tr>
                         <td colspan="2" class="text-right">Late Fee(If any)</td>
@@ -221,11 +219,11 @@
                     </tr>
                     <tr>
                         <td colspan="2" class="text-right"><b>Paid Amount</b></td>
-                        <td> <b>${{$paymentlog->amount}} </b></td>
+                        <td> <b>${{$totalpaid}} </b></td>
                     </tr>
                     <tr>
                         <td colspan="2" class="text-right"><b>Balance Due</b></td>
-                        <td> <b>${{$paymentinfo->amount - $paymentlog->amount - $paymentinfo->adjustments}} </b></td>
+                        <td> <b>${{$event->total - $totalpaid - $deposit}} </b></td>
                     </tr>
                 </tbody>
             </table>

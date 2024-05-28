@@ -119,15 +119,11 @@ $files = Storage::files('app/public/Event/'.$event->id);
                                     <table id="datatable" class="table datatable align-items-center">
                                         <thead class="thead-light">
                                             <tr>
-                                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Created On')); ?>
-
-                                                </th>
+                                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Created On')); ?></th>
                                                 <th scope="col" class="sort" data-sort="status"><?php echo e(__('Name')); ?></th>
-                                                <th scope="col" class="sort" data-sort="completion">
-                                                    <?php echo e(__('Transaction Id')); ?></th>
-                                               
-                                                <th scope="col" class="sort" data-sort="completion">
-                                                    <?php echo e(__('Amount Recieved')); ?></th>
+                                                <th scope="col" class="sort" data-sort="completion"><?php echo e(__('Transaction Id')); ?></th>
+                                                <th><?php echo e(__('Invoice')); ?></th>
+                                                <th scope="col" class="sort" data-sort="completion"><?php echo e(__('Amount Recieved')); ?></th>
 
                                             </tr>
                                         </thead>
@@ -135,17 +131,10 @@ $files = Storage::files('app/public/Event/'.$event->id);
                                             <?php $__currentLoopData = $payments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $payment): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <tr>
 
-
-                                                <td><?php echo e(Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $payment->created_at)->format('M d, Y')); ?>
-
-                                                </td>
+                                                <td><?php echo e(Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $payment->created_at)->format('M d, Y')); ?></td>
                                                 <td><?php echo e($payment->name_of_card); ?></td>
                                                 <td><?php echo e($payment->transaction_id); ?></td>
-                                                <!-- <?php if($payinfo): ?>
-                                                <td><?php echo e($payinfo->amounttobepaid); ?></td>
-                                                <?php else: ?>
-                                                <td> -- </td>
-                                                <?php endif; ?> -->
+                                                <td><a href="<?php echo e(Storage::url('app/public/Invoice/'.$payment->event_id.'/'.$payment->invoices)); ?>"download><?php echo e(ucfirst($payment->invoices)); ?></a></td>
                                                 <td><?php echo e($payment->amount); ?></td>
                                             </tr>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

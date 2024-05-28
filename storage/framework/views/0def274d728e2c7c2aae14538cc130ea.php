@@ -71,7 +71,7 @@ h6 {
                                         <div class="mt10">
                                             <h6 class="mb-0"><?php echo e(__('Amount Recieved(E)')); ?></h6>
                                             <h3 class="mb-0">
-                                                <?php echo e($events_revenue_generated != 0 ? '$'.number_format($events_revenue_generated +$depositss) : '--'); ?>
+                                                <?php echo e($events_revenue_generated != 0 ? '$'.number_format($events_revenue_generated +$depositss ) : '--'); ?>
 
                                             </h3>
 
@@ -91,7 +91,6 @@ h6 {
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Active Leads</h5>
                             <div class="scrol-card">
-
                                 <?php $__currentLoopData = $activeLeads; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $lead): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
@@ -183,12 +182,8 @@ h6 {
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Finances</h5>
                             <div class="scrol-card">
-                                <!-- <div class="card">
-                                    <div class="card-body"> -->
-                                 
-
-                                        <?php if(isset($events) && !empty($events)): ?>
-                                        <?php $__currentLoopData = $events; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $event): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <?php if(isset($events) && !empty($events)): ?>
+                                    <?php $__currentLoopData = $events; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $event): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <?php
                                             $pay = App\Models\PaymentLogs::where('event_id',$event['id'])->exists();
                                             $deposit = App\Models\Billing::where('event_id',$event['id'])->first();
@@ -218,7 +213,7 @@ h6 {
 
                                                 <div style="color: #a99595;">
                                                     Billing Amount: $<?php echo e(number_format($event['total'])); ?><br>
-                                                    Pending Amount: <?php echo e(($event['total'] - $total -$deposit->deposits == 0) ? '--' : '$'. number_format($event['total'] - $total -$deposit->deposits )); ?>
+                                                    Amount Due: <?php echo e(($event['total'] - $total -$deposit->deposits == 0) ? '--' : '$'. number_format($event['total'] - $total -$deposit->deposits -$adjustments+ $latefee)); ?>
 
                                                 </div>
                                                 <div class="date-y">
@@ -236,24 +231,12 @@ h6 {
                                                     </p>
                                                     <?php endif; ?>
                                                 </div>
-                                                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Invoice')): ?>
-                                                <div class="action-btn bg-warning ms-2">
-                                                    <a href="#" data-size="md"
-                                                        data-url="<?php echo e(route('billing.show',$event['id'])); ?>"
-                                                        data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>"
-                                                        data-ajax-popup="true" data-title="<?php echo e(__('Invoice Details')); ?>"
-                                                        class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                        <i class="ti ti-eye"></i>
-                                                    </a>
-                                                </div>
-                                                <?php endif; ?>
+                                            
 
                                             </div>
                                         </div>
-                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                        <?php endif; ?>
-                                    <!-- </div>
-                                </div> -->
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>

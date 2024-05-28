@@ -10,6 +10,7 @@
 <li class="breadcrumb-item">{{ __('Invoice') }}</li>
 @endsection
 @section('content')
+
 <div class="container-field">
     <div id="wrapper">
         <div id="page-content-wrapper">
@@ -27,19 +28,47 @@
                                                 <th scope="col" class="sort" data-sort="status">{{ __('Event') }} <span
                                                         class="opticy"> dddd</span></th>
                                                 <th scope="col" class="sort" data-sort="completion">
-                                                    {{ __('Event Date') }} <span class="opticy"> dddd</span></th>
+                                                    {{ __('Event Date') }} <span class="opticy"> </span></th>
                                                 <th scope="col" class="sort" data-sort="completion">
-                                                    {{ __('Payment Status') }} <span class="opticy"> dddd</span></th>
+                                                    {{ __('Payment Status') }} <span class="opticy"> </span></th>
                                                 <th scope="col" class="sort" data-sort="completion">
-                                                    {{ __('Billing Amount') }}<span class="opticy"> dddd</span></th>
+                                                    {{ __('Billing Amount') }}<span class="opticy"> </span></th>
                                                 <th scope="col" class="sort" data-sort="completion">
-                                                    {{ __('Paid Amount') }} <span class="opticy"> dddd</span></th>
+                                                    {{ __('Adjustments') }}<span class="opticy"> </span></th>
+                                                <th scope="col" class="sort" data-sort="completion">
+                                                    {{ __('Latefee') }}<span class="opticy"> </span></th>
+                                                <th scope="col" class="sort" data-sort="completion">
+                                                    {{ __('Paid Amount') }} <span class="opticy"> </span></th>
                                                 <th scope="col" class="text-end">{{ __('Action') }}<span class="opticy">
-                                                        dddd</span> </th>
+                                                    </span> </th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <?php   $latefee = 0;
+                                                $adjustments = 0;
+                                                $total = 0;
+
+                                                ?>
                                             @foreach ($events as $event)
+                                            @if(\App\Models\PaymentInfo::where('event_id',$event->id)->exists())
+                                            <?php  
+                                              
+                                                $info = App\Models\PaymentInfo::where('event_id',$event->id)->get();
+                                                foreach($info as $inf){
+                                                $latefee += $inf->latefee;
+                                                $adjustments += $inf->adjustments;
+                                                }
+                                            ?>
+                                            @endif
+                                            @if(\App\Models\PaymentLogs::where('event_id',$event->id)->exists())
+                                                    <?php 
+                                                        $pay = App\Models\PaymentLogs::where('event_id',$event->id)->get();
+                                                        $deposit = App\Models\Billing::where('event_id',$event->id)->first();
+                                                        foreach($pay as $p){
+                                                        $total += $p->amount;
+                                                        }
+                                                    ?>
+                                                    @endif
                                             <tr>
                                                 <td>
                                                     <a href="" data-size="md" data-title="{{ __('Invoice Details') }}"
@@ -82,115 +111,90 @@
                                                         class=" text-danger ">{{__(\App\Models\Billing::$status[0]) }}</span>
                                                     @endif
                                                 </td>
-                                                <td>{{($event->total != 0)? '$'. number_format($event->total):'--'}}
-                                                </td>
-                                                <td>
-                                                    @if(\App\Models\PaymentLogs::where('event_id',$event->id)->exists())
-                                                    <?php 
-                                                        $pay = App\Models\PaymentLogs::where('event_id',$event->id)->get();
-                                                        $deposit = App\Models\Billing::where('event_id',$event->id)->first();
-
-                                                        $total = 0;
-                                                        foreach($pay as $p){
-                                                        $total += $p->amount;
-                                                        }
-                                                    ?>
-                                                    {{ ($total != 0 || isset($deposit)) ? '$'. $deposit->deposits + $total:'--'}}
-                                                    @endif
-                                                </td>
-                                                <td class="text-end">
-                                                    <!-- <div class="action-btn bg-primary ms-2">
-                                                        <a href="{{route('billing.invoicepdf',$event->id)}}" data-size="md"
-                                                           title="{{__('Create')}}"class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class="ti ti-invoice"></i>
-                                                        </a>
-                                                    </div>  -->
+                                                <td>{{($event->total != 0)? '$'. number_format($event->total):'--'}}</td>
+                                                <td>{{isset($adjustments)?'$'.$adjustments :'--'}} </td>
+                                                <td>{{isset($latefee)?'$'.$latefee :'--'}} </td>
+                                                <td>{{ ($total != 0 || isset($deposit)) ? '$'. $deposit->deposits + $total :'--'}}</td>
+                                                <td class="text-end"> 
                                                     @if(!(\App\Models\Billing::where('event_id',$event->id)->exists()))
-                                                    @can('Create Payment')
-                                                    <div class="action-btn bg-primary ms-2">
-                                                        <a href="#" data-size="md"
-                                                            data-url="{{ route('billing.create',['billing',$event->id]) }}"
-                                                            data-bs-toggle="tooltip" title="{{__('Create')}}"
-                                                            data-ajax-popup="true"
-                                                            data-title="{{__('Invoice Details')}}"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class="ti ti-plus"></i>
-                                                        </a>
-                                                    </div>
-                                                    @endcan
-                                                    @endif
-                                                    @if(\App\Models\Billing::where('event_id',$event->id)->exists())
-                                                    @can('Manage Payment')
-                                                        <?php 
-                                                            $paymentLog = App\Models\PaymentLogs::where('event_id', $event->id)->exists();
-                                                            $paymentInfo = App\Models\PaymentInfo::where('event_id',$event->id)->orderBy('id', 'desc')->first();
-                                                           
-                                                            $total = 0;
-                                                            if($paymentLog){
-                                                                $pay = App\Models\PaymentLogs::where('event_id',$event->id)->get();
-
-                                                                foreach($pay as $p){
-                                                                    $total += $p->amount;
-                                                                    }
-                                                            }
-                                                            
-                                                        ?>
-                                                        @if(App\Models\Billing::where('event_id',$event->id)->exists())
+                                                            @can('Create Payment')
+                                                            <div class="action-btn bg-primary ms-2">
+                                                                <a href="#" data-size="md"
+                                                                    data-url="{{ route('billing.create',['billing',$event->id]) }}"
+                                                                    data-bs-toggle="tooltip" title="{{__('Create')}}"
+                                                                    data-ajax-popup="true"
+                                                                    data-title="{{__('Invoice Details')}}"
+                                                                    class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                                    <i class="ti ti-plus"></i>
+                                                                </a>
+                                                            </div>
+                                                            @endcan
+                                                    @else
+                                                            @can('Manage Payment')
                                                             <?php 
+                                                                $paymentLog = App\Models\PaymentLogs::where('event_id', $event->id)->exists();
+                                                                $paymentInfo = App\Models\PaymentInfo::where('event_id',$event->id)->orderBy('id', 'desc')->first();
+                                                                $total = 0;
+                                                                if($paymentLog){
+                                                                    $pay = App\Models\PaymentLogs::where('event_id',$event->id)->get();
+
+                                                                    foreach($pay as $p){
+                                                                        $total += $p->amount;
+                                                                        }
+                                                                }
                                                                 $deposit = App\Models\Billing::where('event_id',$event->id)->first();
                                                             ?>
-                                                            @if(($total + $deposit->deposits) < $event->total)
-                                                                @if($paymentLog)
-                                                                    <div class="action-btn bg-primary ms-2">
-                                                                        <a href="#" data-size="md"
-                                                                            data-url="{{ route('billing.paylink',$event->id) }}"
-                                                                            data-bs-toggle="tooltip"
-                                                                            title="{{__('Share Payment Link')}}"
-                                                                            data-ajax-popup="true"
-                                                                            data-title="{{__('Payment Link')}}"
-                                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                                            <i class="ti ti-share"></i>
-                                                                        </a>
-                                                                    </div>
+                                                            @if(($total + $deposit->deposits +$adjustments - $latefee) < $event->total)
+                                                                <div class="action-btn bg-primary ms-2">
+                                                                    <a href="#" data-size="md"
+                                                                        data-url="{{ route('billing.paylink',$event->id) }}"
+                                                                        data-bs-toggle="tooltip"
+                                                                        title="{{__('Share Payment Link')}}"
+                                                                        data-ajax-popup="true"
+                                                                        data-title="{{__('Payment Link')}}"
+                                                                        class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                                        <i class="ti ti-share"></i>
+                                                                    </a>
+                                                                </div>
+                                                            
                                                                 @endif
-                                                            @endif
-                                                        @endif
-                                                        <div class="action-btn bg-info ms-2">
-                                                            <a href="#" data-size="md"
-                                                                data-url="{{ route('billing.paymentinfo',urlencode(encrypt($event->id))) }}"
-                                                                data-bs-toggle="tooltip" title="{{__('Payment')}}"
-                                                                data-ajax-popup="true"
-                                                                data-title="{{__('Payment Information')}}"
-                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                                <i class=" fa fa-credit-card "></i>
-                                                            </a>
-                                                        </div>
-                                                        <div class="action-btn bg-warning ms-2">
-                                                            <a href="#" data-size="md"
-                                                                data-url="{{ route('billing.show',$event->id) }}"
-                                                                data-bs-toggle="tooltip" title="{{__('Quick View')}}"
-                                                                data-ajax-popup="true"
-                                                                data-title="{{__('Invoice Details')}}"
-                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                                <i class="ti ti-eye"></i>
-                                                            </a>
-                                                        </div>
-                                                    @endcan
-                                                    @can('Delete Payment')
-                                                        <div class="action-btn bg-danger ms-2">
-                                                            {!! Form::open(['method' => 'DELETE', 'route' =>
-                                                            ['billing.destroy', $event->id]]) !!}
+                                                            <div class="action-btn bg-info ms-2">
+                                                                <a href="#" data-size="md"
+                                                                    data-url="{{ route('billing.paymentinfo',urlencode(encrypt($event->id))) }}"
+                                                                    data-bs-toggle="tooltip" title="{{__('Payment')}}"
+                                                                    data-ajax-popup="true"
+                                                                    data-title="{{__('Payment Information')}}"
+                                                                    class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                                    <i class=" fa fa-credit-card "></i>
+                                                                </a>
+                                                            </div>
+                                                            
 
-                                                            <a href="#!"
-                                                                class="mx-3 btn btn-sm  align-items-center text-white show_confirm"
-                                                                data-bs-toggle="tooltip" title='Delete'>
-                                                                <i class="ti ti-trash"></i>
-                                                            </a>
-                                                            {!! Form::close() !!}
-                                                        </div>
-                                                    @endcan
-                                                @endif
+                                                            <div class="action-btn bg-warning ms-2">
+                                                                <a href="#" data-size="md"
+                                                                    data-url="{{ route('billing.show',$event->id) }}"
+                                                                    data-bs-toggle="tooltip" title="{{__('Quick View')}}"
+                                                                    data-ajax-popup="true"
+                                                                    data-title="{{__('Invoice Details')}}"
+                                                                    class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                                    <i class="ti ti-eye"></i>
+                                                                </a>
+                                                            </div>
+                                                        @endcan
+                                                        @can('Delete Payment')
+                                                            <div class="action-btn bg-danger ms-2">
+                                                                {!! Form::open(['method' => 'DELETE', 'route' =>
+                                                                ['billing.destroy', $event->id]]) !!}
 
+                                                                <a href="#!"
+                                                                    class="mx-3 btn btn-sm  align-items-center text-white show_confirm"
+                                                                    data-bs-toggle="tooltip" title='Delete'>
+                                                                    <i class="ti ti-trash"></i>
+                                                                </a>
+                                                                {!! Form::close() !!}
+                                                            </div>
+                                                        @endcan
+                                                    @endif
                                                 </td>
                                             </tr>
                                             @endforeach

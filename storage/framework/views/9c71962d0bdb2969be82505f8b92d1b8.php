@@ -26,6 +26,7 @@
 <?php endif; ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
+
 <div class="container-field">
     <div id="wrapper">
         <div id="page-content-wrapper">
@@ -40,35 +41,65 @@
                                         <thead>
                                             <tr>
                                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Name')); ?></th>
-                                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Lead Type')); ?></th>
+                                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Event Type')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Guest Count')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Event Date')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Function')); ?></th>
+                                                <th scope="col" class="sort"><?php echo e(__('Package')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Bar')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Status')); ?></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Billing Amount')); ?></th>
-                                                <th scope="col" class="sort"><?php echo e(__('Amount Due')); ?></th>
-                                                <th scope="col" class="sort"><?php echo e(__('Created On')); ?></th>
+                                                <th scope="col" class="sort"><?php echo e(__('Amount Paid')); ?></th>
+                                                <th scope="col" class="sort"><?php echo e(__('Created On')); ?></th> 
 
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php $__currentLoopData = $events; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $event): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <?php 
+                                            if(isset($event->func_package) && !empty($event->func_package)){
+                                                $package = json_decode($event->func_package,true);
+                                            }
+                                            if(isset($event->ad_opts) && !empty($event->ad_opts)){
+                                                $additional = json_decode($event->ad_opts,true);
+                                            }
+                                            if(isset($event->bar_package) && !empty($event->bar_package)){
+                                                $bar = json_decode($event->bar_package,true);
+                                            }
                                             $pay = App\Models\PaymentLogs::where('event_id',$event->id)->get();
                                             $total = 0;
+                                            $latefee = 0;
+                                                $adjustments = 0;
                                             foreach($pay as $p){
                                             $total += $p->amount;
                                             }
+                                            $info = App\Models\PaymentInfo::where('event_id',$event->id)->get();
+                                                foreach($info as $inf){
+                                                $latefee += $inf->latefee;
+                                                $adjustments += $inf->adjustments;
+                                                }
+                                            if(App\Models\Billing::where('event_id',$event->id)->exists()){
+                                                $deposit = App\Models\Billing::where('event_id',$event->id)->first();
+                                            }
+
                                         ?>
                                             <tr>
                                                 <td>
-<!-- 
-                                                    <a href="" data-size="md" title="<?php echo e(__('Event Details')); ?>"
+                                                <?php if($event->attendees_lead != 0): ?>
+                                                        <?php $leaddata = \App\Models\Lead::where('id',$event->attendees_lead)->first() ?>
+                                                        <a href="<?php echo e(route('lead.info',urlencode(encrypt($leaddata->id)))); ?>" data-size="md"
+                                                        data-title="<?php echo e(__('Event Details')); ?>"
                                                         class="action-item text-primary"
-                                                        style="color:#1551c9 !important;"> -->
-                                                        <b> <?php echo e(ucfirst($event->name)); ?></b>
-                                                    <!-- </a> -->
+                                                        style=" color: #1551c9 !important;">
+                                                        <?php echo e(ucfirst($leaddata->leadname)); ?>
+
+                                                        </a>
+                                                        <?php else: ?>
+                                                           <a href="<?php echo e(route('meeting.detailview',urlencode(encrypt($event->id)))); ?>"
+                                                            data-size="md" title="<?php echo e(__('Detailed view ')); ?>"
+                                                            class="action-item text-primary"  style=" color: #1551c9 !important;">
+                                                            <?php echo e(ucfirst($event->eventname)); ?></a>
+                                                        <?php endif; ?>
                                                 </td>
                                                 <td><b> <?php echo e(ucfirst($event->type)); ?></b></td>
                                                 <td>
@@ -77,11 +108,18 @@
                                                 <td><?php echo e(\Auth::user()->dateFormat($event->start_date)); ?></td>
 
                                                 <td><?php echo e(ucfirst($event->function)); ?></td>
+                                                <td>
+                                                   <?php
+                                                        foreach ($package as $key => $value){
+                                                            echo implode(',',$value);
+                                                        }
+                                                   ?>
+                                                </td>
                                                 <td><?php echo e(($event->bar)); ?></td>
 
                                                 <td><?php echo e(__(\App\Models\Meeting::$status[$event->status])); ?></td>
                                                 <td>$<?php echo e(($event->total)); ?></td>
-                                                <td>$<?php echo e($event->total - $total); ?></td>
+                                                <td>$<?php echo e($total + ((isset($deposit)) ?  $deposit->deposits  : 0)); ?></td>
                                                 <td><?php echo e(\Auth::user()->dateFormat($event->created_at)); ?></td>
 
                                             </tr>

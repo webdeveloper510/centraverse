@@ -12,6 +12,7 @@
 <li class="breadcrumb-item"><?php echo e(__('Invoice')); ?></li>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
+
 <div class="container-field">
     <div id="wrapper">
         <div id="page-content-wrapper">
@@ -29,19 +30,47 @@
                                                 <th scope="col" class="sort" data-sort="status"><?php echo e(__('Event')); ?> <span
                                                         class="opticy"> dddd</span></th>
                                                 <th scope="col" class="sort" data-sort="completion">
-                                                    <?php echo e(__('Event Date')); ?> <span class="opticy"> dddd</span></th>
+                                                    <?php echo e(__('Event Date')); ?> <span class="opticy"> </span></th>
                                                 <th scope="col" class="sort" data-sort="completion">
-                                                    <?php echo e(__('Payment Status')); ?> <span class="opticy"> dddd</span></th>
+                                                    <?php echo e(__('Payment Status')); ?> <span class="opticy"> </span></th>
                                                 <th scope="col" class="sort" data-sort="completion">
-                                                    <?php echo e(__('Billing Amount')); ?><span class="opticy"> dddd</span></th>
+                                                    <?php echo e(__('Billing Amount')); ?><span class="opticy"> </span></th>
                                                 <th scope="col" class="sort" data-sort="completion">
-                                                    <?php echo e(__('Paid Amount')); ?> <span class="opticy"> dddd</span></th>
+                                                    <?php echo e(__('Adjustments')); ?><span class="opticy"> </span></th>
+                                                <th scope="col" class="sort" data-sort="completion">
+                                                    <?php echo e(__('Latefee')); ?><span class="opticy"> </span></th>
+                                                <th scope="col" class="sort" data-sort="completion">
+                                                    <?php echo e(__('Paid Amount')); ?> <span class="opticy"> </span></th>
                                                 <th scope="col" class="text-end"><?php echo e(__('Action')); ?><span class="opticy">
-                                                        dddd</span> </th>
+                                                    </span> </th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <?php   $latefee = 0;
+                                                $adjustments = 0;
+                                                $total = 0;
+
+                                                ?>
                                             <?php $__currentLoopData = $events; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $event): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php if(\App\Models\PaymentInfo::where('event_id',$event->id)->exists()): ?>
+                                            <?php  
+                                              
+                                                $info = App\Models\PaymentInfo::where('event_id',$event->id)->get();
+                                                foreach($info as $inf){
+                                                $latefee += $inf->latefee;
+                                                $adjustments += $inf->adjustments;
+                                                }
+                                            ?>
+                                            <?php endif; ?>
+                                            <?php if(\App\Models\PaymentLogs::where('event_id',$event->id)->exists()): ?>
+                                                    <?php 
+                                                        $pay = App\Models\PaymentLogs::where('event_id',$event->id)->get();
+                                                        $deposit = App\Models\Billing::where('event_id',$event->id)->first();
+                                                        foreach($pay as $p){
+                                                        $total += $p->amount;
+                                                        }
+                                                    ?>
+                                                    <?php endif; ?>
                                             <tr>
                                                 <td>
                                                     <a href="" data-size="md" data-title="<?php echo e(__('Invoice Details')); ?>"
@@ -85,119 +114,92 @@
                                                         class=" text-danger "><?php echo e(__(\App\Models\Billing::$status[0])); ?></span>
                                                     <?php endif; ?>
                                                 </td>
-                                                <td><?php echo e(($event->total != 0)? '$'. number_format($event->total):'--'); ?>
-
-                                                </td>
-                                                <td>
-                                                    <?php if(\App\Models\PaymentLogs::where('event_id',$event->id)->exists()): ?>
-                                                    <?php 
-                                                        $pay = App\Models\PaymentLogs::where('event_id',$event->id)->get();
-                                                        $deposit = App\Models\Billing::where('event_id',$event->id)->first();
-
-                                                        $total = 0;
-                                                        foreach($pay as $p){
-                                                        $total += $p->amount;
-                                                        }
-                                                    ?>
-                                                    <?php echo e(($total != 0 || isset($deposit)) ? '$'. $deposit->deposits + $total:'--'); ?>
-
-                                                    <?php endif; ?>
-                                                </td>
-                                                <td class="text-end">
-                                                    <!-- <div class="action-btn bg-primary ms-2">
-                                                        <a href="<?php echo e(route('billing.invoicepdf',$event->id)); ?>" data-size="md"
-                                                           title="<?php echo e(__('Create')); ?>"class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class="ti ti-invoice"></i>
-                                                        </a>
-                                                    </div>  -->
+                                                <td><?php echo e(($event->total != 0)? '$'. number_format($event->total):'--'); ?></td>
+                                                <td><?php echo e(isset($adjustments)?'$'.$adjustments :'--'); ?> </td>
+                                                <td><?php echo e(isset($latefee)?'$'.$latefee :'--'); ?> </td>
+                                                <td><?php echo e(($total != 0 || isset($deposit)) ? '$'. $deposit->deposits + $total :'--'); ?></td>
+                                                <td class="text-end"> 
                                                     <?php if(!(\App\Models\Billing::where('event_id',$event->id)->exists())): ?>
-                                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Payment')): ?>
-                                                    <div class="action-btn bg-primary ms-2">
-                                                        <a href="#" data-size="md"
-                                                            data-url="<?php echo e(route('billing.create',['billing',$event->id])); ?>"
-                                                            data-bs-toggle="tooltip" title="<?php echo e(__('Create')); ?>"
-                                                            data-ajax-popup="true"
-                                                            data-title="<?php echo e(__('Invoice Details')); ?>"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class="ti ti-plus"></i>
-                                                        </a>
-                                                    </div>
-                                                    <?php endif; ?>
-                                                    <?php endif; ?>
-                                                    <?php if(\App\Models\Billing::where('event_id',$event->id)->exists()): ?>
-                                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Payment')): ?>
-                                                        <?php 
-                                                            $paymentLog = App\Models\PaymentLogs::where('event_id', $event->id)->exists();
-                                                            $paymentInfo = App\Models\PaymentInfo::where('event_id',$event->id)->orderBy('id', 'desc')->first();
-                                                           
-                                                            $total = 0;
-                                                            if($paymentLog){
-                                                                $pay = App\Models\PaymentLogs::where('event_id',$event->id)->get();
-
-                                                                foreach($pay as $p){
-                                                                    $total += $p->amount;
-                                                                    }
-                                                            }
-                                                            
-                                                        ?>
-                                                        <?php if(App\Models\Billing::where('event_id',$event->id)->exists()): ?>
+                                                            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Payment')): ?>
+                                                            <div class="action-btn bg-primary ms-2">
+                                                                <a href="#" data-size="md"
+                                                                    data-url="<?php echo e(route('billing.create',['billing',$event->id])); ?>"
+                                                                    data-bs-toggle="tooltip" title="<?php echo e(__('Create')); ?>"
+                                                                    data-ajax-popup="true"
+                                                                    data-title="<?php echo e(__('Invoice Details')); ?>"
+                                                                    class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                                    <i class="ti ti-plus"></i>
+                                                                </a>
+                                                            </div>
+                                                            <?php endif; ?>
+                                                    <?php else: ?>
+                                                            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Payment')): ?>
                                                             <?php 
+                                                                $paymentLog = App\Models\PaymentLogs::where('event_id', $event->id)->exists();
+                                                                $paymentInfo = App\Models\PaymentInfo::where('event_id',$event->id)->orderBy('id', 'desc')->first();
+                                                                $total = 0;
+                                                                if($paymentLog){
+                                                                    $pay = App\Models\PaymentLogs::where('event_id',$event->id)->get();
+
+                                                                    foreach($pay as $p){
+                                                                        $total += $p->amount;
+                                                                        }
+                                                                }
                                                                 $deposit = App\Models\Billing::where('event_id',$event->id)->first();
                                                             ?>
-                                                            <?php if(($total + $deposit->deposits) < $event->total): ?>
-                                                                <?php if($paymentLog): ?>
-                                                                    <div class="action-btn bg-primary ms-2">
-                                                                        <a href="#" data-size="md"
-                                                                            data-url="<?php echo e(route('billing.paylink',$event->id)); ?>"
-                                                                            data-bs-toggle="tooltip"
-                                                                            title="<?php echo e(__('Share Payment Link')); ?>"
-                                                                            data-ajax-popup="true"
-                                                                            data-title="<?php echo e(__('Payment Link')); ?>"
-                                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                                            <i class="ti ti-share"></i>
-                                                                        </a>
-                                                                    </div>
+                                                            <?php if(($total + $deposit->deposits +$adjustments - $latefee) < $event->total): ?>
+                                                                <div class="action-btn bg-primary ms-2">
+                                                                    <a href="#" data-size="md"
+                                                                        data-url="<?php echo e(route('billing.paylink',$event->id)); ?>"
+                                                                        data-bs-toggle="tooltip"
+                                                                        title="<?php echo e(__('Share Payment Link')); ?>"
+                                                                        data-ajax-popup="true"
+                                                                        data-title="<?php echo e(__('Payment Link')); ?>"
+                                                                        class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                                        <i class="ti ti-share"></i>
+                                                                    </a>
+                                                                </div>
+                                                            
                                                                 <?php endif; ?>
-                                                            <?php endif; ?>
+                                                            <div class="action-btn bg-info ms-2">
+                                                                <a href="#" data-size="md"
+                                                                    data-url="<?php echo e(route('billing.paymentinfo',urlencode(encrypt($event->id)))); ?>"
+                                                                    data-bs-toggle="tooltip" title="<?php echo e(__('Payment')); ?>"
+                                                                    data-ajax-popup="true"
+                                                                    data-title="<?php echo e(__('Payment Information')); ?>"
+                                                                    class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                                    <i class=" fa fa-credit-card "></i>
+                                                                </a>
+                                                            </div>
+                                                            
+
+                                                            <div class="action-btn bg-warning ms-2">
+                                                                <a href="#" data-size="md"
+                                                                    data-url="<?php echo e(route('billing.show',$event->id)); ?>"
+                                                                    data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>"
+                                                                    data-ajax-popup="true"
+                                                                    data-title="<?php echo e(__('Invoice Details')); ?>"
+                                                                    class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                                    <i class="ti ti-eye"></i>
+                                                                </a>
+                                                            </div>
                                                         <?php endif; ?>
-                                                        <div class="action-btn bg-info ms-2">
-                                                            <a href="#" data-size="md"
-                                                                data-url="<?php echo e(route('billing.paymentinfo',urlencode(encrypt($event->id)))); ?>"
-                                                                data-bs-toggle="tooltip" title="<?php echo e(__('Payment')); ?>"
-                                                                data-ajax-popup="true"
-                                                                data-title="<?php echo e(__('Payment Information')); ?>"
-                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                                <i class=" fa fa-credit-card "></i>
-                                                            </a>
-                                                        </div>
-                                                        <div class="action-btn bg-warning ms-2">
-                                                            <a href="#" data-size="md"
-                                                                data-url="<?php echo e(route('billing.show',$event->id)); ?>"
-                                                                data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>"
-                                                                data-ajax-popup="true"
-                                                                data-title="<?php echo e(__('Invoice Details')); ?>"
-                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                                <i class="ti ti-eye"></i>
-                                                            </a>
-                                                        </div>
+                                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Delete Payment')): ?>
+                                                            <div class="action-btn bg-danger ms-2">
+                                                                <?php echo Form::open(['method' => 'DELETE', 'route' =>
+                                                                ['billing.destroy', $event->id]]); ?>
+
+
+                                                                <a href="#!"
+                                                                    class="mx-3 btn btn-sm  align-items-center text-white show_confirm"
+                                                                    data-bs-toggle="tooltip" title='Delete'>
+                                                                    <i class="ti ti-trash"></i>
+                                                                </a>
+                                                                <?php echo Form::close(); ?>
+
+                                                            </div>
+                                                        <?php endif; ?>
                                                     <?php endif; ?>
-                                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Delete Payment')): ?>
-                                                        <div class="action-btn bg-danger ms-2">
-                                                            <?php echo Form::open(['method' => 'DELETE', 'route' =>
-                                                            ['billing.destroy', $event->id]]); ?>
-
-
-                                                            <a href="#!"
-                                                                class="mx-3 btn btn-sm  align-items-center text-white show_confirm"
-                                                                data-bs-toggle="tooltip" title='Delete'>
-                                                                <i class="ti ti-trash"></i>
-                                                            </a>
-                                                            <?php echo Form::close(); ?>
-
-                                                        </div>
-                                                    <?php endif; ?>
-                                                <?php endif; ?>
-
                                                 </td>
                                             </tr>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

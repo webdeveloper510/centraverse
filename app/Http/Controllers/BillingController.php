@@ -162,13 +162,13 @@ class BillingController extends Controller
         $payment->save();
         $balance = $request->amountcollect;
         $event = Meeting::find($id);
-       
         $paid = PaymentInfo::where('event_id',$id)->get();
         // echo"<pre>";print_r($paid);die;
         // Meeting::find($id)->update(['total'=> $request->amounttobepaid]);
         if($request->mode == 'credit'){
             return view('payments.pay',compact('balance','event'));
         }else{
+    
             PaymentLogs::create([
                 'amount' => $request->amountcollect,
                 'transaction_id' => $request->paymentref,
@@ -247,26 +247,36 @@ class BillingController extends Controller
     public function invoicepdf(Request $request,$id){
         $paymentinfo = PaymentInfo::where('event_id',$id)->orderby('id','desc')->first();
         $paymentlog = PaymentLogs::where('event_id',$id)->orderby('id','desc')->first();
+        $payhistory = PaymentLogs::where('event_id',$id)->get();
+        $deposit = Billing::where('event_id',$id)->first()->deposits;
+        $totalpaid = 0;
+        foreach ($payhistory as $key => $value) {
+          $totalpaid+= $value->amount;
+        }
+        $event = Meeting::where('id',$id)->first();
         $data=[
             'paymentinfo' =>$paymentinfo,
-            'paymentlog'=>$paymentlog
+            'paymentlog'=>$paymentlog,
+            'event' =>$event,
+            'totalpaid'=>$totalpaid,
+            'deposit' =>$deposit
         ];
         $pdf = PDF::loadView('billing.mail.inv', $data);
         return $pdf->stream('invoice.pdf');              
     }
     public function addpayinfooncopyurl(Request $request,$id){
-        print_r($request->all());
-        // $payment = new PaymentInfo();
-        // $payment->event_id = $id;
-        // $payment->bill_amount = $request->amount;
-        // $payment->deposits =$request->deposit;
-        // $payment->adjustments = $request->adjustment ?? 0;
-        // $payment->latefee = $request->latefee ?? 0;
-        // $payment->collect_amount = $request->balance;
-        // $payment->paymentref = '';
-        // $payment->modeofpayment = 'credit';
-        // $payment->notes = $request->notes;
-        // $payment->save();
-        // return true;
+        // print_r($request->all());
+        $payment = new PaymentInfo();
+        $payment->event_id = $id;
+        $payment->bill_amount = $request->amount;
+        $payment->deposits =$request->deposit;
+        $payment->adjustments = $request->adjustment ?? 0;
+        $payment->latefee = $request->latefee ?? 0;
+        $payment->collect_amount = $request->balance;
+        $payment->paymentref = '';
+        $payment->modeofpayment = 'credit';
+        $payment->notes = $request->notes;
+        $payment->save();
+        return true;
     }
 }

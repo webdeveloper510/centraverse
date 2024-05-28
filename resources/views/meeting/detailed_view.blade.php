@@ -114,14 +114,11 @@ $files = Storage::files('app/public/Event/'.$event->id);
                                     <table id="datatable" class="table datatable align-items-center">
                                         <thead class="thead-light">
                                             <tr>
-                                                <th scope="col" class="sort" data-sort="name">{{ __('Created On') }}
-                                                </th>
+                                                <th scope="col" class="sort" data-sort="name">{{ __('Created On') }}</th>
                                                 <th scope="col" class="sort" data-sort="status">{{ __('Name') }}</th>
-                                                <th scope="col" class="sort" data-sort="completion">
-                                                    {{ __('Transaction Id') }}</th>
-                                               
-                                                <th scope="col" class="sort" data-sort="completion">
-                                                    {{ __('Amount Recieved') }}</th>
+                                                <th scope="col" class="sort" data-sort="completion">{{ __('Transaction Id') }}</th>
+                                                <th>{{__('Invoice')}}</th>
+                                                <th scope="col" class="sort" data-sort="completion">{{ __('Amount Recieved') }}</th>
 
                                             </tr>
                                         </thead>
@@ -129,16 +126,10 @@ $files = Storage::files('app/public/Event/'.$event->id);
                                             @foreach($payments as $payment)
                                             <tr>
 
-
-                                                <td>{{Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $payment->created_at)->format('M d, Y')}}
-                                                </td>
+                                                <td>{{Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $payment->created_at)->format('M d, Y')}}</td>
                                                 <td>{{$payment->name_of_card}}</td>
                                                 <td>{{$payment->transaction_id}}</td>
-                                                <!-- @if($payinfo)
-                                                <td>{{$payinfo->amounttobepaid}}</td>
-                                                @else
-                                                <td> -- </td>
-                                                @endif -->
+                                                <td><a href="{{ Storage::url('app/public/Invoice/'.$payment->event_id.'/'.$payment->invoices) }}"download>{{ucfirst($payment->invoices)}}</a></td>
                                                 <td>{{$payment->amount}}</td>
                                             </tr>
                                             @endforeach

@@ -68,7 +68,7 @@ h6 {
                                         <div class="mt10">
                                             <h6 class="mb-0">{{ __('Amount Recieved(E)') }}</h6>
                                             <h3 class="mb-0">
-                                                {{ $events_revenue_generated != 0 ? '$'.number_format($events_revenue_generated +$depositss) : '--' }}
+                                                {{ $events_revenue_generated != 0 ? '$'.number_format($events_revenue_generated +$depositss ) : '--' }}
                                             </h3>
 
                                         </div>
@@ -87,7 +87,6 @@ h6 {
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Active Leads</h5>
                             <div class="scrol-card">
-
                                 @foreach($activeLeads as $lead)
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
@@ -177,12 +176,8 @@ h6 {
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Finances</h5>
                             <div class="scrol-card">
-                                <!-- <div class="card">
-                                    <div class="card-body"> -->
-                                 
-
-                                        @if(isset($events) && !empty($events))
-                                        @foreach($events as $event)
+                                @if(isset($events) && !empty($events))
+                                    @foreach($events as $event)
                                         <?php
                                             $pay = App\Models\PaymentLogs::where('event_id',$event['id'])->exists();
                                             $deposit = App\Models\Billing::where('event_id',$event['id'])->first();
@@ -211,7 +206,7 @@ h6 {
 
                                                 <div style="color: #a99595;">
                                                     Billing Amount: ${{ number_format($event['total'])}}<br>
-                                                    Pending Amount: {{($event['total'] - $total -$deposit->deposits == 0) ? '--' : '$'. number_format($event['total'] - $total -$deposit->deposits )}}
+                                                    Amount Due: {{($event['total'] - $total -$deposit->deposits == 0) ? '--' : '$'. number_format($event['total'] - $total -$deposit->deposits -$adjustments+ $latefee)}}
                                                 </div>
                                                 <div class="date-y">
                                                     @if($event['start_date'] == $event['end_date'])
@@ -225,24 +220,12 @@ h6 {
                                                     </p>
                                                     @endif
                                                 </div>
-                                                @can('Show Invoice')
-                                                <div class="action-btn bg-warning ms-2">
-                                                    <a href="#" data-size="md"
-                                                        data-url="{{ route('billing.show',$event['id']) }}"
-                                                        data-bs-toggle="tooltip" title="{{__('Quick View')}}"
-                                                        data-ajax-popup="true" data-title="{{__('Invoice Details')}}"
-                                                        class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                        <i class="ti ti-eye"></i>
-                                                    </a>
-                                                </div>
-                                                @endcan
+                                            
 
                                             </div>
                                         </div>
-                                        @endforeach
-                                        @endif
-                                    <!-- </div>
-                                </div> -->
+                                    @endforeach
+                                @endif
                             </div>
                         </div>
                     </div>

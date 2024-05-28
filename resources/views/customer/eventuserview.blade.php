@@ -24,6 +24,7 @@
 @endcan
 @endsection
 @section('content')
+
 <div class="container-field">
     <div id="wrapper">
         <div id="page-content-wrapper">
@@ -38,35 +39,64 @@
                                         <thead>
                                             <tr>
                                                 <th scope="col" class="sort" data-sort="name">{{__('Name')}}</th>
-                                                <th scope="col" class="sort" data-sort="budget">{{__('Lead Type')}}</th>
+                                                <th scope="col" class="sort" data-sort="budget">{{__('Event Type')}}</th>
                                                 <th scope="col" class="sort">{{__('Guest Count')}}</th>
                                                 <th scope="col" class="sort">{{__('Event Date')}}</th>
                                                 <th scope="col" class="sort">{{__('Function')}}</th>
+                                                <th scope="col" class="sort">{{__('Package')}}</th>
                                                 <th scope="col" class="sort">{{__('Bar')}}</th>
                                                 <th scope="col" class="sort">{{__('Status')}}</th>
                                                 <th scope="col" class="sort">{{__('Billing Amount')}}</th>
-                                                <th scope="col" class="sort">{{__('Amount Due')}}</th>
-                                                <th scope="col" class="sort">{{__('Created On')}}</th>
+                                                <th scope="col" class="sort">{{__('Amount Paid')}}</th>
+                                                <th scope="col" class="sort">{{__('Created On')}}</th> 
 
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach($events as $event)
                                             <?php 
+                                            if(isset($event->func_package) && !empty($event->func_package)){
+                                                $package = json_decode($event->func_package,true);
+                                            }
+                                            if(isset($event->ad_opts) && !empty($event->ad_opts)){
+                                                $additional = json_decode($event->ad_opts,true);
+                                            }
+                                            if(isset($event->bar_package) && !empty($event->bar_package)){
+                                                $bar = json_decode($event->bar_package,true);
+                                            }
                                             $pay = App\Models\PaymentLogs::where('event_id',$event->id)->get();
                                             $total = 0;
+                                            $latefee = 0;
+                                                $adjustments = 0;
                                             foreach($pay as $p){
                                             $total += $p->amount;
                                             }
+                                            $info = App\Models\PaymentInfo::where('event_id',$event->id)->get();
+                                                foreach($info as $inf){
+                                                $latefee += $inf->latefee;
+                                                $adjustments += $inf->adjustments;
+                                                }
+                                            if(App\Models\Billing::where('event_id',$event->id)->exists()){
+                                                $deposit = App\Models\Billing::where('event_id',$event->id)->first();
+                                            }
+
                                         ?>
                                             <tr>
                                                 <td>
-<!-- 
-                                                    <a href="" data-size="md" title="{{ __('Event Details') }}"
+                                                @if($event->attendees_lead != 0)
+                                                        <?php $leaddata = \App\Models\Lead::where('id',$event->attendees_lead)->first() ?>
+                                                        <a href="{{ route('lead.info',urlencode(encrypt($leaddata->id)))}}" data-size="md"
+                                                        data-title="{{ __('Event Details') }}"
                                                         class="action-item text-primary"
-                                                        style="color:#1551c9 !important;"> -->
-                                                        <b> {{ ucfirst($event->name) }}</b>
-                                                    <!-- </a> -->
+                                                        style=" color: #1551c9 !important;">
+                                                        {{ucfirst($leaddata->leadname)}}
+                                                        </a>
+                                                        @else
+                                                           <a href="{{route('meeting.detailview',urlencode(encrypt($event->id)))}}"
+                                                            data-size="md" title="{{ __('Detailed view ') }}"
+                                                            class="action-item text-primary"  style=" color: #1551c9 !important;">
+                                                            {{ucfirst($event->eventname)}}</a>
+                                                        @endif
                                                 </td>
                                                 <td><b> {{ ucfirst($event->type) }}</b></td>
                                                 <td>
@@ -75,11 +105,18 @@
                                                 <td>{{\Auth::user()->dateFormat($event->start_date)}}</td>
 
                                                 <td>{{ ucfirst($event->function) }}</td>
+                                                <td>
+                                                   <?php
+                                                        foreach ($package as $key => $value){
+                                                            echo implode(',',$value);
+                                                        }
+                                                   ?>
+                                                </td>
                                                 <td>{{($event->bar)}}</td>
 
                                                 <td>{{ __(\App\Models\Meeting::$status[$event->status]) }}</td>
                                                 <td>${{($event->total)}}</td>
-                                                <td>${{$event->total - $total}}</td>
+                                                <td>${{ $total + ((isset($deposit)) ?  $deposit->deposits  : 0) }}</td>
                                                 <td>{{\Auth::user()->dateFormat($event->created_at)}}</td>
 
                                             </tr>

@@ -14,6 +14,7 @@ class InvoicePaymentMail extends Mailable
 {
     use Queueable, SerializesModels;
     public $newpayment;
+
     /**
      * Create a new message instance.
      */
@@ -21,6 +22,7 @@ class InvoicePaymentMail extends Mailable
     public function __construct($newpayment)
     {
         $this->newpayment = $newpayment;
+    
     }
     
     /**
