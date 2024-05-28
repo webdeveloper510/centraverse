@@ -255,17 +255,18 @@ class BillingController extends Controller
         return $pdf->stream('invoice.pdf');              
     }
     public function addpayinfooncopyurl(Request $request,$id){
-        $payment = new PaymentInfo();
-        $payment->event_id = $id;
-        $payment->bill_amount = $request->amount;
-        $payment->deposits =$request->deposit;
-        $payment->adjustments = $request->adjustment ?? 0;
-        $payment->latefee = $request->latefee ?? 0;
-        $payment->collect_amount = $request->balance;
-        $payment->paymentref = '';
-        $payment->modeofpayment = 'credit';
-        $payment->notes = $request->notes;
-        $payment->save();
-        return true;
+        print_r($request->all());
+        // $payment = new PaymentInfo();
+        // $payment->event_id = $id;
+        // $payment->bill_amount = $request->amount;
+        // $payment->deposits =$request->deposit;
+        // $payment->adjustments = $request->adjustment ?? 0;
+        // $payment->latefee = $request->latefee ?? 0;
+        // $payment->collect_amount = $request->balance;
+        // $payment->paymentref = '';
+        // $payment->modeofpayment = 'credit';
+        // $payment->notes = $request->notes;
+        // $payment->save();
+        // return true;
     }
 }

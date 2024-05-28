@@ -30,10 +30,13 @@ $info = App\Models\PaymentInfo::where('event_id',$event->id)->get();
                     <label class="form-label"><?php echo e(__('Name')); ?></label>
 
                     <input type="text" name="name" class="form-control" value="<?php echo e($event->name); ?>" readonly>
+
                 </div>
                 <div class="col-md-6"> <label class="form-label"><?php echo e(__('Email')); ?></label>
 
                     <input type="text" name="email" class="form-control" value="<?php echo e($event->email); ?>">
+                    <span id="email-error" class="error-message" style="display: none; color: red;"></span>
+
                 </div>
             </div>
             <div class="row form-group">
@@ -49,11 +52,11 @@ $info = App\Models\PaymentInfo::where('event_id',$event->id)->get();
             <div class="row form-group">
                 <div class="col-md-6">
                     <label for="adjustment" class="form-label">Adjustments</label>
-                    <input type="number" name="adjustment" class="form-control" min="0" value="">
+                    <input type="number" name="adjustment" class="form-control" min="0" value="0">
                 </div>
                 <div class="col-md-6">
                     <label for="latefee" class="form-label">Late fee(if Any)</label>
-                    <input type="number" name="latefee" class="form-control" min="0" value="">
+                    <input type="number" name="latefee" class="form-control" min="0" value="0">
                 </div>
             </div>
             <div class="row form-group">
@@ -73,6 +76,8 @@ $info = App\Models\PaymentInfo::where('event_id',$event->id)->get();
                         <?php echo e(Form::label('amountcollect',__('Collect Amount'),['class'=>'form-label'])); ?>
 
                         <?php echo e(Form::number('amountcollect',null,array('class'=>'form-control','required'))); ?>
+
+                        <span id="amountcollect-error" class="error-message" style="display: none; color: red;"></span>
 
                     </div>
                 </div>
@@ -144,6 +149,58 @@ $(" input[name='latefee'], input[name='adjustment']")
         console.log('total', balance);
 });
 
+// function getDataUrlAndCopy(button) {
+//     // Get the URL from the data attribute of the button
+//     var dataurl = button.getAttribute('data-url');
+
+//     // Perform your validation here
+//     var isValid = validateForm(); // Replace with your validation logic
+
+//     if (isValid) {
+//         var amount = $('input[name="amount"]').val();
+//         var adjustment = $('input[name="adjustment"]').val();
+//         var latefee = $('input[name="latefee"]').val();
+//         var deposit = $('input[name="deposit"]').val();
+//         var notes = $('input[name="notes"]').val();
+//         var amountcollect = $('input[name="amountcollect"]').val();
+//         var balance = $('input[name="balance"]').val();
+
+//         $.ajax({
+//             url: '<?php echo e(route("billing.addpayinfooncopyurl",$event->id)); ?>',
+//             type: 'POST',
+//             data: {
+//                 "url": url,
+//                 "_token": "<?php echo e(csrf_token()); ?>",
+//                 "amount": amount,
+//                 "deposit": deposit,
+//                 "adjustment": adjustment,
+//                 "latefee": latefee,
+//                 "notes": notes,
+//                 "amountcollect": amountcollect,
+//                 "balance": balance
+//             },
+//             success: function(response) {
+//                 // Handle success response
+//                 copyToClipboard(dataurl);
+
+//                 console.log(response);
+//             },
+//             error: function(xhr, status, error) {
+//                 // Handle error response
+//                 console.error(xhr.responseText);
+//             }
+//         });
+//         // If validation passes, copy the URL to the clipboard
+
+//     } else {
+//         var errorMessageSpan = document.getElementById('error-message');
+//         errorMessageSpan.innerHTML = 'The field is required';
+//         errorMessageSpan.style.display = 'inline'; // Make the error message visible
+         
+//         // If validation fails, show an error message or perform any other action
+//         // alert('Validation failed!'); // Example of an alert message
+//     }
+// }
 function getDataUrlAndCopy(button) {
     // Get the URL from the data attribute of the button
     var dataurl = button.getAttribute('data-url');
@@ -151,20 +208,36 @@ function getDataUrlAndCopy(button) {
     // Perform your validation here
     var isValid = validateForm(); // Replace with your validation logic
 
-    if (isValid) {
-        var amount = $('input[name="amount"]').val();
-        var adjustment = $('input[name="adjustment"]').val();
-        var latefee = $('input[name="latefee"]').val();
-        var deposit = $('input[name="deposit"]').val();
-        var notes = $('input[name="notes"]').val();
-        var amountcollect = $('input[name="amountcollect"]').val();
-        var balance = $('input[name="balance"]').val();
+    // Clear any previous error messages
+    $('.error-message').hide().html('');
+    var email = $('input[name="email"]').val();
+    // Validate each input field
+    var amount = $('input[name="amount"]').val();
+    var adjustment = $('input[name="adjustment"]').val();
+    var latefee = $('input[name="latefee"]').val();
+    var deposit = $('input[name="deposit"]').val();
+    var notes = $('input[name="notes"]').val();
+    var amountcollect = $('input[name="amountcollect"]').val();
+    var balance = $('input[name="balance"]').val();
 
+    var validationPassed = true;
+
+  
+    if (!email) {
+        $('#email-error').html('Email is required').show();
+        validationPassed = false;
+    }
+ 
+    if (!amountcollect) {
+        $('#amountcollect-error').html('Amount to collect is required').show();
+        validationPassed = false;
+    }
+    if (validationPassed) {
         $.ajax({
             url: '<?php echo e(route("billing.addpayinfooncopyurl",$event->id)); ?>',
             type: 'POST',
             data: {
-                "url": url,
+                "url": dataurl,
                 "_token": "<?php echo e(csrf_token()); ?>",
                 "amount": amount,
                 "deposit": deposit,
@@ -177,7 +250,6 @@ function getDataUrlAndCopy(button) {
             success: function(response) {
                 // Handle success response
                 copyToClipboard(dataurl);
-
                 console.log(response);
             },
             error: function(xhr, status, error) {
@@ -185,18 +257,20 @@ function getDataUrlAndCopy(button) {
                 console.error(xhr.responseText);
             }
         });
-        // If validation passes, copy the URL to the clipboard
-
     } else {
-        // If validation fails, show an error message or perform any other action
-        alert('Validation failed!'); // Example of an alert message
+        // If validation fails, show a general error message if needed
+        $('#general-error').html('Please correct the errors above').show();
     }
 }
+
+
 
 function validateForm() {
     var name = document.getElementsByName('name')[0].value;
     var email = document.getElementsByName('email')[0].value;
-    if (name.trim() === '' || email.trim() === '') {
+    var amountcollect = document.getElementsByName('amountcollect')[0].value;
+
+    if (name.trim() === '' || email.trim() === '' || amountcollect.trim() == '') {
         return false;
     }
     return true;
