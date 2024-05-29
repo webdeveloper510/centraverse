@@ -126,7 +126,11 @@
                                                         : '$' . ((isset($deposit) ? $deposit->deposits : 0) + ($total != 0 ? $total : 0)) 
                                                     }}
                                                 </td>
-                                                <td>{{($event->total - ($total+$deposit->deposits - $latefee +$adjustments) == 0)?'--':$event->total - ($total+$deposit->deposits - $latefee +$adjustments) }}</td>
+                                                <td>{{ 
+                                                        ($event->total - ($total + (isset($deposit) ? $deposit->deposits : 0) - $latefee + $adjustments) == 0)
+                                                        ? '--' 
+                                                        : $event->total - ($total + (isset($deposit) ? $deposit->deposits : 0) - $latefee + $adjustments) 
+                                                    }}
                                                 <td class="text-end">
                                                     @if(!(\App\Models\Billing::where('event_id',$event->id)->exists()))
                                                     @can('Create Payment')
