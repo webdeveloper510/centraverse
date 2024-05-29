@@ -219,7 +219,7 @@
                     </tr>
                     <tr>
                         <td colspan="2" class="text-right"><b>Paid Amount</b></td>
-                        <td> <b>${{$totalpaid}} </b></td>
+                        <td> <b>${{$totalpaid + $deposit}} </b></td>
                     </tr>
                     <tr>
                         <td colspan="2" class="text-right"><b>Balance Due</b></td>

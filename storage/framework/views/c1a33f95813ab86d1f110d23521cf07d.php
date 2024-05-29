@@ -220,7 +220,7 @@
                     </tr>
                     <tr>
                         <td colspan="2" class="text-right"><b>Paid Amount</b></td>
-                        <td> <b>$<?php echo e($totalpaid); ?> </b></td>
+                        <td> <b>$<?php echo e($totalpaid + $deposit); ?> </b></td>
                     </tr>
                     <tr>
                         <td colspan="2" class="text-right"><b>Balance Due</b></td>

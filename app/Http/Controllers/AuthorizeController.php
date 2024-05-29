@@ -50,55 +50,12 @@ class AuthorizeController extends Controller
         $paymentOne = new AnetAPI\PaymentType();
         $paymentOne->setCreditCard($creditCard);
 
-        // // Create order information
-        // $order = new AnetAPI\OrderType();
-        // $order->setInvoiceNumber("10101");
-        // $order->setDescription("Golf Shirts");
-
-        // // Set the customer's Bill To address
-        // $customerAddress = new AnetAPI\CustomerAddressType();
-        // $customerAddress->setFirstName("Ellen");
-        // $customerAddress->setLastName("Johnson");
-        // $customerAddress->setCompany("Souveniropolis");
-        // $customerAddress->setAddress("14 Main Street");
-        // $customerAddress->setCity("Pecan Springs");
-        // $customerAddress->setState("TX");
-        // $customerAddress->setZip("44628");
-        // $customerAddress->setCountry("USA");
-
-        // // Set the customer's identifying information
-        // $customerData = new AnetAPI\CustomerDataType();
-        // $customerData->setType("individual");
-        // $customerData->setId("99999456654");
-        // $customerData->setEmail("EllenJohnson@example.com");
-
-        // // Add values for transaction settings
-        // $duplicateWindowSetting = new AnetAPI\SettingType();
-        // $duplicateWindowSetting->setSettingName("duplicateWindow");
-        // $duplicateWindowSetting->setSettingValue("60");
-
-        // // Add some merchant defined fields. These fields won't be stored with the transaction,
-        // // but will be echoed back in the response.
-        // $merchantDefinedField1 = new AnetAPI\UserFieldType();
-        // $merchantDefinedField1->setName("customerLoyaltyNum");
-        // $merchantDefinedField1->setValue("1128836273");
-
-        // $merchantDefinedField2 = new AnetAPI\UserFieldType();
-        // $merchantDefinedField2->setName("favoriteColor");
-        // $merchantDefinedField2->setValue("blue");
-
         // Create a TransactionRequestType object and add the previous objects to it
         $transactionRequestType = new AnetAPI\TransactionRequestType();
         $transactionRequestType->setTransactionType("authCaptureTransaction");
         $transactionRequestType->setAmount($input['amount']);
         $transactionRequestType->setPayment($paymentOne);
-        // $transactionRequestType->setOrder($order);
-        // $transactionRequestType->setBillTo($customerAddress);
-        // $transactionRequestType->setCustomer($customerData);
-        // $transactionRequestType->addToTransactionSettings($duplicateWindowSetting);
-        // $transactionRequestType->addToUserFields($merchantDefinedField1);
-        // $transactionRequestType->addToUserFields($merchantDefinedField2);
-
+      
         // Assemble the complete transaction request
         $request = new AnetAPI\CreateTransactionRequest();
         $request->setMerchantAuthentication($merchantAuthentication);
@@ -136,18 +93,7 @@ class AuthorizeController extends Controller
                          $newpayment->name_of_card =  $input['owner'];
                          $newpayment->save();
 
-                        // PaymentLogs::create([
-                        //     'amount' => $input['amount'],
-                        //     'response_code' =>  $tresponse->getResponseCode(),
-                        //     'transaction_id' =>  $tresponse->getTransId(),
-                        //     'auth_id' =>  $tresponse->getAuthCode(),
-                        //     'message_code' =>  $tresponse->getMessages()[0]->getCode(),
-                        //     'name_of_card' =>  $input['owner'],
-                        //     'event_id' =>$id
-                        // ]);
-                        // $paymentlog= PaymentLogs::where('event_id',$id)->get();
-                        
-                        // $payinformaton = PaymentLogs::latest()->first();
+                       
                         $paymentinfo = PaymentInfo::where('event_id',$id)->orderby('id','desc')->first();
                         $payhistory = PaymentLogs::where('event_id',$id)->get();
                         $deposit = Billing::where('event_id',$id)->first()->deposits;
@@ -162,7 +108,6 @@ class AuthorizeController extends Controller
                         $latefee += $inf->latefee;
                         $adjustments += $inf->adjustments;
                         }
-                        // $paymentlog = PaymentLogs::where('event_id',$id)->orderby('id','desc')->first();
                         $data=[
                             'paymentinfo' =>$paymentinfo,
                             'paymentlog'=>$newpayment,
@@ -170,10 +115,11 @@ class AuthorizeController extends Controller
                             'totalpaid'=>$totalpaid,
                             'deposit' =>$deposit,
                             'adjustments'=>$adjustments,
-                            'latefee'=>$latefee
+                            'latefee'=>$latefee,
+                        
                         ];
                         $pdf = PDF::loadView('billing.mail.inv', $data);
-                        // return $pdf->stream('invoice.pdf');          
+                        return $pdf->stream('invoice.pdf');          
                         try {
                             $filename = 'invoice_' . time() . '.pdf'; // You can adjust the filename as needed
                             $folder = 'Invoice/' . $id; 
@@ -205,14 +151,14 @@ class AuthorizeController extends Controller
                                 Mail::to($event->email)->cc($user->email)->send(new InvoicePaymentMail($newpayment));
                             }
                             
-                            $payinfo = PaymentInfo::where('event_id',$id)->first();
-                            $halfpay = $payinfo->amount/2;
-                            $amountpaid = 0 ;
-                            $payment = PaymentLogs::where('event_id',$id)->get();
-                            foreach($payment as $pay){
-                                $amountpaid += $pay->amount;
-                            }
-                            $amountlefttobepaid = $payinfo->amount - $amountpaid;
+                            // $payinfo = PaymentInfo::where('event_id',$id)->first();
+                            $halfpay = ($event->total)/2;
+                            // $amountpaid = 0 ;
+                            // foreach($paymentpayhistory as $pay){
+                            //     $amountpaid += $pay->amount;
+                            // }
+                            $amountlefttobepaid = $event->total - ( $totalpaid + $deposit - $latefee + $adjustments) ;
+                           
                             if($amountlefttobepaid == 0 || $amountlefttobepaid <= 0){
                                 Billing::where('event_id',$id)->update(['status' => 4]);
                             }elseif($amountlefttobepaid ==  $halfpay || $amountlefttobepaid >=  $halfpay){
@@ -266,7 +212,7 @@ class AuthorizeController extends Controller
         } else {
             $msg_type = 'error_msg';
             $message_text = 'No reponse returned';
-        }die;
-        return view('calendar.paymentfailed')->with($msg_type, $message_text);
+        }
+        return view('calendar.paymentfailed')->with('error', $message_text);
     }
 }
