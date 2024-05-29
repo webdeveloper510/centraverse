@@ -108,7 +108,7 @@ $files = Storage::files('app/public/Event/'.$event->id);
                             <hr>
                             <img src="{{$event->floor_plan}}" alt="" style="    width: 40% ;" class="need_full">
                     </dl>
-                    @if(isset($payment) && !empty($payment))
+                    @if(isset($payments) && !empty($payments))
                     <div class="col-lg-12">
                         <div class="card" id="useradd-1">
                             <div class="card-body table-border-style">

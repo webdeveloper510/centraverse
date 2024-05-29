@@ -46,16 +46,7 @@ $adjustments += $inf->adjustments;
                         <!-- <dd class="col-md-6 need_half"><span class=""><?php echo e((($totalpaid + $bill->deposits) == 0) ? ' -- ': '$'.number_format($totalpaid + $bill->deposits)); ?></span></dd> -->
                     </dl>
                 </div>
-                <div class="w-100 text-end pr-2">
-                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Payment')): ?>
-                        <div class="action-btn bg-warning ms-2">
-                            <a href="<?php echo e(route('billing.estimateview',urlencode(encrypt($event->id)))); ?>"> 
-                            <button  data-bs-toggle="tooltip"title="<?php echo e(__('View Invoice')); ?>" class="btn btn-sm btn-secondary btn-icon m-1">
-                            <i class="fa fa-print"></i></button>
-                        </a>
-                        </div>
-                        <?php endif; ?>
-                </div>
+                
             </div>
         </div>
     </div>
@@ -219,9 +210,13 @@ jQuery(function() {
             $("input[name='balance']").empty();
             var amount = parseFloat($("input[name='amount']").val()) || 0;
             var deposits = parseFloat($("input[name='deposits']").val()) || 0;
-            var latefee = parseFloat($("input[name='latefee']").val()) || 0;
-            var adjustments = parseFloat($("input[name='adjustments']").val()) || 0;
-            var balance = amount + latefee - adjustments - amountpaid;
+            var latefee =<?php echo $latefee; ?>;
+            var adjustments = <?php echo $adjustments; ?>;
+            var newlatefee = parseFloat($("input[name='latefee']").val()) || 0;
+            var newadjustments = parseFloat($("input[name='adjustments']").val()) || 0;
+            var ad = adjustments + newadjustments;
+            var late = latefee + newlatefee;
+            var balance = amount + late - ad - amountpaid;
             $("input[name='amountcollect']").attr('max', balance);
             $("input[name='balance']").val(balance);
             console.log('total', balance);

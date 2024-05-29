@@ -39,6 +39,8 @@
                                                     {{ __('Latefee') }}<span class="opticy"> </span></th>
                                                 <th scope="col" class="sort" data-sort="completion">
                                                     {{ __('Paid Amount') }} <span class="opticy"> </span></th>
+                                                    <th scope="col" class="sort" data-sort="completion">
+                                                    {{ __('Amount Due') }} <span class="opticy"> </span></th>
                                                 <th scope="col" class="text-end">{{ __('Action') }}<span class="opticy">
                                                     </span> </th>
                                             </tr>
@@ -68,7 +70,6 @@
                                                         foreach($pay as $p){
                                                         $total += $p->amount;
                                                         }
-                                                        echo $total;
                                                     ?>
                                             @endif
                                             <tr>
@@ -98,9 +99,8 @@
                                                 <td>
                                                     @if(\App\Models\Billing::where('event_id',$event->id)->exists())
                                                     <?php 
-                                                    $deposit = App\Models\Billing::where('event_id',$event->id)->first();
-                                                    $bill = \App\Models\Billing::where('event_id', $event->id)->pluck('status')->first();
-                                                    
+                                                        $deposit = App\Models\Billing::where('event_id',$event->id)->first();
+                                                        $bill = \App\Models\Billing::where('event_id', $event->id)->pluck('status')->first();
                                                      ?>
                                                     @if($bill == 1)
                                                     <span
@@ -126,6 +126,7 @@
                                                         : '$' . ((isset($deposit) ? $deposit->deposits : 0) + ($total != 0 ? $total : 0)) 
                                                     }}
                                                 </td>
+                                                <td>{{($event->total - ($total+$deposit->deposits - $latefee +$adjustments) == 0)?'--':$event->total - ($total+$deposit->deposits - $latefee +$adjustments) }}</td>
                                                 <td class="text-end">
                                                     @if(!(\App\Models\Billing::where('event_id',$event->id)->exists()))
                                                     @can('Create Payment')

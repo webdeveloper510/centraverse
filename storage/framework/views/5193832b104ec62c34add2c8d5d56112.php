@@ -144,15 +144,18 @@ $(" input[name='latefee'], input[name='adjustment']")
         $("input[name='balance']").empty();
         var amount = parseFloat($("input[name='amount']").val()) || 0;
         var deposits = parseFloat($("input[name='deposit']").val()) || 0;
-        var latefee = parseFloat($("input[name='latefee']").val()) || 0;
-        var adjustments = parseFloat($("input[name='adjustment']").val()) || 0;
         var amttobepaid = parseFloat($("input[name='paidamount']").val()) || 0;
-        var balance = amount + latefee - adjustments - amttobepaid;
+        var latefee =<?php echo $latefee; ?>;
+        var adjustments = <?php echo $adjustments; ?>;
+        var newlatefee = parseFloat($("input[name='latefee']").val()) || 0;
+        var newadjustments = parseFloat($("input[name='adjustment']").val()) || 0;
+        var ad = adjustments + newadjustments;
+        var late = latefee + newlatefee;
+        var balance = amount + late - ad - amttobepaid;
         // Assuming you want to store the balance in an input field with name 'balance'
         $("input[name='amountcollect']").attr('max', balance);
-
         $("input[name='balance']").val(balance);
-        console.log('total', balance);
+        console.log('total', balance,ad,late);
 });
 
 // function getDataUrlAndCopy(button) {

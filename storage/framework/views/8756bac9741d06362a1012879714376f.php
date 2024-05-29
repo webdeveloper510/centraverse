@@ -41,6 +41,8 @@
                                                     <?php echo e(__('Latefee')); ?><span class="opticy"> </span></th>
                                                 <th scope="col" class="sort" data-sort="completion">
                                                     <?php echo e(__('Paid Amount')); ?> <span class="opticy"> </span></th>
+                                                    <th scope="col" class="sort" data-sort="completion">
+                                                    <?php echo e(__('Amount Due')); ?> <span class="opticy"> </span></th>
                                                 <th scope="col" class="text-end"><?php echo e(__('Action')); ?><span class="opticy">
                                                     </span> </th>
                                             </tr>
@@ -70,7 +72,6 @@
                                                         foreach($pay as $p){
                                                         $total += $p->amount;
                                                         }
-                                                        echo $total;
                                                     ?>
                                             <?php endif; ?>
                                             <tr>
@@ -101,9 +102,8 @@
                                                 <td>
                                                     <?php if(\App\Models\Billing::where('event_id',$event->id)->exists()): ?>
                                                     <?php 
-                                                    $deposit = App\Models\Billing::where('event_id',$event->id)->first();
-                                                    $bill = \App\Models\Billing::where('event_id', $event->id)->pluck('status')->first();
-                                                    
+                                                        $deposit = App\Models\Billing::where('event_id',$event->id)->first();
+                                                        $bill = \App\Models\Billing::where('event_id', $event->id)->pluck('status')->first();
                                                      ?>
                                                     <?php if($bill == 1): ?>
                                                     <span
@@ -130,6 +130,7 @@
                                                         : '$' . ((isset($deposit) ? $deposit->deposits : 0) + ($total != 0 ? $total : 0))); ?>
 
                                                 </td>
+                                                <td><?php echo e(($event->total - ($total+$deposit->deposits - $latefee +$adjustments) == 0)?'--':$event->total - ($total+$deposit->deposits - $latefee +$adjustments)); ?></td>
                                                 <td class="text-end">
                                                     <?php if(!(\App\Models\Billing::where('event_id',$event->id)->exists())): ?>
                                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Payment')): ?>

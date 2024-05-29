@@ -189,9 +189,13 @@ jQuery(function() {
             $("input[name='balance']").empty();
             var amount = parseFloat($("input[name='amount']").val()) || 0;
             var deposits = parseFloat($("input[name='deposits']").val()) || 0;
-            var latefee = parseFloat($("input[name='latefee']").val()) || 0;
-            var adjustments = parseFloat($("input[name='adjustments']").val()) || 0;
-            var balance = amount + latefee - adjustments - amountpaid;
+            var latefee =<?php echo $latefee; ?>;
+            var adjustments = <?php echo $adjustments; ?>;
+            var newlatefee = parseFloat($("input[name='latefee']").val()) || 0;
+            var newadjustments = parseFloat($("input[name='adjustments']").val()) || 0;
+            var ad = adjustments + newadjustments;
+            var late = latefee + newlatefee;
+            var balance = amount + late - ad - amountpaid;
             $("input[name='amountcollect']").attr('max', balance);
             $("input[name='balance']").val(balance);
             console.log('total', balance);
