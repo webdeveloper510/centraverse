@@ -106,100 +106,94 @@ $proposalstatus = \App\Models\Lead::$status;
                                                 <?php     $startDate = Carbon::parse($lead->start_date); ?>
 
                                                 <td class="text-end">
-                                                    <?php if($startDate->lt($currentDate) && $lead->status == 0): ?>
-                                                    <b><span
-                                                            class=" text-danger p-2 px-3"><?php echo e(__('Lead Not converted to Event')); ?></span></b>
-                                                    <?php else: ?>
+                                                   
+                                                        <?php if($lead->status == 4 && $lead->converted_to == 0): ?>
+                                                        <div class="action-btn bg-secondary ms-2">
+                                                            <a href="<?php echo e(route('meeting.create',['meeting',0])); ?>"
+                                                                id="convertLink" data-size="md" data-url="#"
+                                                                data-bs-toggle="tooltip" data-title="<?php echo e(__('Convert')); ?>"
+                                                                title="<?php echo e(__('Convert To Event')); ?>" data-id="<?php echo e($lead->id); ?>"
+                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                                <i class="fas fa-exchange-alt"></i> </a>
+                                                        </div>
+                                                        <?php endif; ?>
+                                                        <?php if($lead->status == 0 ): ?>
+                                                        <div class="action-btn bg-primary ms-2">
+                                                            <a href="javascript:void(0);" data-size="md"
+                                                                data-url="<?php echo e(route('lead.shareproposal',urlencode(encrypt($lead->id)))); ?>"
+                                                                data-ajax-popup="true" data-bs-toggle="tooltip"
+                                                                data-title="<?php echo e(__('Proposal')); ?>"
+                                                                title="<?php echo e(__('Share Proposal')); ?>"
+                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                                <i class="ti ti-share"></i>
+                                                            </a>
+                                                        </div>
+                                                        <?php endif; ?>
+                                                        <?php if($lead->status >= 2 ): ?>
+                                                        <div class="action-btn bg-info ms-2">
+                                                            <a href="<?php echo e(route('lead.review',urlencode(encrypt($lead->id)))); ?>"
+                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white "
+                                                                data-bs-toggle="tooltip" title="<?php echo e(__('Review')); ?>"
+                                                                data-title="<?php echo e(__('Review Lead')); ?>">
+                                                                <i class="fas fa-pen"></i></a>
+                                                        </div>
+                                                        <?php endif; ?>
+                                                        <div class="action-btn bg-primary ms-2">
+                                                            <a href="<?php echo e(route('lead.clone',urlencode(encrypt($lead->id)))); ?>"
+                                                                data-size="md" data-url="#" data-bs-toggle="tooltip"
+                                                                title="<?php echo e(__('Clone')); ?>" data-title="<?php echo e(__('Clone')); ?>"
+                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                                <i class="fa fa-clone"></i>
+                                                            </a>
+                                                        </div>
+                                                        <?php if($lead->status >= 1): ?>
+                                                        <div class="action-btn bg-success ms-2">
+                                                            <a href="<?php echo e(route('lead.proposal',urlencode(encrypt($lead->id)))); ?>"
+                                                                data-bs-toggle="tooltip" data-title="<?php echo e(__('Proposal')); ?>"
+                                                                title="<?php echo e(__('View Proposal')); ?>"
+                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white">
+                                                                <i class="ti ti-receipt"></i>
+                                                            </a>
+                                                        </div>
+                                                        <?php endif; ?>
+                                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Lead')): ?>
+                                                        <div class="action-btn bg-warning ms-2">
+                                                            <a href="javascript:void(0);" data-size="md"
+                                                                data-url="<?php echo e(route('lead.show',$lead->id)); ?>"
+                                                                data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>"
+                                                                data-ajax-popup="true" data-title="<?php echo e(__('Lead Details')); ?>"
+                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                                <i class="ti ti-eye"></i>
+                                                            </a>
+                                                        </div>
+                                                        <?php endif; ?>
+                                                        <?php if($lead->status == 0): ?>
+                                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Edit Lead')): ?>
+                                                        <div class="action-btn bg-info ms-2">
+                                                            <a href="<?php echo e(route('lead.edit',$lead->id)); ?>"
+                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white "
+                                                                data-bs-toggle="tooltip" title="<?php echo e(__('Details')); ?>"
+                                                                data-title="<?php echo e(__('Edit Lead')); ?>"><i
+                                                                    class="ti ti-edit"></i>
+                                                            </a>
+                                                        </div>
+                                                        <?php endif; ?>
+                                                        <?php endif; ?>
+                                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Delete Lead')): ?>
+                                                        <div class="action-btn bg-danger ms-2">
+                                                            <?php echo Form::open(['method' => 'DELETE', 'route' =>
+                                                            ['lead.destroy', $lead->id]]); ?>
 
+                                                            <a href="javascript:void(0);"
+                                                                class="mx-3 btn btn-sm  align-items-center text-white show_confirm"
+                                                                data-bs-toggle="tooltip" title='Delete'>
+                                                                <i class="ti ti-trash"></i>
+                                                            </a>
+                                                            <?php echo Form::close(); ?>
 
-                                                    <?php if($lead->status == 4 && $lead->converted_to == 0): ?>
-                                                    <div class="action-btn bg-secondary ms-2">
-                                                        <a href="<?php echo e(route('meeting.create',['meeting',0])); ?>"
-                                                            id="convertLink" data-size="md" data-url="#"
-                                                            data-bs-toggle="tooltip" data-title="<?php echo e(__('Convert')); ?>"
-                                                            title="<?php echo e(__('Convert To Event')); ?>" data-id="<?php echo e($lead->id); ?>"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class="fas fa-exchange-alt"></i> </a>
-                                                    </div>
-                                                    <?php endif; ?>
-                                                    <?php if($lead->status == 0 ): ?>
-                                                    <div class="action-btn bg-primary ms-2">
-                                                        <a href="javascript:void(0);" data-size="md"
-                                                            data-url="<?php echo e(route('lead.shareproposal',urlencode(encrypt($lead->id)))); ?>"
-                                                            data-ajax-popup="true" data-bs-toggle="tooltip"
-                                                            data-title="<?php echo e(__('Proposal')); ?>"
-                                                            title="<?php echo e(__('Share Proposal')); ?>"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class="ti ti-share"></i>
-                                                        </a>
-                                                    </div>
-                                                    <?php endif; ?>
-                                                    <?php if($lead->status >= 2 ): ?>
-                                                    <div class="action-btn bg-info ms-2">
-                                                        <a href="<?php echo e(route('lead.review',urlencode(encrypt($lead->id)))); ?>"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white "
-                                                            data-bs-toggle="tooltip" title="<?php echo e(__('Review')); ?>"
-                                                            data-title="<?php echo e(__('Review Lead')); ?>">
-                                                            <i class="fas fa-pen"></i></a>
-                                                    </div>
-                                                    <?php endif; ?>
-                                                    <div class="action-btn bg-primary ms-2">
-                                                        <a href="<?php echo e(route('lead.clone',urlencode(encrypt($lead->id)))); ?>"
-                                                            data-size="md" data-url="#" data-bs-toggle="tooltip"
-                                                            title="<?php echo e(__('Clone')); ?>" data-title="<?php echo e(__('Clone')); ?>"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class="fa fa-clone"></i>
-                                                        </a>
-                                                    </div>
-                                                    <?php if($lead->status >= 1): ?>
-                                                    <div class="action-btn bg-success ms-2">
-                                                        <a href="<?php echo e(route('lead.proposal',urlencode(encrypt($lead->id)))); ?>"
-                                                            data-bs-toggle="tooltip" data-title="<?php echo e(__('Proposal')); ?>"
-                                                            title="<?php echo e(__('View Proposal')); ?>"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white">
-                                                            <i class="ti ti-receipt"></i>
-                                                        </a>
-                                                    </div>
-                                                    <?php endif; ?>
-                                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Lead')): ?>
-                                                    <div class="action-btn bg-warning ms-2">
-                                                        <a href="javascript:void(0);" data-size="md"
-                                                            data-url="<?php echo e(route('lead.show',$lead->id)); ?>"
-                                                            data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>"
-                                                            data-ajax-popup="true" data-title="<?php echo e(__('Lead Details')); ?>"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class="ti ti-eye"></i>
-                                                        </a>
-                                                    </div>
-                                                    <?php endif; ?>
-                                                    <?php if($lead->status == 0): ?>
-                                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Edit Lead')): ?>
-                                                    <div class="action-btn bg-info ms-2">
-                                                        <a href="<?php echo e(route('lead.edit',$lead->id)); ?>"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white "
-                                                            data-bs-toggle="tooltip" title="<?php echo e(__('Details')); ?>"
-                                                            data-title="<?php echo e(__('Edit Lead')); ?>"><i
-                                                                class="ti ti-edit"></i>
-                                                        </a>
-                                                    </div>
-                                                    <?php endif; ?>
-                                                    <?php endif; ?>
-                                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Delete Lead')): ?>
-                                                    <div class="action-btn bg-danger ms-2">
-                                                        <?php echo Form::open(['method' => 'DELETE', 'route' =>
-                                                        ['lead.destroy', $lead->id]]); ?>
-
-                                                        <a href="javascript:void(0);"
-                                                            class="mx-3 btn btn-sm  align-items-center text-white show_confirm"
-                                                            data-bs-toggle="tooltip" title='Delete'>
-                                                            <i class="ti ti-trash"></i>
-                                                        </a>
-                                                        <?php echo Form::close(); ?>
-
-                                                    </div>
-                                                    <?php endif; ?>
+                                                        </div>
+                                                        <?php endif; ?>
                                                 </td>
-                                                <?php endif; ?>
                                                 <?php endif; ?>
                                             </tr>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

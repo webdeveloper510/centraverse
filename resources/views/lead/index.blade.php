@@ -103,98 +103,92 @@ $proposalstatus = \App\Models\Lead::$status;
                                                 <?php     $startDate = Carbon::parse($lead->start_date); ?>
 
                                                 <td class="text-end">
-                                                    @if($startDate->lt($currentDate) && $lead->status == 0)
-                                                    <b><span
-                                                            class=" text-danger p-2 px-3">{{__('Lead Not converted to Event')}}</span></b>
-                                                    @else
-
-
-                                                    @if($lead->status == 4 && $lead->converted_to == 0)
-                                                    <div class="action-btn bg-secondary ms-2">
-                                                        <a href="{{ route('meeting.create',['meeting',0])}}"
-                                                            id="convertLink" data-size="md" data-url="#"
-                                                            data-bs-toggle="tooltip" data-title="{{ __('Convert') }}"
-                                                            title="{{ __('Convert To Event') }}" data-id="{{$lead->id}}"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class="fas fa-exchange-alt"></i> </a>
-                                                    </div>
-                                                    @endif
-                                                    @if($lead->status == 0 )
-                                                    <div class="action-btn bg-primary ms-2">
-                                                        <a href="javascript:void(0);" data-size="md"
-                                                            data-url="{{ route('lead.shareproposal',urlencode(encrypt($lead->id))) }}"
-                                                            data-ajax-popup="true" data-bs-toggle="tooltip"
-                                                            data-title="{{ __('Proposal') }}"
-                                                            title="{{ __('Share Proposal') }}"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class="ti ti-share"></i>
-                                                        </a>
-                                                    </div>
-                                                    @endif
-                                                    @if($lead->status >= 2 )
-                                                    <div class="action-btn bg-info ms-2">
-                                                        <a href="{{route('lead.review',urlencode(encrypt($lead->id))) }}"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white "
-                                                            data-bs-toggle="tooltip" title="{{__('Review')}}"
-                                                            data-title="{{__('Review Lead')}}">
-                                                            <i class="fas fa-pen"></i></a>
-                                                    </div>
-                                                    @endif
-                                                    <div class="action-btn bg-primary ms-2">
-                                                        <a href="{{route('lead.clone',urlencode(encrypt($lead->id)))}}"
-                                                            data-size="md" data-url="#" data-bs-toggle="tooltip"
-                                                            title="{{ __('Clone') }}" data-title="{{ __('Clone') }}"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class="fa fa-clone"></i>
-                                                        </a>
-                                                    </div>
-                                                    @if($lead->status >= 1)
-                                                    <div class="action-btn bg-success ms-2">
-                                                        <a href="{{route('lead.proposal',urlencode(encrypt($lead->id))) }}"
-                                                            data-bs-toggle="tooltip" data-title="{{__('Proposal')}}"
-                                                            title="{{__('View Proposal')}}"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white">
-                                                            <i class="ti ti-receipt"></i>
-                                                        </a>
-                                                    </div>
-                                                    @endif
-                                                    @can('Show Lead')
-                                                    <div class="action-btn bg-warning ms-2">
-                                                        <a href="javascript:void(0);" data-size="md"
-                                                            data-url="{{ route('lead.show',$lead->id) }}"
-                                                            data-bs-toggle="tooltip" title="{{__('Quick View')}}"
-                                                            data-ajax-popup="true" data-title="{{__('Lead Details')}}"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class="ti ti-eye"></i>
-                                                        </a>
-                                                    </div>
-                                                    @endcan
-                                                    @if($lead->status == 0)
-                                                    @can('Edit Lead')
-                                                    <div class="action-btn bg-info ms-2">
-                                                        <a href="{{ route('lead.edit',$lead->id) }}"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white "
-                                                            data-bs-toggle="tooltip" title="{{__('Details')}}"
-                                                            data-title="{{__('Edit Lead')}}"><i
-                                                                class="ti ti-edit"></i>
-                                                        </a>
-                                                    </div>
-                                                    @endcan
-                                                    @endif
-                                                    @can('Delete Lead')
-                                                    <div class="action-btn bg-danger ms-2">
-                                                        {!! Form::open(['method' => 'DELETE', 'route' =>
-                                                        ['lead.destroy', $lead->id]]) !!}
-                                                        <a href="javascript:void(0);"
-                                                            class="mx-3 btn btn-sm  align-items-center text-white show_confirm"
-                                                            data-bs-toggle="tooltip" title='Delete'>
-                                                            <i class="ti ti-trash"></i>
-                                                        </a>
-                                                        {!! Form::close() !!}
-                                                    </div>
-                                                    @endcan
+                                                   
+                                                        @if($lead->status == 4 && $lead->converted_to == 0)
+                                                        <div class="action-btn bg-secondary ms-2">
+                                                            <a href="{{ route('meeting.create',['meeting',0])}}"
+                                                                id="convertLink" data-size="md" data-url="#"
+                                                                data-bs-toggle="tooltip" data-title="{{ __('Convert') }}"
+                                                                title="{{ __('Convert To Event') }}" data-id="{{$lead->id}}"
+                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                                <i class="fas fa-exchange-alt"></i> </a>
+                                                        </div>
+                                                        @endif
+                                                        @if($lead->status == 0 )
+                                                        <div class="action-btn bg-primary ms-2">
+                                                            <a href="javascript:void(0);" data-size="md"
+                                                                data-url="{{ route('lead.shareproposal',urlencode(encrypt($lead->id))) }}"
+                                                                data-ajax-popup="true" data-bs-toggle="tooltip"
+                                                                data-title="{{ __('Proposal') }}"
+                                                                title="{{ __('Share Proposal') }}"
+                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                                <i class="ti ti-share"></i>
+                                                            </a>
+                                                        </div>
+                                                        @endif
+                                                        @if($lead->status >= 2 )
+                                                        <div class="action-btn bg-info ms-2">
+                                                            <a href="{{route('lead.review',urlencode(encrypt($lead->id))) }}"
+                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white "
+                                                                data-bs-toggle="tooltip" title="{{__('Review')}}"
+                                                                data-title="{{__('Review Lead')}}">
+                                                                <i class="fas fa-pen"></i></a>
+                                                        </div>
+                                                        @endif
+                                                        <div class="action-btn bg-primary ms-2">
+                                                            <a href="{{route('lead.clone',urlencode(encrypt($lead->id)))}}"
+                                                                data-size="md" data-url="#" data-bs-toggle="tooltip"
+                                                                title="{{ __('Clone') }}" data-title="{{ __('Clone') }}"
+                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                                <i class="fa fa-clone"></i>
+                                                            </a>
+                                                        </div>
+                                                        @if($lead->status >= 1)
+                                                        <div class="action-btn bg-success ms-2">
+                                                            <a href="{{route('lead.proposal',urlencode(encrypt($lead->id))) }}"
+                                                                data-bs-toggle="tooltip" data-title="{{__('Proposal')}}"
+                                                                title="{{__('View Proposal')}}"
+                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white">
+                                                                <i class="ti ti-receipt"></i>
+                                                            </a>
+                                                        </div>
+                                                        @endif
+                                                        @can('Show Lead')
+                                                        <div class="action-btn bg-warning ms-2">
+                                                            <a href="javascript:void(0);" data-size="md"
+                                                                data-url="{{ route('lead.show',$lead->id) }}"
+                                                                data-bs-toggle="tooltip" title="{{__('Quick View')}}"
+                                                                data-ajax-popup="true" data-title="{{__('Lead Details')}}"
+                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                                <i class="ti ti-eye"></i>
+                                                            </a>
+                                                        </div>
+                                                        @endcan
+                                                        @if($lead->status == 0)
+                                                        @can('Edit Lead')
+                                                        <div class="action-btn bg-info ms-2">
+                                                            <a href="{{ route('lead.edit',$lead->id) }}"
+                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white "
+                                                                data-bs-toggle="tooltip" title="{{__('Details')}}"
+                                                                data-title="{{__('Edit Lead')}}"><i
+                                                                    class="ti ti-edit"></i>
+                                                            </a>
+                                                        </div>
+                                                        @endcan
+                                                        @endif
+                                                        @can('Delete Lead')
+                                                        <div class="action-btn bg-danger ms-2">
+                                                            {!! Form::open(['method' => 'DELETE', 'route' =>
+                                                            ['lead.destroy', $lead->id]]) !!}
+                                                            <a href="javascript:void(0);"
+                                                                class="mx-3 btn btn-sm  align-items-center text-white show_confirm"
+                                                                data-bs-toggle="tooltip" title='Delete'>
+                                                                <i class="ti ti-trash"></i>
+                                                            </a>
+                                                            {!! Form::close() !!}
+                                                        </div>
+                                                        @endcan
                                                 </td>
-                                                @endif
                                                 @endif
                                             </tr>
                                             @endforeach

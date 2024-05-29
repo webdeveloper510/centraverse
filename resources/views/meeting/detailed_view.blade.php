@@ -129,13 +129,14 @@ $files = Storage::files('app/public/Event/'.$event->id);
                                         </thead>
                                         <tbody>
                                             @foreach($payments as $payment)
+                                            
                                             <tr>
 
                                                 <td>{{Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $payment->created_at)->format('M d, Y')}}</td>
                                                 <td>{{$payment->name_of_card}}</td>
                                                 <td>{{$payment->transaction_id}}</td>
                                                 <td><a href="{{ Storage::url('app/public/Invoice/'.$payment->event_id.'/'.$payment->invoices) }}"download style="    color: #1551c9 !important;">{{ucfirst($payment->invoices)}}</a></td>
-                                                <td>${{$payment->amount +(isset($deposit)? $deposit->deposits : 0 )}}</td>
+                                                <td>${{$payment->amount + (isset($deposit)? $deposit->deposits : 0 )}}</td>
                                             </tr>
                                             @endforeach
                                         </tbody>
