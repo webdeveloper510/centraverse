@@ -214,8 +214,8 @@
                         <td> <b>{{($paymentinfo->adjustments == 0)? '--' :'$'.$paymentinfo->adjustments }} </b></td>
                     </tr>
                     <tr>
-                        <td colspan="2" class="text-right">Late Fee(If any)</td>
-                        <td>{{ ($paymentinfo->latefee == 0)? '--' : $paymentinfo->latefee}}</td>
+                        <td colspan="2" class="text-right"><b>Late Fee(If any)</b></td>
+                        <td><b>{{ ($paymentinfo->latefee == 0)? '--' : '$'.$paymentinfo->latefee}}</b></td>
                     </tr>
                     <tr>
                         <td colspan="2" class="text-right"><b>Paid Amount</b></td>
@@ -223,7 +223,7 @@
                     </tr>
                     <tr>
                         <td colspan="2" class="text-right"><b>Balance Due</b></td>
-                        <td> <b>${{$event->total - $totalpaid - $deposit}} </b></td>
+                        <td> <b>${{$event->total - $totalpaid - $deposit - $adjustments + $latefee}} </b></td>
                     </tr>
                 </tbody>
             </table>

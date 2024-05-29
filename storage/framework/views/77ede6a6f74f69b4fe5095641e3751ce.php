@@ -1,4 +1,7 @@
-<?php $event = App\Models\Meeting::find($newpayment->event_id); ?>
+<?php 
+$event = App\Models\Meeting::find($newpayment->event_id); 
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

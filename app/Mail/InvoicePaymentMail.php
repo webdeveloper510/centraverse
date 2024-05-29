@@ -23,6 +23,7 @@ class InvoicePaymentMail extends Mailable
     {
         $this->newpayment = $newpayment;
     
+    
     }
     
     /**
@@ -54,12 +55,12 @@ class InvoicePaymentMail extends Mailable
     }
     public function build()
     {
-        $filePath = storage_path('app/public/Invoice/'. $this->newpayment->event_id.'/'.$this->newpayment->attachment);
+        $filePath = storage_path('app/public/Invoice/'. $this->newpayment->event_id.'/'.$this->newpayment->invoices);
         return $this->subject('Invoice')
         ->view('billing.invoice')
         ->attach($filePath, [
-            'as' => $this->newpayment->attachment, // File name
-            'mime' => Storage::disk('public')->mimeType('Invoice/'.$this->newpayment->event_id.'/'.$this->newpayment->attachment),
+            'as' => $this->newpayment->invoices, // File name
+            'mime' => Storage::disk('public')->mimeType('Invoice/'.$this->newpayment->event_id.'/'.$this->newpayment->invoices),
         ]);; 
     }
 }

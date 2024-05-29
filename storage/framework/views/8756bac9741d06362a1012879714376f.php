@@ -130,7 +130,10 @@
                                                         : '$' . ((isset($deposit) ? $deposit->deposits : 0) + ($total != 0 ? $total : 0))); ?>
 
                                                 </td>
-                                                <td><?php echo e(($event->total - ($total+$deposit->deposits - $latefee +$adjustments) == 0)?'--':$event->total - ($total+$deposit->deposits - $latefee +$adjustments)); ?></td>
+                                                <td><?php echo e(($event->total - ($total + (isset($deposit) ? $deposit->deposits : 0) - $latefee + $adjustments) == 0)
+                                                        ? '--' 
+                                                        : '$'.$event->total - ($total + (isset($deposit) ? $deposit->deposits : 0) - $latefee + $adjustments)); ?>
+
                                                 <td class="text-end">
                                                     <?php if(!(\App\Models\Billing::where('event_id',$event->id)->exists())): ?>
                                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Payment')): ?>

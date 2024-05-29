@@ -155,13 +155,22 @@ class AuthorizeController extends Controller
                         foreach ($payhistory as $key => $value) {
                           $totalpaid+= $value->amount;
                         }
+                        $info = PaymentInfo::where('event_id',$event->id)->get();
+                        $latefee = 0;
+                        $adjustments = 0;
+                        foreach($info as $inf){
+                        $latefee += $inf->latefee;
+                        $adjustments += $inf->adjustments;
+                        }
                         // $paymentlog = PaymentLogs::where('event_id',$id)->orderby('id','desc')->first();
                         $data=[
                             'paymentinfo' =>$paymentinfo,
                             'paymentlog'=>$newpayment,
                             'event' =>$event,
                             'totalpaid'=>$totalpaid,
-                            'deposit' =>$deposit
+                            'deposit' =>$deposit,
+                            'adjustments'=>$adjustments,
+                            'latefee'=>$latefee
                         ];
                         $pdf = PDF::loadView('billing.mail.inv', $data);
                         // return $pdf->stream('invoice.pdf');          

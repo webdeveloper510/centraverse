@@ -11,6 +11,9 @@ if(isset($event->bar_package) && !empty($event->bar_package)){
 if(App\Models\PaymentLogs::where('event_id',$event->id)->exists()){
     $payments = App\Models\PaymentLogs::where('event_id',$event->id)->get();
 }
+if(App\Models\Billing::where('event_id',$event->id)->exists()){
+    $deposit = App\Models\Billing::where('event_id',$event->id)->first();
+}
 $files = Storage::files('app/public/Event/'.$event->id);
 
 ?>
@@ -137,7 +140,7 @@ $files = Storage::files('app/public/Event/'.$event->id);
                                                 <td><?php echo e($payment->name_of_card); ?></td>
                                                 <td><?php echo e($payment->transaction_id); ?></td>
                                                 <td><a href="<?php echo e(Storage::url('app/public/Invoice/'.$payment->event_id.'/'.$payment->invoices)); ?>"download style="    color: #1551c9 !important;"><?php echo e(ucfirst($payment->invoices)); ?></a></td>
-                                                <td><?php echo e($payment->amount); ?></td>
+                                                <td>$<?php echo e($payment->amount +(isset($deposit)? $deposit->deposits : 0 )); ?></td>
                                             </tr>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tbody>
