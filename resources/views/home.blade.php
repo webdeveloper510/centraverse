@@ -206,7 +206,7 @@ h6 {
 
                                                 <div style="color: #a99595;">
                                                     Billing Amount: ${{ number_format($event['total'])}}<br>
-                                                    Amount Due: {{($event['total'] - $total -$deposit->deposits == 0) ? '--' : '$'. number_format($event['total'] - $total -$deposit->deposits -$adjustments+ $latefee)}}
+                                                    Amount Due: {{($event['total'] - $total - $deposit->deposits -$adjustments +$latefee == 0) ? '--' : '$'. number_format($event['total'] - $total - $deposit->deposits -$adjustments + $latefee)}}
                                                 </div>
                                                 <div class="date-y">
                                                     @if($event['start_date'] == $event['end_date'])

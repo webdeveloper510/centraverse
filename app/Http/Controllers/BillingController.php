@@ -85,13 +85,22 @@ class BillingController extends Controller
     public function destroy(string $id)
     {
         if (\Auth::user()->can('Delete Payment')) {
-        $billing = Billing::where('event_id',$id)->first();
-        $billing->delete();
-        return redirect()->back()->with('success', 'Bill Deleted!');
-        }else {
-            return redirect()->back()->with('error', 'permission Denied');
+            $billing = Billing::where('event_id', $id)->first();
+    
+            if ($billing) {
+                PaymentLogs::where('event_id', $id)->delete();
+                PaymentInfo::where('event_id', $id)->delete();
+                Meeting::find($id)->update(['total'=> 0]);
+                $billing->delete();
+                return redirect()->back()->with('success', 'Bill Deleted!');
+            } else {
+                return redirect()->back()->with('error', 'Billing record not found.');
+            }
+        } else {
+            return redirect()->back()->with('error', 'Permission Denied');
         }
     }
+    
     public function get_event_info(Request $request)
     {
         $event_info = Meeting::where('id', $request->id)->get();
@@ -198,9 +207,11 @@ class BillingController extends Controller
         return view('billing.paylink',compact('id'));
     }
     public function getpaymentlink($id){
+
         $id = decrypt(urldecode($id));
         $event = Meeting::where('id',$id)->first();
-        return view('payments.pay',compact('event'));
+        $collectpayment = PaymentInfo::where('event_id',$id)->orderby('id','desc')->first();
+        return view('payments.pay',compact('event','collectpayment'));
     }
     public function sharepaymentlink(Request $request,$id){
         $settings = Utility::settings();
@@ -272,7 +283,7 @@ class BillingController extends Controller
         $payment->deposits =$request->deposit;
         $payment->adjustments = $request->adjustment ?? 0;
         $payment->latefee = $request->latefee ?? 0;
-        $payment->collect_amount = $request->balance;
+        $payment->collect_amount = $request->amountcollect;
         $payment->paymentref = '';
         $payment->modeofpayment = 'credit';
         $payment->notes = $request->notes;

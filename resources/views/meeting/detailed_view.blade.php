@@ -8,8 +8,9 @@ if(isset($event->ad_opts) && !empty($event->ad_opts)){
 if(isset($event->bar_package) && !empty($event->bar_package)){
     $bar = json_decode($event->bar_package,true);
 }
-$payments = App\Models\PaymentLogs::where('event_id',$event->id)->get();
-$payinfo = App\Models\PaymentInfo::where('event_id',$event->id)->orderby('id','desc')->first();
+if(App\Models\PaymentLogs::where('event_id',$event->id)->exists()){
+    $payments = App\Models\PaymentLogs::where('event_id',$event->id)->get();
+}
 $files = Storage::files('app/public/Event/'.$event->id);
 
 ?>
@@ -107,6 +108,7 @@ $files = Storage::files('app/public/Event/'.$event->id);
                             <hr>
                             <img src="{{$event->floor_plan}}" alt="" style="    width: 40% ;" class="need_full">
                     </dl>
+                    @if(isset($payment) && !empty($payment))
                     <div class="col-lg-12">
                         <div class="card" id="useradd-1">
                             <div class="card-body table-border-style">
@@ -139,6 +141,7 @@ $files = Storage::files('app/public/Event/'.$event->id);
                             </div>
                         </div>
                     </div>
+                    @endif
                     <div class="col-lg-12">
                         <div class="card" id="useradd-1">
                             <div class="card-body table-border-style">

@@ -4,7 +4,6 @@ $bill = App\Models\Billing::where('event_id',$event->id)->first();
 $totalpaid = 0;
 if(\App\Models\PaymentLogs::where('event_id',$event->id)->exists()){
     $pay = App\Models\PaymentLogs::where('event_id',$event->id)->get();
-    $deposit = App\Models\Billing::where('event_id',$event->id)->first();
     foreach($pay as $p){
     $totalpaid += $p->amount;
     }
@@ -19,7 +18,7 @@ $adjustments += $inf->adjustments;
 }
 ?>
 <?php if($event->status == 3): ?>
-<?php if(($totalpaid + $bill->deposits +$adjustments - $latefee) == $event->total ): ?>
+<?php if(($totalpaid + $bill->deposits  +$adjustments -$latefee) >= $event->total): ?>
 <div class="container mt-4">
     <div class="row">
         <div class="col-md-12">
@@ -42,7 +41,7 @@ $adjustments += $inf->adjustments;
                         <dd class="col-md-6 need_half"><span class=""><?php echo e(($adjustments == 0) ? '--': '$'.number_format($adjustments)); ?></span></dd>
 
                         <dt class="col-md-6 need_half"><span class="h6  mb-0"><?php echo e(__('Amount Due')); ?></span></dt>
-                        <dd class="col-md-6 need_half"><span class=""><?php echo e(($event->total -($totalpaid + $bill->deposits + $adjustments - $latefee) == 0) ? ' -- ': '$'.number_format($event->total -($totalpaid + $bill->deposits + $adjustments - $latefee))); ?></span></dd>
+                        <dd class="col-md-6 need_half"><span class=""><?php echo e(($event->total - ($totalpaid + $bill->deposits +$adjustments - $latefee) == 0)?'--':'$'.number_format($event->total - ($totalpaid + $bill->deposits +$adjustments - $latefee))); ?></span></dd>
                         <!-- <dt class="col-md-6 need_half"><span class="h6  mb-0"><?php echo e(__('Paid Amount')); ?></span></dt> -->
                         <!-- <dd class="col-md-6 need_half"><span class=""><?php echo e((($totalpaid + $bill->deposits) == 0) ? ' -- ': '$'.number_format($totalpaid + $bill->deposits)); ?></span></dd> -->
                     </dl>
@@ -205,10 +204,11 @@ $('#mode').change(function() {
 </script>
 <script>
 jQuery(function() {
+
     var amount = parseFloat($("input[name='amount']").val()) || 0;
     var deposits = parseFloat($("input[name='deposits']").val()) || 0;
-    var latefee = parseFloat($("input[name='latefee']").val()) || 0;
-    var adjustments = parseFloat($("input[name='adjustments']").val()) || 0;
+    var latefee = <?php echo $latefee; ?>;;
+    var adjustments = <?php echo $adjustments; ?>;
     var other = parseFloat($("input[name='other']").val()) || 0;
     var amountpaid =  parseFloat($("input[name='amountpaid']").val()) || 0;;
     var balance = amount + latefee - adjustments- amountpaid ;

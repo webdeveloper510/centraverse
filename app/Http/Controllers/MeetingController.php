@@ -1325,7 +1325,7 @@ class MeetingController extends Controller
         $id= decrypt(urldecode($id));
         // echo "<pre>";print_r($id);die;
         // $event = Meeting::find($id);
-        $event = Meeting::find($id);
+        $event = Meeting::withTrashed()->find($id);
 
         return view('meeting.detailed_view',compact('event'));
     }

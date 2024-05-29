@@ -16,6 +16,12 @@ if(\App\Models\PaymentLogs::where('event_id',$event->id)->exists()){
     }
 }
 $info = App\Models\PaymentInfo::where('event_id',$event->id)->get();
+$latefee = 0;
+$adjustments = 0;
+foreach($info as $inf){
+$latefee += $inf->latefee;
+$adjustments += $inf->adjustments;
+}
 ?>
 <?php if($event->status == 3): ?>
 <div class="row">
@@ -125,10 +131,10 @@ $info = App\Models\PaymentInfo::where('event_id',$event->id)->get();
 $(document).ready(function() {
     var amount = parseFloat($("input[name='amount']").val()) || 0;
     var deposits = parseFloat($("input[name='deposit']").val()) || 0;
-    var latefee = parseFloat($("input[name='latefee']").val()) || 0;
-    var adjustments = parseFloat($("input[name='adjustment']").val()) || 0;
+    var latefee = <?php echo $latefee; ?>;
+    var adjustment = <?php echo $adjustments; ?>;
     var amttobepaid = parseFloat($("input[name='paidamount']").val()) || 0;
-    var balance = amount + latefee - adjustments- amttobepaid ;
+    var balance = amount + latefee - adjustment - amttobepaid ;
     // console.log(deposits,'33453453',balance)
     $("input[name='amountcollect']").attr('max', balance);
     $("input[name='balance']").val(balance);
@@ -212,11 +218,11 @@ function getDataUrlAndCopy(button) {
     $('.error-message').hide().html('');
     var email = $('input[name="email"]').val();
     // Validate each input field
-    var amount = $('input[name="amount"]').val();
+    var amount  =  $('input[name="amount"]').val();
+    var latefee =$('input[name="latefee"]').val();
     var adjustment = $('input[name="adjustment"]').val();
-    var latefee = $('input[name="latefee"]').val();
     var deposit = $('input[name="deposit"]').val();
-    var notes = $('input[name="notes"]').val();
+    var notes   = $('input[name="notes"]').val();
     var amountcollect = $('input[name="amountcollect"]').val();
     var balance = $('input[name="balance"]').val();
 

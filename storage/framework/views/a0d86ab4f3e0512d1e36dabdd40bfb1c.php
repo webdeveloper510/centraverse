@@ -14,10 +14,9 @@ $payinfo = App\Models\PaymentInfo::where('event_id',$event->id)->orderBy('id', '
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Payment</title>
 </head>
 <?php echo $__env->make('partials.admin.head', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-
 <body style="min-height: 0vh;">
     <div class="container mt-5 ">
         <div class="row">
@@ -55,8 +54,7 @@ $payinfo = App\Models\PaymentInfo::where('event_id',$event->id)->orderBy('id', '
                                 <div class="col-md-6">
                                     <label>Amount</label>
                                     <input type="number" name="amount" class="form-control"
-                                        value="<?php echo e(isset($balance) ? $balance :($event->total - $total)); ?>"
-                                        >
+                                        value="<?php echo e(isset($collectpayment) ? $collectpayment->collect_amount : $balance); ?>">
                                     <!-- <input type="number" name="amount" class="form-control"
                                         value="<?php echo e(isset($payinfo) ? $payinfo->amounttobepaid : ($event->total - $total)); ?>"
                                         > -->

@@ -21,7 +21,9 @@ class AuthorizeController extends Controller
     public function pay($id) {
         $id = decrypt(urldecode($id));
         $event = Meeting::where('id',$id)->first();
-        return view('payments.pay',compact('event'));
+        $collectpayment = PaymentInfo::where('event_id',$id)->orderby('id','desc')->first();
+
+        return view('payments.pay',compact('event','collectpayment'));
     }
     public function handleonlinepay(Request $request ,$id) {
    
