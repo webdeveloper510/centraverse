@@ -43,7 +43,7 @@ $event = App\Models\Meeting::find($newpayment->event_id);
                             </p>
                             <ul style="font-family: Arial, sans-serif; color: #333333;">
                                 <li><strong>Amount Paid:</strong> $<?php echo e($newpayment->amount); ?></li>
-                                <li><strong>Payment Method:</strong> </li>
+                                <!-- <li><strong>Payment Method:</strong> </li> -->
                                 <li><strong>Transaction ID:</strong> <?php echo e($newpayment->transaction_id); ?></li>
                             </ul>
                             <p style="font-family: Arial, sans-serif; color: #333333;">

@@ -37,7 +37,7 @@
     }
 
     .brand-section {
-        background-color: #0d1033;
+        background-color:#d3ead3;
         padding: 10px 40px;
     }
 
@@ -87,7 +87,7 @@
 
     table thead tr {
         border: 1px solid #111;
-        background-color: #f2f2f2;
+        background-color:#d3ead3
     }
 
     table td {
@@ -137,7 +137,7 @@
         <div class="brand-section">
             <div class="row">
                 <div class="col-6">
-                    <h1 class="text-white">The Bond 1786</h1>
+                    <h1>The Bond 1786</h1>
                 </div>
 
             </div>
@@ -145,18 +145,51 @@
 
         <div class="body-section">
             <div class="row">
-                <div class="col-6">
+                <!-- <div class="col-6">
                     <h2 class="heading">Transaction Id : <?php echo e($paymentlog->transaction_id); ?></h2>
                     <p class="sub-heading"> Date: <?php echo e(\Carbon\Carbon::parse($paymentlog->created_at)->format('M d, Y')); ?>
 
                     </p>
                     <p class="sub-heading">Email Address: <?php echo e($event->email); ?></p>
-                </div>
-                <div class="col-6">
-                    <p>Full Name: <?php echo e($event->name); ?> </p>
+                </div> -->
+                <!-- <div class="col-6">
+                    <p> Name: <?php echo e($event->name); ?> </p>
                     <p>Address: <?php echo e($event->lead_address); ?> </p>
                     <p>Phone Number: <?php echo e($event->phone); ?> </p>
-                </div>
+                    
+                </div> -->
+                <table class="table-bordered">
+                <thead>
+                    <!-- <tr>
+                        <th></th>
+                        <th class="w-20"></th>
+                       
+                    </tr> -->
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="2">Name</td>
+                        <td><?php echo e($event->name); ?></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Email Address</td>
+                        <td><?php echo e($event->email); ?></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Address</td>
+                        <td><?php echo e($event->lead_address); ?></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Phone Number</td>
+                        <td><?php echo e($event->phone); ?></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Transaction Id</td>
+                        <td><?php echo e($paymentlog->transaction_id); ?></td>
+                    </tr>
+                </tbody>
+            </table>
+
             </div>
         </div>
 

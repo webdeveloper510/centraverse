@@ -128,7 +128,7 @@ h6.headings {
                     </div>
                     <div class="row mb-4">
                         <div class="col-md-12">
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>Event Date</th>
