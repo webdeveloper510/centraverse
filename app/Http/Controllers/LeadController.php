@@ -668,9 +668,12 @@ class LeadController extends Controller
             $settings = Utility::settings();
             $id = decrypt(urldecode($id));
 
-            if(!empty($request->imageData)){
-                $image = $this->uploadSignature($request->imageData);
+            if(!empty($request->signed)){
+                $image = $this->uploadSignature($request->signed);
+              
+
             }else{
+
                 return redirect()->back()->with('error',('Please Sign it for confirmation'));
             }
             $existproposal = Proposal::where('lead_id', $id)->exists();
@@ -698,6 +701,7 @@ class LeadController extends Controller
                 'settings'=>$settings,
                 'additional_items'=>$additional_items
             ];
+
             $pdf = Pdf::loadView('lead.signed_proposal', $data);
             try {
                 $filename = 'proposal_' . time() . '.pdf'; // You can adjust the filename as needed
@@ -948,7 +952,7 @@ class LeadController extends Controller
     }
     public function lead_info($id){
         $id = decrypt(urldecode($id));
-        $lead = Lead::find($id);
+        $lead = Lead::withTrashed()->find($id);
         // if(!empty($lead->email)){
         //     $leads = Lead::where('email',$lead->email)->get();
         // }else{

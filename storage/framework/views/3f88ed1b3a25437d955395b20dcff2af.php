@@ -34,7 +34,7 @@
                                             <thead>
                                                 <tr>
                                                     <th scope="col" class="sort" data-sort="name"><?php echo e(__('Name')); ?></th>
-                                                    <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Lead Type')); ?>
+                                                    <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Event Type')); ?>
 
                                                     </th>
                                                     <th scope="col" class="sort"><?php echo e(__('Guest Count')); ?></th>
@@ -78,9 +78,13 @@
                                                 }
                                                 ?>
                                                 <tr>
-                                                    <td>
-                                                        <?php echo e(ucfirst($lead->name)); ?>
-
+                                                    <td> <a href="<?php echo e(route('lead.info',urlencode(encrypt($lead->id)))); ?>"
+                                                        data-size="md" title="<?php echo e(__('Lead Details')); ?>"
+                                                        class="action-item text-primary"
+                                                        style="color:#1551c9 !important;">
+                                                        <b> <?php echo e(ucfirst($lead->name)); ?></b>
+                                                    </a>
+                                                     
                                                     </td>
                                                     <td><b> <?php echo e(ucfirst($lead->type)); ?></b></td>
                                                     <td>

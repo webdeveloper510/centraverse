@@ -12,12 +12,86 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agreement</title>
+    <title> Agreement</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+    }
+
+    .container {
+        background-color: #fff;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo-img {
+        width: 100px;
+    }
+
+    h4,
+    h5 {
+        color: #063806;
+    }
+
+    .table thead th {
+        background-color: #d3ead3;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .table tbody td {
+        text-align: center;
+    }
+
+    .table tfoot td {
+        font-weight: bold;
+        background-color: #f0f0f0;
+    }
+
+    .signature-canvas {
+        border: 1px solid #333;
+        border-radius: 8px;
+        width: 50%;
+        height: 165px;
+    }
+
+    .btn {
+        border-radius: 20px;
+    }
+
+    .btn-success {
+        background-color: #063806;
+        border-color: #063806;
+    }
+
+    .btn-danger {
+        background-color: #d9534f;
+        border-color: #d43f3a;
+    }
+
+    .form-label {
+        font-weight: bold;
+    }
+    p.text{
+    font-size: x-small;
+}
+ul {
+    font-size: x-small;
+}
+h6.headings {
+    font-size: xx-small;
+    font-weight: bolder;
+}
+    </style>
 </head>
 
 <body>
     <div class="container mt-5">
-        <div class="row card">
+        <div class="row card p-4">
             <div class="col-md-12">
                 <form method="POST" action="<?php echo e(route('meeting.signedagreementresp',urlencode(encrypt($meeting->id)))); ?>"
                     id='formdata'>
@@ -26,25 +100,25 @@
                         <div class="col-md-4 mt-4">
                             <div class="img-section">
                                 <img class="logo-img" src="<?php echo e(Storage::url('uploads/logo/3_logo-light.png')); ?>"
-                                    style="width:25%;">
+                                    alt="Logo">
                             </div>
                         </div>
                         <div class="col-md-8 mt-5">
                             <h4>The Bond 1786 - Agreement</h4>
-                            <!-- <h4>Proposal</h4> -->
-                            <h5>Venue Rental & Banquet Event - Estimate</h5>
+                            <h5>Venue Rental & Banquet Event </h5>
                         </div>
                     </div>
-                    <div class="row mt-4">
+                    <div class="row mt-3">
                         <div class="col-md-6">
                             <dl>
                                 <span><?php echo e(__('Name')); ?>: <?php echo e($meeting->name); ?></span><br>
                                 <span><?php echo e(__('Phone & Email')); ?>: <?php echo e($meeting->phone); ?> , <?php echo e($meeting->email); ?></span><br>
                                 <span><?php echo e(__('Address')); ?>: <?php echo e($meeting->lead_address); ?></span><br>
-                                <span><?php echo e(__('Event Start Date')); ?>:<?php echo e(\Carbon\Carbon::parse($meeting->start_date)->format('d M, Y')); ?></span>
+                                <span><?php echo e(__('Event  Date')); ?>:<?php echo e(\Carbon\Carbon::parse($meeting->start_date)->format('d M, Y')); ?></span>
+
                             </dl>
                         </div>
-                        <div class="col-md-6" style="text-align: end;">
+                        <div class="col-md-6 text-right">
                             <dl>
                                 <span><?php echo e(__('Primary Contact')); ?>: <?php echo e($meeting->name); ?></span><br>
                                 <span><?php echo e(__('Phone')); ?>: <?php echo e($meeting->phone); ?></span><br>
@@ -52,12 +126,11 @@
                             </dl>
                         </div>
                     </div>
-                    <hr>
                     <div class="row mb-4">
                         <div class="col-md-12">
-                            <table class="table table-bordered" style="width:100%">
+                            <table class="table table-bordered">
                                 <thead>
-                                    <tr style="background-color:#d3ead3; text-align:center">
+                                    <tr>
                                         <th>Event Date</th>
                                         <th>Time</th>
                                         <th>Venue</th>
@@ -67,10 +140,10 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr style="text-align:center">
-                                        <td>Start Date:
-                                            <?php echo e(\Carbon\Carbon::parse($meeting->start_date)->format('d M, Y')); ?> <br>
-                                            End Date: <?php echo e(\Carbon\Carbon::parse($meeting->start_date)->format('d M, Y')); ?>
+                                    <tr>
+                                        <td>
+                                            <?php echo e(\Carbon\Carbon::parse($meeting->start_date)->format('d M, Y')); ?>
+
 
                                         </td>
                                         <td>Start
@@ -87,14 +160,13 @@
 
                                         </td>
                                     </tr>
-
                                 </tbody>
                             </table>
                         </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-12">
-                            <p class="text"><b>This contract defines the terms and conditions under which Lotus Estate,
+                            <p><b>This contract defines the terms and conditions under which Lotus Estate,
                                     LLC
                                     dba The Bond 1786, (hereinafter referred to as The Bond or The
                                     Bond 1786), and <b><?php echo e($meeting->name); ?></b>(hereafter referred to as the Customer)
@@ -111,13 +183,13 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <h6 class="headings">Venue Selected</h6>
+                            <h6><b>Venue Selected</b></h6>
                             <!-- <h6>Venue Selected</h6> -->
                             <p><?php echo e($meeting->venue_selection); ?></p><br>
-                            <h6 class="headings"> No. of Hotel Rooms (Booked)</h6>
+                            <h6> <b>No. of Hotel Rooms (Booked)</b></h6>
                             <p><?php echo e($meeting->room); ?></p><br>
                             <!-- <input type= "number" name ="rooms"min = "0" value = "<?php echo e($meeting->room); ?>" disabled> -->
-                            <p class="text">
+                            <p >
                                 The venue/s described above has been reserved for you for the date and time stipulated.
                                 Please note that the hours assigned to your event include all set-up and
                                 all clean-up, including the set-up and clean-up of all subcontractors that you may
@@ -126,206 +198,180 @@
                                 behavior of your guests, invitees, agents, or sub-contractors resulting from your
                                 use of venue/s.
                             </p>
-                            <h6 class="headings">Rental Deposit and Payment Agreement</h6>
-                            <p class="text">
+                            <h6><b>Rental Deposit and Payment Agreement</b></h6>
+                            <p >
                                 The total cost for use of The Bond 1786 and its facilities described in this contract is
                                 listed above. To reserve services on the
                                 date/s requested, The Bond 1786 requires this contract be signed by Customer and an <b>
-                                    initial payment of $3,000</b> be deposited.
+                                    initial payment of _____</b> be deposited.
                                 The balance is due prior to the event date. Deposits and payments will be made at the
                                 time of signing of the Contract. Payments
                                 can be made by cash, Bank checks (made payable to <b>The Bond 1786</b>), on the schedule
                                 noted below. A receipt from The Bond
                                 1786 will be provided for each.
                             </p>
-                            <h6 class="headings">Billing Summary</h6>
+                            <h6><b>Billing Summary</b></h6>
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th
-                                            style="text-align:left; font-size:13px;text-align:left; padding:5px 5px; margin-left:5px;">
+                                        <th>
                                             Name : <?php echo e($meeting->name); ?></th>
-                                        <th colspan="2" style="padding:5px 0px;margin-left: 5px;font-size:13px"></th>
-                                        <th colspan="3"
-                                            style="text-align:left;text-align:left; padding:5px 5px; margin-left:5px;">
+                                        <th colspan="2"></th>
+                                        <th colspan="3">
                                             Date:<?php echo date("d/m/Y"); ?> </th>
-                                        <th style="text-align:left; font-size:13px;padding:5px 5px; margin-left:5px;">
-                                            Event: <?php echo e($meeting->type); ?></th>
+                                        <th>Event: <?php echo e($meeting->type); ?></th>
                                     </tr>
                                     <tr style="background-color:#063806;">
                                         <th>Description</th>
                                         <th colspan="2">Additional</th>
                                         <th>Cost</th>
-                                        <th
-                                            style="color:#ffffff; font-size:13px;padding:5px 5px;margin-left: 5px;font-size:13px">
-                                            Quantity</th>
+                                        <th>Quantity</th>
                                         <th>Total Price</th>
                                         <th>Notes</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Venue Rental</td>
-                                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                                        <td>Venue Rental</td>
+                                        <td colspan="2"></td>
 
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            $<?php echo e($billing_data['venue_rental']['cost']); ?></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            <?php echo e($billing_data['venue_rental']['quantity']); ?></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            $<?php echo e($total[] = $billing_data['venue_rental']['cost'] * $billing_data['venue_rental']['quantity']); ?>
+                                        <td>$<?php echo e($billing_data['venue_rental']['cost']); ?></td>
+                                        <td><?php echo e($billing_data['venue_rental']['quantity']); ?></td>
+                                        <td>$<?php echo e($total[] = $billing_data['venue_rental']['cost'] * $billing_data['venue_rental']['quantity']); ?>
 
                                         </td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            <?php echo e($meeting['venue_selection']); ?></td>
+                                        <td><?php echo e($meeting['venue_selection']); ?></td>
                                     </tr>
 
                                     <tr>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Brunch / Lunch /
-                                            Dinner Package</td>
-                                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            $<?php echo e($billing_data['food_package']['cost']); ?></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            <?php echo e($billing_data['food_package']['quantity']); ?></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            $<?php echo e($total[] =$billing_data['food_package']['cost'] * $billing_data['food_package']['quantity']); ?>
+                                        <td>Brunch / Lunch /Dinner Package</td>
+                                        <td colspan="2"></td>
+                                        <td>$<?php echo e($billing_data['food_package']['cost']); ?></td>
+                                        <td><?php echo e($billing_data['food_package']['quantity']); ?></td>
+                                        <td>$<?php echo e($total[] =$billing_data['food_package']['cost'] * $billing_data['food_package']['quantity']); ?>
 
                                         </td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            <?php echo e($meeting['function']); ?></td>
+                                        <td><?php echo e($meeting['function']); ?></td>
 
                                     </tr>
                                     <tr>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Bar Package</td>
-                                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            $<?php echo e($billing_data['bar_package']['cost']); ?></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            <?php echo e($billing_data['bar_package']['quantity']); ?></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            $<?php echo e($total[] = $billing_data['bar_package']['cost']* $billing_data['bar_package']['quantity']); ?>
+                                        <td>Bar Package</td>
+                                        <td colspan="2"></td>
+                                        <td>$<?php echo e($billing_data['bar_package']['cost']); ?></td>
+                                        <td><?php echo e($billing_data['bar_package']['quantity']); ?></td>
+                                        <td>$<?php echo e($total[] = $billing_data['bar_package']['cost']* $billing_data['bar_package']['quantity']); ?>
 
                                         </td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            <?php echo e(implode(',',$bar_pck)); ?></td>
+                                        <td><?php echo e(implode(',',$bar_pck)); ?></td>
                                     </tr>
                                     <tr>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Hotel Rooms</td>
-                                        <td colspan="2" style="padding:5px 5px; margin-left:5px;"></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            $<?php echo e($billing_data['hotel_rooms']['cost']); ?></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            <?php echo e($billing_data['hotel_rooms']['quantity']); ?></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            $<?php echo e($total[] = $billing_data['hotel_rooms']['cost'] * $billing_data['hotel_rooms']['quantity']); ?>
+                                        <td>Hotel Rooms</td>
+                                        <td colspan="2"></td>
+                                        <td>$<?php echo e($billing_data['hotel_rooms']['cost']); ?></td>
+                                        <td><?php echo e($billing_data['hotel_rooms']['quantity']); ?></td>
+                                        <td>$<?php echo e($total[] = $billing_data['hotel_rooms']['cost'] * $billing_data['hotel_rooms']['quantity']); ?>
 
                                         </td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                                        <td></td>
                                     </tr>
                                     <tr>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Tent, Tables,
-                                            Chairs, AV Equipment</td>
-                                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            $<?php echo e($billing_data['equipment']['cost']); ?></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            <?php echo e($billing_data['equipment']['quantity']); ?></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                        <td>Tent, Tables, Chairs, AV Equipment</td>
+                                        <td colspan="2"></td>
+                                        <td>$<?php echo e($billing_data['equipment']['cost']); ?></td>
+                                        <td><?php echo e($billing_data['equipment']['quantity']); ?></td>
+                                        <td>
                                             $<?php echo e($total[] = $billing_data['equipment']['cost'] * $billing_data['equipment']['quantity']); ?>
 
                                         </td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                                        <td></td>
                                     </tr>
 
                                     <?php if(!$billing_data['setup']['cost'] == ''): ?>
                                     <tr>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Welcome / Rehearsal
+                                        <td>Welcome / Rehearsal
                                             / Special Setup</td>
-                                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px"></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                        <td colspan="2"></td>
+                                        <td>
                                             $<?php echo e($billing_data['setup']['cost']); ?></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                        <td>
                                             <?php echo e($billing_data['setup']['quantity']); ?></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                        <td>
                                             $<?php echo e($total[] =$billing_data['setup']['cost'] * $billing_data['setup']['quantity']); ?>
 
                                         </td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                                        <td></td>
                                     </tr>
                                     <?php endif; ?>
                                     <tr>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Special Requests /
+                                        <td>Special Requests /
                                             Others</td>
-                                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                        <td colspan="2"></td>
+                                        <td>
                                             $<?php echo e($billing_data['special_req']['cost']); ?></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                        <td>
                                             <?php echo e($billing_data['special_req']['quantity']); ?></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                        <td>
                                             $<?php echo e($total[] =$billing_data['special_req']['cost'] * $billing_data['special_req']['quantity']); ?>
 
                                         </td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($meeting->spcl_request); ?></td>
+                                        <td><?php echo e($meeting->spcl_request); ?></td>
                                     </tr>
                                     <tr>
-            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Additional Items</td>
-            <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">$<?php echo e($billing_data['additional_items']['cost']); ?></td>
-            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($billing_data['additional_items']['quantity']); ?></td>
-            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">$<?php echo e($total[] =$billing_data['additional_items']['cost'] * $billing_data['additional_items']['quantity']); ?></td>
-            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($billing_data['additional_items']['notes']); ?></td>
+                                        <td>Additional Items</td>
+                                        <td colspan="2"></td>
+                                        <td>$<?php echo e($billing_data['additional_items']['cost']); ?></td>
+                                        <td><?php echo e($billing_data['additional_items']['quantity']); ?></td>
+                                        <td>$<?php echo e($total[] =$billing_data['additional_items']['cost'] * $billing_data['additional_items']['quantity']); ?>
 
-        </tr>
+                                        </td>
+                                        <td><?php echo e($billing_data['additional_items']['notes']); ?></td>
+
+                                    </tr>
                                     <tr>
                                         <td>-</td>
-                                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                        <td colspan="3" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                                        <td colspan="2"></td>
+                                        <td colspan="3"></td>
+                                        <td></td>
                                     </tr>
                                     <tr>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Total</td>
-                                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                        <td>Total</td>
+                                        <td colspan="2"></td>
+                                        <td colspan="2"></td>
+                                        <td>
                                             $<?php echo e(array_sum($total)); ?></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                                        <td></td>
                                     </tr>
                                     <tr>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Sales, Occupancy
-                                            Tax</td>
-                                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"> </td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                        <td>Sales, Occupancy Tax</td>
+                                        <td colspan="2"></td>
+                                        <td colspan="2"> </td>
+                                        <td>
                                             $<?php echo e(7* array_sum($total)/100); ?></td>
                                         <td></td>
                                     </tr>
                                     <tr>
-                                        <td
-                                            style="text-align:left;text-align:left; padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            Service Charges & Gratuity</td>
-                                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                        <td>Service Charges & Gratuity</td>
+                                        <td colspan="2"></td>
+                                        <td colspan="2"></td>
+                                        <td>
                                             $<?php echo e(20 * array_sum($total)/100); ?></td>
 
                                         <td></td>
                                     </tr>
                                     <tr>
                                         <td>-</td>
-                                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                                        <td colspan="2"></td>
+                                        <td colspan="2"></td>
+                                        <td></td>
 
                                         <td></td>
                                     </tr>
                                     <tr>
-                                        <td
-                                            style="background-color:#ffff00; padding:5px 5px; margin-left:5px;font-size:13px;">
+                                        <td>
                                             Grand Total / Estimated Total</td>
-                                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                                        <td colspan="2"></td>
+                                        <td colspan="2"></td>
+                                        <td>
                                             $<?php echo e($grandtotal= array_sum($total) + 20* array_sum($total)/100 + 7* array_sum($total)/100); ?>
 
                                         </td>
@@ -333,29 +379,27 @@
                                         <td></td>
                                     </tr>
                                     <tr>
-                                        <td
-                                            style="background-color:#d7e7d7; padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            Deposits on file</td>
-                                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                        <td colspan="3"
-                                            style="background-color:#d7e7d7;padding:5px 5px; margin-left:5px;font-size:13px;">
+                                        <td >Deposits on file</td>
+                                        <td colspan="2"></td>
+                                        <td colspan="3">
                                             $<?php echo e($deposit= $billing->deposits); ?></td>
-                                        <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                                        <td></td>
                                     </tr>
                                     <tr>
-                                        <td
-                                            style="background-color:#ffff00;text-align:left; padding:5px 5px; margin-left:5px;font-size:13px;">
-                                            balance due</td>
-                                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                                        <td colspan="3"
-                                            style="padding:5px 5px; margin-left:5px;font-size:13px;background-color:#9fdb9f;">
+                                        <td>balance due</td>
+                                        <td colspan="2"></td>
+                                        <td colspan="3">
                                             $<?php echo e($grandtotal - $deposit); ?></td>
-                                        <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+                                        <td colspan="2"></td>
                                     </tr>
                                 </tbody>
                             </table>
                             <input type="hidden" value="<?php echo e($grandtotal); ?>" name="grandtotal">
-                            <h3 class=" mt-5" style="text-align:center ">TERMS AND CONDITIONS</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                        <h5 class=" mt-5" style="text-align:center ">TERMS AND CONDITIONS</h5>
                             <h6 class="headings">FOOD AND ALCOHOLIC BEVERAGES and 3RD PARTY / ON-SITE VENDORS</h6>
                             <p class="text">
                                 The Client and their guests agree to not bring in any unauthorized food or beverage into
@@ -427,8 +471,8 @@
                                 cancelled and are non-refundable, unless agreed upon and approved during the
                                 booking of the Event.</p>
 
-                            <b>Large Events & Weddings -</b>
-                            <p>
+                                <h6 class="headings">Large Events & Weddings -</h6>
+                            <p class="text">
                                 1. Changes: In the unlikely event the Customer is required to change the date of the
                                 event or Wedding, every effort will be made by The Bond 1786 to transfer reservations to
                                 support the new date. The Customer agrees that in the event of a date change, any
@@ -466,7 +510,7 @@
                                 guests attending the event, whichever is higher. </p>
 
                             <h6 class="headings">SET-UP & EVENT SET-UP LIMITATIONS:</h6>
-                            <p>Any space / room set up changes made on the day of the event will be charged a $500 fee.
+                            <p class="text">Any space / room set up changes made on the day of the event will be charged a $500 fee.
                                 Additional time required above
                                 the contracted time will be charged a $250 per hour fee. Client may bring their own
                                 linen, decorations, and equipment but must be approved by the Coordinator / Owner first.
@@ -492,7 +536,7 @@
                                     event (except clean-up crew, with all clean-ups to be done by 1:00 am).</li>
                             </ul>
                             <h6 class="headings">FINAL PAYMENT & PAYMENT POLICY:</h6>
-                            <p> 100% of expected / outstanding balance payment is due 14 days prior to event date. The
+                            <p class="text"> 100% of expected / outstanding balance payment is due 14 days prior to event date. The
                                 Establishment will terminate the contract
                                 if payment is not received by contracted due date. If deposit or full payment is not
                                 received as required by contracted date, the contract will be canceled. For check
@@ -503,7 +547,7 @@
                                 pre-established for event payment. </p>
 
                             <h6 class="headings">DAMAGES:</h6>
-                            <p> The individual signing this agreement will be responsible for damage to or loss of
+                            <p class="text"> The individual signing this agreement will be responsible for damage to or loss of
                                 revenue by the Establishment due to activities of the guests under this contract,
                                 including but not limited to the building, Establishment equipment, decorations,
                                 fixtures, furniture, and refunds due to the negligence of your guests. The deposit which
@@ -514,7 +558,7 @@
                                 Card on file, should there be a remaining balance due to The Bond 1786. </p>
 
                             <h6 class="headings">COMPLIANCE WITH LAWS:</h6>
-                            <p>You will comply with all applicable local and national laws, codes, regulations,
+                            <p class="text">You will comply with all applicable local and national laws, codes, regulations,
                                 ordinances, and rules with respect to your obligations under
                                 this Agreement and the services to be provided by you hereunder, including but not
                                 limited to any laws and regulations governing event organizers. You represent, warrant,
@@ -523,7 +567,7 @@
                                 compliance with all applicable local, state, federal regulations or laws. </p>
 
                             <h6 class="headings">INDEMNIFICATION:</h6>
-                            <p> To the extent permitted by law, you agree to protect, indemnify, defend and hold
+                            <p class="text"> To the extent permitted by law, you agree to protect, indemnify, defend and hold
                                 harmless the Establishment, Lotus Estate, LLC dba The Bond 1786
                                 and the owner of the Establishment, and each of their respective employees and agents
                                 against all claims, losses or damages to persons or property, governmental charges or
@@ -631,18 +675,18 @@
                             <h6 class="headings">RULES AND CONTIONS FOR USAGE</h6>
 
                             <h6 class="headings">CANDLES:</h6>
-                            <p>The use of any type of flame is prohibited in all buildings and throughout the site. The
+                            <p class="text">The use of any type of flame is prohibited in all buildings and throughout the site. The
                                 new “flameless candles” which are battery operated are permitted
                                 for use. </p>
 
-                            <h6>CHILDREN:</h6>
-                            <p> There have been times we have had guests at the complex whose children were not properly
+                            <h6 class="headings">CHILDREN:</h6>
+                            <p class="text"> There have been times we have had guests at the complex whose children were not properly
                                 supervised. Children under the age of 18 are your complete responsibility.
                                 Please know where your children are always and make certain that they clearly understand
                                 The Rules (They are not permitted near the pond). </p>
 
                             <h6 class="headings">CONTACT PERSON:</h6>
-                            <p> You must designate one individual as your Contact Person. This must not be someone
+                            <p class="text"> You must designate one individual as your Contact Person. This must not be someone
                                 heavily involved in the activities of the day, as they will be too
                                 busy to effectively communicate with our on-site coordinator should
                                 problems/concerns/questions. (When questions arise, do not designate any member of your
@@ -650,13 +694,13 @@
                                 photographer, caterer, florist, or musician as your liaison). </p>
 
                             <h6 class="headings">DELIVERIES / DELIVERY TRUCKS:</h6>
-                            <p>There is a size limit to the height and length of vehicles entering the complex due to
+                            <p class="text">There is a size limit to the height and length of vehicles entering the complex due to
                                 the damage inflicted to our trees.
                                 Please coordinate limits with us. We will need to know the delivery dates and times of
                                 any rentals, so we can meet them and show them where to drop their rentals. </p>
 
                             <h6 class="headings">DECORATIONS:</h6>
-                            <p>Only pushpins and drafting tape may be used to affix decorations and/or signs. Any other
+                            <p class="text">Only pushpins and drafting tape may be used to affix decorations and/or signs. Any other
                                 decorations, signage, electrical configurations, or
                                 construction must be pre-approved by The Bond. Decorations may not be hung from light
                                 fixtures. All decorations must be removed without leaving damages directly
@@ -668,11 +712,11 @@
                                 remove all decorations and return Venue to the condition in which it was received. </p>
 
                             <h6 class="headings">EVENT ENDING TIME:</h6>
-                            <p> All events must end by 11:00 PM to comply with Township/County sound ordinances and to
+                            <p class="text"> All events must end by 11:00 PM to comply with Township/County sound ordinances and to
                                 allow for clean-up and closure of the site by 1:00 AM. </p>
 
                             <h6 class="headings">GARBAGE DISPOSAL:</h6>
-                            <p>Trash disposal, other than the garbage disposal of items generated by the caterer, is
+                            <p class="text">Trash disposal, other than the garbage disposal of items generated by the caterer, is
                                 your responsibility. Immediately following the event,
                                 please have your Clean-up Committee take a few minutes to walk all the areas of the
                                 building and property that have been utilized for the event and pick-up any refuse that
@@ -691,7 +735,7 @@
                                 guests, invitees, agents, and sub-contractors. </p>
 
                             <h6 class="headings">GUESTS:</h6>
-                            <p>Please keep in mind when inviting Guests to your event, that you are inviting them to our
+                            <p class="text">Please keep in mind when inviting Guests to your event, that you are inviting them to our
                                 home. We will expect visitors to conduct themselves in a mature,
                                 responsible, and respectful manner. </p>
 
@@ -702,13 +746,15 @@
                                 the discretion of The Bond unless prior arrangements have been and approved by The Bond.
                             </p>
 
-                            <h6>HANDICAP ACCOMMODTIONS:</h6>
-                            <p>We provide level-designated parking, ramped walkways throughout the property along with
+                            <h6 class="headings">HANDICAP ACCOMMODTIONS:</h6>
+                            <p class="text">We provide level-designated parking, ramped walkways throughout the property along with
                                 suitable restroom facilities. Motorized and transport
                                 chairs can easily navigate the grounds. All venues on the property are handicapped
                                 accessible. </p>
 
-                            <h6 class="headings">MUSIC AND ENTERTAINMENT:</h6> Although music (both live and recorded)
+                            <h6 class="headings">MUSIC AND ENTERTAINMENT:</h6> 
+                            <p class= "text">
+                            Although music (both live and recorded)
                             is permitted, the music must be contained at an acceptable sound level so as not to disturb
                             the local surrounding area. The Bond 1786 event coordinator will help to establish
                             acceptable sound levels. Any complaints from neighbors or other parties may require the
@@ -717,7 +763,10 @@
                             the right to require the Customer(s) to lower the sound level or cease playing music, in its
                             sole discretion.
 
-                            <h6 class="headings">PARKING:</h6> Parking is available at the designated areas on the East
+                            </p>
+                            <h6 class="headings">PARKING:</h6>
+                            <p class="text">
+                            Parking is available at the designated areas on the East
                             side of the complex (gravel and grass areas). Persons shall pull into the cables that
                             identify parking locations. Handicap accessible parking spaces are provided at the posted
                             areas adjacent to the sidewalks. Parking is not permitted on the main street (Hudson Street)
@@ -726,72 +775,87 @@
                             alternative parking spaces are available. The Establishment is not responsible for any
                             damages, theft, or towing. Any special Parking space requirements must be approved by the
                             Establishment Staff prior to your event, applicable parking charges may apply.
+                            </p> 
 
-                            <h6 class="headings">PETS:</h6> Sorry, absolutely no pets allowed. However, a family pet
-                            involved in an event will be considered.
+                            <h6 class="headings">PETS:</h6> 
+                            <p class="text">Sorry, absolutely no pets allowed. However, a family pet
+                            involved in an event will be considered.</p>
 
-                            <h6 class="headings">PHOTOGRAPHY:</h6> The many natural settings around The Bond 1786 were
+                            <h6 class="headings">PHOTOGRAPHY:</h6>
+                            <p class="text">The many natural settings around The Bond 1786 were
                             maintained and developed for the enjoyment of all events. We reserve the right for each
                             Customer the opportunity to use any area of the complex for wedding/reception photograph
                             sessions. All times for utilization of different areas at The Bond 1786 will be coordinated
                             with the schedule for each venue’s Customer. We also reserve the right to use any
                             photographs or other media reproductions of an event in our publicity and advertising
-                            materials.
+                            materials.</p> 
 
-                            <h6 class="headings">RENTAL SPACE CHANGES:</h6> Any contents or furniture movement must be
+                            <h6 class="headings">RENTAL SPACE CHANGES:</h6> 
+                            <p class="text">Any contents or furniture movement must be
                             pre-approved by The Bond. It is the Customer’s responsibility to restore all areas to their
                             original appearance. Placements of tables, tents, live music, catering equipment, etc., must
                             also be approved by The Bond 1786planning staff.
+                        </p>
 
-                            <h6 class="headings">SIGNAGE:</h6> You may post your group’s sign or hang balloons at the
+                            <h6 class="headings">SIGNAGE:</h6> 
+                            <p class="text">  You may post your group’s sign or hang balloons at the
                             front entrance on Hudson Street, but please do NOT attach anything to or cover up our
-                            entrance sign, or nail or screw anything to the trees.
+                            entrance sign, or nail or screw anything to the trees.</p>
+                           
 
-                            <h6 class="headings">SMOKING: </h6> The Bond 1786is a non-smoking facility. Ash-buckets will
-                            be provided, and smoking permitted in the designated areas only.
+                            <h6 class="headings">SMOKING: </h6>
+                            <p class="text">The Bond 1786is a non-smoking facility. Ash-buckets will
+                            be provided, and smoking permitted in the designated areas only.</p> 
 
-                            <h6 class="headings">CATERING:</h6> The catering service areas in each of the venues are not
-                            intended to be used as a kitchen for meal preparation.
+                            <h6 class="headings">CATERING:</h6>
+                            <p class="text">The catering service areas in each of the venues are not
+                            intended to be used as a kitchen for meal preparation.</p>
+                             
 
-                            <h6 class="headings">WEATHER:</h6> The weather is usually suitable for outside events from
+                            <h6 class="headings">WEATHER:</h6> 
+                            <p class="text">The weather is usually suitable for outside events from
                             May 15 until October 15. Since most of our venues are booked-up for events in advance,
                             please be advised that unless you reserve the Main Building or the Wedding Tent or one of
                             the other venues at the time you schedule the main reception hall, we may not have any
                             additional indoor facilities available to serve as a “weather back-up plan”. Should there be
                             inclement weather on your reserved day, we will approve your last-minute rental of tents,
-                            canopies, or heaters, provided they are set-up at an acceptable location.
+                            canopies, or heaters, provided they are set-up at an acceptable location.</p>
 
-                            <h6 class="headings">WEDDING TENT / ARBOR:</h6> The Gazebo and Arbors may be used as wedding
+                            <h6 class="headings">WEDDING TENT / ARBOR:</h6>
+                            <p class="text">The Gazebo and Arbors may be used as wedding
                             sites and for pictures (Chairs required for a wedding ceremony are to be provided and set-up
                             by The Bond 1786 based on the standard rental policy). If the Venue has already been rented
                             as a venue for a different group, then special permission must be granted to utilize the
                             Tent for another party’s ceremony. Pictures are permitted to be taken at the Gazebos and
-                            Arbor sites by all parties but shall be coordinated for use between all site venues.
+                            Arbor sites by all parties but shall be coordinated for use between all site venues.</p> 
 
-                            <h6 class="headings">WEDDING CEREMONIES:</h6> Wedding ceremonies may be held in the
+                            <h6 class="headings">WEDDING CEREMONIES:</h6>
+                            <p class="text"> Wedding ceremonies may be held in the
                             Reception Venue for no additional charge. Additional fees may apply for reset of room from
                             ceremony to reception. Customer is responsible for providing ceremony coordinator,
-                            officiate, ceremony music and sound system.
+                            officiate, ceremony music and sound system.</p>
 
-                            <h6 class="headings">WEDDING REHEARSAL:</h6> In order to not conflict with other venue
+                            <h6 class="headings">WEDDING REHEARSAL:</h6> 
+                            <p class="text">In order to not conflict with other venue
                             rentals, rehearsals are planned for Thursday evenings (unless a different date is approved).
                             The complex must be vacated after completing the rehearsal program. The main event halls
                             will not be available to decorate after the rehearsal. Alternative dates for Rehearsals may
                             be held on-site. These date and times are to be coordinated with and approved by The Event
-                            Coordinator at The Bond 1786.
+                            Coordinator at The Bond 1786.</p>
 
-                            <h6 class="headings">LOGISTICAL PLANS:</h6> The Bond 1786 planning team must review and
+                            <h6 class="headings">LOGISTICAL PLANS:</h6>
+                            <p class="text"> The Bond 1786 planning team must review and
                             approve all proposed logistical plans for the use of the premises a minimum of thirty (30)
-                            days prior to an event.
+                            days prior to an event.</p>
                             <h6 class="headings">EVENTS & WEDDING POLICY AND GUIDELINES AGREEMENT </h6>
 
-                            I have read and understand the policies concerning events held at The Bond 1786. I agree to
+                            <p class="text">I have read and understand the policies concerning events held at The Bond 1786. I agree to
                             uphold them and ensure that contractors and members of the event party,
                             will abide by the policies. I understand it is my responsibility to inform the coordinator,
                             florist, photographers, etc., that they must also conform to this set of guidelines. <br>
 
                             Please note that all prices are subject to 20% Service Charge and NYS 7.0% Sales Tax
-
+                            </p>
                             <h6 class="headings">RESERVATION PROCESS</h6>
                             <p class="text">
                                 A rental contract must be signed, all pages initialed, as well as appropriate deposits
@@ -803,42 +867,41 @@
                                 Credit Card on file. A Current Credit Card must be always communicated.
                                 No Personal Checks are accepted for final payment. <br><br>
                                 The Rules and Conditions for Usage are incorporated herein and are made a part hereof.
-                                <br><br>
+                                <br><br></p>
 
                                 Please return signed contract with deposit no later than
                                 <b><?php echo e(\Carbon\Carbon::parse($meeting->start_date)->subDays($settings['buffer_day'])->format('d M, Y')); ?></b>
                                 or this contract is no longer valid.<br>
-                            </p>
+                            
 
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <label for="comments" class="form-label">Comments</label>
-                            <textarea name="comments" id="comments" cols="30" rows="5" class="form-control"></textarea>
-                        </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-md-6">
-                            <strong>Authorized Signature:</strong> <br>
-                            <img src="<?php echo e($base64Image); ?>" style="width:30%; border-bottom:1px solid black;">
-                        </div>
-                        <div class="col-md-6">
-                            <strong> Signature:</strong>
-                            <br>
-                            <div id="sig" class="mt-3">
-                                <canvas id="signatureCanvas" width="500" class="signature-canvas"></canvas>
-                                <input type="hidden" name="imageData" id="imageData">
+                    <div class="row mt-5 mb-3">
+                        <div class="col-md-12 text-center">
+                            <h5>Authorized Signature</h5><br>
+                            <label for="signature" class="form-label">Please sign below:</label>
+
+                            <div class="signature-section">
+                                <canvas id="signature" class="signature-canvas"></canvas>
                             </div>
-                            <button type="button" id="clearButton" class="btn btn-danger btn-sm mt-1">Clear
-                                Signature</button>
-                            <!-- <button id="clearButton" class="btn btn-danger btn-sm mt-1">Clear Signature</button> -->
+                            <button type="button" class="btn btn-secondary mt-2" onclick="clearSignature()">Clear</button>
+                                <textarea id="signature64" name="signed" style="display: none"></textarea>
+                        
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12 mb-3">
-                            <button class="btn btn-success mt-1" style="float:right">Submit</button>
+                    <div class="row mt-5 mb-3">
+                        <div class="col-md-12 text-center">
+                            <h5>Comments</h5>
+                            <div class="form-group">
+                                <textarea class="form-control" id="comments" name="comments" rows="4" placeholder="Enter any additional comments here..."></textarea>
+                            </div>
                         </div>
+                    </div>
+                    <div class="row mt-5">
+                        <div class="col-md-12 text-center">
+                        <!-- <button class="btn btn-success" style="float:right;margin-top:-40px">Submit</button> -->
+                        <button class="btn btn-success btn-lg mr-2">Accept</button>
+                        <button type="button" class="btn btn-danger btn-lg" onclick="window.print()">Decline</button>
                     </div>
                 </form>
             </div>
@@ -847,40 +910,41 @@
 </body>
 
 </html>
-<style>
-canvas#signatureCanvas {
-    border: 1px solid black;
-    width: 100%;
-    /* height: 157px; */
-    border-radius: 8px;
-}
-
-.row {
-    --bs-gutter-x: -11.5rem !important;
-}
-</style>
-<?php echo $__env->make('partials.admin.head', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-<?php echo $__env->make('partials.admin.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
-
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    var canvas = document.getElementById('signatureCanvas');
-    var signaturePad = new SignaturePad(canvas);
-
-    function clearCanvas() {
-        signaturePad.clear();
+    function clearSignature() {
+        var canvas = document.getElementById('signature');
+        var ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
-    document.getElementById('clearButton').addEventListener('click', function(e) {
-        e.preventDefault();
-        clearCanvas();
+
+    document.addEventListener("DOMContentLoaded", function() {
+        var canvas = document.getElementById('signature');
+        var ctx = canvas.getContext('2d');
+        var isDrawing = false;
+        var signature64 = document.getElementById('signature64');
+
+        canvas.addEventListener('mousedown', function(e) {
+            isDrawing = true;
+            ctx.beginPath();
+            ctx.moveTo(e.offsetX, e.offsetY);
+        });
+
+        canvas.addEventListener('mousemove', function(e) {
+            if (isDrawing) {
+                ctx.lineTo(e.offsetX, e.offsetY);
+                ctx.stroke();
+            }
+        });
+
+        canvas.addEventListener('mouseup', function() {
+            isDrawing = false;
+            signature64.value = canvas.toDataURL();
+        });
+
+        canvas.addEventListener('mouseout', function() {
+            isDrawing = false;
+        });
     });
-    document.querySelector('form').addEventListener('submit', function() {
-        if (signaturePad.points.length != 0) {
-            document.getElementById('imageData').value = signaturePad.toDataURL();
-        } else {
-            document.getElementById('imageData').value = '';
-        }
-    });
-});
-</script><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/meeting/agreement/signedagreement.blade.php ENDPATH**/ ?>
+</script>
+
+<?php /**PATH C:\xampp\htdocs\centraverse\resources\views/meeting/agreement/signedagreement.blade.php ENDPATH**/ ?>

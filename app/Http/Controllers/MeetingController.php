@@ -932,8 +932,9 @@ class MeetingController extends Controller
     public function signedagreementresponse(Request $request, $id)
     {
         $id = decrypt(urldecode($id));
-        if (!empty($request->imageData)) {
-            $image = $this->uploadSignature($request->imageData);
+        if (!empty($request->signed)) {
+            $image = $this->uploadSignature($request->signed);
+
         } else {
             return redirect()->back()->with('error', ('Please Sign agreement for confirmation'));
         }

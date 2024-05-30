@@ -119,7 +119,6 @@ class AuthorizeController extends Controller
                         
                         ];
                         $pdf = PDF::loadView('billing.mail.inv', $data);
-                        return $pdf->stream('invoice.pdf');          
                         try {
                             $filename = 'invoice_' . time() . '.pdf'; // You can adjust the filename as needed
                             $folder = 'Invoice/' . $id; 

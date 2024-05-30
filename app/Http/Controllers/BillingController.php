@@ -256,23 +256,50 @@ class BillingController extends Controller
     }
     
     public function invoicepdf(Request $request,$id){
+        $event = Meeting::find($id);
+        $newpayment = PaymentLogs::where('event_id',$id)->orderby('id','desc')->first();
         $paymentinfo = PaymentInfo::where('event_id',$id)->orderby('id','desc')->first();
-        $paymentlog = PaymentLogs::where('event_id',$id)->orderby('id','desc')->first();
-        $payhistory = PaymentLogs::where('event_id',$id)->get();
-        $deposit = Billing::where('event_id',$id)->first()->deposits;
-        $totalpaid = 0;
-        foreach ($payhistory as $key => $value) {
-          $totalpaid+= $value->amount;
-        }
-        $event = Meeting::where('id',$id)->first();
-        $data=[
-            'paymentinfo' =>$paymentinfo,
-            'paymentlog'=>$paymentlog,
-            'event' =>$event,
-            'totalpaid'=>$totalpaid,
-            'deposit' =>$deposit
-        ];
-        $pdf = PDF::loadView('billing.mail.inv', $data);
+                        $payhistory = PaymentLogs::where('event_id',$id)->get();
+                        $deposit = Billing::where('event_id',$id)->first()->deposits;
+                        $totalpaid = 0;
+                        foreach ($payhistory as $key => $value) {
+                          $totalpaid+= $value->amount;
+                        }
+                        $info = PaymentInfo::where('event_id',$event->id)->get();
+                        $latefee = 0;
+                        $adjustments = 0;
+                        foreach($info as $inf){
+                        $latefee += $inf->latefee;
+                        $adjustments += $inf->adjustments;
+                        }
+                        $data=[
+                            'paymentinfo' =>$paymentinfo,
+                            'paymentlog'=>$newpayment,
+                            'event' =>$event,
+                            'totalpaid'=>$totalpaid,
+                            'deposit' =>$deposit,
+                            'adjustments'=>$adjustments,
+                            'latefee'=>$latefee,
+                        
+                        ];
+                        $pdf = PDF::loadView('billing.mail.inv', $data);
+        // $paymentinfo = PaymentInfo::where('event_id',$id)->orderby('id','desc')->first();
+        // $paymentlog = PaymentLogs::where('event_id',$id)->orderby('id','desc')->first();
+        // $payhistory = PaymentLogs::where('event_id',$id)->get();
+        // $deposit = Billing::where('event_id',$id)->first()->deposits;
+        // $totalpaid = 0;
+        // foreach ($payhistory as $key => $value) {
+        //   $totalpaid+= $value->amount;
+        // }
+        // $event = Meeting::where('id',$id)->first();
+        // $data=[
+        //     'paymentinfo' =>$paymentinfo,
+        //     'paymentlog'=>$paymentlog,
+        //     'event' =>$event,
+        //     'totalpaid'=>$totalpaid,
+        //     'deposit' =>$deposit
+        // ];
+        // $pdf = PDF::loadView('billing.mail.inv', $data);
         return $pdf->stream('invoice.pdf');              
     }
     public function addpayinfooncopyurl(Request $request,$id){

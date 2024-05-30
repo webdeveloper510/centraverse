@@ -28,7 +28,7 @@ if(isset($proposal) && ($proposal['image'] != null)){
         <div class="row">
             <div class="col-md-12 ">
                 <div class="img-section" style="width:30%; margin: 0 auto;display:flex;text-align: center;">
-                    <img class="logo-img" src="{{ Storage::url('uploads/logo/3_logo-light.png') }}"
+                    <img class="logo-img" src="<?php echo e(Storage::url('uploads/logo/3_logo-light.png')); ?>"
                         style="width:40%;">
                 </div>
             </div>
@@ -42,10 +42,10 @@ if(isset($proposal) && ($proposal['image'] != null)){
         <div class="row ">
             <div class="col-md-6">
                 <dl>
-                    <span>{{__('Name')}}: {{ $lead->name }}</span><br>
-                    <span>{{__('Phone & Email')}}: {{ $lead->phone }} , {{ $lead->email }}</span><br>
-                    <span>{{__('Address')}}: {{ $lead->lead_address }}</span><br>
-                    <span>{{__('Event Date')}}:{{ \Carbon\Carbon::parse($lead->start_date)->format('d M, Y') }}</span>
+                    <span><?php echo e(__('Name')); ?>: <?php echo e($lead->name); ?></span><br>
+                    <span><?php echo e(__('Phone & Email')); ?>: <?php echo e($lead->phone); ?> , <?php echo e($lead->email); ?></span><br>
+                    <span><?php echo e(__('Address')); ?>: <?php echo e($lead->lead_address); ?></span><br>
+                    <span><?php echo e(__('Event Date')); ?>:<?php echo e(\Carbon\Carbon::parse($lead->start_date)->format('d M, Y')); ?></span>
                 </dl>
             </div>
 
@@ -70,21 +70,23 @@ if(isset($proposal) && ($proposal['image'] != null)){
                         <tr style="text-align:center">
 
                             <td>
-                                {{ \Carbon\Carbon::parse($lead->start_date)->format('d M, Y')}}
+                                <?php echo e(\Carbon\Carbon::parse($lead->start_date)->format('d M, Y')); ?>
+
                             </td>
 
                             <td>
-                                @if($lead->start_time == $lead->end_time)
+                                <?php if($lead->start_time == $lead->end_time): ?>
                                 --
-                                @else
-                                {{date('h:i A', strtotime($lead->start_time))}} -
-                                {{date('h:i A', strtotime($lead->end_time))}}
-                                @endif</td>
-                            <td>{{$lead->venue_selection}}</td>
-                            <td>{{$lead->type}}</td>
-                            <td>{{$lead->function}}</td>
-                            <td>{{$lead->guest_count}}</td>
-                            <td>{{$lead->rooms}}</td>
+                                <?php else: ?>
+                                <?php echo e(date('h:i A', strtotime($lead->start_time))); ?> -
+                                <?php echo e(date('h:i A', strtotime($lead->end_time))); ?>
+
+                                <?php endif; ?></td>
+                            <td><?php echo e($lead->venue_selection); ?></td>
+                            <td><?php echo e($lead->type); ?></td>
+                            <td><?php echo e($lead->function); ?></td>
+                            <td><?php echo e($lead->guest_count); ?></td>
+                            <td><?php echo e($lead->rooms); ?></td>
 
                         </tr>
                     </tbody>
@@ -99,12 +101,12 @@ if(isset($proposal) && ($proposal['image'] != null)){
                         <tr>
                             <th
                                 style="text-align:left; font-size:13px;text-align:left; padding:5px 5px; margin-left:5px;">
-                                Name : {{ucfirst($lead->name)}}</th>
+                                Name : <?php echo e(ucfirst($lead->name)); ?></th>
                             <th colspan="2" style="padding:5px 0px;margin-left: 5px;font-size:13px"></th>
                             <th colspan="3" style="text-align:left;text-align:left; padding:5px 5px; margin-left:5px;">
                                 Date:<?php echo date("d/m/Y"); ?> </th>
                             <th style="text-align:left; font-size:13px;padding:5px 5px; margin-left:5px;">
-                                Event: {{ucfirst($lead->type)}}</th>
+                                Event: <?php echo e(ucfirst($lead->type)); ?></th>
                         </tr>
                         <tr style="background-color:#d3ead3; text-align:center">
                             <th>Description</th>
@@ -122,16 +124,19 @@ if(isset($proposal) && ($proposal['image'] != null)){
                             <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
 
                             <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                ${{$billing['venue_rental']['cost'] ?? 0 }}
+                                $<?php echo e($billing['venue_rental']['cost'] ?? 0); ?>
+
                             </td>
                             <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                {{$billing['venue_rental']['quantity'] ?? 1}}
+                                <?php echo e($billing['venue_rental']['quantity'] ?? 1); ?>
+
                             </td>
                             <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                ${{$total[] = ($billing['venue_rental']['cost']?? 0)  * ($billing['venue_rental']['quantity'] ?? 1)}}
+                                $<?php echo e($total[] = ($billing['venue_rental']['cost']?? 0)  * ($billing['venue_rental']['quantity'] ?? 1)); ?>
+
                             </td>
                             <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                {{$lead->venue_selection}}</td>
+                                <?php echo e($lead->venue_selection); ?></td>
                         </tr>
 
                         <tr>
@@ -139,15 +144,17 @@ if(isset($proposal) && ($proposal['image'] != null)){
                                 Dinner Package</td>
                             <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                             <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                ${{$billing['food_package']['cost'] ?? 0}}</td>
+                                $<?php echo e($billing['food_package']['cost'] ?? 0); ?></td>
                             <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                {{$billing['food_package']['quantity'] ?? 1}}
+                                <?php echo e($billing['food_package']['quantity'] ?? 1); ?>
+
                             </td>
                             <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                ${{$total[] =($billing['food_package']['cost'] ?? 0) * ($billing['food_package']['quantity'] ?? 1)}}
+                                $<?php echo e($total[] =($billing['food_package']['cost'] ?? 0) * ($billing['food_package']['quantity'] ?? 1)); ?>
+
                             </td>
                             <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                {{$lead->function}}</td>
+                                <?php echo e($lead->function); ?></td>
 
                         </tr>
 
@@ -155,14 +162,17 @@ if(isset($proposal) && ($proposal['image'] != null)){
                             <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Hotel Rooms</td>
                             <td colspan="2" style="padding:5px 5px; margin-left:5px;"></td>
                             <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                ${{$billing['hotel_rooms']['cost'] ?? 0}}
+                                $<?php echo e($billing['hotel_rooms']['cost'] ?? 0); ?>
+
                             </td>
                             <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                {{$billing['hotel_rooms']['quantity'] ?? 1}}
+                                <?php echo e($billing['hotel_rooms']['quantity'] ?? 1); ?>
+
                             </td>
                             <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
 
-                                ${{$total[] = ($billing['hotel_rooms']['cost'] ?? 0) *  ($billing['hotel_rooms']['quantity'] ?? 1)}}
+                                $<?php echo e($total[] = ($billing['hotel_rooms']['cost'] ?? 0) *  ($billing['hotel_rooms']['quantity'] ?? 1)); ?>
+
 
 
                             </td>
@@ -182,7 +192,8 @@ if(isset($proposal) && ($proposal['image'] != null)){
                             <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Total</td>
                             <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                             <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">${{array_sum($total)}}
+                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">$<?php echo e(array_sum($total)); ?>
+
                             </td>
                             <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                         </tr>
@@ -192,7 +203,8 @@ if(isset($proposal) && ($proposal['image'] != null)){
                             <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                             <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"> </td>
                             <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                ${{ 7* array_sum($total)/100 }}
+                                $<?php echo e(7* array_sum($total)/100); ?>
+
                             </td>
                             <td></td>
                         </tr>
@@ -203,7 +215,8 @@ if(isset($proposal) && ($proposal['image'] != null)){
                             <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                             <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                             <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                ${{ 20 * array_sum($total)/100 }}
+                                $<?php echo e(20 * array_sum($total)/100); ?>
+
                             </td>
 
                             <td></td>
@@ -222,7 +235,8 @@ if(isset($proposal) && ($proposal['image'] != null)){
                             <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                             <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                             <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                ${{$grandtotal= array_sum($total) + 20* array_sum($total)/100 + 7* array_sum($total)/100}}
+                                $<?php echo e($grandtotal= array_sum($total) + 20* array_sum($total)/100 + 7* array_sum($total)/100); ?>
+
                             </td>
 
                             <td></td>
@@ -244,7 +258,8 @@ if(isset($proposal) && ($proposal['image'] != null)){
                             <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                             <td colspan="3"
                                 style="padding:5px 5px; margin-left:5px;font-size:13px;background-color:#9fdb9f;">
-                                ${{$grandtotal= array_sum($total) + 20* array_sum($total)/100 + 7* array_sum($total)/100}}
+                                $<?php echo e($grandtotal= array_sum($total) + 20* array_sum($total)/100 + 7* array_sum($total)/100); ?>
+
 
                             </td>
                             <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
@@ -252,17 +267,17 @@ if(isset($proposal) && ($proposal['image'] != null)){
                     </tbody>
                 </table>
 
-              <p><b>Customer Comments/Notes: {{$proposal->notes}}</b></p>
+              <p><b>Customer Comments/Notes: <?php echo e($proposal->notes); ?></b></p>
             </div>
         </div>
         <div class="row mt-5">
             <div class="col-md-6" style="float:left;width:50%;">
                 <strong>Authorized Signature:</strong> <br>
-                <img src="{{$base64Image}}" style="width:30%; border-bottom:1px solid black;">
+                <img src="<?php echo e($base64Image); ?>" style="width:30%; border-bottom:1px solid black;">
             </div>
             <div class="col-md-6">
                 <strong style="margin-top:10px;">Signature:</strong><br>
-                <img src="{{@$sign}}" style="width:30%; border-bottom:1px solid black;">
+                <img src="<?php echo e(@$sign); ?>" style="width:30%; border-bottom:1px solid black;">
             </div>
         </div>
     </div>
@@ -270,3 +285,4 @@ if(isset($proposal) && ($proposal['image'] != null)){
 
 
 
+<?php /**PATH C:\xampp\htdocs\centraverse\resources\views/lead/signed_proposal.blade.php ENDPATH**/ ?>
