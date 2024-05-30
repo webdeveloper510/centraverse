@@ -39,6 +39,7 @@
     .brand-section {
         background-color:#d3ead3;
         padding: 10px 40px;
+        text-align:center;
     }
 
     .logo {
@@ -66,7 +67,7 @@
 
     .body-section {
         padding: 16px;
-        border: 1px solid gray;
+        /* border: 1px solid gray; */
     }
 
     .heading {
@@ -125,6 +126,7 @@
     .image {
         text-align: center;
     }
+   
     </style>
 </head>
 
@@ -145,27 +147,10 @@
 
         <div class="body-section">
             <div class="row">
-                <!-- <div class="col-6">
-                    <h2 class="heading">Transaction Id : <?php echo e($paymentlog->transaction_id); ?></h2>
-                    <p class="sub-heading"> Date: <?php echo e(\Carbon\Carbon::parse($paymentlog->created_at)->format('M d, Y')); ?>
-
-                    </p>
-                    <p class="sub-heading">Email Address: <?php echo e($event->email); ?></p>
-                </div> -->
-                <!-- <div class="col-6">
-                    <p> Name: <?php echo e($event->name); ?> </p>
-                    <p>Address: <?php echo e($event->lead_address); ?> </p>
-                    <p>Phone Number: <?php echo e($event->phone); ?> </p>
-                    
-                </div> -->
+            <h3 class="heading">Contact Details</h3>
+             
                 <table class="table-bordered">
-                <thead>
-                    <!-- <tr>
-                        <th></th>
-                        <th class="w-20"></th>
-                       
-                    </tr> -->
-                </thead>
+               
                 <tbody>
                     <tr>
                         <td colspan="2">Name</td>
@@ -196,14 +181,7 @@
         <div class="body-section">
             <h3 class="heading">Event Details</h3>
             <br>
-            <table class="table-bordered">
-                <thead>
-                    <!-- <tr>
-                        <th></th>
-                        <th class="w-20"></th>
-                       
-                    </tr> -->
-                </thead>
+            <table class="table-bordered"> 
                 <tbody>
                     <tr>
                         <td colspan="2">Event Type</td>
@@ -225,18 +203,13 @@
                         <td colspan="2">Function</td>
                         <td><?php echo e($event->function); ?></td>
                     </tr>
-
-
-
                 </tbody>
             </table>
-
         </div>
         <div class="body-section">
             <h3 class="heading">Billing Details</h3>
             <br>
             <table class="table-bordered">
-
                 <tbody>
 
                     <tr>
@@ -261,13 +234,11 @@
                     </tr>
                 </tbody>
             </table>
-            <br>
-            <h3 class="heading">Payment Status: Paid</h3>
-            <h3 class="heading">Payment Mode: <?php echo e(ucfirst($paymentinfo->modeofpayment)); ?></h3>
+            <h6 class="heading">Payment Status: Paid</h6>
+            <h6 class="heading">Payment Mode: <?php echo e(ucfirst($paymentinfo->modeofpayment)); ?></h6>
         </div>
         <div class="body-section">
             <p>&copy; The Bond 1786. All rights reserved.
-
             </p>
         </div>
     </div>

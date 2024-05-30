@@ -29,7 +29,7 @@ $billing = App\Models\Billing::where('event_id',$meeting->id)->exists();
                     <dt class="col-md-12">
                     <span class="h6  mb-0">{{__('Agreement Due Date: ')}}</span></dt>
                     <dd class="col-md-12"><input type="date" name="signbefore" id="signbefore"
-                        value="<?php echo date('Y-m-d'); ?>" max="{{$meeting->start_date}}" class="form-control"></dd>
+                        value="<?php echo date('Y-m-d'); ?>" max="{{$meeting->start_date}}" class="form-control" style="display:none"></dd>
                 </div>
         <div class="form-group"><dt class="col-md-12"><span class="h6  mb-0">{{__('Upload Document')}}</span></dt>
         <dd class="col-md-12"><input type="file" name="attachment" id="attachment" class="form-control"></dd></div>

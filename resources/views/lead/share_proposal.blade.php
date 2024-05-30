@@ -96,7 +96,7 @@ $leaddata['bar_package_cost'] = $totalBarPackageCost;
                 <dd class="col-md-12"><input type="file" name="attachment" id="attachment" class="form-control"></dd>
             </dl>
             <dt class="col-md-12"><span class="h6  mb-0">{{__('Proposal due date:')}}</span></dt>
-                <dd class="col-md-12"><input type="date" name="signbefore" id="signbefore" value="<?php echo date('Y-m-d'); ?>" max="{{$lead->start_date}}" class="form-control"></dd>
+                <dd class="col-md-12"><input type="date" name="signbefore" id="signbefore" value="<?php echo date('Y-m-d'); ?>" max="{{$lead->start_date}}" class="form-control"style="display:none"></dd>
             
             <hr class="mt-4 mb-4">
             <div class="col-12  p-0 modaltitle pb-3 mb-3 flex-title">
@@ -142,10 +142,10 @@ $leaddata['bar_package_cost'] = $totalBarPackageCost;
             </dl>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-success" data-toggle="tooltip" onclick="getDataUrlAndCopy(this)"
+            <!-- <button type="button" class="btn btn-success" data-toggle="tooltip" onclick="getDataUrlAndCopy(this)"
                 data-url="{{route('lead.signedproposal',urlencode(encrypt($lead->id)))}}" title='Copy To Clipboard'>
                 <i class="ti ti-copy"></i>
-            </button>
+            </button> -->
             {{Form::submit(__('Share via mail'),array('class'=>'btn btn-primary'))}}
         </div>
     </div>

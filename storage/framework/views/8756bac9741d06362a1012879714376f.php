@@ -163,8 +163,9 @@
                                                                $deposit = App\Models\Billing::where('event_id',$event->id)->first();
                                                                 
                                                             ?>
-                                                    <?php if(($amountpaid + $deposit->deposits + $adjustments - $latefee) <=
-                                                        $event->total - $adjustments + $latefee): ?>
+                                                    <?php if(($amountpaid + $deposit->deposits + $adjustments - $latefee) <
+                                                        $event->total ): ?>
+
                                                         <div class="action-btn bg-primary ms-2">
                                                             <a href="#" data-size="md"
                                                                 data-url="<?php echo e(route('billing.paylink',$event->id)); ?>"

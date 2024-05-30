@@ -66,7 +66,7 @@
 
     .body-section {
         padding: 16px;
-        /* border: 1px solid gray; */
+        border: 1px solid gray;
     }
 
     .heading {
@@ -125,9 +125,6 @@
     .image {
         text-align: center;
     }
-    h1{
-        text-align:center;
-    }
     </style>
 </head>
 
@@ -140,7 +137,7 @@
         <div class="brand-section">
             <div class="row">
                 <div class="col-6">
-                    <h1 >The Bond 1786</h1>
+                    <h1>The Bond 1786</h1>
                 </div>
 
             </div>
@@ -148,34 +145,19 @@
 
         <div class="body-section">
             <div class="row">
-            <h3 class="heading">Contact Details</h3>
-             
-                <table class="table-bordered">
-               
-                <tbody>
-                    <tr>
-                        <td colspan="2">Name</td>
-                        <td>{{$event->name}}</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">Email Address</td>
-                        <td>{{$event->email}}</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">Address</td>
-                        <td>{{$event->lead_address }}</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">Phone Number</td>
-                        <td>{{$event->phone}}</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">Transaction Id</td>
-                        <td>{{$paymentlog->transaction_id}}</td>
-                    </tr>
-                </tbody>
-            </table>
-
+                <div class="col-6">
+                    <h2 class="heading">Transaction Id : {{$paymentlog->transaction_id}}</h2>
+                    <p class="sub-heading"> Date: {{ \Carbon\Carbon::parse($paymentlog->created_at)->format('M d, Y') }}
+                    </p>
+                    <p class="sub-heading">Email Address: {{$event->email}}</p>
+                </div>
+                <div class="col-6">
+                    <p>Full Name: {{$event->name}} </p>
+                    <p>Address: {{$event->lead_address}} </p>
+                    <p>Phone Number: {{$event->phone}} </p>
+                    
+                </div>
+                
             </div>
         </div>
 
@@ -183,7 +165,13 @@
             <h3 class="heading">Event Details</h3>
             <br>
             <table class="table-bordered">
-               
+                <thead>
+                    <!-- <tr>
+                        <th></th>
+                        <th class="w-20"></th>
+                       
+                    </tr> -->
+                </thead>
                 <tbody>
                     <tr>
                         <td colspan="2">Event Type</td>

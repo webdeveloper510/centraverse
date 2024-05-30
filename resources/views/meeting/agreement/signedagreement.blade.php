@@ -374,7 +374,7 @@ h6.headings {
                                         <td></td>
                                     </tr>
                                     <tr>
-                                        <td>balance due</td>
+                                        <td>Balance due</td>
                                         <td colspan="2"></td>
                                         <td colspan="3">
                                             ${{$grandtotal - $deposit}}</td>

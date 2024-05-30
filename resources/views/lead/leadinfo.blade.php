@@ -370,6 +370,20 @@ $converted_to_event = App\Models\Meeting::where('attendees_lead',$lead->id)->exi
                                     <td>${{$grandtotal = array_sum($total) + 20 * array_sum($total) / 100 + 7 * array_sum($total) / 100}}</td>
                                     <td></td>
                                 </tr>
+                                <tr>
+                                        <td >Deposits on file</td>
+                                        <td colspan="2"></td>
+                                        <td colspan="3">
+                                            ${{$deposit= $billdetails->deposits}}</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Balance due</td>
+                                        <td colspan="2"></td>
+                                        <td colspan="3">
+                                            ${{$grandtotal - $deposit}}</td>
+                                        <td colspan="2"></td>
+                                    </tr>
                             </tbody>
                         </table>
                     </div>
