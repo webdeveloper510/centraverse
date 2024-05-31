@@ -165,7 +165,6 @@ $leaddata['bar_package_cost'] = $totalBarPackageCost;
 function getDataUrlAndCopy(button) {
    
     var dataUrl = button.getAttribute('data-url');
-    // var isValid = validateForm(); // Replace with your validation logic
 
     // Clear any previous error messages
     $('.error-message').hide().html('');
