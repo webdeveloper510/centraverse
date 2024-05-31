@@ -621,7 +621,7 @@ class LeadController extends Controller
         $proposalinfo->email = $request->email;
         $proposalinfo->subject = $request->subject;
         $proposalinfo->content = $request->emailbody;
-        $proposalinfo->signbefore = $request->signbefore;
+        // $proposalinfo->signbefore = $request->signbefore;
         $proposalinfo->proposal_info = json_encode($request->billing,true);
         $proposalinfo->attachments = $filename ?? '';
         $proposalinfo->created_by = Auth::user()->id;
@@ -670,10 +670,7 @@ class LeadController extends Controller
 
             if(!empty($request->signed)){
                 $image = $this->uploadSignature($request->signed);
-              
-
-            }else{
-
+            }else {
                 return redirect()->back()->with('error',('Please Sign it for confirmation'));
             }
             $existproposal = Proposal::where('lead_id', $id)->exists();
@@ -851,7 +848,7 @@ class LeadController extends Controller
             $lead['guest_count']        = $request->guest_count ?? 0 ;
             $lead['status']                = $status;
             $lead['description']        = $request->description;
-            $lead['spcl_req']           = $request->spcl_request;
+            $lead['spcl_req']           = $request->spcl_req;
             $lead['allergies']          = $request->allergies;
             $lead['start_time']         = $request->start_time;
             $lead['end_time']           = $request->end_time;
@@ -1036,5 +1033,16 @@ class LeadController extends Controller
         $notes->lead_id = $id;
         $notes->save();
         return true;
+    }
+    public function copyurloflead(Request $request,$id){
+        $id = decrypt(urldecode($id));
+        $proposalinfo = new ProposalInfo();
+        $proposalinfo->lead_id = $id;
+        $proposalinfo->email = '';
+        $proposalinfo->subject = '';
+        $proposalinfo->content = '';
+        $proposalinfo->proposal_info = json_encode($request->billingdata,true);
+        $proposalinfo->save();
+        return $proposalinfo;
     }
 }

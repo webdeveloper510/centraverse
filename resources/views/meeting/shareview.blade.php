@@ -50,8 +50,11 @@ $billing = App\Models\Billing::where('event_id',$meeting->id)->exists();
 </div>
 </div>
 @else
-<div class="alert alert-danger mt-1">Create Estimated Invoice For the event!
-    <a href="{{route('billing.index')}}"><i class="fa fa-arrow-right" style=" float: inline-end;"></i></a>
+<div class="alert alert-danger mt-1 ">Create Estimated Invoice For the event!
+    <a href="{{route('billing.index')}}">
+        <!-- <i class="fa fa-arrow-right" style=" float: inline-end;"></i> -->
+        <i class="fas fa-external-link-alt " style=" float: inline-end;"></i>
+</a>
 </div>
 @endif
 <style>

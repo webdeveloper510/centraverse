@@ -10,12 +10,12 @@ if(isset($event->bar_package) && !empty($event->bar_package)){
 }
 if(App\Models\PaymentLogs::where('event_id',$event->id)->exists()){
     $payments = App\Models\PaymentLogs::where('event_id',$event->id)->get();
+    $payinfos = App\Models\PaymentInfo::where('event_id',$event->id)->get();
 }
 if(App\Models\Billing::where('event_id',$event->id)->exists()){
     $deposit = App\Models\Billing::where('event_id',$event->id)->first();
 }
 $files = Storage::files('app/public/Event/'.$event->id);
-
 ?>
 
 <?php $__env->startSection('page-title'); ?>
@@ -114,9 +114,20 @@ $files = Storage::files('app/public/Event/'.$event->id);
                                 </div>
                             </div>
                             <hr>
-                            <img src="<?php echo e($event->floor_plan); ?>" alt="" style="    width: 40% ;" class="need_full">
+                            <img src="<?php echo e($event->floor_plan); ?>" alt="" style="width: 40% ;" class="need_full">
                     </dl>
                     <?php if(isset($payments) && !empty($payments)): ?>
+                    <?php 
+                    $latefee = 0;
+                    $adj = 0;
+                    $collect_amount = 0;
+                    foreach($payinfos as $k=>$val){
+                        $latefee += $val->latefee;
+                        $adj += $val->adjustments;
+                        $collect_amount += $val->collect_amount;
+                    }
+
+                    ?>
                     <div class="col-lg-12">
                         <div class="card" id="useradd-1">
                             <div class="card-body table-border-style">
@@ -128,7 +139,10 @@ $files = Storage::files('app/public/Event/'.$event->id);
                                                 <th scope="col" class="sort" data-sort="status"><?php echo e(__('Name')); ?></th>
                                                 <th scope="col" class="sort" data-sort="completion"><?php echo e(__('Transaction Id')); ?></th>
                                                 <th><?php echo e(__('Invoice')); ?></th>
-                                                <th scope="col" class="sort" data-sort="completion"><?php echo e(__('Amount Recieved')); ?></th>
+                                                <th scope="col" class="sort" data-sort="completion"><?php echo e(__('Event Amount')); ?></th>
+                                                <th scope="col" class="sort" data-sort="completion"><?php echo e(__('Total Amount Recieved')); ?></th>
+                                                <th scope="col" class="sort" data-sort="completion"><?php echo e(__('Amount Paid')); ?></th>
+                                                <th scope="col" class="sort" data-sort="completion"><?php echo e(__('Amount Due')); ?></th>
 
                                             </tr>
                                         </thead>
@@ -141,7 +155,10 @@ $files = Storage::files('app/public/Event/'.$event->id);
                                                 <td><?php echo e($payment->name_of_card); ?></td>
                                                 <td><?php echo e($payment->transaction_id); ?></td>
                                                 <td><a href="<?php echo e(Storage::url('app/public/Invoice/'.$payment->event_id.'/'.$payment->invoices)); ?>"download style="    color: #1551c9 !important;"><?php echo e(ucfirst($payment->invoices)); ?></a></td>
-                                                <td>$<?php echo e($payment->amount + (isset($deposit)? $deposit->deposits : 0 )); ?></td>
+                                                <td>$<?php echo e($event->total); ?></td>
+                                                <td>$<?php echo e($payment->amount + (isset($deposit->deposits)?$deposit->deposits :0)); ?></td>
+                                                <td>$<?php echo e($payment->amount); ?></td>
+                                            <td><?php echo e(($event->total - ($payinfos[0]->deposits + $latefee - $adj + $collect_amount))<= 0 ? '--':'$'.$event->total - ($payinfos[0]->deposits + $latefee - $adj + $collect_amount)); ?></td>
                                             </tr>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tbody>
@@ -176,8 +193,6 @@ $files = Storage::files('app/public/Event/'.$event->id);
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tbody>
                                     </table>
-
-
                                 </div>
                                 <?php endif; ?>
                             </div>

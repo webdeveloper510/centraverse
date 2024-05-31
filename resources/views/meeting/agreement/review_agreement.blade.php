@@ -62,6 +62,24 @@ $additional_items = json_decode($setting['additional_items'],true);
         -webkit-transform: scale(1.5);
         transform: scale(1.2);
     }
+    
+#previewDiv .position-relative {
+    position: relative;
+    width: 60%;
+}
+#removeImg {
+    position: absolute;
+   top:0px;
+   right: 0px;
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2em;
+    line-height: 1em;
+    padding: 0.2em 0.4em;
+}
 </style>
 <div class="container-field">
     <div id="wrapper">
@@ -375,7 +393,7 @@ $additional_items = json_decode($setting['additional_items'],true);
                                             <div class="form-group">
 
                                               <label><b>Food Description</b></label>
-                                                <textarea name="food_package_description" rows="4"class="form-control"></textarea>
+                                                <textarea name="food_package_description" rows="4"class="form-control">{{ $meeting->food_description}}</textarea>
                                                         </div>
                                             </div>      
                                         <div class="col-12">
@@ -391,6 +409,18 @@ $additional_items = json_decode($setting['additional_items'],true);
                                                 @endforeach
                                             </div>
                                         </div>
+                                        <div class="col-12 mt-4">
+    <div class="form-group">
+        <label><b>Upload Setup</b></label>
+        <input accept="image/*" type='file' id="imgInp" class="form-control" name="setupplans"/>
+    </div>
+</div>
+<div class="col-12" id="previewDiv" >
+    <div class="form-group position-relative">
+        <img id="blah" src="{{ Storage::url('app/public/'.$meeting->setup_plans) }}" alt="Preview" class="form-control" />
+        <button type="button" id="removeImg" class="btn btn-danger position-absolute" >&times;</button>
+    </div>
+</div>
                                     </div>
                                 </div>
                             </div>
@@ -453,7 +483,7 @@ $additional_items = json_decode($setting['additional_items'],true);
                                         <div class ="col-12">
                                            <div class="form-group"> 
                                               <label><b>Bar Description</b></label>
-                                                <textarea name="bar_package_description" rows="4"class="form-control"></textarea>
+                                                <textarea name="bar_package_description" rows="4"class="form-control">{{ $meeting->bar_description}}</textarea>
                                             </div>
                                             </div>
                                         <div class="col-12">
@@ -530,6 +560,31 @@ $additional_items = json_decode($setting['additional_items'],true);
 
 @endsection
 @push('script-page')
+<script>
+document.getElementById('imgInp').onchange = function(evt) {
+    const [file] = this.files;
+    const previewDiv = document.getElementById('previewDiv');
+    const blah = document.getElementById('blah');
+
+    if (file) {
+        blah.src = URL.createObjectURL(file);
+        previewDiv.style.display = 'block';
+    } else {
+        blah.src = '#';
+        previewDiv.style.display = 'none';
+    }
+};
+
+document.getElementById('removeImg').onclick = function() {
+    const imgInp = document.getElementById('imgInp');
+    const previewDiv = document.getElementById('previewDiv');
+    const blah = document.getElementById('blah');
+
+    imgInp.value = ''; // Clear the file input
+    blah.src = '#'; // Reset the image source
+    previewDiv.style.display = 'none'; // Hide the preview div
+};
+</script>
 <style>
 .iti.iti--allow-dropdown.iti--separate-dial-code {
     width: 100%;

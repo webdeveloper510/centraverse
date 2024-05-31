@@ -269,7 +269,7 @@ $converted_to_event = App\Models\Meeting::where('attendees_lead',$lead->id)->exi
                                     <td>${{$billing_data['venue_rental']['cost']}}</td>
                                     <td>{{$billing_data['venue_rental']['quantity']}}</td>
                                     <td>${{$total[] = $billing_data['venue_rental']['cost'] * $billing_data['venue_rental']['quantity']}}</td>
-                                    <td>{{$eventdetails['venue_selection']}}</td>
+                                    <td>{{$billing_data['venue_rental']['notes']}}</td>
                                 </tr>
                                 <tr>
                                     <td>Brunch / Lunch / Dinner Package</td>
@@ -277,7 +277,7 @@ $converted_to_event = App\Models\Meeting::where('attendees_lead',$lead->id)->exi
                                     <td>${{$billing_data['food_package']['cost']}}</td>
                                     <td>{{$billing_data['food_package']['quantity']}}</td>
                                     <td>${{$total[] = $billing_data['food_package']['cost'] * $billing_data['food_package']['quantity']}}</td>
-                                    <td>{{$eventdetails['function']}}</td>
+                                    <td>{{$billing_data['food_package']['notes']}}</td>
                                 </tr>
                                 <tr>
                                     <td>Bar Package</td>
@@ -285,7 +285,7 @@ $converted_to_event = App\Models\Meeting::where('attendees_lead',$lead->id)->exi
                                     <td>${{$billing_data['bar_package']['cost']}}</td>
                                     <td>{{$billing_data['bar_package']['quantity']}}</td>
                                     <td>${{$total[] = $billing_data['bar_package']['cost'] * $billing_data['bar_package']['quantity']}}</td>
-                                    <td>{{implode(',',$bar_pck)}}</td>
+                                    <td>{{$billing_data['bar_package']['notes']}}</td>
                                 </tr>
                                 <tr>
                                     <td>Hotel Rooms</td>
@@ -293,7 +293,7 @@ $converted_to_event = App\Models\Meeting::where('attendees_lead',$lead->id)->exi
                                     <td>${{$billing_data['hotel_rooms']['cost']}}</td>
                                     <td>{{$billing_data['hotel_rooms']['quantity']}}</td>
                                     <td>${{$total[] = $billing_data['hotel_rooms']['cost'] * $billing_data['hotel_rooms']['quantity']}}</td>
-                                    <td></td>
+                                    <td>{{$billing_data['hotel_rooms']['notes']}}</td>
                                 </tr>
                                 <tr>
                                     <td>Tent, Tables, Chairs, AV Equipment</td>
@@ -301,7 +301,7 @@ $converted_to_event = App\Models\Meeting::where('attendees_lead',$lead->id)->exi
                                     <td>${{$billing_data['equipment']['cost']}}</td>
                                     <td>{{$billing_data['equipment']['quantity']}}</td>
                                     <td>${{$total[] = $billing_data['equipment']['cost'] * $billing_data['equipment']['quantity']}}</td>
-                                    <td></td>
+                                    <td>{{$billing_data['equipment']['notes']}}</td>
                                 </tr>
                                 @if(!$billing_data['setup']['cost'] == '')
                                 <tr>
@@ -310,7 +310,7 @@ $converted_to_event = App\Models\Meeting::where('attendees_lead',$lead->id)->exi
                                     <td>${{$billing_data['setup']['cost']}}</td>
                                     <td>{{$billing_data['setup']['quantity']}}</td>
                                     <td>${{$total[] = $billing_data['setup']['cost'] * $billing_data['setup']['quantity']}}</td>
-                                    <td></td>
+                                    <td>{{$billing_data['setup']['notes']}}</td>
                                 </tr>
                                 @endif
                                 <tr>
@@ -370,7 +370,7 @@ $converted_to_event = App\Models\Meeting::where('attendees_lead',$lead->id)->exi
                                     <td>${{$grandtotal = array_sum($total) + 20 * array_sum($total) / 100 + 7 * array_sum($total) / 100}}</td>
                                     <td></td>
                                 </tr>
-                                <tr>
+                                <!-- <tr>
                                         <td >Deposits on file</td>
                                         <td colspan="2"></td>
                                         <td colspan="3">
@@ -383,7 +383,7 @@ $converted_to_event = App\Models\Meeting::where('attendees_lead',$lead->id)->exi
                                         <td colspan="3">
                                             ${{$grandtotal - $deposit}}</td>
                                         <td colspan="2"></td>
-                                    </tr>
+                                    </tr> -->
                             </tbody>
                         </table>
                     </div>

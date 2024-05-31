@@ -30,7 +30,7 @@ $billing = App\Models\Billing::where('event_id',$meeting->id)->exists();
                     <dt class="col-md-12">
                     <span class="h6  mb-0"><?php echo e(__('Agreement Due Date: ')); ?></span></dt>
                     <dd class="col-md-12"><input type="date" name="signbefore" id="signbefore"
-                        value="<?php echo date('Y-m-d'); ?>" max="<?php echo e($meeting->start_date); ?>" class="form-control"></dd>
+                        value="<?php echo date('Y-m-d'); ?>" max="<?php echo e($meeting->start_date); ?>" class="form-control" style="display:none"></dd>
                 </div>
         <div class="form-group"><dt class="col-md-12"><span class="h6  mb-0"><?php echo e(__('Upload Document')); ?></span></dt>
         <dd class="col-md-12"><input type="file" name="attachment" id="attachment" class="form-control"></dd></div>
@@ -53,8 +53,11 @@ $billing = App\Models\Billing::where('event_id',$meeting->id)->exists();
 </div>
 </div>
 <?php else: ?>
-<div class="alert alert-danger mt-1">Create Estimated Invoice For the event!
-    <a href="<?php echo e(route('billing.index')); ?>"><i class="fa fa-arrow-right" style=" float: inline-end;"></i></a>
+<div class="alert alert-danger mt-1 ">Create Estimated Invoice For the event!
+    <a href="<?php echo e(route('billing.index')); ?>">
+        <!-- <i class="fa fa-arrow-right" style=" float: inline-end;"></i> -->
+        <i class="fas fa-external-link-alt " style=" float: inline-end;"></i>
+</a>
 </div>
 <?php endif; ?>
 <style>

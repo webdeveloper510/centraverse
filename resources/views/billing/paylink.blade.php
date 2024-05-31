@@ -112,6 +112,9 @@ $adjustments += $inf->adjustments;
         <div class="col-md-12">
             <div class="alert alert-success">
                 Contract must be approved by customer/admin before any further payment .
+                <a href="{{route('meeting.index')}}">
+                    <i class="fas fa-external-link-alt " style=" float: inline-end;"></i>
+                </a>
             </div>
         </div>
     </div>

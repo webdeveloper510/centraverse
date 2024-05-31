@@ -59,20 +59,7 @@ $agreestatus= \App\Models\Meeting::$status;
                                             @foreach ($meetings as $meeting)
                                             <tr>
                                                 <td>
-                                                    <!-- <a href="{{ route('meeting.edit', $meeting->id) }}" data-size="md"
-                                                        data-title="{{ __('Event Details') }}"
-                                                        class="action-item text-primary"
-                                                        style=" color: #1551c9 !important;">
-                                                        @if($meeting->attendees_lead != 0)
-                                                        {{ucfirst(\App\Models\Lead::where('id',$meeting->attendees_lead)->pluck('leadname')->first())}}
-                                                        @else
-                                                        {{ucfirst($meeting->eventname)}}
-                                                        @endif
-                                                    </a> -->
-                                                    <!-- <a href="{{ route('meeting.edit', $meeting->id) }}" data-size="md"
-                                                        data-title="{{ __('Event Details') }}"
-                                                        class="action-item text-primary"
-                                                        style=" color: #1551c9 !important;"> -->
+                                                    
                                                         
                                                         @if($meeting->attendees_lead != 0)
                                                         <?php $leaddata = \App\Models\Lead::where('id',$meeting->attendees_lead)->first() ?>
@@ -100,28 +87,6 @@ $agreestatus= \App\Models\Meeting::$status;
                                                         @endforeach
                                                     </select>
                                                 </td>
-                                                <!-- <td>
-                                                    @if ($meeting->status == 0)
-                                                    <span
-                                                        class="badge bg-info p-2 px-3 rounded">{{ __(\App\Models\Meeting::$status[$meeting->status]) }}</span>
-                                                    @elseif($meeting->status == 1)
-                                                    <span
-                                                        class="badge bg-warning p-2 px-3 rounded">{{ __(\App\Models\Meeting::$status[$meeting->status]) }}</span>
-                                                    @elseif($meeting->status == 2)
-                                                    <span
-                                                        class="badge bg-success p-2 px-3 rounded">{{ __(\App\Models\Meeting::$status[$meeting->status]) }}</span>
-                                                    @elseif($meeting->status == 3)
-                                                    <span
-                                                        class="badge bg-success p-2 px-3 rounded">{{ __(\App\Models\Meeting::$status[$meeting->status]) }}</span>
-                                                    @elseif($meeting->status == 4)
-                                                    <span
-                                                        class="badge bg-warning p-2 px-3 rounded">{{ __(\App\Models\Meeting::$status[$meeting->status]) }}</span>
-                                                    @elseif($meeting->status == 5)
-                                                    <span
-                                                        class="badge bg-danger p-2 px-3 rounded">{{ __(\App\Models\Meeting::$status[$meeting->status]) }}</span>
-
-                                                    @endif
-                                                </td> -->
                                                 <td>
                                                     <span
                                                         class="budget">{{ \Auth::user()->dateFormat($meeting->start_date) }}</span>
@@ -136,12 +101,7 @@ $agreestatus= \App\Models\Meeting::$status;
                                                 @if (Gate::check('Show Meeting') || Gate::check('Edit Meeting') ||
                                                 Gate::check('Delete Meeting'))
                                                 <td class="text-end">
-                                                    <!-- <div class="action-btn bg-secondary ms-2">
-                                                        <a href="{{route('meeting.detailview',urlencode(encrypt($meeting->id)))}}"
-                                                            data-size="md" title="{{ __('Detailed view ') }}"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class="fa fa-info"></i> </a>
-                                                    </div> -->
+                                               
                                                     @if($meeting->status == 0)
                                                     <div class="action-btn bg-primary ms-2">
                                                         <a href="#" data-size="md"

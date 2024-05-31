@@ -17,6 +17,8 @@ use Illuminate\Http\Request;
 use App\Models\Blockdate;
 use App\Models\Setup;
 use App\Models\Billing;
+use App\Models\PaymentLogs;
+use App\Models\PaymentInfo;
 use App\Models\Agreement;
 use App\Models\EventDoc;
 use App\Models\MasterCustomer;
@@ -625,10 +627,12 @@ class MeetingController extends Controller
     {
         if (\Auth::user()->can('Delete Meeting')) {
             if($meeting->attendees_lead != 0){
-                Lead::find($meeting->attendees_lead)->update(['converted_to',0]);
+                Lead::find($meeting->attendees_lead)->delete();
             }
             $meeting->delete();
             Billing::where('event_id',$meeting->id)->delete();
+            PaymentLogs::where('event_id',$meeting->id)->delete();
+            PaymentInfo::where('event_id',$meeting->id)->delete();
             // Billingdetail::where('event_id', $meeting->id)->delete();
             Agreement::where('event_id', $meeting->id)->delete();
             return redirect()->back()->with('success', 'Event Deleted!');
@@ -1064,17 +1068,6 @@ class MeetingController extends Controller
             echo 'Email sending failed.';
         }
 
-        // $to = 'testing.test3215@gmail.com'; 
-        // $from = 'testing.test3215@gmail.com'; 
-        // $fromName = 'Sender_Name';
-        // $subject = "Send Text Email with PHP by CodexWorld";
-        // $message = "First line of text\nSecond line of text";
-        // $headers = 'From: '.$fromName.'<'.$from.'>';
-        // if(mail($to, $subject, $message, $headers)){ 
-        //   echo 'Email has sent successfully.'; 
-        // }else{ 
-        //   echo 'Email sending failed.'; 
-        // }
     }
     public function review_agreement_data(Request $request, $id)
     {
@@ -1179,7 +1172,14 @@ class MeetingController extends Controller
         $meeting['floor_plan']          = $request->uploadedImage;
         $meeting['allergies']          = $request->allergies;
         $meeting['created_by']        = \Auth::user()->creatorId();
+        if ($request->hasFile('setupplans')) {
+            $file = $request->file('setupplans');
+            $filePath = $file->store('setup_plans', 'public');
+            $meeting['setup_plans']         = $filePath;
+
+        }
         $meeting->update();
+      
         if (!empty($request->file('attachment'))){
             $file =  $request->file('attachment');
             $filename = 'Event_'.Str::random(7) . '.' . $file->getClientOriginalExtension();
@@ -1299,9 +1299,6 @@ class MeetingController extends Controller
         $settings = Utility::settings();
         $add_items = json_decode($settings['additional_items'], true);
         $selectedFunctions = $request->selectedFunctions;
-        // print_r($add_items);
-        // print_r($request->all());
-        // Iterate over each selected function
         foreach ($selectedFunctions as $selectedFunction) {
             // Check if the selected function exists in the meal details
             if (isset($add_items[$selectedFunction])) {
@@ -1312,10 +1309,7 @@ class MeetingController extends Controller
                 foreach ($selectedFunctionDetails as $mealType => $items) {
                     return json_encode($mealType);
                     echo "$mealType\n";
-                    // Iterate over each item within the meal type
-                    // foreach ($items as $item => $quantity) {
-                    //     echo "Item: $item, Quantity: $quantity\n";
-                    // }
+                 
                 }
             } else {
                 echo "'$selectedFunction' meal type not found.\n";
@@ -1324,10 +1318,7 @@ class MeetingController extends Controller
     }
     public function detailed_info($id){
         $id= decrypt(urldecode($id));
-        // echo "<pre>";print_r($id);die;
-        // $event = Meeting::find($id);
         $event = Meeting::withTrashed()->find($id);
-
         return view('meeting.detailed_view',compact('event'));
     }
     public function event_user_info($id){

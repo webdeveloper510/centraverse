@@ -273,7 +273,7 @@ $converted_to_event = App\Models\Meeting::where('attendees_lead',$lead->id)->exi
                                     <td>$<?php echo e($billing_data['venue_rental']['cost']); ?></td>
                                     <td><?php echo e($billing_data['venue_rental']['quantity']); ?></td>
                                     <td>$<?php echo e($total[] = $billing_data['venue_rental']['cost'] * $billing_data['venue_rental']['quantity']); ?></td>
-                                    <td><?php echo e($eventdetails['venue_selection']); ?></td>
+                                    <td><?php echo e($billing_data['venue_rental']['notes']); ?></td>
                                 </tr>
                                 <tr>
                                     <td>Brunch / Lunch / Dinner Package</td>
@@ -281,7 +281,7 @@ $converted_to_event = App\Models\Meeting::where('attendees_lead',$lead->id)->exi
                                     <td>$<?php echo e($billing_data['food_package']['cost']); ?></td>
                                     <td><?php echo e($billing_data['food_package']['quantity']); ?></td>
                                     <td>$<?php echo e($total[] = $billing_data['food_package']['cost'] * $billing_data['food_package']['quantity']); ?></td>
-                                    <td><?php echo e($eventdetails['function']); ?></td>
+                                    <td><?php echo e($billing_data['food_package']['notes']); ?></td>
                                 </tr>
                                 <tr>
                                     <td>Bar Package</td>
@@ -289,7 +289,7 @@ $converted_to_event = App\Models\Meeting::where('attendees_lead',$lead->id)->exi
                                     <td>$<?php echo e($billing_data['bar_package']['cost']); ?></td>
                                     <td><?php echo e($billing_data['bar_package']['quantity']); ?></td>
                                     <td>$<?php echo e($total[] = $billing_data['bar_package']['cost'] * $billing_data['bar_package']['quantity']); ?></td>
-                                    <td><?php echo e(implode(',',$bar_pck)); ?></td>
+                                    <td><?php echo e($billing_data['bar_package']['notes']); ?></td>
                                 </tr>
                                 <tr>
                                     <td>Hotel Rooms</td>
@@ -297,7 +297,7 @@ $converted_to_event = App\Models\Meeting::where('attendees_lead',$lead->id)->exi
                                     <td>$<?php echo e($billing_data['hotel_rooms']['cost']); ?></td>
                                     <td><?php echo e($billing_data['hotel_rooms']['quantity']); ?></td>
                                     <td>$<?php echo e($total[] = $billing_data['hotel_rooms']['cost'] * $billing_data['hotel_rooms']['quantity']); ?></td>
-                                    <td></td>
+                                    <td><?php echo e($billing_data['hotel_rooms']['notes']); ?></td>
                                 </tr>
                                 <tr>
                                     <td>Tent, Tables, Chairs, AV Equipment</td>
@@ -305,7 +305,7 @@ $converted_to_event = App\Models\Meeting::where('attendees_lead',$lead->id)->exi
                                     <td>$<?php echo e($billing_data['equipment']['cost']); ?></td>
                                     <td><?php echo e($billing_data['equipment']['quantity']); ?></td>
                                     <td>$<?php echo e($total[] = $billing_data['equipment']['cost'] * $billing_data['equipment']['quantity']); ?></td>
-                                    <td></td>
+                                    <td><?php echo e($billing_data['equipment']['notes']); ?></td>
                                 </tr>
                                 <?php if(!$billing_data['setup']['cost'] == ''): ?>
                                 <tr>
@@ -314,7 +314,7 @@ $converted_to_event = App\Models\Meeting::where('attendees_lead',$lead->id)->exi
                                     <td>$<?php echo e($billing_data['setup']['cost']); ?></td>
                                     <td><?php echo e($billing_data['setup']['quantity']); ?></td>
                                     <td>$<?php echo e($total[] = $billing_data['setup']['cost'] * $billing_data['setup']['quantity']); ?></td>
-                                    <td></td>
+                                    <td><?php echo e($billing_data['setup']['notes']); ?></td>
                                 </tr>
                                 <?php endif; ?>
                                 <tr>
@@ -374,6 +374,20 @@ $converted_to_event = App\Models\Meeting::where('attendees_lead',$lead->id)->exi
                                     <td>$<?php echo e($grandtotal = array_sum($total) + 20 * array_sum($total) / 100 + 7 * array_sum($total) / 100); ?></td>
                                     <td></td>
                                 </tr>
+                                <!-- <tr>
+                                        <td >Deposits on file</td>
+                                        <td colspan="2"></td>
+                                        <td colspan="3">
+                                            $<?php echo e($deposit= $billdetails->deposits); ?></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Balance due</td>
+                                        <td colspan="2"></td>
+                                        <td colspan="3">
+                                            $<?php echo e($grandtotal - $deposit); ?></td>
+                                        <td colspan="2"></td>
+                                    </tr> -->
                             </tbody>
                         </table>
                     </div>

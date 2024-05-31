@@ -96,8 +96,8 @@ $leaddata['bar_package_cost'] = $totalBarPackageCost;
                 <dt class="col-md-12"><span class="h6  mb-0"><?php echo e(__('Upload Document')); ?></span></dt>
                 <dd class="col-md-12"><input type="file" name="attachment" id="attachment" class="form-control"></dd>
             </dl>
-            <dt class="col-md-12"><span class="h6  mb-0"><?php echo e(__('Proposal due date:')); ?></span></dt>
-                <dd class="col-md-12"><input type="date" name="signbefore" id="signbefore" value="<?php echo date('Y-m-d'); ?>" max="<?php echo e($lead->start_date); ?>" class="form-control"></dd>
+            <!-- <dt class="col-md-12"><span class="h6  mb-0"><?php echo e(__('Proposal due date:')); ?></span></dt>
+                <dd class="col-md-12"><input type="date" name="signbefore" id="signbefore" value="<?php echo date('Y-m-d'); ?>" max="<?php echo e($lead->start_date); ?>" class="form-control"style="display:none"></dd> -->
             
             <hr class="mt-4 mb-4">
             <div class="col-12  p-0 modaltitle pb-3 mb-3 flex-title">
@@ -124,17 +124,19 @@ $leaddata['bar_package_cost'] = $totalBarPackageCost;
                                     <td>
                                         <input type="text" name="billing[<?php echo e($key); ?>][cost]"
                                             value="<?php echo e(isset($leaddata[$key.'_cost']) ? $leaddata[$key.'_cost'] : ''); ?>"
-                                            class="form-control dlr">
+                                            class="form-control dlr" >
                                     </td>
                                     <td>
                                         <input type="number" name="billing[<?php echo e($key); ?>][quantity]" min='0'
-                                            class="form-control" value="<?php echo e(isset($key) && ($key !== 'hotel_rooms') ?  1: $leaddata[$key]); ?>" required>
+                                          class="form-control billing-quantity" value="<?php echo e(isset($key) && ($key !== 'hotel_rooms') ?  1: $leaddata[$key]); ?>" required>
                                     </td>
                                     <td>
                                         <input type="text" name="billing[<?php echo e($key); ?>][notes]" class="form-control"
                                             value="<?php echo e(isset($key) && ($key !== 'hotel_rooms') ? $leaddata[$key] ?? '' : ''); ?>">
                                     </td>
                                 </tr>
+                                <div id="validationErrors" style="color: red; display: none;"></div>
+
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </tbody>
                         </table>
@@ -161,9 +163,65 @@ $leaddata['bar_package_cost'] = $totalBarPackageCost;
 </style>
 <script>
 function getDataUrlAndCopy(button) {
-
+   
     var dataUrl = button.getAttribute('data-url');
-    copyToClipboard(dataUrl);
+    // var isValid = validateForm(); // Replace with your validation logic
+
+    // Clear any previous error messages
+    $('.error-message').hide().html('');
+        var billingData = {};
+        var hasError = false;
+        var errorMessages = [];
+        $('input[name^="billing"]').each(function() {
+            var name = $(this).attr('name'); // billing[key][field]
+            var value = $(this).val();
+
+            // Extract the key and field from the name attribute
+            var matches = name.match(/^billing\[(.+?)\]\[(.+?)\]$/);
+            if (matches) {
+                var key = matches[1];
+                var field = matches[2];
+
+                if (!billingData[key]) {
+                    billingData[key] = {};
+                }
+                billingData[key][field] = value;
+
+                // Check if the field is empty
+                if (!value) {
+                    hasError = true;
+                    errorMessages.push(`The ${key} ${field} field is required.`);
+                    $(this).addClass('error'); // Add error class to highlight the field
+                } else {
+                    $(this).removeClass('error'); // Remove error class if the field is not empty
+                }
+            }
+        });
+
+        if (hasError) {
+            $('#validationErrors').html(errorMessages.join('<br>')).show();
+        } else {
+            $('#validationErrors').hide();
+            var url= '<?php echo e(route("lead.copyurl",urlencode(encrypt($lead->id)))); ?>';
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: {
+                    "_token": "<?php echo e(csrf_token()); ?>",
+                    "billingdata": billingData,
+                },
+                success: function(response) {
+                    // Handle success response
+                    copyToClipboard(dataUrl);
+                    console.log(response);
+                },
+                error: function(xhr, status, error) {
+                    // Handle error response
+                    console.error(xhr.responseText);
+                }
+            });
+            // Do something with billingData, e.g., send it via AJAX
+        }
 }
 function copyToClipboard(text) {
     /* Create a temporary input element */

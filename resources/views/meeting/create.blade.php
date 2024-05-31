@@ -63,7 +63,26 @@ $leadId = decrypt(urldecode(request()->query('lead')));
     position: absolute;
     padding: 1px;
 }
+
+#previewDiv .position-relative {
+    position: relative;
+    width: 60%;
+}
+#removeImg {
+    position: absolute;
+   top:0px;
+   right: 0px;
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2em;
+    line-height: 1em;
+    padding: 0.2em 0.4em;
+}
 </style>
+
 <div class="container-field">
     <div id="wrapper">
         <div id="page-content-wrapper p0">
@@ -495,19 +514,21 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                                            <div class="col-12">
-                                                <div class="form-group">
-                                                    <label><b>Upload Setup</b></label>
-                                                        <input accept="image/*" type='file' id="imgInp"
-                                                            class="form-control" name = "setupplans"/>
-                                                 
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="form-group">
-                                                        <img id="blah" src="#" alt=" Preview" class="form-control" />
-                                                </div>
-                                            </div>
+                                            
+<div class="col-12 mt-4">
+    <div class="form-group">
+        <label><b>Upload Setup</b></label>
+        <input accept="image/*" type='file' id="imgInp" class="form-control" name="setupplans"/>
+    </div>
+</div>
+<div class="col-12" id="previewDiv" style="display: none;">
+    <div class="form-group position-relative">
+        <img id="blah" src="#" alt="Preview" class="form-control" />
+        <button type="button" id="removeImg" class="btn btn-danger position-absolute" >&times;</button>
+    </div>
+</div>
+
+
                                         </div>
                                     </div>
                                 </div>
@@ -632,14 +653,41 @@ $leadId = decrypt(urldecode(request()->query('lead')));
 </div>
 @endsection
 @push('script-page')
-<script>
+<!-- <script>
 imgInp.onchange = evt => {
     const [file] = imgInp.files
     if (file) {
         blah.src = URL.createObjectURL(file)
     }
 }
+</script> -->
+<script>
+document.getElementById('imgInp').onchange = function(evt) {
+    const [file] = this.files;
+    const previewDiv = document.getElementById('previewDiv');
+    const blah = document.getElementById('blah');
+
+    if (file) {
+        blah.src = URL.createObjectURL(file);
+        previewDiv.style.display = 'block';
+    } else {
+        blah.src = '#';
+        previewDiv.style.display = 'none';
+    }
+};
+
+document.getElementById('removeImg').onclick = function() {
+    const imgInp = document.getElementById('imgInp');
+    const previewDiv = document.getElementById('previewDiv');
+    const blah = document.getElementById('blah');
+
+    imgInp.value = ''; // Clear the file input
+    blah.src = '#'; // Reset the image source
+    previewDiv.style.display = 'none'; // Hide the preview div
+};
 </script>
+
+
 <script>
 function validateCheckboxGroup(groupName) {
     var checkboxes = $("input[name='" + groupName + "']");
@@ -926,17 +974,7 @@ $(document).ready(function() {
     width: 100%;
 }
 </style>
-<!-- <script>
-$(document).ready(function() {
-    $('input[name="uploadedImage"]').change(function() {
-        $('.floorimages').removeClass('selected-image');
-        if ($(this).is(':checked')) {
-            var imageId = $(this).attr('id');
-            $('label[for="' + imageId + '"] img').addClass('selected-image');
-        }
-    });
-});
-</script> -->
+
 <script>
 $(document).ready(function() {
     var input = document.querySelector("#phone-input");
@@ -951,16 +989,6 @@ $(document).ready(function() {
         iti.setCountry('us');
     }
 
-    // $('#start_date, #end_date').change(function() {
-    //     var startDate = new Date($('#start_date').val());
-    //     var endDate = new Date($('#end_date').val());
-
-    //     if ($(this).attr('id') === 'start_date' && endDate < startDate) {
-    //         $('#end_date').val($('#start_date').val());
-    //     } else if ($(this).attr('id') === 'end_date' && endDate < startDate) {
-    //         $('#start_date').val($('#end_date').val());
-    //     }
-    // });
     $('input[name="uploadedImage"]').change(function() {
         $('.floorimages').removeClass('selected-image');
         if ($(this).is(':checked')) {

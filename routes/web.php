@@ -431,6 +431,7 @@ Route::group(['middleware' => ['verified']], function () {
             Route::post('lead/change_proposal_status/',[LeadController::class,'propstatus'])->name('lead.changeproposalstat');
             Route::post('lead-notes/{id}',[LeadController::class,'leadnotes'])->name('addleadnotes');
             Route::get('lead/user-information/{id}',[LeadController::class,'lead_user_info'])->name('lead.userinfo');
+            Route::post('lead/copyurl/{id}',[LeadController::class,'copyurloflead'])->name('lead.copyurl');
 
         });
 

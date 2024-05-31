@@ -103,7 +103,7 @@ if(isset($proposal) && ($proposal['image'] != null)){
                                 style="text-align:left; font-size:13px;text-align:left; padding:5px 5px; margin-left:5px;">
                                 Name : <?php echo e(ucfirst($lead->name)); ?></th>
                             <th colspan="2" style="padding:5px 0px;margin-left: 5px;font-size:13px"></th>
-                            <th colspan="3" style="text-align:left;text-align:left; padding:5px 5px; margin-left:5px;">
+                            <th colspan="3" style="text-align:left;text-align:left; padding:5px 5px; margin-left:5px;font-size:13px">
                                 Date:<?php echo date("d/m/Y"); ?> </th>
                             <th style="text-align:left; font-size:13px;padding:5px 5px; margin-left:5px;">
                                 Event: <?php echo e(ucfirst($lead->type)); ?></th>
@@ -170,16 +170,20 @@ if(isset($proposal) && ($proposal['image'] != null)){
 
                             </td>
                             <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-
                                 $<?php echo e($total[] = ($billing['hotel_rooms']['cost'] ?? 0) *  ($billing['hotel_rooms']['quantity'] ?? 1)); ?>
-
-
 
                             </td>
                             <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
                         </tr>
-
-
+                        <tr>
+                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Bar Package</td>
+                            <td colspan="2"  style="padding:5px 5px; margin-left:5px;"></td>
+                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">$<?php echo e($billing['bar_package']['cost'] ?? 0); ?></td>
+                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($billing['bar_package']['quantity'] ?? 1); ?></td>
+                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
+                            $<?php echo e($total[] = ($billing['bar_package']['cost'] ?? 0) * ($billing['bar_package']['quantity'] ?? 1)); ?></td>
+                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"><?php echo e($lead->bar); ?></td>
+                        </tr>
 
                         <tr>
                             <td>-</td>
