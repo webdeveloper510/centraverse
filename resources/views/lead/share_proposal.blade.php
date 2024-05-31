@@ -163,7 +163,6 @@ function getDataUrlAndCopy(button) {
    
     var dataUrl = button.getAttribute('data-url');
 
-    // Clear any previous error messages
     $('.error-message').hide().html('');
         var billingData = {};
         var hasError = false;
