@@ -144,7 +144,7 @@ $meetingData['setup_cost'] = '';
         </div>
 
     </div>
-
+ <!-- save button -->
 </div>
 {{Form::submit(__('Save'),array('class'=>'btn btn-primary '))}}
 {{ Form::close() }}
