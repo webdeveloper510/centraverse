@@ -176,7 +176,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <div class="col-6 need_full">
+                                            <div class="col-6 need_full company_name">
                                                 <div class="form-group">
                                                     {{Form::label('company_name',__('Event Name'),['class'=>'form-label']) }}
                                                     {{Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Event Name')))}}
@@ -1078,11 +1078,13 @@ $(document).ready(function() {
         $('#lead_select').hide();
         $('#new_event').hide();
         $('#event_option').show();
+         $('.company_name').show();
         var selectedValue = $(this).val();
         if (selectedValue == 'Existing Lead') {
             $('#lead_select').show();
         } else {
             $('#new_event').show();
+            $('.company_name').hide();
             $('input#resetForm').trigger('click');
         }
     });

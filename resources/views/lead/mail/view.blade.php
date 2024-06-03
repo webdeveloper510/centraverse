@@ -1,5 +1,6 @@
 @php
 $proposalUrl = route('lead.signedproposal',urlencode(encrypt($lead->id)));
+$logo=\App\Models\Utility::get_file('uploads/logo/');
 @endphp
 <!DOCTYPE html>
 <html lang="en">
@@ -119,6 +120,12 @@ $proposalUrl = route('lead.signedproposal',urlencode(encrypt($lead->id)));
 
         <p>Thank you for your time and collaboration.</p>
         <p><strong>With regards,</strong></p>
+         <p><b>The Bond 1786</b></p>
+        <div class="logo">
+            <img src="{{ $logo.'logo-light.png' }}" alt="{{ config('app.name', 'The Bond 1786') }}"
+                height="50">
+        </div>
+         <span style="font-size:x-small;">Supported by The Sector Eight</span>
     </div>
 
     <div class="footer">

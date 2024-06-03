@@ -26,8 +26,11 @@ $enddate = \Carbon\Carbon::createFromFormat('Y-m-d', $meeting['end_date'])->form
     <div class="row">
         <div class="col-md-12 ">
             <div class="img-section" style="width:30%; margin: 0 auto;display:flex;text-align: center;">
-                <img class="logo-img" src="{{ Storage::url('uploads/logo/3_logo-light.png') }}" style="width:40%;">
+                <img class="logo-img" src="{{ Storage::url('uploads/logo/logo-light.png') }}" style="width:40%;">
             </div>
+             <span style="font-size: \small;
+    color: #aab0b6;
+   >Supported by The Sector Eight</span>
         </div>
     </div>
     <div class="row">

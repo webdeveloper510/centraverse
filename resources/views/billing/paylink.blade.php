@@ -172,6 +172,7 @@ $(" input[name='latefee'], input[name='adjustment']")
 //         var amountcollect = $('input[name="amountcollect"]').val();
 //         var balance = $('input[name="balance"]').val();
 
+
 //         $.ajax({
 //             url: '{{ route("billing.addpayinfooncopyurl",$event->id) }}',
 //             type: 'POST',
@@ -227,6 +228,9 @@ function getDataUrlAndCopy(button) {
     var amountcollect = $('input[name="amountcollect"]').val();
     var balance = $('input[name="balance"]').val();
 
+    var a=  $("input[name='amountcollect']").attr('max', balance);
+
+
     var validationPassed = true;
 
   
@@ -234,11 +238,11 @@ function getDataUrlAndCopy(button) {
         $('#email-error').html('Email is required').show();
         validationPassed = false;
     }
- 
-    if (!amountcollect) {
-        $('#amountcollect-error').html('Amount to collect is required').show();
-        validationPassed = false;
-    }
+ if (!amountcollect || parseFloat(amountcollect) > parseFloat(balance)) {
+    $('#amountcollect-error').html('Amount to collect is required and must be less than or equal to balance due').show();
+    validationPassed = false;
+}
+
     if (validationPassed) {
         $.ajax({
             url: '{{ route("billing.addpayinfooncopyurl",$event->id) }}',
@@ -275,7 +279,10 @@ function getDataUrlAndCopy(button) {
 function validateForm() {
     var name = document.getElementsByName('name')[0].value;
     var email = document.getElementsByName('email')[0].value;
+      var balance = $('input[name="balance"]').val();
     var amountcollect = document.getElementsByName('amountcollect')[0].value;
+    $("input[name='amountcollect']").attr('max', balance);
+
 
     if (name.trim() === '' || email.trim() === '' || amountcollect.trim() == '') {
         return false;

@@ -67,14 +67,11 @@ $leaddata['hotel_rooms_cost'] = $billings['hotel_rooms'] ?? 0;
 $leaddata['venue_rental_cost'] = $venueRentalCost;
 $leaddata['food_package_cost'] = $totalFoodPackageCost;
 $leaddata['bar_package_cost'] = $totalBarPackageCost;
-
-
 ?>
 <div class="row">
     <div class="col-lg-12">
         <div id="notification" class="alert alert-success mt-1">Link copied to clipboard!</div>
         <?php echo e(Form::model($lead, ['route' => ['lead.pdf', urlencode(encrypt($lead->id))], 'method' => 'POST','enctype'=>'multipart/form-data'])); ?>
-
 
         <div class="">
             <dl class="row">
@@ -99,90 +96,156 @@ $leaddata['bar_package_cost'] = $totalBarPackageCost;
                 <dt class="col-md-12"><span class="h6  mb-0"><?php echo e(__('Upload Document')); ?></span></dt>
                 <dd class="col-md-12"><input type="file" name="attachment" id="attachment" class="form-control"></dd>
             </dl>
-      
-
+            <!-- <dt class="col-md-12"><span class="h6  mb-0"><?php echo e(__('Proposal due date:')); ?></span></dt>
+                <dd class="col-md-12"><input type="date" name="signbefore" id="signbefore" value="<?php echo date('Y-m-d'); ?>" max="<?php echo e($lead->start_date); ?>" class="form-control"style="display:none"></dd> -->
+            
             <hr class="mt-4 mb-4">
-            <!-- <hr> -->
             <div class="col-12  p-0 modaltitle pb-3 mb-3 flex-title">
-                <!-- <hr class="mt-2 mb-2"> -->
                 <h5 class="bb"><?php echo e(__('Estimated Billing Details')); ?></h5>
-                <span class="h6 mb-0" style="float:right;   
-"><?php echo e(__('Guest Count')); ?> : <?php echo e($lead->guest_count); ?></span>
+                <span class="h6 mb-0" style="float:right;"><?php echo e(__('Guest Count')); ?> : <?php echo e($lead->guest_count); ?></span>
             </div>
             <dl class="row">
-                <!-- <dt class="col-md-12"><span class="h6  mb-0"><?php echo e(__('Guest Count')); ?> : <?php echo e($lead->guest_count); ?></span></dt>
-               <hr class="mt-2 mb-2"> -->
-                <!-- <div class="col-md-12"> -->
 
                 <div class="form-group">
                     <div class="table-res">
-                    <table class="table table-share">
-                        <thead>
-                            <tr>
-                                <th><?php echo e(__('Description')); ?> </th>
-                                <th><?php echo e(__('Cost(per person)')); ?> </th>
-                                <th><?php echo e(__('Quantity')); ?> </th>
-                                <th><?php echo e(__('Notes')); ?> </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php $__currentLoopData = $labels; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $label): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <tr>
-                                <td><?php echo e(ucfirst($label)); ?></td>
-                                <td>
-                                    <input type="text" name="billing[<?php echo e($key); ?>][cost]"
-                                        value="<?php echo e(isset($leaddata[$key.'_cost']) ? $leaddata[$key.'_cost'] : ''); ?>"
-                                        class="form-control dlr">
-                                </td>
-                                <td>
-                                    <input type="number" name="billing[<?php echo e($key); ?>][quantity]" min='0' class="form-control"
-                                        value="<?php echo e($leaddata[$key] ?? ''); ?>" required>
-                                </td>
-                                <td>
-                                    <input type="text" name="billing[<?php echo e($key); ?>][notes]" class="form-control"
-                                        value="<?php echo e(isset($key) && ($key !== 'hotel_rooms') ? $leaddata[$key] ?? '' : ''); ?>">
-                                </td>
-                            </tr>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                        </tbody>
-                    </table>
-</div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-md-12">
-                        <label class="form-label"> Deposit on file: </label>
-                        <input type="number" name="deposits" min='0' class="form-control">
-                    </div>
+                        <table class="table table-share">
+                            <thead>
+                                <tr>
+                                    <th><?php echo e(__('Description')); ?> </th>
+                                    <th><?php echo e(__('Cost(per person)')); ?> </th>
+                                    <th><?php echo e(__('Quantity')); ?> </th>
+                                    <th><?php echo e(__('Notes')); ?> </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php $__currentLoopData = $labels; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $label): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <tr>
+                                    <td><?php echo e(ucfirst($label)); ?></td>
+                                    <td>
+                                        <input type="text" name="billing[<?php echo e($key); ?>][cost]"
+                                            value="<?php echo e(isset($leaddata[$key.'_cost']) ? $leaddata[$key.'_cost'] : ''); ?>"
+                                            class="form-control dlr" >
+                                    </td>
+                                    <td>
+                                        <input type="number" name="billing[<?php echo e($key); ?>][quantity]" min='0'
+                                          class="form-control billing-quantity" value="<?php echo e(isset($key) && ($key !== 'hotel_rooms') ?  1: $leaddata[$key]); ?>" required>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="billing[<?php echo e($key); ?>][notes]" class="form-control"
+                                            value="<?php echo e(isset($key) && ($key !== 'hotel_rooms') ? $leaddata[$key] ?? '' : ''); ?>">
+                                    </td>
+                                </tr>
+                                <div id="validationErrors" style="color: red; display: none;"></div>
 
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </dl>
         </div>
         <div class="modal-footer">
-            <!-- <button type="button" class="btn btn-success" data-toggle="tooltip" onclick="getDataUrlAndCopy(this)"
+            <button type="button" class="btn btn-success" data-toggle="tooltip" onclick="getDataUrlAndCopy(this)"
                 data-url="<?php echo e(route('lead.signedproposal',urlencode(encrypt($lead->id)))); ?>" title='Copy To Clipboard'>
                 <i class="ti ti-copy"></i>
-            </button> -->
+            </button>
             <?php echo e(Form::submit(__('Share via mail'),array('class'=>'btn btn-primary'))); ?>
 
         </div>
-
     </div>
     <?php echo e(Form::close()); ?>
 
 </div>
-
 <style>
-#notification {
-    display: none;
-}
+    #notification {
+        display: none;
+    }
 </style>
 <script>
 function getDataUrlAndCopy(button) {
+   
     var dataUrl = button.getAttribute('data-url');
-    copyToClipboard(dataUrl);
-    // alert("Copied the data URL: " + dataUrl);
-}
 
+    $('.error-message').hide().html('');
+        var billingData = {};
+        var hasError = false;
+        var errorMessages = [];
+        // $('input[name^="billing"]').each(function() {
+        //     var name = $(this).attr('name'); // billing[key][field]
+        //     var value = $(this).val();
+
+        //     // Extract the key and field from the name attribute
+        //     var matches = name.match(/^billing\[(.+?)\]\[(.+?)\]$/);
+        //     if (matches) {
+        //         var key = matches[1];
+        //         var field = matches[2];
+
+        //         if (!billingData[key]) {
+        //             billingData[key] = {};
+        //         }
+        //         billingData[key][field] = value;
+
+        //         // Check if the field is empty
+        //         if (!value) {
+        //             hasError = true;
+        //             errorMessages.push(`The ${key} ${field} field is required.`);
+        //             $(this).addClass('error'); // Add error class to highlight the field
+        //         } else {
+        //             $(this).removeClass('error'); // Remove error class if the field is not empty
+        //         }
+        //     }
+        // });
+        $('input[name^="billing"]').each(function() {
+    var name = $(this).attr('name'); // billing[key][field]
+    var value = $(this).val();
+
+    // Extract the key and field from the name attribute
+    var matches = name.match(/^billing\[(.+?)\]\[(.+?)\]$/);
+    if (matches) {
+        var key = matches[1];
+        var field = matches[2];
+
+        if (!billingData[key]) {
+            billingData[key] = {};
+        }
+        billingData[key][field] = value;
+
+        // Check if the field is empty and not the notes field
+        if (field !== 'notes' && !value) {
+            hasError = true;
+            errorMessages.push(`The ${key} ${field} field is required.`);
+            $(this).addClass('error'); // Add error class to highlight the field
+        } else {
+            $(this).removeClass('error'); // Remove error class if the field is not empty
+        }
+    }
+});
+
+        if (hasError) {
+            $('#validationErrors').html(errorMessages.join('<br>')).show();
+        } else {
+            $('#validationErrors').hide();
+            var url= '<?php echo e(route("lead.copyurl",urlencode(encrypt($lead->id)))); ?>';
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: {
+                    "_token": "<?php echo e(csrf_token()); ?>",
+                    "billingdata": billingData,
+                },
+                success: function(response) {
+                    // Handle success response
+                    copyToClipboard(dataUrl);
+                    console.log(response);
+                },
+                error: function(xhr, status, error) {
+                    // Handle error response
+                    console.error(xhr.responseText);
+                }
+            });
+            // Do something with billingData, e.g., send it via AJAX
+        }
+}
 function copyToClipboard(text) {
     /* Create a temporary input element */
     var tempInput = document.createElement("input");
@@ -205,15 +268,12 @@ function copyToClipboard(text) {
     /* Hide the notification after 2 seconds (adjust as needed) */
     setTimeout(hideNotification, 2000);
 }
-
 function showNotification() {
     var notification = document.getElementById('notification');
     notification.style.display = 'block';
 }
-
 function hideNotification() {
     var notification = document.getElementById('notification');
     notification.style.display = 'none';
 }
-</script>
-<?php /**PATH /home/crmcentraverse/public_html/resources/views/lead/share_proposal.blade.php ENDPATH**/ ?>
+</script><?php /**PATH /home/crmcentraverse/public_html/resources/views/lead/share_proposal.blade.php ENDPATH**/ ?>

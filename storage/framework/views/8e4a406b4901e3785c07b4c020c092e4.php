@@ -52,7 +52,6 @@ h6 {
                             </div>
                         </a>
                     </div>
-
                     <div class="col-lg-4 col-sm-12" style="padding: 15px;">
                         <a href="<?php echo e(route('billing.index')); ?>" target="_blank">
                             <div class="card">
@@ -71,18 +70,16 @@ h6 {
                                         <div class="mt10">
                                             <h6 class="mb-0"><?php echo e(__('Amount Recieved(E)')); ?></h6>
                                             <h3 class="mb-0">
-                                                <?php echo e($events_revenue_generated != 0 ? '$'.number_format($events_revenue_generated) : '--'); ?>
+                                                <?php echo e($events_revenue_generated != 0 ? '$'.number_format($events_revenue_generated +$depositss ) : '--'); ?>
 
                                             </h3>
 
                                         </div>
-                                        <!-- </div>
-                                    <div class="right_side" style="    width: 35% !important;"> -->
                                     </div>
                                 </div>
                             </div>
+                        </a>
                     </div>
-                    </a>
                     <?php endif; ?>
                     <?php
                     $setting = App\Models\Utility::settings();
@@ -93,14 +90,11 @@ h6 {
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Active Leads</h5>
                             <div class="scrol-card">
-
                                 <?php $__currentLoopData = $activeLeads; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $lead): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
-                                        <h5 class="card-text"><?php echo e($lead['leadname']); ?>
-
-                                            <span>(<?php echo e($lead['type']); ?>)</span>
+                                        <h5 class="card-text"><a href="<?php echo e(route('lead.info',urlencode(encrypt($lead['id'])))); ?>" style= "color:#8490a7;"><?php echo e($lead['leadname']); ?></a>
+                                            <span><?php echo e(isset($lead['type']) ? '('. $lead['type'] . ')': ''); ?></span>
                                         </h5>
 
                                         <?php if($lead['start_date'] == $lead['end_date']): ?>
@@ -144,11 +138,9 @@ h6 {
                             <h5 class="card-title mb-2">Active/Upcoming Events</h5>
                             <div class="scrol-card">
                                 <?php $__currentLoopData = $activeEvent; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $event): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
-                                        <h5 class="card-text"><?php echo e($event['name']); ?>
-
+                                        <h5 class="card-text"><a href="<?php echo e(route('meeting.detailview',urlencode(encrypt($event['id'])))); ?>" style= "color:#8490a7;"><?php echo e($event['name']); ?></a>
                                             <span>(<?php echo e($event['type']); ?>)</span>
                                         </h5>
                                         <?php if($event['start_date'] == $event['end_date']): ?>
@@ -189,31 +181,43 @@ h6 {
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Finances</h5>
                             <div class="scrol-card">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <?php $__currentLoopData = $events; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $event): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <?php if(isset($events) && !empty($events)): ?>
+                                    <?php $__currentLoopData = $events; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $event): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <?php
-                                            $pay = App\Models\PaymentLogs::where('event_id',$event['id'])->get();
-                                            $total = 0;
-                                            foreach($pay as $p){
-                                            $total += $p->amount;
+                                            $pay = App\Models\PaymentLogs::where('event_id',$event['id'])->exists();
+                                            $deposit = App\Models\Billing::where('event_id',$event['id'])->first();
+                                            $info = App\Models\PaymentInfo::where('event_id',$event->id)->get();
+
+                                            $latefee = 0;
+                                            $adjustments = 0;
+                                            foreach($info as $inf){
+                                            $latefee += $inf->latefee;
+                                            $adjustments += $inf->adjustments;
                                             }
+                                            $total = 0;
+                                            if($pay){
+                                                $paym = App\Models\PaymentLogs::where('event_id',$event['id'])->get(); 
+
+                                                foreach($paym as $p){
+                                                    $total += $p->amount; 
+                                                }
+                                            } 
                                         ?>
                                         <div class="card">
                                             <div class="card-body">
                                                 <h5 class="card-text"><?php echo e($event['name']); ?>
 
-                                                    <span>(<?php echo e($event['type']); ?>)</span>
+                                                    <span><?php echo e(isset($event['type']) ? '('. $event['type'] . ')': ''); ?></span>
                                                 </h5>
 
                                                 <div style="color: #a99595;">
                                                     Billing Amount: $<?php echo e(number_format($event['total'])); ?><br>
-                                                    Pending Amount: $<?php echo e(number_format($event['total']- $total)); ?>
+                                                    Amount Due: <?php echo e(($event['total'] - $total - $deposit->deposits -$adjustments +$latefee == 0) ? '--' : '$'. number_format($event['total'] - $total - $deposit->deposits -$adjustments + $latefee)); ?>
 
                                                 </div>
-
                                                 <div class="date-y">
                                                     <?php if($event['start_date'] == $event['end_date']): ?>
+
                                                     <p><?php echo e(Carbon\Carbon::parse($event['start_date'])->format('M d, Y')); ?>
 
                                                     </p>
@@ -226,23 +230,12 @@ h6 {
                                                     </p>
                                                     <?php endif; ?>
                                                 </div>
-                                                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Invoice')): ?>
-                                                <div class="action-btn bg-warning ms-2">
-                                                    <a href="#" data-size="md"
-                                                        data-url="<?php echo e(route('billing.show',$event['id'])); ?>"
-                                                        data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>"
-                                                        data-ajax-popup="true" data-title="<?php echo e(__('Invoice Details')); ?>"
-                                                        class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                        <i class="ti ti-eye"></i>
-                                                    </a>
-                                                </div>
-                                                <?php endif; ?>
+                                            
 
                                             </div>
                                         </div>
-                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                    </div>
-                                </div>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -260,13 +253,6 @@ h5.card-text {
 .flex-div {
     display: flex;
     justify-content: space-between;
-}
-
-.inner_col {
-    padding: 10px;
-    border: 1px dotted #ccc;
-    border-radius: 20px;
-    margin-top: 10px;
 }
 
 .date-y {
@@ -293,7 +279,6 @@ h5.card-text {
 
 .inner_col .scrol-card {
     padding: 10px;
-    border: 1px dotted #ccc;
     border-radius: 20px;
     margin-top: 10px;
     max-height: 210px;
@@ -308,17 +293,14 @@ h5.card-text {
     .flex-div {
         display: block !important;
     }
-
     .card {
 
         height: 100%;
     }
-
     .new-div {
         display: flex;
 
     }
-
     .mt10 {
         margin-top: 10px;
     }

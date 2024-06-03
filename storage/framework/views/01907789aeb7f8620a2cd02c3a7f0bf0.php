@@ -1,12 +1,9 @@
-<<<<<<< HEAD:storage/framework/views/35a3c5ade8e50f4d2a4e36558cfa1595.php
 <?php
-    use Carbon\Carbon;
-    $currentDate = Carbon::now();
-  
+use Carbon\Carbon;
+$currentDate = Carbon::now();
+$proposalstatus = \App\Models\Lead::$status;
 ?>
 
-=======
->>>>>>> 169c7b01929c40bc361e8a0812d3130dba7817ec:storage/framework/views/01907789aeb7f8620a2cd02c3a7f0bf0.php
 <?php $__env->startSection('page-title'); ?>
 <?php echo e(__('Leads')); ?>
 
@@ -48,15 +45,20 @@
                                         <thead>
                                             <tr>
                                                 <!-- <th scope="col" class="sort" data-sort="name"><?php echo e(__('Lead')); ?></th> -->
-                                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Name')); ?> <span class="opticy"> dddd</span></th>
-                                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Email')); ?> <span class="opticy"> dddd</span></th>
-                                                <th scope="col" class="sort"><?php echo e(__('Status')); ?> <span class="opticy"> dddd</span></th>
-                                                <!-- <th scope="col" class="sort"><?php echo e(__('Proposal Status')); ?></th> -->
-                                                <th scope="col" class="sort"><?php echo e(__('Lead Status')); ?><span class="opticy"> dddd</span></th>
-                                                <th scope="col" class="sort"><?php echo e(__('Event Date')); ?><span class="opticy"> dddd</span></th>
+                                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Name')); ?> <span
+                                                        class="opticy"> dddd</span></th>
+                                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Email')); ?> <span
+                                                        class="opticy"> dddd</span></th>
+                                                <th scope="col" class="sort"><?php echo e(__('Status')); ?> <span class="opticy">
+                                                        dddd</span></th>
+                                                <th scope="col" class="sort"><?php echo e(__('Lead Status')); ?><span class="opticy">
+                                                        dddd</span></th>
+                                                <th scope="col" class="sort"><?php echo e(__('Event Date')); ?><span class="opticy">
+                                                        dddd</span></th>
                                                 <?php if(Gate::check('Show Lead') || Gate::check('Edit Lead') ||
                                                 Gate::check('Delete Lead')): ?>
-                                                <th scope="col" class="text-end"><?php echo e(__('Action')); ?> <span class="opticy"> dddd</span></th>
+                                                <th scope="col" class="text-end"><?php echo e(__('Action')); ?> <span class="opticy">
+                                                        dddd</span></th>
                                                 <?php endif; ?>
                                             </tr>
                                         </thead>
@@ -74,137 +76,124 @@
                                                 <td>
                                                     <span class="budget"><?php echo e($lead->email); ?></span>
                                                 </td>
-                                                <td><select name="lead_status" id="lead_status" class="form-select"
+                                                <td>
+                                                    <select name="lead_status" id="lead_status" class="form-select"
                                                         data-id="<?php echo e($lead->id); ?>">
                                                         <?php $__currentLoopData = $statuss; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $stat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                         <option value="<?php echo e($key); ?>"
                                                             <?php echo e(isset($lead->lead_status) && $lead->lead_status == $key ? "selected" : ""); ?>>
                                                             <?php echo e($stat); ?></option>
-                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?></td>
-                                                <td>
-                                                    <?php if($lead->status == 0): ?>
-                                                    <span
-                                                        class="badge bg-info p-2 px-3 rounded"><?php echo e(__(\App\Models\Lead::$status[$lead->status])); ?></span>
-                                                    <?php elseif($lead->status == 1): ?>
-                                                    <span
-                                                        class="badge bg-warning p-2 px-3 rounded"><?php echo e(__(\App\Models\Lead::$status[$lead->status])); ?></span>
-                                                    <?php elseif($lead->status == 2): ?>
-                                                    <span
-                                                        class="badge bg-secondary p-2 px-3 rounded"><?php echo e(__(\App\Models\Lead::$status[$lead->status])); ?></span>
-                                                    <?php elseif($lead->status == 3): ?>
-                                                    <span
-                                                        class="badge bg-danger p-2 px-3 rounded"><?php echo e(__(\App\Models\Lead::$status[$lead->status])); ?></span>
-                                                    <?php elseif($lead->status == 4): ?>
-                                                    <span
-                                                        class="badge bg-success p-2 px-3 rounded"><?php echo e(__(\App\Models\Lead::$status[$lead->status])); ?></span>
-                                                    <?php elseif($lead->status == 5): ?>
-                                                    <span
-                                                        class="badge bg-warning p-2 px-3 rounded"><?php echo e(__(\App\Models\Lead::$status[$lead->status])); ?></span>
-                                                    <?php endif; ?>
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                    </select>
                                                 </td>
-                                                <td><?php echo e(\Auth::user()->dateFormat($lead->start_date)); ?></td>
+
+                                                <td><select name="drop_status" id="drop_status" class="form-select"
+                                                        data-id="<?php echo e($lead->id); ?>">
+                                                        <?php $__currentLoopData = $proposalstatus; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $stat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <option value="<?php echo e($key); ?>"
+                                                            <?php echo e(isset($lead->status) && $lead->status == $key ? "selected" : ""); ?>>
+                                                            <?php echo e($stat); ?></option>
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                    </select>
+                                                </td>
+
+                                                <td>
+                                                    <?php echo e(\Auth::user()->dateFormat($lead->start_date)); ?>
+
+                                                </td>
                                                 <?php if(Gate::check('Show Lead') || Gate::check('Edit Lead') ||
                                                 Gate::check('Delete Lead') ||Gate::check('Manage Lead') ): ?>
                                                 <?php     $startDate = Carbon::parse($lead->start_date); ?>
-                                             
+
                                                 <td class="text-end">
-                                                <?php if($startDate->lt($currentDate) && $lead->status == 0): ?>
-                                              <b><span
-                                                        class=" text-danger p-2 px-3"><?php echo e(__('Lead Not converted to Event')); ?></span></b> 
-<?php else: ?>
-
-
-                                                    <?php if($lead->status == 4): ?>
-                                                    <div class="action-btn bg-secondary ms-2">
-                                                        <a href="<?php echo e(route('meeting.create',['meeting',0])); ?>"
-                                                            id="convertLink" data-size="md" data-url="#"
-                                                            data-bs-toggle="tooltip" data-title="<?php echo e(__('Convert')); ?>"
-                                                            title="<?php echo e(__('Convert To Event')); ?>" data-id="<?php echo e($lead->id); ?>"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class="fas fa-exchange-alt"></i> </a>
-                                                    </div>
-                                                    <?php endif; ?>
-                                                    <?php if($lead->status == 0 ): ?>
-                                                    <div class="action-btn bg-primary ms-2">
-                                                        <a href="javascript:void(0);" data-size="md"
-                                                            data-url="<?php echo e(route('lead.shareproposal',urlencode(encrypt($lead->id)))); ?>"
-                                                            data-ajax-popup="true" data-bs-toggle="tooltip"
-                                                            data-title="<?php echo e(__('Proposal')); ?>"
-                                                            title="<?php echo e(__('Share Proposal')); ?>"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class="ti ti-share"></i>
-                                                        </a>
-                                                    </div>
-                                                    <?php endif; ?>
-                                                    <?php if($lead->status >= 2 ): ?>
-                                                    <div class="action-btn bg-info ms-2">
-                                                        <a href="<?php echo e(route('lead.review',urlencode(encrypt($lead->id)))); ?>"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white "
-                                                            data-bs-toggle="tooltip" title="<?php echo e(__('Review')); ?>"
-                                                            data-title="<?php echo e(__('Review Lead')); ?>">
-                                                            <i class="fas fa-pen"></i></a>
-                                                    </div>
-                                                   <?php endif; ?>
-                                                    <div class="action-btn bg-primary ms-2">
-                                                        <a href="<?php echo e(route('lead.clone',urlencode(encrypt($lead->id)))); ?>"
-                                                            data-size="md" data-url="#" data-bs-toggle="tooltip"
-                                                            title="<?php echo e(__('Clone')); ?>" data-title="<?php echo e(__('Clone')); ?>"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class="fa fa-clone"></i>
-                                                        </a>
-                                                    </div>
-                                                    <?php if($lead->status >= 1): ?>
-                                                    <div class="action-btn bg-success ms-2">
-                                                        <a href="<?php echo e(route('lead.proposal',urlencode(encrypt($lead->id)))); ?>"
-                                                            data-bs-toggle="tooltip" data-title="<?php echo e(__('Proposal')); ?>"
-                                                            title="<?php echo e(__('View Proposal')); ?>"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white">
-                                                            <i class="ti ti-receipt"></i>
-                                                        </a>
-                                                    </div>
-                                                    <?php endif; ?>
-                                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Lead')): ?>
-                                                    <div class="action-btn bg-warning ms-2">
-                                                        <!-- <a href="<?php echo e(route('lead.show',$lead->id)); ?>" title="<?php echo e(__('Quick View')); ?>"
-                                                            data-ajax-popup="true" data-title="<?php echo e(__('Lead Details')); ?>"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class="ti ti-eye"></i> -->
+                                                   
+                                                        <?php if($lead->status == 4 && $lead->converted_to == 0): ?>
+                                                        <div class="action-btn bg-secondary ms-2">
+                                                            <a href="<?php echo e(route('meeting.create',['meeting',0])); ?>"
+                                                                id="convertLink" data-size="md" data-url="#"
+                                                                data-bs-toggle="tooltip" data-title="<?php echo e(__('Convert')); ?>"
+                                                                title="<?php echo e(__('Convert To Event')); ?>" data-id="<?php echo e($lead->id); ?>"
+                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                                <i class="fas fa-exchange-alt"></i> </a>
+                                                        </div>
+                                                        <?php endif; ?>
+                                                        <?php if($lead->status == 0 ): ?>
+                                                        <div class="action-btn bg-primary ms-2">
                                                             <a href="javascript:void(0);" data-size="md"
-                                                            data-url="<?php echo e(route('lead.show',$lead->id)); ?>"
-                                                            data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>"
-                                                            data-ajax-popup="true" data-title="<?php echo e(__('Lead Details')); ?>"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class="ti ti-eye"></i>
-                                                        </a>
-                                                    </div>
-                                                    <?php endif; ?>
-                                                    <?php if($lead->status == 0): ?>
-                                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Edit Lead')): ?>
-                                                    <div class="action-btn bg-info ms-2">
-                                                        <a href="<?php echo e(route('lead.edit',$lead->id)); ?>"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white "
-                                                            data-bs-toggle="tooltip" title="<?php echo e(__('Details')); ?>"
-                                                            data-title="<?php echo e(__('Edit Lead')); ?>"><i
-                                                                class="ti ti-edit"></i></a>
-                                                    </div>
-                                                    <?php endif; ?>
-                                                    <?php endif; ?>
-                                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Delete Lead')): ?>
-                                                    <div class="action-btn bg-danger ms-2">
-                                                        <?php echo Form::open(['method' => 'DELETE', 'route' =>
-                                                        ['lead.destroy', $lead->id]]); ?>
+                                                                data-url="<?php echo e(route('lead.shareproposal',urlencode(encrypt($lead->id)))); ?>"
+                                                                data-ajax-popup="true" data-bs-toggle="tooltip"
+                                                                data-title="<?php echo e(__('Proposal')); ?>"
+                                                                title="<?php echo e(__('Share Proposal')); ?>"
+                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                                <i class="ti ti-share"></i>
+                                                            </a>
+                                                        </div>
+                                                        <?php endif; ?>
+                                                        <?php if($lead->status >= 2 ): ?>
+                                                        <div class="action-btn bg-info ms-2">
+                                                            <a href="<?php echo e(route('lead.review',urlencode(encrypt($lead->id)))); ?>"
+                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white "
+                                                                data-bs-toggle="tooltip" title="<?php echo e(__('Review')); ?>"
+                                                                data-title="<?php echo e(__('Review Lead')); ?>">
+                                                                <i class="fas fa-pen"></i></a>
+                                                        </div>
+                                                        <?php endif; ?>
+                                                        <div class="action-btn bg-primary ms-2">
+                                                            <a href="<?php echo e(route('lead.clone',urlencode(encrypt($lead->id)))); ?>"
+                                                                data-size="md" data-url="#" data-bs-toggle="tooltip"
+                                                                title="<?php echo e(__('Clone')); ?>" data-title="<?php echo e(__('Clone')); ?>"
+                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                                <i class="fa fa-clone"></i>
+                                                            </a>
+                                                        </div>
+                                                        <?php if($lead->status >= 1): ?>
+                                                        <div class="action-btn bg-success ms-2">
+                                                            <a href="<?php echo e(route('lead.proposal',urlencode(encrypt($lead->id)))); ?>"
+                                                                data-bs-toggle="tooltip" data-title="<?php echo e(__('Proposal')); ?>"
+                                                                title="<?php echo e(__('View Proposal')); ?>"
+                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white">
+                                                                <i class="ti ti-receipt"></i>
+                                                            </a>
+                                                        </div>
+                                                        <?php endif; ?>
+                                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Lead')): ?>
+                                                        <div class="action-btn bg-warning ms-2">
+                                                            <a href="javascript:void(0);" data-size="md"
+                                                                data-url="<?php echo e(route('lead.show',$lead->id)); ?>"
+                                                                data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>"
+                                                                data-ajax-popup="true" data-title="<?php echo e(__('Lead Details')); ?>"
+                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                                <i class="ti ti-eye"></i>
+                                                            </a>
+                                                        </div>
+                                                        <?php endif; ?>
+                                                        <?php if($lead->status == 0): ?>
+                                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Edit Lead')): ?>
+                                                        <div class="action-btn bg-info ms-2">
+                                                            <a href="<?php echo e(route('lead.edit',$lead->id)); ?>"
+                                                                class="mx-3 btn btn-sm d-inline-flex align-items-center text-white "
+                                                                data-bs-toggle="tooltip" title="<?php echo e(__('Details')); ?>"
+                                                                data-title="<?php echo e(__('Edit Lead')); ?>"><i
+                                                                    class="ti ti-edit"></i>
+                                                            </a>
+                                                        </div>
+                                                        <?php endif; ?>
+                                                        <?php endif; ?>
+                                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Delete Lead')): ?>
+                                                        <div class="action-btn bg-danger ms-2">
+                                                            <?php echo Form::open(['method' => 'DELETE', 'route' =>
+                                                            ['lead.destroy', $lead->id]]); ?>
 
-                                                        <a href="javascript:void(0);"
-                                                            class="mx-3 btn btn-sm  align-items-center text-white show_confirm"
-                                                            data-bs-toggle="tooltip" title='Delete'>
-                                                            <i class="ti ti-trash"></i>
-                                                        </a>
-                                                        <?php echo Form::close(); ?>
+                                                            <a href="javascript:void(0);"
+                                                                class="mx-3 btn btn-sm  align-items-center text-white show_confirm"
+                                                                data-bs-toggle="tooltip" title='Delete'>
+                                                                <i class="ti ti-trash"></i>
+                                                            </a>
+                                                            <?php echo Form::close(); ?>
 
-                                                    </div>
-                                                    <?php endif; ?>
+                                                        </div>
+                                                        <?php endif; ?>
                                                 </td>
-                                                <?php endif; ?>
                                                 <?php endif; ?>
                                             </tr>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -225,13 +214,12 @@
 $(document).ready(function() {
     $('#convertLink').on('click', function(event) {
         event.preventDefault(); // Prevent the default link behavior
-        
+
         var leadId = $(this).data('id');
-        
+
         // Set the lead ID in localStorage after a delay
         setTimeout(function() {
             localStorage.setItem('leadId', leadId);
-            
             // Redirect to the specified URL after setting the item
             window.location.href = "<?php echo e(route('meeting.create',['meeting',0])); ?>";
         }, 1000); // Adjust the delay time as needed (1000 milliseconds = 1 second)
@@ -331,14 +319,40 @@ $('select[name = "lead_status"]').on('change', function() {
             "_token": "<?php echo e(csrf_token()); ?>"
         },
         success: function(data) {
-            if(val == 1){
+            if (val == 1) {
                 show_toastr('Primary', 'Lead Activated', 'success');
-            }else{
+            } else {
                 show_toastr('Success', 'Lead InActivated', 'danger');
 
             }
             console.log(val)
-        
+
+        }
+    });
+})
+$('select[name = "drop_status"]').on('change', function() {
+    var val = $(this).val();
+    var id = $(this).attr('data-id');
+    var url = "<?php echo e(route('lead.changeproposalstat')); ?>";
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: {
+            "status": val,
+            'id': id,
+            "_token": "<?php echo e(csrf_token()); ?>"
+        },
+        success: function(data) {
+            console.log(data)
+            if (data == 1) {
+                show_toastr('Primary', 'Lead Status Updated Successfully', 'success');
+                location.reload();
+            } else {
+                show_toastr('Success', 'Lead Status is not updated', 'danger');
+
+            }
+            // console.log(val)
+
         }
     });
 })

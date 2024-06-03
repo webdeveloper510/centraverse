@@ -100,11 +100,16 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                     <div class="row">
                         <div class="col-md-4 mt-4">
                             <div class="img-section">
-                                <img class="logo-img" src="{{ Storage::url('uploads/logo/3_logo-light.png') }}" alt="Logo">
+                                 <img class="logo-img" src="{{ Storage::url('uploads/logo/logo-light.png') }}" alt="Logo">
+
+                                <!--<img class="logo-img" src="{{ Storage::url('uploads/logo/3_logo-light.png') }}" alt="Logo">-->
                             </div>
+                            <span style="font-size: \small;
+    color: #aab0b6;
+   >Supported by The Sector Eight</span>
                         </div>
                         <div class="col-md-8 mt-5">
-                            <h4>The Bond 1786 - Proposal</h4>
+                            <h5>The Bond 1786 - Proposal</h5>
                             <h5>Venue Rental & Banquet Event - Estimate</h5>
                         </div>
                     </div>
@@ -247,12 +252,12 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                         </div>
                     </div>
 
-                    <div class="row mt-5 mb-3">
-                        <div class="col-md-12">
+                    <!--<div class="row mt-5 mb-3">-->
+                    <!--    <div class="col-md-12">-->
                        
-                            <p>This proposal will be valid for 7 days from the date above. We require 30% of the estimated total as a deposit to secure the date, space, and time for your event. The next payment of 30% is due 6 months before the event date, with the final 40% due 7 days before your event date.</p>
-                        </div>
-                    </div>
+                    <!--        <p>This proposal will be valid for 7 days from the date above. We require 30% of the estimated total as a deposit to secure the date, space, and time for your event. The next payment of 30% is due 6 months before the event date, with the final 40% due 7 days before your event date.</p>-->
+                    <!--    </div>-->
+                    <!--</div>-->
 
                     <div class="row mt-5 mb-3">
                         <div class="col-md-12 text-center">

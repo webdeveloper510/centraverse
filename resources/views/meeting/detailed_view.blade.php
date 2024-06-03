@@ -9,7 +9,7 @@ if(isset($event->bar_package) && !empty($event->bar_package)){
     $bar = json_decode($event->bar_package,true);
 }
 if(App\Models\PaymentLogs::where('event_id',$event->id)->exists()){
-    $payments = App\Models\PaymentLogs::where('event_id',$event->id)->get();
+    $payments = App\Models\PaymentLogs::where('event_id',$event->id)->orderBy('id','desc')->get();
     $payinfos = App\Models\PaymentInfo::where('event_id',$event->id)->get();
 }
 if(App\Models\Billing::where('event_id',$event->id)->exists()){
@@ -135,9 +135,10 @@ $files = Storage::files('app/public/Event/'.$event->id);
                                                 <th scope="col" class="sort" data-sort="completion">{{ __('Transaction Id') }}</th>
                                                 <th>{{__('Invoice')}}</th>
                                                 <th scope="col" class="sort" data-sort="completion">{{ __('Event Amount') }}</th>
-                                                <th scope="col" class="sort" data-sort="completion">{{ __('Total Amount Recieved') }}</th>
+                                                <!--<th scope="col" class="sort" data-sort="completion">{{ __('Total Amount Recieved') }}</th>-->
                                                 <th scope="col" class="sort" data-sort="completion">{{ __('Amount Paid') }}</th>
                                                 <th scope="col" class="sort" data-sort="completion">{{ __('Amount Due') }}</th>
+
 
                                             </tr>
                                         </thead>
@@ -151,11 +152,28 @@ $files = Storage::files('app/public/Event/'.$event->id);
                                                 <td>{{$payment->transaction_id}}</td>
                                                 <td><a href="{{ Storage::url('app/public/Invoice/'.$payment->event_id.'/'.$payment->invoices) }}"download style="    color: #1551c9 !important;">{{ucfirst($payment->invoices)}}</a></td>
                                                 <td>${{$event->total}}</td>
-                                                <td>${{$payment->amount + (isset($deposit->deposits)?$deposit->deposits :0)}}</td>
+                                                <!--<td>${{$payment->amount + (isset($deposit->deposits)?$deposit->deposits :0)}}</td>-->
                                                 <td>${{$payment->amount}}</td>
                                             <td>{{($event->total - ($payinfos[0]->deposits + $latefee - $adj + $collect_amount))<= 0 ? '--':'$'.$event->total - ($payinfos[0]->deposits + $latefee - $adj + $collect_amount) }}</td>
+                                        
                                             </tr>
+                                            
                                             @endforeach
+                                            <hr>
+                                            <tr> 
+                                            <td></td>
+                                            <td></td>
+                                            <td></td><td></td><td></td>
+                                            <td><b>Deposits on File:</b></td>
+                                            <td>{{isset($deposit->deposits)? '$'.$deposit->deposits : '--'}}</td>
+</tr>
+<tr> 
+                                            <td></td>
+                                            <td></td>
+                                            <td></td><td></td><td></td>
+                                            <td><b>Total Amount Recieved:</b></td>
+                                            <td>{{($payinfos[0]->deposits + $latefee - $adj + $collect_amount)<=0 ?'--': '$'.($payinfos[0]->deposits + $latefee - $adj + $collect_amount)}}</td>
+</tr>
                                         </tbody>
                                     </table>
                                 </div>

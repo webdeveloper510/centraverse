@@ -1948,6 +1948,33 @@ $(document).ready(function() {
                                         </div>
                                     
                                     </div>
+                                     <div id="agreement-settings" class="accordion-item  card">
+                                        <h2 class="accordion-header" id="heading-2-15">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                data-bs-target="#collapse25" aria-expanded="false"
+                                                aria-controls="collapse25">
+                                                <h5><?php echo e(__('Agreement Settings')); ?></h5>
+                                            </button>
+                                        </h2>
+                                        <div id="collapse25" class="accordion-collapse collapse"
+                                            aria-labelledby="heading-2-15" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body1">
+                                            <form method="POST" id=''>
+                                                <?php echo csrf_field(); ?>
+                                                <div class="card-body1">
+                                                    <div class="row mt-3">
+                                                        <div class="col-12 need_full">
+                                                            <strong>Content:</strong> <br>
+                                                           <textarea name="contentforagreement" rows="4"class="form-control"></textarea>
+                                                        </div>
+                                                      
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            </div>
+                                        </div>
+                                    
+                                    </div>
                                     <?php endif; ?>
                                 </div>
                             </div>

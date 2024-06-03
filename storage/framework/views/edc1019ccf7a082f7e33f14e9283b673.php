@@ -1,3 +1,7 @@
+<?php  
+$agreestatus= \App\Models\Meeting::$status;
+?>
+
 <?php $__env->startSection('page-title'); ?>
 <?php echo e(__('Events')); ?>
 
@@ -58,40 +62,34 @@
                                             <?php $__currentLoopData = $meetings; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $meeting): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <tr>
                                                 <td>
-                                                    <a href="<?php echo e(route('meeting.edit', $meeting->id)); ?>" data-size="md"
+                                                    
+                                                        
+                                                        <?php if($meeting->attendees_lead != 0): ?>
+                                                        <?php $leaddata = \App\Models\Lead::where('id',$meeting->attendees_lead)->first() ?>
+                                                        <a href="<?php echo e(route('lead.info',urlencode(encrypt($leaddata->id)))); ?>" data-size="md"
                                                         data-title="<?php echo e(__('Event Details')); ?>"
                                                         class="action-item text-primary"
                                                         style=" color: #1551c9 !important;">
-                                                        <?php if($meeting->attendees_lead != 0): ?>
-                                                        <?php echo e(ucfirst(\App\Models\Lead::where('id',$meeting->attendees_lead)->pluck('leadname')->first())); ?>
+                                                        <?php echo e(ucfirst($leaddata->leadname)); ?>
 
+                                                        </a>
                                                         <?php else: ?>
-                                                        <?php echo e(ucfirst($meeting->eventname)); ?>
-
+                                                           <a href="<?php echo e(route('meeting.detailview',urlencode(encrypt($meeting->id)))); ?>"
+                                                            data-size="md" title="<?php echo e(__('Detailed view ')); ?>"
+                                                            class="action-item text-primary"  style=" color: #1551c9 !important;">
+                                                            <?php echo e(ucfirst($meeting->eventname)); ?></a>
+                                                       
                                                         <?php endif; ?>
-                                                    </a>
                                                 </td>
                                                 <td>
-                                                    <?php if($meeting->status == 0): ?>
-                                                    <span
-                                                        class="badge bg-info p-2 px-3 rounded"><?php echo e(__(\App\Models\Meeting::$status[$meeting->status])); ?></span>
-                                                    <?php elseif($meeting->status == 1): ?>
-                                                    <span
-                                                        class="badge bg-warning p-2 px-3 rounded"><?php echo e(__(\App\Models\Meeting::$status[$meeting->status])); ?></span>
-                                                    <?php elseif($meeting->status == 2): ?>
-                                                    <span
-                                                        class="badge bg-success p-2 px-3 rounded"><?php echo e(__(\App\Models\Meeting::$status[$meeting->status])); ?></span>
-                                                    <?php elseif($meeting->status == 3): ?>
-                                                    <span
-                                                        class="badge bg-success p-2 px-3 rounded"><?php echo e(__(\App\Models\Meeting::$status[$meeting->status])); ?></span>
-                                                    <?php elseif($meeting->status == 4): ?>
-                                                    <span
-                                                        class="badge bg-warning p-2 px-3 rounded"><?php echo e(__(\App\Models\Meeting::$status[$meeting->status])); ?></span>
-                                                    <?php elseif($meeting->status == 5): ?>
-                                                    <span
-                                                        class="badge bg-danger p-2 px-3 rounded"><?php echo e(__(\App\Models\Meeting::$status[$meeting->status])); ?></span>
-
-                                                    <?php endif; ?>
+                                                    <select name="drop_status" id="drop_status" class="form-select"
+                                                        data-id="<?php echo e($meeting->id); ?>">
+                                                        <?php $__currentLoopData = $agreestatus; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $stat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <option value="<?php echo e($key); ?>"
+                                                            <?php echo e(isset($meeting->status) && $meeting->status == $key ? "selected" : ""); ?>>
+                                                            <?php echo e($stat); ?></option>
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                    </select>
                                                 </td>
                                                 <td>
                                                     <span
@@ -107,12 +105,7 @@
                                                 <?php if(Gate::check('Show Meeting') || Gate::check('Edit Meeting') ||
                                                 Gate::check('Delete Meeting')): ?>
                                                 <td class="text-end">
-                                                    <div class="action-btn bg-secondary ms-2">
-                                                        <a href="<?php echo e(route('meeting.detailview',urlencode(encrypt($meeting->id)))); ?>"
-                                                            data-size="md" title="<?php echo e(__('Detailed view ')); ?>"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class="fa fa-info"></i> </a>
-                                                    </div>
+                                               
                                                     <?php if($meeting->status == 0): ?>
                                                     <div class="action-btn bg-primary ms-2">
                                                         <a href="#" data-size="md"
@@ -209,38 +202,66 @@
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script-page'); ?>
 <script>
-$(document).on('change', 'select[name=parent]', function() {
-
-    var parent = $(this).val();
-
-    getparent(parent);
-});
-
-function getparent(bid) {
-
+    $('select[name = "drop_status"]').on('change', function() {
+    var val = $(this).val();
+    var id = $(this).attr('data-id');
+    var url = "<?php echo e(route('event.changeagreementstat')); ?>";
     $.ajax({
-        url: '<?php echo e(route("meeting.getparent")); ?>',
+        url: url,
         type: 'POST',
         data: {
-            "parent": bid,
-            "_token": "<?php echo e(csrf_token()); ?>",
+            "status": val,
+            'id': id,
+            "_token": "<?php echo e(csrf_token()); ?>"
         },
         success: function(data) {
-            console.log(data);
-            $('#parent_id').empty(); {
-                {
-                    --$('#parent_id').append('<option value=""><?php echo e(__('
-                        Select Parent ')); ?></option>');
-                    --
-                }
-            }
+            console.log(data)
+            if (data == 1) {
+                
+                show_toastr('Primary', 'Event Status Updated Successfully', 'success');
+                location.reload();
+            } else {
+                show_toastr('Success', 'Event Status is not updated', 'danger');
 
-            $.each(data, function(key, value) {
-                $('#parent_id').append('<option value="' + key + '">' + value + '</option>');
-            });
+            }
+            // console.log(val)
+
         }
     });
-}
+})
+// $(document).on('change', 'select[name=parent]', function() {
+
+//     var parent = $(this).val();
+
+//     getparent(parent);
+// });
+
+// function getparent(bid) {
+
+//     $.ajax({
+//         url: '<?php echo e(route("meeting.getparent")); ?>',
+//         type: 'POST',
+//         data: {
+//             "parent": bid,
+//             "_token": "<?php echo e(csrf_token()); ?>",
+//         },
+//         success: function(data) {
+//             console.log(data);
+//             $('#parent_id').empty(); {
+//                 {
+//                     --$('#parent_id').append('<option value=""><?php echo e(__('
+//                         Select Parent ')); ?></option>');
+//                     --
+//                 }
+//             }
+
+//             $.each(data, function(key, value) {
+//                 $('#parent_id').append('<option value="' + key + '">' + value + '</option>');
+//             });
+//         }
+//     });
+// }
+
 </script>
 <?php $__env->stopPush(); ?>
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/crmcentraverse/public_html/resources/views/meeting/index.blade.php ENDPATH**/ ?>

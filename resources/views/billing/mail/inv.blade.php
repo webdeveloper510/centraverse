@@ -130,9 +130,10 @@
 
 <body>
     <div class="image">
-        <img src="{{$logo.'3_logo-light.png'}}" alt="{{ config('app.name', 'The Bond 1786') }}"
+        <img src="{{$logo.'logo-light.png'}}" alt="{{ config('app.name', 'The Bond 1786') }}"
             class="logo logo-lg nav-sidebar-logo" height="auto" style="width:10%;" />
     </div>
+     <span style="font-size:x-small;color: #aab0b6;">Supported by The Sector Eight</span>
     <div class="container">
         <div class="brand-section">
             <div class="row">
