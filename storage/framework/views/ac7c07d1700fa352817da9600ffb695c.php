@@ -217,7 +217,9 @@ $agreestatus= \App\Models\Meeting::$status;
         success: function(data) {
             console.log(data)
             if (data == 1) {
+                
                 show_toastr('Primary', 'Event Status Updated Successfully', 'success');
+                location.reload();
             } else {
                 show_toastr('Success', 'Event Status is not updated', 'danger');
 

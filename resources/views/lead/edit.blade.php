@@ -323,12 +323,9 @@ $selectedPackages = json_decode($lead->bar_package,true);
                                             <div class="form-check" data-main-index="{{$k}}"
                                                 data-main-package="{{$bar}}">
 
-                                                @if($selectedPackages)
-                                                    @if(isset($selectedPackages[$value['bar']]))
-                                                        
-                                                        @if(isset($selectedPackages[$value['bar']]) && $selectedPackages[$value['bar']] == $bar)
-                <?php $checkedif = true; ?>
-            @endif
+                                                @if($selectedPackages)    
+                                                    @if(isset($selectedPackages[$value['bar']]) && $selectedPackages[$value['bar']] == $bar)
+                                                        <?php $checkedif = true; ?>
                                                     @endif
                                                 @endif
                                                 {!! Form::radio('bar'.'_'.str_replace(' ', '',
@@ -396,36 +393,36 @@ $selectedPackages = json_decode($lead->bar_package,true);
 @push('script-page')
 <script>
      $(document).ready(function() {  
-    $("input[type='text'][name='lead_name'],input[type='text'][name='name'], input[type='text'][name='email'], select[name='type'],input[type='tel'][name='phone'],input[type='date'][name='start_date']").focusout(function() {  
-          
-        var input = $(this);
-        var errorMessage = '';
-        if (input.attr('name') === 'email' && input.val() !== '') {
-            var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailPattern.test(input.val())) {
-                errorMessage = 'Invalid email address.';
+        $("input[type='text'][name='lead_name'],input[type='text'][name='name'], input[type='text'][name='email'], select[name='type'],input[type='tel'][name='phone'],input[type='date'][name='start_date']").focusout(function() {  
+            
+            var input = $(this);
+            var errorMessage = '';
+            if (input.attr('name') === 'email' && input.val() !== '') {
+                var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailPattern.test(input.val())) {
+                    errorMessage = 'Invalid email address.';
+                }
+            } else if (input.val() == '') {
+                errorMessage = 'This field is required.';
             }
-        } else if (input.val() == '') {
-            errorMessage = 'This field is required.';
-        }
-        
-        if(errorMessage  != '') {  
-            input.css('border', 'solid 2px red');
-        } 
-        else { 
-            // If it is not blank. 
-            input.css('border', 'solid 2px black');
-        }
-        
-        // Remove any existing error message
-        input.next('.validation-error').remove();
-        
-        // Append the error message if it exists
-        if(errorMessage != '') {
-            input.after('<div class="validation-error text-danger" style="padding:2px;">' + errorMessage + '</div>');
-        }
-    }); 
-});
+            
+            if(errorMessage  != '') {  
+                input.css('border', 'solid 2px red');
+            } 
+            else { 
+                // If it is not blank. 
+                input.css('border', 'solid 2px black');
+            }
+            
+            // Remove any existing error message
+            input.next('.validation-error').remove();
+            
+            // Append the error message if it exists
+            if(errorMessage != '') {
+                input.after('<div class="validation-error text-danger" style="padding:2px;">' + errorMessage + '</div>');
+            }
+        }); 
+    });
 </script>
 <script>
 jQuery(function() {

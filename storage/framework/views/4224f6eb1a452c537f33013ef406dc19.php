@@ -74,7 +74,7 @@ $venueRentalCost += $billings['venue'][$subcategory] ?? 0;
 $leaddata['hotel_rooms_cost'] = $billings['hotel_rooms'] ?? 0;
 $leaddata['venue_rental_cost'] = $venueRentalCost;
 $leaddata['food_package_cost'] = $totalFoodPackageCost;
-
+$selectedPackages = json_decode($lead->bar_package,true);
 // echo "<pre>";print_r($lead);die;  
 
 ?>
@@ -427,10 +427,16 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                             <?php echo e(Form::label('bar', __($value['bar']), ['class' => 'form-label'])); ?>
 
                                             <?php $__currentLoopData = $value['barpackage']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $k => $bar): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php $checkedif = false; ?>
                                             <div class="form-check" data-main-index="<?php echo e($k); ?>"
                                                 data-main-package="<?php echo e($bar); ?>">
+                                                <?php if($selectedPackages): ?>    
+                                                    <?php if(isset($selectedPackages[$value['bar']]) && $selectedPackages[$value['bar']] == $bar): ?>
+                                                        <?php $checkedif = true; ?>
+                                                    <?php endif; ?>
+                                                <?php endif; ?>
                                                 <?php echo Form::radio('bar'.'_'.str_replace(' ', '',
-                                                strtolower($value['bar'])), $bar, false, ['id' => 'bar_' . $key.$k,
+                                                strtolower($value['bar'])), $bar, $checkedif, ['id' => 'bar_' . $key.$k,
                                                 'data-function' => $value['bar'], 'class' => 'form-check-input']); ?>
 
                                                 <?php echo e(Form::label($bar, $bar, ['class' => 'form-check-label'])); ?>
@@ -718,6 +724,10 @@ jQuery(function() {
     });
 });
 jQuery(function() {
+    var selectedValue = $("input[name='baropt']:checked").val();
+        if (selectedValue == 'Package Choice') {
+            $('div#barpacakgeoptions').show();
+        }
     $('input[type=radio][name = baropt]').change(function() {
         $('div#barpacakgeoptions').hide();
         var value = $(this).val();

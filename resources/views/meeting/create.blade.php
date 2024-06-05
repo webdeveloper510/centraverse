@@ -653,14 +653,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
 </div>
 @endsection
 @push('script-page')
-<!-- <script>
-imgInp.onchange = evt => {
-    const [file] = imgInp.files
-    if (file) {
-        blah.src = URL.createObjectURL(file)
-    }
-}
-</script> -->
+
 <script>
 document.getElementById('imgInp').onchange = function(evt) {
     const [file] = this.files;
@@ -815,7 +808,7 @@ $(document).ready(function() {
                 var jsonObject = JSON.parse(data.func_package);
                 var jsonadObject = JSON.parse(data.ad_opts);
 
-                console.log(jsonObject);
+                console.log(jsonadObject);
                 // func_pack = json_decode(data.func_package);
                 venue_str = data.venue_selection;
                 venue_arr = venue_str.split(",");
@@ -853,6 +846,7 @@ $(document).ready(function() {
                     function() {
                         return $(this).val();
                     }).get();
+                    console.log('checkedFunctions',checkedFunctions);
 
                 var mailFunctionSection = document.getElementById('mailFunctionSection');
                 var divs = mailFunctionSection.querySelectorAll('.form-group');
@@ -862,88 +856,157 @@ $(document).ready(function() {
                     if (checkedFunctions.includes(mainValue)) {
                         for (var key in jsonObject) {
                             if (jsonObject.hasOwnProperty(key)) {
-                                // Access the original key and value
-                                var originalKey = key;
-                                var value = jsonObject[key][0]; // Assuming the value is always an array and we need the first element
-                                // Convert the first letter of the key to uppercase
-                                var transformedKey = originalKey.charAt(0).toUpperCase() +
-                                    originalKey.slice(1);
+                    var originalKey = key;
+                    var values = jsonObject[key]; // Get all values for the key
+                    values.forEach(function(value) { // Loop through each value
+                        console.log('value', value);
+                    
+                        var transformedKey = originalKey.charAt(0).toUpperCase() + originalKey.slice(1);
+                        var dynamicName = 'package_' + transformedKey.toLowerCase().replace(/\s+/g, '') + '[]';
+                        var selector = `input[name='${dynamicName}'][value='${value}'] `;
+                        console.log('selector', selector);
 
-                                var dynamicName = 'package_' + transformedKey.toLowerCase()
-                                    .replace(/\s+/g, '') + '[]';
-                                var selector =
-                                    `input[name='${dynamicName}'][value='${value}'] `;
-                                if (transformedKey == mainValue) {
-                                    $(selector).prop('checked', true);
-                                    setTimeout(() => {
-                                        var checkedPackages = $(`input[name='${dynamicName}']:checked`).map(
-                                            function() {
-                                                return $(this).val();
-
-                                            }).get();
-                                        var additionalSection = document
-                                            .getElementById('additionalSection');
-                                        var divads = additionalSection
-                                            .querySelectorAll('.form-group');
-                                        divads.forEach(function(div) {
-                                            console.log(additionalSection);
-                                            var mainValue = div
-                                                .getAttribute(
-                                                    'data-additional-index'
-                                                );
-                                            if (checkedPackages.includes(
-                                                    mainValue)) {
-                                                console.log(mainValue);
-                                                console.log('jsonadObject',
-                                                    jsonadObject)
-                                                for (var key in
-                                                        jsonadObject) {
-                                                    if (jsonadObject
-                                                        .hasOwnProperty(key)
-                                                    ) {
+                        if (transformedKey == mainValue) {
+                            console.log('transformedKey', transformedKey);
+                            $(selector).prop('checked', true);
+                            setTimeout(() => {
+                                var checkedPackages = $(`input[name='${dynamicName}']:checked`).map(function() {
+                                    return $(this).val();
+                                }).get();
+                                console.log('checkedPackages',checkedPackages)
+                                var additionalSection = document.getElementById('additionalSection');
+                                var divads = additionalSection.querySelectorAll('.form-group');
+                                divads.forEach(function(div) {
+                                    var mainValue = div.getAttribute('data-additional-index');
+                                    if (checkedPackages.includes(mainValue)) {
+                                            console.log(mainValue);
+                                            console.log('jsonadObject', jsonadObject)
+                                            for (var key in jsonadObject) {
+                                                if (jsonadObject.hasOwnProperty(key)) {
                                                         // Access the original key and value
-                                                        var originalKey =
-                                                            key;
-                                                        var value =
-                                                            jsonadObject[
-                                                                key][
-                                                                0
-                                                            ]; // Assuming the value is always an array and we need the first element
-                                                        var transformedKey =
-                                                            originalKey
-                                                            .charAt(0)
-                                                            .toUpperCase() +
-                                                            originalKey
-                                                            .slice(1);
+                                                        var originalKey =key;
+                                                        var valuesArray = jsonadObject[key];
 
-                                                        var dynamicadName =
-                                                            'additional_' +
-                                                            transformedKey
-                                                            .toLowerCase()
-                                                            .replace(/\s+/g,
-                                                                '_') + '[]';
-                                                        // var dynamicName = 'package_' + transformedKey.toLowerCase()
-                                                        //     .replace(/\s+/g, '') + '[]';
-                                                        var adselector =
-                                                            `input[name='${dynamicadName}'][value = '${value}'] `;
-                                                        console.log('adselector',adselector);
-
-                                                        // if (transformedKey == mainValue ) {
-
-                                                        $(adselector).prop(
-                                                            'checked',
-                                                            true);
+// Iterate through each value for the key
+                                                    valuesArray.forEach(function(value) {
+                                                        var transformedKey = originalKey.charAt(0).toUpperCase() + originalKey.slice(1);
+                                                        var dynamicadName = 'additional_' + transformedKey.toLowerCase().replace(/\s+/g, '_') + '[]';
+                                                        var adselector = `input[name='${dynamicadName}'][value='${value}']`;
+                                                        console.log('adselector', adselector);
+                                                        $(adselector).prop('checked', true);
+                                                    });
+                                                        // var value =jsonadObject[key][0]; // Assuming the value is always an array and we need the first element
+                                                        // var transformedKey =originalKeycharAt(0).toUpperCase() +originalKey.slice(1);
+                                                        // var dynamicadName ='additional_' +transformedKey.toLowerCase().replace(/\s+/g,'_') + '[]';
+                                                        // // var dynamicName = 'package_' + transformedKey.toLowerCase()
+                                                        // //     .replace(/\s+/g, '') + '[]';
+                                                        // var adselector = `input[name='${dynamicadName}'][value = '${value}'] `;
+                                                        // console.log('adselector',adselector);
+                                                        // $(adselector).prop('checked',true);
                                                         // }
-                                                    }
                                                 }
-                                                div.style.display = 'block';
-                                            } else {
-                                                div.style.display = 'none';
+                                            
                                             }
-                                        });
-                                    }, 600);
-                                }
-                            }
+                                            div.style.display ='block';
+                                        } else {
+                                            div.style.display ='none';
+                                        }
+                                
+
+                                });
+                            }, 600);
+                        }
+                    });
+                }
+
+                            // if (jsonObject.hasOwnProperty(key)) {
+                               
+                            //     // Access the original key and value
+                            //     var originalKey = key;
+                            //     var value = jsonObject[key][0]; // Assuming the value is always an array and we need the first element
+                            //     console.log('value',value);
+                            //     // Convert the first letter of the key to uppercase
+                            //     var transformedKey = originalKey.charAt(0).toUpperCase() +
+                            //         originalKey.slice(1);
+
+                            //     var dynamicName = 'package_' + transformedKey.toLowerCase()
+                            //         .replace(/\s+/g, '') + '[]';
+                            //     var selector =
+                            //         `input[name='${dynamicName}'][value='${value}'] `;
+                            //         console.log('selector',selector);
+
+                            //     if (transformedKey == mainValue) {
+                            //         console.log('transformedKey',transformedKey);
+                            //         $(selector).prop('checked', true);
+                            //         setTimeout(() => {
+                            //             var checkedPackages = $(`input[name='${dynamicName}']:checked`).map(
+                            //                 function() {
+                            //                     return $(this).val();
+
+                            //                 }).get();
+                            //             var additionalSection = document
+                            //                 .getElementById('additionalSection');
+                            //             var divads = additionalSection
+                            //                 .querySelectorAll('.form-group');
+                            //             divads.forEach(function(div) {
+                            //                 console.log(additionalSection);
+                            //                 var mainValue = div
+                            //                     .getAttribute(
+                            //                         'data-additional-index'
+                            //                     );
+                            //                 if (checkedPackages.includes(
+                            //                         mainValue)) {
+                            //                     console.log(mainValue);
+                            //                     console.log('jsonadObject',
+                            //                         jsonadObject)
+                            //                     for (var key in
+                            //                             jsonadObject) {
+                            //                         if (jsonadObject
+                            //                             .hasOwnProperty(key)
+                            //                         ) {
+                            //                             // Access the original key and value
+                            //                             var originalKey =
+                            //                                 key;
+                            //                             var value =
+                            //                                 jsonadObject[
+                            //                                     key][
+                            //                                     0
+                            //                                 ]; // Assuming the value is always an array and we need the first element
+                            //                             var transformedKey =
+                            //                                 originalKey
+                            //                                 .charAt(0)
+                            //                                 .toUpperCase() +
+                            //                                 originalKey
+                            //                                 .slice(1);
+
+                            //                             var dynamicadName =
+                            //                                 'additional_' +
+                            //                                 transformedKey
+                            //                                 .toLowerCase()
+                            //                                 .replace(/\s+/g,
+                            //                                     '_') + '[]';
+                            //                             // var dynamicName = 'package_' + transformedKey.toLowerCase()
+                            //                             //     .replace(/\s+/g, '') + '[]';
+                            //                             var adselector =
+                            //                                 `input[name='${dynamicadName}'][value = '${value}'] `;
+                            //                             console.log('adselector',adselector);
+
+                            //                             // if (transformedKey == mainValue ) {
+
+                            //                             $(adselector).prop(
+                            //                                 'checked',
+                            //                                 true);
+                            //                             // }
+                            //                         }
+                            //                     }
+                            //                     div.style.display = 'block';
+                            //                 } else {
+                            //                     div.style.display = 'none';
+                            //                 }
+                            //             });
+                            //         }, 600);
+                            //     }
+                            // }
                         }
                         div.style.display = 'block';
                     } else {
@@ -1133,12 +1196,14 @@ $(document).ready(function() {
                     function() {
                         return $(this).val();
                     }).get();
+
                 var mailFunctionSection = document.getElementById('mailFunctionSection');
                 var divs = mailFunctionSection.querySelectorAll('.form-group');
                 divs.forEach(function(div) {
                     var mainValue = div.getAttribute('data-main-value');
                     if (checkedFunctions.includes(mainValue)) {
                         for (var key in jsonObject) {
+
                             if (jsonObject.hasOwnProperty(key)) {
                                 // Access the original key and value
                                 var originalKey = key;
@@ -1156,57 +1221,29 @@ $(document).ready(function() {
                                 var selector =
                                     `input[name='${dynamicName}'][value='${value}'] `;
                                 if (transformedKey == mainValue) {
+                                    console.log('transformedKey',checkedPackages);
                                     $(selector).prop('checked', true);
                                     setTimeout(() => {
 
-                                        var checkedPackages = $(
-                                            `input[name='${dynamicName}']:checked`
-                                        ).map(
+                                        var checkedPackages = $(`input[name='${dynamicName}']:checked`).map(
                                             function() {
                                                 return $(this).val();
                                             }).get();
-                                        var additionalSection = document
-                                            .getElementById(
-                                                'additionalSection');
-                                        var divads = additionalSection
-                                            .querySelectorAll(
-                                                '.form-group');
+                                           
+                                        var additionalSection = document.getElementById('additionalSection');
+                                        var divads = additionalSection.querySelectorAll('.form-group');
                                         divads.forEach(function(div) {
-                                            console.log(
-                                                additionalSection
-                                            );
-                                            var mainValue = div
-                                                .getAttribute(
-                                                    'data-additional-index'
-                                                );
-                                            if (checkedPackages
-                                                .includes(mainValue)
-                                            ) {
-                                                console.log(
-                                                    mainValue);
-                                                console.log(
-                                                    'jsonadObject',
-                                                    jsonadObject
-                                                )
-                                                for (var key in
-                                                        jsonadObject) {
-                                                    if (jsonadObject
-                                                        .hasOwnProperty(
-                                                            key)) {
+                                            console.log(additionalSection);
+                                            var mainValue = div.getAttribute('data-additional-index');
+                                            if (checkedPackages.includes(mainValue)) {
+                                                console.log(mainValue);
+                                                console.log('jsonadObject', jsonadObject)
+                                                for (var key in jsonadObject) {
+                                                    if (jsonadObject.hasOwnProperty(key)) {
                                                         // Access the original key and value
-                                                        var originalKey =
-                                                            key;
-                                                        var value =
-                                                            jsonadObject[
-                                                                key]
-                                                            [
-                                                                0
-                                                            ]; // Assuming the value is always an array and we need the first element
-                                                        var transformedKey =
-                                                            originalKey
-                                                            .charAt(
-                                                                0)
-                                                            .toUpperCase() +
+                                                        var originalKey =key;
+                                                        var value =jsonadObject[ key][0]; // Assuming the value is always an array and we need the first element
+                                                        var transformedKey =originalKey.charAt(0).toUpperCase() +
                                                             originalKey
                                                             .slice(
                                                                 1);
