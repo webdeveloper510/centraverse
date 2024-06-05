@@ -797,7 +797,6 @@ $(document).ready(function() {
 $(document).ready(function() {
     // Retrieve leadId from localStorage
     var leadId = localStorage.getItem('leadId');
-
     // Check if leadId exists in localStorage
     if (leadId) {
         $('select[name="lead"]').val(leadId);
@@ -859,14 +858,13 @@ $(document).ready(function() {
                 var divs = mailFunctionSection.querySelectorAll('.form-group');
                 divs.forEach(function(div) {
                     var mainValue = div.getAttribute('data-main-value');
+                    console.log('mainval',mainValue);
                     if (checkedFunctions.includes(mainValue)) {
                         for (var key in jsonObject) {
                             if (jsonObject.hasOwnProperty(key)) {
                                 // Access the original key and value
                                 var originalKey = key;
-                                var value = jsonObject[key][
-                                    0
-                                ]; // Assuming the value is always an array and we need the first element
+                                var value = jsonObject[key][0]; // Assuming the value is always an array and we need the first element
                                 // Convert the first letter of the key to uppercase
                                 var transformedKey = originalKey.charAt(0).toUpperCase() +
                                     originalKey.slice(1);
@@ -878,12 +876,10 @@ $(document).ready(function() {
                                 if (transformedKey == mainValue) {
                                     $(selector).prop('checked', true);
                                     setTimeout(() => {
-
-                                        var checkedPackages = $(
-                                            `input[name='${dynamicName}']:checked`
-                                        ).map(
+                                        var checkedPackages = $(`input[name='${dynamicName}']:checked`).map(
                                             function() {
                                                 return $(this).val();
+
                                             }).get();
                                         var additionalSection = document
                                             .getElementById('additionalSection');
@@ -930,8 +926,7 @@ $(document).ready(function() {
                                                         //     .replace(/\s+/g, '') + '[]';
                                                         var adselector =
                                                             `input[name='${dynamicadName}'][value = '${value}'] `;
-                                                        console.log(
-                                                            adselector);
+                                                        console.log('adselector',adselector);
 
                                                         // if (transformedKey == mainValue ) {
 
@@ -947,13 +942,7 @@ $(document).ready(function() {
                                             }
                                         });
                                     }, 600);
-
-
                                 }
-
-
-
-
                             }
                         }
                         div.style.display = 'block';
@@ -961,10 +950,8 @@ $(document).ready(function() {
                         div.style.display = 'none';
                     }
                 });
-
             }
         });
-        // Clear the leadId from localStorage (optional)
         localStorage.removeItem('leadId');
     }
 });

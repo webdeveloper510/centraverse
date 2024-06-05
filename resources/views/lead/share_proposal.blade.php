@@ -3,6 +3,7 @@ $settings = App\Models\Utility::settings();
 $billings = json_decode($settings['fixed_billing'],true);
 $foodpcks = json_decode($lead->func_package,true);
 $barpcks = json_decode($lead->bar_package,true);
+$selectedbar = $lead->bar;
 // $barpcks = json_decode($lead->bar,true);
 $labels =
 [
@@ -54,7 +55,7 @@ $leaddata = [
     'venue_rental' => $lead->venue_selection,
     'hotel_rooms'=>$lead->rooms,
     'food_package' => (isset($foodpckge) && !empty($foodpckge)) ? $foodpckge: '',
-    'bar_package' => (isset($barpckge) && !empty($barpckge)) ? $barpckge : '',
+    'bar_package' => (isset($selectedbar) ? $selectedbar : '') . ((isset($barpckge) && !empty($barpckge)) ? '-'.$barpckge : '')
 
 ];
 $venueRentalCost = 0;
