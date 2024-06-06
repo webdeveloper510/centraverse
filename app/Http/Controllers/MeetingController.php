@@ -948,14 +948,7 @@ class MeetingController extends Controller
 
         $fixed_cost = Billing::where('event_id',$id)->first();
         $agreement = Agreement::where('event_id', $id)->first();
-        $data = [
-            'agreement' => $agreement,
-            'meeting' => $meeting,
-            'billing' => $fixed_cost,
-            'settings' => $settings,
-            'billing_data' => unserialize($fixed_cost->data),
-        ];
-        $pdf = Pdf::loadView('meeting.agreement.view', $data);
+       
         // $existagreement = Agreement::where('event_id', $id)->exists();
         // if ($existagreement == TRUE) {
         //     Agreement::where('event_id', $id)->update([
@@ -984,6 +977,14 @@ class MeetingController extends Controller
                 'message' => 'Failed to save PDF: ' . $e->getMessage(),
             ]);
         }
+        $data = [
+            'agreement' => $agreements,
+            'meeting' => $meeting,
+            'billing' => $fixed_cost,
+            'settings' => $settings,
+            'billing_data' => unserialize($fixed_cost->data),
+        ];
+        $pdf = Pdf::loadView('meeting.agreement.view', $data);
         try {
             config(
                 [
