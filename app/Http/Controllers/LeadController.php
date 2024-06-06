@@ -671,12 +671,14 @@ class LeadController extends Controller
             if(!empty($request->signed)){
                 $image = $this->uploadSignature($request->signed);
             }else {
-                return redirect()->back()->with('error',('Please Sign it for confirmation'));
+                // echo"<pre>";print_r($request->all());die;
+
+                return redirect()->back()->with('error','Please Sign it for confirmation');
             }
             $existproposal = Proposal::where('lead_id', $id)->exists();
             // if ($existproposal == TRUE) {
             //     Proposal::where('lead_id',$id)->update(['image' => $image]);
-            //     return redirect()->back()->with('error','Proposal is already confirmed');
+                // return redirect()->back()->with('error','Proposal is already confirmed');
             // }
             $proposals = new Proposal();
            

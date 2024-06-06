@@ -114,8 +114,9 @@ $logo=\App\Models\Utility::get_file('uploads/logo/');
         <p>Thank you for your time and collaboration.</p>
         <p><strong>With regards,</strong></p>
         <div class="logo">
-        <img src="{{$logo.'3_logo-light.png'}}" alt="{{ config('app.name', 'The Bond 1786') }}"
+        <img src="{{$logo.'logo-light.png'}}" alt="{{ config('app.name', 'The Bond 1786') }}"
                         class="logo logo-lg nav-sidebar-logo" height="50" />
+                        <span style="font-size:x-small;  color: #aab0b6;">Supported by The Sector Eight</span>
         </div>
     </div>
 

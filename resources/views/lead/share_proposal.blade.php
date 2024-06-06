@@ -3,6 +3,7 @@ $settings = App\Models\Utility::settings();
 $billings = json_decode($settings['fixed_billing'],true);
 $foodpcks = json_decode($lead->func_package,true);
 $barpcks = json_decode($lead->bar_package,true);
+$selectedbar = $lead->bar;
 // $barpcks = json_decode($lead->bar,true);
 $labels =
 [
@@ -54,7 +55,7 @@ $leaddata = [
     'venue_rental' => $lead->venue_selection,
     'hotel_rooms'=>$lead->rooms,
     'food_package' => (isset($foodpckge) && !empty($foodpckge)) ? $foodpckge: '',
-    'bar_package' => (isset($barpckge) && !empty($barpckge)) ? $barpckge : '',
+    'bar_package' => (isset($selectedbar) ? $selectedbar : '') . ((isset($barpckge) && !empty($barpckge)) ? '-'.$barpckge : '')
 
 ];
 $venueRentalCost = 0;
@@ -167,31 +168,56 @@ function getDataUrlAndCopy(button) {
         var billingData = {};
         var hasError = false;
         var errorMessages = [];
+        // $('input[name^="billing"]').each(function() {
+        //     var name = $(this).attr('name'); // billing[key][field]
+        //     var value = $(this).val();
+
+        //     // Extract the key and field from the name attribute
+        //     var matches = name.match(/^billing\[(.+?)\]\[(.+?)\]$/);
+        //     if (matches) {
+        //         var key = matches[1];
+        //         var field = matches[2];
+
+        //         if (!billingData[key]) {
+        //             billingData[key] = {};
+        //         }
+        //         billingData[key][field] = value;
+
+        //         // Check if the field is empty
+        //         if (!value) {
+        //             hasError = true;
+        //             errorMessages.push(`The ${key} ${field} field is required.`);
+        //             $(this).addClass('error'); // Add error class to highlight the field
+        //         } else {
+        //             $(this).removeClass('error'); // Remove error class if the field is not empty
+        //         }
+        //     }
+        // });
         $('input[name^="billing"]').each(function() {
-            var name = $(this).attr('name'); // billing[key][field]
-            var value = $(this).val();
+    var name = $(this).attr('name'); // billing[key][field]
+    var value = $(this).val();
 
-            // Extract the key and field from the name attribute
-            var matches = name.match(/^billing\[(.+?)\]\[(.+?)\]$/);
-            if (matches) {
-                var key = matches[1];
-                var field = matches[2];
+    // Extract the key and field from the name attribute
+    var matches = name.match(/^billing\[(.+?)\]\[(.+?)\]$/);
+    if (matches) {
+        var key = matches[1];
+        var field = matches[2];
 
-                if (!billingData[key]) {
-                    billingData[key] = {};
-                }
-                billingData[key][field] = value;
+        if (!billingData[key]) {
+            billingData[key] = {};
+        }
+        billingData[key][field] = value;
 
-                // Check if the field is empty
-                if (!value) {
-                    hasError = true;
-                    errorMessages.push(`The ${key} ${field} field is required.`);
-                    $(this).addClass('error'); // Add error class to highlight the field
-                } else {
-                    $(this).removeClass('error'); // Remove error class if the field is not empty
-                }
-            }
-        });
+        // Check if the field is empty and not the notes field
+        if (field !== 'notes' && !value) {
+            hasError = true;
+            errorMessages.push(`The ${key} ${field} field is required.`);
+            $(this).addClass('error'); // Add error class to highlight the field
+        } else {
+            $(this).removeClass('error'); // Remove error class if the field is not empty
+        }
+    }
+});
 
         if (hasError) {
             $('#validationErrors').html(errorMessages.join('<br>')).show();

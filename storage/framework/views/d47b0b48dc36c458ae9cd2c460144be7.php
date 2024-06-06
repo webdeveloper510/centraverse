@@ -130,9 +130,10 @@
 
 <body>
     <div class="image">
-        <img src="<?php echo e($logo.'3_logo-light.png'); ?>" alt="<?php echo e(config('app.name', 'The Bond 1786')); ?>"
+        <img src="<?php echo e($logo.'logo-light.png'); ?>" alt="<?php echo e(config('app.name', 'The Bond 1786')); ?>"
             class="logo logo-lg nav-sidebar-logo" height="auto" style="width:10%;" />
     </div>
+     <span style="font-size:x-small;color: #aab0b6;">Supported by The Sector Eight</span>
     <div class="container">
         <div class="brand-section">
             <div class="row">
@@ -243,4 +244,4 @@
 
 </body>
 
-</html><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/billing/mail/inv.blade.php ENDPATH**/ ?>
+</html><?php /**PATH C:\xampp\htdocs\abc\centraverse\resources\views/billing/mail/inv.blade.php ENDPATH**/ ?>

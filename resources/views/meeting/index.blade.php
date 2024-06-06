@@ -63,12 +63,14 @@ $agreestatus= \App\Models\Meeting::$status;
                                                         
                                                         @if($meeting->attendees_lead != 0)
                                                         <?php $leaddata = \App\Models\Lead::where('id',$meeting->attendees_lead)->first() ?>
+                                                        @if(isset($leaddata) && !empty($leaddata))
                                                         <a href="{{ route('lead.info',urlencode(encrypt($leaddata->id)))}}" data-size="md"
                                                         data-title="{{ __('Event Details') }}"
                                                         class="action-item text-primary"
                                                         style=" color: #1551c9 !important;">
                                                         {{ucfirst($leaddata->leadname)}}
                                                         </a>
+                                                        @endif
                                                         @else
                                                            <a href="{{route('meeting.detailview',urlencode(encrypt($meeting->id)))}}"
                                                             data-size="md" title="{{ __('Detailed view ') }}"
@@ -211,7 +213,9 @@ $agreestatus= \App\Models\Meeting::$status;
         success: function(data) {
             console.log(data)
             if (data == 1) {
+                
                 show_toastr('Primary', 'Event Status Updated Successfully', 'success');
+                location.reload();
             } else {
                 show_toastr('Success', 'Event Status is not updated', 'danger');
 

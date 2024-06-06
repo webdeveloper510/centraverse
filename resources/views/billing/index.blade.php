@@ -74,14 +74,25 @@
                                             @endif
                                             <tr>
                                                 <td>
-                                                    <a href="" data-size="md" data-title="{{ __('Invoice Details') }}"
-                                                        class="action-item text-primary">
-                                                        <a href="{{route('meeting.detailview',urlencode(encrypt($event->id)))}}"
-                                                            data-size="md" title="{{ __('Detailed view ') }}"
-                                                            style="color: #1551c9 !important;">
-                                                            {{ ucfirst($event->name)}}</a>
+                                                @if(isset($event) && $event->attendees_lead != 0)
+                                                        <?php $leaddata = \App\Models\Lead::where('id',$event->attendees_lead)->first();  ?>
+                                                        @if(isset($leaddata) && !empty($leaddata))
+                                                        <a href="{{ route('lead.info',urlencode(encrypt($leaddata->id)))}}" data-size="md"
+                                                        data-title="{{ __('Event Details') }}"
+                                                        class="action-item text-primary"
+                                                        style=" color: #1551c9 !important;">
+                                                        {{ucfirst($leaddata->leadname)}}
+                                                        </a>
+                                                        @endif
+                                                        @else
 
-                                                    </a>
+                                                           <a href="{{route('meeting.detailview',urlencode(encrypt($event->id)))}}"
+                                                            data-size="md" title="{{ __('Detailed view ') }}"
+                                                            class="action-item text-primary"  style=" color: #1551c9 !important;">
+                                                            {{ucfirst($event->eventname)}}</a>
+                                                       
+                                                        @endif
+                                                   
                                                 </td>
                                                 <td>
                                                     <span class="budget">{{ ucfirst($event->type)}}</span>
@@ -145,7 +156,9 @@
                                                         </a>
                                                     </div>
                                                     @endcan
+                                                   
                                                     @else
+                                                    
                                                     @can('Manage Payment')
                                                     <?php 
                                                                 $paymentLog = App\Models\PaymentLogs::where('event_id', $event->id)->exists();
@@ -160,9 +173,7 @@
                                                                $deposit = App\Models\Billing::where('event_id',$event->id)->first();
                                                                 
                                                             ?>
-                                                    @if(($amountpaid + $deposit->deposits + $adjustments - $latefee) <
-                                                        $event->total )
-
+                                                    @if(($amountpaid + $deposit->deposits + $adjustments - $latefee) < $event->total )
                                                         <div class="action-btn bg-primary ms-2">
                                                             <a href="#" data-size="md"
                                                                 data-url="{{ route('billing.paylink',$event->id) }}"
@@ -176,6 +187,21 @@
                                                         </div>
 
                                                         @endif
+                                                        @if(($amountpaid + $deposit->deposits + $adjustments - $latefee) != $event->total )
+                                                        @can('Edit Payment')
+
+                                                    <div class="action-btn bg-info ms-2">
+                                                        <a href="#" data-size="md"
+                                                            data-url="{{ route('billing.update',urlencode(encrypt($event->id))) }}"
+                                                            data-bs-toggle="tooltip" title="{{__('Edit')}}"
+                                                            data-ajax-popup="true"
+                                                            data-title="{{__('Edit Invoice ')}}"
+                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                            <i class="ti ti-edit"></i>
+                                                        </a>
+                                                    </div>
+                                                    @endcan
+                                                    @endif
                                                         <div class="action-btn bg-info ms-2">
                                                             <a href="#" data-size="md"
                                                                 data-url="{{ route('billing.paymentinfo',urlencode(encrypt($event->id))) }}"

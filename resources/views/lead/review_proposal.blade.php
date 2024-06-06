@@ -73,7 +73,7 @@ $venueRentalCost += $billings['venue'][$subcategory] ?? 0;
 $leaddata['hotel_rooms_cost'] = $billings['hotel_rooms'] ?? 0;
 $leaddata['venue_rental_cost'] = $venueRentalCost;
 $leaddata['food_package_cost'] = $totalFoodPackageCost;
-
+$selectedPackages = json_decode($lead->bar_package,true);
 // echo "<pre>";print_r($lead);die;  
 
 ?>
@@ -384,10 +384,16 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                             data-main-value="{{$value['bar']}}">
                                             {{ Form::label('bar', __($value['bar']), ['class' => 'form-label']) }}
                                             @foreach($value['barpackage'] as $k => $bar)
+                                            <?php $checkedif = false; ?>
                                             <div class="form-check" data-main-index="{{$k}}"
                                                 data-main-package="{{$bar}}">
+                                                @if($selectedPackages)    
+                                                    @if(isset($selectedPackages[$value['bar']]) && $selectedPackages[$value['bar']] == $bar)
+                                                        <?php $checkedif = true; ?>
+                                                    @endif
+                                                @endif
                                                 {!! Form::radio('bar'.'_'.str_replace(' ', '',
-                                                strtolower($value['bar'])), $bar, false, ['id' => 'bar_' . $key.$k,
+                                                strtolower($value['bar'])), $bar, $checkedif, ['id' => 'bar_' . $key.$k,
                                                 'data-function' => $value['bar'], 'class' => 'form-check-input']) !!}
                                                 {{ Form::label($bar, $bar, ['class' => 'form-check-label']) }}
                                             </div>
@@ -665,6 +671,10 @@ jQuery(function() {
     });
 });
 jQuery(function() {
+    var selectedValue = $("input[name='baropt']:checked").val();
+        if (selectedValue == 'Package Choice') {
+            $('div#barpacakgeoptions').show();
+        }
     $('input[type=radio][name = baropt]').change(function() {
         $('div#barpacakgeoptions').hide();
         var value = $(this).val();

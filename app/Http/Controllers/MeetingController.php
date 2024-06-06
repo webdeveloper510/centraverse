@@ -94,6 +94,7 @@ class MeetingController extends Controller
     // WORKING  17-01-2024
     public function store(Request $request)
     {
+
         if (\Auth::user()->can('Create Meeting')) {
             $validator = \Validator::make(
                 $request->all(),
@@ -115,8 +116,8 @@ class MeetingController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-        $uploadedImage = $request->input('uploadedImage');
-        // Handle file upload
+            $uploadedImage = $request->input('uploadedImage');
+            // Handle file upload
             $data = $request->all();
             $package = [];
             $additional = [];
@@ -228,7 +229,7 @@ class MeetingController extends Controller
             $meeting['food_description']          = $request->food_package_description;
             $meeting['bar_description']          = $request->bar_package_description;
             $meeting['created_by']          = \Auth::user()->creatorId();
-            if ($request->hasFile('setupplans')) {
+            if($request->hasFile('setupplans')) {
                 $file = $request->file('setupplans');
                 $filePath = $file->store('setup_plans', 'public');
                 $meeting['setup_plans']  = $filePath;
@@ -257,7 +258,11 @@ class MeetingController extends Controller
                     'bar_package'         => $bar_pack,
                     'spcl_req'            => $request->spcl_request,
                     'phone'               => $phone,
-                    'allergies'           => $request->allergies
+                    'allergies'           => $request->allergies,
+                    'ad_opts'=>$additional,
+                   'start_time'          => $request->start_time,
+                   'end_time'            => $request->end_time
+
                 ]);
             } 
             
@@ -546,7 +551,6 @@ class MeetingController extends Controller
             $meeting['end_date']          = $request->start_date;
             $meeting['relationship']       = $request->relationship;
             $meeting['type']               = $request->type;
-            $meeting['venue_selection']    = $request->venue_selection;
             $meeting['email']              = $request->email;
             $meeting['lead_address']      = $request->lead_address;
             $meeting['function']           = $function;
@@ -568,6 +572,8 @@ class MeetingController extends Controller
             $meeting['ad_opts']             = isset($additional) ? $additional : '';
             $meeting['floor_plan']          = $uploadedImage;
             $meeting['allergies']          = $request->allergies;
+            $meeting['food_description']          = $request->food_package_description;
+            $meeting['bar_description']          = $request->bar_package_description;
             $meeting['created_by']        = \Auth::user()->creatorId();
             if ($request->hasFile('setupplans')) {
                 $file = $request->file('setupplans');
@@ -575,6 +581,7 @@ class MeetingController extends Controller
                 $meeting['setup_plans']         = $filePath;
  
             }
+          
             $meeting->update();
             if (!empty($request->file('atttachment'))) {
                 $file = $request->file('atttachment');
@@ -594,17 +601,33 @@ class MeetingController extends Controller
                 }
                
             } 
-            // if (!empty($request->file('attachment'))){
-            //     $file =  $request->file('attachment');
-            //     $filename = 'Event_'.Str::random(7) . '.' . $file->getClientOriginalExtension();
-            //     $folder = 'Event/' . $id; // Example: uploads/1
-            //     try {
-            //         $path = $file->storeAs($folder, $filename, 'public');
-            //     } catch (\Exception $e) {
-            //         Log::error('File upload failed: ' . $e->getMessage());
-            //         return redirect()->back()->with('error', 'File upload failed');
-            //     }
-            // }
+            if($meeting->attendees_lead != 0){
+                Lead::find($meeting->attendees_lead)
+                ->update([
+                    'converted_to'=> 1 ,
+                    'lead_status'=> 0,
+                    'name'              =>$request->name,
+                    'start_date'        =>$request->start_date,
+                    'email'               => $request->email,
+                    'lead_address'        => $request->lead_address ??'',
+                    'company_name'        => $request->company_name,
+                    'relationship'        => $request->relationship,
+                    'type'                => $request->type,
+                    'venue_selection'     => $venue,
+                    'func_package'        => $package,
+                    'function'            =>  $function,
+                    'guest_count'         => $request->guest_count,
+                    'rooms'               => $request->rooms ?? 0,
+                    'bar'                 => $request->baropt,
+                    'bar_package'         => $bar_pack,
+                    'spcl_req'            => $request->spcl_request,
+                    'phone'               => $phone,
+                    'allergies'           => $request->allergies,
+                    'ad_opts'=>isset($additional) ? $additional : '',
+                    'start_time'          => $request->start_time,
+                    'end_time'            => $request->end_time
+                ]);
+            } 
             if (\Auth::user()->type == 'owner') {
                 $meetings = Meeting::with('assign_user')->orderby('id','desc')->get();
             } else {
@@ -962,6 +985,14 @@ class MeetingController extends Controller
         $agreements['signature'] = $image;
         $agreements['notes'] = $request->comments;
         $agreements->save();
+        $data = [
+            'agreement' => $agreements,
+            'meeting' => $meeting,
+            'billing' => $fixed_cost,
+            'settings' => $settings,
+            'billing_data' => unserialize($fixed_cost->data),
+        ];
+        $pdf = Pdf::loadView('meeting.agreement.view', $data);
         try {
             $filename = 'agreement_' . time() . '.pdf'; // You can adjust the filename as needed
             $folder = 'Agreement_response/' . $id; 
@@ -977,14 +1008,7 @@ class MeetingController extends Controller
                 'message' => 'Failed to save PDF: ' . $e->getMessage(),
             ]);
         }
-        $data = [
-            'agreement' => $agreements,
-            'meeting' => $meeting,
-            'billing' => $fixed_cost,
-            'settings' => $settings,
-            'billing_data' => unserialize($fixed_cost->data),
-        ];
-        $pdf = Pdf::loadView('meeting.agreement.view', $data);
+         
         try {
             config(
                 [
@@ -1082,7 +1106,6 @@ class MeetingController extends Controller
             // Lead::where('id',$)
             $status = 5;
         }
-        $break_package = $lunch_package = $dinner_package = $wedding_package = '';
         if (isset($_REQUEST['venue'])) {
             $venue = implode(',', $_REQUEST['venue']);
         }
@@ -1093,18 +1116,6 @@ class MeetingController extends Controller
             $meal = $_REQUEST['meal'];
         }
 
-        if (isset($_REQUEST['break_package'])) {
-            $break_package = implode(',', $_REQUEST['break_package']);
-        }
-        if (isset($_REQUEST['lunch_package'])) {
-            $lunch_package = implode(',', $_REQUEST['lunch_package']);
-        }
-        if (isset($_REQUEST['dinner_package'])) {
-            $dinner_package = implode(',', $_REQUEST['dinner_package']);
-        }
-        if (isset($_REQUEST['wedding_package'])) {
-            $wedding_package = implode(',', $_REQUEST['wedding_package']);
-        }
 
         $phone= preg_replace('/\D/', '', $request->input('phone'));
         $data = $request->all();
@@ -1143,7 +1154,7 @@ class MeetingController extends Controller
             $additional = json_encode($additional);
             $bar_pack = json_encode($bar_pack);
 
-        $packagesArray = implode(',', array($break_package, $lunch_package, $dinner_package, $wedding_package));
+        // $packagesArray = implode(',', array($break_package, $lunch_package, $dinner_package, $wedding_package));
         $meeting['user_id']           = implode(',', $request->user);
         $meeting['name']              = $request->name;
         $meeting['start_date']        = $request->start_date;
@@ -1155,7 +1166,7 @@ class MeetingController extends Controller
         $meeting['status']               = $status;
         $meeting['function']           = $function;
         $meeting['venue_selection']    = $venue;
-        $meeting['func_package']       = $packagesArray;
+        $meeting['func_package']       = $package;
         $meeting['guest_count']        = $request->guest_count;
         $meeting['room']                = $request->rooms;
         $meeting['meal']                = $meal??'';
@@ -1173,14 +1184,47 @@ class MeetingController extends Controller
         $meeting['floor_plan']          = $request->uploadedImage;
         $meeting['allergies']          = $request->allergies;
         $meeting['created_by']        = \Auth::user()->creatorId();
+        $meeting['food_description']          = $request->food_package_description;
+        $meeting['bar_description']          = $request->bar_package_description;
+        
+       
         if ($request->hasFile('setupplans')) {
             $file = $request->file('setupplans');
             $filePath = $file->store('setup_plans', 'public');
-            $meeting['setup_plans']         = $filePath;
+            $meeting['setup_plans']   = $filePath;
 
         }
+        
         $meeting->update();
-      
+
+        if($meeting->attendees_lead != 0){
+            // echo $request->lead;
+            Lead::find($meeting->attendees_lead)
+            ->update([
+                'converted_to'=> 1 ,
+                'lead_status'=> 0,
+                'name'              =>$request->name,
+                'start_date'        =>$request->start_date,
+                'email'               => $request->email,
+                'lead_address'        => $request->lead_address ??'',
+                'company_name'        => $request->company_name,
+                'relationship'        => $request->relationship,
+                'type'                => $request->type,
+                'venue_selection'     => $venue,
+                'func_package'        => $package,
+                'function'            =>  $function,
+                'guest_count'         => $request->guest_count,
+                'rooms'               => $request->rooms ?? 0,
+                'bar'                 => $request->baropt,
+                'bar_package'         => $bar_pack,
+                'spcl_req'            => $request->spcl_request,
+                'phone'               => $phone,
+                'allergies'           => $request->allergies,
+                'ad_opts'=>isset($additional) ? $additional : '',
+                'start_time'          => $request->start_time,
+                'end_time'            => $request->end_time
+            ]);
+        }
         if (!empty($request->file('attachment'))){
             $file =  $request->file('attachment');
             $filename = 'Event_'.Str::random(7) . '.' . $file->getClientOriginalExtension();

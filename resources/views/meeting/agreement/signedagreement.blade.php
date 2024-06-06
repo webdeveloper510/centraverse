@@ -99,12 +99,15 @@ h6.headings {
                     <div class="row">
                         <div class="col-md-4 mt-4">
                             <div class="img-section">
-                                <img class="logo-img" src="{{ Storage::url('uploads/logo/3_logo-light.png') }}"
+                                <img class="logo-img" src="{{ Storage::url('uploads/logo/logo-light.png') }}"
                                     alt="Logo">
                             </div>
+                             <div class="img-section">
+                                   <span style="font-size:x-small;color: #aab0b6;">Supported by The Sector Eight</span>
+                </div>
                         </div>
                         <div class="col-md-8 mt-5">
-                            <h4>The Bond 1786 - Agreement</h4>
+                            <h5>The Bond 1786 - Agreement</h5>
                             <h5>Venue Rental & Banquet Event </h5>
                         </div>
                     </div>

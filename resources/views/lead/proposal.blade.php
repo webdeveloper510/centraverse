@@ -1,3 +1,9 @@
+@include('partials.admin.head')
+<style>
+    .container.mt-5 {
+    max-width: 1111px;
+}
+</style>
 <?php
 $billing = App\Models\ProposalInfo::where('lead_id',$lead->id)->orderby('id','desc')->first();
 if(isset($billing) && !empty($billing)){
@@ -25,7 +31,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Proposal</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -100,30 +106,31 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                     <div class="row">
                         <div class="col-md-4 mt-4">
                             <div class="img-section">
-                                <img class="logo-img" src="{{ Storage::url('uploads/logo/3_logo-light.png') }}" alt="Logo">
+                                 <img class="logo-img" src="{{ Storage::url('uploads/logo/logo-light.png') }}" alt="Logo">
                             </div>
-                        </div>
-                        <div class="col-md-8 mt-5">
-                            <h4>The Bond 1786 - Proposal</h4>
+                            <span style="font-size: \small; color: #aab0b6;">Supported by The Sector Eight</span>
+    </div>
+                        <div class="col-md-8 mt-4">
+                            <h5>The Bond 1786 - Proposal</h5>
                             <h5>Venue Rental & Banquet Event - Estimate</h5>
                         </div>
                     </div>
                     <div class="row mt-3">
-                        <div class="col-md-6">
+                        <div class="col-md-12 text-right">
                             <dl>
-                                <span>{{ __('Name') }}: {{ $lead->name }}</span><br>
-                                <span>{{ __('Phone & Email') }}: {{ $lead->phone }} , {{ $lead->email }}</span><br>
-                                <span>{{ __('Address') }}: {{ $lead->lead_address }}</span><br>
-                                <span>{{ __('Event Date') }}: {{ \Carbon\Carbon::parse($lead->start_date)->format('d M, Y') }}</span>
+                                <span><b>{{ __('Name') }}</b>: {{ $lead->name }}</span><br>
+                                <span><b>{{ __('Phone & Email') }}</b>: {{ $lead->phone }} , {{ $lead->email }}</span><br>
+                                <span><b>{{ __('Address') }}</b>: {{ $lead->lead_address }}</span><br>
+                                <span><b>{{ __('Event Date') }}</b>: {{ \Carbon\Carbon::parse($lead->start_date)->format('d M, Y') }}</span>
                             </dl>
                         </div>
-                        <div class="col-md-6 text-right">
+                        <!-- <div class="col-md-6 text-right">
                             <dl>
                                 <span>{{ __('Primary Contact') }}: {{ $lead->name }}</span><br>
                                 <span>{{ __('Phone') }}: {{ $lead->phone }}</span><br>
                                 <span>{{ __('Email') }}: {{ $lead->email }}</span><br>
                             </dl>
-                        </div>
+                        </div> -->
                     </div>
                     <hr>
                     <div class="row mb-4">
@@ -247,12 +254,12 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                         </div>
                     </div>
 
-                    <div class="row mt-5 mb-3">
-                        <div class="col-md-12">
+                    <!--<div class="row mt-5 mb-3">-->
+                    <!--    <div class="col-md-12">-->
                        
-                            <p>This proposal will be valid for 7 days from the date above. We require 30% of the estimated total as a deposit to secure the date, space, and time for your event. The next payment of 30% is due 6 months before the event date, with the final 40% due 7 days before your event date.</p>
-                        </div>
-                    </div>
+                    <!--        <p>This proposal will be valid for 7 days from the date above. We require 30% of the estimated total as a deposit to secure the date, space, and time for your event. The next payment of 30% is due 6 months before the event date, with the final 40% due 7 days before your event date.</p>-->
+                    <!--    </div>-->
+                    <!--</div>-->
 
                     <div class="row mt-5 mb-3">
                         <div class="col-md-12 text-center">
@@ -281,13 +288,14 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                         <div class="col-md-12 text-center">
                         <!-- <button class="btn btn-success" style="float:right;margin-top:-40px">Submit</button> -->
                             <button class="btn btn-success btn-lg mr-2">Accept</button>
-                            <button type="button" class="btn btn-danger btn-lg" onclick="window.print()">Decline</button>
+                            <button type="button" class="btn btn-danger btn-lg" onclick="window.print()">Print</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+    <script src="{{ asset('libs/bootstrap-notify/bootstrap-notify.min.js') }}"></script>
 
     <script>
         function clearSignature() {
@@ -295,7 +303,6 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
             var ctx = canvas.getContext('2d');
             ctx.clearRect(0, 0, canvas.width, canvas.height);
         }
-
         document.addEventListener("DOMContentLoaded", function () {
             var canvas = document.getElementById('signature');
             var ctx = canvas.getContext('2d');
@@ -326,5 +333,5 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
         });
     </script>
 </body>
-
 </html>
+@include('partials.admin.footer')

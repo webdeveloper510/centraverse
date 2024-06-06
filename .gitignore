@@ -13,4 +13,10 @@
 /bondcrm
 node_modules
 /catamount
+<<<<<<< HEAD
 /volo
+=======
+/volo
+/extra
+/rinserevolution
+>>>>>>> d645023e4a8017d897b9a5e122706e3d3d4e69d2

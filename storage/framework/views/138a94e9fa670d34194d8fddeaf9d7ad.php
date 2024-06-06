@@ -8,7 +8,6 @@
 
 <?php $__env->stopSection(); ?>
 <?php
-
 $plansettings = App\Models\Utility::plansettings();
 $setting = App\Models\Utility::settings();
 $type_arr= explode(',',$setting['event_type']);

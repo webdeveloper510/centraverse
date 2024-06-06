@@ -1,4 +1,5 @@
 <?php
+// echo"<pre>";print_r($event);die;
 $settings = App\Models\Utility::settings();
 $billings = json_decode($settings['fixed_billing'],true);
 $additional_items = json_decode($settings['additional_items'],true);
@@ -21,81 +22,83 @@ $labels =
     $barpckge = implode(',',$bar);
     $foodpcks = json_decode($event->func_package,true);
     $addpcks = json_decode($event->ad_opts,true);
-$food = [];
 
-$add = [];
-    foreach($foodpcks as $key => $foodpck){
-        foreach($foodpck as $foods){
-        $food[]= $foods;
+    $food = [];
+    $add = [];
+    if(isset($foodpcks) && !empty($foodpcks)){
+        foreach($foodpcks as $key => $foodpck){
+            foreach($foodpck as $foods){
+            $food[]= $foods;
+            }
         }
+        $foodpckge = implode(',',$food);
     }
-  
-    $foodpckge = implode(',',$food);
+   
     foreach($addpcks as $key => $adpck){
         foreach($adpck as $ad){
         $add[] = $ad;
         }
     }
     $addpckge = implode(',',$add);
-$meetingData = [
-    'venue_rental' => $event->venue_selection,
-    'hotel_rooms'=>$event->room,
-    'equipment' =>$event->spcl_request,
-    'bar_package' => (isset($event->bar_package) && !empty($event->bar_package)) ? $barpckge : '',
-    'food_package' => (isset($event->func_package) && !empty($event->func_package)) ? $foodpckge: '',
-    'additional_items' => (isset($event->ad_opts) && !empty($event->ad_opts)) ? $addpckge :'',
-    'setup' =>''
-];
-$totalFoodPackageCost = 0;
-$totalbarPackageCost = 0;
-foreach ($bar as $barItem) {
-    foreach ($billings['barpackage'] as $category => $categoryItems) {
-        if (isset($categoryItems[$barItem])) {
-        $totalbarPackageCost += $categoryItems[$barItem];
-        break;
-        }
-    }
-}
-if(isset($billings) && !empty($billings)){
-    foreach ($food as $foodItem) {
-        foreach ($billings['package'] as $category => $categoryItems) {
-            if (isset($categoryItems[$foodItem])) {
-            $totalFoodPackageCost +=  (int)$categoryItems[$foodItem];
+    $meetingData = [
+        'venue_rental' => $event->venue_selection,
+        'hotel_rooms'=>$event->room,
+        'equipment' =>$event->spcl_request,
+        'bar_package' => (isset($event->bar_package) && !empty($event->bar_package)) ? $barpckge : '',
+        'food_package' => (isset($foodpckge) && !empty($foodpckge)) ? $foodpckge: '',
+        'additional_items' => (isset($event->ad_opts) && !empty($event->ad_opts)) ? $addpckge :'',
+        'setup' =>''
+    ];
+    $totalFoodPackageCost = 0;
+    $totalbarPackageCost = 0;
+    foreach ($bar as $barItem) {
+        foreach ($billings['barpackage'] as $category => $categoryItems) {
+            if (isset($categoryItems[$barItem])) {
+            $totalbarPackageCost += $categoryItems[$barItem];
             break;
             }
         }
-        }
-    $meetingData['food_package_cost'] = $totalFoodPackageCost;
-}
-$additionalItemsCost = 0;
-if(isset($additional_items) && !empty($additional_items)){
-    foreach ($additional_items as $category => $categoryItems) {
-        foreach ($categoryItems as $item => $subItems) {
-            foreach ($subItems as $key => $value) {
-                if (in_array($key, $add)) {
-                // Add the value to the total cost
-                $additionalItemsCost += $value;
+    }
+    if(isset($billings) && !empty($billings)){
+        foreach ($food as $foodItem) {
+            foreach ($billings['package'] as $category => $categoryItems) {
+                if (isset($categoryItems[$foodItem])) {
+                $totalFoodPackageCost +=  (int)$categoryItems[$foodItem];
+                break;
+                }
+            }
+            }
+        $meetingData['food_package_cost'] = $totalFoodPackageCost;
+    }
+    $additionalItemsCost = 0;
+    if(isset($additional_items) && !empty($additional_items)){
+        foreach ($additional_items as $category => $categoryItems) {
+            foreach ($categoryItems as $item => $subItems) {
+                foreach ($subItems as $key => $value) {
+                    if (in_array($key, $add)) {
+                    // Add the value to the total cost
+                    $additionalItemsCost += $value;
+                    }
                 }
             }
         }
     }
-}
 
 
-// Get the value for 'Patio' from the 'venue' array
-$subcategories = array_map('trim', explode(',', $meetingData['venue_rental']));
-$venueRentalCost = 0;
-foreach ($subcategories as $subcategory) {
-$venueRentalCost += $billings['venue'][$subcategory] ?? 0;
-}
-$meetingData['venue_rental_cost'] = $venueRentalCost;
-$meetingData['hotel_rooms_cost'] = $billings['hotel_rooms'] ?? '';
-$meetingData['equipment_cost'] = $billings['equipment'] ?? '';
-$meetingData['bar_package_cost'] = $totalbarPackageCost;
-$meetingData['food_package_cost'] = $totalFoodPackageCost;
-$meetingData['additional_items_cost'] = $additionalItemsCost ?? '';
-$meetingData['special_req_cost'] = $billings['special_req'] ?? '';
-$meetingData['setup_cost'] = '';
+    // Get the value for 'Patio' from the 'venue' array
+    $subcategories = array_map('trim', explode(',', $meetingData['venue_rental']));
+    $venueRentalCost = 0;
+    foreach ($subcategories as $subcategory) {
+    $venueRentalCost += $billings['venue'][$subcategory] ?? 0;
+    }
+    $meetingData['venue_rental_cost'] = $venueRentalCost;
+    $meetingData['hotel_rooms_cost'] = $billings['hotel_rooms'] ?? '';
+    $meetingData['equipment_cost'] = $billings['equipment'] ?? '';
+    $meetingData['bar_package_cost'] = $totalbarPackageCost;
+    $meetingData['food_package_cost'] = $totalFoodPackageCost;
+    $meetingData['additional_items_cost'] = $additionalItemsCost ?? '';
+    $meetingData['special_req_cost'] = $billings['special_req'] ?? '';
+    $meetingData['setup_cost'] = '';
 ?>
 <?php echo e(Form::open(array('route' => ['billing.addbilling', $id],'method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))); ?>
 
@@ -159,4 +162,4 @@ $meetingData['setup_cost'] = '';
     float: left;
     width: 100%;
 }
-</style><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/billing/create.blade.php ENDPATH**/ ?>
+</style><?php /**PATH C:\xampp\htdocs\abc\centraverse\resources\views/billing/create.blade.php ENDPATH**/ ?>

@@ -57,4 +57,4 @@ $event = App\Models\Meeting::find($newpayment->event_id);
     </table>
 </body>
 </html>
-<?php /**PATH C:\xampp\htdocs\centraverse\resources\views/billing/invoice.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\xampp\htdocs\abc\centraverse\resources\views/billing/invoice.blade.php ENDPATH**/ ?>

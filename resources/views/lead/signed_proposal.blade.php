@@ -28,13 +28,16 @@ if(isset($proposal) && ($proposal['image'] != null)){
         <div class="row">
             <div class="col-md-12 ">
                 <div class="img-section" style="width:30%; margin: 0 auto;display:flex;text-align: center;">
-                    <img class="logo-img" src="{{ Storage::url('uploads/logo/3_logo-light.png') }}"
+                    <img class="logo-img" src="{{ Storage::url('uploads/logo/logo-light.png') }}"
                         style="width:40%;">
+                </div>
+                 <div class="img-section" style="width:30%; margin: 0 auto;display:flex;text-align: center;">
+                                   <span style="font-size:x-small;color: #aab0b6;">Supported by The Sector Eight</span>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12" style="text-align: center;">
+            <div class="col-md-12" style="text-align: center; margin-top:10px">
                 <span>The Bond 1786</span><br>
                 <span>Venue Rental Proposal & Banquet Event Order</span>
             </div>
@@ -94,7 +97,7 @@ if(isset($proposal) && ($proposal['image'] != null)){
         <div class="row mt-5">
             <div class="col-md-12">
                 <h5 class="headings"><b>Billing Summary - ESTIMATE</b></h5>
-                <table class="table table-bordered" style="width:100%">
+                <table class="table table-bordered" style="width:100%;">
                     <thead>
                         <tr>
                             <th
@@ -259,15 +262,15 @@ if(isset($proposal) && ($proposal['image'] != null)){
               <p><b>Customer Comments/Notes: {{$proposal->notes}}</b></p>
             </div>
         </div>
-        <div class="row mt-5">
-            <div class="col-md-6" style="float:left;width:50%;">
+        <div  style="display:flex;">
+            <div style="float:left;width:60%;">
                 <strong>Authorized Signature:</strong> <br>
-                <img src="{{$base64Image}}" style="width:30%; border-bottom:1px solid black;">
+                <img src="{{$base64Image}}" >
             </div>
-            <div class="col-md-6">
+            <!-- <div > -->
                 <strong style="margin-top:10px;">Signature:</strong><br>
-                <img src="{{@$sign}}" style="width:30%; border-bottom:1px solid black;">
-            </div>
+                <img src="{{@$sign}}" >
+            <!-- </div> -->
         </div>
     </div>
 </body>

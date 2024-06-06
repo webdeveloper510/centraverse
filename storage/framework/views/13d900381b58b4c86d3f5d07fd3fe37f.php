@@ -105,4 +105,4 @@ $payinfo = App\Models\PaymentInfo::where('event_id',$event->id)->orderBy('id', '
     animation: fadeInUp 0.6s ease;
 }
 </style>
-<?php echo $__env->make('partials.admin.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/payments/pay.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('partials.admin.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\abc\centraverse\resources\views/payments/pay.blade.php ENDPATH**/ ?>

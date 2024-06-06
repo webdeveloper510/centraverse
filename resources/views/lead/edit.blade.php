@@ -22,7 +22,7 @@ $bar_package = json_decode($setting['barpackage'],true);
 
 $func_package = json_decode($lead->func_package,true);
 $fun_ad_opts = json_decode($lead->ad_opts,true);
-
+$selectedPackages = json_decode($lead->bar_package,true);
 @endphp
 @section('title')
 <div class="page-header-title">
@@ -236,17 +236,15 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                            
                                             <div class="form-check" data-additional-index="{{$pac_key}}"
                                                 data-additional-package="{{$pac_key}}">
-                                                <?php $isCheckedif = false;?>
-
+                                                <?php $isCheckedif = false; ?>
                                                 @if(isset($fun_ad_opts) && !empty($fun_ad_opts ))
-                                                @foreach($fun_ad_opts as $keys=>$valss)
-                                               
-                                                @foreach($valss as $val)
-                                                @if($pac_key == $val)
-                                                <?php $isCheckedif = true;?>
-                                                @endif
-                                                @endforeach
-                                                @endforeach
+                                                    @foreach($fun_ad_opts as $keys=>$valss)
+                                                        @foreach($valss as $val)
+                                                            @if($pac_key == $val)
+                                                            <?php $isCheckedif = true;?>
+                                                            @endif
+                                                        @endforeach
+                                                    @endforeach
                                                 @endif
                                                 {!! Form::checkbox('additional_'.str_replace(' ', '_',
                                                 strtolower($fun_key)).'[]',$pac_key, $isCheckedif, ['data-function' =>
@@ -311,17 +309,27 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                             @endforeach
                                         </div>
                                     </div>
-                                    <div class="col-6 need_full" id="barpacakgeoptions" style="display: none;">
+                               <div class="col-6 need_full" id="barpacakgeoptions" style="display: none;">
+
                                         @if(isset($bar_package) && !empty($bar_package))
                                         @foreach($bar_package as $key =>$value)
                                         <div class="form-group" data-main-index="{{$key}}"
                                             data-main-value="{{$value['bar']}}">
+
                                             {{ Form::label('bar', __($value['bar']), ['class' => 'form-label']) }}
                                             @foreach($value['barpackage'] as $k => $bar)
+                                            <?php $checkedif = false; ?>
+
                                             <div class="form-check" data-main-index="{{$k}}"
                                                 data-main-package="{{$bar}}">
+
+                                                @if($selectedPackages)    
+                                                    @if(isset($selectedPackages[$value['bar']]) && $selectedPackages[$value['bar']] == $bar)
+                                                        <?php $checkedif = true; ?>
+                                                    @endif
+                                                @endif
                                                 {!! Form::radio('bar'.'_'.str_replace(' ', '',
-                                                strtolower($value['bar'])), $bar, false, ['id' => 'bar_' . $key.$k,
+                                                strtolower($value['bar'])), $bar, $checkedif, ['id' => 'bar_' . $key.$k,
                                                 'data-function' => $value['bar'], 'class' => 'form-check-input']) !!}
                                                 {{ Form::label($bar, $bar, ['class' => 'form-check-label']) }}
                                             </div>
@@ -329,6 +337,7 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                         </div>
                                         @endforeach
                                         @endif
+
                                     </div>
                                     <div class="col-6 need_full">
                                         <div class="form-group">
@@ -384,36 +393,36 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
 @push('script-page')
 <script>
      $(document).ready(function() {  
-    $("input[type='text'][name='lead_name'],input[type='text'][name='name'], input[type='text'][name='email'], select[name='type'],input[type='tel'][name='phone'],input[type='date'][name='start_date']").focusout(function() {  
-          
-        var input = $(this);
-        var errorMessage = '';
-        if (input.attr('name') === 'email' && input.val() !== '') {
-            var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailPattern.test(input.val())) {
-                errorMessage = 'Invalid email address.';
+        $("input[type='text'][name='lead_name'],input[type='text'][name='name'], input[type='text'][name='email'], select[name='type'],input[type='tel'][name='phone'],input[type='date'][name='start_date']").focusout(function() {  
+            
+            var input = $(this);
+            var errorMessage = '';
+            if (input.attr('name') === 'email' && input.val() !== '') {
+                var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailPattern.test(input.val())) {
+                    errorMessage = 'Invalid email address.';
+                }
+            } else if (input.val() == '') {
+                errorMessage = 'This field is required.';
             }
-        } else if (input.val() == '') {
-            errorMessage = 'This field is required.';
-        }
-        
-        if(errorMessage  != '') {  
-            input.css('border', 'solid 2px red');
-        } 
-        else { 
-            // If it is not blank. 
-            input.css('border', 'solid 2px black');
-        }
-        
-        // Remove any existing error message
-        input.next('.validation-error').remove();
-        
-        // Append the error message if it exists
-        if(errorMessage != '') {
-            input.after('<div class="validation-error text-danger" style="padding:2px;">' + errorMessage + '</div>');
-        }
-    }); 
-});
+            
+            if(errorMessage  != '') {  
+                input.css('border', 'solid 2px red');
+            } 
+            else { 
+                // If it is not blank. 
+                input.css('border', 'solid 2px black');
+            }
+            
+            // Remove any existing error message
+            input.next('.validation-error').remove();
+            
+            // Append the error message if it exists
+            if(errorMessage != '') {
+                input.after('<div class="validation-error text-danger" style="padding:2px;">' + errorMessage + '</div>');
+            }
+        }); 
+    });
 </script>
 <script>
 jQuery(function() {
@@ -455,68 +464,64 @@ $(document).ready(function() {
 </script>
 
 <script>
-const isNumericInput = (event) => {
-    const key = event.keyCode;
-    return ((key >= 48 && key <= 57) || // Allow number line
-        (key >= 96 && key <= 105) // Allow number pad
-    );
-};
+    const isNumericInput = (event) => {
+        const key = event.keyCode;
+        return ((key >= 48 && key <= 57) || // Allow number line
+            (key >= 96 && key <= 105) // Allow number pad
+        );
+    };
 
-const isModifierKey = (event) => {
-    const key = event.keyCode;
-    return (event.shiftKey === true || key === 35 || key === 36) || // Allow Shift, Home, End
-        (key === 8 || key === 9 || key === 13 || key === 46) || // Allow Backspace, Tab, Enter, Delete
-        (key > 36 && key < 41) || // Allow left, up, right, down
-        (
-            // Allow Ctrl/Command + A,C,V,X,Z
-            (event.ctrlKey === true || event.metaKey === true) &&
-            (key === 65 || key === 67 || key === 86 || key === 88 || key === 90)
-        )
-};
+    const isModifierKey = (event) => {
+        const key = event.keyCode;
+        return (event.shiftKey === true || key === 35 || key === 36) || // Allow Shift, Home, End
+            (key === 8 || key === 9 || key === 13 || key === 46) || // Allow Backspace, Tab, Enter, Delete
+            (key > 36 && key < 41) || // Allow left, up, right, down
+            (
+                // Allow Ctrl/Command + A,C,V,X,Z
+                (event.ctrlKey === true || event.metaKey === true) &&
+                (key === 65 || key === 67 || key === 86 || key === 88 || key === 90)
+            )
+    };
 
-const enforceFormat = (event) => {
-    // Input must be of a valid number format or a modifier key, and not longer than ten digits
-    if (!isNumericInput(event) && !isModifierKey(event)) {
-        event.preventDefault();
-    }
-};
+    const enforceFormat = (event) => {
+        // Input must be of a valid number format or a modifier key, and not longer than ten digits
+        if (!isNumericInput(event) && !isModifierKey(event)) {
+            event.preventDefault();
+        }
+    };
 
-const formatToPhone = (event) => {
-    if (isModifierKey(event)) {
-        return;
-    }
+    const formatToPhone = (event) => {
+        if (isModifierKey(event)) {
+            return;
+        }
 
-    // I am lazy and don't like to type things more than once
-    const target = event.target;
-    const input = event.target.value.replace(/\D/g, '').substring(0, 10); // First ten digits of input only
-    const zip = input.substring(0, 3);
-    const middle = input.substring(3, 6);
-    const last = input.substring(6, 10);
+        // I am lazy and don't like to type things more than once
+        const target = event.target;
+        const input = event.target.value.replace(/\D/g, '').substring(0, 10); // First ten digits of input only
+        const zip = input.substring(0, 3);
+        const middle = input.substring(3, 6);
+        const last = input.substring(6, 10);
 
-    if (input.length > 6) {
-        target.value = `(${zip}) ${middle} - ${last}`;
-    } else if (input.length > 3) {
-        target.value = `(${zip}) ${middle}`;
-    } else if (input.length > 0) {
-        target.value = `(${zip}`;
-    }
-};
-
-const inputElement = document.getElementById('phone-input');
-inputElement.addEventListener('keydown', enforceFormat);
-inputElement.addEventListener('keyup', formatToPhone);
+        if (input.length > 6) {
+            target.value = `(${zip}) ${middle} - ${last}`;
+        } else if (input.length > 3) {
+            target.value = `(${zip}) ${middle}`;
+        } else if (input.length > 0) {
+            target.value = `(${zip}`;
+        }
+    };
+    const inputElement = document.getElementById('phone-input');
+    inputElement.addEventListener('keydown', enforceFormat);
+    inputElement.addEventListener('keyup', formatToPhone);
 </script>
 <script>
 var scrollSpy = new bootstrap.ScrollSpy(document.body, {
     target: '#useradd-sidenav',
     offset: 300
 })
-</script>
-<script>
-var scrollSpy = new bootstrap.ScrollSpy(document.body, {
-    target: '#useradd-sidenav',
-    offset: 300
-})
+
+
+
 $(document).ready(function() {
     $('div#mailFunctionSection > div').hide();
     $('input[name="function[]"]:checked').each(function() {
@@ -569,6 +574,10 @@ jQuery(function() {
     });
 });
 jQuery(function() {
+    var selectedValue = $("input[name='baropt']:checked").val();
+        if (selectedValue == 'Package Choice') {
+            $('div#barpacakgeoptions').show();
+        }
     $('input[type=radio][name = baropt]').change(function() {
         $('div#barpacakgeoptions').hide();
         var value = $(this).val();
