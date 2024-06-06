@@ -9,7 +9,7 @@ if(isset($event->bar_package) && !empty($event->bar_package)){
     $bar = json_decode($event->bar_package,true);
 }
 if(App\Models\PaymentLogs::where('event_id',$event->id)->exists()){
-    $payments = App\Models\PaymentLogs::where('event_id',$event->id)->get();
+    $payments = App\Models\PaymentLogs::where('event_id',$event->id)->orderBy('id','desc')->get();
     $payinfos = App\Models\PaymentInfo::where('event_id',$event->id)->get();
 }
 if(App\Models\Billing::where('event_id',$event->id)->exists()){
@@ -108,6 +108,7 @@ $files = Storage::files('app/public/Event/'.$event->id);
                                 Created <?php endif; ?></span>
 </dd>
                             <hr class="mt-5">
+                            <?php if(!empty($event->floor_plan)): ?>
                             <div class="row">
                                 <div class="col-lg-8 col-md-8 col-sm-12">
                                     <h3><?php echo e(__('Setup')); ?></h3>
@@ -115,6 +116,7 @@ $files = Storage::files('app/public/Event/'.$event->id);
                             </div>
                             <hr>
                             <img src="<?php echo e($event->floor_plan); ?>" alt="" style="width: 40% ;" class="need_full">
+                            <?php endif; ?>
                     </dl>
                     <?php if(isset($payments) && !empty($payments)): ?>
                     <?php 
@@ -139,28 +141,60 @@ $files = Storage::files('app/public/Event/'.$event->id);
                                                 <th scope="col" class="sort" data-sort="status"><?php echo e(__('Name')); ?></th>
                                                 <th scope="col" class="sort" data-sort="completion"><?php echo e(__('Transaction Id')); ?></th>
                                                 <th><?php echo e(__('Invoice')); ?></th>
+                                                <!-- <th scope="col" class="sort" data-sort="completion"><?php echo e(__('Mode of Payment')); ?></th> -->
                                                 <th scope="col" class="sort" data-sort="completion"><?php echo e(__('Event Amount')); ?></th>
-                                                <th scope="col" class="sort" data-sort="completion"><?php echo e(__('Total Amount Recieved')); ?></th>
-                                                <th scope="col" class="sort" data-sort="completion"><?php echo e(__('Amount Paid')); ?></th>
+                                                <th scope="col" class="sort" data-sort="completion"><?php echo e(__('Amount Collected')); ?></th>
                                                 <th scope="col" class="sort" data-sort="completion"><?php echo e(__('Amount Due')); ?></th>
+
 
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php $__currentLoopData = $payments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $payment): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            
+                                            <?php $__currentLoopData = $payments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $payment): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>                                           
                                             <tr>
-
                                                 <td><?php echo e(Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $payment->created_at)->format('M d, Y')); ?></td>
                                                 <td><?php echo e($payment->name_of_card); ?></td>
-                                                <td><?php echo e($payment->transaction_id); ?></td>
-                                                <td><a href="<?php echo e(Storage::url('app/public/Invoice/'.$payment->event_id.'/'.$payment->invoices)); ?>"download style="    color: #1551c9 !important;"><?php echo e(ucfirst($payment->invoices)); ?></a></td>
+                                                <td><?php echo e($payment->transaction_id ?? '--'); ?></td>
+                                                <td><a href="<?php echo e(Storage::url('app/public/Invoice/'.$payment->event_id.'/'.$payment->invoices)); ?>"download style="    color: #1551c9 !important;"><?php echo e(ucfirst($payment->invoices )); ?></a></td>
+                                                <!-- <td></td> -->
                                                 <td>$<?php echo e($event->total); ?></td>
-                                                <td>$<?php echo e($payment->amount + (isset($deposit->deposits)?$deposit->deposits :0)); ?></td>
                                                 <td>$<?php echo e($payment->amount); ?></td>
-                                            <td><?php echo e(($event->total - ($payinfos[0]->deposits + $latefee - $adj + $collect_amount))<= 0 ? '--':'$'.$event->total - ($payinfos[0]->deposits + $latefee - $adj + $collect_amount)); ?></td>
+                                                <td><?php echo e(($event->total - ($payinfos[0]->deposits + $collect_amount))<= 0 ? '--':'$'.$event->total - ($payinfos[0]->deposits - $latefee + $adj + $collect_amount)); ?></td>
                                             </tr>
+                                            
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                            <hr>
+                                        <tr style="    background: aliceblue;"> 
+                                            <td></td>
+                                            <!-- <td></td>
+                                            <td></td><td></td><td></td> -->
+                                            <td  colspan= '3'><b>Deposits on File:</b></td>
+                                            <td  colspan= '3'><?php echo e(($deposit->deposits != 0)? '$'.$deposit->deposits : '--'); ?></td>
+                                        </tr>
+                                        <tr style="    background: darkgray;"> 
+                                            <td></td>
+                                            <!-- <td></td>
+                                            <td></td><td></td><td></td> -->
+                                            <td  colspan= '3'><b>Adjustments:</b></td>
+                                            <td  colspan= '3'><?php echo e(($adj != 0)? '$'.$adj : '--'); ?></td>
+                                        </tr>
+                                        <tr   style=" background: #c0e3c0;" > 
+                                            <td></td>
+                                            <td colspan= '3'><b>Latefee:</b></td>
+                                            <!-- <td></td>
+                                            <td></td> -->
+                                            <td colspan='3'><?php echo e(($latefee != 0) ? '$'. $latefee :'--'); ?></td>
+                                            <!-- <td></td>
+                                            <td></td> -->
+                                        </tr>
+                                        <tr style="    background: floralwhite;"> 
+                                            <td></td>
+                                            <!-- <td></td>
+                                            <td></td><td></td><td></td> -->
+                                            <td  colspan= '3'><b>Total Amount Recieved:</b></td>
+                                            <td  colspan= '3'><?php echo e(((isset($deposit->deposits)? $deposit->deposits : 0) + $collect_amount<=0) ?'--': '$'.((isset($deposit->deposits)? $deposit->deposits : 0)+ $collect_amount)); ?></td>
+                                        </tr>
+                                       
                                         </tbody>
                                     </table>
                                 </div>

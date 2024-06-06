@@ -1,29 +1,19 @@
-@extends('layouts.admin')
-@section('page-title')
-    {{__('Billing')}}
-@endsection
-@section('title')
-        <div class="page-header-title">
-            {{__('Billing')}}
-        </div>
-@endsection
 
-@section('action-btn')
-@endsection
-@section('filter')
-@endsection
-@php
+<?php
 $labels =
     [ 
         'venue_rental' => 'Venue Rental',
         'hotel_rooms'=>'Hotel Rooms',
         'equipment'=>'Tent, Tables, Chairs, AV Equipment',
         'setup' =>'Setup',
-        'gold_2hrs'=>'Bar Package',
+        'bar_package'=>'Bar Package',
         'special_req' =>'Special Requests /Other',
-        'classic_brunch'=>'Brunch/Lunch/Dinner Package',
+        'food_package'=>'Brunch/Lunch/Dinner Package',
+        'additional_items'=>'Additional Items'
     ]; 
-@endphp 
+    $bill = unserialize($billing->data);
+
+?>
 
 @section('content')
 
@@ -31,22 +21,14 @@ $labels =
     <div class="row">
         <div class="col-sm-12">
             <div class="row">
-                {{Form::open(array('route'=>'billing.details','method'=>'post','enctype'=>'multipart/form-data'))}}
-                    <!-- <div class= "row"> -->
-                        <div class = "col-md-12">
-                            <div class="form-group">
-                                <label class="form-label">Select Customer :</label>
-                                <select class="form-select" id = "userinfo" name = "user" required>
-                                    <option value= '-1' disabled selected>Select Customer</option>
-                                    @foreach($assigned_user as $user)
-                                        <option value="{{$user->id}}" {{ $user->id == $billing->id ? 'selected' : '' }}>{{$user->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    <!-- </div> -->
-                    <!-- <div class="row"> -->
+            {{ Form::model($billing, ['route' => ['billing.edit', $billing->id],'enctype' => 'multipart/form-data', 'method' => 'post' ,'id'=> 'formdata']) }}
+
                         <div class="col-md-12">
+                        <div class="form-group">
+        <h4 style="float:right;    background: teal;
+    color: white;
+    padding: 11px;
+    border-radius: 5px;"><b>Guest Count: {{App\Models\Meeting::find($billing->event_id)->first()->guest_count}}</b></h4>
                                 <div class="form-group">
                                     <table class="table">
                                         <thead>
@@ -58,29 +40,36 @@ $labels =
                                             </tr>
                                         </thead>
                                         <tbody>
-                                             @foreach($labels as $key=> $label)
+                                             @foreach($bill as $key=> $item)
                                                 <tr>
-                                                    <td>{{ucfirst($label)}}</td>
+                                                    <td>{{ ucfirst(str_replace('_', ' ', $key))}}</td>
                                                     <td>
-                                                        <input type = "number" name ="billing[{{$key}}][cost]" value="{{$billing->$key}}" class= "form-control" readonly></td>
+                                                        <input type = "number" name ="billing[{{$key}}][cost]"  class= "form-control" value="{{ $item['cost'] ?? '' }}"></td>
                                                     <td> 
-                                                    <input type = "number" name ="billing[{{$key}}][quantity]" min = '0' class= "form-control" required>
+                                                    <input type = "number" name ="billing[{{$key}}][quantity]" min = '0' class= "form-control" value="{{ $item['quantity'] ?? 1 }}"required>
                                                     </td>
-                                                    <td><input type = "text" name ="billing[{{$key}}][notes]" class= "form-control"></td>
+                                                    <td><input type = "text" name ="billing[{{$key}}][notes]" class= "form-control"  value="{{ $item['notes'] ?? '' }}"></td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
                                     </table>
                                     <div class= "form-group">
                                     <label class = "form-label"> Deposit on file: </label>
-                                    <input type = "number" name = "deposits" min = '0'  class= "form-control" required>
+                                    <input type = "number" name = "deposits" min = '0' value="{{$billing->deposits}}" class= "form-control" readonly>
                                     </div>
                             </div>
                         </div>
-                    <!-- </div> -->
                     {{Form::submit(__('Save'),array('class'=>'btn btn-primary '))}}
                     {{ Form::close() }}    
             </div>
         </div>
     </div>
-@endsection
+    <style>
+.modal-dialog.modal-md {
+    max-width: max-content;
+}
+.table-responsive {
+    float: left;
+    width: 100%;
+}
+</style>

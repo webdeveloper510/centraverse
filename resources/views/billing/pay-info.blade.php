@@ -120,7 +120,7 @@ $adjustments += $inf->adjustments;
                     Cash</option>
                 <option value="check"
                     <?php  echo isset($payment->modeofpayment) ?($payment->modeofpayment == 'check') ?'selected' :'' : ''?>>
-                    Cheque</option>
+                    Check</option>
             </select>
             <!-- <div class="mt-4"> -->
             <span class="msg" style="color:#5e7ebd !important"></span>

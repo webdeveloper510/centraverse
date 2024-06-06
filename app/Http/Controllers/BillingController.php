@@ -261,4 +261,31 @@ class BillingController extends Controller
         $payment->save();
         return true;
     }
+    public function edit($id){
+        if (\Auth::user()->can('Edit Payment')) {
+            $id = decrypt(urldecode($id));
+            $billing = Billing::where('event_id',$id)->first();
+            return view('billing.edit',compact('billing'));
+            } else {
+            return redirect()->back()->with('error', 'permission Denied');
+        }
+    }
+    public function edit_invoice(Request $request,$id){
+        if (\Auth::user()->can('Edit Payment')) {
+            $items = $request->billing;
+            $billing = Billing::find($id);
+            $billing->data= serialize($items);
+            $billing->update();
+            $totalCost = 0;
+            foreach ($items as $item) {
+                $totalCost += ($item['cost'] * $item['quantity']);
+            } 
+            $totalCost = $totalCost + ( 7 * ($totalCost)/100 ) + (20 * ($totalCost)/100);
+            Meeting::where('id',$billing->event_id)->update(['total' => $totalCost]);
+            return redirect()->back()->with('success', __(' Invoice Updated Successfully'));
+        } else {
+            return redirect()->back()->with('error', 'permission Denied');
+        }
+    }
+
 }

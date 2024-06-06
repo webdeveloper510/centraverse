@@ -417,7 +417,7 @@ $converted_to_event = App\Models\Meeting::where('attendees_lead',$lead->id)->exi
 
                                                 <td>{{Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $payment->created_at)->format('M d, Y')}}</td>
                                                 <td>{{$payment->name_of_card}}</td>
-                                                <td>{{$payment->transaction_id}}</td>
+                                                <td>{{$payment->transaction_id ?? '--'}}</td>
                                                 <td><a href="{{ Storage::url('app/public/Invoice/'.$payment->event_id.'/'.$payment->invoices) }}"download style="    color: #1551c9 !important;">{{ucfirst($payment->invoices)}}</a></td>
                                                 <td>${{$payment->amount + (isset($billdetails)? $billdetails->deposits : 0 )}}</td>
                                             </tr>

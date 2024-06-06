@@ -964,13 +964,13 @@ $(document).ready(function() {
                                                         var valuesArray = jsonadObject[key];
 
 // Iterate through each value for the key
-valuesArray.forEach(function(value) {
-    var transformedKey = originalKey.charAt(0).toUpperCase() + originalKey.slice(1);
-    var dynamicadName = 'additional_' + transformedKey.toLowerCase().replace(/\s+/g, '_') + '[]';
-    var adselector = `input[name='${dynamicadName}'][value='${value}']`;
-    console.log('adselector', adselector);
-    $(adselector).prop('checked', true);
-});
+                                                    valuesArray.forEach(function(value) {
+                                                        var transformedKey = originalKey.charAt(0).toUpperCase() + originalKey.slice(1);
+                                                        var dynamicadName = 'additional_' + transformedKey.toLowerCase().replace(/\s+/g, '_') + '[]';
+                                                        var adselector = `input[name='${dynamicadName}'][value='${value}']`;
+                                                        console.log('adselector', adselector);
+                                                        $(adselector).prop('checked', true);
+                                                    });
                                                         // var value =jsonadObject[key][0]; // Assuming the value is always an array and we need the first element
                                                         // var transformedKey =originalKeycharAt(0).toUpperCase() +originalKey.slice(1);
                                                         // var dynamicadName ='additional_' +transformedKey.toLowerCase().replace(/\s+/g,'_') + '[]';
