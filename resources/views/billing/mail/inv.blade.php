@@ -226,7 +226,7 @@
                     </tr> -->
                     <tr>
                         <td colspan="2" class="text-right"><b>Amount Collected</b></td>
-                        <td> <b>${{$newpayment->amount}} </b></td>
+                        <td> <b>${{$paymentlog->amount}} </b></td>
                     </tr>
                     <tr>
                         <td colspan="2" class="text-right"><b>Balance Due</b></td>
