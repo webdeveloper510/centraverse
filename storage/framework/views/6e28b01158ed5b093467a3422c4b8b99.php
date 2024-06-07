@@ -1,5 +1,5 @@
-@extends('layouts.admin')
-@php
+
+<?php
 $settings = App\Models\Utility::settings();
 // $logo = asset(Storage::url('uploads/logo/'));
 $logo = \App\Models\Utility::get_file('uploads/logo/');
@@ -50,10 +50,10 @@ $meta_image = \App\Models\Utility::get_file('uploads/metaevent/');
 $imagePath = public_path('upload/signature/autorised_signature.png');
 $imageData = base64_encode(file_get_contents($imagePath));
 $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base64,' . $imageData;
-@endphp
+?>
 
-@push('css-page')
-@if ($color == 'theme-1')
+<?php $__env->startPush('css-page'); ?>
+<?php if($color == 'theme-1'): ?>
 <style>
 /* ul>li>a.active {
         border: 4px solid #fff;
@@ -181,8 +181,8 @@ ul>li.active {
     border-color: #51459d !important;
 }
 </style>
-@endif
-@if ($color == 'theme-2')
+<?php endif; ?>
+<?php if($color == 'theme-2'): ?>
 <style>
 .btn-check:checked+.btn-outline-success,
 .btn-check:active+.btn-outline-success,
@@ -206,8 +206,8 @@ ul>li.active {
     border-color: #1F3996 !important;
 }
 </style>
-@endif
-@if ($color == 'theme-4')
+<?php endif; ?>
+<?php if($color == 'theme-4'): ?>
 <style>
 .btn-check:checked+.btn-outline-success,
 .btn-check:active+.btn-outline-success,
@@ -231,8 +231,8 @@ ul>li.active {
     border-color: #584ed2 !important;
 }
 </style>
-@endif
-@if ($color == 'theme-3')
+<?php endif; ?>
+<?php if($color == 'theme-3'): ?>
 <style>
 .btn-check:checked+.btn-outline-success,
 .btn-check:active+.btn-outline-success,
@@ -256,7 +256,7 @@ ul>li.active {
     border-color: #6fd943 !important;
 }
 </style>
-@endif
+<?php endif; ?>
 <style>
 /* li:has(> a.active) {
     border-color: #2980b9;
@@ -289,8 +289,8 @@ canvas#signatureCanvas {
     /* Initially hide the accordion body */
 }
 </style>
-@endpush
-@push('script-page')
+<?php $__env->stopPush(); ?>
+<?php $__env->startPush('script-page'); ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
 <script>
 function myFunction() {
@@ -332,17 +332,17 @@ function check_theme(color_val) {
 $(document).on("change", "select[name='quote_template'], input[name='quote_color']", function() {
     var template = $("select[name='quote_template']").val();
     var color = $("input[name='quote_color']:checked").val();
-    $('#quote_frame').attr('src', '{{ url("/quote/preview")}}' + template + '/' + color);
+    $('#quote_frame').attr('src', '<?php echo e(url("/quote/preview")); ?>' + template + '/' + color);
 });
 $(document).on("change", "select[name='invoice_template'], input[name='invoice_color']", function() {
     var template = $("select[name='invoice_template']").val();
     var color = $("input[name='invoice_color']:checked").val();
-    $('#invoice_frame').attr('src', '{{ url("/invoice/preview") }}' + template + '/' + color);
+    $('#invoice_frame').attr('src', '<?php echo e(url("/invoice/preview")); ?>' + template + '/' + color);
 });
 $(document).on("change", "select[name='salesorder_template'], input[name='salesorder_color']", function() {
     var template = $("select[name='salesorder_template']").val();
     var color = $("input[name='salesorder_color']:checked").val();
-    $('#salesorder_frame').attr('src', '{{ url("/salesorder/preview") }}' + template + '/' + color);
+    $('#salesorder_frame').attr('src', '<?php echo e(url("/salesorder/preview")); ?>' + template + '/' + color);
 });
 </script>
 
@@ -359,7 +359,7 @@ $(document).on("click", '.send_email', function(e) {
         $("#commonModal").modal('show');
 
         $.post(url, {
-            _token: '{{ csrf_token() }}',
+            _token: '<?php echo e(csrf_token()); ?>',
             mail_driver: $("#mail_driver").val(),
             mail_host: $("#mail_host").val(),
             mail_port: $("#mail_port").val(),
@@ -463,18 +463,20 @@ $(document).ready(function() {
     });
 });
 </script>
-@endpush
-@section('page-title')
-{{ __('Settings') }}
-@endsection
-@section('title')
-{{ __('Settings') }}
-@endsection
-@section('breadcrumb')
-<li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
-<li class="breadcrumb-item">{{ __('Settings') }}</li>
-@endsection
-@section('content')
+<?php $__env->stopPush(); ?>
+<?php $__env->startSection('page-title'); ?>
+<?php echo e(__('Settings')); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('title'); ?>
+<?php echo e(__('Settings')); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('breadcrumb'); ?>
+<li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Dashboard')); ?></a></li>
+<li class="breadcrumb-item"><?php echo e(__('Settings')); ?></li>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
 <div class="container-field">
     <div id="wrapper1">
         <div id="page-content-wrapper" class="p0">
@@ -484,50 +486,53 @@ $(document).ready(function() {
                         <div class="faq justify-content-center">
                             <div class="col-sm-12 col-md-12 col-xxl-12">
                                 <div class="accordion accordion-flush setting setting-accordion1" id="accordionExample">
-                                    @if (\Auth::user()->type == 'owner')
+                                    <?php if(\Auth::user()->type == 'owner'): ?>
                                     <div id="company-email-setting" class="accordion-item card">
                                         <h2 class="accordion-header" id="heading-2-15">
                                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                                 data-bs-target="#collapse16" aria-expanded="false"
                                                 aria-controls="collapse16">
-                                                <h5>{{ __('Email Settings') }}</h5>
-                                                <small class="text-muted">{{ __('Edit your email details') }}</small>
+                                                <h5><?php echo e(__('Email Settings')); ?></h5>
+                                                <small class="text-muted"><?php echo e(__('Edit your email details')); ?></small>
                                             </button>
                                         </h2>
                                         <div id="collapse16" class="accordion-collapse collapse"
                                             aria-labelledby="heading-2-15" data-bs-parent="#accordionExample">
                                             <div class="accordion-body1">
-                                                {{ Form::open(['route' => 'email.setting', 'method' => 'post']) }}
+                                                <?php echo e(Form::open(['route' => 'email.setting', 'method' => 'post'])); ?>
+
                                                 <div class="card-body">
                                                     <div class="row mt-4">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="mail_driver"
-                                                                    class="col-form-label text-dark">{{ __('Mail Driver') }}</label>
+                                                                    class="col-form-label text-dark"><?php echo e(__('Mail Driver')); ?></label>
                                                                 <input type="text" name="mail_driver" id="mail_driver"
-                                                                    class="form-control {{ $errors->has('mail_driver') ? 'is-invalid' : '' }}"
-                                                                    value="{{ !isset($settings['mail_driver']) || is_null($settings['mail_driver']) ? '' : $settings['mail_driver'] }}"
-                                                                    placeholder="{{ trans('installer_messages.environment.wizard.form.app_tabs.mail_driver_placeholder') }}" />
-                                                                @if ($errors->has('mail_driver'))
+                                                                    class="form-control <?php echo e($errors->has('mail_driver') ? 'is-invalid' : ''); ?>"
+                                                                    value="<?php echo e(!isset($settings['mail_driver']) || is_null($settings['mail_driver']) ? '' : $settings['mail_driver']); ?>"
+                                                                    placeholder="<?php echo e(trans('installer_messages.environment.wizard.form.app_tabs.mail_driver_placeholder')); ?>" />
+                                                                <?php if($errors->has('mail_driver')): ?>
                                                                 <span class="invalid-feedback text-danger text-xs">
-                                                                    {{ $errors->first('mail_driver') }}
+                                                                    <?php echo e($errors->first('mail_driver')); ?>
+
                                                                 </span>
-                                                                @endif
+                                                                <?php endif; ?>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="mail_host"
-                                                                    class="col-form-label text-dark">{{ __('Mail Host') }}</label>
+                                                                    class="col-form-label text-dark"><?php echo e(__('Mail Host')); ?></label>
                                                                 <input type="text" name="mail_host" id="mail_host"
-                                                                    class="form-control {{ $errors->has('mail_host') ? 'is-invalid' : '' }}"
-                                                                    value="{{ !isset($settings['mail_host']) || is_null($settings['mail_host']) ? '' : $settings['mail_host'] }}"
-                                                                    placeholder="{{ trans('installer_messages.environment.wizard.form.app_tabs.mail_host_placeholder') }}" />
-                                                                @if ($errors->has('mail_host'))
+                                                                    class="form-control <?php echo e($errors->has('mail_host') ? 'is-invalid' : ''); ?>"
+                                                                    value="<?php echo e(!isset($settings['mail_host']) || is_null($settings['mail_host']) ? '' : $settings['mail_host']); ?>"
+                                                                    placeholder="<?php echo e(trans('installer_messages.environment.wizard.form.app_tabs.mail_host_placeholder')); ?>" />
+                                                                <?php if($errors->has('mail_host')): ?>
                                                                 <span class="invalid-feedback text-danger text-xs">
-                                                                    {{ $errors->first('mail_host') }}
+                                                                    <?php echo e($errors->first('mail_host')); ?>
+
                                                                 </span>
-                                                                @endif
+                                                                <?php endif; ?>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -535,32 +540,34 @@ $(document).ready(function() {
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="mail_port"
-                                                                    class="col-form-label text-dark">{{ __('Mail Port') }}</label>
+                                                                    class="col-form-label text-dark"><?php echo e(__('Mail Port')); ?></label>
                                                                 <input type="number" name="mail_port" id="mail_port"
-                                                                    class="form-control {{ $errors->has('mail_port') ? 'is-invalid' : '' }}"
-                                                                    value="{{ !isset($settings['mail_port']) || is_null($settings['mail_port']) ? '' : $settings['mail_port'] }}"
-                                                                    placeholder="{{ trans('installer_messages.environment.wizard.form.app_tabs.mail_port_placeholder') }}" />
-                                                                @if ($errors->has('mail_port'))
+                                                                    class="form-control <?php echo e($errors->has('mail_port') ? 'is-invalid' : ''); ?>"
+                                                                    value="<?php echo e(!isset($settings['mail_port']) || is_null($settings['mail_port']) ? '' : $settings['mail_port']); ?>"
+                                                                    placeholder="<?php echo e(trans('installer_messages.environment.wizard.form.app_tabs.mail_port_placeholder')); ?>" />
+                                                                <?php if($errors->has('mail_port')): ?>
                                                                 <span class="invalid-feedback text-danger text-xs">
-                                                                    {{ $errors->first('mail_port') }}
+                                                                    <?php echo e($errors->first('mail_port')); ?>
+
                                                                 </span>
-                                                                @endif
+                                                                <?php endif; ?>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="mail_username"
-                                                                    class="col-form-label text-dark">{{ __('Mail Username') }}</label>
+                                                                    class="col-form-label text-dark"><?php echo e(__('Mail Username')); ?></label>
                                                                 <input type="text" name="mail_username"
                                                                     id="mail_username"
-                                                                    class="form-control {{ $errors->has('mail_username') ? 'is-invalid' : '' }}"
-                                                                    value="{{ !isset($settings['mail_username']) || is_null($settings['mail_username']) ? '' : $settings['mail_username'] }}"
-                                                                    placeholder="{{ trans('installer_messages.environment.wizard.form.app_tabs.mail_username_placeholder') }}" />
-                                                                @if ($errors->has('mail_username'))
+                                                                    class="form-control <?php echo e($errors->has('mail_username') ? 'is-invalid' : ''); ?>"
+                                                                    value="<?php echo e(!isset($settings['mail_username']) || is_null($settings['mail_username']) ? '' : $settings['mail_username']); ?>"
+                                                                    placeholder="<?php echo e(trans('installer_messages.environment.wizard.form.app_tabs.mail_username_placeholder')); ?>" />
+                                                                <?php if($errors->has('mail_username')): ?>
                                                                 <span class="invalid-feedback text-danger text-xs">
-                                                                    {{ $errors->first('mail_username') }}
+                                                                    <?php echo e($errors->first('mail_username')); ?>
+
                                                                 </span>
-                                                                @endif
+                                                                <?php endif; ?>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -568,77 +575,82 @@ $(document).ready(function() {
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="mail_password"
-                                                                    class="col-form-label text-dark">{{ __('Mail Password') }}</label>
+                                                                    class="col-form-label text-dark"><?php echo e(__('Mail Password')); ?></label>
                                                                 <input type="text" name="mail_password"
                                                                     id="mail_password"
-                                                                    class="form-control {{ $errors->has('mail_password') ? 'is-invalid' : '' }}"
-                                                                    value="{{ !isset($settings['mail_password']) || is_null($settings['mail_password']) ? '' : $settings['mail_password'] }}"
-                                                                    placeholder="{{ trans('installer_messages.environment.wizard.form.app_tabs.mail_password_placeholder') }}" />
-                                                                @if ($errors->has('mail_password'))
+                                                                    class="form-control <?php echo e($errors->has('mail_password') ? 'is-invalid' : ''); ?>"
+                                                                    value="<?php echo e(!isset($settings['mail_password']) || is_null($settings['mail_password']) ? '' : $settings['mail_password']); ?>"
+                                                                    placeholder="<?php echo e(trans('installer_messages.environment.wizard.form.app_tabs.mail_password_placeholder')); ?>" />
+                                                                <?php if($errors->has('mail_password')): ?>
                                                                 <span class="invalid-feedback text-danger text-xs">
-                                                                    {{ $errors->first('mail_password') }}
+                                                                    <?php echo e($errors->first('mail_password')); ?>
+
                                                                 </span>
-                                                                @endif
+                                                                <?php endif; ?>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="mail_encryption"
-                                                                    class="col-form-label text-dark">{{ __('Mail Encryption') }}</label>
+                                                                    class="col-form-label text-dark"><?php echo e(__('Mail Encryption')); ?></label>
                                                                 <input type="text" name="mail_encryption"
                                                                     id="mail_encryption"
-                                                                    class="form-control {{ $errors->has('mail_encryption') ? 'is-invalid' : '' }}"
-                                                                    value="{{ !isset($settings['mail_encryption']) || is_null($settings['mail_encryption']) ? '' : $settings['mail_encryption'] }}"
-                                                                    placeholder="{{ trans('installer_messages.environment.wizard.form.app_tabs.mail_encryption_placeholder') }}" />
-                                                                @if ($errors->has('mail_encryption'))
+                                                                    class="form-control <?php echo e($errors->has('mail_encryption') ? 'is-invalid' : ''); ?>"
+                                                                    value="<?php echo e(!isset($settings['mail_encryption']) || is_null($settings['mail_encryption']) ? '' : $settings['mail_encryption']); ?>"
+                                                                    placeholder="<?php echo e(trans('installer_messages.environment.wizard.form.app_tabs.mail_encryption_placeholder')); ?>" />
+                                                                <?php if($errors->has('mail_encryption')): ?>
                                                                 <span class="invalid-feedback text-danger text-xs">
-                                                                    {{ $errors->first('mail_encryption') }}
+                                                                    <?php echo e($errors->first('mail_encryption')); ?>
+
                                                                 </span>
-                                                                @endif
+                                                                <?php endif; ?>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="mail_from_address"
-                                                                    class="col-form-label text-dark">{{ __('Mail From Address') }}</label>
+                                                                    class="col-form-label text-dark"><?php echo e(__('Mail From Address')); ?></label>
                                                                 <input type="text" name="mail_from_address"
                                                                     id="mail_from_address"
-                                                                    class="form-control {{ $errors->has('mail_from_address') ? 'is-invalid' : '' }}"
-                                                                    value="{{ !isset($settings['mail_from_address']) || is_null($settings['mail_from_address']) ? '' : $settings['mail_from_address'] }}"
-                                                                    placeholder="{{ __('Enter Mail From Address') }}" />
-                                                                @if ($errors->has('mail_from_address'))
+                                                                    class="form-control <?php echo e($errors->has('mail_from_address') ? 'is-invalid' : ''); ?>"
+                                                                    value="<?php echo e(!isset($settings['mail_from_address']) || is_null($settings['mail_from_address']) ? '' : $settings['mail_from_address']); ?>"
+                                                                    placeholder="<?php echo e(__('Enter Mail From Address')); ?>" />
+                                                                <?php if($errors->has('mail_from_address')): ?>
                                                                 <span class="invalid-feedback text-danger text-xs">
-                                                                    {{ $errors->first('mail_from_address') }}
+                                                                    <?php echo e($errors->first('mail_from_address')); ?>
+
                                                                 </span>
-                                                                @endif
+                                                                <?php endif; ?>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="mail_from_name"
-                                                                    class="col-form-label text-dark">{{ __('Mail From Name') }}</label>
+                                                                    class="col-form-label text-dark"><?php echo e(__('Mail From Name')); ?></label>
                                                                 <input type="text" name="mail_from_name"
                                                                     id="mail_from_name"
-                                                                    class="form-control {{ $errors->has('mail_from_name') ? 'is-invalid' : '' }}"
-                                                                    value="{{ !isset($settings['mail_from_name']) || is_null($settings['mail_from_name']) ? '' : $settings['mail_from_name'] }}"
-                                                                    placeholder="{{ __('Enter Mail From Name') }}" />
-                                                                @if ($errors->has('mail_from_name'))
+                                                                    class="form-control <?php echo e($errors->has('mail_from_name') ? 'is-invalid' : ''); ?>"
+                                                                    value="<?php echo e(!isset($settings['mail_from_name']) || is_null($settings['mail_from_name']) ? '' : $settings['mail_from_name']); ?>"
+                                                                    placeholder="<?php echo e(__('Enter Mail From Name')); ?>" />
+                                                                <?php if($errors->has('mail_from_name')): ?>
                                                                 <span class="invalid-feedback text-danger text-xs">
-                                                                    {{ $errors->first('mail_from_name') }}
+                                                                    <?php echo e($errors->first('mail_from_name')); ?>
+
                                                                 </span>
-                                                                @endif
+                                                                <?php endif; ?>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="footer-row justify-content-end felx-wrap d-flex">
 
-                                                            <input type="submit" value="{{ __('Save Changes') }}"
+                                                            <input type="submit" value="<?php echo e(__('Save Changes')); ?>"
                                                                 class="btn btn-print-invoice  btn-primary m-r-10 mb-2">
                                                         </div>
                                                     </div>
                                                 </div>
-                                                {{ Form::close() }}
+                                                <?php echo e(Form::close()); ?>
+
                                             </div>
                                         </div>
                                     </div>
@@ -647,62 +659,73 @@ $(document).ready(function() {
                                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                                 data-bs-target="#collapse15" aria-expanded="false"
                                                 aria-controls="collapse15">
-                                                <h5>{{ __('Twilio Settings') }}</h5>
-                                                <small class="text-muted">{{ __('Edit your twilio details') }}</small>
+                                                <h5><?php echo e(__('Twilio Settings')); ?></h5>
+                                                <small class="text-muted"><?php echo e(__('Edit your twilio details')); ?></small>
                                             </button>
                                         </h2>
                                         <div id="collapse15" class="accordion-collapse collapse"
                                             aria-labelledby="heading-2-15" data-bs-parent="#accordionExample">
                                             <div class="accordion-body1">
-                                                {{ Form::model($settings, ['route' => 'twilio.setting', 'method' => 'post']) }}
-                                                @csrf
+                                                <?php echo e(Form::model($settings, ['route' => 'twilio.setting', 'method' => 'post'])); ?>
+
+                                                <?php echo csrf_field(); ?>
                                                 <div class="row mt-3">
                                                     <div class="form-group col-md-4">
-                                                        {{ Form::label('SID', __('SID'), ['class' => 'form-label']) }}
-                                                        {{ Form::text('twilio_sid', isset($settings['twilio_sid']) ? $settings['twilio_sid'] : '', ['class' => 'form-control ', 'placeholder' => __('Enter Twilio Sid'), 'required' => 'required']) }}
-                                                    </div>
-                                                    <div class="form-group col-md-4">
-                                                        {{ Form::label('Token', __('Token'), ['class' => 'form-label']) }}
-                                                        {{ Form::text('twilio_token', isset($settings['twilio_token']) ? $settings['twilio_token'] : '', ['class' => 'form-control ', 'placeholder' => __('Enter Twilio Token'), 'required' => 'required']) }}
-                                                    </div>
-                                                    <div class="form-group col-md-4">
-                                                        {{ Form::label('From', __('From'), ['class' => 'form-label']) }}
+                                                        <?php echo e(Form::label('SID', __('SID'), ['class' => 'form-label'])); ?>
 
-                                                        {{ Form::text('twilio_from', isset($settings['twilio_from']) ? $settings['twilio_from'] : '', ['class' => 'form-control ', 'placeholder' => __('Enter Twilio From'), 'required' => 'required']) }}
+                                                        <?php echo e(Form::text('twilio_sid', isset($settings['twilio_sid']) ? $settings['twilio_sid'] : '', ['class' => 'form-control ', 'placeholder' => __('Enter Twilio Sid'), 'required' => 'required'])); ?>
+
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <?php echo e(Form::label('Token', __('Token'), ['class' => 'form-label'])); ?>
+
+                                                        <?php echo e(Form::text('twilio_token', isset($settings['twilio_token']) ? $settings['twilio_token'] : '', ['class' => 'form-control ', 'placeholder' => __('Enter Twilio Token'), 'required' => 'required'])); ?>
+
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <?php echo e(Form::label('From', __('From'), ['class' => 'form-label'])); ?>
+
+
+                                                        <?php echo e(Form::text('twilio_from', isset($settings['twilio_from']) ? $settings['twilio_from'] : '', ['class' => 'form-control ', 'placeholder' => __('Enter Twilio From'), 'required' => 'required'])); ?>
+
                                                     </div>
                                                     <div class="col-md-12 mt-4 mb-2">
-                                                        <h4 class="small-title">{{ __('Module Settings') }}</h4>
+                                                        <h4 class="small-title"><?php echo e(__('Module Settings')); ?></h4>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <ul class="list-group">
                                                             <li class="list-group-item">
-                                                                <span>{{ __('New User') }}</span>
+                                                                <span><?php echo e(__('New User')); ?></span>
                                                                 <div class="form-check form-switch float-end">
-                                                                    {{ Form::checkbox('twilio_user_create', '1', isset($settings['twilio_user_create']) && $settings['twilio_user_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_user_create']) }}
+                                                                    <?php echo e(Form::checkbox('twilio_user_create', '1', isset($settings['twilio_user_create']) && $settings['twilio_user_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_user_create'])); ?>
+
                                                                     <label class="form-check-label"
                                                                         for="twilio_user_create"></label>
                                                                 </div>
                                                             </li>
                                                             <li class="list-group-item">
-                                                                <span>{{ __('New Lead') }}</span>
+                                                                <span><?php echo e(__('New Lead')); ?></span>
                                                                 <div class="form-check form-switch float-end">
-                                                                    {{ Form::checkbox('twilio_lead_create', '1', isset($settings['twilio_lead_create']) && $settings['twilio_lead_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_lead_create']) }}
+                                                                    <?php echo e(Form::checkbox('twilio_lead_create', '1', isset($settings['twilio_lead_create']) && $settings['twilio_lead_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_lead_create'])); ?>
+
                                                                     <label class="form-check-label"
                                                                         for="twilio_lead_create"></label>
                                                                 </div>
                                                             </li>
                                                             <li class="list-group-item">
-                                                                <span>{{ __('New Meeting') }}</span>
+                                                                <span><?php echo e(__('New Meeting')); ?></span>
                                                                 <div class="form-check form-switch float-end">
-                                                                    {{ Form::checkbox('twilio_meeting_create', '1', isset($settings['twilio_meeting_create']) && $settings['twilio_meeting_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_meeting_create']) }}
+                                                                    <?php echo e(Form::checkbox('twilio_meeting_create', '1', isset($settings['twilio_meeting_create']) && $settings['twilio_meeting_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_meeting_create'])); ?>
+
                                                                     <label class="form-check-label"
                                                                         for="twilio_meeting_create"></label>
                                                                 </div>
                                                             </li>
                                                             <!-- <li class="list-group-item">
-                                                                                <span>{{ __('New Quotes') }}</span>
+                                                                                <span><?php echo e(__('New Quotes')); ?></span>
                                                                                 <div class="form-check form-switch float-end">
-                                                                                    {{ Form::checkbox('twilio_quotes_create', '1', isset($settings['twilio_quotes_create']) && $settings['twilio_quotes_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_quotes_create']) }}
+                                                                                    <?php echo e(Form::checkbox('twilio_quotes_create', '1', isset($settings['twilio_quotes_create']) && $settings['twilio_quotes_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_quotes_create'])); ?>
+
                                                                                     <label class="form-check-label" for="twilio_quotes_create"></label>
                                                                                 </div>
                                                                             </li> -->
@@ -711,23 +734,26 @@ $(document).ready(function() {
                                                     <!-- <div class="col-md-4">
                                                     <ul class="list-group">
                                                         <li class="list-group-item">
-                                                            <span>{{ __('New Sales Order') }}</span>
+                                                            <span><?php echo e(__('New Sales Order')); ?></span>
                                                             <div class="form-check form-switch float-end">
-                                                                {{ Form::checkbox('twilio_salesorder_create', '1', isset($settings['twilio_salesorder_create']) && $settings['twilio_salesorder_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_salesorder_create']) }}
+                                                                <?php echo e(Form::checkbox('twilio_salesorder_create', '1', isset($settings['twilio_salesorder_create']) && $settings['twilio_salesorder_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_salesorder_create'])); ?>
+
                                                                 <label class="form-check-label" for="twilio_salesorder_create"></label>
                                                             </div>
                                                         </li>
                                                         <li class="list-group-item">
-                                                            <span>{{ __('New Invoice') }}</span>
+                                                            <span><?php echo e(__('New Invoice')); ?></span>
                                                             <div class="form-check form-switch float-end">
-                                                                {{ Form::checkbox('twilio_invoice_create', '1', isset($settings['twilio_invoice_create']) && $settings['twilio_invoice_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_invoice_create']) }}
+                                                                <?php echo e(Form::checkbox('twilio_invoice_create', '1', isset($settings['twilio_invoice_create']) && $settings['twilio_invoice_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_invoice_create'])); ?>
+
                                                                 <label class="form-check-label" for="twilio_invoice_create"></label>
                                                             </div>
                                                         </li>
                                                         <li class="list-group-item">
-                                                            <span>{{ __('New Invoice Payment') }}</span>
+                                                            <span><?php echo e(__('New Invoice Payment')); ?></span>
                                                             <div class="form-check form-switch float-end">
-                                                                {{ Form::checkbox('twilio_invoicepay_create', '1', isset($settings['twilio_invoicepay_create']) && $settings['twilio_invoicepay_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_invoicepay_create']) }}
+                                                                <?php echo e(Form::checkbox('twilio_invoicepay_create', '1', isset($settings['twilio_invoicepay_create']) && $settings['twilio_invoicepay_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_invoicepay_create'])); ?>
+
                                                                 <label class="form-check-label" for="twilio_invoicepay_create"></label>
                                                             </div>
                                                         </li>
@@ -736,48 +762,52 @@ $(document).ready(function() {
                                                 <div class="col-md-4">
                                                     <ul class="list-group">
                                                         <li class="list-group-item">
-                                                            <span>{{ __('New Meeting') }}</span>
+                                                            <span><?php echo e(__('New Meeting')); ?></span>
                                                             <div class="form-check form-switch float-end">
-                                                                {{ Form::checkbox('twilio_meeting_create', '1', isset($settings['twilio_meeting_create']) && $settings['twilio_meeting_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_meeting_create']) }}
+                                                                <?php echo e(Form::checkbox('twilio_meeting_create', '1', isset($settings['twilio_meeting_create']) && $settings['twilio_meeting_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_meeting_create'])); ?>
+
                                                                 <label class="form-check-label" for="twilio_meeting_create"></label>
                                                             </div>
                                                         </li>
                                                         <li class="list-group-item">
-                                                            <span>{{ __('New Task') }}</span>
+                                                            <span><?php echo e(__('New Task')); ?></span>
                                                             <div class="form-check form-switch float-end">
-                                                                {{ Form::checkbox('twilio_task_create', '1', isset($settings['twilio_task_create']) && $settings['twilio_task_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_task_create']) }}
+                                                                <?php echo e(Form::checkbox('twilio_task_create', '1', isset($settings['twilio_task_create']) && $settings['twilio_task_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_task_create'])); ?>
+
                                                                 <label class="form-check-label" for="twilio_task_create"></label>
                                                             </div>
                                                         </li>
                                                     </ul>
                                                 </div> -->
                                                     <div class="text-end">
-                                                        {{ Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary']) }}
+                                                        <?php echo e(Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary'])); ?>
+
                                                     </div>
                                                 </div>
-                                                {{ Form::close() }}
+                                                <?php echo e(Form::close()); ?>
+
                                             </div>
                                         </div>
                                     </div>
-                                    @endif
-                                    @can('Manage User')
+                                    <?php endif; ?>
+                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage User')): ?>
                                     <div id="user-settings" class="accordion-item  card">
                                         <h2 class="accordion-header" id="heading-2-15">
                                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                                 data-bs-target="#collapse17" aria-expanded="false"
                                                 aria-controls="collapse17">
-                                                <h5>{{ __('Staff Settings') }}</h5>
-                                                @can('Create User')
+                                                <h5><?php echo e(__('Staff Settings')); ?></h5>
+                                                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create User')): ?>
                                                 <div class="action-btn bg-warning ms-2" style="float: inline-end;">
-                                                    <a href="javascript:void(0);" data-url="{{ route('user.create') }}"
+                                                    <a href="javascript:void(0);" data-url="<?php echo e(route('user.create')); ?>"
                                                         data-size="md" data-ajax-popup="true" data-bs-toggle="tooltip"
-                                                        title="{{ __('Create Staff') }}"
-                                                        data-title="{{ __('Create Staff Member') }}"
+                                                        title="<?php echo e(__('Create Staff')); ?>"
+                                                        data-title="<?php echo e(__('Create Staff Member')); ?>"
                                                         class="btn btn-sm btn-primary btn-icon">
                                                         <i class="ti ti-plus"></i>
                                                     </a>
                                                 </div>
-                                                @endcan
+                                                <?php endif; ?>
                                             </button>
                                         </h2>
                                         <div id="collapse17" class="accordion-collapse collapse"
@@ -788,158 +818,162 @@ $(document).ready(function() {
                                                         <thead class="thead-light">
                                                             <tr>
                                                                 <th scope="col" class="sort" data-sort="username">
-                                                                    {{ __('Avatar') }}</th>
-                                                                <!-- <th scope="col" class="sort" data-sort="username">{{ __('User Name') }}</th> -->
+                                                                    <?php echo e(__('Avatar')); ?></th>
+                                                                <!-- <th scope="col" class="sort" data-sort="username"><?php echo e(__('User Name')); ?></th> -->
                                                                 <th scope="col" class="sort" data-sort="name">
-                                                                    {{ __('Name') }}</th>
+                                                                    <?php echo e(__('Name')); ?></th>
                                                                 <th scope="col" class="sort" data-sort="email">
-                                                                    {{ __('Email') }}</th>
-                                                                @if (\Auth::user()->type != 'super admin')
+                                                                    <?php echo e(__('Email')); ?></th>
+                                                                <?php if(\Auth::user()->type != 'super admin'): ?>
                                                                 <th scope="col" class="sort" data-sort="title">
-                                                                    {{ __('Type') }}</th>
+                                                                    <?php echo e(__('Type')); ?></th>
                                                                 <th scope="col" class="sort" data-sort="isactive">
-                                                                    {{ __('Status') }}</th>
-                                                                @endif
-                                                                @if (Gate::check('Edit User') || Gate::check('Delete
-                                                                User'))
-                                                                <th class="text-end" scope="col">{{ __('Action') }}</th>
-                                                                @endif
+                                                                    <?php echo e(__('Status')); ?></th>
+                                                                <?php endif; ?>
+                                                                <?php if(Gate::check('Edit User') || Gate::check('Delete
+                                                                User')): ?>
+                                                                <th class="text-end" scope="col"><?php echo e(__('Action')); ?></th>
+                                                                <?php endif; ?>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            @php
+                                                            <?php
                                                             $profile = \App\Models\Utility::get_file('upload/profile/');
-                                                            @endphp
-                                                            @foreach($users as $user)
+                                                            ?>
+                                                            <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                             <tr>
                                                                 <td>
                                                                     <span class="avatar">
-                                                                        <a href="{{ $profile }}{{ !empty($user->avatar) ? $user->avatar : 'avatar.png' }}"
+                                                                        <a href="<?php echo e($profile); ?><?php echo e(!empty($user->avatar) ? $user->avatar : 'avatar.png'); ?>"
                                                                             target="_blank">
                                                                             <img class="rounded-circle" width="25%"
-                                                                                @if($user->avatar)
-                                                                            src="{{ $profile }}{{ !empty($user->avatar) ? $user->avatar : 'avatar.png' }}"@else
-                                                                            src="{{ $profile . 'avatar.png' }}"
-                                                                            @endif alt="{{ $user->name }}">
+                                                                                <?php if($user->avatar): ?>
+                                                                            src="<?php echo e($profile); ?><?php echo e(!empty($user->avatar) ? $user->avatar : 'avatar.png'); ?>"<?php else: ?>
+                                                                            src="<?php echo e($profile . 'avatar.png'); ?>"
+                                                                            <?php endif; ?> alt="<?php echo e($user->name); ?>">
                                                                         </a>
                                                                     </span>
                                                                 </td>
 
                                                                 <td>
-                                                                    <span class="budget"> {{ ucfirst($user->name) }}
+                                                                    <span class="budget"> <?php echo e(ucfirst($user->name)); ?>
+
                                                                     </span>
                                                                 </td>
                                                                 <td>
-                                                                    <span class="budget">{{ $user->email }}</span>
+                                                                    <span class="budget"><?php echo e($user->email); ?></span>
                                                                 </td>
-                                                                @if (\Auth::user()->type != 'super admin')
+                                                                <?php if(\Auth::user()->type != 'super admin'): ?>
                                                                 <td>
-                                                                    {{ ucfirst($user->type) }}
+                                                                    <?php echo e(ucfirst($user->type)); ?>
+
                                                                 </td>
                                                                 <td>
-                                                                    @if ($user->is_active == 1)
+                                                                    <?php if($user->is_active == 1): ?>
                                                                     <span
-                                                                        class="badge bg-success p-2 px-3 rounded">{{ __('Active') }}</span>
-                                                                    @else
+                                                                        class="badge bg-success p-2 px-3 rounded"><?php echo e(__('Active')); ?></span>
+                                                                    <?php else: ?>
                                                                     <span
-                                                                        class="badge bg-danger p-2 px-3 rounded">{{ __('In Active') }}</span>
-                                                                    @endif
+                                                                        class="badge bg-danger p-2 px-3 rounded"><?php echo e(__('In Active')); ?></span>
+                                                                    <?php endif; ?>
                                                                 </td>
-                                                                @endif
-                                                                @if (Gate::check('Edit User') || Gate::check('Delete
-                                                                User'))
+                                                                <?php endif; ?>
+                                                                <?php if(Gate::check('Edit User') || Gate::check('Delete
+                                                                User')): ?>
                                                                 <td class="text-end">
-                                                                    @if(Storage::disk('public')->exists('UserInfo/' .
-                                                                    $user->id))
+                                                                    <?php if(Storage::disk('public')->exists('UserInfo/' .
+                                                                    $user->id)): ?>
                                                                     <div class="action-btn bg-secondary ms-2"
                                                                         style="float: right;">
                                                                         <a href="#" data-size="md"
-                                                                            data-url="{{route('user.docs',$user->id)}}"
+                                                                            data-url="<?php echo e(route('user.docs',$user->id)); ?>"
                                                                             data-ajax-popup="true"
                                                                             data-bs-toggle="tooltip"
-                                                                            data-title="{{ __('Attachments') }}"
-                                                                            title="{{ __('Attachments') }}"
+                                                                            data-title="<?php echo e(__('Attachments')); ?>"
+                                                                            title="<?php echo e(__('Attachments')); ?>"
                                                                             class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                                             <i class="ti ti-eye"></i>
                                                                         </a>
                                                                     </div>
-                                                                    @endif
+                                                                    <?php endif; ?>
                                                                     <div class="action-btn bg-success ms-2">
                                                                         <a href="javascript:void(0);"
                                                                             class="mx-3 btn btn-sm d-inline-flex align-items-center text-white"
                                                                             data-size="md"
-                                                                            data-url="{{ route('user.reset', \Crypt::encrypt($user->id)) }}"
+                                                                            data-url="<?php echo e(route('user.reset', \Crypt::encrypt($user->id))); ?>"
                                                                             data-ajax-popup="true"
-                                                                            title="{{ __('Reset Password') }}"
+                                                                            title="<?php echo e(__('Reset Password')); ?>"
                                                                             data-bs-toggle="tooltip"
-                                                                            data-title="{{ __('Reset Password') }}">
+                                                                            data-title="<?php echo e(__('Reset Password')); ?>">
                                                                             <i class="ti ti-key"></i>
                                                                         </a>
                                                                     </div>
-                                                                    @can('Show User')
+                                                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show User')): ?>
                                                                     <div class="action-btn bg-warning ms-2">
                                                                         <a href="javascript:void(0);" data-size="md"
-                                                                            data-url="{{ route('user.show', $user->id) }}"
+                                                                            data-url="<?php echo e(route('user.show', $user->id)); ?>"
                                                                             data-bs-toggle="tooltip"
-                                                                            title="{{ __('Details') }}"
+                                                                            title="<?php echo e(__('Details')); ?>"
                                                                             data-ajax-popup="true"
-                                                                            data-title="{{ __('User Details') }}"
+                                                                            data-title="<?php echo e(__('User Details')); ?>"
                                                                             class="mx-3 btn btn-sm d-inline-flex align-items-center text-white">
                                                                             <i class="ti ti-eye"></i>
                                                                         </a>
                                                                     </div>
-                                                                    @endcan
-                                                                    @can('Edit User')
+                                                                    <?php endif; ?>
+                                                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Edit User')): ?>
                                                                     <div class="action-btn bg-info ms-2">
-                                                                        <a href="{{ route('user.edit', $user->id) }}"
+                                                                        <a href="<?php echo e(route('user.edit', $user->id)); ?>"
                                                                             class="mx-3 btn btn-sm d-inline-flex align-items-center text-white"
                                                                             data-bs-toggle="tooltip"
-                                                                            title="{{ __('Edit') }}"
-                                                                            data-title="{{ __('Edit User') }}"><i
+                                                                            title="<?php echo e(__('Edit')); ?>"
+                                                                            data-title="<?php echo e(__('Edit User')); ?>"><i
                                                                                 class="ti ti-edit"></i></a>
                                                                     </div>
-                                                                    @endcan
-                                                                    @can('Delete User')
+                                                                    <?php endif; ?>
+                                                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Delete User')): ?>
                                                                     <div class="action-btn bg-danger ms-2">
-                                                                        {!! Form::open(['method' => 'DELETE', 'route' =>
-                                                                        ['user.destroy', $user->id]]) !!}
+                                                                        <?php echo Form::open(['method' => 'DELETE', 'route' =>
+                                                                        ['user.destroy', $user->id]]); ?>
+
                                                                         <a href="#!"
                                                                             class="mx-3 btn btn-sm align-items-center text-white show_confirm"
                                                                             data-bs-toggle="tooltip" title='Delete'>
                                                                             <i class="ti ti-trash"></i>
                                                                         </a>
-                                                                        {!! Form::close() !!}
+                                                                        <?php echo Form::close(); ?>
+
                                                                     </div>
-                                                                    @endcan
+                                                                    <?php endif; ?>
                                                                 </td>
-                                                                @endif
+                                                                <?php endif; ?>
                                                             </tr>
-                                                            @endforeach
+                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                         </tbody>
                                                     </table>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    @endcan
-                                    @can('Manage Role')
+                                    <?php endif; ?>
+                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Role')): ?>
                                     <div id="role-settings" class="accordion-item card">
                                         <h2 class="accordion-header" id="heading-2-15">
                                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                                 data-bs-target="#collapse18" aria-expanded="false"
                                                 aria-controls="collapse18">
-                                                <h5>{{ __('Role Settings') }}</h5>
-                                                @can('Create Role')
+                                                <h5><?php echo e(__('Role Settings')); ?></h5>
+                                                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Role')): ?>
                                                 <div class="action-btn bg-warning ms-2" style="float: inline-end;">
-                                                    <a href="javascript:void(0);" data-url="{{ route('role.create') }}"
+                                                    <a href="javascript:void(0);" data-url="<?php echo e(route('role.create')); ?>"
                                                         data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip"
-                                                        title="{{__(' Create Role')}}"
-                                                        data-title="{{__('Create New Role')}}"
+                                                        title="<?php echo e(__(' Create Role')); ?>"
+                                                        data-title="<?php echo e(__('Create New Role')); ?>"
                                                         class="btn btn-sm btn-primary btn-icon m-1">
                                                         <i class="ti ti-plus"></i>
                                                     </a>
                                                 </div>
-                                                @endcan
+                                                <?php endif; ?>
                                             </button>
                                         </h2>
                                         <div id="collapse18" class="accordion-collapse collapse"
@@ -950,68 +984,68 @@ $(document).ready(function() {
                                                         <table class="table datatable" id="datatable1">
                                                             <thead>
                                                                 <tr>
-                                                                    <th width="150">{{__('Role')}} </th>
-                                                                    <th>{{__('Permissions')}} </th>
-                                                                    @if(Gate::check('Edit Role') ||
-                                                                    Gate::check('Delete Role'))
+                                                                    <th width="150"><?php echo e(__('Role')); ?> </th>
+                                                                    <th><?php echo e(__('Permissions')); ?> </th>
+                                                                    <?php if(Gate::check('Edit Role') ||
+                                                                    Gate::check('Delete Role')): ?>
                                                                     <th width="150" class="text-end">
-                                                                        {{__('Action')}} </th>
-                                                                    @endif
+                                                                        <?php echo e(__('Action')); ?> </th>
+                                                                    <?php endif; ?>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
 
-                                                                @foreach ($roles as $role)
+                                                                <?php $__currentLoopData = $roles; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $role): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                 <tr>
-                                                                    <td width="150">{{ $role->name }}</td>
+                                                                    <td width="150"><?php echo e($role->name); ?></td>
                                                                     <td class="Permission mt-10">
                                                                         <div class="badges">
-                                                                            {{-- @for($j=0;$j<count($role->permissions()->pluck('name'));$j++)
-                                                                                                <span class="badge bg-primary p-1 px-2 rounded ">{{$role->permissions()->pluck('name')[$j]}}</span>
-                                                                            @endfor --}}
-                                                                            @foreach ($role->permissions as $permission)
+                                                                            
+                                                                            <?php $__currentLoopData = $role->permissions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $permission): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                             <span
                                                                                 class="badge rounded p-2 m-1 px-3 bg-primary">
                                                                                 <a href="#"
-                                                                                    class="text-white">{{ $permission->name }}</a>
+                                                                                    class="text-white"><?php echo e($permission->name); ?></a>
                                                                             </span>
-                                                                            @endforeach
+                                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                                         </div>
                                                                     </td>
-                                                                    @if(Gate::check('Edit Role') ||
-                                                                    Gate::check('Delete Role'))
+                                                                    <?php if(Gate::check('Edit Role') ||
+                                                                    Gate::check('Delete Role')): ?>
                                                                     <td class="text-end">
-                                                                        @can('Edit Role')
+                                                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Edit Role')): ?>
                                                                         <div class="action-btn bg-info ms-2">
                                                                             <a href="#"
                                                                                 class="mx-3 btn btn-sm d-inline-flex align-items-center text-white"
-                                                                                data-url="{{ route('role.edit',$role->id) }}"
+                                                                                data-url="<?php echo e(route('role.edit',$role->id)); ?>"
                                                                                 data-size="lg" data-ajax-popup="true"
                                                                                 data-bs-toggle="tooltip"
-                                                                                title="{{__('Edit')}}"
-                                                                                data-title="{{__('Edit Role')}}">
+                                                                                title="<?php echo e(__('Edit')); ?>"
+                                                                                data-title="<?php echo e(__('Edit Role')); ?>">
                                                                                 <i class="ti ti-edit"></i>
                                                                             </a>
                                                                         </div>
-                                                                        @endcan
+                                                                        <?php endif; ?>
 
-                                                                        @can('Delete Role')
+                                                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Delete Role')): ?>
                                                                         <div class="action-btn bg-danger ms-2">
-                                                                            {!! Form::open(['method' =>
+                                                                            <?php echo Form::open(['method' =>
                                                                             'DELETE', 'route' =>
-                                                                            ['role.destroy', $role->id]]) !!}
+                                                                            ['role.destroy', $role->id]]); ?>
+
                                                                             <a href="#!"
                                                                                 class="mx-3 btn btn-sm  align-items-center text-white show_confirm"
                                                                                 data-bs-toggle="tooltip" title='Delete'>
                                                                                 <i class="ti ti-trash"></i>
                                                                             </a>
-                                                                            {!! Form::close() !!}
+                                                                            <?php echo Form::close(); ?>
+
                                                                         </div>
-                                                                        @endcan
+                                                                        <?php endif; ?>
                                                                     </td>
-                                                                    @endif
+                                                                    <?php endif; ?>
                                                                 </tr>
-                                                                @endforeach
+                                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -1019,13 +1053,13 @@ $(document).ready(function() {
                                             </div>
                                         </div>
                                     </div>
-                                    @endcan
+                                    <?php endif; ?>
                                     <div id="eventsettings" class="accordion-item card mt-2">
                                         <h2 class="accordion-header" id="heading-2-15">
                                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                                 data-bs-target="#collapse19" aria-expanded="false"
                                                 aria-controls="collapse19">
-                                                <h5>{{ __('Event Settings') }}</h5>
+                                                <h5><?php echo e(__('Event Settings')); ?></h5>
                                             </button>
                                         </h2>
                                         <div id="collapse19" class="accordion-collapse collapse"
@@ -1036,53 +1070,59 @@ $(document).ready(function() {
                                                         <div class="card-header">
                                                             <div class="row">
                                                                 <div class="col-lg-8 col-md-8 col-sm-8">
-                                                                    <h5>{{ __('Event Type Settings') }}</h5>
+                                                                    <h5><?php echo e(__('Event Type Settings')); ?></h5>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="card-body">
                                                             <div class="row mt-3">
-                                                                {{ Form::open(['route' => 'event_type.setting', 'method' => 'post']) }}
-                                                                @csrf
+                                                                <?php echo e(Form::open(['route' => 'event_type.setting', 'method' => 'post'])); ?>
+
+                                                                <?php echo csrf_field(); ?>
                                                                 <div class="form-group col-md-12">
-                                                                    {{ Form::label('event_type', __('Event Type'), ['class' => 'form-label']) }}
-                                                                    {{ Form::text('event_type',null,['class' => 'form-control ', 'placeholder' => __('Enter Event Type'), 'required' => 'required']) }}
+                                                                    <?php echo e(Form::label('event_type', __('Event Type'), ['class' => 'form-label'])); ?>
+
+                                                                    <?php echo e(Form::text('event_type',null,['class' => 'form-control ', 'placeholder' => __('Enter Event Type'), 'required' => 'required'])); ?>
+
                                                                 </div>
                                                                 <div class="text-end">
-                                                                    {{ Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary']) }}
+                                                                    <?php echo e(Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary'])); ?>
+
                                                                 </div>
-                                                                {{ Form::close() }}
+                                                                <?php echo e(Form::close()); ?>
+
                                                             </div>
-                                                            @if(isset($eventtypes) && !empty($eventtypes))
+                                                            <?php if(isset($eventtypes) && !empty($eventtypes)): ?>
                                                             <div class="row mt-3">
                                                                 <div class="form-group col-md-12">
                                                                     <label class="form-label">Events List</label>
                                                                     <div class="badges">
-                                                                        @foreach ($eventtypes as $types)
+                                                                        <?php $__currentLoopData = $eventtypes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $types): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                         <span
                                                                             class="badge rounded p-2 m-1 px-3 bg-primary"
                                                                             style="cursor:pointer">
-                                                                            {{ $types }}
-                                                                            @if(Gate::check('Delete Role'))
-                                                                            @can('Delete Role')
+                                                                            <?php echo e($types); ?>
+
+                                                                            <?php if(Gate::check('Delete Role')): ?>
+                                                                            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Delete Role')): ?>
                                                                             <div class="action-btn  ms-2">
                                                                                 <a href="#!"
                                                                                     class="mx-3 btn btn-sm  align-items-center text-white event_show_confirm"
                                                                                     data-bs-toggle="tooltip"
                                                                                     title='Delete'
-                                                                                    data-url="{{ route('eventedit.setting') }}"
-                                                                                    data-token="{{ csrf_token() }}">
+                                                                                    data-url="<?php echo e(route('eventedit.setting')); ?>"
+                                                                                    data-token="<?php echo e(csrf_token()); ?>">
                                                                                     <i class="ti ti-trash"></i>
                                                                                 </a>
                                                                             </div>
-                                                                            @endcan
-                                                                            @endif
+                                                                            <?php endif; ?>
+                                                                            <?php endif; ?>
                                                                         </span>
-                                                                        @endforeach
+                                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            @endif
+                                                            <?php endif; ?>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1091,53 +1131,59 @@ $(document).ready(function() {
                                                         <div class="card-header">
                                                             <div class="row">
                                                                 <div class="col-lg-8 col-md-8 col-sm-8">
-                                                                    <h5>{{ __('Venue Settings') }}</h5>
+                                                                    <h5><?php echo e(__('Venue Settings')); ?></h5>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="card-body">
                                                             <div class="row mt-3">
-                                                                {{ Form::open(['route' => 'venue.setting', 'method' => 'post']) }}
-                                                                @csrf
+                                                                <?php echo e(Form::open(['route' => 'venue.setting', 'method' => 'post'])); ?>
+
+                                                                <?php echo csrf_field(); ?>
                                                                 <div class="form-group col-md-12">
-                                                                    {{ Form::label('venue', __('Venue'), ['class' => 'form-label']) }}
-                                                                    {{ Form::text('venue',null,['class' => 'form-control ', 'placeholder' => __('Enter Venue'), 'required' => 'required']) }}
+                                                                    <?php echo e(Form::label('venue', __('Venue'), ['class' => 'form-label'])); ?>
+
+                                                                    <?php echo e(Form::text('venue',null,['class' => 'form-control ', 'placeholder' => __('Enter Venue'), 'required' => 'required'])); ?>
+
                                                                 </div>
                                                                 <div class="text-end">
-                                                                    {{ Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary']) }}
+                                                                    <?php echo e(Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary'])); ?>
+
                                                                 </div>
-                                                                {{ Form::close() }}
+                                                                <?php echo e(Form::close()); ?>
+
                                                             </div>
-                                                            @if(isset($venue) && !empty($venue))
+                                                            <?php if(isset($venue) && !empty($venue)): ?>
                                                             <div class="row mt-3">
                                                                 <div class="form-group col-md-12">
                                                                     <label class="form-label">Venue</label>
                                                                     <div class="badges">
-                                                                        @foreach ($venue as $value)
+                                                                        <?php $__currentLoopData = $venue; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                         <span
                                                                             class="badge rounded p-2 m-1 px-3 bg-primary"
                                                                             style="cursor:pointer">
-                                                                            {{ $value }}
-                                                                            @if(Gate::check('Delete Role'))
-                                                                            @can('Delete Role')
+                                                                            <?php echo e($value); ?>
+
+                                                                            <?php if(Gate::check('Delete Role')): ?>
+                                                                            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Delete Role')): ?>
                                                                             <div class="action-btn  ms-2">
                                                                                 <a href="#!"
                                                                                     class="mx-3 btn btn-sm  align-items-center text-white venue_show_confirm"
                                                                                     data-bs-toggle="tooltip"
                                                                                     title='Delete'
-                                                                                    data-url="{{ route('venueedit.setting') }}"
-                                                                                    data-token="{{ csrf_token() }}">
+                                                                                    data-url="<?php echo e(route('venueedit.setting')); ?>"
+                                                                                    data-token="<?php echo e(csrf_token()); ?>">
                                                                                     <i class="ti ti-trash"></i>
                                                                                 </a>
                                                                             </div>
-                                                                            @endcan
-                                                                            @endif
+                                                                            <?php endif; ?>
+                                                                            <?php endif; ?>
                                                                         </span>
-                                                                        @endforeach
+                                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            @endif
+                                                            <?php endif; ?>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1146,20 +1192,24 @@ $(document).ready(function() {
                                                         <div class="card-header">
                                                             <div class="row">
                                                                 <div class="col-lg-8 col-md-8 col-sm-8">
-                                                                    <h5>{{ __('Function Settings') }}</h5>
+                                                                    <h5><?php echo e(__('Function Settings')); ?></h5>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="card-body">
                                                             <div class="row mt-3">
-                                                                {{ Form::open(['route' => 'function.setting', 'method' => 'post']) }}
-                                                                @csrf
+                                                                <?php echo e(Form::open(['route' => 'function.setting', 'method' => 'post'])); ?>
+
+                                                                <?php echo csrf_field(); ?>
                                                                 <div class="form-group col-md-12">
-                                                                    {{ Form::label('function', __('Function'), ['class' => 'form-label']) }}
-                                                                    {{ Form::text('function',null,['class' => 'form-control ', 'placeholder' => __('Enter Function'), 'required' => 'required']) }}
+                                                                    <?php echo e(Form::label('function', __('Function'), ['class' => 'form-label'])); ?>
+
+                                                                    <?php echo e(Form::text('function',null,['class' => 'form-control ', 'placeholder' => __('Enter Function'), 'required' => 'required'])); ?>
+
                                                                 </div>
                                                                 <div class="form-group col-md-12">
-                                                                    {{ Form::label('package', __('Package'), ['class' => 'form-label']) }}
+                                                                    <?php echo e(Form::label('package', __('Package'), ['class' => 'form-label'])); ?>
+
                                                                     <span
                                                                         class="btn btn-sm btn-primary btn-icon m-1 add"
                                                                         style="border-radius: 20px !important;    font-size: 12px;
@@ -1178,78 +1228,82 @@ $(document).ready(function() {
                                                                     </div>
                                                                 </div>
                                                                 <div class="text-end">
-                                                                    {{ Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary']) }}
+                                                                    <?php echo e(Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary'])); ?>
+
                                                                 </div>
                                                                 <style>
                                                                 .add {
                                                                     cursor: pointer;
                                                                 }
                                                                 </style>
-                                                                {{ Form::close() }}
+                                                                <?php echo e(Form::close()); ?>
+
                                                             </div>
-                                                            @if(isset($function) && !empty($function))
+                                                            <?php if(isset($function) && !empty($function)): ?>
                                                             <div class="row mt-3">
                                                                 <div class="form-group col-md-12">
                                                                     <label class="form-label">Function</label>
                                                                     <div class="badges">
                                                                         <ul class="nav nav-tabs tabActive"
                                                                             style="border-bottom:none;">
-                                                                            @foreach ($function as $key=> $value)
+                                                                            <?php $__currentLoopData = $function; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                             <li
                                                                                 class="badge rounded p-2 m-1 px-3 bg-primary ">
                                                                                 <a style="color: white;"
                                                                                     data-toggle="tab"
-                                                                                    href="#menu{{$key}}"
-                                                                                    class="<?= $key == 0 ? 'active' : ''; ?> fxnnames">{{$value->function}}
+                                                                                    href="#menu<?php echo e($key); ?>"
+                                                                                    class="<?= $key == 0 ? 'active' : ''; ?> fxnnames"><?php echo e($value->function); ?>
+
                                                                                 </a>
 
                                                                                 <div class="action-btn  ms-2">
                                                                                     <a href="javascript:void(0);"
                                                                                         class="mx-3 btn btn-sm  align-items-center text-white function_show_confirm"
                                                                                         data-bs-toggle="tooltip"
-                                                                                        data-id="{{$key}}"
+                                                                                        data-id="<?php echo e($key); ?>"
                                                                                         title='Delete'
-                                                                                        data-url="{{ route('functionpackage.setting') }}"
-                                                                                        data-token="{{ csrf_token() }}">
+                                                                                        data-url="<?php echo e(route('functionpackage.setting')); ?>"
+                                                                                        data-token="<?php echo e(csrf_token()); ?>">
                                                                                         <i class="ti ti-trash"></i>
                                                                                     </a>
                                                                                 </div>
 
                                                                             </li>
-                                                                            @endforeach
+                                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                                         </ul>
                                                                         <div class="tab-content">
                                                                             <label
                                                                                 class="form-label mt-3"><b>Package</b></label><br>
-                                                                            @foreach ($function as $key=> $value)
-                                                                            <div id="menu{{$key}}"
+                                                                            <?php $__currentLoopData = $function; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                            <div id="menu<?php echo e($key); ?>"
                                                                                 class="tab-pane fade <?= $key == 0 ? 'in active show' : ''; ?>">
-                                                                                @foreach($value->package as $package)
+                                                                                <?php $__currentLoopData = $value->package; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $package): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                                 <span
                                                                                     class="badge rounded p-2 m-1 px-3 bg-info"
                                                                                     style="cursor:pointer">
-                                                                                    {{$package}}
+                                                                                    <?php echo e($package); ?>
+
                                                                                     <div class="action-btn ms-2">
                                                                                         <a href="javascript:void(0);"
                                                                                             class="mx-3 btn btn-sm  align-items-center text-white function_package_show_confirm"
                                                                                             data-bs-toggle="tooltip"
                                                                                             title='Delete'
-                                                                                            data-url="{{ route('functionedit.setting') }}"
-                                                                                            data-id="{{$key}}"
-                                                                                            data-token="{{ csrf_token() }}">
+                                                                                            data-url="<?php echo e(route('functionedit.setting')); ?>"
+                                                                                            data-id="<?php echo e($key); ?>"
+                                                                                            data-token="<?php echo e(csrf_token()); ?>">
                                                                                             <i class="ti ti-trash"></i>
                                                                                         </a>
                                                                                     </div>
                                                                                 </span>
-                                                                                @endforeach
+                                                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                                             </div>
-                                                                            @endforeach
+                                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        @endif
+                                                        <?php endif; ?>
                                                     </div>
                                                 </div>
                                                 <div id="bar-settings" class="card">
@@ -1257,20 +1311,24 @@ $(document).ready(function() {
                                                         <div class="card-header">
                                                             <div class="row">
                                                                 <div class="col-lg-8 col-md-8 col-sm-8">
-                                                                    <h5>{{ __('Bar Settings') }}</h5>
+                                                                    <h5><?php echo e(__('Bar Settings')); ?></h5>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="card-body">
                                                             <div class="row mt-3">
-                                                                {{ Form::open(['route' => 'bar.setting', 'method' => 'post']) }}
-                                                                @csrf
+                                                                <?php echo e(Form::open(['route' => 'bar.setting', 'method' => 'post'])); ?>
+
+                                                                <?php echo csrf_field(); ?>
                                                                 <div class="form-group col-md-12">
-                                                                    {{ Form::label('bar', __('Bar'), ['class' => 'form-label']) }}
-                                                                    {{ Form::text('bar',null,['class' => 'form-control ', 'placeholder' => __('Enter Bar'), 'required' => 'required']) }}
+                                                                    <?php echo e(Form::label('bar', __('Bar'), ['class' => 'form-label'])); ?>
+
+                                                                    <?php echo e(Form::text('bar',null,['class' => 'form-control ', 'placeholder' => __('Enter Bar'), 'required' => 'required'])); ?>
+
                                                                 </div>
                                                                 <div class="form-group col-md-12">
-                                                                    {{ Form::label('barpackage', __('Bar Package'), ['class' => 'form-label']) }}
+                                                                    <?php echo e(Form::label('barpackage', __('Bar Package'), ['class' => 'form-label'])); ?>
+
                                                                     <span
                                                                         class="btn btn-sm btn-primary btn-icon m-1 addbar"
                                                                         style="border-radius: 20px !important;    font-size: 12px;
@@ -1289,7 +1347,8 @@ $(document).ready(function() {
                                                                     </div>
                                                                 </div>
                                                                 <div class="text-end">
-                                                                    {{ Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary']) }}
+                                                                    <?php echo e(Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary'])); ?>
+
                                                                 </div>
 
                                                                 <style>
@@ -1297,72 +1356,75 @@ $(document).ready(function() {
                                                                     cursor: pointer;
                                                                 }
                                                                 </style>
-                                                                {{ Form::close() }}
+                                                                <?php echo e(Form::close()); ?>
+
                                                             </div>
-                                                            @if(isset($bar) && !empty($bar))
+                                                            <?php if(isset($bar) && !empty($bar)): ?>
                                                             <div class="row mt-3">
                                                                 <div class="form-group col-md-12">
                                                                     <label class="form-label">Bar</label>
                                                                     <div class="badges">
                                                                         <ul class="nav nav-tabs tabActive"
                                                                             style="border-bottom:none;">
-                                                                            @foreach ($bar as $key=> $value)
+                                                                            <?php $__currentLoopData = $bar; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                             <li
                                                                                 class="badge rounded p-2 m-1 px-3 bg-primary ">
                                                                                 <a style="color: white;"
                                                                                     data-toggle="tab"
-                                                                                    href="#barmenu{{$key}}"
-                                                                                    class="<?= $key == 0 ? 'active' : ''; ?> barnmes">{{$value->bar}}
+                                                                                    href="#barmenu<?php echo e($key); ?>"
+                                                                                    class="<?= $key == 0 ? 'active' : ''; ?> barnmes"><?php echo e($value->bar); ?>
+
                                                                                 </a>
 
                                                                                 <div class="action-btn  ms-2">
                                                                                     <a href="javascript:void(0);"
                                                                                         class="mx-3 btn btn-sm  align-items-center text-white bar_show_confirm"
                                                                                         data-bs-toggle="tooltip"
-                                                                                        data-id="{{$key}}"
+                                                                                        data-id="<?php echo e($key); ?>"
                                                                                         title='Delete'
-                                                                                        data-url="{{ route('barpackage.setting') }}"
-                                                                                        data-token="{{ csrf_token() }}">
+                                                                                        data-url="<?php echo e(route('barpackage.setting')); ?>"
+                                                                                        data-token="<?php echo e(csrf_token()); ?>">
                                                                                         <i class="ti ti-trash"></i>
                                                                                     </a>
                                                                                 </div>
                                                                             </li>
-                                                                            @endforeach
+                                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                                         </ul>
 
                                                                         <div class="tab-content">
                                                                             <label
                                                                                 class="form-label mt-3"><b>Package</b></label><br>
-                                                                            @foreach ($bar as $key=> $value)
-                                                                            <div id="barmenu{{$key}}"
+                                                                            <?php $__currentLoopData = $bar; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                            <div id="barmenu<?php echo e($key); ?>"
                                                                                 class="tab-pane fade <?= $key == 0 ? 'in active show' : ''; ?>">
-                                                                                @foreach($value->barpackage as $package)
-                                                                                @if(!empty($package))
+                                                                                <?php $__currentLoopData = $value->barpackage; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $package): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                                <?php if(!empty($package)): ?>
                                                                                 <span
                                                                                     class="badge rounded p-2 m-1 px-3 bg-info"
                                                                                     style="cursor:pointer">
-                                                                                    {{$package}}
+                                                                                    <?php echo e($package); ?>
+
                                                                                     <div class="action-btn ms-2">
                                                                                         <a href="javascript:void(0);"
                                                                                             class="mx-3 btn btn-sm  align-items-center text-white bar_package_show_confirm"
                                                                                             data-bs-toggle="tooltip"
                                                                                             title='Delete'
-                                                                                            data-url="{{ route('baredit.setting') }}"
-                                                                                            data-id="{{$key}}"
-                                                                                            data-token="{{ csrf_token() }}">
+                                                                                            data-url="<?php echo e(route('baredit.setting')); ?>"
+                                                                                            data-id="<?php echo e($key); ?>"
+                                                                                            data-token="<?php echo e(csrf_token()); ?>">
                                                                                             <i class="ti ti-trash"></i>
                                                                                         </a>
                                                                                     </div>
                                                                                 </span>
-                                                                                @endif
-                                                                                @endforeach
+                                                                                <?php endif; ?>
+                                                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                                             </div>
-                                                                            @endforeach
+                                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            @endif
+                                                            <?php endif; ?>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1372,15 +1434,15 @@ $(document).ready(function() {
                                                             <div class="row">
                                                                 <div id="floor-plan-setting"
                                                                     class="col-lg-8 col-md-8 col-sm-8">
-                                                                    <h5>{{ __('Upload Setup') }}</h5>
+                                                                    <h5><?php echo e(__('Upload Setup')); ?></h5>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="card-body">
                                                             <div class="row mt-3">
-                                                                <form method="POST" action="{{ url('/floor-images') }}"
+                                                                <form method="POST" action="<?php echo e(url('/floor-images')); ?>"
                                                                     enctype="multipart/form-data">
-                                                                    @csrf
+                                                                    <?php echo csrf_field(); ?>
                                                                     <div class="row">
                                                                         <div class="form-group col-md-6">
                                                                             <label for="setup" class="form-label">Choose
@@ -1412,25 +1474,25 @@ $(document).ready(function() {
                                                         </div>
                                                         <div class="col-12">
                                                             <div class="row">
-                                                                @foreach($setup as $s)
+                                                                <?php $__currentLoopData = $setup; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $s): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                 <div class="col-6">
-                                                                    <input type="radio" id="image_{{ $loop->index }}"
+                                                                    <input type="radio" id="image_<?php echo e($loop->index); ?>"
                                                                         name="uploadedImage" class="form-check-input"
-                                                                        value="{{ asset('floor_images/' . $s->image) }}">
-                                                                    <label for="image_{{ $loop->index }}"
+                                                                        value="<?php echo e(asset('floor_images/' . $s->image)); ?>">
+                                                                    <label for="image_<?php echo e($loop->index); ?>"
                                                                         class="form-check-label">
-                                                                        <img src="{{asset('floor_images/'.$s->image)}}"
+                                                                        <img src="<?php echo e(asset('floor_images/'.$s->image)); ?>"
                                                                             alt="Uploaded Image"
                                                                             class="img-thumbnail floorimages zoom">
                                                                         <span
                                                                             class=" rounded p-2 m-1 px-3 bg-danger text-white"
                                                                             style="float: inline-end;"><i
                                                                                 class="ti ti-trash "
-                                                                                data-image="{{ $s->image }}"
+                                                                                data-image="<?php echo e($s->image); ?>"
                                                                                 onclick="deleteImage(this)"></i></span>
                                                                     </label>
                                                                 </div>
-                                                                @endforeach
+                                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1440,21 +1502,23 @@ $(document).ready(function() {
                                                         <div class="card-header">
                                                             <div class="row">
                                                                 <div class="col-lg-8 col-md-8 col-sm-8">
-                                                                    <h5>{{ __('Campaign Settings') }}</h5>
+                                                                    <h5><?php echo e(__('Campaign Settings')); ?></h5>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <form method="POST" action="{{route('settings.campaign-type')}}"
+                                                        <form method="POST" action="<?php echo e(route('settings.campaign-type')); ?>"
                                                             id='campaign'>
-                                                            @csrf
+                                                            <?php echo csrf_field(); ?>
                                                             <div class="card-body">
                                                                 <div class="row mt-3">
                                                                     <div class="col-12">
                                                                         <div class="form-group">
-                                                                            {{ Form::label('campaign_type', __('Campaign Type'), ['class' => 'form-label']) }}
-                                                                            {!! Form::text('campaign_type',null,
+                                                                            <?php echo e(Form::label('campaign_type', __('Campaign Type'), ['class' => 'form-label'])); ?>
+
+                                                                            <?php echo Form::text('campaign_type',null,
                                                                             ['class' => 'form-control',
-                                                                            'required' => 'required']) !!}
+                                                                            'required' => 'required']); ?>
+
                                                                         </div>
                                                                     </div>
                                                                     <div class="text-end">
@@ -1465,76 +1529,82 @@ $(document).ready(function() {
                                                             </div>
                                                         </form>
                                                     </div>
-                                                    @if(isset($campaign) && !empty($campaign))
+                                                    <?php if(isset($campaign) && !empty($campaign)): ?>
                                                     <div class="row mt-3">
                                                         <div class="form-group col-md-12">
                                                             <label class="form-label">Campaign</label>
                                                             <div class="badges">
-                                                                @foreach ($campaign as $value)
+                                                                <?php $__currentLoopData = $campaign; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                 <span class="badge rounded p-2 m-1 px-3 bg-primary"
                                                                     style="cursor:pointer">
-                                                                    {{ $value }}
+                                                                    <?php echo e($value); ?>
+
                                                                     <div class="action-btn  ms-2">
                                                                         <a href="#!"
                                                                             class="mx-3 btn btn-sm  align-items-center text-white campaign_show_confirm"
                                                                             data-bs-toggle="tooltip" title='Delete'
-                                                                            data-url="{{ route('settings.delete.campaign-type') }}"
-                                                                            data-token="{{ csrf_token() }}">
+                                                                            data-url="<?php echo e(route('settings.delete.campaign-type')); ?>"
+                                                                            data-token="<?php echo e(csrf_token()); ?>">
                                                                             <i class="ti ti-trash"></i>
                                                                         </a>
                                                                     </div>
                                                                 </span>
-                                                                @endforeach
+                                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    @endif
+                                                    <?php endif; ?>
                                                 </div>
                                                 <div id="additional-settings" class="card">
                                                     <div class="col-md-12">
                                                         <div class="card-header">
                                                             <div class="row">
                                                                 <div class="col-lg-8 col-md-8 col-sm-8">
-                                                                    <h5>{{ __('Additional Settings') }}</h5>
+                                                                    <h5><?php echo e(__('Additional Settings')); ?></h5>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="card-body">
                                                             <div class="row mt-3">
-                                                                {{ Form::open(['route' => 'additional.setting', 'method' => 'post']) }}
-                                                                @csrf
+                                                                <?php echo e(Form::open(['route' => 'additional.setting', 'method' => 'post'])); ?>
+
+                                                                <?php echo csrf_field(); ?>
                                                                 <div id="additional-items-container">
                                                                     <div class="row form-group">
                                                                         <label for='additional_function'>Select
                                                                             Package</label>
 
                                                                         <div class="col-md-6">
-                                                                            @if(isset($function) && !empty($function))
+                                                                            <?php if(isset($function) && !empty($function)): ?>
                                                                             <select name="additional_function"
                                                                                 id="additional_function"
                                                                                 class="form-select">
                                                                                 <option value="0" selected disabled>
                                                                                     Select Function</option>
-                                                                                @foreach($function as $key =>$value)
-                                                                                <option value="{{$key}}">
-                                                                                    {{$value->function}}</option>
-                                                                                @endforeach
+                                                                                <?php $__currentLoopData = $function; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key =>$value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                                <option value="<?php echo e($key); ?>">
+                                                                                    <?php echo e($value->function); ?></option>
+                                                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                                             </select>
                                                                         </div>
                                                                         <div class="col-md-6">
                                                                             <div id="additional_packages_checkboxes">
                                                                             </div>
-                                                                            @endif
+                                                                            <?php endif; ?>
                                                                         </div>
                                                                     </div>
                                                                     <div class="row form-group">
                                                                         <div class="col-md-5">
-                                                                            {{ Form::label('additional_items[]', __('Additional Item ' . $i=1), ['class' => 'form-label']) }}
-                                                                            {{ Form::text('additional_items[]', null, ['class' => 'form-control', 'placeholder' => __('Enter Additional Item'), 'required' => 'required']) }}
+                                                                            <?php echo e(Form::label('additional_items[]', __('Additional Item ' . $i=1), ['class' => 'form-label'])); ?>
+
+                                                                            <?php echo e(Form::text('additional_items[]', null, ['class' => 'form-control', 'placeholder' => __('Enter Additional Item'), 'required' => 'required'])); ?>
+
                                                                         </div>
                                                                         <div class="col-md-6">
-                                                                            {{ Form::label('additional_items_cost[]', __('Cost'), ['class' => 'form-label']) }}
-                                                                            {{ Form::number('additional_items_cost[]', null, ['class' => 'form-control', 'placeholder' => __('Enter Cost'), 'required' => 'required']) }}
+                                                                            <?php echo e(Form::label('additional_items_cost[]', __('Cost'), ['class' => 'form-label'])); ?>
+
+                                                                            <?php echo e(Form::number('additional_items_cost[]', null, ['class' => 'form-control', 'placeholder' => __('Enter Cost'), 'required' => 'required'])); ?>
+
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -1547,9 +1617,10 @@ $(document).ready(function() {
                                                                         class="btn-submit btn btn-primary">
                                                                 </div>
 
-                                                                {{ Form::close() }}
+                                                                <?php echo e(Form::close()); ?>
+
                                                             </div>
-                                                            @if(isset($additional_items) && !empty($additional_items))
+                                                            <?php if(isset($additional_items) && !empty($additional_items)): ?>
                                                             <div class="row mt-3">
                                                                 <div class="form-group col-md-12">
                                                                     <label class="form-label">Additional Items</label>
@@ -1567,27 +1638,27 @@ $(document).ready(function() {
                                                                         </thead>
                                                                         <tbody>
                                                                             <tr>
-                                                                                @foreach ($additional_items as $functionName => $packages)
-                                                                                @foreach ($packages as $packageName => $items)
+                                                                                <?php $__currentLoopData = $additional_items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $functionName => $packages): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                                <?php $__currentLoopData = $packages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $packageName => $items): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                             <tr>
-                                                                                <td data-td-data="{{ $functionName }}"
-                                                                                    rowspan="{{ count($items) }}"
+                                                                                <td data-td-data="<?php echo e($functionName); ?>"
+                                                                                    rowspan="<?php echo e(count($items)); ?>"
                                                                                     class="functionname">
-                                                                                    {{ $functionName }}</td>
-                                                                                <td data-td-data="{{ $packageName }}"
-                                                                                    rowspan="{{ count($items) }}"
+                                                                                    <?php echo e($functionName); ?></td>
+                                                                                <td data-td-data="<?php echo e($packageName); ?>"
+                                                                                    rowspan="<?php echo e(count($items)); ?>"
                                                                                     class="package">
-                                                                                    {{ $packageName }}</td>
-                                                                                @php $firstItem = true; @endphp
-                                                                                @foreach ($items as $itemName => $cost)
-                                                                                @if (!$firstItem)
+                                                                                    <?php echo e($packageName); ?></td>
+                                                                                <?php $firstItem = true; ?>
+                                                                                <?php $__currentLoopData = $items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $itemName => $cost): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                                <?php if(!$firstItem): ?>
                                                                             <tr>
-                                                                                @endif
+                                                                                <?php endif; ?>
 
-                                                                                <td class="item">{{ $itemName }}</td>
-                                                                                <td class="cost">{{ $cost }}</td>
-                                                                                <td data-function="{{ $functionName }}"
-                                                                                    data-package="{{ $packageName }}">
+                                                                                <td class="item"><?php echo e($itemName); ?></td>
+                                                                                <td class="cost"><?php echo e($cost); ?></td>
+                                                                                <td data-function="<?php echo e($functionName); ?>"
+                                                                                    data-package="<?php echo e($packageName); ?>">
                                                                                     <button
                                                                                         class="btn btn-sm edit-cost-btn bg-info">
                                                                                         <i
@@ -1596,21 +1667,21 @@ $(document).ready(function() {
                                                                                         class="mx-3 btn btn-sm  align-items-center bg-info text-white additional_show_confirm"
                                                                                         data-bs-toggle="tooltip"
                                                                                         title='Delete'
-                                                                                        data-function="{{ $functionName }}"
-                                                                                        data-package="{{ $packageName }}"
-                                                                                        data-item="{{$itemName}}"
-                                                                                        data-url="{{ route('additionaldelete.setting') }}"
-                                                                                        data-token="{{ csrf_token() }}">
+                                                                                        data-function="<?php echo e($functionName); ?>"
+                                                                                        data-package="<?php echo e($packageName); ?>"
+                                                                                        data-item="<?php echo e($itemName); ?>"
+                                                                                        data-url="<?php echo e(route('additionaldelete.setting')); ?>"
+                                                                                        data-token="<?php echo e(csrf_token()); ?>">
                                                                                         <i class="ti ti-trash"></i>
                                                                                     </a>
                                                                                 </td>
 
-                                                                                @php $firstItem = false; @endphp
-                                                                                @endforeach
+                                                                                <?php $firstItem = false; ?>
+                                                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                                             </tr>
 
-                                                                            @endforeach
-                                                                            @endforeach
+                                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                                             </tr>
                                                                         </tbody>
                                                                     </table>
@@ -1618,195 +1689,213 @@ $(document).ready(function() {
                                                                             </div>
                                                                 </div>
                                                             </div>
-                                                            @endif
+                                                            <?php endif; ?>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div> 
-                                    @can('Manage Payment')
+                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Payment')): ?>
                                     <div id="billing-setting" class="accordion-item card">
                                         <h2 class="accordion-header" id="heading-2-15">
                                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                                 data-bs-target="#collapse20" aria-expanded="false"
                                                 aria-controls="collapse20">
-                                                <h5>{{ __('Billing Settings') }}</h5>
-                                                <small class="text-muted">{{ __('Edit your billing details') }}</small>
+                                                <h5><?php echo e(__('Billing Settings')); ?></h5>
+                                                <small class="text-muted"><?php echo e(__('Edit your billing details')); ?></small>
                                             </button>
                                         </h2>
                                         <div id="collapse20" class="accordion-collapse collapse"
                                             aria-labelledby="heading-2-15" data-bs-parent="#accordionExample">
                                             <div class="accordion-body1">
-                                                {{ Form::open(['route' => 'billing.setting', 'method' => 'post']) }}
-                                                @csrf
+                                                <?php echo e(Form::open(['route' => 'billing.setting', 'method' => 'post'])); ?>
+
+                                                <?php echo csrf_field(); ?>
                                                 <div class="row cst-border">
-                                                    @if(isset($venue) && !empty($venue))
+                                                    <?php if(isset($venue) && !empty($venue)): ?>
                                                     <div class="col-sm-6 venue">
                                                         <table class="table table-responsive table-bordered"
                                                             style="width:100%">
                                                             <tr>
-                                                                <th>{{__('Venue')}}</th>
-                                                                <th>{{__('Venue Cost')}}</th>
+                                                                <th><?php echo e(__('Venue')); ?></th>
+                                                                <th><?php echo e(__('Venue Cost')); ?></th>
                                                             </tr>
-                                                            @foreach($venue as $venueKey => $venueValue)
+                                                            <?php $__currentLoopData = $venue; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $venueKey => $venueValue): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                             <tr>
-                                                                <td>{{__($venueKey)}}</td>
+                                                                <td><?php echo e(__($venueKey)); ?></td>
                                                                 <td><input type="number" class="form-control"
-                                                                        name="venue[{{ isset($venueKey) ? $venueKey : '' }}]"
-                                                                        id="venue_{{$venueKey}}"
-                                                                        value="{{ isset($billing['venue'][$venueKey]) ? $billing['venue'][$venueKey] : '' }}"
-                                                                        placeholder="{{__($venueKey)}}" min="0">
+                                                                        name="venue[<?php echo e(isset($venueKey) ? $venueKey : ''); ?>]"
+                                                                        id="venue_<?php echo e($venueKey); ?>"
+                                                                        value="<?php echo e(isset($billing['venue'][$venueKey]) ? $billing['venue'][$venueKey] : ''); ?>"
+                                                                        placeholder="<?php echo e(__($venueKey)); ?>" min="0">
                                                                 </td>
                                                             </tr>
-                                                            @endforeach
+                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                         </table>
                                                     </div>
-                                                    @endif
-                                                    @if(isset($function) && !empty($function))
+                                                    <?php endif; ?>
+                                                    <?php if(isset($function) && !empty($function)): ?>
                                                     <div class="col-sm-6 function">
                                                         <table class="table table-responsive table-bordered"
                                                             style="width:100%">
                                                             <tr>
-                                                                <th>{{__('Package')}}</th>
-                                                                <th>{{__('Package Cost')}}</th>
+                                                                <th><?php echo e(__('Package')); ?></th>
+                                                                <th><?php echo e(__('Package Cost')); ?></th>
                                                             </tr>
-                                                            @foreach($function as $functionKey => $functionValue)
+                                                            <?php $__currentLoopData = $function; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $functionKey => $functionValue): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                             <tr>
-                                                                <td><b>{{__($functionValue->function)}}</b></td>
+                                                                <td><b><?php echo e(__($functionValue->function)); ?></b></td>
                                                                 <td>
-                                                                    @foreach($functionValue->package as $packageKey=> $packageValue)
-                                                                    {{ Form::label($packageValue, __($packageValue), ['class' => 'form-label']) }}
+                                                                    <?php $__currentLoopData = $functionValue->package; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $packageKey=> $packageValue): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                    <?php echo e(Form::label($packageValue, __($packageValue), ['class' => 'form-label'])); ?>
+
                                                                     <input type="number" class="form-control"
-                                                                        name="package[{{isset($functionValue->function)? $functionValue->function :''}}][{{ isset($packageValue) ? $packageValue : '' }}]"
-                                                                        id="package_{{isset($packageKey)? $packageKey :''}}"
-                                                                        value="{{ isset($billing['package'][$functionValue->function][$packageValue]) ? $billing['package'][$functionValue->function][$packageValue] : '' }}"
-                                                                        placeholder="Enter {{ isset($packageValue) ? $packageValue :''}} Cost"
+                                                                        name="package[<?php echo e(isset($functionValue->function)? $functionValue->function :''); ?>][<?php echo e(isset($packageValue) ? $packageValue : ''); ?>]"
+                                                                        id="package_<?php echo e(isset($packageKey)? $packageKey :''); ?>"
+                                                                        value="<?php echo e(isset($billing['package'][$functionValue->function][$packageValue]) ? $billing['package'][$functionValue->function][$packageValue] : ''); ?>"
+                                                                        placeholder="Enter <?php echo e(isset($packageValue) ? $packageValue :''); ?> Cost"
                                                                         min="0">
-                                                                    @endforeach
+                                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                                 </td>
                                                             </tr>
-                                                            @endforeach
+                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                         </table>
                                                     </div>
-                                                    @endif
-                                                    @if(isset($bar) && !empty($bar))
+                                                    <?php endif; ?>
+                                                    <?php if(isset($bar) && !empty($bar)): ?>
                                                     <div class="col-sm-6 bar mt-3">
                                                         <table class="table table-responsive table-bordered"
                                                             style="width:100%">
                                                             <tr>
-                                                                <th>{{__('Bar')}}</th>
-                                                                <th>{{__('Bar Cost')}}</th>
+                                                                <th><?php echo e(__('Bar')); ?></th>
+                                                                <th><?php echo e(__('Bar Cost')); ?></th>
                                                             </tr>
-                                                            @foreach($bar as $barKey => $barValue)
+                                                            <?php $__currentLoopData = $bar; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $barKey => $barValue): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                             <tr>
-                                                                <td><b>{{__($barValue->bar)}}</b></td>
+                                                                <td><b><?php echo e(__($barValue->bar)); ?></b></td>
                                                                 <td>
-                                                                    @foreach($barValue->barpackage as $barpackageKey=>$barpackageValue)
-                                                                    {{ Form::label($barpackageValue, __($barpackageValue), ['class' => 'form-label']) }}
+                                                                    <?php $__currentLoopData = $barValue->barpackage; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $barpackageKey=>$barpackageValue): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                    <?php echo e(Form::label($barpackageValue, __($barpackageValue), ['class' => 'form-label'])); ?>
+
                                                                     <input type="number" class="form-control"
-                                                                        name="barpackage[{{ isset($barValue->bar) ? $barValue->bar : '' }}][{{ isset($barpackageValue) ? $barpackageValue : '' }}]"
-                                                                        id="barpackage_{{ isset($barpackageKey) ? $barpackageKey : '' }}"
-                                                                        value="{{ isset($billing['barpackage'][isset($barValue->bar) ? $barValue->bar : ''][$barpackageValue]) ? $billing['barpackage'][isset($barValue->bar) ? $barValue->bar : ''][$barpackageValue] : '' }}"
-                                                                        placeholder="{{ isset($barpackageValue) ? $barpackageValue : '' }}"
+                                                                        name="barpackage[<?php echo e(isset($barValue->bar) ? $barValue->bar : ''); ?>][<?php echo e(isset($barpackageValue) ? $barpackageValue : ''); ?>]"
+                                                                        id="barpackage_<?php echo e(isset($barpackageKey) ? $barpackageKey : ''); ?>"
+                                                                        value="<?php echo e(isset($billing['barpackage'][isset($barValue->bar) ? $barValue->bar : ''][$barpackageValue]) ? $billing['barpackage'][isset($barValue->bar) ? $barValue->bar : ''][$barpackageValue] : ''); ?>"
+                                                                        placeholder="<?php echo e(isset($barpackageValue) ? $barpackageValue : ''); ?>"
                                                                         min="0">
-                                                                    @endforeach
+                                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                                 </td>
                                                             </tr>
-                                                            @endforeach
+                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                         </table>
                                                     </div>
-                                                    @endif
+                                                    <?php endif; ?>
                                                     <div class="col-sm-6 equipment">
                                                         <div class="form-group">
-                                                            {{ Form::label('equipment', __('Equipment'), ['class' => 'form-label']) }}
+                                                            <?php echo e(Form::label('equipment', __('Equipment'), ['class' => 'form-label'])); ?>
+
                                                             <input type="number" name="equipment" id=""
                                                                 class="form-control"
-                                                                value="{{ isset($billing['equipment']) ? $billing['equipment'] : ''}}"
+                                                                value="<?php echo e(isset($billing['equipment']) ? $billing['equipment'] : ''); ?>"
                                                                 placeholder="Enter Equipments Cost (eg. Tent, Tables, Chairs)"
                                                                 required>
                                                         </div>
                                                         <div class="form-group">
-                                                            {{ Form::label('welcomesetup', __('Welcome Setup'), ['class' => 'form-label']) }}
+                                                            <?php echo e(Form::label('welcomesetup', __('Welcome Setup'), ['class' => 'form-label'])); ?>
+
                                                             <input type="number" name="welcomesetup" id=""
                                                                 class="form-control"
-                                                                value="{{ isset($billing['welcomesetup']) ? $billing['welcomesetup'] : ''}}"
+                                                                value="<?php echo e(isset($billing['welcomesetup']) ? $billing['welcomesetup'] : ''); ?>"
                                                                 placeholder="Enter Welcome Setup Cost" required>
                                                         </div>
                                                         <div class="form-group">
-                                                            {{ Form::label('rehearsalsetup', __('Rehearsel Setup'), ['class' => 'form-label']) }}
+                                                            <?php echo e(Form::label('rehearsalsetup', __('Rehearsel Setup'), ['class' => 'form-label'])); ?>
+
                                                             <input type="number" name="rehearsalsetup"
                                                                 class="form-control"
-                                                                value="{{ isset($billing['rehearsalsetup']) ? $billing['rehearsalsetup'] : ''}}"
+                                                                value="<?php echo e(isset($billing['rehearsalsetup']) ? $billing['rehearsalsetup'] : ''); ?>"
                                                                 placeholder="Enter Rehearsel Setup Cost" required>
                                                         </div>
                                                         <div class="form-group">
-                                                            {{ Form::label('hotel_rooms', __('Hotel Rooms'), ['class' => 'form-label']) }}
+                                                            <?php echo e(Form::label('hotel_rooms', __('Hotel Rooms'), ['class' => 'form-label'])); ?>
+
                                                             <input type="number" name="hotel_rooms" class="form-control"
-                                                                value="{{ isset($billing['hotel_rooms']) ? $billing['hotel_rooms'] : ''}}"
+                                                                value="<?php echo e(isset($billing['hotel_rooms']) ? $billing['hotel_rooms'] : ''); ?>"
                                                                 placeholder="Enter Hotel Rooms Cost" required>
                                                         </div>
                                                         <div class="form-group">
-                                                            {{ Form::label('special_req', __('Special Request/Others'), ['class' => 'form-label']) }}
+                                                            <?php echo e(Form::label('special_req', __('Special Request/Others'), ['class' => 'form-label'])); ?>
+
                                                             <input type="number" name="special_req" class="form-control"
-                                                                value="{{ isset($billing['special_req']) ? $billing['special_req'] : ''}}"
+                                                                value="<?php echo e(isset($billing['special_req']) ? $billing['special_req'] : ''); ?>"
                                                                 placeholder="Enter  Cost" required>
                                                         </div>
                                                         <div class="form-group">
-                                                            {{ Form::label('setup', __('Setup'), ['class' => 'form-label']) }}
+                                                            <?php echo e(Form::label('setup', __('Setup'), ['class' => 'form-label'])); ?>
+
                                                             <input type="number" name="setup" id=""
                                                                 class="form-control"
-                                                                value="{{ isset($billing['setup']) ? $billing['setup'] : ''}}"
+                                                                value="<?php echo e(isset($billing['setup']) ? $billing['setup'] : ''); ?>"
                                                                 placeholder="Enter setup Cost"
                                                                 required>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="text-end">
-                                                    {{ Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary']) }}
+                                                    <?php echo e(Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary'])); ?>
+
                                                 </div>
-                                                {{ Form::close() }}
+                                                <?php echo e(Form::close()); ?>
+
                                             </div>
                                         </div>
                                     </div>
-                                    @endcan
-                                    @if (\Auth::user()->type == 'owner')
+                                    <?php endif; ?>
+                                    <?php if(\Auth::user()->type == 'owner'): ?>
                                     <div id="buffer-settings" class=" accordion-item card">
                                         <h2 class="accordion-header" id="heading-2-15">
                                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                                 data-bs-target="#collapse21" aria-expanded="false"
                                                 aria-controls="collapse21">
-                                                <h5>{{ __('Buffer Settings') }}</h5>
-                                                <small class="text-muted">{{ __('Edit your buffer settings') }}</small>
+                                                <h5><?php echo e(__('Buffer Settings')); ?></h5>
+                                                <small class="text-muted"><?php echo e(__('Edit your buffer settings')); ?></small>
                                             </button>
                                         </h2>
                                         <div id="collapse21" class="accordion-collapse collapse"
                                             aria-labelledby="heading-2-15" data-bs-parent="#accordionExample">
                                             <div class="accordion-body1">
                                                 <div class="row">
-                                                {{ Form::open(['route' => 'buffer.setting', 'method' => 'post']) }}
-                                                @csrf
+                                                <?php echo e(Form::open(['route' => 'buffer.setting', 'method' => 'post'])); ?>
+
+                                                <?php echo csrf_field(); ?>
                                                 <div class="col-12">
                                                     <div class="form-group">
-                                                        {{ Form::label('buffer_time', __('Add Buffer Time'), ['class' => 'form-label']) }}
-                                                        {!! Form::input('time', 'buffer_time', $settings['buffer_time'],
+                                                        <?php echo e(Form::label('buffer_time', __('Add Buffer Time'), ['class' => 'form-label'])); ?>
+
+                                                        <?php echo Form::input('time', 'buffer_time', $settings['buffer_time'],
                                                         ['class' =>
-                                                        'form-control', 'required' => 'required']) !!}
+                                                        'form-control', 'required' => 'required']); ?>
+
                                                     </div>
                                                 </div>
                                                 <div class="col-12">
                                                     <div class="form-group">
-                                                        {{ Form::label('buffer_day', __('Add Buffer Day'), ['class' => 'form-label']) }}
-                                                        {!! Form::number('buffer_day', $settings['buffer_day'], ['class'
+                                                        <?php echo e(Form::label('buffer_day', __('Add Buffer Day'), ['class' => 'form-label'])); ?>
+
+                                                        <?php echo Form::number('buffer_day', $settings['buffer_day'], ['class'
                                                         =>
-                                                        'form-control', 'required' => 'required','min' => '0']) !!}
+                                                        'form-control', 'required' => 'required','min' => '0']); ?>
+
                                                     </div>
                                                 </div>
                                                 </div>
                                                 <div class="text-end">
-                                                    {{ Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary']) }}
+                                                    <?php echo e(Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary'])); ?>
+
                                                 </div>
-                                                {{ Form::close() }}
+                                                <?php echo e(Form::close()); ?>
+
                                             </div>
                                         </div>
                                     </div>
@@ -1815,19 +1904,19 @@ $(document).ready(function() {
                                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                                 data-bs-target="#collapse22" aria-expanded="false"
                                                 aria-controls="collapse22">
-                                                <h5>{{ __('Authorised Signature') }}</h5>
+                                                <h5><?php echo e(__('Authorised Signature')); ?></h5>
                                             </button>
                                         </h2>
                                         <div id="collapse22" class="accordion-collapse collapse"
                                             aria-labelledby="heading-2-15" data-bs-parent="#accordionExample">
                                             <div class="accordion-body1">
                                             <form method="POST" id='sign'>
-                                                @csrf
+                                                <?php echo csrf_field(); ?>
                                                 <div class="card-body1">
                                                     <div class="row mt-3">
                                                         <div class="col-6 need_full">
                                                             <strong>Existing Signature:</strong> <br>
-                                                            <img src="{{$base64Image}}"
+                                                            <img src="<?php echo e($base64Image); ?>"
                                                                 style=" width: 55%;padding-right: 39px;border-bottom: 1px solid black;">
                                                         </div>
                                                         <div class="col-6 need_full">
@@ -1865,14 +1954,14 @@ $(document).ready(function() {
                                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                                 data-bs-target="#collapse25" aria-expanded="false"
                                                 aria-controls="collapse25">
-                                                <h5>{{ __('Agreement Settings') }}</h5>
+                                                <h5><?php echo e(__('Agreement Settings')); ?></h5>
                                             </button>
                                         </h2>
                                         <div id="collapse25" class="accordion-collapse collapse"
                                             aria-labelledby="heading-2-15" data-bs-parent="#accordionExample">
                                             <div class="accordion-body1">
                                             <form method="POST" id=''>
-                                                @csrf
+                                                <?php echo csrf_field(); ?>
                                                 <div class="card-body1">
                                                     <div class="row mt-3">
                                                         <div class="col-12 need_full">
@@ -1887,89 +1976,124 @@ $(document).ready(function() {
                                         </div>
                                     
                                     </div> -->
-                                    @endif
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
                         <!-- <div id="pusher-settings" class="card">
                         <div class="card-header">
-                            <h5>{{ __('Pusher Settings') }}</h5>
-                            <small class="text-muted">{{ __('Edit your pusher details') }}</small>
+                            <h5><?php echo e(__('Pusher Settings')); ?></h5>
+                            <small class="text-muted"><?php echo e(__('Edit your pusher details')); ?></small>
                         </div>
                         <div class="card-body">
-                            {{ Form::model($settings, ['route' => 'pusher.setting', 'method' => 'post']) }}
+                            <?php echo e(Form::model($settings, ['route' => 'pusher.setting', 'method' => 'post'])); ?>
+
                             <div class="row mt-3">
                                 <div class="form-group col-md-6">
-                                    {{ Form::label('pusher_app_id', __('Pusher App Id *'), ['class' => 'form-label']) }}
-                                    {{ Form::text('pusher_app_id', isset($settings['pusher_app_id']) ? $settings['pusher_app_id'] : '', ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Id', 'required' => 'required']) }}
-                                    @error('pusher_app_id')
+                                    <?php echo e(Form::label('pusher_app_id', __('Pusher App Id *'), ['class' => 'form-label'])); ?>
+
+                                    <?php echo e(Form::text('pusher_app_id', isset($settings['pusher_app_id']) ? $settings['pusher_app_id'] : '', ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Id', 'required' => 'required'])); ?>
+
+                                    <?php $__errorArgs = ['pusher_app_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                         <span class="invalid-pusher_app_id" role="alert">
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                            <strong class="text-danger"><?php echo e($message); ?></strong>
                                         </span>
-                                    @enderror
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                 </div>
 
                                 <div class="form-group col-md-6">
-                                    {{ Form::label('pusher_app_key', __('Pusher App Key *'), ['class' => 'form-label']) }}
-                                    {{ Form::text('pusher_app_key', isset($settings['pusher_app_key']) ? $settings['pusher_app_key'] : '', ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Key', 'required' => 'required']) }}
-                                    @error('pusher_app_key')
+                                    <?php echo e(Form::label('pusher_app_key', __('Pusher App Key *'), ['class' => 'form-label'])); ?>
+
+                                    <?php echo e(Form::text('pusher_app_key', isset($settings['pusher_app_key']) ? $settings['pusher_app_key'] : '', ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Key', 'required' => 'required'])); ?>
+
+                                    <?php $__errorArgs = ['pusher_app_key'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                         <span class="invalid-pusher_app_key" role="alert">
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                            <strong class="text-danger"><?php echo e($message); ?></strong>
                                         </span>
-                                    @enderror
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    {{ Form::label('pusher_app_secret', __('Pusher App Secret *'), ['class' => 'form-label']) }}
-                                    {{ Form::text('pusher_app_secret', isset($settings['pusher_app_secret']) ? $settings['pusher_app_secret'] : '', ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Key', 'required' => 'required']) }}
-                                    @error('pusher_app_secret')
+                                    <?php echo e(Form::label('pusher_app_secret', __('Pusher App Secret *'), ['class' => 'form-label'])); ?>
+
+                                    <?php echo e(Form::text('pusher_app_secret', isset($settings['pusher_app_secret']) ? $settings['pusher_app_secret'] : '', ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Key', 'required' => 'required'])); ?>
+
+                                    <?php $__errorArgs = ['pusher_app_secret'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                         <span class="invalid-pusher_app_secret" role="alert">
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                            <strong class="text-danger"><?php echo e($message); ?></strong>
                                         </span>
-                                    @enderror
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    {{ Form::label('pusher_app_cluster', __('Pusher App Cluster *'), ['class' => 'form-label']) }}
-                                    {{ Form::text('pusher_app_cluster', isset($settings['pusher_app_cluster']) ? $settings['pusher_app_cluster'] : '' , ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Cluster', 'required' => 'required']) }}
-                                    @error('pusher_app_cluster')
+                                    <?php echo e(Form::label('pusher_app_cluster', __('Pusher App Cluster *'), ['class' => 'form-label'])); ?>
+
+                                    <?php echo e(Form::text('pusher_app_cluster', isset($settings['pusher_app_cluster']) ? $settings['pusher_app_cluster'] : '' , ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Cluster', 'required' => 'required'])); ?>
+
+                                    <?php $__errorArgs = ['pusher_app_cluster'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                         <span class="invalid-pusher_app_cluster" role="alert">
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                            <strong class="text-danger"><?php echo e($message); ?></strong>
                                         </span>
-                                    @enderror
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                 </div>
                                 <div class="text-end">
-                                    {{ Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary']) }}
+                                    <?php echo e(Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary'])); ?>
+
                                 </div>
                             </div>
-                            {{ Form::close() }}
+                            <?php echo e(Form::close()); ?>
+
                         </div>
                     </div> -->
                         <!-- <div id="brand-settings" class="card">
                             <div class="card-header">
-                                <h5>{{ __('Brand Settings') }}</h5>
-                                <small class="text-muted">{{ __('Edit your brand details') }}</small>
+                                <h5><?php echo e(__('Brand Settings')); ?></h5>
+                                <small class="text-muted"><?php echo e(__('Edit your brand details')); ?></small>
                             </div>
-                            {{ Form::model($settings, ['route' => 'business.setting', 'method' => 'POST', 'enctype' => 'multipart/form-data']) }}
+                            <?php echo e(Form::model($settings, ['route' => 'business.setting', 'method' => 'POST', 'enctype' => 'multipart/form-data'])); ?>
+
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="card">
                                             <div class="card-header">
-                                                <h5 class="small-title">{{ __('Dark Logo') }}</h5>
+                                                <h5 class="small-title"><?php echo e(__('Dark Logo')); ?></h5>
                                             </div>
                                             <div class="card-body setting-card setting-logo-box p-3">
                                                 <div class="row">
                                                     <div class="col-12">
                                                         <div class="logo-content logo-set-bg py-2" style="height:65px">
-                                                            {{-- <a href="{{ asset(Storage::url('uploads/logo/logo-dark.png')) }}"
-                                                            target="_blank">
-                                                            <img id="blah4" alt="your image"
-                                                                src="{{ asset(Storage::url('uploads/logo/logo-dark.png')) }}"
-                                                                width="170px" class="">
-                                                            </a> --}}
-                                                            <a href="{{ $logo . 'logo-dark.png' . '?' . time() }}"
+                                                            
+                                                            <a href="<?php echo e($logo . 'logo-dark.png' . '?' . time()); ?>"
                                                                 target="_blank" style="height: 50px; width:150px;">
                                                                 <img id="blah4" alt="your image"
-                                                                    src="{{ $logo . 'logo-dark.png' . '?' . time() }}"
+                                                                    src="<?php echo e($logo . 'logo-dark.png' . '?' . time()); ?>"
                                                                     style="height: 50px; width:150px;" class="big-logo">
                                                             </a>
                                                         </div>
@@ -1979,14 +2103,15 @@ $(document).ready(function() {
                                                         <div class="choose-files mt-5">
                                                             <label for="logo_dark">
                                                                 <div class=" bg-primary"> <i
-                                                                        class="ti ti-upload px-1"></i>{{ __('Choose file here') }}
+                                                                        class="ti ti-upload px-1"></i><?php echo e(__('Choose file here')); ?>
+
                                                                 </div>
                                                                 <input type="file" name="logo_dark" id="logo_dark"
                                                                     class="form-control file"
                                                                     data-filename="company_logo_update"
                                                                     onchange="document.getElementById('blah4').src = window.URL.createObjectURL(this.files[0])">
 
-                                                                {{-- <input type="file" name="logo_dark" id="logo_dark" class="form-control file" data-filename="company_logo_update"> --}}
+                                                                
                                                             </label>
                                                         </div>
                                                     </div>
@@ -1997,22 +2122,17 @@ $(document).ready(function() {
                                     <div class="col-md-4">
                                         <div class="card">
                                             <div class="card-header">
-                                                <h5 class="small-title">{{ __('Light Logo') }}</h5>
+                                                <h5 class="small-title"><?php echo e(__('Light Logo')); ?></h5>
                                             </div>
                                             <div class="card-body setting-card setting-logo-box p-3">
                                                 <div class="row">
                                                     <div class="col-12">
                                                         <div class="logo-content logo-set-bg py-2" style="height:65px">
-                                                            {{-- <a href="{{ asset(Storage::url('uploads/logo/logo-light.png')) }}"
-                                                            target="_blank">
-                                                            <img id="blah5" alt="your image"
-                                                                src="{{ asset(Storage::url('uploads/logo/logo-light.png')) }}"
-                                                                width="170px" class="img_setting">
-                                                            </a> --}}
-                                                            <a href="{{ $logo . 'logo-light.png' . '?' . time() }}"
+                                                            
+                                                            <a href="<?php echo e($logo . 'logo-light.png' . '?' . time()); ?>"
                                                                 target="_blank" style="height: 50px; width:150px;">
                                                                 <img id="blah5" alt="your image"
-                                                                    src="{{ $logo . 'logo-light.png' . '?' . time() }}"
+                                                                    src="<?php echo e($logo . 'logo-light.png' . '?' . time()); ?>"
                                                                     style="height: 50px; width:150px;"
                                                                     class="img_setting">
                                                             </a>
@@ -2023,14 +2143,15 @@ $(document).ready(function() {
                                                         <div class="choose-files mt-5">
                                                             <label for="logo_light">
                                                                 <div class=" bg-primary"> <i
-                                                                        class="ti ti-upload px-1"></i>{{ __('Choose file here') }}
+                                                                        class="ti ti-upload px-1"></i><?php echo e(__('Choose file here')); ?>
+
                                                                 </div>
                                                                 <input type="file" name="logo_light" id="logo_light"
                                                                     class="form-control file"
                                                                     data-filename="company_logo_update"
                                                                     onchange="document.getElementById('blah5').src = window.URL.createObjectURL(this.files[0])">
 
-                                                                {{-- <input type="file" name="logo_light" id="logo_light" class="form-control file" data-filename="company_logo_update"> --}}
+                                                                
                                                             </label>
                                                         </div>
                                                     </div>
@@ -2041,22 +2162,17 @@ $(document).ready(function() {
                                     <div class="col-md-4">
                                         <div class="card">
                                             <div class="card-header">
-                                                <h5 class="small-title">{{ __('Favicon') }}</h5>
+                                                <h5 class="small-title"><?php echo e(__('Favicon')); ?></h5>
                                             </div>
                                             <div class="card-body setting-card setting-logo-box p-3">
                                                 <div class="row">
                                                     <div class="col-12">
                                                         <div class="logo-content logo-set-bg py-2" style="height:65px">
-                                                            {{-- <a href="{{ asset(Storage::url('uploads/logo/favicon.png')) }}"
-                                                            target="_blank">
-                                                            <img id="blah6" alt="your image"
-                                                                src="{{ $logo . '/' . (isset($favicon) && !empty($favicon) ? $favicon : 'favicon.png') }}"
-                                                                width="50px" class="img_setting">
-                                                            </a> --}}
-                                                            <a href="{{ $logo . 'favicon.png' . '?' . time() }}"
+                                                            
+                                                            <a href="<?php echo e($logo . 'favicon.png' . '?' . time()); ?>"
                                                                 target="_blank">
                                                                 <img id="blah6" alt="your image"
-                                                                    src="{{ $logo . 'favicon.png' . '?' . time() }}"
+                                                                    src="<?php echo e($logo . 'favicon.png' . '?' . time()); ?>"
                                                                     width="50px" class="img_setting">
                                                             </a>
                                                         </div>
@@ -2065,13 +2181,14 @@ $(document).ready(function() {
                                                         <div class="choose-files mt-5">
                                                             <label for="favicon">
                                                                 <div class=" bg-primary"> <i
-                                                                        class="ti ti-upload px-1"></i>{{ __('Choose file here') }}
+                                                                        class="ti ti-upload px-1"></i><?php echo e(__('Choose file here')); ?>
+
                                                                 </div>
                                                                 <input type="file" name="favicon" id="favicon"
                                                                     class="form-control file"
                                                                     data-filename="company_logo_update"
                                                                     onchange="document.getElementById('blah6').src = window.URL.createObjectURL(this.files[0])">
-                                                                {{-- <input type="file" name="favicon" id="favicon" class="form-control file" data-filename="company_logo_update"> --}}
+                                                                
                                                             </label>
                                                         </div>
                                                     </div>
@@ -2083,34 +2200,54 @@ $(document).ready(function() {
                                 <div class="row mt-3">
                                     <div class="row">
                                         <div class="form-group col-md-4">
-                                            {{ Form::label('title_text', __('Title Text'), ['class' => 'form-label']) }}
-                                            {{ Form::text('title_text', null, ['class' => 'form-control', 'placeholder' => __('Title Text')]) }}
-                                            @error('title_text')
+                                            <?php echo e(Form::label('title_text', __('Title Text'), ['class' => 'form-label'])); ?>
+
+                                            <?php echo e(Form::text('title_text', null, ['class' => 'form-control', 'placeholder' => __('Title Text')])); ?>
+
+                                            <?php $__errorArgs = ['title_text'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                             <span class="invalid-title_text" role="alert">
-                                                <strong class="text-danger">{{ $message }}</strong>
+                                                <strong class="text-danger"><?php echo e($message); ?></strong>
                                             </span>
-                                            @enderror
+                                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                         </div>
-                                        @if (\Auth::user()->type == 'super admin')
+                                        <?php if(\Auth::user()->type == 'super admin'): ?>
                                         <div class="form-group col-md-4">
-                                            {{ Form::label('footer_text', __('Footer Text'), ['class' => 'form-label']) }}
-                                            {{ Form::text('footer_text', null, ['class' => 'form-control', 'placeholder' => __('Footer Text')]) }}
-                                            @error('footer_text')
+                                            <?php echo e(Form::label('footer_text', __('Footer Text'), ['class' => 'form-label'])); ?>
+
+                                            <?php echo e(Form::text('footer_text', null, ['class' => 'form-control', 'placeholder' => __('Footer Text')])); ?>
+
+                                            <?php $__errorArgs = ['footer_text'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                             <span class="invalid-footer_text" role="alert">
-                                                <strong class="text-danger">{{ $message }}</strong>
+                                                <strong class="text-danger"><?php echo e($message); ?></strong>
                                             </span>
-                                            @enderror
+                                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                         </div>
                                         <div class="form-group col-md-4">
-                                            {{ Form::label('default_language', __('Default Language'), ['class' => 'form-label']) }}
+                                            <?php echo e(Form::label('default_language', __('Default Language'), ['class' => 'form-label'])); ?>
+
                                             <div class="changeLanguage">
                                                 <select name="default_language" id="default_language"
                                                     class="form-control custom-select">
-                                                    @foreach (\App\Models\Utility::languages() as $code => $language)
-                                                    <option @if ($lang==$code) selected @endif value="{{ $code }}">
-                                                        {{ ucfirst($language) }}
+                                                    <?php $__currentLoopData = \App\Models\Utility::languages(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $code => $language): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <option <?php if($lang==$code): ?> selected <?php endif; ?> value="<?php echo e($code); ?>">
+                                                        <?php echo e(ucfirst($language)); ?>
+
                                                     </option>
-                                                    @endforeach
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </select>
                                             </div>
                                         </div>
@@ -2118,12 +2255,12 @@ $(document).ready(function() {
                                             <div class="col switch-width">
                                                 <div class="form-group ml-2 mr-3">
                                                     <label
-                                                        class="form-label mb-1">{{ __('Enable Landing Page') }}</label>
+                                                        class="form-label mb-1"><?php echo e(__('Enable Landing Page')); ?></label>
                                                     <div class="custom-control custom-switch">
                                                         <input type="checkbox" data-toggle="switchbutton"
                                                             data-onstyle="primary" class="" name="display_landing_page"
                                                             id="display_landing_page"
-                                                            {{ $settings['display_landing_page'] == 'on' ? 'checked="checked"' : '' }}>
+                                                            <?php echo e($settings['display_landing_page'] == 'on' ? 'checked="checked"' : ''); ?>>
                                                         <label class="custom-control-label mb-1"
                                                             for="display_landing_page"></label>
                                                     </div>
@@ -2135,12 +2272,13 @@ $(document).ready(function() {
                                             <div class="col switch-width">
                                                 <div class="form-group ml-2 mr-3 ">
 
-                                                    {{ Form::label('verified_button', __('Email Verification'), ['class' => 'form-label']) }}
+                                                    <?php echo e(Form::label('verified_button', __('Email Verification'), ['class' => 'form-label'])); ?>
+
                                                     <div class="custom-control custom-switch">
                                                         <input type="checkbox" data-toggle="switchbutton"
                                                             data-onstyle="primary" class="" name="verified_button"
                                                             id="verified_button"
-                                                            {{ Utility::getValByName('verified_button') == 'on' ? 'checked="checked"' : '' }}>
+                                                            <?php echo e(Utility::getValByName('verified_button') == 'on' ? 'checked="checked"' : ''); ?>>
                                                         <label class="custom-control-label"
                                                             for="verified_button"></label>
                                                     </div>
@@ -2151,12 +2289,13 @@ $(document).ready(function() {
                                         <div class="col-4">
                                             <div class="col switch-width">
                                                 <div class="form-group ml-2 mr-3 ">
-                                                    {{ Form::label('SITE_RTL', __('Enable RTL'), ['class' => 'form-label']) }}
+                                                    <?php echo e(Form::label('SITE_RTL', __('Enable RTL'), ['class' => 'form-label'])); ?>
+
                                                     <div class="custom-control custom-switch">
                                                         <input type="checkbox" data-toggle="switchbutton"
                                                             data-onstyle="primary" class="" name="SITE_RTL"
                                                             id="SITE_RTL"
-                                                            {{ $settings['SITE_RTL'] == 'on' ? 'checked="checked"' : '' }}>
+                                                            <?php echo e($settings['SITE_RTL'] == 'on' ? 'checked="checked"' : ''); ?>>
                                                         <label class="custom-control-label" for="SITE_RTL"></label>
                                                     </div>
                                                 </div>
@@ -2168,21 +2307,22 @@ $(document).ready(function() {
                                         <div class="col-4">
                                             <div class="col switch-width">
                                                 <div class="form-group ml-2 mr-3 ">
-                                                    {{ Form::label('signup_button', __('Enable Sign-Up Page'), ['class' => 'form-label']) }}
+                                                    <?php echo e(Form::label('signup_button', __('Enable Sign-Up Page'), ['class' => 'form-label'])); ?>
+
                                                     <div class="custom-control custom-switch">
                                                         <input type="checkbox" data-toggle="switchbutton"
                                                             data-onstyle="primary" class="" name="signup_button"
                                                             id="signup_button"
-                                                            {{ Utility::getValByName('signup_button') == 'on' ? 'checked="checked"' : '' }}>
+                                                            <?php echo e(Utility::getValByName('signup_button') == 'on' ? 'checked="checked"' : ''); ?>>
                                                         <label class="custom-control-label" for="signup_button"></label>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        @endif
+                                        <?php endif; ?>
                                     </div>
                                     <div class="row">
-                                        <h4 class="small-title">{{ __('Theme Customizer') }}</h4>
+                                        <h4 class="small-title"><?php echo e(__('Theme Customizer')); ?></h4>
                                         <div class="setting-card setting-logo-box p-3">
                                             <div class="row">
                                                 <div class="pct-body">
@@ -2190,67 +2330,68 @@ $(document).ready(function() {
                                                         <div class="col-lg-4 col-xl-4 col-md-4">
                                                             <h6>
                                                                 <i data-feather="credit-card"
-                                                                    class="me-2"></i>{{ __('Primary color settings') }}
+                                                                    class="me-2"></i><?php echo e(__('Primary color settings')); ?>
+
                                                             </h6>
                                                             <hr class="my-2" />
                                                             <div class="theme-color themes-color">
                                                                 <a href="#!"
-                                                                    class="{{ $settings['color'] == 'theme-1' ? 'active_color' : '' }}"
+                                                                    class="<?php echo e($settings['color'] == 'theme-1' ? 'active_color' : ''); ?>"
                                                                     data-value="theme-1"
                                                                     onclick="check_theme('theme-1')"></a>
                                                                 <input type="radio" class="theme_color" name="color"
                                                                     value="theme-1" style="display: none;">
                                                                 <a href="#!"
-                                                                    class="{{ $settings['color'] == 'theme-2' ? 'active_color' : '' }} "
+                                                                    class="<?php echo e($settings['color'] == 'theme-2' ? 'active_color' : ''); ?> "
                                                                     data-value="theme-2"
                                                                     onclick="check_theme('theme-2')"></a>
                                                                 <input type="radio" class="theme_color" name="color"
                                                                     value="theme-2" style="display: none;">
                                                                 <a href="#!"
-                                                                    class="{{ $settings['color'] == 'theme-3' ? 'active_color' : '' }}"
+                                                                    class="<?php echo e($settings['color'] == 'theme-3' ? 'active_color' : ''); ?>"
                                                                     data-value="theme-3"
                                                                     onclick="check_theme('theme-3')"></a>
                                                                 <input type="radio" class="theme_color" name="color"
                                                                     value="theme-3" style="display: none;">
                                                                 <a href="#!"
-                                                                    class="{{ $settings['color'] == 'theme-4' ? 'active_color' : '' }}"
+                                                                    class="<?php echo e($settings['color'] == 'theme-4' ? 'active_color' : ''); ?>"
                                                                     data-value="theme-4"
                                                                     onclick="check_theme('theme-4')"></a>
                                                                 <input type="radio" class="theme_color" name="color"
                                                                     value="theme-4" style="display: none;">
                                                                 <a href="#!"
-                                                                    class="{{ $settings['color'] == 'theme-5' ? 'active_color' : '' }}"
+                                                                    class="<?php echo e($settings['color'] == 'theme-5' ? 'active_color' : ''); ?>"
                                                                     data-value="theme-5"
                                                                     onclick="check_theme('theme-5')"></a>
                                                                 <input type="radio" class="theme_color" name="color"
                                                                     value="theme-5" style="display: none;">
                                                                 <br>
                                                                 <a href="#!"
-                                                                    class="{{ $settings['color'] == 'theme-6' ? 'active_color' : '' }}"
+                                                                    class="<?php echo e($settings['color'] == 'theme-6' ? 'active_color' : ''); ?>"
                                                                     data-value="theme-6"
                                                                     onclick="check_theme('theme-6')"></a>
                                                                 <input type="radio" class="theme_color" name="color"
                                                                     value="theme-6" style="display: none;">
                                                                 <a href="#!"
-                                                                    class="{{ $settings['color'] == 'theme-7' ? 'active_color' : '' }}"
+                                                                    class="<?php echo e($settings['color'] == 'theme-7' ? 'active_color' : ''); ?>"
                                                                     data-value="theme-7"
                                                                     onclick="check_theme('theme-7')"></a>
                                                                 <input type="radio" class="theme_color" name="color"
                                                                     value="theme-7" style="display: none;">
                                                                 <a href="#!"
-                                                                    class="{{ $settings['color'] == 'theme-8' ? 'active_color' : '' }}"
+                                                                    class="<?php echo e($settings['color'] == 'theme-8' ? 'active_color' : ''); ?>"
                                                                     data-value="theme-8"
                                                                     onclick="check_theme('theme-8')"></a>
                                                                 <input type="radio" class="theme_color" name="color"
                                                                     value="theme-8" style="display: none;">
                                                                 <a href="#!"
-                                                                    class="{{ $settings['color'] == 'theme-9' ? 'active_color' : '' }}"
+                                                                    class="<?php echo e($settings['color'] == 'theme-9' ? 'active_color' : ''); ?>"
                                                                     data-value="theme-9"
                                                                     onclick="check_theme('theme-9')"></a>
                                                                 <input type="radio" class="theme_color" name="color"
                                                                     value="theme-9" style="display: none;">
                                                                 <a href="#!"
-                                                                    class="{{ $settings['color'] == 'theme-10' ? 'active_color' : '' }}"
+                                                                    class="<?php echo e($settings['color'] == 'theme-10' ? 'active_color' : ''); ?>"
                                                                     data-value="theme-10"
                                                                     onclick="check_theme('theme-10')"></a>
                                                                 <input type="radio" class="theme_color" name="color"
@@ -2260,37 +2401,35 @@ $(document).ready(function() {
                                                         <div class="col-4">
                                                             <h6>
                                                                 <i data-feather="layout"
-                                                                    class="me-2"></i>{{ __('Sidebar Settings') }}
+                                                                    class="me-2"></i><?php echo e(__('Sidebar Settings')); ?>
+
                                                             </h6>
                                                             <hr class="my-2" />
                                                             <div class="form-check form-switch">
                                                                 <input type="checkbox" class="form-check-input"
                                                                     id="cust-theme-bg" name="cust_theme_bg"
-                                                                    {{ Utility::getValByName('cust_theme_bg') == 'on' ? 'checked' : '' }} />
+                                                                    <?php echo e(Utility::getValByName('cust_theme_bg') == 'on' ? 'checked' : ''); ?> />
                                                                 <label class="form-check-label f-w-600 pl-1"
-                                                                    for="cust-theme-bg">{{ __('Transparent layout') }}</label>
+                                                                    for="cust-theme-bg"><?php echo e(__('Transparent layout')); ?></label>
 
-                                                                {{-- <input type="checkbox" class="form-check-input" id="cust-theme-bg" name="cust_theme_bg"  @if ($settings['cust_theme_bg'] == 'on') checked @endif/>
-
-                                                                        <label class="form-check-label f-w-600 pl-1" for="cust-theme-bg">Transparent layout</label> --}}
+                                                                
                                                             </div>
                                                         </div>
                                                         <div class="col-4">
                                                             <h6>
                                                                 <i data-feather="sun"
-                                                                    class=""></i>{{ __('Layout settings') }}
+                                                                    class=""></i><?php echo e(__('Layout settings')); ?>
+
                                                             </h6>
                                                             <hr class=" my-2" />
                                                             <div class="form-check form-switch">
                                                                 <input type="checkbox" class="form-check-input"
                                                                     id="cust-darklayout" name="cust_darklayout"
-                                                                    {{ Utility::getValByName('cust_darklayout') == 'on' ? 'checked' : '' }} />
+                                                                    <?php echo e(Utility::getValByName('cust_darklayout') == 'on' ? 'checked' : ''); ?> />
                                                                 <label class="form-check-label f-w-600 pl-1"
-                                                                    for="cust-darklayout">{{ __('Dark Layout') }}</label>
+                                                                    for="cust-darklayout"><?php echo e(__('Dark Layout')); ?></label>
 
-                                                                {{-- <input type="checkbox" class="form-check-input" id="cust-darklayout" name="cust_darklayout"@if ($settings['cust_darklayout'] == 'on') checked @endif/>
-
-                                                                            <label class="form-check-label f-w-600 pl-1" for="cust-darklayout" >Dark Layout</label> --}}
+                                                                
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2301,64 +2440,77 @@ $(document).ready(function() {
                                 </div>
                             </div>
                             <div class="card-footer text-end">
-                                {{ Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary']) }}
+                                <?php echo e(Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary'])); ?>
+
                             </div>
-                            {{ Form::close() }}
+                            <?php echo e(Form::close()); ?>
+
                         </div> -->
 
                         <!-- <div id="twilio-settings" class="card">
                         <div class="card-header">
-                            <h5>{{ __('Twilio Settings') }}</h5>
-                            <small class="text-muted">{{ __('Edit your twilio details') }}</small>
+                            <h5><?php echo e(__('Twilio Settings')); ?></h5>
+                            <small class="text-muted"><?php echo e(__('Edit your twilio details')); ?></small>
                         </div>
                         <div class="card-body">
-                            <h4 class="small-title">{{ __('Twilio') }}</h4>
-                            {{ Form::model($settings, ['route' => 'twilio.setting', 'method' => 'post']) }}
-                            @csrf
+                            <h4 class="small-title"><?php echo e(__('Twilio')); ?></h4>
+                            <?php echo e(Form::model($settings, ['route' => 'twilio.setting', 'method' => 'post'])); ?>
+
+                            <?php echo csrf_field(); ?>
                             <div class="row mt-3">
                                 <div class="form-group col-md-4">
-                                    {{ Form::label('SID', __('SID'), ['class' => 'form-label']) }}
-                                    {{ Form::text('twilio_sid', isset($settings['twilio_sid']) ? $settings['twilio_sid'] : '', ['class' => 'form-control ', 'placeholder' => __('Enter Twilio Sid'), 'required' => 'required']) }}
-                                </div>
-                                <div class="form-group col-md-4">
-                                    {{ Form::label('Token', __('Token'), ['class' => 'form-label']) }}
-                                    {{ Form::text('twilio_token', isset($settings['twilio_token']) ? $settings['twilio_token'] : '', ['class' => 'form-control ', 'placeholder' => __('Enter Twilio Token'), 'required' => 'required']) }}
-                                </div>
-                                <div class="form-group col-md-4">
-                                    {{ Form::label('From', __('From'), ['class' => 'form-label']) }}
+                                    <?php echo e(Form::label('SID', __('SID'), ['class' => 'form-label'])); ?>
 
-                                    {{ Form::text('twilio_from', isset($settings['twilio_from']) ? $settings['twilio_from'] : '', ['class' => 'form-control ', 'placeholder' => __('Enter Twilio From'), 'required' => 'required']) }}
+                                    <?php echo e(Form::text('twilio_sid', isset($settings['twilio_sid']) ? $settings['twilio_sid'] : '', ['class' => 'form-control ', 'placeholder' => __('Enter Twilio Sid'), 'required' => 'required'])); ?>
+
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <?php echo e(Form::label('Token', __('Token'), ['class' => 'form-label'])); ?>
+
+                                    <?php echo e(Form::text('twilio_token', isset($settings['twilio_token']) ? $settings['twilio_token'] : '', ['class' => 'form-control ', 'placeholder' => __('Enter Twilio Token'), 'required' => 'required'])); ?>
+
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <?php echo e(Form::label('From', __('From'), ['class' => 'form-label'])); ?>
+
+
+                                    <?php echo e(Form::text('twilio_from', isset($settings['twilio_from']) ? $settings['twilio_from'] : '', ['class' => 'form-control ', 'placeholder' => __('Enter Twilio From'), 'required' => 'required'])); ?>
+
                                 </div>
                                 <div class="col-md-12 mt-4 mb-2">
-                                    <h4 class="small-title">{{ __('Module Settings') }}</h4>
+                                    <h4 class="small-title"><?php echo e(__('Module Settings')); ?></h4>
                                 </div>
                                 <div class="col-md-4">
                                     <ul class="list-group">
                                         <li class="list-group-item">
-                                            <span>{{ __('New User') }}</span>
+                                            <span><?php echo e(__('New User')); ?></span>
                                             <div class="form-check form-switch float-end">
-                                                {{ Form::checkbox('twilio_user_create', '1', isset($settings['twilio_user_create']) && $settings['twilio_user_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_user_create']) }}
+                                                <?php echo e(Form::checkbox('twilio_user_create', '1', isset($settings['twilio_user_create']) && $settings['twilio_user_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_user_create'])); ?>
+
                                                 <label class="form-check-label" for="twilio_user_create"></label>
                                             </div>
                                         </li>
                                         <li class="list-group-item">
-                                            <span>{{ __('New Lead') }}</span>
+                                            <span><?php echo e(__('New Lead')); ?></span>
                                             <div class="form-check form-switch float-end">
-                                                {{ Form::checkbox('twilio_lead_create', '1', isset($settings['twilio_lead_create']) && $settings['twilio_lead_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_lead_create']) }}
+                                                <?php echo e(Form::checkbox('twilio_lead_create', '1', isset($settings['twilio_lead_create']) && $settings['twilio_lead_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_lead_create'])); ?>
+
                                                 <label class="form-check-label" for="twilio_lead_create"></label>
                                             </div>
                                         </li>
                                         <li class="list-group-item">
-                                            <span>{{ __('New Meeting') }}</span>
+                                            <span><?php echo e(__('New Meeting')); ?></span>
                                             <div class="form-check form-switch float-end">
-                                                {{ Form::checkbox('twilio_meeting_create', '1', isset($settings['twilio_meeting_create']) && $settings['twilio_meeting_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_meeting_create']) }}
+                                                <?php echo e(Form::checkbox('twilio_meeting_create', '1', isset($settings['twilio_meeting_create']) && $settings['twilio_meeting_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_meeting_create'])); ?>
+
                                                 <label class="form-check-label" for="twilio_meeting_create"></label>
                                             </div>
                                         </li> -->
                         <!-- <li class="list-group-item">
-                                                                                            <span>{{ __('New Quotes') }}</span>
+                                                                                            <span><?php echo e(__('New Quotes')); ?></span>
                                                                                             <div class="form-check form-switch float-end">
-                                                                                                {{ Form::checkbox('twilio_quotes_create', '1', isset($settings['twilio_quotes_create']) && $settings['twilio_quotes_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_quotes_create']) }}
+                                                                                                <?php echo e(Form::checkbox('twilio_quotes_create', '1', isset($settings['twilio_quotes_create']) && $settings['twilio_quotes_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_quotes_create'])); ?>
+
                                                                                                 <label class="form-check-label" for="twilio_quotes_create"></label>
                                                                                             </div>
                                                                                         </li> -->
@@ -2367,23 +2519,26 @@ $(document).ready(function() {
                         <!-- <div class="col-md-4">
                                                                 <ul class="list-group">
                                                                     <li class="list-group-item">
-                                                                        <span>{{ __('New Sales Order') }}</span>
+                                                                        <span><?php echo e(__('New Sales Order')); ?></span>
                                                                         <div class="form-check form-switch float-end">
-                                                                            {{ Form::checkbox('twilio_salesorder_create', '1', isset($settings['twilio_salesorder_create']) && $settings['twilio_salesorder_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_salesorder_create']) }}
+                                                                            <?php echo e(Form::checkbox('twilio_salesorder_create', '1', isset($settings['twilio_salesorder_create']) && $settings['twilio_salesorder_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_salesorder_create'])); ?>
+
                                                                             <label class="form-check-label" for="twilio_salesorder_create"></label>
                                                                         </div>
                                                                     </li>
                                                                     <li class="list-group-item">
-                                                                        <span>{{ __('New Invoice') }}</span>
+                                                                        <span><?php echo e(__('New Invoice')); ?></span>
                                                                         <div class="form-check form-switch float-end">
-                                                                            {{ Form::checkbox('twilio_invoice_create', '1', isset($settings['twilio_invoice_create']) && $settings['twilio_invoice_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_invoice_create']) }}
+                                                                            <?php echo e(Form::checkbox('twilio_invoice_create', '1', isset($settings['twilio_invoice_create']) && $settings['twilio_invoice_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_invoice_create'])); ?>
+
                                                                             <label class="form-check-label" for="twilio_invoice_create"></label>
                                                                         </div>
                                                                     </li>
                                                                     <li class="list-group-item">
-                                                                        <span>{{ __('New Invoice Payment') }}</span>
+                                                                        <span><?php echo e(__('New Invoice Payment')); ?></span>
                                                                         <div class="form-check form-switch float-end">
-                                                                            {{ Form::checkbox('twilio_invoicepay_create', '1', isset($settings['twilio_invoicepay_create']) && $settings['twilio_invoicepay_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_invoicepay_create']) }}
+                                                                            <?php echo e(Form::checkbox('twilio_invoicepay_create', '1', isset($settings['twilio_invoicepay_create']) && $settings['twilio_invoicepay_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_invoicepay_create'])); ?>
+
                                                                             <label class="form-check-label" for="twilio_invoicepay_create"></label>
                                                                         </div>
                                                                     </li>
@@ -2392,57 +2547,60 @@ $(document).ready(function() {
                                                             <div class="col-md-4">
                                                                 <ul class="list-group">
                                                                     <li class="list-group-item">
-                                                                        <span>{{ __('New Meeting') }}</span>
+                                                                        <span><?php echo e(__('New Meeting')); ?></span>
                                                                         <div class="form-check form-switch float-end">
-                                                                            {{ Form::checkbox('twilio_meeting_create', '1', isset($settings['twilio_meeting_create']) && $settings['twilio_meeting_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_meeting_create']) }}
+                                                                            <?php echo e(Form::checkbox('twilio_meeting_create', '1', isset($settings['twilio_meeting_create']) && $settings['twilio_meeting_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_meeting_create'])); ?>
+
                                                                             <label class="form-check-label" for="twilio_meeting_create"></label>
                                                                         </div>
                                                                     </li>
                                                                     <li class="list-group-item">
-                                                                        <span>{{ __('New Task') }}</span>
+                                                                        <span><?php echo e(__('New Task')); ?></span>
                                                                         <div class="form-check form-switch float-end">
-                                                                            {{ Form::checkbox('twilio_task_create', '1', isset($settings['twilio_task_create']) && $settings['twilio_task_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_task_create']) }}
+                                                                            <?php echo e(Form::checkbox('twilio_task_create', '1', isset($settings['twilio_task_create']) && $settings['twilio_task_create'] == '1' ? 'checked' : '', ['class' => 'form-check-input input-primary', 'id' => 'twilio_task_create'])); ?>
+
                                                                             <label class="form-check-label" for="twilio_task_create"></label>
                                                                         </div>
                                                                     </li>
                                                                 </ul>
                                                             </div> -->
                         <!-- <div class="text-end">
-                                                {{ Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary']) }}
+                                                <?php echo e(Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary'])); ?>
+
                                             </div>
                                         </div>
-                                        {{ Form::close() }}
+                                        <?php echo e(Form::close()); ?>
+
                                     </div>
                                 </div> -->
 
 
 
 
-                        @if (\Auth::user()->type == 'super admin')
+                        <?php if(\Auth::user()->type == 'super admin'): ?>
                         <!-- <div id="brand-settings" class="card">
                                         <div class="card-header">
-                                            <h5>{{ __('Brand Settings') }}</h5>
-                                            <small class="text-muted">{{ __('Edit your brand details') }}</small>
+                                            <h5><?php echo e(__('Brand Settings')); ?></h5>
+                                            <small class="text-muted"><?php echo e(__('Edit your brand details')); ?></small>
                                         </div>
-                                        {{ Form::model($settings, ['route' => 'business.setting', 'method' => 'POST', 'enctype' => 'multipart/form-data']) }}
+                                        <?php echo e(Form::model($settings, ['route' => 'business.setting', 'method' => 'POST', 'enctype' => 'multipart/form-data'])); ?>
+
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-4">
                                                     <div class="card">
                                                         <div class="card-header">
-                                                            <h5 class="small-title">{{ __('Dark Logo') }}</h5>
+                                                            <h5 class="small-title"><?php echo e(__('Dark Logo')); ?></h5>
                                                         </div>
                                                         <div class="card-body setting-card setting-logo-box p-3">
                                                             <div class="row">
                                                                 <div class="col-12">
                                                                     <div class="logo-content logo-set-bg py-2" style="height:65px">
-                                                                        {{-- <a href="{{ asset(Storage::url('uploads/logo/logo-dark.png')) }}" target="_blank">
-                                                                                <img id="blah4" alt="your image" src="{{ asset(Storage::url('uploads/logo/logo-dark.png')) }}" width="170px" class="">
-                                                                            </a> --}}
-                                                                        <a href="{{ $logo . 'logo-dark.png' . '?' . time() }}"
+                                                                        
+                                                                        <a href="<?php echo e($logo . 'logo-dark.png' . '?' . time()); ?>"
                                                                             target="_blank" style="height: 50px; width:150px;">
                                                                             <img id="blah4" alt="your image"
-                                                                                src="{{ $logo . 'logo-dark.png' . '?' . time() }}"
+                                                                                src="<?php echo e($logo . 'logo-dark.png' . '?' . time()); ?>"
                                                                                 style="height: 50px; width:150px;" class="big-logo">
                                                                         </a>
                                                                     </div>
@@ -2452,14 +2610,15 @@ $(document).ready(function() {
                                                                     <div class="choose-files mt-5">
                                                                         <label for="logo_dark">
                                                                             <div class=" bg-primary"> <i
-                                                                                    class="ti ti-upload px-1"></i>{{ __('Choose file here') }}
+                                                                                    class="ti ti-upload px-1"></i><?php echo e(__('Choose file here')); ?>
+
                                                                             </div>
                                                                             <input type="file"name="logo_dark" id="logo_dark"
                                                                                 class="form-control file"
                                                                                 data-filename="company_logo_update"
                                                                                 onchange="document.getElementById('blah4').src = window.URL.createObjectURL(this.files[0])">
 
-                                                                            {{-- <input type="file" name="logo_dark" id="logo_dark" class="form-control file" data-filename="company_logo_update"> --}}
+                                                                            
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -2470,19 +2629,17 @@ $(document).ready(function() {
                                                 <div class="col-md-4">
                                                     <div class="card">
                                                         <div class="card-header">
-                                                            <h5 class="small-title">{{ __('Light Logo') }}</h5>
+                                                            <h5 class="small-title"><?php echo e(__('Light Logo')); ?></h5>
                                                         </div>
                                                         <div class="card-body setting-card setting-logo-box p-3">
                                                             <div class="row">
                                                                 <div class="col-12">
                                                                     <div class="logo-content logo-set-bg py-2" style="height:65px">
-                                                                        {{-- <a href="{{ asset(Storage::url('uploads/logo/logo-light.png')) }}" target="_blank">
-                                                                                <img id="blah5" alt="your image" src="{{ asset(Storage::url('uploads/logo/logo-light.png')) }}" width="170px" class="img_setting">
-                                                                            </a> --}}
-                                                                        <a href="{{ $logo . 'logo-light.png' . '?' . time() }}"
+                                                                        
+                                                                        <a href="<?php echo e($logo . 'logo-light.png' . '?' . time()); ?>"
                                                                             target="_blank" style="height: 50px; width:150px;">
                                                                             <img id="blah5" alt="your image"
-                                                                                src="{{ $logo . 'logo-light.png' . '?' . time() }}"
+                                                                                src="<?php echo e($logo . 'logo-light.png' . '?' . time()); ?>"
                                                                                 style="height: 50px; width:150px;" class="img_setting">
                                                                         </a>
                                                                     </div>
@@ -2492,14 +2649,15 @@ $(document).ready(function() {
                                                                     <div class="choose-files mt-5">
                                                                         <label for="logo_light">
                                                                             <div class=" bg-primary"> <i
-                                                                                    class="ti ti-upload px-1"></i>{{ __('Choose file here') }}
+                                                                                    class="ti ti-upload px-1"></i><?php echo e(__('Choose file here')); ?>
+
                                                                             </div>
                                                                             <input type="file"name="logo_light" id="logo_light"
                                                                                 class="form-control file"
                                                                                 data-filename="company_logo_update"
                                                                                 onchange="document.getElementById('blah5').src = window.URL.createObjectURL(this.files[0])">
 
-                                                                            {{-- <input type="file" name="logo_light" id="logo_light" class="form-control file" data-filename="company_logo_update"> --}}
+                                                                            
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -2510,19 +2668,17 @@ $(document).ready(function() {
                                                 <div class="col-md-4">
                                                     <div class="card">
                                                         <div class="card-header">
-                                                            <h5 class="small-title">{{ __('Favicon') }}</h5>
+                                                            <h5 class="small-title"><?php echo e(__('Favicon')); ?></h5>
                                                         </div>
                                                         <div class="card-body setting-card setting-logo-box p-3">
                                                             <div class="row">
                                                                 <div class="col-12">
                                                                     <div class="logo-content logo-set-bg py-2" style="height:65px">
-                                                                        {{-- <a href="{{ asset(Storage::url('uploads/logo/favicon.png')) }}" target="_blank">
-                                                                                <img id="blah6" alt="your image" src="{{ $logo . '/' . (isset($favicon) && !empty($favicon) ? $favicon : 'favicon.png') }}"  width="50px" class="img_setting">
-                                                                            </a> --}}
-                                                                        <a href="{{ $logo . 'favicon.png' . '?' . time() }}"
+                                                                        
+                                                                        <a href="<?php echo e($logo . 'favicon.png' . '?' . time()); ?>"
                                                                             target="_blank">
                                                                             <img id="blah6" alt="your image"
-                                                                                src="{{ $logo . 'favicon.png' . '?' . time() }}"
+                                                                                src="<?php echo e($logo . 'favicon.png' . '?' . time()); ?>"
                                                                                 width="50px" class="img_setting">
                                                                         </a>
                                                                     </div>
@@ -2531,13 +2687,14 @@ $(document).ready(function() {
                                                                     <div class="choose-files mt-5">
                                                                         <label for="favicon">
                                                                             <div class=" bg-primary"> <i
-                                                                                    class="ti ti-upload px-1"></i>{{ __('Choose file here') }}
+                                                                                    class="ti ti-upload px-1"></i><?php echo e(__('Choose file here')); ?>
+
                                                                             </div>
                                                                             <input type="file"name="favicon" id="favicon"
                                                                                 class="form-control file"
                                                                                 data-filename="company_logo_update"
                                                                                 onchange="document.getElementById('blah6').src = window.URL.createObjectURL(this.files[0])">
-                                                                            {{-- <input type="file" name="favicon" id="favicon" class="form-control file" data-filename="company_logo_update"> --}}
+                                                                            
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -2549,34 +2706,54 @@ $(document).ready(function() {
                                             <div class="row mt-3">
                                                 <div class="row">
                                                     <div class="form-group col-md-4">
-                                                        {{ Form::label('title_text', __('Title Text'), ['class' => 'form-label']) }}
-                                                        {{ Form::text('title_text', null, ['class' => 'form-control', 'placeholder' => __('Title Text')]) }}
-                                                        @error('title_text')
+                                                        <?php echo e(Form::label('title_text', __('Title Text'), ['class' => 'form-label'])); ?>
+
+                                                        <?php echo e(Form::text('title_text', null, ['class' => 'form-control', 'placeholder' => __('Title Text')])); ?>
+
+                                                        <?php $__errorArgs = ['title_text'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                                             <span class="invalid-title_text" role="alert">
-                                                                <strong class="text-danger">{{ $message }}</strong>
+                                                                <strong class="text-danger"><?php echo e($message); ?></strong>
                                                             </span>
-                                                        @enderror
+                                                        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                                     </div>
-                                                    @if (\Auth::user()->type == 'super admin')
+                                                    <?php if(\Auth::user()->type == 'super admin'): ?>
                                                         <div class="form-group col-md-4">
-                                                            {{ Form::label('footer_text', __('Footer Text'), ['class' => 'form-label']) }}
-                                                            {{ Form::text('footer_text', null, ['class' => 'form-control', 'placeholder' => __('Footer Text')]) }}
-                                                            @error('footer_text')
+                                                            <?php echo e(Form::label('footer_text', __('Footer Text'), ['class' => 'form-label'])); ?>
+
+                                                            <?php echo e(Form::text('footer_text', null, ['class' => 'form-control', 'placeholder' => __('Footer Text')])); ?>
+
+                                                            <?php $__errorArgs = ['footer_text'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                                                 <span class="invalid-footer_text" role="alert">
-                                                                    <strong class="text-danger">{{ $message }}</strong>
+                                                                    <strong class="text-danger"><?php echo e($message); ?></strong>
                                                                 </span>
-                                                            @enderror
+                                                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                                         </div>
                                                         <div class="form-group col-md-4">
-                                                            {{ Form::label('default_language', __('Default Language'), ['class' => 'form-label']) }}
+                                                            <?php echo e(Form::label('default_language', __('Default Language'), ['class' => 'form-label'])); ?>
+
                                                             <div class="changeLanguage">
                                                                 <select name="default_language" id="default_language"
                                                                     class="form-control custom-select">
-                                                                    @foreach (\App\Models\Utility::languages() as $code => $language)
-                                                                        <option @if ($lang == $code) selected @endif
-                                                                            value="{{ $code }}">{{ ucfirst($language) }}
+                                                                    <?php $__currentLoopData = \App\Models\Utility::languages(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $code => $language): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                        <option <?php if($lang == $code): ?> selected <?php endif; ?>
+                                                                            value="<?php echo e($code); ?>"><?php echo e(ucfirst($language)); ?>
+
                                                                         </option>
-                                                                    @endforeach
+                                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -2584,12 +2761,12 @@ $(document).ready(function() {
                                                             <div class="col switch-width">
                                                                 <div class="form-group ml-2 mr-3">
                                                                     <label
-                                                                        class="form-label mb-1">{{ __('Enable Landing Page') }}</label>
+                                                                        class="form-label mb-1"><?php echo e(__('Enable Landing Page')); ?></label>
                                                                     <div class="custom-control custom-switch">
                                                                         <input type="checkbox" data-toggle="switchbutton"
                                                                             data-onstyle="primary" class=""
                                                                             name="display_landing_page" id="display_landing_page"
-                                                                            {{ $settings['display_landing_page'] == 'on' ? 'checked="checked"' : '' }}>
+                                                                            <?php echo e($settings['display_landing_page'] == 'on' ? 'checked="checked"' : ''); ?>>
                                                                         <label class="custom-control-label mb-1"
                                                                             for="display_landing_page"></label>
                                                                     </div>
@@ -2601,12 +2778,13 @@ $(document).ready(function() {
                                                             <div class="col switch-width">
                                                                 <div class="form-group ml-2 mr-3 ">
 
-                                                                    {{ Form::label('verified_button', __('Email Verification'), ['class' => 'form-label']) }}
+                                                                    <?php echo e(Form::label('verified_button', __('Email Verification'), ['class' => 'form-label'])); ?>
+
                                                                     <div class="custom-control custom-switch">
                                                                         <input type="checkbox" data-toggle="switchbutton"
                                                                             data-onstyle="primary" class=""
                                                                             name="verified_button" id="verified_button"
-                                                                            {{ Utility::getValByName('verified_button') == 'on' ? 'checked="checked"' : '' }}>
+                                                                            <?php echo e(Utility::getValByName('verified_button') == 'on' ? 'checked="checked"' : ''); ?>>
                                                                         <label class="custom-control-label"
                                                                             for="verified_button"></label>
                                                                     </div>
@@ -2617,11 +2795,12 @@ $(document).ready(function() {
                                                         <div class="col-4">
                                                             <div class="col switch-width">
                                                                 <div class="form-group ml-2 mr-3 ">
-                                                                    {{ Form::label('SITE_RTL', __('Enable RTL'), ['class' => 'form-label']) }}
+                                                                    <?php echo e(Form::label('SITE_RTL', __('Enable RTL'), ['class' => 'form-label'])); ?>
+
                                                                     <div class="custom-control custom-switch">
                                                                         <input type="checkbox" data-toggle="switchbutton"
                                                                             data-onstyle="primary" class="" name="SITE_RTL"
-                                                                            id="SITE_RTL"{{ $settings['SITE_RTL'] == 'on' ? 'checked="checked"' : '' }}>
+                                                                            id="SITE_RTL"<?php echo e($settings['SITE_RTL'] == 'on' ? 'checked="checked"' : ''); ?>>
                                                                         <label class="custom-control-label" for="SITE_RTL"></label>
                                                                     </div>
                                                                 </div>
@@ -2633,22 +2812,23 @@ $(document).ready(function() {
                                                         <div class="col-4">
                                                             <div class="col switch-width">
                                                                 <div class="form-group ml-2 mr-3 ">
-                                                                    {{ Form::label('signup_button', __('Enable Sign-Up Page'), ['class' => 'form-label']) }}
+                                                                    <?php echo e(Form::label('signup_button', __('Enable Sign-Up Page'), ['class' => 'form-label'])); ?>
+
                                                                     <div class="custom-control custom-switch">
                                                                         <input type="checkbox" data-toggle="switchbutton"
                                                                             data-onstyle="primary" class=""
                                                                             name="signup_button" id="signup_button"
-                                                                            {{ Utility::getValByName('signup_button') == 'on' ? 'checked="checked"' : '' }}>
+                                                                            <?php echo e(Utility::getValByName('signup_button') == 'on' ? 'checked="checked"' : ''); ?>>
                                                                         <label class="custom-control-label"
                                                                             for="signup_button"></label>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    @endif
+                                                    <?php endif; ?>
                                                 </div>
                                                 <div class="row">
-                                                    <h4 class="small-title">{{ __('Theme Customizer') }}</h4>
+                                                    <h4 class="small-title"><?php echo e(__('Theme Customizer')); ?></h4>
                                                     <div class="setting-card setting-logo-box p-3">
                                                         <div class="row">
                                                             <div class="pct-body">
@@ -2656,67 +2836,68 @@ $(document).ready(function() {
                                                                     <div class="col-lg-4 col-xl-4 col-md-4">
                                                                         <h6>
                                                                             <i data-feather="credit-card"
-                                                                                class="me-2"></i>{{ __('Primary color settings') }}
+                                                                                class="me-2"></i><?php echo e(__('Primary color settings')); ?>
+
                                                                         </h6>
                                                                         <hr class="my-2" />
                                                                         <div class="theme-color themes-color">
                                                                             <a href="#!"
-                                                                                class="{{ $settings['color'] == 'theme-1' ? 'active_color' : '' }}"
+                                                                                class="<?php echo e($settings['color'] == 'theme-1' ? 'active_color' : ''); ?>"
                                                                                 data-value="theme-1"
                                                                                 onclick="check_theme('theme-1')"></a>
                                                                             <input type="radio" class="theme_color" name="color"
                                                                                 value="theme-1" style="display: none;">
                                                                             <a href="#!"
-                                                                                class="{{ $settings['color'] == 'theme-2' ? 'active_color' : '' }} "
+                                                                                class="<?php echo e($settings['color'] == 'theme-2' ? 'active_color' : ''); ?> "
                                                                                 data-value="theme-2"
                                                                                 onclick="check_theme('theme-2')"></a>
                                                                             <input type="radio" class="theme_color" name="color"
                                                                                 value="theme-2" style="display: none;">
                                                                             <a href="#!"
-                                                                                class="{{ $settings['color'] == 'theme-3' ? 'active_color' : '' }}"
+                                                                                class="<?php echo e($settings['color'] == 'theme-3' ? 'active_color' : ''); ?>"
                                                                                 data-value="theme-3"
                                                                                 onclick="check_theme('theme-3')"></a>
                                                                             <input type="radio" class="theme_color" name="color"
                                                                                 value="theme-3" style="display: none;">
                                                                             <a href="#!"
-                                                                                class="{{ $settings['color'] == 'theme-4' ? 'active_color' : '' }}"
+                                                                                class="<?php echo e($settings['color'] == 'theme-4' ? 'active_color' : ''); ?>"
                                                                                 data-value="theme-4"
                                                                                 onclick="check_theme('theme-4')"></a>
                                                                             <input type="radio" class="theme_color" name="color"
                                                                                 value="theme-4" style="display: none;">
                                                                             <a href="#!"
-                                                                                class="{{ $settings['color'] == 'theme-5' ? 'active_color' : '' }}"
+                                                                                class="<?php echo e($settings['color'] == 'theme-5' ? 'active_color' : ''); ?>"
                                                                                 data-value="theme-5"
                                                                                 onclick="check_theme('theme-5')"></a>
                                                                             <input type="radio" class="theme_color" name="color"
                                                                                 value="theme-5" style="display: none;">
                                                                             <br>
                                                                             <a href="#!"
-                                                                                class="{{ $settings['color'] == 'theme-6' ? 'active_color' : '' }}"
+                                                                                class="<?php echo e($settings['color'] == 'theme-6' ? 'active_color' : ''); ?>"
                                                                                 data-value="theme-6"
                                                                                 onclick="check_theme('theme-6')"></a>
                                                                             <input type="radio" class="theme_color" name="color"
                                                                                 value="theme-6" style="display: none;">
                                                                             <a href="#!"
-                                                                                class="{{ $settings['color'] == 'theme-7' ? 'active_color' : '' }}"
+                                                                                class="<?php echo e($settings['color'] == 'theme-7' ? 'active_color' : ''); ?>"
                                                                                 data-value="theme-7"
                                                                                 onclick="check_theme('theme-7')"></a>
                                                                             <input type="radio" class="theme_color" name="color"
                                                                                 value="theme-7" style="display: none;">
                                                                             <a href="#!"
-                                                                                class="{{ $settings['color'] == 'theme-8' ? 'active_color' : '' }}"
+                                                                                class="<?php echo e($settings['color'] == 'theme-8' ? 'active_color' : ''); ?>"
                                                                                 data-value="theme-8"
                                                                                 onclick="check_theme('theme-8')"></a>
                                                                             <input type="radio" class="theme_color" name="color"
                                                                                 value="theme-8" style="display: none;">
                                                                             <a href="#!"
-                                                                                class="{{ $settings['color'] == 'theme-9' ? 'active_color' : '' }}"
+                                                                                class="<?php echo e($settings['color'] == 'theme-9' ? 'active_color' : ''); ?>"
                                                                                 data-value="theme-9"
                                                                                 onclick="check_theme('theme-9')"></a>
                                                                             <input type="radio" class="theme_color" name="color"
                                                                                 value="theme-9" style="display: none;">
                                                                             <a href="#!"
-                                                                                class="{{ $settings['color'] == 'theme-10' ? 'active_color' : '' }}"
+                                                                                class="<?php echo e($settings['color'] == 'theme-10' ? 'active_color' : ''); ?>"
                                                                                 data-value="theme-10"
                                                                                 onclick="check_theme('theme-10')"></a>
                                                                             <input type="radio" class="theme_color" name="color"
@@ -2726,37 +2907,35 @@ $(document).ready(function() {
                                                                     <div class="col-4">
                                                                         <h6>
                                                                             <i data-feather="layout"
-                                                                                class="me-2"></i>{{ __('Sidebar Settings') }}
+                                                                                class="me-2"></i><?php echo e(__('Sidebar Settings')); ?>
+
                                                                         </h6>
                                                                         <hr class="my-2" />
                                                                         <div class="form-check form-switch">
                                                                             <input type="checkbox" class="form-check-input"
                                                                                 id="cust-theme-bg" name="cust_theme_bg"
-                                                                                {{ Utility::getValByName('cust_theme_bg') == 'on' ? 'checked' : '' }} />
+                                                                                <?php echo e(Utility::getValByName('cust_theme_bg') == 'on' ? 'checked' : ''); ?> />
                                                                             <label class="form-check-label f-w-600 pl-1"
-                                                                                for="cust-theme-bg">{{ __('Transparent layout') }}</label>
+                                                                                for="cust-theme-bg"><?php echo e(__('Transparent layout')); ?></label>
 
-                                                                            {{-- <input type="checkbox" class="form-check-input" id="cust-theme-bg" name="cust_theme_bg"  @if ($settings['cust_theme_bg'] == 'on') checked @endif/>
-
-                                                                        <label class="form-check-label f-w-600 pl-1" for="cust-theme-bg">Transparent layout</label> --}}
+                                                                            
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-4">
                                                                         <h6>
                                                                             <i data-feather="sun"
-                                                                                class=""></i>{{ __('Layout settings') }}
+                                                                                class=""></i><?php echo e(__('Layout settings')); ?>
+
                                                                         </h6>
                                                                         <hr class=" my-2" />
                                                                         <div class="form-check form-switch">
                                                                             <input type="checkbox" class="form-check-input"
                                                                                 id="cust-darklayout" name="cust_darklayout"
-                                                                                {{ Utility::getValByName('cust_darklayout') == 'on' ? 'checked' : '' }} />
+                                                                                <?php echo e(Utility::getValByName('cust_darklayout') == 'on' ? 'checked' : ''); ?> />
                                                                             <label class="form-check-label f-w-600 pl-1"
-                                                                                for="cust-darklayout">{{ __('Dark Layout') }}</label>
+                                                                                for="cust-darklayout"><?php echo e(__('Dark Layout')); ?></label>
 
-                                                                            {{-- <input type="checkbox" class="form-check-input" id="cust-darklayout" name="cust_darklayout"@if ($settings['cust_darklayout'] == 'on') checked @endif/>
-
-                                                                            <label class="form-check-label f-w-600 pl-1" for="cust-darklayout" >Dark Layout</label> --}}
+                                                                            
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -2767,47 +2946,52 @@ $(document).ready(function() {
                                             </div>
                                         </div>
                                         <div class="card-footer text-end">
-                                            {{ Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary']) }}
+                                            <?php echo e(Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary'])); ?>
+
                                         </div>
-                                        {{ Form::close() }}
+                                        <?php echo e(Form::close()); ?>
+
                                         </div>  -->
 
                         <!-- <div id="email-settings" class="card">
                                                     <div class="card-header">
-                                                        <h5>{{ __('Email Settings') }}</h5>
-                                                        <small class="text-muted">{{ __('Edit your email details') }}</small>
+                                                        <h5><?php echo e(__('Email Settings')); ?></h5>
+                                                        <small class="text-muted"><?php echo e(__('Edit your email details')); ?></small>
                                                     </div>
-                                                    {{ Form::open(['route' => 'email.setting', 'method' => 'post']) }}
+                                                    <?php echo e(Form::open(['route' => 'email.setting', 'method' => 'post'])); ?>
+
                                                     <div class="card-body">
                                                         <div class="row mt-4">
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="mail_driver"
-                                                                        class="col-form-label text-dark">{{ __('Mail Driver') }}</label>
+                                                                        class="col-form-label text-dark"><?php echo e(__('Mail Driver')); ?></label>
                                                                     <input type="text" name="mail_driver" id="mail_driver"
-                                                                        class="form-control {{ $errors->has('mail_driver') ? 'is-invalid' : '' }}"
-                                                                        value="{{ !isset($settings['mail_driver']) || is_null($settings['mail_driver']) ? '' : $settings['mail_driver'] }}"
-                                                                        placeholder="{{ trans('installer_messages.environment.wizard.form.app_tabs.mail_driver_placeholder') }}" />
-                                                                    @if ($errors->has('mail_driver'))
+                                                                        class="form-control <?php echo e($errors->has('mail_driver') ? 'is-invalid' : ''); ?>"
+                                                                        value="<?php echo e(!isset($settings['mail_driver']) || is_null($settings['mail_driver']) ? '' : $settings['mail_driver']); ?>"
+                                                                        placeholder="<?php echo e(trans('installer_messages.environment.wizard.form.app_tabs.mail_driver_placeholder')); ?>" />
+                                                                    <?php if($errors->has('mail_driver')): ?>
                                                                         <span class="invalid-feedback text-danger text-xs">
-                                                                            {{ $errors->first('mail_driver') }}
+                                                                            <?php echo e($errors->first('mail_driver')); ?>
+
                                                                         </span>
-                                                                    @endif
+                                                                    <?php endif; ?>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="mail_host"
-                                                                        class="col-form-label text-dark">{{ __('Mail Host') }}</label>
+                                                                        class="col-form-label text-dark"><?php echo e(__('Mail Host')); ?></label>
                                                                     <input type="text" name="mail_host" id="mail_host"
-                                                                        class="form-control {{ $errors->has('mail_host') ? 'is-invalid' : '' }}"
-                                                                        value="{{ !isset($settings['mail_host']) || is_null($settings['mail_host']) ? '' : $settings['mail_host'] }}"
-                                                                        placeholder="{{ trans('installer_messages.environment.wizard.form.app_tabs.mail_host_placeholder') }}" />
-                                                                    @if ($errors->has('mail_host'))
+                                                                        class="form-control <?php echo e($errors->has('mail_host') ? 'is-invalid' : ''); ?>"
+                                                                        value="<?php echo e(!isset($settings['mail_host']) || is_null($settings['mail_host']) ? '' : $settings['mail_host']); ?>"
+                                                                        placeholder="<?php echo e(trans('installer_messages.environment.wizard.form.app_tabs.mail_host_placeholder')); ?>" />
+                                                                    <?php if($errors->has('mail_host')): ?>
                                                                         <span class="invalid-feedback text-danger text-xs">
-                                                                            {{ $errors->first('mail_host') }}
+                                                                            <?php echo e($errors->first('mail_host')); ?>
+
                                                                         </span>
-                                                                    @endif
+                                                                    <?php endif; ?>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -2815,31 +2999,33 @@ $(document).ready(function() {
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="mail_port"
-                                                                        class="col-form-label text-dark">{{ __('Mail Port') }}</label>
+                                                                        class="col-form-label text-dark"><?php echo e(__('Mail Port')); ?></label>
                                                                     <input type="number" name="mail_port" id="mail_port"
-                                                                        class="form-control {{ $errors->has('mail_port') ? 'is-invalid' : '' }}"
-                                                                        value="{{ !isset($settings['mail_port']) || is_null($settings['mail_port']) ? '' : $settings['mail_port'] }}"
-                                                                        placeholder="{{ trans('installer_messages.environment.wizard.form.app_tabs.mail_port_placeholder') }}" />
-                                                                    @if ($errors->has('mail_port'))
+                                                                        class="form-control <?php echo e($errors->has('mail_port') ? 'is-invalid' : ''); ?>"
+                                                                        value="<?php echo e(!isset($settings['mail_port']) || is_null($settings['mail_port']) ? '' : $settings['mail_port']); ?>"
+                                                                        placeholder="<?php echo e(trans('installer_messages.environment.wizard.form.app_tabs.mail_port_placeholder')); ?>" />
+                                                                    <?php if($errors->has('mail_port')): ?>
                                                                         <span class="invalid-feedback text-danger text-xs">
-                                                                            {{ $errors->first('mail_port') }}
+                                                                            <?php echo e($errors->first('mail_port')); ?>
+
                                                                         </span>
-                                                                    @endif
+                                                                    <?php endif; ?>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="mail_username"
-                                                                        class="col-form-label text-dark">{{ __('Mail Username') }}</label>
+                                                                        class="col-form-label text-dark"><?php echo e(__('Mail Username')); ?></label>
                                                                     <input type="text" name="mail_username" id="mail_username"
-                                                                        class="form-control {{ $errors->has('mail_username') ? 'is-invalid' : '' }}"
-                                                                        value="{{ !isset($settings['mail_username']) || is_null($settings['mail_username']) ? '' : $settings['mail_username'] }}"
-                                                                        placeholder="{{ trans('installer_messages.environment.wizard.form.app_tabs.mail_username_placeholder') }}" />
-                                                                    @if ($errors->has('mail_username'))
+                                                                        class="form-control <?php echo e($errors->has('mail_username') ? 'is-invalid' : ''); ?>"
+                                                                        value="<?php echo e(!isset($settings['mail_username']) || is_null($settings['mail_username']) ? '' : $settings['mail_username']); ?>"
+                                                                        placeholder="<?php echo e(trans('installer_messages.environment.wizard.form.app_tabs.mail_username_placeholder')); ?>" />
+                                                                    <?php if($errors->has('mail_username')): ?>
                                                                         <span class="invalid-feedback text-danger text-xs">
-                                                                            {{ $errors->first('mail_username') }}
+                                                                            <?php echo e($errors->first('mail_username')); ?>
+
                                                                         </span>
-                                                                    @endif
+                                                                    <?php endif; ?>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -2847,61 +3033,65 @@ $(document).ready(function() {
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="mail_password"
-                                                                        class="col-form-label text-dark">{{ __('Mail Password') }}</label>
+                                                                        class="col-form-label text-dark"><?php echo e(__('Mail Password')); ?></label>
                                                                     <input type="text" name="mail_password" id="mail_password"
-                                                                        class="form-control {{ $errors->has('mail_password') ? 'is-invalid' : '' }}"
-                                                                        value="{{ !isset($settings['mail_password']) || is_null($settings['mail_password']) ? '' : $settings['mail_password'] }}"
-                                                                        placeholder="{{ trans('installer_messages.environment.wizard.form.app_tabs.mail_password_placeholder') }}" />
-                                                                    @if ($errors->has('mail_password'))
+                                                                        class="form-control <?php echo e($errors->has('mail_password') ? 'is-invalid' : ''); ?>"
+                                                                        value="<?php echo e(!isset($settings['mail_password']) || is_null($settings['mail_password']) ? '' : $settings['mail_password']); ?>"
+                                                                        placeholder="<?php echo e(trans('installer_messages.environment.wizard.form.app_tabs.mail_password_placeholder')); ?>" />
+                                                                    <?php if($errors->has('mail_password')): ?>
                                                                         <span class="invalid-feedback text-danger text-xs">
-                                                                            {{ $errors->first('mail_password') }}
+                                                                            <?php echo e($errors->first('mail_password')); ?>
+
                                                                         </span>
-                                                                    @endif
+                                                                    <?php endif; ?>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="mail_encryption"
-                                                                        class="col-form-label text-dark">{{ __('Mail Encryption') }}</label>
+                                                                        class="col-form-label text-dark"><?php echo e(__('Mail Encryption')); ?></label>
                                                                     <input type="text" name="mail_encryption" id="mail_encryption"
-                                                                        class="form-control {{ $errors->has('mail_encryption') ? 'is-invalid' : '' }}"
-                                                                        value="{{ !isset($settings['mail_encryption']) || is_null($settings['mail_encryption']) ? '' : $settings['mail_encryption'] }}"
-                                                                        placeholder="{{ trans('installer_messages.environment.wizard.form.app_tabs.mail_encryption_placeholder') }}" />
-                                                                    @if ($errors->has('mail_encryption'))
+                                                                        class="form-control <?php echo e($errors->has('mail_encryption') ? 'is-invalid' : ''); ?>"
+                                                                        value="<?php echo e(!isset($settings['mail_encryption']) || is_null($settings['mail_encryption']) ? '' : $settings['mail_encryption']); ?>"
+                                                                        placeholder="<?php echo e(trans('installer_messages.environment.wizard.form.app_tabs.mail_encryption_placeholder')); ?>" />
+                                                                    <?php if($errors->has('mail_encryption')): ?>
                                                                         <span class="invalid-feedback text-danger text-xs">
-                                                                            {{ $errors->first('mail_encryption') }}
+                                                                            <?php echo e($errors->first('mail_encryption')); ?>
+
                                                                         </span>
-                                                                    @endif
+                                                                    <?php endif; ?>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="mail_from_address"
-                                                                        class="col-form-label text-dark">{{ __('Mail From Address') }}</label>
+                                                                        class="col-form-label text-dark"><?php echo e(__('Mail From Address')); ?></label>
                                                                     <input type="text" name="mail_from_address" id="mail_from_address"
-                                                                        class="form-control {{ $errors->has('mail_from_address') ? 'is-invalid' : '' }}"
-                                                                        value="{{ !isset($settings['mail_from_address']) || is_null($settings['mail_from_address']) ? '' : $settings['mail_from_address'] }}"
-                                                                        placeholder="{{ __('Enter Mail From Address') }}" />
-                                                                    @if ($errors->has('mail_from_address'))
+                                                                        class="form-control <?php echo e($errors->has('mail_from_address') ? 'is-invalid' : ''); ?>"
+                                                                        value="<?php echo e(!isset($settings['mail_from_address']) || is_null($settings['mail_from_address']) ? '' : $settings['mail_from_address']); ?>"
+                                                                        placeholder="<?php echo e(__('Enter Mail From Address')); ?>" />
+                                                                    <?php if($errors->has('mail_from_address')): ?>
                                                                         <span class="invalid-feedback text-danger text-xs">
-                                                                            {{ $errors->first('mail_from_address') }}
+                                                                            <?php echo e($errors->first('mail_from_address')); ?>
+
                                                                         </span>
-                                                                    @endif
+                                                                    <?php endif; ?>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="mail_from_name"
-                                                                        class="col-form-label text-dark">{{ __('Mail From Name') }}</label>
+                                                                        class="col-form-label text-dark"><?php echo e(__('Mail From Name')); ?></label>
                                                                     <input type="text" name="mail_from_name" id="mail_from_name"
-                                                                        class="form-control {{ $errors->has('mail_from_name') ? 'is-invalid' : '' }}"
-                                                                        value="{{ !isset($settings['mail_from_name']) || is_null($settings['mail_from_name']) ? '' : $settings['mail_from_name'] }}"
-                                                                        placeholder="{{ __('Enter Mail From Name') }}" />
-                                                                    @if ($errors->has('mail_from_name'))
+                                                                        class="form-control <?php echo e($errors->has('mail_from_name') ? 'is-invalid' : ''); ?>"
+                                                                        value="<?php echo e(!isset($settings['mail_from_name']) || is_null($settings['mail_from_name']) ? '' : $settings['mail_from_name']); ?>"
+                                                                        placeholder="<?php echo e(__('Enter Mail From Name')); ?>" />
+                                                                    <?php if($errors->has('mail_from_name')): ?>
                                                                         <span class="invalid-feedback text-danger text-xs">
-                                                                            {{ $errors->first('mail_from_name') }}
+                                                                            <?php echo e($errors->first('mail_from_name')); ?>
+
                                                                         </span>
-                                                                    @endif
+                                                                    <?php endif; ?>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -2909,98 +3099,140 @@ $(document).ready(function() {
                                                             <div class="footer-row justify-content-end felx-wrap d-flex">
                                                                 <a href="#"
                                                                     class="btn btn-print-invoice  btn-primary m-r-10 send_email mb-2"
-                                                                    data-ajax-popup="true" data-title="{{ __('Send Test Mail') }}"
-                                                                    data-url="{{ route('test.mail') }}">
-                                                                    {{ __('Send Test Mail') }}
+                                                                    data-ajax-popup="true" data-title="<?php echo e(__('Send Test Mail')); ?>"
+                                                                    data-url="<?php echo e(route('test.mail')); ?>">
+                                                                    <?php echo e(__('Send Test Mail')); ?>
+
                                                                 </a>
-                                                                <input type="submit" value="{{ __('Save Changes') }}"
+                                                                <input type="submit" value="<?php echo e(__('Save Changes')); ?>"
                                                                     class="btn btn-print-invoice  btn-primary m-r-10 mb-2">
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    {{ Form::close() }}
+                                                    <?php echo e(Form::close()); ?>
+
                                                 </div> -->
 
                         <!-- <div id="pusher-settings" class="card">
                         <div class="card-header">
-                            <h5>{{ __('Pusher Settings') }}</h5>
-                            <small class="text-muted">{{ __('Edit your pusher details') }}</small>
+                            <h5><?php echo e(__('Pusher Settings')); ?></h5>
+                            <small class="text-muted"><?php echo e(__('Edit your pusher details')); ?></small>
                         </div>
                         <div class="card-body">
-                            {{ Form::model($settings, ['route' => 'pusher.setting', 'method' => 'post']) }}
+                            <?php echo e(Form::model($settings, ['route' => 'pusher.setting', 'method' => 'post'])); ?>
+
                             <div class="row mt-3">
                                 <div class="form-group col-md-6">
-                                    {{ Form::label('pusher_app_id', __('Pusher App Id *'), ['class' => 'form-label']) }}
-                                    {{ Form::text('pusher_app_id', isset($settings['pusher_app_id']) ? $settings['pusher_app_id'] : '', ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Id', 'required' => 'required']) }}
-                                    @error('pusher_app_id')
+                                    <?php echo e(Form::label('pusher_app_id', __('Pusher App Id *'), ['class' => 'form-label'])); ?>
+
+                                    <?php echo e(Form::text('pusher_app_id', isset($settings['pusher_app_id']) ? $settings['pusher_app_id'] : '', ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Id', 'required' => 'required'])); ?>
+
+                                    <?php $__errorArgs = ['pusher_app_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                         <span class="invalid-pusher_app_id" role="alert">
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                            <strong class="text-danger"><?php echo e($message); ?></strong>
                                         </span>
-                                    @enderror
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                 </div>
 
                                 <div class="form-group col-md-6">
-                                    {{ Form::label('pusher_app_key', __('Pusher App Key *'), ['class' => 'form-label']) }}
-                                    {{ Form::text('pusher_app_key', isset($settings['pusher_app_key']) ? $settings['pusher_app_key'] : '', ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Key', 'required' => 'required']) }}
-                                    @error('pusher_app_key')
+                                    <?php echo e(Form::label('pusher_app_key', __('Pusher App Key *'), ['class' => 'form-label'])); ?>
+
+                                    <?php echo e(Form::text('pusher_app_key', isset($settings['pusher_app_key']) ? $settings['pusher_app_key'] : '', ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Key', 'required' => 'required'])); ?>
+
+                                    <?php $__errorArgs = ['pusher_app_key'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                         <span class="invalid-pusher_app_key" role="alert">
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                            <strong class="text-danger"><?php echo e($message); ?></strong>
                                         </span>
-                                    @enderror
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    {{ Form::label('pusher_app_secret', __('Pusher App Secret *'), ['class' => 'form-label']) }}
-                                    {{ Form::text('pusher_app_secret', isset($settings['pusher_app_secret']) ? $settings['pusher_app_secret'] : '', ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Key', 'required' => 'required']) }}
-                                    @error('pusher_app_secret')
+                                    <?php echo e(Form::label('pusher_app_secret', __('Pusher App Secret *'), ['class' => 'form-label'])); ?>
+
+                                    <?php echo e(Form::text('pusher_app_secret', isset($settings['pusher_app_secret']) ? $settings['pusher_app_secret'] : '', ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Key', 'required' => 'required'])); ?>
+
+                                    <?php $__errorArgs = ['pusher_app_secret'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                         <span class="invalid-pusher_app_secret" role="alert">
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                            <strong class="text-danger"><?php echo e($message); ?></strong>
                                         </span>
-                                    @enderror
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    {{ Form::label('pusher_app_cluster', __('Pusher App Cluster *'), ['class' => 'form-label']) }}
-                                    {{ Form::text('pusher_app_cluster', isset($settings['pusher_app_cluster']) ? $settings['pusher_app_cluster'] : '' , ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Cluster', 'required' => 'required']) }}
-                                    @error('pusher_app_cluster')
+                                    <?php echo e(Form::label('pusher_app_cluster', __('Pusher App Cluster *'), ['class' => 'form-label'])); ?>
+
+                                    <?php echo e(Form::text('pusher_app_cluster', isset($settings['pusher_app_cluster']) ? $settings['pusher_app_cluster'] : '' , ['class' => 'form-control font-style', 'placeholder' => 'Pusher App Cluster', 'required' => 'required'])); ?>
+
+                                    <?php $__errorArgs = ['pusher_app_cluster'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                         <span class="invalid-pusher_app_cluster" role="alert">
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                            <strong class="text-danger"><?php echo e($message); ?></strong>
                                         </span>
-                                    @enderror
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                 </div>
                                 <div class="text-end">
-                                    {{ Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary']) }}
+                                    <?php echo e(Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary'])); ?>
+
                                 </div>
                             </div>
-                            {{ Form::close() }}
+                            <?php echo e(Form::close()); ?>
+
                         </div>
                     </div> -->
                         <div id="payment-settings" class="card">
                             <div class="card-header">
-                                <h5>{{ __('Payment Settings') }}</h5>
+                                <h5><?php echo e(__('Payment Settings')); ?></h5>
                                 <small
-                                    class="text-muted">{{ __('These details will be used to collect subscription plan payments.Each subscription plan will have a payment button based on the below configuration') }}</small>
+                                    class="text-muted"><?php echo e(__('These details will be used to collect subscription plan payments.Each subscription plan will have a payment button based on the below configuration')); ?></small>
                             </div>
-                            {{ Form::model($settings, ['route' => 'payment.setting', 'method' => 'POST']) }}
+                            <?php echo e(Form::model($settings, ['route' => 'payment.setting', 'method' => 'POST'])); ?>
+
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6 form-group">
-                                                <label class="col-form-label">{{ __('Currency') }} *</label>
+                                                <label class="col-form-label"><?php echo e(__('Currency')); ?> *</label>
                                                 <input type="text" name="currency" class="form-control" id="currency"
-                                                    value="{{ !isset($payment['currency']) || is_null($payment['currency']) ? '' : $payment['currency'] }}"
+                                                    value="<?php echo e(!isset($payment['currency']) || is_null($payment['currency']) ? '' : $payment['currency']); ?>"
                                                     placeholder="USD" required>
                                                 <small class="text-xs">
-                                                    {{ __('Note: Add currency code as per three-letter ISO code.') }}.
+                                                    <?php echo e(__('Note: Add currency code as per three-letter ISO code.')); ?>.
                                                     <a href="https://stripe.com/docs/currencies"
-                                                        target="_blank">{{ __('You can find out how to do that here.') }}</a>
+                                                        target="_blank"><?php echo e(__('You can find out how to do that here.')); ?></a>
                                                 </small>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6 form-group">
                                                 <label for="currency_symbol"
-                                                    class="col-form-label">{{ __('Currency Symbol') }}</label>
+                                                    class="col-form-label"><?php echo e(__('Currency Symbol')); ?></label>
                                                 <input type="text" name="currency_symbol" class="form-control"
                                                     id="currency_symbol"
-                                                    value="{{ !isset($payment['currency_symbol']) || is_null($payment['currency_symbol']) ? '' : $payment['currency_symbol'] }}"
+                                                    value="<?php echo e(!isset($payment['currency_symbol']) || is_null($payment['currency_symbol']) ? '' : $payment['currency_symbol']); ?>"
                                                     placeholder="$" required>
                                             </div>
 
@@ -3012,23 +3244,25 @@ $(document).ready(function() {
                                         <div class="accordion accordion-flush setting setting-accordion1"
                                             id="accordionExample">
 
-                                            {{-- maually --}}
+                                            
                                             <div class="accordion-item card">
                                                 <h2 class="accordion-header" id="heading-2-15">
                                                     <button class="accordion-button collapsed" type="button"
                                                         data-bs-toggle="collapse" data-bs-target="#collapse15"
                                                         aria-expanded="false" aria-controls="collapse15">
                                                         <span class="d-flex align-items-center">
-                                                            {{-- <i class="ti ti-credit-card text-primary"></i> --}}
-                                                            {{ __('Manually') }}
+                                                            
+                                                            <?php echo e(__('Manually')); ?>
+
                                                         </span>
-                                                        {{ __('Enable:') }}
+                                                        <?php echo e(__('Enable:')); ?>
+
                                                         <div class="form-check form-switch custom-switch-v1">
                                                             <input type="hidden" name="is_manually_enabled" value="off">
                                                             <input type="checkbox"
                                                                 class="form-check-input input-primary"
                                                                 name="is_manually_enabled" id="is_manually_enabled"
-                                                                {{ isset($payment['is_manually_enabled']) && $payment['is_manually_enabled'] == 'on' ? 'checked="checked"' : '' }}>
+                                                                <?php echo e(isset($payment['is_manually_enabled']) && $payment['is_manually_enabled'] == 'on' ? 'checked="checked"' : ''); ?>>
                                                             <label class="form-check-label"
                                                                 for="customswitchv1-1"></label>
                                                         </div>
@@ -3041,7 +3275,7 @@ $(document).ready(function() {
                                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pb-4">
                                                                 <div class="row pt-2">
                                                                     <label class="pb-2"
-                                                                        for="is_manually_enabled">{{ __('Requesting manual payment for the planned amount for the subscriptions paln.') }}</label>
+                                                                        for="is_manually_enabled"><?php echo e(__('Requesting manual payment for the planned amount for the subscriptions paln.')); ?></label>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -3049,23 +3283,25 @@ $(document).ready(function() {
                                                 </div>
                                             </div>
 
-                                            {{-- bank-transfer --}}
+                                            
                                             <div class="accordion-item card">
                                                 <h2 class="accordion-header" id="heading-2-16">
                                                     <button class="accordion-button collapsed" type="button"
                                                         data-bs-toggle="collapse" data-bs-target="#collapse16"
                                                         aria-expanded="false" aria-controls="collapse16">
                                                         <span class="d-flex align-items-center">
-                                                            {{-- <i class="ti ti-credit-card text-primary"></i> --}}
-                                                            {{ __('Bank Transfer') }}
+                                                            
+                                                            <?php echo e(__('Bank Transfer')); ?>
+
                                                         </span>
-                                                        {{ __('Enable:') }}
+                                                        <?php echo e(__('Enable:')); ?>
+
                                                         <div class="form-check form-switch custom-switch-v1">
                                                             <input type="hidden" name="is_bank_enabled" value="off">
                                                             <input type="checkbox"
                                                                 class="form-check-input input-primary"
                                                                 name="is_bank_enabled" id="is_bank_enabled"
-                                                                {{ isset($payment['is_bank_enabled']) && $payment['is_bank_enabled'] == 'on' ? 'checked="checked"' : '' }}>
+                                                                <?php echo e(isset($payment['is_bank_enabled']) && $payment['is_bank_enabled'] == 'on' ? 'checked="checked"' : ''); ?>>
                                                             <label class="form-check-label"
                                                                 for="customswitchv1-1"></label>
                                                         </div>
@@ -3077,16 +3313,20 @@ $(document).ready(function() {
                                                         <div class="row gy-4">
                                                             <div class="col-md-12 mt-3">
                                                                 <div class="form-group">
-                                                                    {{ Form::label('bank_details', __('Bank Details'), ['class' => 'col-form-label']) }}
-                                                                    {{ Form::textarea('bank_details', isset($payment['bank_details']) ? $payment['bank_details'] : '', ['class' => 'form-control', 'placeholder' => __('Enter Your Bank Details'), 'rows' => 4]) }}
+                                                                    <?php echo e(Form::label('bank_details', __('Bank Details'), ['class' => 'col-form-label'])); ?>
+
+                                                                    <?php echo e(Form::textarea('bank_details', isset($payment['bank_details']) ? $payment['bank_details'] : '', ['class' => 'form-control', 'placeholder' => __('Enter Your Bank Details'), 'rows' => 4])); ?>
+
                                                                     <small class="text-xs">
-                                                                        {{ __('Example : Bank : bank name </br> Account Number : 0000 0000 </br>') }}
+                                                                        <?php echo e(__('Example : Bank : bank name </br> Account Number : 0000 0000 </br>')); ?>
+
                                                                     </small>
-                                                                    @if ($errors->has('bank_details'))
+                                                                    <?php if($errors->has('bank_details')): ?>
                                                                     <span class="invalid-feedback d-block">
-                                                                        {{ $errors->first('bank_details') }}
+                                                                        <?php echo e($errors->first('bank_details')); ?>
+
                                                                     </span>
-                                                                    @endif
+                                                                    <?php endif; ?>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -3101,16 +3341,18 @@ $(document).ready(function() {
                                                         data-bs-toggle="collapse" data-bs-target="#collapse1"
                                                         aria-expanded="false" aria-controls="collapse1">
                                                         <span class="d-flex align-items-center">
-                                                            {{-- <i class="ti ti-credit-card text-primary"></i> --}}
-                                                            {{ __('Stripe') }}
+                                                            
+                                                            <?php echo e(__('Stripe')); ?>
+
                                                         </span>
-                                                        {{ __('Enable:') }}
+                                                        <?php echo e(__('Enable:')); ?>
+
                                                         <div class="form-check form-switch custom-switch-v1">
                                                             <input type="hidden" name="is_stripe_enabled" value="off">
                                                             <input type="checkbox"
                                                                 class="form-check-input input-primary"
                                                                 name="is_stripe_enabled" id="is_stripe_enabled"
-                                                                {{ isset($payment['is_stripe_enabled']) && $payment['is_stripe_enabled'] == 'on' ? 'checked="checked"' : '' }}>
+                                                                <?php echo e(isset($payment['is_stripe_enabled']) && $payment['is_stripe_enabled'] == 'on' ? 'checked="checked"' : ''); ?>>
                                                             <label class="form-check-label"
                                                                 for="customswitchv1-1"></label>
                                                         </div>
@@ -3123,22 +3365,22 @@ $(document).ready(function() {
                                                             <div class="col-md-6 mt-3">
                                                                 <div class="form-group">
                                                                     <label for="stripe_key"
-                                                                        class="form-label">{{ __('Stripe Key') }}</label>
+                                                                        class="form-label"><?php echo e(__('Stripe Key')); ?></label>
                                                                     <input class="form-control"
-                                                                        placeholder="{{ __('Stripe Key') }}"
+                                                                        placeholder="<?php echo e(__('Stripe Key')); ?>"
                                                                         name="stripe_key" type="text"
-                                                                        value="{{ !isset($payment['stripe_key']) || is_null($payment['stripe_key']) ? '' : $payment['stripe_key'] }}"
+                                                                        value="<?php echo e(!isset($payment['stripe_key']) || is_null($payment['stripe_key']) ? '' : $payment['stripe_key']); ?>"
                                                                         id="stripe_key">
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6 mt-3">
                                                                 <div class="form-group">
                                                                     <label for="stripe_secret"
-                                                                        class="form-label">{{ __('Stripe Secret') }}</label>
+                                                                        class="form-label"><?php echo e(__('Stripe Secret')); ?></label>
                                                                     <input class="form-control "
-                                                                        placeholder="{{ __('Stripe Secret') }}"
+                                                                        placeholder="<?php echo e(__('Stripe Secret')); ?>"
                                                                         name="stripe_secret" type="text"
-                                                                        value="{{ !isset($payment['stripe_secret']) || is_null($payment['stripe_secret']) ? '' : $payment['stripe_secret'] }}"
+                                                                        value="<?php echo e(!isset($payment['stripe_secret']) || is_null($payment['stripe_secret']) ? '' : $payment['stripe_secret']); ?>"
                                                                         id="stripe_secret">
                                                                 </div>
                                                             </div>
@@ -3154,17 +3396,19 @@ $(document).ready(function() {
                                                         data-bs-toggle="collapse" data-bs-target="#collapse2"
                                                         aria-expanded="false" aria-controls="collapse2">
                                                         <span class="d-flex align-items-center">
-                                                            {{-- <i class="ti ti-credit-card text-primary"></i> --}}
-                                                            {{ __('Paypal') }}
+                                                            
+                                                            <?php echo e(__('Paypal')); ?>
+
                                                         </span>
-                                                        {{ __('Enable:') }}
+                                                        <?php echo e(__('Enable:')); ?>
+
                                                         <div class="form-check form-switch custom-switch-v1">
                                                             <input type="hidden" name="is_paypal_enabled" value="off">
                                                             <input type="checkbox"
                                                                 class="form-check-input input-primary"
                                                                 id="customswitchv1-2" name="is_paypal_enabled"
                                                                 id="is_paypal_enabled"
-                                                                {{ isset($payment['is_paypal_enabled']) && $payment['is_paypal_enabled'] == 'on' ? 'checked="checked"' : '' }}>
+                                                                <?php echo e(isset($payment['is_paypal_enabled']) && $payment['is_paypal_enabled'] == 'on' ? 'checked="checked"' : ''); ?>>
                                                             <label class="form-check-label"
                                                                 for="customswitchv1-2"></label>
                                                         </div>
@@ -3177,19 +3421,19 @@ $(document).ready(function() {
                                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pb-4">
                                                                 <div class="row pt-2">
                                                                     <label class="pb-2"
-                                                                        for="paypal_mode">{{ __('Paypal Mode') }}</label>
+                                                                        for="paypal_mode"><?php echo e(__('Paypal Mode')); ?></label>
                                                                     <div class="col-lg-3">
                                                                         <div class="border card p-3">
                                                                             <div class="form-check">
                                                                                 <input type="radio"
                                                                                     class="form-check-input input-primary "
                                                                                     name="paypal_mode" value="sandbox"
-                                                                                    {{ !isset($payment['paypal_mode']) || $payment['paypal_mode'] == '' || $payment['paypal_mode'] == 'sandbox' ? 'checked="checked"' : '' }}>
+                                                                                    <?php echo e(!isset($payment['paypal_mode']) || $payment['paypal_mode'] == '' || $payment['paypal_mode'] == 'sandbox' ? 'checked="checked"' : ''); ?>>
                                                                                 <label class="form-check-label d-block"
                                                                                     for="">
                                                                                     <span>
                                                                                         <span class="h5 d-block"><strong
-                                                                                                class="float-end"></strong>{{ __('Sandbox') }}</span>
+                                                                                                class="float-end"></strong><?php echo e(__('Sandbox')); ?></span>
                                                                                     </span>
                                                                                 </label>
                                                                             </div>
@@ -3201,12 +3445,12 @@ $(document).ready(function() {
                                                                                 <input type="radio"
                                                                                     class="form-check-input input-primary "
                                                                                     name="paypal_mode" value="live"
-                                                                                    {{ isset($payment['paypal_mode']) && $payment['paypal_mode'] == 'live' ? 'checked="checked"' : '' }}>
+                                                                                    <?php echo e(isset($payment['paypal_mode']) && $payment['paypal_mode'] == 'live' ? 'checked="checked"' : ''); ?>>
                                                                                 <label class="form-check-label d-block"
                                                                                     for="">
                                                                                     <span>
                                                                                         <span class="h5 d-block"><strong
-                                                                                                class="float-end"></strong>{{ __('Live') }}</span>
+                                                                                                class="float-end"></strong><?php echo e(__('Live')); ?></span>
                                                                                     </span>
                                                                                 </label>
                                                                             </div>
@@ -3218,21 +3462,21 @@ $(document).ready(function() {
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="paypal_client_id"
-                                                                        class="form-label">{{ __('Client ID') }}</label>
+                                                                        class="form-label"><?php echo e(__('Client ID')); ?></label>
                                                                     <input type="text" name="paypal_client_id"
                                                                         id="paypal_client_id" class="form-control"
-                                                                        value="{{ !isset($payment['paypal_client_id']) || is_null($payment['paypal_client_id']) ? '' : $payment['paypal_client_id'] }}"
-                                                                        placeholder="{{ __('Client ID') }}">
+                                                                        value="<?php echo e(!isset($payment['paypal_client_id']) || is_null($payment['paypal_client_id']) ? '' : $payment['paypal_client_id']); ?>"
+                                                                        placeholder="<?php echo e(__('Client ID')); ?>">
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="paypal_secret_key"
-                                                                        class="form-label">{{ __('Secret Key') }}</label>
+                                                                        class="form-label"><?php echo e(__('Secret Key')); ?></label>
                                                                     <input type="text" name="paypal_secret_key"
                                                                         id="paypal_secret_key" class="form-control"
-                                                                        value="{{ !isset($payment['paypal_secret_key']) || is_null($payment['paypal_secret_key']) ? '' : $payment['paypal_secret_key'] }}"
-                                                                        placeholder="{{ __('Secret Key') }}">
+                                                                        value="<?php echo e(!isset($payment['paypal_secret_key']) || is_null($payment['paypal_secret_key']) ? '' : $payment['paypal_secret_key']); ?>"
+                                                                        placeholder="<?php echo e(__('Secret Key')); ?>">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -3247,17 +3491,19 @@ $(document).ready(function() {
                                                         data-bs-toggle="collapse" data-bs-target="#collapse3"
                                                         aria-expanded="true" aria-controls="collapse3">
                                                         <span class="d-flex align-items-center">
-                                                            {{-- <i class="ti ti-credit-card text-primary"></i> --}}
-                                                            {{ __('Paystack') }}
+                                                            
+                                                            <?php echo e(__('Paystack')); ?>
+
                                                         </span>
-                                                        {{ __('Enable:') }}
+                                                        <?php echo e(__('Enable:')); ?>
+
                                                         <div class="form-check form-switch custom-switch-v1">
                                                             <input type="hidden" name="is_paystack_enabled" value="off">
                                                             <input type="checkbox"
                                                                 class="form-check-input input-primary"
                                                                 id="customswitchv1-2" name="is_paystack_enabled"
                                                                 id="is_paystack_enabled"
-                                                                {{ isset($payment['is_paystack_enabled']) && $payment['is_paystack_enabled'] == 'on' ? 'checked="checked"' : '' }}>
+                                                                <?php echo e(isset($payment['is_paystack_enabled']) && $payment['is_paystack_enabled'] == 'on' ? 'checked="checked"' : ''); ?>>
                                                             <label class="form-check-label"
                                                                 for="customswitchv1-2"></label>
                                                         </div>
@@ -3270,21 +3516,21 @@ $(document).ready(function() {
                                                             <div class="col-md-6 mt-3">
                                                                 <div class="form-group">
                                                                     <label for="paypal_client_id"
-                                                                        class="form-label">{{ __(' Key') }}</label>
+                                                                        class="form-label"><?php echo e(__(' Key')); ?></label>
                                                                     <input type="text" name="paystack_public_key"
                                                                         id="paystack_public_key" class="form-control"
-                                                                        value="{{ !isset($payment['paystack_public_key']) || is_null($payment['paystack_public_key']) ? '' : $payment['paystack_public_key'] }}"
-                                                                        placeholder="{{ __(' Key') }}">
+                                                                        value="<?php echo e(!isset($payment['paystack_public_key']) || is_null($payment['paystack_public_key']) ? '' : $payment['paystack_public_key']); ?>"
+                                                                        placeholder="<?php echo e(__(' Key')); ?>">
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6 mt-3">
                                                                 <div class="form-group">
                                                                     <label for="paystack_secret_key"
-                                                                        class="form-label">{{ __('Secret Key') }}</label>
+                                                                        class="form-label"><?php echo e(__('Secret Key')); ?></label>
                                                                     <input type="text" name="paystack_secret_key"
                                                                         id="paystack_secret_key" class="form-control"
-                                                                        value="{{ !isset($payment['paystack_secret_key']) || is_null($payment['paystack_secret_key']) ? '' : $payment['paystack_secret_key'] }}"
-                                                                        placeholder="{{ __('Secret Key') }}">
+                                                                        value="<?php echo e(!isset($payment['paystack_secret_key']) || is_null($payment['paystack_secret_key']) ? '' : $payment['paystack_secret_key']); ?>"
+                                                                        placeholder="<?php echo e(__('Secret Key')); ?>">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -3299,10 +3545,12 @@ $(document).ready(function() {
                                                         data-bs-toggle="collapse" data-bs-target="#collapse4"
                                                         aria-expanded="true" aria-controls="collapse4">
                                                         <span class="d-flex align-items-center">
-                                                            {{-- <i class="ti ti-credit-card text-primary"></i> --}}
-                                                            {{ __('Flutterwave') }}
+                                                            
+                                                            <?php echo e(__('Flutterwave')); ?>
+
                                                         </span>
-                                                        {{ __('Enable:') }}
+                                                        <?php echo e(__('Enable:')); ?>
+
                                                         <div class="form-check form-switch custom-switch-v1">
                                                             <input type="hidden" name="is_flutterwave_enabled"
                                                                 value="off">
@@ -3310,7 +3558,7 @@ $(document).ready(function() {
                                                                 class="form-check-input input-primary"
                                                                 id="customswitchv1-2" name="is_flutterwave_enabled"
                                                                 id="is_flutterwave_enabled"
-                                                                {{ isset($payment['is_flutterwave_enabled']) && $payment['is_flutterwave_enabled'] == 'on' ? 'checked="checked"' : '' }}>
+                                                                <?php echo e(isset($payment['is_flutterwave_enabled']) && $payment['is_flutterwave_enabled'] == 'on' ? 'checked="checked"' : ''); ?>>
                                                             <label class="form-check-label"
                                                                 for="customswitchv1-2"></label>
                                                         </div>
@@ -3323,20 +3571,20 @@ $(document).ready(function() {
                                                             <div class="col-md-6 mt-3">
                                                                 <div class="form-group">
                                                                     <label for="paypal_client_id"
-                                                                        class="form-label">{{ __(' Key') }}</label>
+                                                                        class="form-label"><?php echo e(__(' Key')); ?></label>
                                                                     <input type="text" name="flutterwave_public_key"
                                                                         id="flutterwave_public_key" class="form-control"
-                                                                        value="{{ !isset($payment['flutterwave_public_key']) || is_null($payment['flutterwave_public_key']) ? '' : $payment['flutterwave_public_key'] }}"
+                                                                        value="<?php echo e(!isset($payment['flutterwave_public_key']) || is_null($payment['flutterwave_public_key']) ? '' : $payment['flutterwave_public_key']); ?>"
                                                                         placeholder="Public Key">
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6 mt-3">
                                                                 <div class="form-group">
                                                                     <label for="paystack_secret_key"
-                                                                        class="form-label">{{ __('Secret Key') }}</label>
+                                                                        class="form-label"><?php echo e(__('Secret Key')); ?></label>
                                                                     <input type="text" name="flutterwave_secret_key"
                                                                         id="flutterwave_secret_key" class="form-control"
-                                                                        value="{{ !isset($payment['flutterwave_secret_key']) || is_null($payment['flutterwave_secret_key']) ? '' : $payment['flutterwave_secret_key'] }}"
+                                                                        value="<?php echo e(!isset($payment['flutterwave_secret_key']) || is_null($payment['flutterwave_secret_key']) ? '' : $payment['flutterwave_secret_key']); ?>"
                                                                         placeholder="Secret Key">
                                                                 </div>
                                                             </div>
@@ -3352,17 +3600,19 @@ $(document).ready(function() {
                                                         data-bs-toggle="collapse" data-bs-target="#collapse5"
                                                         aria-expanded="true" aria-controls="collapse5">
                                                         <span class="d-flex align-items-center">
-                                                            {{-- <i class="ti ti-credit-card text-primary"></i> --}}
-                                                            {{ __('Razorpay') }}
+                                                            
+                                                            <?php echo e(__('Razorpay')); ?>
+
                                                         </span>
-                                                        {{ __('Enable:') }}
+                                                        <?php echo e(__('Enable:')); ?>
+
                                                         <div class="form-check form-switch custom-switch-v1">
                                                             <input type="hidden" name="is_razorpay_enabled" value="off">
                                                             <input type="checkbox"
                                                                 class="form-check-input input-primary"
                                                                 id="customswitchv1-2" name="is_razorpay_enabled"
                                                                 id="is_razorpay_enabled"
-                                                                {{ isset($payment['is_razorpay_enabled']) && $payment['is_razorpay_enabled'] == 'on' ? 'checked="checked"' : '' }}>
+                                                                <?php echo e(isset($payment['is_razorpay_enabled']) && $payment['is_razorpay_enabled'] == 'on' ? 'checked="checked"' : ''); ?>>
                                                             <label class="form-check-label"
                                                                 for="customswitchv1-2"></label>
                                                         </div>
@@ -3375,21 +3625,21 @@ $(document).ready(function() {
                                                             <div class="col-md-6 mt-3">
                                                                 <div class="form-group">
                                                                     <label for="paypal_client_id"
-                                                                        class="form-label">{{ __(' Key') }}</label>
+                                                                        class="form-label"><?php echo e(__(' Key')); ?></label>
 
                                                                     <input type="text" name="razorpay_public_key"
                                                                         id="razorpay_public_key" class="form-control"
-                                                                        value="{{ !isset($payment['razorpay_public_key']) || is_null($payment['razorpay_public_key']) ? '' : $payment['razorpay_public_key'] }}"
+                                                                        value="<?php echo e(!isset($payment['razorpay_public_key']) || is_null($payment['razorpay_public_key']) ? '' : $payment['razorpay_public_key']); ?>"
                                                                         placeholder="Public Key">
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6 mt-3">
                                                                 <div class="form-group">
                                                                     <label for="paystack_secret_key"
-                                                                        class="form-label">{{ __('Secret Key') }}</label>
+                                                                        class="form-label"><?php echo e(__('Secret Key')); ?></label>
                                                                     <input type="text" name="razorpay_secret_key"
                                                                         id="razorpay_secret_key" class="form-control"
-                                                                        value="{{ !isset($payment['razorpay_secret_key']) || is_null($payment['razorpay_secret_key']) ? '' : $payment['razorpay_secret_key'] }}"
+                                                                        value="<?php echo e(!isset($payment['razorpay_secret_key']) || is_null($payment['razorpay_secret_key']) ? '' : $payment['razorpay_secret_key']); ?>"
                                                                         placeholder="Secret Key">
                                                                 </div>
                                                             </div>
@@ -3405,16 +3655,18 @@ $(document).ready(function() {
                                                         data-bs-toggle="collapse" data-bs-target="#collapse6"
                                                         aria-expanded="true" aria-controls="collapse6">
                                                         <span class="d-flex align-items-center">
-                                                            {{-- <i class="ti ti-credit-card text-primary"></i> --}}
-                                                            {{ __('Paytm') }}
+                                                            
+                                                            <?php echo e(__('Paytm')); ?>
+
                                                         </span>
-                                                        {{ __('Enable:') }}
+                                                        <?php echo e(__('Enable:')); ?>
+
                                                         <div class="form-check form-switch custom-switch-v1">
                                                             <input type="hidden" name="is_paytm_enabled" value="off">
                                                             <input type="checkbox"
                                                                 class="form-check-input input-primary"
                                                                 name="is_paytm_enabled" id="is_paytm_enabled"
-                                                                {{ isset($payment['is_paytm_enabled']) && $payment['is_paytm_enabled'] == 'on' ? 'checked="checked"' : '' }}>
+                                                                <?php echo e(isset($payment['is_paytm_enabled']) && $payment['is_paytm_enabled'] == 'on' ? 'checked="checked"' : ''); ?>>
                                                             <label class="form-check-label"
                                                                 for="customswitchv1-2"></label>
                                                         </div>
@@ -3427,21 +3679,21 @@ $(document).ready(function() {
                                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pb-4">
                                                                 <div class="row pt-2">
                                                                     <label class="pb-2"
-                                                                        for="paypal_mode">{{ __('Paytm Environment') }}</label>
+                                                                        for="paypal_mode"><?php echo e(__('Paytm Environment')); ?></label>
                                                                     <div class="col-lg-3">
                                                                         <div class="border card p-3">
                                                                             <div class="form-check">
                                                                                 <input type="radio"
                                                                                     class="form-check-input input-primary "
                                                                                     name="paytm_mode" value="local"
-                                                                                    {{ !isset($payment['paytm_mode']) || $payment['paytm_mode'] == '' || $payment['paytm_mode'] == 'local' ? 'checked="checked"' : '' }}>
+                                                                                    <?php echo e(!isset($payment['paytm_mode']) || $payment['paytm_mode'] == '' || $payment['paytm_mode'] == 'local' ? 'checked="checked"' : ''); ?>>
 
 
                                                                                 <label class="form-check-label d-block"
                                                                                     for="">
                                                                                     <span>
                                                                                         <span class="h5 d-block"><strong
-                                                                                                class="float-end"></strong>{{ __('Local') }}</span>
+                                                                                                class="float-end"></strong><?php echo e(__('Local')); ?></span>
                                                                                     </span>
                                                                                 </label>
                                                                             </div>
@@ -3453,12 +3705,12 @@ $(document).ready(function() {
                                                                                 <input type="radio"
                                                                                     class="form-check-input input-primary"
                                                                                     name="paytm_mode" value="production"
-                                                                                    {{ isset($payment['paytm_mode']) && $payment['paytm_mode'] == 'production' ? 'checked="checked"' : '' }}>
+                                                                                    <?php echo e(isset($payment['paytm_mode']) && $payment['paytm_mode'] == 'production' ? 'checked="checked"' : ''); ?>>
                                                                                 <label class="form-check-label d-block"
                                                                                     for="">
                                                                                     <span>
                                                                                         <span class="h5 d-block"><strong
-                                                                                                class="float-end"></strong>{{ __('Production') }}</span>
+                                                                                                class="float-end"></strong><?php echo e(__('Production')); ?></span>
                                                                                     </span>
                                                                                 </label>
                                                                             </div>
@@ -3466,47 +3718,34 @@ $(document).ready(function() {
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            {{-- <div class="col-md-12 pb-4">
-                                                                                                <label class="paypal-label form-control-label" for="paypal_mode">Paytm Environment</label> <br>
-                                                                                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                                                                                    <label class="btn btn-primary btn-sm {{ !isset($payment['paytm_mode']) || $payment['paytm_mode'] == '' || $payment['paytm_mode'] == 'local' ? 'active' : '' }}">
-                                                            <input type="radio" name="paytm_mode" value="local"
-                                                                {{ !isset($payment['paytm_mode']) || $payment['paytm_mode'] == '' || $payment['paytm_mode'] == 'local' ? 'checked="checked"' : '' }}>Local
-                                                            </label>
-                                                            <label
-                                                                class="btn btn-primary btn-sm {{ isset($payment['paytm_mode']) && $payment['paytm_mode'] == 'production' ? 'active' : '' }}">
-                                                                <input type="radio" name="paytm_mode" value="production"
-                                                                    {{ isset($payment['paytm_mode']) && $payment['paytm_mode'] == 'production' ? 'checked="checked"' : '' }}>Production
-                                                            </label>
-                                                        </div>
-                                                    </div> --}}
+                                                            
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="paytm_public_key"
-                                                                class="form-label">{{ __('Merchant ID') }}</label>
+                                                                class="form-label"><?php echo e(__('Merchant ID')); ?></label>
                                                             <input type="text" name="paytm_merchant_id"
                                                                 id="paytm_merchant_id" class="form-control"
-                                                                value="{{ !isset($payment['paytm_merchant_id']) || is_null($payment['paytm_merchant_id']) ? '' : $payment['paytm_merchant_id'] }}"
+                                                                value="<?php echo e(!isset($payment['paytm_merchant_id']) || is_null($payment['paytm_merchant_id']) ? '' : $payment['paytm_merchant_id']); ?>"
                                                                 placeholder="Merchant ID">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="paytm_secret_key"
-                                                                class="form-label">{{ __('Merchant Key') }}</label>
+                                                                class="form-label"><?php echo e(__('Merchant Key')); ?></label>
                                                             <input type="text" name="paytm_merchant_key"
                                                                 id="paytm_merchant_key" class="form-control"
-                                                                value="{{ !isset($payment['paytm_merchant_key']) || is_null($payment['paytm_merchant_key']) ? '' : $payment['paytm_merchant_key'] }}"
+                                                                value="<?php echo e(!isset($payment['paytm_merchant_key']) || is_null($payment['paytm_merchant_key']) ? '' : $payment['paytm_merchant_key']); ?>"
                                                                 placeholder="Merchant Key">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="paytm_industry_type"
-                                                                class="form-label">{{ __('Industry Type') }}</label>
+                                                                class="form-label"><?php echo e(__('Industry Type')); ?></label>
                                                             <input type="text" name="paytm_industry_type"
                                                                 id="paytm_industry_type" class="form-control"
-                                                                value="{{ !isset($payment['paytm_industry_type']) || is_null($payment['paytm_industry_type']) ? '' : $payment['paytm_industry_type'] }}"
+                                                                value="<?php echo e(!isset($payment['paytm_industry_type']) || is_null($payment['paytm_industry_type']) ? '' : $payment['paytm_industry_type']); ?>"
                                                                 placeholder="Industry Type">
                                                         </div>
                                                     </div>
@@ -3522,15 +3761,17 @@ $(document).ready(function() {
                                                 data-bs-toggle="collapse" data-bs-target="#collapse7"
                                                 aria-expanded="true" aria-controls="collapse7">
                                                 <span class="d-flex align-items-center">
-                                                    {{-- <i class="ti ti-credit-card text-primary"></i> --}}
-                                                    {{ __('MercadoPago') }}
+                                                    
+                                                    <?php echo e(__('MercadoPago')); ?>
+
                                                 </span>
-                                                {{ __('Enable:') }}
+                                                <?php echo e(__('Enable:')); ?>
+
                                                 <div class="form-check form-switch custom-switch-v1">
                                                     <input type="hidden" name="is_mercado_enabled" value="off">
                                                     <input type="checkbox" class="form-check-input input-primary"
                                                         name="is_mercado_enabled" id="is_mercado_enabled"
-                                                        {{ isset($payment['is_mercado_enabled']) && $payment['is_mercado_enabled'] == 'on' ? 'checked="checked"' : '' }}>
+                                                        <?php echo e(isset($payment['is_mercado_enabled']) && $payment['is_mercado_enabled'] == 'on' ? 'checked="checked"' : ''); ?>>
                                                     <label class="form-check-label" for="customswitchv1-2"></label>
                                                 </div>
 
@@ -3544,20 +3785,20 @@ $(document).ready(function() {
                                                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pb-4">
                                                         <div class="row pt-2">
                                                             <label class="pb-2"
-                                                                for="paypal_mode">{{ __('Mercado Mode') }}</label>
+                                                                for="paypal_mode"><?php echo e(__('Mercado Mode')); ?></label>
                                                             <div class="col-lg-3">
                                                                 <div class="border card p-3">
                                                                     <div class="form-check">
                                                                         <input type="radio"
                                                                             class="form-check-input input-primary "
                                                                             name="mercado_mode" value="sandbox"
-                                                                            {{ (isset($payment['mercado_mode']) && $payment['mercado_mode'] == '') || (isset($payment['mercado_mode']) && $payment['mercado_mode'] == 'sandbox') ? 'checked="checked"' : '' }}>
+                                                                            <?php echo e((isset($payment['mercado_mode']) && $payment['mercado_mode'] == '') || (isset($payment['mercado_mode']) && $payment['mercado_mode'] == 'sandbox') ? 'checked="checked"' : ''); ?>>
 
 
                                                                         <label class="form-check-label d-block" for="">
                                                                             <span>
                                                                                 <span class="h5 d-block"><strong
-                                                                                        class="float-end"></strong>{{ __('Sandbox') }}</span>
+                                                                                        class="float-end"></strong><?php echo e(__('Sandbox')); ?></span>
                                                                             </span>
                                                                         </label>
                                                                     </div>
@@ -3569,11 +3810,11 @@ $(document).ready(function() {
                                                                         <input type="radio"
                                                                             class="form-check-input input-primary "
                                                                             name="mercado_mode" value="live"
-                                                                            {{ isset($payment['mercado_mode']) && $payment['mercado_mode'] == 'live' ? 'checked="checked"' : '' }}>
+                                                                            <?php echo e(isset($payment['mercado_mode']) && $payment['mercado_mode'] == 'live' ? 'checked="checked"' : ''); ?>>
                                                                         <label class="form-check-label d-block" for="">
                                                                             <span>
                                                                                 <span class="h5 d-block"><strong
-                                                                                        class="float-end"></strong>{{ __('Live') }}</span>
+                                                                                        class="float-end"></strong><?php echo e(__('Live')); ?></span>
                                                                             </span>
                                                                         </label>
                                                                     </div>
@@ -3585,15 +3826,16 @@ $(document).ready(function() {
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="mercado_access_token"
-                                                                class="form-label">{{ __('Access Token') }}</label>
+                                                                class="form-label"><?php echo e(__('Access Token')); ?></label>
                                                             <input type="text" name="mercado_access_token"
                                                                 id="mercado_access_token" class="form-control"
-                                                                value="{{ isset($payment['mercado_access_token']) ? $payment['mercado_access_token'] : '' }}" />
-                                                            @if ($errors->has('mercado_secret_key'))
+                                                                value="<?php echo e(isset($payment['mercado_access_token']) ? $payment['mercado_access_token'] : ''); ?>" />
+                                                            <?php if($errors->has('mercado_secret_key')): ?>
                                                             <span class="invalid-feedback d-block">
-                                                                {{ $errors->first('mercado_access_token') }}
+                                                                <?php echo e($errors->first('mercado_access_token')); ?>
+
                                                             </span>
-                                                            @endif
+                                                            <?php endif; ?>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -3608,15 +3850,17 @@ $(document).ready(function() {
                                                 data-bs-toggle="collapse" data-bs-target="#collapse8"
                                                 aria-expanded="true" aria-controls="collapse8">
                                                 <span class="d-flex align-items-center">
-                                                    {{-- <i class="ti ti-credit-card text-primary"></i> --}}
-                                                    {{ __('Mollie') }}
+                                                    
+                                                    <?php echo e(__('Mollie')); ?>
+
                                                 </span>
-                                                {{ __('Enable:') }}
+                                                <?php echo e(__('Enable:')); ?>
+
                                                 <div class="form-check form-switch custom-switch-v1">
                                                     <input type="hidden" name="is_mollie_enabled" value="off">
                                                     <input type="checkbox" class="form-check-input input-primary"
                                                         name="is_mollie_enabled" id="is_mollie_enabled"
-                                                        {{ isset($payment['is_mollie_enabled']) && $payment['is_mollie_enabled'] == 'on' ? 'checked="checked"' : '' }}>
+                                                        <?php echo e(isset($payment['is_mollie_enabled']) && $payment['is_mollie_enabled'] == 'on' ? 'checked="checked"' : ''); ?>>
                                                     <label class="form-check-label" for="customswitchv1-2"></label>
                                                 </div>
 
@@ -3631,30 +3875,30 @@ $(document).ready(function() {
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="mollie_api_key"
-                                                                    class="form-label">{{ __('Mollie Api Key') }}</label>
+                                                                    class="form-label"><?php echo e(__('Mollie Api Key')); ?></label>
                                                                 <input type="text" name="mollie_api_key"
                                                                     id="mollie_api_key" class="form-control"
-                                                                    value="{{ !isset($payment['mollie_api_key']) || is_null($payment['mollie_api_key']) ? '' : $payment['mollie_api_key'] }}"
+                                                                    value="<?php echo e(!isset($payment['mollie_api_key']) || is_null($payment['mollie_api_key']) ? '' : $payment['mollie_api_key']); ?>"
                                                                     placeholder="Mollie Api Key">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="mollie_profile_id"
-                                                                    class="form-label">{{ __('Mollie Profile Id') }}</label>
+                                                                    class="form-label"><?php echo e(__('Mollie Profile Id')); ?></label>
                                                                 <input type="text" name="mollie_profile_id"
                                                                     id="mollie_profile_id" class="form-control"
-                                                                    value="{{ !isset($payment['mollie_profile_id']) || is_null($payment['mollie_profile_id']) ? '' : $payment['mollie_profile_id'] }}"
+                                                                    value="<?php echo e(!isset($payment['mollie_profile_id']) || is_null($payment['mollie_profile_id']) ? '' : $payment['mollie_profile_id']); ?>"
                                                                     placeholder="Mollie Profile Id">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="mollie_partner_id"
-                                                                    class="form-label">{{ __('Mollie Partner Id') }}</label>
+                                                                    class="form-label"><?php echo e(__('Mollie Partner Id')); ?></label>
                                                                 <input type="text" name="mollie_partner_id"
                                                                     id="mollie_partner_id" class="form-control"
-                                                                    value="{{ !isset($payment['mollie_partner_id']) || is_null($payment['mollie_partner_id']) ? '' : $payment['mollie_partner_id'] }}"
+                                                                    value="<?php echo e(!isset($payment['mollie_partner_id']) || is_null($payment['mollie_partner_id']) ? '' : $payment['mollie_partner_id']); ?>"
                                                                     placeholder="Mollie Partner Id">
                                                             </div>
                                                         </div>
@@ -3671,15 +3915,17 @@ $(document).ready(function() {
                                                 data-bs-toggle="collapse" data-bs-target="#collapse9"
                                                 aria-expanded="true" aria-controls="collapse9">
                                                 <span class="d-flex align-items-center">
-                                                    {{-- <i class="ti ti-credit-card text-primary"></i> --}}
-                                                    {{ __('Skrill') }}
+                                                    
+                                                    <?php echo e(__('Skrill')); ?>
+
                                                 </span>
-                                                {{ __('Enable:') }}
+                                                <?php echo e(__('Enable:')); ?>
+
                                                 <div class="form-check form-switch custom-switch-v1">
                                                     <input type="hidden" name="is_skrill_enabled" value="off">
                                                     <input type="checkbox" class="form-check-input input-primary"
                                                         name="is_skrill_enabled" id="is_skrill_enabled"
-                                                        {{ isset($payment['is_skrill_enabled']) && $payment['is_skrill_enabled'] == 'on' ? 'checked="checked"' : '' }}>
+                                                        <?php echo e(isset($payment['is_skrill_enabled']) && $payment['is_skrill_enabled'] == 'on' ? 'checked="checked"' : ''); ?>>
                                                     <label class="form-check-label" for="customswitchv1-2"></label>
                                                 </div>
 
@@ -3693,10 +3939,10 @@ $(document).ready(function() {
                                                     <div class="col-md-6 mt-3">
                                                         <div class="form-group">
                                                             <label for="mollie_api_key"
-                                                                class="form-label">{{ __('Skrill Email') }}</label>
+                                                                class="form-label"><?php echo e(__('Skrill Email')); ?></label>
                                                             <input type="text" name="skrill_email" id="skrill_email"
                                                                 class="form-control"
-                                                                value="{{ !isset($payment['skrill_email']) || is_null($payment['skrill_email']) ? '' : $payment['skrill_email'] }}"
+                                                                value="<?php echo e(!isset($payment['skrill_email']) || is_null($payment['skrill_email']) ? '' : $payment['skrill_email']); ?>"
                                                                 placeholder="Enter Skrill Email">
                                                         </div>
                                                     </div>
@@ -3712,15 +3958,17 @@ $(document).ready(function() {
                                                 data-bs-toggle="collapse" data-bs-target="#collapse10"
                                                 aria-expanded="true" aria-controls="collapse10">
                                                 <span class="d-flex align-items-center">
-                                                    {{-- <i class="ti ti-credit-card text-primary"></i> --}}
-                                                    {{ __('CoinGate') }}
+                                                    
+                                                    <?php echo e(__('CoinGate')); ?>
+
                                                 </span>
-                                                {{ __('Enable:') }}
+                                                <?php echo e(__('Enable:')); ?>
+
                                                 <div class="form-check form-switch custom-switch-v1">
                                                     <input type="hidden" name="is_coingate_enabled" value="off">
                                                     <input type="checkbox" class="form-check-input input-primary"
                                                         name="is_coingate_enabled" id="is_coingate_enabled"
-                                                        {{ isset($payment['is_coingate_enabled']) && $payment['is_coingate_enabled'] == 'on' ? 'checked="checked"' : '' }}>
+                                                        <?php echo e(isset($payment['is_coingate_enabled']) && $payment['is_coingate_enabled'] == 'on' ? 'checked="checked"' : ''); ?>>
                                                     <label class="form-check-label" for="customswitchv1-2"></label>
                                                 </div>
 
@@ -3734,20 +3982,20 @@ $(document).ready(function() {
                                                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pb-4">
                                                         <div class="row pt-2">
                                                             <label class="pb-2"
-                                                                for="paypal_mode">{{ __('CoinGate Mode') }}</label>
+                                                                for="paypal_mode"><?php echo e(__('CoinGate Mode')); ?></label>
                                                             <div class="col-lg-3">
                                                                 <div class="border card p-3">
                                                                     <div class="form-check">
                                                                         <input type="radio"
                                                                             class="form-check-input input-primary"
                                                                             name="coingate_mode" value="sandbox"
-                                                                            {{ !isset($payment['coingate_mode']) || $payment['coingate_mode'] == '' || $payment['coingate_mode'] == 'sandbox' ? 'checked="checked"' : '' }}>
+                                                                            <?php echo e(!isset($payment['coingate_mode']) || $payment['coingate_mode'] == '' || $payment['coingate_mode'] == 'sandbox' ? 'checked="checked"' : ''); ?>>
 
 
                                                                         <label class="form-check-label d-block" for="">
                                                                             <span>
                                                                                 <span class="h5 d-block"><strong
-                                                                                        class="float-end"></strong>{{ __('Sandbox') }}</span>
+                                                                                        class="float-end"></strong><?php echo e(__('Sandbox')); ?></span>
                                                                             </span>
                                                                         </label>
                                                                     </div>
@@ -3759,11 +4007,11 @@ $(document).ready(function() {
                                                                         <input type="radio"
                                                                             class="form-check-input input-primary"
                                                                             name="coingate_mode" value="live"
-                                                                            {{ isset($payment['coingate_mode']) && $payment['coingate_mode'] == 'live' ? 'checked="checked"' : '' }}>
+                                                                            <?php echo e(isset($payment['coingate_mode']) && $payment['coingate_mode'] == 'live' ? 'checked="checked"' : ''); ?>>
                                                                         <label class="form-check-label d-block" for="">
                                                                             <span>
                                                                                 <span class="h5 d-block"><strong
-                                                                                        class="float-end"></strong>{{ __('Live') }}</span>
+                                                                                        class="float-end"></strong><?php echo e(__('Live')); ?></span>
                                                                             </span>
                                                                         </label>
                                                                     </div>
@@ -3775,17 +4023,18 @@ $(document).ready(function() {
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="coingate_auth_token"
-                                                                class="form-label">{{ __('CoinGate Auth Token') }}</label>
+                                                                class="form-label"><?php echo e(__('CoinGate Auth Token')); ?></label>
                                                             <input type="text" name="coingate_auth_token"
                                                                 id="coingate_auth_token" class="form-control"
-                                                                value="{{ !isset($payment['coingate_auth_token']) || is_null($payment['coingate_auth_token']) ? '' : $payment['coingate_auth_token'] }}"
+                                                                value="<?php echo e(!isset($payment['coingate_auth_token']) || is_null($payment['coingate_auth_token']) ? '' : $payment['coingate_auth_token']); ?>"
                                                                 placeholder="CoinGate Auth Token">
                                                         </div>
-                                                        @if ($errors->has('coingate_auth_token'))
+                                                        <?php if($errors->has('coingate_auth_token')): ?>
                                                         <span class="invalid-feedback d-block">
-                                                            {{ $errors->first('coingate_auth_token') }}
+                                                            <?php echo e($errors->first('coingate_auth_token')); ?>
+
                                                         </span>
-                                                        @endif
+                                                        <?php endif; ?>
                                                     </div>
                                                 </div>
                                             </div>
@@ -3799,15 +4048,17 @@ $(document).ready(function() {
                                                 data-bs-toggle="collapse" data-bs-target="#collapse11"
                                                 aria-expanded="true" aria-controls="collapse11">
                                                 <span class="d-flex align-items-center">
-                                                    {{-- <i class="ti ti-credit-card text-primary"></i> --}}
-                                                    {{ __('PaymentWall') }}
+                                                    
+                                                    <?php echo e(__('PaymentWall')); ?>
+
                                                 </span>
-                                                {{ __('Enable:') }}
+                                                <?php echo e(__('Enable:')); ?>
+
                                                 <div class="form-check form-switch custom-switch-v1">
                                                     <input type="hidden" name="is_paymentwall_enabled" value="off">
                                                     <input type="checkbox" class="form-check-input input-primary"
                                                         name="is_paymentwall_enabled" id="is_paymentwall_enabled"
-                                                        {{ isset($payment['is_paymentwall_enabled']) && $payment['is_paymentwall_enabled'] == 'on' ? 'checked="checked"' : '' }}>
+                                                        <?php echo e(isset($payment['is_paymentwall_enabled']) && $payment['is_paymentwall_enabled'] == 'on' ? 'checked="checked"' : ''); ?>>
                                                     <label class="form-check-label" for="customswitchv1-2"></label>
                                                 </div>
 
@@ -3821,21 +4072,21 @@ $(document).ready(function() {
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="paymentwall_public_key"
-                                                                class="form-label">{{ __(' Key') }}</label>
+                                                                class="form-label"><?php echo e(__(' Key')); ?></label>
                                                             <input type="text" name="paymentwall_public_key"
                                                                 id="paymentwall_public_key" class="form-control"
-                                                                value="{{ !isset($payment['paymentwall_public_key']) || is_null($payment['paymentwall_public_key']) ? '' : $payment['paymentwall_public_key'] }}"
-                                                                placeholder="{{ __(' Key') }}">
+                                                                value="<?php echo e(!isset($payment['paymentwall_public_key']) || is_null($payment['paymentwall_public_key']) ? '' : $payment['paymentwall_public_key']); ?>"
+                                                                placeholder="<?php echo e(__(' Key')); ?>">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="paymentwall_private_key"
-                                                                class="form-label">{{ __('Private Key') }}</label>
+                                                                class="form-label"><?php echo e(__('Private Key')); ?></label>
                                                             <input type="text" name="paymentwall_private_key"
                                                                 id="paymentwall_private_key" class="form-control"
-                                                                value="{{ !isset($payment['paymentwall_private_key']) || is_null($payment['paymentwall_private_key']) ? '' : $payment['paymentwall_private_key'] }}"
-                                                                placeholder="{{ __('Private Key') }}">
+                                                                value="<?php echo e(!isset($payment['paymentwall_private_key']) || is_null($payment['paymentwall_private_key']) ? '' : $payment['paymentwall_private_key']); ?>"
+                                                                placeholder="<?php echo e(__('Private Key')); ?>">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -3843,22 +4094,24 @@ $(document).ready(function() {
                                         </div>
                                     </div>
 
-                                    {{-- Toyyibpay --}}
+                                    
                                     <div class="accordion-item card">
                                         <h2 class="accordion-header" id="heading-2-13">
                                             <button class="accordion-button collapsed" type="button"
                                                 data-bs-toggle="collapse" data-bs-target="#collapse12"
                                                 aria-expanded="true" aria-controls="collapse12">
                                                 <span class="d-flex align-items-center">
-                                                    {{-- <i class="ti ti-credit-card text-primary"></i> --}}
-                                                    {{ __('Toyyibpay') }}
+                                                    
+                                                    <?php echo e(__('Toyyibpay')); ?>
+
                                                 </span>
-                                                {{ __('Enable:') }}
+                                                <?php echo e(__('Enable:')); ?>
+
                                                 <div class="form-check form-switch custom-switch-v1">
                                                     <input type="hidden" name="is_toyyibpay_enabled" value="off">
                                                     <input type="checkbox" class="form-check-input input-primary"
                                                         name="is_toyyibpay_enabled" id="is_toyyibpay_enabled"
-                                                        {{ isset($payment['is_toyyibpay_enabled']) && $payment['is_toyyibpay_enabled'] == 'on' ? 'checked="checked"' : '' }}>
+                                                        <?php echo e(isset($payment['is_toyyibpay_enabled']) && $payment['is_toyyibpay_enabled'] == 'on' ? 'checked="checked"' : ''); ?>>
                                                     <label for="customswitch1-2" class="form-check-label"></label>
                                                 </div>
                                             </button>
@@ -3870,21 +4123,21 @@ $(document).ready(function() {
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="toyyibpay_secret_key"
-                                                                class="form-label">{{ __('Secret Key') }}</label>
+                                                                class="form-label"><?php echo e(__('Secret Key')); ?></label>
                                                             <input type="text" name="toyyibpay_secret_key"
                                                                 id="toyyibpay_secret_key" class="form-control"
-                                                                value="{{ !isset($payment['toyyibpay_secret_key']) || is_null($payment['toyyibpay_secret_key']) ? '' : $payment['toyyibpay_secret_key'] }}"
-                                                                placeholder="{{ __('Secret Key') }}">
+                                                                value="<?php echo e(!isset($payment['toyyibpay_secret_key']) || is_null($payment['toyyibpay_secret_key']) ? '' : $payment['toyyibpay_secret_key']); ?>"
+                                                                placeholder="<?php echo e(__('Secret Key')); ?>">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="category_code"
-                                                                class="form-label">{{ __('Category Code') }}</label>
+                                                                class="form-label"><?php echo e(__('Category Code')); ?></label>
                                                             <input type="text" name="category_code" id="category_code"
                                                                 class="form-control"
-                                                                value="{{ !isset($payment['category_code']) || is_null($payment['category_code']) ? '' : $payment['category_code'] }}"
-                                                                placeholder="{{ __('Category Code') }}">
+                                                                value="<?php echo e(!isset($payment['category_code']) || is_null($payment['category_code']) ? '' : $payment['category_code']); ?>"
+                                                                placeholder="<?php echo e(__('Category Code')); ?>">
                                                         </div>
                                                     </div>
 
@@ -3894,22 +4147,24 @@ $(document).ready(function() {
 
                                     </div>
 
-                                    {{-- PayFast --}}
+                                    
                                     <div class="accordion-item card">
                                         <h2 class="accordion-header" id="heading-2-14">
                                             <button class="accordion-button collapsed" type="button"
                                                 data-bs-toggle="collapse" data-bs-target="#collapse14"
                                                 aria-expanded="true" aria-controls="collapse14">
                                                 <span class="d-flex align-items-center">
-                                                    {{-- <i class="ti ti-credit-card text-primary"></i> --}}
-                                                    {{ __('Payfast') }}
+                                                    
+                                                    <?php echo e(__('Payfast')); ?>
+
                                                 </span>
-                                                {{ __('Enable:') }}
+                                                <?php echo e(__('Enable:')); ?>
+
                                                 <div class="form-check form-switch custom-switch-v1">
                                                     <input type="hidden" name="is_payfast_enabled" value="off">
                                                     <input type="checkbox" class="form-check-input input-primary"
                                                         name="is_payfast_enabled" id="is_payfast_enabled"
-                                                        {{ isset($payment['is_payfast_enabled']) && $payment['is_payfast_enabled'] == 'on' ? 'checked="checked"' : '' }}>
+                                                        <?php echo e(isset($payment['is_payfast_enabled']) && $payment['is_payfast_enabled'] == 'on' ? 'checked="checked"' : ''); ?>>
                                                     <label class="form-check-label" for="customswitchv1-2"></label>
                                                 </div>
                                             </button>
@@ -3922,18 +4177,18 @@ $(document).ready(function() {
                                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pb-4">
                                                     <div class="row pt-2">
                                                         <label class="pb-2"
-                                                            for="payfast_mode">{{ __('Payfast Mode') }}</label>
+                                                            for="payfast_mode"><?php echo e(__('Payfast Mode')); ?></label>
                                                         <div class="col-lg-3">
                                                             <div class="border card p-3">
                                                                 <div class="form-check">
                                                                     <input type="radio"
                                                                         class="form-check-input input-primary "
                                                                         name="payfast_mode" value="sandbox"
-                                                                        {{ !isset($payment['payfast_mode']) || $payment['payfast_mode'] == '' || $payment['payfast_mode'] == 'sandbox' ? 'checked="checked"' : '' }}>
+                                                                        <?php echo e(!isset($payment['payfast_mode']) || $payment['payfast_mode'] == '' || $payment['payfast_mode'] == 'sandbox' ? 'checked="checked"' : ''); ?>>
                                                                     <label class="form-check-label d-block" for="">
                                                                         <span>
                                                                             <span class="h5 d-block"><strong
-                                                                                    class="float-end"></strong>{{ __('Sandbox') }}</span>
+                                                                                    class="float-end"></strong><?php echo e(__('Sandbox')); ?></span>
                                                                         </span>
                                                                     </label>
                                                                 </div>
@@ -3945,11 +4200,11 @@ $(document).ready(function() {
                                                                     <input type="radio"
                                                                         class="form-check-input input-primary "
                                                                         name="payfast_mode" value="live"
-                                                                        {{ isset($payment['payfast_mode']) && $payment['payfast_mode'] == 'live' ? 'checked="checked"' : '' }}>
+                                                                        <?php echo e(isset($payment['payfast_mode']) && $payment['payfast_mode'] == 'live' ? 'checked="checked"' : ''); ?>>
                                                                     <label class="form-check-label d-block" for="">
                                                                         <span>
                                                                             <span class="h5 d-block"><strong
-                                                                                    class="float-end"></strong>{{ __('Live') }}</span>
+                                                                                    class="float-end"></strong><?php echo e(__('Live')); ?></span>
                                                                         </span>
                                                                     </label>
                                                                 </div>
@@ -3962,31 +4217,31 @@ $(document).ready(function() {
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="payfast_merchant_id"
-                                                                class="form-label">{{ __('Merchant Id') }}</label>
+                                                                class="form-label"><?php echo e(__('Merchant Id')); ?></label>
                                                             <input type="text" name="payfast_merchant_id"
                                                                 id="payfast_merchant_id" class="form-control"
-                                                                value="{{ !isset($payment['payfast_merchant_id']) || is_null($payment['payfast_merchant_id']) ? '' : $payment['payfast_merchant_id'] }}"
-                                                                placeholder="{{ __('Merchant Id') }}">
+                                                                value="<?php echo e(!isset($payment['payfast_merchant_id']) || is_null($payment['payfast_merchant_id']) ? '' : $payment['payfast_merchant_id']); ?>"
+                                                                placeholder="<?php echo e(__('Merchant Id')); ?>">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="payfast_merchant_key"
-                                                                class="form-label">{{ __('Merchant Key') }}</label>
+                                                                class="form-label"><?php echo e(__('Merchant Key')); ?></label>
                                                             <input type="text" name="payfast_merchant_key"
                                                                 id="payfast_merchant_key" class="form-control"
-                                                                value="{{ !isset($payment['payfast_merchant_key']) || is_null($payment['payfast_merchant_key']) ? '' : $payment['payfast_merchant_key'] }}"
-                                                                placeholder="{{ __('Merchant Key') }}">
+                                                                value="<?php echo e(!isset($payment['payfast_merchant_key']) || is_null($payment['payfast_merchant_key']) ? '' : $payment['payfast_merchant_key']); ?>"
+                                                                placeholder="<?php echo e(__('Merchant Key')); ?>">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="payfast_signature"
-                                                                class="form-label">{{ __('Salt Passphrase') }}</label>
+                                                                class="form-label"><?php echo e(__('Salt Passphrase')); ?></label>
                                                             <input type="text" name="payfast_signature"
                                                                 id="payfast_signature" class="form-control"
-                                                                value="{{ !isset($payment['payfast_signature']) || is_null($payment['payfast_signature']) ? '' : $payment['payfast_signature'] }}"
-                                                                placeholder="{{ __('Salt Passphrase') }}">
+                                                                value="<?php echo e(!isset($payment['payfast_signature']) || is_null($payment['payfast_signature']) ? '' : $payment['payfast_signature']); ?>"
+                                                                placeholder="<?php echo e(__('Salt Passphrase')); ?>">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -3994,22 +4249,24 @@ $(document).ready(function() {
                                         </div>
                                     </div>
 
-                                    {{-- iyzipay --}}
+                                    
                                     <div class="accordion-item card">
                                         <h2 class="accordion-header" id="heading-2-15">
                                             <button class="accordion-button collapsed" type="button"
                                                 data-bs-toggle="collapse" data-bs-target="#collapse15"
                                                 aria-expanded="true" aria-controls="collapse15">
                                                 <span class="d-flex align-items-center">
-                                                    {{-- <i class="ti ti-credit-card text-primary"></i> --}}
-                                                    {{ __('IyziPay') }}
+                                                    
+                                                    <?php echo e(__('IyziPay')); ?>
+
                                                 </span>
-                                                {{ __('Enable:') }}
+                                                <?php echo e(__('Enable:')); ?>
+
                                                 <div class="form-check form-switch custom-switch-v1">
                                                     <input type="hidden" name="is_iyzipay_enabled" value="off">
                                                     <input type="checkbox" class="form-check-input input-primary"
                                                         name="is_iyzipay_enabled" id="is_iyzipay_enabled"
-                                                        {{ isset($payment['is_iyzipay_enabled']) && $payment['is_iyzipay_enabled'] == 'on' ? 'checked="checked"' : '' }}>
+                                                        <?php echo e(isset($payment['is_iyzipay_enabled']) && $payment['is_iyzipay_enabled'] == 'on' ? 'checked="checked"' : ''); ?>>
                                                     <label class="form-check-label" for="customswitchv1-2"></label>
                                                 </div>
                                             </button>
@@ -4022,18 +4279,18 @@ $(document).ready(function() {
                                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pb-4">
                                                     <div class="row pt-2">
                                                         <label class="pb-2"
-                                                            for="iyzipay_mode">{{ __('IyziPay Mode') }}</label>
+                                                            for="iyzipay_mode"><?php echo e(__('IyziPay Mode')); ?></label>
                                                         <div class="col-lg-3">
                                                             <div class="border card p-3">
                                                                 <div class="form-check">
                                                                     <input type="radio"
                                                                         class="form-check-input input-primary "
                                                                         name="iyzipay_mode" value="sandbox"
-                                                                        {{ !isset($payment['iyzipay_mode']) || $payment['iyzipay_mode'] == '' || $payment['iyzipay_mode'] == 'sandbox' ? 'checked="checked"' : '' }}>
+                                                                        <?php echo e(!isset($payment['iyzipay_mode']) || $payment['iyzipay_mode'] == '' || $payment['iyzipay_mode'] == 'sandbox' ? 'checked="checked"' : ''); ?>>
                                                                     <label class="form-check-label d-block" for="">
                                                                         <span>
                                                                             <span class="h5 d-block"><strong
-                                                                                    class="float-end"></strong>{{ __('Sandbox') }}</span>
+                                                                                    class="float-end"></strong><?php echo e(__('Sandbox')); ?></span>
                                                                         </span>
                                                                     </label>
                                                                 </div>
@@ -4045,11 +4302,11 @@ $(document).ready(function() {
                                                                     <input type="radio"
                                                                         class="form-check-input input-primary "
                                                                         name="iyzipay_mode" value="live"
-                                                                        {{ isset($payment['iyzipay_mode']) && $payment['iyzipay_mode'] == 'live' ? 'checked="checked"' : '' }}>
+                                                                        <?php echo e(isset($payment['iyzipay_mode']) && $payment['iyzipay_mode'] == 'live' ? 'checked="checked"' : ''); ?>>
                                                                     <label class="form-check-label d-block" for="">
                                                                         <span>
                                                                             <span class="h5 d-block"><strong
-                                                                                    class="float-end"></strong>{{ __('Live') }}</span>
+                                                                                    class="float-end"></strong><?php echo e(__('Live')); ?></span>
                                                                         </span>
                                                                     </label>
                                                                 </div>
@@ -4062,21 +4319,21 @@ $(document).ready(function() {
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="iyzipay_key"
-                                                                class="form-label">{{ __('IyziPay Key') }}</label>
+                                                                class="form-label"><?php echo e(__('IyziPay Key')); ?></label>
                                                             <input type="text" name="iyzipay_key" id="iyzipay_key"
                                                                 class="form-control"
-                                                                value="{{ !isset($payment['iyzipay_key']) || is_null($payment['iyzipay_key']) ? '' : $payment['iyzipay_key'] }}"
-                                                                placeholder="{{ __('IyziPay Key') }}">
+                                                                value="<?php echo e(!isset($payment['iyzipay_key']) || is_null($payment['iyzipay_key']) ? '' : $payment['iyzipay_key']); ?>"
+                                                                placeholder="<?php echo e(__('IyziPay Key')); ?>">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="iyzipay_secret"
-                                                                class="form-label">{{ __('IyziPay Secret') }}</label>
+                                                                class="form-label"><?php echo e(__('IyziPay Secret')); ?></label>
                                                             <input type="text" name="iyzipay_secret" id="iyzipay_secret"
                                                                 class="form-control"
-                                                                value="{{ !isset($payment['iyzipay_secret']) || is_null($payment['iyzipay_secret']) ? '' : $payment['iyzipay_secret'] }}"
-                                                                placeholder="{{ __('IyziPay Secret') }}">
+                                                                value="<?php echo e(!isset($payment['iyzipay_secret']) || is_null($payment['iyzipay_secret']) ? '' : $payment['iyzipay_secret']); ?>"
+                                                                placeholder="<?php echo e(__('IyziPay Secret')); ?>">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -4084,21 +4341,23 @@ $(document).ready(function() {
                                         </div>
                                     </div>
 
-                                    {{-- SSPay --}}
+                                    
                                     <div class="accordion-item card">
                                         <h2 class="accordion-header" id="heading-2-16">
                                             <button class="accordion-button collapsed" type="button"
                                                 data-bs-toggle="collapse" data-bs-target="#collapse16"
                                                 aria-expanded="true" aria-controls="collapse16">
                                                 <span class="d-flex align-items-center">
-                                                    {{ __('SSPay') }}
+                                                    <?php echo e(__('SSPay')); ?>
+
                                                 </span>
-                                                {{ __('Enable:') }}
+                                                <?php echo e(__('Enable:')); ?>
+
                                                 <div class="form-check form-switch custom-switch-v1">
                                                     <input type="hidden" name="is_sspay_enabled" value="off">
                                                     <input type="checkbox" class="form-check-input input-primary"
                                                         name="is_sspay_enabled" id="is_sspay_enabled"
-                                                        {{ isset($payment['is_sspay_enabled']) && $payment['is_sspay_enabled'] == 'on' ? 'checked="checked"' : '' }}>
+                                                        <?php echo e(isset($payment['is_sspay_enabled']) && $payment['is_sspay_enabled'] == 'on' ? 'checked="checked"' : ''); ?>>
                                                     <label for="customswitch1-2" class="form-check-label"></label>
                                                 </div>
                                             </button>
@@ -4110,21 +4369,21 @@ $(document).ready(function() {
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="sspay_secret_key"
-                                                                class="form-label">{{ __('Secret Key') }}</label>
+                                                                class="form-label"><?php echo e(__('Secret Key')); ?></label>
                                                             <input type="text" name="sspay_secret_key"
                                                                 id="sspay_secret_key" class="form-control"
-                                                                value="{{ !isset($payment['sspay_secret_key']) || is_null($payment['sspay_secret_key']) ? '' : $payment['sspay_secret_key'] }}"
-                                                                placeholder="{{ __('Secret Key') }}">
+                                                                value="<?php echo e(!isset($payment['sspay_secret_key']) || is_null($payment['sspay_secret_key']) ? '' : $payment['sspay_secret_key']); ?>"
+                                                                placeholder="<?php echo e(__('Secret Key')); ?>">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="sspay_category_code"
-                                                                class="form-label">{{ __('Category Code') }}</label>
+                                                                class="form-label"><?php echo e(__('Category Code')); ?></label>
                                                             <input type="text" name="sspay_category_code"
                                                                 id="sspay_category_code" class="form-control"
-                                                                value="{{ !isset($payment['sspay_category_code']) || is_null($payment['sspay_category_code']) ? '' : $payment['sspay_category_code'] }}"
-                                                                placeholder="{{ __('Category Code') }}">
+                                                                value="<?php echo e(!isset($payment['sspay_category_code']) || is_null($payment['sspay_category_code']) ? '' : $payment['sspay_category_code']); ?>"
+                                                                placeholder="<?php echo e(__('Category Code')); ?>">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -4132,21 +4391,23 @@ $(document).ready(function() {
                                         </div>
                                     </div>
 
-                                    {{-- PayTab  --}}
+                                    
                                     <div class="accordion-item card">
                                         <h2 class="accordion-header" id="heading-2-17">
                                             <button class="accordion-button collapsed" type="button"
                                                 data-bs-toggle="collapse" data-bs-target="#collapse17"
                                                 aria-expanded="true" aria-controls="collapse17">
                                                 <span class="d-flex align-items-center">
-                                                    {{ __('PayTab') }}
+                                                    <?php echo e(__('PayTab')); ?>
+
                                                 </span>
-                                                {{ __('Enable:') }}
+                                                <?php echo e(__('Enable:')); ?>
+
                                                 <div class="form-check form-switch custom-switch-v1">
                                                     <input type="hidden" name="is_paytab_enabled" value="off">
                                                     <input type="checkbox" class="form-check-input input-primary"
                                                         name="is_paytab_enabled" id="is_paytab_enabled"
-                                                        {{ isset($payment['is_paytab_enabled']) && $payment['is_paytab_enabled'] == 'on' ? 'checked="checked"' : '' }}>
+                                                        <?php echo e(isset($payment['is_paytab_enabled']) && $payment['is_paytab_enabled'] == 'on' ? 'checked="checked"' : ''); ?>>
                                                     <label for="customswitch1-2" class="form-check-label"></label>
                                                 </div>
                                             </button>
@@ -4158,31 +4419,31 @@ $(document).ready(function() {
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="paytab_profile_id"
-                                                                class="form-label">{{ __('Profile Id') }}</label>
+                                                                class="form-label"><?php echo e(__('Profile Id')); ?></label>
                                                             <input type="text" name="paytab_profile_id"
                                                                 id="paytab_profile_id" class="form-control"
-                                                                value="{{ !isset($payment['paytab_profile_id']) || is_null($payment['paytab_profile_id']) ? '' : $payment['paytab_profile_id'] }}"
-                                                                placeholder="{{ __('Profile Id') }}">
+                                                                value="<?php echo e(!isset($payment['paytab_profile_id']) || is_null($payment['paytab_profile_id']) ? '' : $payment['paytab_profile_id']); ?>"
+                                                                placeholder="<?php echo e(__('Profile Id')); ?>">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="paytab_server_key"
-                                                                class="form-label">{{ __('Server Key') }}</label>
+                                                                class="form-label"><?php echo e(__('Server Key')); ?></label>
                                                             <input type="text" name="paytab_server_key"
                                                                 id="paytab_server_key" class="form-control"
-                                                                value="{{ !isset($payment['paytab_server_key']) || is_null($payment['paytab_server_key']) ? '' : $payment['paytab_server_key'] }}"
-                                                                placeholder="{{ __('Server Key') }}">
+                                                                value="<?php echo e(!isset($payment['paytab_server_key']) || is_null($payment['paytab_server_key']) ? '' : $payment['paytab_server_key']); ?>"
+                                                                placeholder="<?php echo e(__('Server Key')); ?>">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="paytab_region"
-                                                                class="form-label">{{ __('Paytab Region') }}</label>
+                                                                class="form-label"><?php echo e(__('Paytab Region')); ?></label>
                                                             <input type="text" name="paytab_region" id="paytab_region"
                                                                 class="form-control"
-                                                                value="{{ !isset($payment['paytab_region']) || is_null($payment['paytab_region']) ? '' : $payment['paytab_region'] }}"
-                                                                placeholder="{{ __('Paytab Region') }}">
+                                                                value="<?php echo e(!isset($payment['paytab_region']) || is_null($payment['paytab_region']) ? '' : $payment['paytab_region']); ?>"
+                                                                placeholder="<?php echo e(__('Paytab Region')); ?>">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -4190,21 +4451,23 @@ $(document).ready(function() {
                                         </div>
                                     </div>
 
-                                    {{-- Benefit  --}}
+                                    
                                     <div class="accordion-item card">
                                         <h2 class="accordion-header" id="heading-2-18">
                                             <button class="accordion-button collapsed" type="button"
                                                 data-bs-toggle="collapse" data-bs-target="#collapse18"
                                                 aria-expanded="true" aria-controls="collapse18">
                                                 <span class="d-flex align-items-center">
-                                                    {{ __('Benefit') }}
+                                                    <?php echo e(__('Benefit')); ?>
+
                                                 </span>
-                                                {{ __('Enable:') }}
+                                                <?php echo e(__('Enable:')); ?>
+
                                                 <div class="form-check form-switch custom-switch-v1">
                                                     <input type="hidden" name="is_benefit_enabled" value="off">
                                                     <input type="checkbox" class="form-check-input input-primary"
                                                         name="is_benefit_enabled" id="is_benefit_enabled"
-                                                        {{ isset($payment['is_benefit_enabled']) && $payment['is_benefit_enabled'] == 'on' ? 'checked="checked"' : '' }}>
+                                                        <?php echo e(isset($payment['is_benefit_enabled']) && $payment['is_benefit_enabled'] == 'on' ? 'checked="checked"' : ''); ?>>
                                                     <label for="customswitch1-2" class="form-check-label"></label>
                                                 </div>
                                             </button>
@@ -4216,21 +4479,21 @@ $(document).ready(function() {
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="benefit_api_key"
-                                                                class="form-label">{{ __('Benefit Key') }}</label>
+                                                                class="form-label"><?php echo e(__('Benefit Key')); ?></label>
                                                             <input type="text" name="benefit_api_key"
                                                                 id="benefit_api_key" class="form-control"
-                                                                value="{{ !isset($payment['benefit_api_key']) || is_null($payment['benefit_api_key']) ? '' : $payment['benefit_api_key'] }}"
-                                                                placeholder="{{ __('Enter Benefit Key') }}">
+                                                                value="<?php echo e(!isset($payment['benefit_api_key']) || is_null($payment['benefit_api_key']) ? '' : $payment['benefit_api_key']); ?>"
+                                                                placeholder="<?php echo e(__('Enter Benefit Key')); ?>">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="benefit_secret_key"
-                                                                class="form-label">{{ __('Benefit Secret Key') }}</label>
+                                                                class="form-label"><?php echo e(__('Benefit Secret Key')); ?></label>
                                                             <input type="text" name="benefit_secret_key"
                                                                 id="benefit_secret_key" class="form-control"
-                                                                value="{{ !isset($payment['benefit_secret_key']) || is_null($payment['benefit_secret_key']) ? '' : $payment['benefit_secret_key'] }}"
-                                                                placeholder="{{ __('Enter Benefit Secret key') }}">
+                                                                value="<?php echo e(!isset($payment['benefit_secret_key']) || is_null($payment['benefit_secret_key']) ? '' : $payment['benefit_secret_key']); ?>"
+                                                                placeholder="<?php echo e(__('Enter Benefit Secret key')); ?>">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -4238,21 +4501,23 @@ $(document).ready(function() {
                                         </div>
                                     </div>
 
-                                    {{-- Cashfree  --}}
+                                    
                                     <div class="accordion-item card">
                                         <h2 class="accordion-header" id="heading-2-19">
                                             <button class="accordion-button collapsed" type="button"
                                                 data-bs-toggle="collapse" data-bs-target="#collapse19"
                                                 aria-expanded="true" aria-controls="collapse19">
                                                 <span class="d-flex align-items-center">
-                                                    {{ __('Cashfree') }}
+                                                    <?php echo e(__('Cashfree')); ?>
+
                                                 </span>
-                                                {{ __('Enable:') }}
+                                                <?php echo e(__('Enable:')); ?>
+
                                                 <div class="form-check form-switch custom-switch-v1">
                                                     <input type="hidden" name="is_cashfree_enabled" value="off">
                                                     <input type="checkbox" class="form-check-input input-primary"
                                                         name="is_cashfree_enabled" id="is_cashfree_enabled"
-                                                        {{ isset($payment['is_cashfree_enabled']) && $payment['is_cashfree_enabled'] == 'on' ? 'checked="checked"' : '' }}>
+                                                        <?php echo e(isset($payment['is_cashfree_enabled']) && $payment['is_cashfree_enabled'] == 'on' ? 'checked="checked"' : ''); ?>>
                                                     <label for="customswitch1-2" class="form-check-label"></label>
                                                 </div>
                                             </button>
@@ -4264,21 +4529,21 @@ $(document).ready(function() {
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="cashfree_api_key"
-                                                                class="form-label">{{ __(' Cashfree Key') }}</label>
+                                                                class="form-label"><?php echo e(__(' Cashfree Key')); ?></label>
                                                             <input type="text" name="cashfree_api_key"
                                                                 id="cashfree_api_key" class="form-control"
-                                                                value="{{ !isset($payment['cashfree_api_key']) || is_null($payment['cashfree_api_key']) ? '' : $payment['cashfree_api_key'] }}"
-                                                                placeholder="{{ __('Enter Cashfree Key') }}">
+                                                                value="<?php echo e(!isset($payment['cashfree_api_key']) || is_null($payment['cashfree_api_key']) ? '' : $payment['cashfree_api_key']); ?>"
+                                                                placeholder="<?php echo e(__('Enter Cashfree Key')); ?>">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="cashfree_secret_key"
-                                                                class="form-label">{{ __('Cashfree Secret Key') }}</label>
+                                                                class="form-label"><?php echo e(__('Cashfree Secret Key')); ?></label>
                                                             <input type="text" name="cashfree_secret_key"
                                                                 id="cashfree_secret_key" class="form-control"
-                                                                value="{{ !isset($payment['cashfree_secret_key']) || is_null($payment['cashfree_secret_key']) ? '' : $payment['cashfree_secret_key'] }}"
-                                                                placeholder="{{ __('Enter Cashfree Secret Key') }}">
+                                                                value="<?php echo e(!isset($payment['cashfree_secret_key']) || is_null($payment['cashfree_secret_key']) ? '' : $payment['cashfree_secret_key']); ?>"
+                                                                placeholder="<?php echo e(__('Enter Cashfree Secret Key')); ?>">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -4286,21 +4551,23 @@ $(document).ready(function() {
                                         </div>
                                     </div>
 
-                                    {{-- Aamarpay  --}}
+                                    
                                     <div class="accordion-item card">
                                         <h2 class="accordion-header" id="heading-2-20">
                                             <button class="accordion-button collapsed" type="button"
                                                 data-bs-toggle="collapse" data-bs-target="#collapse20"
                                                 aria-expanded="true" aria-controls="collapse20">
                                                 <span class="d-flex align-items-center">
-                                                    {{ __('Aamarpay') }}
+                                                    <?php echo e(__('Aamarpay')); ?>
+
                                                 </span>
-                                                {{ __('Enable:') }}
+                                                <?php echo e(__('Enable:')); ?>
+
                                                 <div class="form-check form-switch custom-switch-v1">
                                                     <input type="hidden" name="is_aamarpay_enabled" value="off">
                                                     <input type="checkbox" class="form-check-input input-primary"
                                                         name="is_aamarpay_enabled" id="is_aamarpay_enabled"
-                                                        {{ isset($payment['is_aamarpay_enabled']) && $payment['is_aamarpay_enabled'] == 'on' ? 'checked="checked"' : '' }}>
+                                                        <?php echo e(isset($payment['is_aamarpay_enabled']) && $payment['is_aamarpay_enabled'] == 'on' ? 'checked="checked"' : ''); ?>>
                                                     <label for="customswitch1-2" class="form-check-label"></label>
                                                 </div>
                                             </button>
@@ -4312,31 +4579,31 @@ $(document).ready(function() {
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="aamarpay_store_id"
-                                                                class="form-label">{{ __(' Store Id') }}</label>
+                                                                class="form-label"><?php echo e(__(' Store Id')); ?></label>
                                                             <input type="text" name="aamarpay_store_id"
                                                                 id="aamarpay_store_id" class="form-control"
-                                                                value="{{ !isset($payment['aamarpay_store_id']) || is_null($payment['aamarpay_store_id']) ? '' : $payment['aamarpay_store_id'] }}"
-                                                                placeholder="{{ __('Enter Store Id') }}">
+                                                                value="<?php echo e(!isset($payment['aamarpay_store_id']) || is_null($payment['aamarpay_store_id']) ? '' : $payment['aamarpay_store_id']); ?>"
+                                                                placeholder="<?php echo e(__('Enter Store Id')); ?>">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="aamarpay_signature_key"
-                                                                class="form-label">{{ __('Signature Key') }}</label>
+                                                                class="form-label"><?php echo e(__('Signature Key')); ?></label>
                                                             <input type="text" name="aamarpay_signature_key"
                                                                 id="aamarpay_signature_key" class="form-control"
-                                                                value="{{ !isset($payment['aamarpay_signature_key']) || is_null($payment['aamarpay_signature_key']) ? '' : $payment['aamarpay_signature_key'] }}"
-                                                                placeholder="{{ __('Enter Signature Key') }}">
+                                                                value="<?php echo e(!isset($payment['aamarpay_signature_key']) || is_null($payment['aamarpay_signature_key']) ? '' : $payment['aamarpay_signature_key']); ?>"
+                                                                placeholder="<?php echo e(__('Enter Signature Key')); ?>">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="aamarpay_description"
-                                                                class="form-label">{{ __('Description') }}</label>
+                                                                class="form-label"><?php echo e(__('Description')); ?></label>
                                                             <input type="text" name="aamarpay_description"
                                                                 id="aamarpay_description" class="form-control"
-                                                                value="{{ !isset($payment['aamarpay_description']) || is_null($payment['aamarpay_description']) ? '' : $payment['aamarpay_description'] }}"
-                                                                placeholder="{{ __('Enter Signature Key') }}">
+                                                                value="<?php echo e(!isset($payment['aamarpay_description']) || is_null($payment['aamarpay_description']) ? '' : $payment['aamarpay_description']); ?>"
+                                                                placeholder="<?php echo e(__('Enter Signature Key')); ?>">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -4344,21 +4611,23 @@ $(document).ready(function() {
                                         </div>
                                     </div>
 
-                                    {{-- PayTR --}}
+                                    
                                     <div class="accordion-item card">
                                         <h2 class="accordion-header" id="heading-2-21">
                                             <button class="accordion-button collapsed" type="button"
                                                 data-bs-toggle="collapse" data-bs-target="#collapse21"
                                                 aria-expanded="true" aria-controls="collapse21">
                                                 <span class="d-flex align-items-center">
-                                                    {{ __('Pay TR') }}
+                                                    <?php echo e(__('Pay TR')); ?>
+
                                                 </span>
-                                                {{ __('Enable:') }}
+                                                <?php echo e(__('Enable:')); ?>
+
                                                 <div class="form-check form-switch custom-switch-v1">
                                                     <input type="hidden" name="is_paytr_enabled" value="off">
                                                     <input type="checkbox" class="form-check-input input-primary"
                                                         name="is_paytr_enabled" id="is_paytr_enabled"
-                                                        {{ isset($payment['is_paytr_enabled']) && $payment['is_paytr_enabled'] == 'on' ? 'checked="checked"' : '' }}>
+                                                        <?php echo e(isset($payment['is_paytr_enabled']) && $payment['is_paytr_enabled'] == 'on' ? 'checked="checked"' : ''); ?>>
                                                     <label class="form-check-label" for="customswitchv1-2"></label>
                                                 </div>
                                             </button>
@@ -4371,31 +4640,31 @@ $(document).ready(function() {
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="paytr_merchant_id"
-                                                                class="form-label">{{ __('Merchant Id') }}</label>
+                                                                class="form-label"><?php echo e(__('Merchant Id')); ?></label>
                                                             <input type="text" name="paytr_merchant_id"
                                                                 id="paytr_merchant_id" class="form-control"
-                                                                value="{{ !isset($payment['paytr_merchant_id']) || is_null($payment['paytr_merchant_id']) ? '' : $payment['paytr_merchant_id'] }}"
-                                                                placeholder="{{ __('Merchant Id') }}">
+                                                                value="<?php echo e(!isset($payment['paytr_merchant_id']) || is_null($payment['paytr_merchant_id']) ? '' : $payment['paytr_merchant_id']); ?>"
+                                                                placeholder="<?php echo e(__('Merchant Id')); ?>">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="paytr_merchant_key"
-                                                                class="form-label">{{ __('Merchant Key') }}</label>
+                                                                class="form-label"><?php echo e(__('Merchant Key')); ?></label>
                                                             <input type="text" name="paytr_merchant_key"
                                                                 id="paytr_merchant_key" class="form-control"
-                                                                value="{{ !isset($payment['paytr_merchant_key']) || is_null($payment['paytr_merchant_key']) ? '' : $payment['paytr_merchant_key'] }}"
-                                                                placeholder="{{ __('Merchant Key') }}">
+                                                                value="<?php echo e(!isset($payment['paytr_merchant_key']) || is_null($payment['paytr_merchant_key']) ? '' : $payment['paytr_merchant_key']); ?>"
+                                                                placeholder="<?php echo e(__('Merchant Key')); ?>">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="paytr_merchant_salt"
-                                                                class="form-label">{{ __('Salt Passphrase') }}</label>
+                                                                class="form-label"><?php echo e(__('Salt Passphrase')); ?></label>
                                                             <input type="text" name="paytr_merchant_salt"
                                                                 id="paytr_merchant_salt" class="form-control"
-                                                                value="{{ !isset($payment['paytr_merchant_salt']) || is_null($payment['paytr_merchant_salt']) ? '' : $payment['paytr_merchant_salt'] }}"
-                                                                placeholder="{{ __('Salt Passphrase') }}">
+                                                                value="<?php echo e(!isset($payment['paytr_merchant_salt']) || is_null($payment['paytr_merchant_salt']) ? '' : $payment['paytr_merchant_salt']); ?>"
+                                                                placeholder="<?php echo e(__('Salt Passphrase')); ?>">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -4403,21 +4672,23 @@ $(document).ready(function() {
                                         </div>
                                     </div>
 
-                                    {{-- Yookassa --}}
+                                    
                                     <div class="accordion-item card">
                                         <h2 class="accordion-header" id="heading-2-22">
                                             <button class="accordion-button collapsed" type="button"
                                                 data-bs-toggle="collapse" data-bs-target="#collapse22"
                                                 aria-expanded="true" aria-controls="collapse22">
                                                 <span class="d-flex align-items-center">
-                                                    {{ __('Yookassa') }}
+                                                    <?php echo e(__('Yookassa')); ?>
+
                                                 </span>
-                                                {{ __('Enable:') }}
+                                                <?php echo e(__('Enable:')); ?>
+
                                                 <div class="form-check form-switch custom-switch-v1">
                                                     <input type="hidden" name="is_yookassa_enabled" value="off">
                                                     <input type="checkbox" class="form-check-input input-primary"
                                                         name="is_yookassa_enabled" id="is_yookassa_enabled"
-                                                        {{ isset($payment['is_yookassa_enabled']) && $payment['is_yookassa_enabled'] == 'on' ? 'checked="checked"' : '' }}>
+                                                        <?php echo e(isset($payment['is_yookassa_enabled']) && $payment['is_yookassa_enabled'] == 'on' ? 'checked="checked"' : ''); ?>>
                                                     <label class="form-check-label" for="customswitchv1-2"></label>
                                                 </div>
                                             </button>
@@ -4430,21 +4701,21 @@ $(document).ready(function() {
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="yookassa_shop_id"
-                                                                class="form-label">{{ __('Shop ID Key') }}</label>
+                                                                class="form-label"><?php echo e(__('Shop ID Key')); ?></label>
                                                             <input type="text" name="yookassa_shop_id"
                                                                 id="yookassa_shop_id" class="form-control"
-                                                                value="{{ !isset($payment['yookassa_shop_id']) || is_null($payment['yookassa_shop_id']) ? '' : $payment['yookassa_shop_id'] }}"
-                                                                placeholder="{{ __('Enter Shop ID Key') }}">
+                                                                value="<?php echo e(!isset($payment['yookassa_shop_id']) || is_null($payment['yookassa_shop_id']) ? '' : $payment['yookassa_shop_id']); ?>"
+                                                                placeholder="<?php echo e(__('Enter Shop ID Key')); ?>">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="yookassa_secret"
-                                                                class="form-label">{{ __('Secret Key') }}</label>
+                                                                class="form-label"><?php echo e(__('Secret Key')); ?></label>
                                                             <input type="text" name="yookassa_secret"
                                                                 id="yookassa_secret" class="form-control"
-                                                                value="{{ !isset($payment['yookassa_secret']) || is_null($payment['yookassa_secret']) ? '' : $payment['yookassa_secret'] }}"
-                                                                placeholder="{{ __('Enter Secret Key') }}">
+                                                                value="<?php echo e(!isset($payment['yookassa_secret']) || is_null($payment['yookassa_secret']) ? '' : $payment['yookassa_secret']); ?>"
+                                                                placeholder="<?php echo e(__('Enter Secret Key')); ?>">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -4452,21 +4723,23 @@ $(document).ready(function() {
                                         </div>
                                     </div>
 
-                                    {{-- Midtrans --}}
+                                    
                                     <div class="accordion-item card">
                                         <h2 class="accordion-header" id="heading-2-23">
                                             <button class="accordion-button collapsed" type="button"
                                                 data-bs-toggle="collapse" data-bs-target="#collapse23"
                                                 aria-expanded="true" aria-controls="collapse23">
                                                 <span class="d-flex align-items-center">
-                                                    {{ __('Midtrans') }}
+                                                    <?php echo e(__('Midtrans')); ?>
+
                                                 </span>
-                                                {{ __('Enable:') }}
+                                                <?php echo e(__('Enable:')); ?>
+
                                                 <div class="form-check form-switch custom-switch-v1">
                                                     <input type="hidden" name="is_midtrans_enabled" value="off">
                                                     <input type="checkbox" class="form-check-input input-primary"
                                                         name="is_midtrans_enabled" id="is_midtrans_enabled"
-                                                        {{ isset($payment['is_midtrans_enabled']) && $payment['is_midtrans_enabled'] == 'on' ? 'checked="checked"' : '' }}>
+                                                        <?php echo e(isset($payment['is_midtrans_enabled']) && $payment['is_midtrans_enabled'] == 'on' ? 'checked="checked"' : ''); ?>>
                                                     <label class="form-check-label" for="customswitchv1-2"></label>
                                                 </div>
                                             </button>
@@ -4479,11 +4752,11 @@ $(document).ready(function() {
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="midtrans_secret"
-                                                                class="form-label">{{ __('Secret Key') }}</label>
+                                                                class="form-label"><?php echo e(__('Secret Key')); ?></label>
                                                             <input type="text" name="midtrans_secret"
                                                                 id="midtrans_secret" class="form-control"
-                                                                value="{{ !isset($payment['midtrans_secret']) || is_null($payment['midtrans_secret']) ? '' : $payment['midtrans_secret'] }}"
-                                                                placeholder="{{ __('Enter Secret Key') }}">
+                                                                value="<?php echo e(!isset($payment['midtrans_secret']) || is_null($payment['midtrans_secret']) ? '' : $payment['midtrans_secret']); ?>"
+                                                                placeholder="<?php echo e(__('Enter Secret Key')); ?>">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -4491,21 +4764,23 @@ $(document).ready(function() {
                                         </div>
                                     </div>
 
-                                    {{-- Xendit --}}
+                                    
                                     <div class="accordion-item card">
                                         <h2 class="accordion-header" id="heading-2-24">
                                             <button class="accordion-button collapsed" type="button"
                                                 data-bs-toggle="collapse" data-bs-target="#collapse24"
                                                 aria-expanded="true" aria-controls="collapse24">
                                                 <span class="d-flex align-items-center">
-                                                    {{ __('Xendit') }}
+                                                    <?php echo e(__('Xendit')); ?>
+
                                                 </span>
-                                                {{ __('Enable:') }}
+                                                <?php echo e(__('Enable:')); ?>
+
                                                 <div class="form-check form-switch custom-switch-v1">
                                                     <input type="hidden" name="is_xendit_enabled" value="off">
                                                     <input type="checkbox" class="form-check-input input-primary"
                                                         name="is_xendit_enabled" id="is_xendit_enabled"
-                                                        {{ isset($payment['is_xendit_enabled']) && $payment['is_xendit_enabled'] == 'on' ? 'checked="checked"' : '' }}>
+                                                        <?php echo e(isset($payment['is_xendit_enabled']) && $payment['is_xendit_enabled'] == 'on' ? 'checked="checked"' : ''); ?>>
                                                     <label class="form-check-label" for="customswitchv1-2"></label>
                                                 </div>
                                             </button>
@@ -4518,21 +4793,21 @@ $(document).ready(function() {
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="xendit_api"
-                                                                class="form-label">{{ __('API Key') }}</label>
+                                                                class="form-label"><?php echo e(__('API Key')); ?></label>
                                                             <input type="text" name="xendit_api" id="xendit_api"
                                                                 class="form-control"
-                                                                value="{{ !isset($payment['xendit_api']) || is_null($payment['xendit_api']) ? '' : $payment['xendit_api'] }}"
-                                                                placeholder="{{ __('Enter API Key') }}">
+                                                                value="<?php echo e(!isset($payment['xendit_api']) || is_null($payment['xendit_api']) ? '' : $payment['xendit_api']); ?>"
+                                                                placeholder="<?php echo e(__('Enter API Key')); ?>">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="xendit_token"
-                                                                class="form-label">{{ __('Token') }}</label>
+                                                                class="form-label"><?php echo e(__('Token')); ?></label>
                                                             <input type="text" name="xendit_token" id="xendit_token"
                                                                 class="form-control"
-                                                                value="{{ !isset($payment['xendit_token']) || is_null($payment['xendit_token']) ? '' : $payment['xendit_token'] }}"
-                                                                placeholder="{{ __('Enter Token') }}">
+                                                                value="<?php echo e(!isset($payment['xendit_token']) || is_null($payment['xendit_token']) ? '' : $payment['xendit_token']); ?>"
+                                                                placeholder="<?php echo e(__('Enter Token')); ?>">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -4544,22 +4819,24 @@ $(document).ready(function() {
                             </div>
                         </div>
                         <div class="card-footer text-end">
-                            {{ Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary']) }}
+                            <?php echo e(Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary'])); ?>
+
                         </div>
-                        {{ Form::close() }}
+                        <?php echo e(Form::close()); ?>
+
                     </div>
                 </div>
-                {{-- recaptcha --}}
+                
                 <div id="recaptcha-settings" class="card">
-                    <form method="POST" action="{{ route('recaptcha.settings.store') }}" accept-charset="UTF-8">
-                        @csrf
+                    <form method="POST" action="<?php echo e(route('recaptcha.settings.store')); ?>" accept-charset="UTF-8">
+                        <?php echo csrf_field(); ?>
                         <div class="card-header">
                             <div class="row">
                                 <div class="col-6">
-                                    <h5>{{ __('ReCaptcha settings') }}</h5>
+                                    <h5><?php echo e(__('ReCaptcha settings')); ?></h5>
                                     <a href="https://phppot.com/php/how-to-get-google-recaptcha-site-and-secret-key/"
                                         target="_blank" class="text-blue">
-                                        <small>({{ __('How to Get Google reCaptcha Site and Secret key') }})</small>
+                                        <small>(<?php echo e(__('How to Get Google reCaptcha Site and Secret key')); ?>)</small>
                                     </a>
                                 </div>
                                 <div class="col-6 text-end">
@@ -4569,7 +4846,7 @@ $(document).ready(function() {
                                                 <input type="checkbox" class="custom-control-input"
                                                     data-onstyle="primary" data-toggle="switchbutton"
                                                     name="recaptcha_module" id="recaptcha_module" value="yes"
-                                                    {{ $settings['recaptcha_module'] == 'yes' ? ' checked ' : '' }}>
+                                                    <?php echo e($settings['recaptcha_module'] == 'yes' ? ' checked ' : ''); ?>>
                                                 <label class="custom-control-label form-control-label px-2"
                                                     for="recaptcha_module"></label><br>
                                             </div>
@@ -4582,22 +4859,23 @@ $(document).ready(function() {
                             <div class="row mt-0">
                                 <div class="col-lg-6 col-md-6 col-sm-6 form-group">
                                     <label for="google_recaptcha_key"
-                                        class="form-label">{{ __('Google Recaptcha Key') }}</label>
-                                    <input class="form-control" placeholder="{{ __('Enter Google Recaptcha Key') }}"
+                                        class="form-label"><?php echo e(__('Google Recaptcha Key')); ?></label>
+                                    <input class="form-control" placeholder="<?php echo e(__('Enter Google Recaptcha Key')); ?>"
                                         name="google_recaptcha_key" type="text"
-                                        value=" {{!isset($settings['google_recaptcha_key']) || is_null($settings['google_recaptcha_key']) ? '' : $settings['google_recaptcha_key'] }}"
+                                        value=" <?php echo e(!isset($settings['google_recaptcha_key']) || is_null($settings['google_recaptcha_key']) ? '' : $settings['google_recaptcha_key']); ?>"
                                         id="google_recaptcha_key">
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 form-group">
                                     <label for="google_recaptcha_secret"
-                                        class="form-label">{{ __('Google Recaptcha Secret') }}</label>
-                                    <input class="form-control " placeholder="{{ __('Enter Google Recaptcha Secret') }}"
+                                        class="form-label"><?php echo e(__('Google Recaptcha Secret')); ?></label>
+                                    <input class="form-control " placeholder="<?php echo e(__('Enter Google Recaptcha Secret')); ?>"
                                         name="google_recaptcha_secret" type="text"
-                                        value=" {{!isset($settings['google_recaptcha_secret']) || is_null($settings['google_recaptcha_secret']) ? '' : $settings['google_recaptcha_secret'] }}"
+                                        value=" <?php echo e(!isset($settings['google_recaptcha_secret']) || is_null($settings['google_recaptcha_secret']) ? '' : $settings['google_recaptcha_secret']); ?>"
                                         id="google_recaptcha_secret">
                                 </div>
                                 <div class="text-end">
-                                    {{ Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary']) }}
+                                    <?php echo e(Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary'])); ?>
+
                                 </div>
                             </div>
                         </div>
@@ -4605,11 +4883,12 @@ $(document).ready(function() {
                 </div>
                 <!--storage Setting-->
                 <div id="storage-settings" class="card mb-3">
-                    {{ Form::open(['route' => 'storage.setting.store', 'enctype' => 'multipart/form-data']) }}
+                    <?php echo e(Form::open(['route' => 'storage.setting.store', 'enctype' => 'multipart/form-data'])); ?>
+
                     <div class="card-header">
                         <div class="row">
                             <div class="col-lg-10 col-md-10 col-sm-10">
-                                <h5 class="">{{ __('Storage Settings') }}</h5>
+                                <h5 class=""><?php echo e(__('Storage Settings')); ?></h5>
                             </div>
                         </div>
                     </div>
@@ -4617,123 +4896,130 @@ $(document).ready(function() {
                         <div class="d-flex">
                             <div class="pe-2">
                                 <input type="radio" class="btn-check" name="storage_setting" id="local-outlined"
-                                    autocomplete="off" {{ $settings['storage_setting'] == 'local' ? 'checked' : '' }}
+                                    autocomplete="off" <?php echo e($settings['storage_setting'] == 'local' ? 'checked' : ''); ?>
+
                                     value="local" checked>
-                                <label class="btn btn-outline-primary" for="local-outlined">{{ __('Local') }}</label>
+                                <label class="btn btn-outline-primary" for="local-outlined"><?php echo e(__('Local')); ?></label>
                             </div>
                             <div class="pe-2">
                                 <input type="radio" class="btn-check" name="storage_setting" id="s3-outlined"
-                                    autocomplete="off" {{ $settings['storage_setting'] == 's3' ? 'checked' : '' }}
+                                    autocomplete="off" <?php echo e($settings['storage_setting'] == 's3' ? 'checked' : ''); ?>
+
                                     value="s3">
                                 <label class="btn btn-outline-primary" for="s3-outlined">
-                                    {{ __('AWS S3') }}</label>
+                                    <?php echo e(__('AWS S3')); ?></label>
                             </div>
 
                             <div class="pe-2">
                                 <input type="radio" class="btn-check" name="storage_setting" id="wasabi-outlined"
-                                    autocomplete="off" {{ $settings['storage_setting'] == 'wasabi' ? 'checked' : '' }}
+                                    autocomplete="off" <?php echo e($settings['storage_setting'] == 'wasabi' ? 'checked' : ''); ?>
+
                                     value="wasabi">
-                                <label class="btn btn-outline-primary" for="wasabi-outlined">{{ __('Wasabi') }}</label>
+                                <label class="btn btn-outline-primary" for="wasabi-outlined"><?php echo e(__('Wasabi')); ?></label>
                             </div>
                         </div>
                         <div class="mt-2">
                             <div class="local-setting row">
                                 <div class="col-lg-7">
-                                    {{-- <h4 class="small-title">{{ __('Local Settings') }}</h4> --}}
+                                    
                                     <div class="form-group col-12 switch-width">
-                                        {{ Form::label('local_storage_validation', __('Only Upload Files'), ['class' => ' form-label']) }}
+                                        <?php echo e(Form::label('local_storage_validation', __('Only Upload Files'), ['class' => ' form-label'])); ?>
+
                                         <select name="local_storage_validation[]" class="select2"
                                             id="local_storage_validation" multiple>
-                                            @foreach ($file_type as $f)
-                                            <option @if (in_array($f, $local_storage_validations)) selected @endif>
-                                                {{ $f }}
+                                            <?php $__currentLoopData = $file_type; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $f): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option <?php if(in_array($f, $local_storage_validations)): ?> selected <?php endif; ?>>
+                                                <?php echo e($f); ?>
+
                                             </option>
-                                            @endforeach
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="form-group">
                                         <label class="form-label"
-                                            for="local_storage_max_upload_size">{{ __('Max upload size ( In KB)') }}</label>
+                                            for="local_storage_max_upload_size"><?php echo e(__('Max upload size ( In KB)')); ?></label>
                                         <input type="number" name="local_storage_max_upload_size" class="form-control"
-                                            value="{{ !isset($settings['local_storage_max_upload_size']) || is_null($settings['local_storage_max_upload_size']) ? '' : $settings['local_storage_max_upload_size'] }}"
-                                            placeholder="{{ __('Max upload size') }}">
+                                            value="<?php echo e(!isset($settings['local_storage_max_upload_size']) || is_null($settings['local_storage_max_upload_size']) ? '' : $settings['local_storage_max_upload_size']); ?>"
+                                            placeholder="<?php echo e(__('Max upload size')); ?>">
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="s3-setting row {{ $settings['storage_setting'] == 's3' ? ' ' : 'd-none' }}">
+                            <div class="s3-setting row <?php echo e($settings['storage_setting'] == 's3' ? ' ' : 'd-none'); ?>">
 
                                 <div class=" row ">
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label class="form-label" for="s3_key">{{ __('S3 Key') }}</label>
+                                            <label class="form-label" for="s3_key"><?php echo e(__('S3 Key')); ?></label>
                                             <input type="text" name="s3_key" class="form-control"
-                                                value="{{ !isset($settings['s3_key']) || is_null($settings['s3_key']) ? '' : $settings['s3_key'] }}"
-                                                placeholder="{{ __('S3 Key') }}">
+                                                value="<?php echo e(!isset($settings['s3_key']) || is_null($settings['s3_key']) ? '' : $settings['s3_key']); ?>"
+                                                placeholder="<?php echo e(__('S3 Key')); ?>">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label class="form-label" for="s3_secret">{{ __('S3 Secret') }}</label>
+                                            <label class="form-label" for="s3_secret"><?php echo e(__('S3 Secret')); ?></label>
                                             <input type="text" name="s3_secret" class="form-control"
-                                                value="{{ !isset($settings['s3_secret']) || is_null($settings['s3_secret']) ? '' : $settings['s3_secret'] }}"
-                                                placeholder="{{ __('S3 Secret') }}">
+                                                value="<?php echo e(!isset($settings['s3_secret']) || is_null($settings['s3_secret']) ? '' : $settings['s3_secret']); ?>"
+                                                placeholder="<?php echo e(__('S3 Secret')); ?>">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label class="form-label" for="s3_region">{{ __('S3 Region') }}</label>
+                                            <label class="form-label" for="s3_region"><?php echo e(__('S3 Region')); ?></label>
                                             <input type="text" name="s3_region" class="form-control"
-                                                value="{{ !isset($settings['s3_region']) || is_null($settings['s3_region']) ? '' : $settings['s3_region'] }}"
-                                                placeholder="{{ __('S3 Region') }}">
+                                                value="<?php echo e(!isset($settings['s3_region']) || is_null($settings['s3_region']) ? '' : $settings['s3_region']); ?>"
+                                                placeholder="<?php echo e(__('S3 Region')); ?>">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label class="form-label" for="s3_bucket">{{ __('S3 Bucket') }}</label>
+                                            <label class="form-label" for="s3_bucket"><?php echo e(__('S3 Bucket')); ?></label>
                                             <input type="text" name="s3_bucket" class="form-control"
-                                                value="{{ !isset($settings['s3_bucket']) || is_null($settings['s3_bucket']) ? '' : $settings['s3_bucket'] }}"
-                                                placeholder="{{ __('S3 Bucket') }}">
+                                                value="<?php echo e(!isset($settings['s3_bucket']) || is_null($settings['s3_bucket']) ? '' : $settings['s3_bucket']); ?>"
+                                                placeholder="<?php echo e(__('S3 Bucket')); ?>">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label class="form-label" for="s3_url">{{ __('S3 URL') }}</label>
+                                            <label class="form-label" for="s3_url"><?php echo e(__('S3 URL')); ?></label>
                                             <input type="text" name="s3_url" class="form-control"
-                                                value="{{ !isset($settings['s3_url']) || is_null($settings['s3_url']) ? '' : $settings['s3_url'] }}"
-                                                placeholder="{{ __('S3 URL') }}">
+                                                value="<?php echo e(!isset($settings['s3_url']) || is_null($settings['s3_url']) ? '' : $settings['s3_url']); ?>"
+                                                placeholder="<?php echo e(__('S3 URL')); ?>">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label class="form-label" for="s3_endpoint">{{ __('S3 Endpoint') }}</label>
+                                            <label class="form-label" for="s3_endpoint"><?php echo e(__('S3 Endpoint')); ?></label>
                                             <input type="text" name="s3_endpoint" class="form-control"
-                                                value="{{ !isset($settings['s3_endpoint']) || is_null($settings['s3_endpoint']) ? '' : $settings['s3_endpoint'] }}"
-                                                placeholder="{{ __('S3 Endpoint') }}">
+                                                value="<?php echo e(!isset($settings['s3_endpoint']) || is_null($settings['s3_endpoint']) ? '' : $settings['s3_endpoint']); ?>"
+                                                placeholder="<?php echo e(__('S3 Endpoint')); ?>">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group col-12 switch-width">
-                                            {{ Form::label('s3_storage_validation', __('Only Upload Files'), ['class' => ' form-label']) }}
+                                            <?php echo e(Form::label('s3_storage_validation', __('Only Upload Files'), ['class' => ' form-label'])); ?>
+
                                             <select name="s3_storage_validation[]" class="select2"
                                                 id="s3_storage_validation" multiple>
-                                                @foreach ($file_type as $f)
-                                                <option @if (in_array($f, $s3_storage_validations)) selected @endif>
-                                                    {{ $f }}
+                                                <?php $__currentLoopData = $file_type; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $f): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <option <?php if(in_array($f, $s3_storage_validations)): ?> selected <?php endif; ?>>
+                                                    <?php echo e($f); ?>
+
                                                 </option>
-                                                @endforeach
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label class="form-label"
-                                                for="s3_max_upload_size">{{ __('Max upload size ( In KB)') }}</label>
+                                                for="s3_max_upload_size"><?php echo e(__('Max upload size ( In KB)')); ?></label>
                                             <input type="number" name="s3_max_upload_size" class="form-control"
-                                                value="{{ !isset($settings['s3_max_upload_size']) || is_null($settings['s3_max_upload_size']) ? '' : $settings['s3_max_upload_size'] }}"
-                                                placeholder="{{ __('Max upload size') }}">
+                                                value="<?php echo e(!isset($settings['s3_max_upload_size']) || is_null($settings['s3_max_upload_size']) ? '' : $settings['s3_max_upload_size']); ?>"
+                                                placeholder="<?php echo e(__('Max upload size')); ?>">
                                         </div>
                                     </div>
                                 </div>
@@ -4741,79 +5027,81 @@ $(document).ready(function() {
                             </div>
 
                             <div
-                                class="wasabi-setting row {{ $settings['storage_setting'] == 'wasabi' ? ' ' : 'd-none' }}">
+                                class="wasabi-setting row <?php echo e($settings['storage_setting'] == 'wasabi' ? ' ' : 'd-none'); ?>">
                                 <div class=" row ">
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label class="form-label" for="s3_key">{{ __('Wasabi Key') }}</label>
+                                            <label class="form-label" for="s3_key"><?php echo e(__('Wasabi Key')); ?></label>
                                             <input type="text" name="wasabi_key" class="form-control"
-                                                value="{{ !isset($settings['wasabi_key']) || is_null($settings['wasabi_key']) ? '' : $settings['wasabi_key'] }}"
-                                                placeholder="{{ __('Wasabi Key') }}">
+                                                value="<?php echo e(!isset($settings['wasabi_key']) || is_null($settings['wasabi_key']) ? '' : $settings['wasabi_key']); ?>"
+                                                placeholder="<?php echo e(__('Wasabi Key')); ?>">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label class="form-label" for="s3_secret">{{ __('Wasabi Secret') }}</label>
+                                            <label class="form-label" for="s3_secret"><?php echo e(__('Wasabi Secret')); ?></label>
                                             <input type="text" name="wasabi_secret" class="form-control"
-                                                value="{{ !isset($settings['wasabi_secret']) || is_null($settings['wasabi_secret']) ? '' : $settings['wasabi_secret'] }}"
-                                                placeholder="{{ __('Wasabi Secret') }}">
+                                                value="<?php echo e(!isset($settings['wasabi_secret']) || is_null($settings['wasabi_secret']) ? '' : $settings['wasabi_secret']); ?>"
+                                                placeholder="<?php echo e(__('Wasabi Secret')); ?>">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label class="form-label" for="s3_region">{{ __('Wasabi Region') }}</label>
+                                            <label class="form-label" for="s3_region"><?php echo e(__('Wasabi Region')); ?></label>
                                             <input type="text" name="wasabi_region" class="form-control"
-                                                value="{{ !isset($settings['wasabi_region']) || is_null($settings['wasabi_region']) ? '' : $settings['wasabi_region'] }}"
-                                                placeholder="{{ __('Wasabi Region') }}">
+                                                value="<?php echo e(!isset($settings['wasabi_region']) || is_null($settings['wasabi_region']) ? '' : $settings['wasabi_region']); ?>"
+                                                placeholder="<?php echo e(__('Wasabi Region')); ?>">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label class="form-label"
-                                                for="wasabi_bucket">{{ __('Wasabi Bucket') }}</label>
+                                                for="wasabi_bucket"><?php echo e(__('Wasabi Bucket')); ?></label>
                                             <input type="text" name="wasabi_bucket" class="form-control"
-                                                value="{{ !isset($settings['wasabi_bucket']) || is_null($settings['wasabi_bucket']) ? '' : $settings['wasabi_bucket'] }}"
-                                                placeholder="{{ __('Wasabi Bucket') }}">
+                                                value="<?php echo e(!isset($settings['wasabi_bucket']) || is_null($settings['wasabi_bucket']) ? '' : $settings['wasabi_bucket']); ?>"
+                                                placeholder="<?php echo e(__('Wasabi Bucket')); ?>">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label class="form-label" for="wasabi_url">{{ __('Wasabi URL') }}</label>
+                                            <label class="form-label" for="wasabi_url"><?php echo e(__('Wasabi URL')); ?></label>
                                             <input type="text" name="wasabi_url" class="form-control"
-                                                value="{{ !isset($settings['wasabi_url']) || is_null($settings['wasabi_url']) ? '' : $settings['wasabi_url'] }}"
-                                                placeholder="{{ __('Wasabi URL') }}">
+                                                value="<?php echo e(!isset($settings['wasabi_url']) || is_null($settings['wasabi_url']) ? '' : $settings['wasabi_url']); ?>"
+                                                placeholder="<?php echo e(__('Wasabi URL')); ?>">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label class="form-label" for="wasabi_root">{{ __('Wasabi Root') }}</label>
+                                            <label class="form-label" for="wasabi_root"><?php echo e(__('Wasabi Root')); ?></label>
                                             <input type="text" name="wasabi_root" class="form-control"
-                                                value="{{ !isset($settings['wasabi_root']) || is_null($settings['wasabi_root']) ? '' : $settings['wasabi_root'] }}"
-                                                placeholder="{{ __('Wasabi Root') }}">
+                                                value="<?php echo e(!isset($settings['wasabi_root']) || is_null($settings['wasabi_root']) ? '' : $settings['wasabi_root']); ?>"
+                                                placeholder="<?php echo e(__('Wasabi Root')); ?>">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
 
                                         <div class="form-group col-12 switch-width">
-                                            {{ Form::label('wasabi_storage_validation', __('Only Upload Files'), ['class' => 'form-label']) }}
+                                            <?php echo e(Form::label('wasabi_storage_validation', __('Only Upload Files'), ['class' => 'form-label'])); ?>
+
 
                                             <select name="wasabi_storage_validation[]" class="select2"
                                                 id="wasabi_storage_validation" multiple>
-                                                @foreach ($file_type as $f)
-                                                <option @if (in_array($f, $wasabi_storage_validations)) selected @endif>
-                                                    {{ $f }}
+                                                <?php $__currentLoopData = $file_type; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $f): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <option <?php if(in_array($f, $wasabi_storage_validations)): ?> selected <?php endif; ?>>
+                                                    <?php echo e($f); ?>
+
                                                 </option>
-                                                @endforeach
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label class="form-label"
-                                                for="wasabi_root">{{ __('Max upload size ( In KB)') }}</label>
+                                                for="wasabi_root"><?php echo e(__('Max upload size ( In KB)')); ?></label>
                                             <input type="number" name="wasabi_max_upload_size" class="form-control"
-                                                value="{{ !isset($settings['wasabi_max_upload_size']) || is_null($settings['wasabi_max_upload_size']) ? '' : $settings['wasabi_max_upload_size'] }}"
-                                                placeholder="{{ __('Max upload size') }}">
+                                                value="<?php echo e(!isset($settings['wasabi_max_upload_size']) || is_null($settings['wasabi_max_upload_size']) ? '' : $settings['wasabi_max_upload_size']); ?>"
+                                                placeholder="<?php echo e(__('Max upload size')); ?>">
                                         </div>
                                     </div>
 
@@ -4822,59 +5110,65 @@ $(document).ready(function() {
                         </div>
                         <div class="card-footer text-end">
                             <input class="btn btn-print-invoice  btn-primary m-r-10" type="submit"
-                                value="{{ __('Save Changes') }}">
+                                value="<?php echo e(__('Save Changes')); ?>">
                         </div>
-                        {{ Form::close() }}
+                        <?php echo e(Form::close()); ?>
+
                     </div>
                 </div>
-                {{-- SEO setting --}}
+                
                 <div class="card" id="SEO">
-                    {{ Form::open(['url' => route('seo.settings'), 'enctype' => 'multipart/form-data']) }}
+                    <?php echo e(Form::open(['url' => route('seo.settings'), 'enctype' => 'multipart/form-data'])); ?>
+
                     <div class="card-header">
 
-                        <h5>{{ __('SEO Settings') }}</h5>
+                        <h5><?php echo e(__('SEO Settings')); ?></h5>
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            @if (!empty($settings['chatgpt_key']))
+                            <?php if(!empty($settings['chatgpt_key'])): ?>
                             <div class="text-end">
                                 <a href="#" data-size="md" class="btn btn-sm btn-primary " data-ajax-popup-over="true"
-                                    data-size="md" data-title="{{ __('Generate content with AI') }}"
-                                    data-url="{{ route('generate', ['seo']) }}" data-toggle="tooltip"
-                                    title="{{ __('Generate') }}">
+                                    data-size="md" data-title="<?php echo e(__('Generate content with AI')); ?>"
+                                    data-url="<?php echo e(route('generate', ['seo'])); ?>" data-toggle="tooltip"
+                                    title="<?php echo e(__('Generate')); ?>">
                                     <i class="fas fa-robot"></span><span
-                                            class="robot">{{ __('Generate With AI') }}</span></i>
+                                            class="robot"><?php echo e(__('Generate With AI')); ?></span></i>
                                 </a>
                             </div>
-                            @endif
+                            <?php endif; ?>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    {{ Form::label('meta_keywords', __('Meta Keywords'), ['class' => 'col-form-label']) }}
-                                    {{ Form::text('meta_keywords', Utility::getValByName('meta_keywords'), ['class' => 'form-control ', 'placeholder' => 'Meta Keywords']) }}
+                                    <?php echo e(Form::label('meta_keywords', __('Meta Keywords'), ['class' => 'col-form-label'])); ?>
+
+                                    <?php echo e(Form::text('meta_keywords', Utility::getValByName('meta_keywords'), ['class' => 'form-control ', 'placeholder' => 'Meta Keywords'])); ?>
+
                                 </div>
                                 <div class="form-group">
-                                    {{ Form::label('meta_description', __('Meta Description'), ['class' => 'form-label']) }}
-                                    {{ Form::textarea('meta_description', Utility::getValByName('meta_description'), ['class' => 'form-control ', 'rows' => '5', 'placeholder' => 'Enter Meta Description']) }}
+                                    <?php echo e(Form::label('meta_description', __('Meta Description'), ['class' => 'form-label'])); ?>
+
+                                    <?php echo e(Form::textarea('meta_description', Utility::getValByName('meta_description'), ['class' => 'form-control ', 'rows' => '5', 'placeholder' => 'Enter Meta Description'])); ?>
+
                                 </div>
 
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    {{ Form::label('Meta Image', __('Meta Image'), ['class' => 'col-form-label']) }}
-                                    <div class="">
-                                        {{-- @php
-                                                                            $src = isset($settings['meta_image']) && !empty($settings['meta_image']) ? asset(Storage::url('uploads/metaevent/meta_image.png' . $settings['meta_image'])) : '';
-                                                                        @endphp --}}
+                                    <?php echo e(Form::label('Meta Image', __('Meta Image'), ['class' => 'col-form-label'])); ?>
 
-                                        <a href="{{ $meta_image . '/' . (isset($settings['meta_image']) && !empty($settings['meta_image']) ? $settings['meta_image'] : 'meta_image.png') }}"
+                                    <div class="">
+                                        
+
+                                        <a href="<?php echo e($meta_image . '/' . (isset($settings['meta_image']) && !empty($settings['meta_image']) ? $settings['meta_image'] : 'meta_image.png')); ?>"
                                             target="_blank"> <img id="meta"
-                                                src="{{ $meta_image . '/' . (isset($settings['meta_image']) && !empty($settings['meta_image']) ? $settings['meta_image'] : 'meta_image.png') }}"
+                                                src="<?php echo e($meta_image . '/' . (isset($settings['meta_image']) && !empty($settings['meta_image']) ? $settings['meta_image'] : 'meta_image.png')); ?>"
                                                 width="300px" class="img_setting"> </a>
                                     </div>
                                     <div class="choose-files mt-4">
                                         <label for="meta_image">
                                             <div class=" bg-primary logo"> <i
-                                                    class="ti ti-upload px-1"></i>{{ __('Select image') }}
+                                                    class="ti ti-upload px-1"></i><?php echo e(__('Select image')); ?>
+
                                             </div>
                                             <input style="margin-top: -40px;" type="file" class="form-control file"
                                                 name="meta_image" id="meta_image" data-filename="meta_image"
@@ -4885,21 +5179,23 @@ $(document).ready(function() {
                             </div>
                             <div class="card-footer text-end">
                                 <button class="btn-submit btn btn-primary" type="submit">
-                                    {{ __('Save Changes') }}
+                                    <?php echo e(__('Save Changes')); ?>
+
                                 </button>
                             </div>
                         </div>
                     </div>
 
-                    {{ Form::close() }}
+                    <?php echo e(Form::close()); ?>
+
                 </div>
-                {{-- cache setting --}}
+                
                 <div class="card" id="cache">
                     <div class="card-header">
                         <div class="row">
 
                             <div class="col-lg-8 col-md-8 col-sm-8">
-                                <h5>{{ __('Cache Settings') }}</h5>
+                                <h5><?php echo e(__('Cache Settings')); ?></h5>
                                 <p class="text-muted">This is a page meant for more advanced users, simply
                                     ignore it if you don't understand what cache is.</p>
                             </div>
@@ -4916,7 +5212,7 @@ $(document).ready(function() {
                                         <label for="size">Current cache size</label>
                                         <div class="input-group">
                                             <input id="size" name="size" type="text" class="form-control"
-                                                value="{{ Utility::GetCacheSize() }}" readonly="readonly">
+                                                value="<?php echo e(Utility::GetCacheSize()); ?>" readonly="readonly">
                                             <div class="input-group-append">
                                                 <span class="input-group-text">
                                                     MB
@@ -4928,59 +5224,66 @@ $(document).ready(function() {
                             </div>
                         </div>
                         <div class="card-footer text-end">
-                            <a href="{{ url('config-cache') }}"
-                                class="btn btn-print-invoice btn-primary m-r-10">{{ __('Clear Cache') }}</a>
+                            <a href="<?php echo e(url('config-cache')); ?>"
+                                class="btn btn-print-invoice btn-primary m-r-10"><?php echo e(__('Clear Cache')); ?></a>
                         </div>
-                        {{ Form::close() }}
+                        <?php echo e(Form::close()); ?>
+
                     </div>
                 </div>
-                {{-- Cookie Setting --}}
+                
                 <div class="card" id="cookie">
-                    {{ Form::model($settings, ['route' => 'cookie.setting', 'method' => 'post']) }}
+                    <?php echo e(Form::model($settings, ['route' => 'cookie.setting', 'method' => 'post'])); ?>
+
                     <div
                         class="card-header flex-column flex-lg-row  d-flex align-items-lg-center gap-2 justify-content-between">
-                        <h5>{{ __('Cookie Settings') }}</h5>
+                        <h5><?php echo e(__('Cookie Settings')); ?></h5>
                         <div class="d-flex align-items-center">
-                            {{ Form::label('enable_cookie', __('Enable cookie'), ['class' => 'col-form-label p-0 fw-bold me-3']) }}
+                            <?php echo e(Form::label('enable_cookie', __('Enable cookie'), ['class' => 'col-form-label p-0 fw-bold me-3'])); ?>
+
                             <div class="custom-control custom-switch" onclick="enablecookie()">
 
                                 <input type="checkbox" data-toggle="switchbutton" data-onstyle="primary"
                                     name="enable_cookie" class="form-check-input input-primary " id="enable_cookie"
-                                    {{ $settings['enable_cookie'] == 'on' ? ' checked ' : '' }}>
+                                    <?php echo e($settings['enable_cookie'] == 'on' ? ' checked ' : ''); ?>>
                                 <label class="custom-control-label mb-1" for="enable_cookie"></label>
                             </div>
                         </div>
                     </div>
-                    <div class="card-body cookieDiv {{ $settings['enable_cookie'] == 'off' ? 'disabledCookie ' : '' }}">
+                    <div class="card-body cookieDiv <?php echo e($settings['enable_cookie'] == 'off' ? 'disabledCookie ' : ''); ?>">
                         <div class="row">
-                            @if (!empty($settings['chatgpt_key']))
+                            <?php if(!empty($settings['chatgpt_key'])): ?>
                             <div class="text-end">
                                 <a href="#" data-size="md" class="btn btn-sm btn-primary" data-ajax-popup-over="true"
-                                    data-size="md" data-title="{{ __('Generate content with AI') }}"
-                                    data-url="{{ route('generate', ['account']) }}" data-toggle="tooltip"
-                                    title="{{ __('Generate') }}">
+                                    data-size="md" data-title="<?php echo e(__('Generate content with AI')); ?>"
+                                    data-url="<?php echo e(route('generate', ['account'])); ?>" data-toggle="tooltip"
+                                    title="<?php echo e(__('Generate')); ?>">
                                     <i class="fas fa-robot"></span><span
-                                            class="robot">{{ __('Generate With AI') }}</span></i>
+                                            class="robot"><?php echo e(__('Generate With AI')); ?></span></i>
                                 </a>
                             </div>
-                            @endif
+                            <?php endif; ?>
                             <div class="col-md-6">
                                 <div class="form-check form-switch custom-switch-v1" id="cookie_log">
                                     <input type="checkbox" name="cookie_logging"
                                         class="form-check-input tem input-primary cookie_setting str"
                                         id="cookie_logging"
-                                        {{ $settings['cookie_logging'] == 'on' ? ' checked ' : '' }}>
+                                        <?php echo e($settings['cookie_logging'] == 'on' ? ' checked ' : ''); ?>>
                                     <label class="form-check-label" style="margin-left:5px"
-                                        for="cookie_logging">{{ __('Enable logging') }}</label>
+                                        for="cookie_logging"><?php echo e(__('Enable logging')); ?></label>
                                 </div>
                                 <div class="form-group">
-                                    {{ Form::label('cookie_title', __('Cookie Title'), ['class' => 'col-form-label']) }}
-                                    {{ Form::text('cookie_title', null, ['class' => 'form-control cookie_setting']) }}
+                                    <?php echo e(Form::label('cookie_title', __('Cookie Title'), ['class' => 'col-form-label'])); ?>
+
+                                    <?php echo e(Form::text('cookie_title', null, ['class' => 'form-control cookie_setting'])); ?>
+
                                 </div>
                                 <div class="form-group ">
-                                    {{ Form::label('cookie_description', __('Cookie Description'), ['class' => ' form-label']) }}
-                                    {!! Form::textarea('cookie_description', null, ['class' => 'form-control
-                                    cookie_setting', 'rows' => '3']) !!}
+                                    <?php echo e(Form::label('cookie_description', __('Cookie Description'), ['class' => ' form-label'])); ?>
+
+                                    <?php echo Form::textarea('cookie_description', null, ['class' => 'form-control
+                                    cookie_setting', 'rows' => '3']); ?>
+
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -4989,33 +5292,41 @@ $(document).ready(function() {
                                         class="form-check-input tem input-primary str" id="necessary_cookies" checked
                                         onclick="return false">
                                     <label class="form-check-label" style="margin-left:5px"
-                                        for="necessary_cookies">{{ __('Strictly necessary cookies') }}</label>
+                                        for="necessary_cookies"><?php echo e(__('Strictly necessary cookies')); ?></label>
                                 </div>
                                 <div class="form-group">
-                                    {{ Form::label('strictly_cookie_title', __(' Strictly Cookie Title'), ['class' => 'col-form-label']) }}
-                                    {{ Form::text('strictly_cookie_title', null, ['class' => 'form-control cookie_setting']) }}
+                                    <?php echo e(Form::label('strictly_cookie_title', __(' Strictly Cookie Title'), ['class' => 'col-form-label'])); ?>
+
+                                    <?php echo e(Form::text('strictly_cookie_title', null, ['class' => 'form-control cookie_setting'])); ?>
+
                                 </div>
                                 <div class="form-group">
-                                    {{ Form::label('strictly_cookie_description', __('Strictly Cookie Description'), ['class' => ' form-label']) }}
-                                    {!! Form::textarea('strictly_cookie_description', null, [
+                                    <?php echo e(Form::label('strictly_cookie_description', __('Strictly Cookie Description'), ['class' => ' form-label'])); ?>
+
+                                    <?php echo Form::textarea('strictly_cookie_description', null, [
                                     'class' => 'form-control cookie_setting ',
                                     'rows' => '3',
-                                    ]) !!}
+                                    ]); ?>
+
                                 </div>
                             </div>
                             <div class="col-12">
-                                <h5>{{ __('More Information') }}</h5>
+                                <h5><?php echo e(__('More Information')); ?></h5>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group ">
-                                    {{ Form::label('more_information_description', __('Contact Us Description'), ['class' => 'col-form-label']) }}
-                                    {{ Form::text('more_information_description', null, ['class' => 'form-control cookie_setting']) }}
+                                    <?php echo e(Form::label('more_information_description', __('Contact Us Description'), ['class' => 'col-form-label'])); ?>
+
+                                    <?php echo e(Form::text('more_information_description', null, ['class' => 'form-control cookie_setting'])); ?>
+
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group ">
-                                    {{ Form::label('contactus_url', __('Contact Us URL'), ['class' => 'col-form-label']) }}
-                                    {{ Form::text('contactus_url', null, ['class' => 'form-control cookie_setting']) }}
+                                    <?php echo e(Form::label('contactus_url', __('Contact Us URL'), ['class' => 'col-form-label'])); ?>
+
+                                    <?php echo e(Form::text('contactus_url', null, ['class' => 'form-control cookie_setting'])); ?>
+
                                 </div>
                             </div>
                         </div>
@@ -5023,42 +5334,46 @@ $(document).ready(function() {
                     <div
                         class="card-footer d-flex align-items-center gap-2 flex-sm-column flex-lg-row justify-content-between">
                         <div>
-                            @if (isset($settings['cookie_logging']) && $settings['cookie_logging'] == 'on')
-                            <label for="file" class="form-label">{{ __('Download cookie accepted data') }}</label>
-                            <a href="{{ asset(Storage::url('uploads/sample')) . '/data.csv' }}"
+                            <?php if(isset($settings['cookie_logging']) && $settings['cookie_logging'] == 'on'): ?>
+                            <label for="file" class="form-label"><?php echo e(__('Download cookie accepted data')); ?></label>
+                            <a href="<?php echo e(asset(Storage::url('uploads/sample')) . '/data.csv'); ?>"
                                 class="btn btn-primary mr-2 ">
                                 <i class="ti ti-download"></i>
                             </a>
-                            @endif
+                            <?php endif; ?>
                         </div>
-                        <input type="submit" value="{{ __(' Save Changes') }}" class="btn btn-primary">
+                        <input type="submit" value="<?php echo e(__(' Save Changes')); ?>" class="btn btn-primary">
                     </div>
-                    {{ Form::close() }}
+                    <?php echo e(Form::close()); ?>
+
                 </div>
-                {{-- ChatGPT  --}}
-                @if (\Auth::user()->type == 'super admin')
+                
+                <?php if(\Auth::user()->type == 'super admin'): ?>
                 <div class="card" id="pills-chatgpt-settings">
-                    {{ Form::model($settings, ['route' => 'settings.chatgptkey', 'method' => 'post']) }}
+                    <?php echo e(Form::model($settings, ['route' => 'settings.chatgptkey', 'method' => 'post'])); ?>
+
                     <div class="card-header">
-                        <h5>{{ __('Chat GPT Key Settings') }}</h5>
-                        <small>{{ __('Edit your key details') }}</small>
+                        <h5><?php echo e(__('Chat GPT Key Settings')); ?></h5>
+                        <small><?php echo e(__('Edit your key details')); ?></small>
                     </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="form-group">
-                                {{ Form::text('chatgpt_key', isset($settings['chatgpt_key']) ? $settings['chatgpt_key'] : '', ['class' => 'form-control', 'placeholder' => __('Enter Chatgpt Key Here')]) }}
+                                <?php echo e(Form::text('chatgpt_key', isset($settings['chatgpt_key']) ? $settings['chatgpt_key'] : '', ['class' => 'form-control', 'placeholder' => __('Enter Chatgpt Key Here')])); ?>
+
                             </div>
                         </div>
                     </div>
                     <div class="card-footer text-end">
-                        <button class="btn btn-primary" type="submit">{{ __('Save Changes') }}</button>
+                        <button class="btn btn-primary" type="submit"><?php echo e(__('Save Changes')); ?></button>
                     </div>
-                    {{ Form::close() }}
+                    <?php echo e(Form::close()); ?>
+
                 </div>
-                @endif
+                <?php endif; ?>
 
             </div>
-            @endif
+            <?php endif; ?>
         </div>
     </div>
     <div id="myModal" class="modal">
@@ -5071,8 +5386,8 @@ $(document).ready(function() {
             </form>
         </div>
     </div>
-    @endsection
-    @push('script-page')
+    <?php $__env->stopSection(); ?>
+    <?php $__env->startPush('script-page'); ?>
     <script>
         
     $('.fxnnames').click(function() {
@@ -5265,7 +5580,7 @@ $(document).ready(function() {
     <script>
     function deleteImage(icon) {
         var imageName = icon.getAttribute('data-image');
-        var url = "{{ url('/delete-image') }}";
+        var url = "<?php echo e(url('/delete-image')); ?>";
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: 'btn btn-success',
@@ -5288,7 +5603,7 @@ $(document).ready(function() {
                     url: url,
                     data: {
                         "imageName": imageName,
-                        "_token": "{{ csrf_token() }}",
+                        "_token": "<?php echo e(csrf_token()); ?>",
                     },
                     success: function(result) {
                         if (result.success == true) {
@@ -5326,11 +5641,11 @@ $(document).ready(function() {
                 var signatureData = signaturePad.toDataURL();
                 document.getElementById('imageData').value = signatureData;
                 $.ajax({
-                    url: "{{ route('authorised.signature') }}",
+                    url: "<?php echo e(route('authorised.signature')); ?>",
                     type: 'POST',
                     data: {
                         "signature": signatureData,
-                        "_token": "{{ csrf_token() }}",
+                        "_token": "<?php echo e(csrf_token()); ?>",
                     },
                     success: function(data) {
                         location.reload();
@@ -5358,14 +5673,14 @@ $(document).ready(function() {
                     costElement.textContent = newCost;
                 }
                 $.ajax({
-                    url: "{{route('additionalitems.edit')}}",
+                    url: "<?php echo e(route('additionalitems.edit')); ?>",
                     type: 'POST',
                     data: {
                         function_name: functionname,
                         package_name: packageName,
                         item_name: itemName,
                         cost: newCost,
-                        _token: "{{ csrf_token() }}",
+                        _token: "<?php echo e(csrf_token()); ?>",
                     },
                     success: function(data) {
                         console.log(data);
@@ -5377,4 +5692,5 @@ $(document).ready(function() {
 
     });
     </script>
-    @endpush
+    <?php $__env->stopPush(); ?>
+<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/settings/index.blade.php ENDPATH**/ ?>

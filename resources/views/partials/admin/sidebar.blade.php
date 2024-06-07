@@ -106,10 +106,10 @@ $category= explode(',',$settings['campaign_type']);
                             style="    width: 22px;"></span>
                     <span class="dash-mtext">{{ __('Authorised Signature') }}</span>
                 </a>
-              <a href="#agreement-settings" class="list-group-item list-group-item-action border-0"  onclick="showAccordion('collapse25')">
+              <!-- <a href="#agreement-settings" class="list-group-item list-group-item-action border-0"  onclick="showAccordion('collapse25')">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-file-contract"></i></span>
                     <span class="dash-mtext">{{ __('Agreements') }}</span>
-                </a>
+                </a> -->
                 @endif
                 @endif
                 @if(\Request::route()->getName() == 'billing.index')

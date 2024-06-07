@@ -220,9 +220,13 @@
                         <td colspan="2" class="text-right"><b>Late Fee(If any)</b></td>
                         <td><b>{{ ($paymentinfo->latefee == 0)? '--' : '$'.$paymentinfo->latefee}}</b></td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                         <td colspan="2" class="text-right"><b>Paid Amount</b></td>
                         <td> <b>${{$totalpaid + $deposit}} </b></td>
+                    </tr> -->
+                    <tr>
+                        <td colspan="2" class="text-right"><b>Amount Collected</b></td>
+                        <td> <b>${{$newpayment->amount}} </b></td>
                     </tr>
                     <tr>
                         <td colspan="2" class="text-right"><b>Balance Due</b></td>

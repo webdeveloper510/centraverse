@@ -553,6 +553,7 @@ Route::group(['middleware' => ['verified']], function () {
                 $encodedId = urlencode($encryptedId);
                 return response()->json(['encodedId' => $encodedId]);
             })->name('get.encoded.id');
+            Route::post('delete-attachment/{id}',[MeetingController::class,'removeattachment'])->name('meeting.removeattachment');
 
         }
     );

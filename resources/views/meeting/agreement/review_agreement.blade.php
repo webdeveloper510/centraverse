@@ -22,6 +22,8 @@ $bar_package = json_decode($setting['barpackage'],true);
 if(isset($setting['additional_items']) && !empty($setting['additional_items'])){
 $additional_items = json_decode($setting['additional_items'],true);
 }
+$eventdoc = App\Models\EventDoc::where('event_id',$meeting->id)->get();
+
 @endphp
 
 @section('breadcrumb')
@@ -523,7 +525,38 @@ $additional_items = json_decode($setting['additional_items'],true);
                                             </div>
 
                                     </div>
-                              
+                                    @if(isset($eventdoc) && !empty($eventdoc))
+                                        <div class="col-lg-12">
+                                            <div class="card" id="useradd-1">
+                                                <div class="card-body table-border-style">
+                                                
+                                                    <h3>Attachments</h3>
+                                                    <hr>
+                                                    <div class="col-md-12" style="display:flex;">
+                                                        <table class="table table-bordered">
+                                                            <thead>
+                                                                <th>Attachment</th>
+                                                                <th>Action</th>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach ($eventdoc as $file)
+                                                                <?php $fname = 'app/public/Event/'.$meeting->id.'/'.$file->filename ;?>
+                                                                <tr>
+                                                                    <td>{{ ucfirst($file->filename) }}</td>
+                                                                    <td>
+                                                                        <a href="{{ Storage::url($fname) }}" download
+                                                                            style=" position: absolute;color: #1551c9 !important">
+                                                                            View Document</a>
+                                                                    </td>
+                                                                </tr>
+                                                                @endforeach
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endif
                                 <div class="row">
                                 <div class="col-12">
                                 <div class="col-6 need_full">

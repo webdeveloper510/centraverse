@@ -76,8 +76,9 @@
                                             <?php endif; ?>
                                             <tr>
                                                 <td>
-                                                <?php if($event->attendees_lead != 0): ?>
-                                                        <?php $leaddata = \App\Models\Lead::where('id',$event->attendees_lead)->first() ?>
+                                                <?php if(isset($event) && $event->attendees_lead != 0): ?>
+                                                        <?php $leaddata = \App\Models\Lead::where('id',$event->attendees_lead)->first();  ?>
+                                                        <?php if(isset($leaddata) && !empty($leaddata)): ?>
                                                         <a href="<?php echo e(route('lead.info',urlencode(encrypt($leaddata->id)))); ?>" data-size="md"
                                                         data-title="<?php echo e(__('Event Details')); ?>"
                                                         class="action-item text-primary"
@@ -85,7 +86,9 @@
                                                         <?php echo e(ucfirst($leaddata->leadname)); ?>
 
                                                         </a>
+                                                        <?php endif; ?>
                                                         <?php else: ?>
+
                                                            <a href="<?php echo e(route('meeting.detailview',urlencode(encrypt($event->id)))); ?>"
                                                             data-size="md" title="<?php echo e(__('Detailed view ')); ?>"
                                                             class="action-item text-primary"  style=" color: #1551c9 !important;">

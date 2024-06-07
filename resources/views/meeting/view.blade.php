@@ -54,7 +54,7 @@
         </div>
 
     </div>
-
+    @if($meeting->status == 0)
     <div class="w-100 text-end pr-2">
         @can('Edit Meeting')
         <div class="action-btn bg-info ms-2">
@@ -65,4 +65,5 @@
         </div>
         @endcan
     </div>
+    @endif
 </div>

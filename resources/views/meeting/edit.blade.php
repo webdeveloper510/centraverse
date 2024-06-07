@@ -25,6 +25,9 @@ $bar_package = json_decode($setting['barpackage'],true);
 if(!empty($meeting->func_package)){
 $func_package = json_decode($meeting->func_package,true);
 }
+$fun_ad_opts = json_decode($meeting->ad_opts,true);
+$selectedPackages = json_decode($meeting->bar_package,true);
+$eventdoc = App\Models\EventDoc::where('event_id',$meeting->id)->get();
 @endphp
 
 @section('breadcrumb')
@@ -396,8 +399,18 @@ $func_package = json_decode($meeting->func_package,true);
                                                 @foreach($packageVal as $pac_key =>$item)
                                                 <div class="form-check" data-additional-index="{{$pac_key}}"
                                                     data-additional-package="{{$pac_key}}">
+                                                    <?php $isCheckedif = false; ?>
+                                                    @if(isset($fun_ad_opts) && !empty($fun_ad_opts ))
+                                                    @foreach($fun_ad_opts as $keys=>$valss)
+                                                        @foreach($valss as $val)
+                                                            @if($pac_key == $val)
+                                                            <?php $isCheckedif = true;?>
+                                                            @endif
+                                                        @endforeach
+                                                    @endforeach
+                                                @endif
                                                     {!! Form::checkbox('additional_'.str_replace(' ', '_',
-                                                    strtolower($fun_key)).'[]',$pac_key, null, ['data-function' =>
+                                                    strtolower($fun_key)).'[]',$pac_key, $isCheckedif, ['data-function' =>
                                                     $fun_key, 'class' => 'form-check-input']) !!}
                                                     {{ Form::label($pac_key, $pac_key, ['class' => 'form-check-label']) }}
                                                 </div>
@@ -506,10 +519,16 @@ $func_package = json_decode($meeting->func_package,true);
                                                 data-main-value="{{$value['bar']}}">
                                                 {{ Form::label('bar', __($value['bar']), ['class' => 'form-label']) }}
                                                 @foreach($value['barpackage'] as $k => $bar)
+                                                <?php $checkedif = false; ?>
                                                 <div class="form-check" data-main-index="{{$k}}"
                                                     data-main-package="{{$bar}}">
+                                                    @if($selectedPackages)    
+                                                    @if(isset($selectedPackages[$value['bar']]) && $selectedPackages[$value['bar']] == $bar)
+                                                        <?php $checkedif = true; ?>
+                                                    @endif
+                                                @endif
                                                     {!! Form::radio('bar'.'_'.str_replace(' ', '',
-                                                    strtolower($value['bar'])), $bar, false, ['id' => 'bar_' . $key.$k,
+                                                    strtolower($value['bar'])), $bar, $checkedif, ['id' => 'bar_' . $key.$k,
                                                     'data-function' => $value['bar'], 'class' => 'form-check-input'])
                                                     !!}
                                                     {{ Form::label($bar, $bar, ['class' => 'form-check-label']) }}
@@ -561,6 +580,41 @@ $func_package = json_decode($meeting->func_package,true);
 
                                             </div>
                                         </div>
+                                        @if(isset($eventdoc) && !empty($eventdoc))
+                                        <div class="col-lg-12">
+                                            <div class="card" id="useradd-1">
+                                                <div class="card-body table-border-style">
+                                                
+                                                    <h3>Attachments</h3>
+                                                    <hr>
+                                                    <div class="col-md-12" style="display:flex;">
+                                                        <table class="table table-bordered">
+                                                            <thead>
+                                                                <th>Attachment</th>
+                                                                <th>Action</th>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach ($eventdoc as $file)
+                                                                <?php $fname = 'app/public/Event/'.$meeting->id.'/'.$file->filename ;?>
+                                                                <tr>
+                                                                    <td>{{ ucfirst($file->filename) }}</td>
+                                                                    <td>
+                                                                        <a href="{{ Storage::url($fname) }}" download
+                                                                            style=" position: absolute;color: #1551c9 !important">
+                                                                            View Document</a>
+                                                                    </td>
+                                                                    <td>        
+                                                                        <button type="button" id="removedoc" data-main-value="{{$file->filename}}" class="btn btn-danger" title="Delete" ><i class="fa fa-trash"></i></button>
+                                                                    </td>
+                                                                </tr>
+                                                                @endforeach
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="card-footer text-end">
@@ -584,6 +638,63 @@ $func_package = json_decode($meeting->func_package,true);
 }
 </style>
 <script>
+      $('#removedoc').click(function(event) {
+        
+        var filename=  $(this).data('main-value');
+      
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success',
+                cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
+        })
+        swalWithBootstrapButtons.fire({
+            title: 'Are you sure?',
+            text: "This action can not be undone. Do you want to continue?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ route('meeting.removeattachment',$meeting->id) }}",
+                    data: {
+                        "filename": filename,
+                "_token": "{{ csrf_token() }}",
+                    },
+                    success: function (result) {
+                        // console.log(result);
+                        if (result == true) {
+                            swal.fire("Done!", result.message, "success");
+                            setTimeout(function(){
+                                location.reload();
+                            },1000);
+                        } else {
+                            swal.fire("Error!", result.message, "error");
+                        }
+                    }
+                });
+            }
+        })
+    });
+    // $('#removedoc').click(function(){
+    //    var filename=  $(this).data('main-value');
+    //    $.ajax({
+    //         url: "{{ route('meeting.removeattachment',$meeting->id) }}",
+    //         type: 'POST',
+    //         data: {
+    //             "filename": filename,
+    //             "_token": "{{ csrf_token() }}",
+    //         },
+    //         success: function(data) {
+    //           console.log(data);
+    //         }
+    //     });
+    // })
 document.getElementById('imgInp').onchange = function(evt) {
     const [file] = this.files;
     const previewDiv = document.getElementById('previewDiv');
@@ -867,6 +978,10 @@ jQuery(function() {
     });
 });
 jQuery(function() {
+    var selectedValue = $("input[name='baropt']:checked").val();
+        if (selectedValue == 'Package Choice') {
+            $('div#barpacakgeoptions').show();
+        }
     $('input[type=radio][name = baropt]').change(function() {
         $('div#barpacakgeoptions').hide();
         var value = $(this).val();

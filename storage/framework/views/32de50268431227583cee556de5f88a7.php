@@ -24,6 +24,8 @@ $bar_package = json_decode($setting['barpackage'],true);
 if(isset($setting['additional_items']) && !empty($setting['additional_items'])){
 $additional_items = json_decode($setting['additional_items'],true);
 }
+$eventdoc = App\Models\EventDoc::where('event_id',$meeting->id)->get();
+
 ?>
 
 <?php $__env->startSection('breadcrumb'); ?>
@@ -590,7 +592,38 @@ $additional_items = json_decode($setting['additional_items'],true);
                                             </div>
 
                                     </div>
-                              
+                                    <?php if(isset($eventdoc) && !empty($eventdoc)): ?>
+                                        <div class="col-lg-12">
+                                            <div class="card" id="useradd-1">
+                                                <div class="card-body table-border-style">
+                                                
+                                                    <h3>Attachments</h3>
+                                                    <hr>
+                                                    <div class="col-md-12" style="display:flex;">
+                                                        <table class="table table-bordered">
+                                                            <thead>
+                                                                <th>Attachment</th>
+                                                                <th>Action</th>
+                                                            </thead>
+                                                            <tbody>
+                                                                <?php $__currentLoopData = $eventdoc; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $file): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                <?php $fname = 'app/public/Event/'.$meeting->id.'/'.$file->filename ;?>
+                                                                <tr>
+                                                                    <td><?php echo e(ucfirst($file->filename)); ?></td>
+                                                                    <td>
+                                                                        <a href="<?php echo e(Storage::url($fname)); ?>" download
+                                                                            style=" position: absolute;color: #1551c9 !important">
+                                                                            View Document</a>
+                                                                    </td>
+                                                                </tr>
+                                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <?php endif; ?>
                                 <div class="row">
                                 <div class="col-12">
                                 <div class="col-6 need_full">

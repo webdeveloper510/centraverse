@@ -93,13 +93,13 @@ h6.headings {
     <div class="container mt-5">
         <div class="row card p-4">
             <div class="col-md-12">
-                <form method="POST" action="{{route('meeting.signedagreementresp',urlencode(encrypt($meeting->id)))}}"
+                <form method="POST" action="<?php echo e(route('meeting.signedagreementresp',urlencode(encrypt($meeting->id)))); ?>"
                     id='formdata'>
-                    @csrf
+                    <?php echo csrf_field(); ?>
                     <div class="row">
                         <div class="col-md-4 mt-4">
                             <div class="img-section">
-                                <img class="logo-img" src="{{ Storage::url('uploads/logo/logo-light.png') }}"
+                                <img class="logo-img" src="<?php echo e(Storage::url('uploads/logo/logo-light.png')); ?>"
                                     alt="Logo">
                             </div>
                              <div class="img-section">
@@ -114,18 +114,18 @@ h6.headings {
                     <div class="row mt-3">
                         <div class="col-md-6">
                             <dl>
-                                <span>{{__('Name')}}: {{ $meeting->name }}</span><br>
-                                <span>{{__('Phone & Email')}}: {{ $meeting->phone }} , {{ $meeting->email }}</span><br>
-                                <span>{{__('Address')}}: {{ $meeting->lead_address }}</span><br>
-                                <span>{{__('Event  Date')}}:{{ \Carbon\Carbon::parse($meeting->start_date)->format('d M, Y') }}</span>
+                                <span><?php echo e(__('Name')); ?>: <?php echo e($meeting->name); ?></span><br>
+                                <span><?php echo e(__('Phone & Email')); ?>: <?php echo e($meeting->phone); ?> , <?php echo e($meeting->email); ?></span><br>
+                                <span><?php echo e(__('Address')); ?>: <?php echo e($meeting->lead_address); ?></span><br>
+                                <span><?php echo e(__('Event  Date')); ?>:<?php echo e(\Carbon\Carbon::parse($meeting->start_date)->format('d M, Y')); ?></span>
 
                             </dl>
                         </div>
                         <div class="col-md-6 text-right">
                             <dl>
-                                <span>{{__('Primary Contact')}}: {{ $meeting->name }}</span><br>
-                                <span>{{__('Phone')}}: {{ $meeting->phone }}</span><br>
-                                <span>{{__('Email')}}: {{ $meeting->email }}</span><br>
+                                <span><?php echo e(__('Primary Contact')); ?>: <?php echo e($meeting->name); ?></span><br>
+                                <span><?php echo e(__('Phone')); ?>: <?php echo e($meeting->phone); ?></span><br>
+                                <span><?php echo e(__('Email')); ?>: <?php echo e($meeting->email); ?></span><br>
                             </dl>
                         </div>
                     </div>
@@ -145,19 +145,22 @@ h6.headings {
                                 <tbody>
                                     <tr>
                                         <td>
-                                            {{\Carbon\Carbon::parse($meeting->start_date)->format('d M, Y')}}
+                                            <?php echo e(\Carbon\Carbon::parse($meeting->start_date)->format('d M, Y')); ?>
+
 
                                         </td>
                                         <td>Start
-                                            Time:{{date('h:i A', strtotime($meeting->start_time))}} <br>
-                                            End time:{{date('h:i A', strtotime($meeting->end_time))}}</td>
+                                            Time:<?php echo e(date('h:i A', strtotime($meeting->start_time))); ?> <br>
+                                            End time:<?php echo e(date('h:i A', strtotime($meeting->end_time))); ?></td>
                                         <td>
-                                            {{$meeting->venue_selection}}</td>
-                                        <td>{{$meeting->type}}
+                                            <?php echo e($meeting->venue_selection); ?></td>
+                                        <td><?php echo e($meeting->type); ?>
+
                                         </td>
                                         <td>
-                                            {{$meeting->function}}</td>
-                                        <td>{{$meeting->room}}
+                                            <?php echo e($meeting->function); ?></td>
+                                        <td><?php echo e($meeting->room); ?>
+
                                         </td>
                                     </tr>
                                 </tbody>
@@ -169,10 +172,10 @@ h6.headings {
                             <p><b>This contract defines the terms and conditions under which Lotus Estate,
                                     LLC
                                     dba The Bond 1786, (hereinafter referred to as The Bond or The
-                                    Bond 1786), and <b>{{$meeting->name}}</b>(hereafter referred to as the Customer)
+                                    Bond 1786), and <b><?php echo e($meeting->name); ?></b>(hereafter referred to as the Customer)
                                     agree
                                     to the Customer’s use of The Bond 1786 facilities on
-                                    <b>{{ \Carbon\Carbon::parse($meeting->start_date)->format('d M, Y') }}</b>
+                                    <b><?php echo e(\Carbon\Carbon::parse($meeting->start_date)->format('d M, Y')); ?></b>
                                     (reception/event date). This contract constitutes the entire agreement between the
                                     parties and becomes binding upon the signature of
                                     both parties. The contract may not be amended or changed unless executed in writing
@@ -185,10 +188,10 @@ h6.headings {
                         <div class="col-md-12">
                             <h6><b>Venue Selected</b></h6>
                             <!-- <h6>Venue Selected</h6> -->
-                            <p>{{$meeting->venue_selection}}</p><br>
+                            <p><?php echo e($meeting->venue_selection); ?></p><br>
                             <h6> <b>No. of Hotel Rooms (Booked)</b></h6>
-                            <p>{{$meeting->room}}</p><br>
-                            <!-- <input type= "number" name ="rooms"min = "0" value = "{{$meeting->room}}" disabled> -->
+                            <p><?php echo e($meeting->room); ?></p><br>
+                            <!-- <input type= "number" name ="rooms"min = "0" value = "<?php echo e($meeting->room); ?>" disabled> -->
                             <p >
                                 The venue/s described above has been reserved for you for the date and time stipulated.
                                 Please note that the hours assigned to your event include all set-up and
@@ -215,11 +218,11 @@ h6.headings {
                                 <thead>
                                     <tr>
                                         <th>
-                                            Name : {{$meeting->name}}</th>
+                                            Name : <?php echo e($meeting->name); ?></th>
                                         <th colspan="2"></th>
                                         <th colspan="3">
                                             Date:<?php echo date("d/m/Y"); ?> </th>
-                                        <th>Event: {{$meeting->type}}</th>
+                                        <th>Event: <?php echo e($meeting->type); ?></th>
                                     </tr>
                                     <tr style="background-color:#063806;">
                                         <th>Description</th>
@@ -235,88 +238,96 @@ h6.headings {
                                         <td>Venue Rental</td>
                                         <td colspan="2"></td>
 
-                                        <td>${{$billing_data['venue_rental']['cost']}}</td>
-                                        <td>{{$billing_data['venue_rental']['quantity']}}</td>
-                                        <td>${{$total[] = $billing_data['venue_rental']['cost'] * $billing_data['venue_rental']['quantity']}}
+                                        <td>$<?php echo e($billing_data['venue_rental']['cost']); ?></td>
+                                        <td><?php echo e($billing_data['venue_rental']['quantity']); ?></td>
+                                        <td>$<?php echo e($total[] = $billing_data['venue_rental']['cost'] * $billing_data['venue_rental']['quantity']); ?>
+
                                         </td>
-                                        <td>{{$meeting['venue_selection']}}</td>
+                                        <td><?php echo e($meeting['venue_selection']); ?></td>
                                     </tr>
 
                                     <tr>
                                         <td>Brunch / Lunch /Dinner Package</td>
                                         <td colspan="2"></td>
-                                        <td>${{$billing_data['food_package']['cost']}}</td>
-                                        <td>{{$billing_data['food_package']['quantity']}}</td>
-                                        <td>${{$total[] =$billing_data['food_package']['cost'] * $billing_data['food_package']['quantity']}}
+                                        <td>$<?php echo e($billing_data['food_package']['cost']); ?></td>
+                                        <td><?php echo e($billing_data['food_package']['quantity']); ?></td>
+                                        <td>$<?php echo e($total[] =$billing_data['food_package']['cost'] * $billing_data['food_package']['quantity']); ?>
+
                                         </td>
-                                        <td>{{$meeting['function']}}</td>
+                                        <td><?php echo e($meeting['function']); ?></td>
 
                                     </tr>
                                     <tr>
                                         <td>Bar Package</td>
                                         <td colspan="2"></td>
-                                        <td>${{$billing_data['bar_package']['cost']}}</td>
-                                        <td>{{$billing_data['bar_package']['quantity']}}</td>
-                                        <td>${{$total[] = $billing_data['bar_package']['cost']* $billing_data['bar_package']['quantity']}}
+                                        <td>$<?php echo e($billing_data['bar_package']['cost']); ?></td>
+                                        <td><?php echo e($billing_data['bar_package']['quantity']); ?></td>
+                                        <td>$<?php echo e($total[] = $billing_data['bar_package']['cost']* $billing_data['bar_package']['quantity']); ?>
+
                                         </td>
-                                        <td>{{implode(',',$bar_pck)}}</td>
+                                        <td><?php echo e(implode(',',$bar_pck)); ?></td>
                                     </tr>
                                     <tr>
                                         <td>Hotel Rooms</td>
                                         <td colspan="2"></td>
-                                        <td>${{$billing_data['hotel_rooms']['cost']}}</td>
-                                        <td>{{$billing_data['hotel_rooms']['quantity']}}</td>
-                                        <td>${{$total[] = $billing_data['hotel_rooms']['cost'] * $billing_data['hotel_rooms']['quantity']}}
+                                        <td>$<?php echo e($billing_data['hotel_rooms']['cost']); ?></td>
+                                        <td><?php echo e($billing_data['hotel_rooms']['quantity']); ?></td>
+                                        <td>$<?php echo e($total[] = $billing_data['hotel_rooms']['cost'] * $billing_data['hotel_rooms']['quantity']); ?>
+
                                         </td>
                                         <td></td>
                                     </tr>
                                     <tr>
                                         <td>Tent, Tables, Chairs, AV Equipment</td>
                                         <td colspan="2"></td>
-                                        <td>${{$billing_data['equipment']['cost']}}</td>
-                                        <td>{{$billing_data['equipment']['quantity']}}</td>
+                                        <td>$<?php echo e($billing_data['equipment']['cost']); ?></td>
+                                        <td><?php echo e($billing_data['equipment']['quantity']); ?></td>
                                         <td>
-                                            ${{$total[] = $billing_data['equipment']['cost'] * $billing_data['equipment']['quantity']}}
+                                            $<?php echo e($total[] = $billing_data['equipment']['cost'] * $billing_data['equipment']['quantity']); ?>
+
                                         </td>
                                         <td></td>
                                     </tr>
 
-                                    @if(!$billing_data['setup']['cost'] == '')
+                                    <?php if(!$billing_data['setup']['cost'] == ''): ?>
                                     <tr>
                                         <td>Welcome / Rehearsal
                                             / Special Setup</td>
                                         <td colspan="2"></td>
                                         <td>
-                                            ${{$billing_data['setup']['cost']}}</td>
+                                            $<?php echo e($billing_data['setup']['cost']); ?></td>
                                         <td>
-                                            {{$billing_data['setup']['quantity']}}</td>
+                                            <?php echo e($billing_data['setup']['quantity']); ?></td>
                                         <td>
-                                            ${{$total[] =$billing_data['setup']['cost'] * $billing_data['setup']['quantity']}}
+                                            $<?php echo e($total[] =$billing_data['setup']['cost'] * $billing_data['setup']['quantity']); ?>
+
                                         </td>
                                         <td></td>
                                     </tr>
-                                    @endif
+                                    <?php endif; ?>
                                     <tr>
                                         <td>Special Requests /
                                             Others</td>
                                         <td colspan="2"></td>
                                         <td>
-                                            ${{$billing_data['special_req']['cost']}}</td>
+                                            $<?php echo e($billing_data['special_req']['cost']); ?></td>
                                         <td>
-                                            {{$billing_data['special_req']['quantity']}}</td>
+                                            <?php echo e($billing_data['special_req']['quantity']); ?></td>
                                         <td>
-                                            ${{$total[] =$billing_data['special_req']['cost'] * $billing_data['special_req']['quantity']}}
+                                            $<?php echo e($total[] =$billing_data['special_req']['cost'] * $billing_data['special_req']['quantity']); ?>
+
                                         </td>
-                                        <td>{{$meeting->spcl_request}}</td>
+                                        <td><?php echo e($meeting->spcl_request); ?></td>
                                     </tr>
                                     <tr>
                                         <td>Additional Items</td>
                                         <td colspan="2"></td>
-                                        <td>${{$billing_data['additional_items']['cost']}}</td>
-                                        <td>{{$billing_data['additional_items']['quantity']}}</td>
-                                        <td>${{$total[] =$billing_data['additional_items']['cost'] * $billing_data['additional_items']['quantity']}}
+                                        <td>$<?php echo e($billing_data['additional_items']['cost']); ?></td>
+                                        <td><?php echo e($billing_data['additional_items']['quantity']); ?></td>
+                                        <td>$<?php echo e($total[] =$billing_data['additional_items']['cost'] * $billing_data['additional_items']['quantity']); ?>
+
                                         </td>
-                                        <td>{{$billing_data['additional_items']['notes']}}</td>
+                                        <td><?php echo e($billing_data['additional_items']['notes']); ?></td>
 
                                     </tr>
                                     <tr>
@@ -330,7 +341,7 @@ h6.headings {
                                         <td colspan="2"></td>
                                         <td colspan="2"></td>
                                         <td>
-                                            ${{array_sum($total)}}</td>
+                                            $<?php echo e(array_sum($total)); ?></td>
                                         <td></td>
                                     </tr>
                                     <tr>
@@ -338,7 +349,7 @@ h6.headings {
                                         <td colspan="2"></td>
                                         <td colspan="2"> </td>
                                         <td>
-                                            ${{ 7* array_sum($total)/100 }}</td>
+                                            $<?php echo e(7* array_sum($total)/100); ?></td>
                                         <td></td>
                                     </tr>
                                     <tr>
@@ -346,7 +357,7 @@ h6.headings {
                                         <td colspan="2"></td>
                                         <td colspan="2"></td>
                                         <td>
-                                            ${{ 20 * array_sum($total)/100 }}</td>
+                                            $<?php echo e(20 * array_sum($total)/100); ?></td>
 
                                         <td></td>
                                     </tr>
@@ -364,7 +375,8 @@ h6.headings {
                                         <td colspan="2"></td>
                                         <td colspan="2"></td>
                                         <td>
-                                            ${{$grandtotal= array_sum($total) + 20* array_sum($total)/100 + 7* array_sum($total)/100}}
+                                            $<?php echo e($grandtotal= array_sum($total) + 20* array_sum($total)/100 + 7* array_sum($total)/100); ?>
+
                                         </td>
 
                                         <td></td>
@@ -373,19 +385,19 @@ h6.headings {
                                         <td >Deposits on file</td>
                                         <td colspan="2"></td>
                                         <td colspan="3">
-                                            ${{$deposit= $billing->deposits}}</td>
+                                            $<?php echo e($deposit= $billing->deposits); ?></td>
                                         <td></td>
                                     </tr>
                                     <tr>
                                         <td>Balance due</td>
                                         <td colspan="2"></td>
                                         <td colspan="3">
-                                            ${{$grandtotal - $deposit}}</td>
+                                            $<?php echo e($grandtotal - $deposit); ?></td>
                                         <td colspan="2"></td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <input type="hidden" value="{{$grandtotal}}" name="grandtotal">
+                            <input type="hidden" value="<?php echo e($grandtotal); ?>" name="grandtotal">
                         </div>
                     </div>
                     <div class="row">
@@ -861,7 +873,7 @@ h6.headings {
                                 <br><br></p>
 
                                 Please return signed contract with deposit no later than
-                                <b>{{ \Carbon\Carbon::parse($meeting->start_date)->subDays($settings['buffer_day'])->format('d M, Y') }}</b>
+                                <b><?php echo e(\Carbon\Carbon::parse($meeting->start_date)->subDays($settings['buffer_day'])->format('d M, Y')); ?></b>
                                 or this contract is no longer valid.<br>
                             
 
@@ -938,3 +950,4 @@ h6.headings {
     });
 </script>
 
+<?php /**PATH C:\xampp\htdocs\centraverse\resources\views/meeting/agreement/signedagreement.blade.php ENDPATH**/ ?>

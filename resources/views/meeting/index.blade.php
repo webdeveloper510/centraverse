@@ -123,7 +123,7 @@ $agreestatus= \App\Models\Meeting::$status;
                                                             <i class="ti ti-clock"></i>
                                                         </a>
                                                     </div>
-                                                    @elseif($meeting->status == 2 ||$meeting->status == 3)
+                                                    @elseif($meeting->status == 2)
                                                     <div class="action-btn bg-primary ms-2">
                                                         <a href="{{route('meeting.review',urlencode(encrypt($meeting->id)))}}"
                                                             data-size="md" data-title="{{ __('Agreement') }}"

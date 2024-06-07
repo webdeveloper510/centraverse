@@ -1407,5 +1407,12 @@ class MeetingController extends Controller
         $notes->save();
         return true;
     }
+    public function removeattachment(Request $request,$id){
+        // echo"<pre>";
+        // print_r($request->all());
+        $eventdoc = EventDoc::where('event_id',$id)->where('filename',$request->filename)->first()->delete();
+        return true;
+        // Storage::url('app/p')
+    }
    
 }

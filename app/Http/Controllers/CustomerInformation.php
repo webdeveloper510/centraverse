@@ -305,21 +305,21 @@ class CustomerInformation extends Controller
     public function siteusers(){
         // $leadcust = Lead::distinct()->withTrashed()->get();
         // $eventcust = Meeting::distinct()->withTrashed()->get();
-       $allcustomers = MasterCustomer::all();
+       $allcustomers = MasterCustomer::orderBy('id','desc')->get();
        $importedcustomers = UserImport::distinct()->get();
    
         return view('customer.allcustomers',compact('allcustomers','importedcustomers'));
     }
     public function event_customers(){
         // $eventcustomers = Meeting::withTrashed()->get();
-        $eventcustomers = MasterCustomer::withTrashed()->where('category','event')->get();
+        $eventcustomers = MasterCustomer::withTrashed()->where('category','event')->orderBy('id','desc')->get();
         return view('customer.event_customer',compact('eventcustomers'));
     }
     public function lead_customers(){
         // $leadcustomers = Lead::withTrashed()->get();
         // $distinctCustomers = Lead::withTrashed()->distinct()->get();
         // $uniqueLeads = Lead::withTrashed()->select('*')->distinct('email')->get();
-        $leadcustomers = MasterCustomer::where('category','lead')->get();
+        $leadcustomers = MasterCustomer::where('category','lead')->orderBy('id','desc')->get();
         return view('customer.lead_customer',compact('leadcustomers'));
     }
     public function import_customers_view($id){

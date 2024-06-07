@@ -66,6 +66,7 @@ $agreestatus= \App\Models\Meeting::$status;
                                                         
                                                         <?php if($meeting->attendees_lead != 0): ?>
                                                         <?php $leaddata = \App\Models\Lead::where('id',$meeting->attendees_lead)->first() ?>
+                                                        <?php if(isset($leaddata) && !empty($leaddata)): ?>
                                                         <a href="<?php echo e(route('lead.info',urlencode(encrypt($leaddata->id)))); ?>" data-size="md"
                                                         data-title="<?php echo e(__('Event Details')); ?>"
                                                         class="action-item text-primary"
@@ -73,6 +74,7 @@ $agreestatus= \App\Models\Meeting::$status;
                                                         <?php echo e(ucfirst($leaddata->leadname)); ?>
 
                                                         </a>
+                                                        <?php endif; ?>
                                                         <?php else: ?>
                                                            <a href="<?php echo e(route('meeting.detailview',urlencode(encrypt($meeting->id)))); ?>"
                                                             data-size="md" title="<?php echo e(__('Detailed view ')); ?>"
@@ -125,7 +127,7 @@ $agreestatus= \App\Models\Meeting::$status;
                                                             <i class="ti ti-clock"></i>
                                                         </a>
                                                     </div>
-                                                    <?php elseif($meeting->status == 2 ||$meeting->status == 3): ?>
+                                                    <?php elseif($meeting->status == 2): ?>
                                                     <div class="action-btn bg-primary ms-2">
                                                         <a href="<?php echo e(route('meeting.review',urlencode(encrypt($meeting->id)))); ?>"
                                                             data-size="md" data-title="<?php echo e(__('Agreement')); ?>"

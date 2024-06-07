@@ -27,7 +27,6 @@ $bar_package = json_decode($setting['barpackage'],true);
 if(request()->has('lead')){
 $leadId = decrypt(urldecode(request()->query('lead')));
 }
-
 ?>
 <?php $__env->startSection('content'); ?>
 <style>
@@ -573,21 +572,18 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
                                             </div>
-                                            
-<div class="col-12 mt-4">
-    <div class="form-group">
-        <label><b>Upload Setup</b></label>
-        <input accept="image/*" type='file' id="imgInp" class="form-control" name="setupplans"/>
-    </div>
-</div>
-<div class="col-12" id="previewDiv" style="display: none;">
-    <div class="form-group position-relative">
-        <img id="blah" src="#" alt="Preview" class="form-control" />
-        <button type="button" id="removeImg" class="btn btn-danger position-absolute" >&times;</button>
-    </div>
-</div>
-
-
+                                            <div class="col-12 mt-4">
+                                                <div class="form-group">
+                                                    <label><b>Upload Setup</b></label>
+                                                    <input accept="image/*" type='file' id="imgInp" class="form-control" name="setupplans"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-12" id="previewDiv" style="display: none;">
+                                                <div class="form-group position-relative">
+                                                    <img id="blah" src="#" alt="Preview" class="form-control" />
+                                                    <button type="button" id="removeImg" class="btn btn-danger position-absolute" >&times;</button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -641,13 +637,16 @@ unset($__errorArgs, $__bag); ?>
                                             <div class="col-6" id="barpacakgeoptions" style="display: none;">
                                                 <?php if(isset($bar_package) && !empty($bar_package)): ?>
                                                 <?php $__currentLoopData = $bar_package; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key =>$value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+
                                                 <div class="form-group" data-main-index="<?php echo e($key); ?>"
                                                     data-main-value="<?php echo e($value['bar']); ?>">
+
                                                     <?php echo e(Form::label('bar', __($value['bar']), ['class' => 'form-label'])); ?>
 
                                                     <?php $__currentLoopData = $value['barpackage']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $k => $bar): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <div class="form-check" data-main-index="<?php echo e($k); ?>"
                                                         data-main-package="<?php echo e($bar); ?>">
+                                                      
                                                         <?php echo Form::radio('bar'.'_'.str_replace(' ', '',
                                                         strtolower($value['bar'])), $bar, false, ['id' => 'bar_' .
                                                         $key.$k, 'data-function' => $value['bar'], 'class' =>
@@ -932,157 +931,69 @@ $(document).ready(function() {
                     if (checkedFunctions.includes(mainValue)) {
                         for (var key in jsonObject) {
                             if (jsonObject.hasOwnProperty(key)) {
-                    var originalKey = key;
-                    var values = jsonObject[key]; // Get all values for the key
-                    values.forEach(function(value) { // Loop through each value
-                        console.log('value', value);
-                    
-                        var transformedKey = originalKey.charAt(0).toUpperCase() + originalKey.slice(1);
-                        var dynamicName = 'package_' + transformedKey.toLowerCase().replace(/\s+/g, '') + '[]';
-                        var selector = `input[name='${dynamicName}'][value='${value}'] `;
-                        console.log('selector', selector);
-
-                        if (transformedKey == mainValue) {
-                            console.log('transformedKey', transformedKey);
-                            $(selector).prop('checked', true);
-                            setTimeout(() => {
-                                var checkedPackages = $(`input[name='${dynamicName}']:checked`).map(function() {
-                                    return $(this).val();
-                                }).get();
-                                console.log('checkedPackages',checkedPackages)
-                                var additionalSection = document.getElementById('additionalSection');
-                                var divads = additionalSection.querySelectorAll('.form-group');
-                                divads.forEach(function(div) {
-                                    var mainValue = div.getAttribute('data-additional-index');
-                                    if (checkedPackages.includes(mainValue)) {
-                                            console.log(mainValue);
-                                            console.log('jsonadObject', jsonadObject)
-                                            for (var key in jsonadObject) {
-                                                if (jsonadObject.hasOwnProperty(key)) {
-                                                        // Access the original key and value
-                                                        var originalKey =key;
-                                                        var valuesArray = jsonadObject[key];
-
-// Iterate through each value for the key
-                                                    valuesArray.forEach(function(value) {
-                                                        var transformedKey = originalKey.charAt(0).toUpperCase() + originalKey.slice(1);
-                                                        var dynamicadName = 'additional_' + transformedKey.toLowerCase().replace(/\s+/g, '_') + '[]';
-                                                        var adselector = `input[name='${dynamicadName}'][value='${value}']`;
-                                                        console.log('adselector', adselector);
-                                                        $(adselector).prop('checked', true);
-                                                    });
-                                                        // var value =jsonadObject[key][0]; // Assuming the value is always an array and we need the first element
-                                                        // var transformedKey =originalKeycharAt(0).toUpperCase() +originalKey.slice(1);
-                                                        // var dynamicadName ='additional_' +transformedKey.toLowerCase().replace(/\s+/g,'_') + '[]';
-                                                        // // var dynamicName = 'package_' + transformedKey.toLowerCase()
-                                                        // //     .replace(/\s+/g, '') + '[]';
-                                                        // var adselector = `input[name='${dynamicadName}'][value = '${value}'] `;
-                                                        // console.log('adselector',adselector);
-                                                        // $(adselector).prop('checked',true);
-                                                        // }
-                                                }
-                                            
-                                            }
-                                            div.style.display ='block';
-                                        } else {
-                                            div.style.display ='none';
-                                        }
+                                var originalKey = key;
+                                var values = jsonObject[key]; // Get all values for the key
+                                values.forEach(function(value) { // Loop through each value
+                                    console.log('value', value);
                                 
+                                    var transformedKey = originalKey.charAt(0).toUpperCase() + originalKey.slice(1);
+                                    console.log('transformedKey', transformedKey);
+                                    var dynamicName = 'package_' + transformedKey.toLowerCase().replace(/\s+/g, '') + '[]';
+                                    var selector = `input[name='${dynamicName}'][value='${value}'] `;
+                                    console.log('selector', selector);
+                                    var element = $(selector);
+                                    console.log('mainValue', mainValue);
 
+                                        console.log('transformedKey', transformedKey);
+                                        console.log("Element found:", element);
+
+                                        $(selector).prop('checked', true);
+                                        setTimeout(() => {
+                                            var checkedPackages = $(`input[name='${dynamicName}']:checked`).map(function() {
+                                                return $(this).val();
+                                            }).get();
+                                            console.log('checkedPackages',checkedPackages)
+                                            var additionalSection = document.getElementById('additionalSection');
+                                            var divads = additionalSection.querySelectorAll('.form-group');
+                                            divads.forEach(function(div) {
+                                                var mainValue = div.getAttribute('data-additional-index');
+                                                if (checkedPackages.includes(mainValue)) {
+                                                        console.log(mainValue);
+                                                        console.log('jsonadObject', jsonadObject)
+                                                        for (var key in jsonadObject) {
+                                                            if (jsonadObject.hasOwnProperty(key)) {
+                                                                    // Access the original key and value
+                                                                    var originalKey =key;
+                                                                    var valuesArray = jsonadObject[key];
+                                                                valuesArray.forEach(function(value) {
+                                                                    var transformedKey = originalKey.charAt(0).toUpperCase() + originalKey.slice(1);
+                                                                    var dynamicadName = 'additional_' + transformedKey.toLowerCase().replace(/\s+/g, '_') + '[]';
+                                                                    var adselector = `input[name='${dynamicadName}'][value='${value}']`;
+                                                                    console.log('adselector', adselector);
+                                                                    $(adselector).prop('checked', true);
+                                                                });
+                                                                    // var value =jsonadObject[key][0]; // Assuming the value is always an array and we need the first element
+                                                                    // var transformedKey =originalKeycharAt(0).toUpperCase() +originalKey.slice(1);
+                                                                    // var dynamicadName ='additional_' +transformedKey.toLowerCase().replace(/\s+/g,'_') + '[]';
+                                                                    // // var dynamicName = 'package_' + transformedKey.toLowerCase()
+                                                                    // //     .replace(/\s+/g, '') + '[]';
+                                                                    // var adselector = `input[name='${dynamicadName}'][value = '${value}'] `;
+                                                                    // console.log('adselector',adselector);
+                                                                    // $(adselector).prop('checked',true);
+                                                                    // }
+                                                            }
+                                                        
+                                                        }
+                                                        div.style.display ='block';
+                                                    } else {
+                                                        div.style.display ='none';
+                                                    }
+                                            
+
+                                            });
+                                        }, 600);
                                 });
-                            }, 600);
-                        }
-                    });
-                }
-
-                            // if (jsonObject.hasOwnProperty(key)) {
-                               
-                            //     // Access the original key and value
-                            //     var originalKey = key;
-                            //     var value = jsonObject[key][0]; // Assuming the value is always an array and we need the first element
-                            //     console.log('value',value);
-                            //     // Convert the first letter of the key to uppercase
-                            //     var transformedKey = originalKey.charAt(0).toUpperCase() +
-                            //         originalKey.slice(1);
-
-                            //     var dynamicName = 'package_' + transformedKey.toLowerCase()
-                            //         .replace(/\s+/g, '') + '[]';
-                            //     var selector =
-                            //         `input[name='${dynamicName}'][value='${value}'] `;
-                            //         console.log('selector',selector);
-
-                            //     if (transformedKey == mainValue) {
-                            //         console.log('transformedKey',transformedKey);
-                            //         $(selector).prop('checked', true);
-                            //         setTimeout(() => {
-                            //             var checkedPackages = $(`input[name='${dynamicName}']:checked`).map(
-                            //                 function() {
-                            //                     return $(this).val();
-
-                            //                 }).get();
-                            //             var additionalSection = document
-                            //                 .getElementById('additionalSection');
-                            //             var divads = additionalSection
-                            //                 .querySelectorAll('.form-group');
-                            //             divads.forEach(function(div) {
-                            //                 console.log(additionalSection);
-                            //                 var mainValue = div
-                            //                     .getAttribute(
-                            //                         'data-additional-index'
-                            //                     );
-                            //                 if (checkedPackages.includes(
-                            //                         mainValue)) {
-                            //                     console.log(mainValue);
-                            //                     console.log('jsonadObject',
-                            //                         jsonadObject)
-                            //                     for (var key in
-                            //                             jsonadObject) {
-                            //                         if (jsonadObject
-                            //                             .hasOwnProperty(key)
-                            //                         ) {
-                            //                             // Access the original key and value
-                            //                             var originalKey =
-                            //                                 key;
-                            //                             var value =
-                            //                                 jsonadObject[
-                            //                                     key][
-                            //                                     0
-                            //                                 ]; // Assuming the value is always an array and we need the first element
-                            //                             var transformedKey =
-                            //                                 originalKey
-                            //                                 .charAt(0)
-                            //                                 .toUpperCase() +
-                            //                                 originalKey
-                            //                                 .slice(1);
-
-                            //                             var dynamicadName =
-                            //                                 'additional_' +
-                            //                                 transformedKey
-                            //                                 .toLowerCase()
-                            //                                 .replace(/\s+/g,
-                            //                                     '_') + '[]';
-                            //                             // var dynamicName = 'package_' + transformedKey.toLowerCase()
-                            //                             //     .replace(/\s+/g, '') + '[]';
-                            //                             var adselector =
-                            //                                 `input[name='${dynamicadName}'][value = '${value}'] `;
-                            //                             console.log('adselector',adselector);
-
-                            //                             // if (transformedKey == mainValue ) {
-
-                            //                             $(adselector).prop(
-                            //                                 'checked',
-                            //                                 true);
-                            //                             // }
-                            //                         }
-                            //                     }
-                            //                     div.style.display = 'block';
-                            //                 } else {
-                            //                     div.style.display = 'none';
-                            //                 }
-                            //             });
-                            //         }, 600);
-                            //     }
-                            // }
+                            }
                         }
                         div.style.display = 'block';
                     } else {
@@ -1198,8 +1109,6 @@ $(document).ready(function() {
 </script>
 <script>
 $(document).ready(function() {
-
-    //$('input[name=newevent]').prop('checked', false);
     $('input[name="newevent"]').on('click', function() {
         $('#lead_select').hide();
         $('#new_event').hide();
@@ -1214,11 +1123,7 @@ $(document).ready(function() {
             $('input#resetForm').trigger('click');
         }
     });
-    // function clearForm() {
-    // $('#formdata').find('input[type="text"], input[type="password"], input[type="email"], input[type="number"], input[type="date"], input[type="url"], input[type="search"], input[type="tel"], textarea').val(''); // Clear text inputs and textareas
-    // $('#formdata').find('input[type="checkbox"], input[type="radio"]').prop('checked', false); // Uncheck all checkboxes and radio buttons
-    // $('#formdata').find('select').prop('selectedIndex', 0); // Reset all select elements to their default value
-    // }
+   
 
     $('select[name= "lead"]').on('change', function() {
         $("input[type='text'], input[type='tel'], input[type='email'], input[type='number']").val('');
@@ -1236,6 +1141,7 @@ $(document).ready(function() {
                 console.log(data);
                 var jsonObject = JSON.parse(data.func_package);
                 var jsonadObject = JSON.parse(data.ad_opts);
+                var jsonBarObject = JSON.parse(data.bar_package);
                 venue_str = data.venue_selection;
                 venue_arr = venue_str.split(",");
                 func_str = data.function;
@@ -1262,110 +1168,112 @@ $(document).ready(function() {
                     $("input[name='venue[]'][value='" + val + "']").prop('checked',
                         true);
                 });
-
+                var barrrrrrr = $('input[type=radio][name = baropt]:checked').val();
+                if (barrrrrrr == 'Package Choice') {
+                    $('div#barpacakgeoptions').show();
+                }
                 $.each(func_arr, function(i, val) {
                     $("input[name='function[]'][value='" + val + "']").prop(
                         'checked', true);
                 });
+                // --------
+                var barPackage = document.getElementById('barpacakgeoptions');
+                var bardivs = barPackage.querySelectorAll('.form-group');
+                bardivs.forEach(function(div) {
+                    var barmainValue = div.getAttribute('data-main-value');
+                    console.log('barmainValue', barmainValue);
+                    console.log('jsonBarObject', jsonBarObject);
+                    // Check if the key exists in jsonBarObject
+                    if (jsonBarObject.hasOwnProperty(barmainValue)) {
+                        var value = jsonBarObject[barmainValue];
+
+                        // Construct the selector for the radio button
+                        var dynamicName = 'bar_' + barmainValue.toLowerCase().replace(/\s+/g, '') + '[]';
+                        var selector = `input[name='${dynamicName}'][value='${value}'] `;
+                        console.log('selector', selector);
+
+                        // Check the radio button
+                        $(selector).prop('checked', true);
+                    } else {
+                        // Skip this iteration if the key doesn't exist
+                        console.log("Key does not exist in jsonBarObject:", barmainValue);
+                        return; // Skip to the next iteration
+                    }
+                });
+
+
+                //  ----------------
                 $('input[name ="guest_count"]').val(data.guest_count);
                 var checkedFunctions = $('input[name="function[]"]:checked').map(
                     function() {
                         return $(this).val();
                     }).get();
+                    console.log('checkedFunctions',checkedFunctions);
 
                 var mailFunctionSection = document.getElementById('mailFunctionSection');
                 var divs = mailFunctionSection.querySelectorAll('.form-group');
                 divs.forEach(function(div) {
                     var mainValue = div.getAttribute('data-main-value');
+                    // console.log('mainval',mainValue);
                     if (checkedFunctions.includes(mainValue)) {
+                        console.log('mainval',mainValue);
                         for (var key in jsonObject) {
-
                             if (jsonObject.hasOwnProperty(key)) {
-                                // Access the original key and value
                                 var originalKey = key;
-                                var value = jsonObject[key][
-                                    0
-                                ]; // Assuming the value is always an array and we need the first element
-                                // Convert the first letter of the key to uppercase
-                                var transformedKey = originalKey.charAt(0)
-                                    .toUpperCase() +
-                                    originalKey.slice(1);
+                                var values = jsonObject[key]; // Get all values for the key
+                                
+                                values.forEach(function(value) { // Loop through each value
+                                    // console.log('value', value);
+                                
+                                    var transformedKey = originalKey.charAt(0).toUpperCase() + originalKey.slice(1);
+                                    // console.log('transformedKey', transformedKey);
+                                    var dynamicName = 'package_' + transformedKey.toLowerCase().replace(/\s+/g, '') + '[]';
+                                    var selector = `input[name='${dynamicName}'][value='${value}'] `;
+                                    // console.log('selector', selector);
+                                    var element = $(selector);
+                                    // console.log('mainValue', mainValue);
 
-                                var dynamicName = 'package_' + transformedKey
-                                    .toLowerCase()
-                                    .replace(/\s+/g, '') + '[]';
-                                var selector =
-                                    `input[name='${dynamicName}'][value='${value}'] `;
-                                if (transformedKey == mainValue) {
-                                    console.log('transformedKey',checkedPackages);
-                                    $(selector).prop('checked', true);
-                                    setTimeout(() => {
+                                        // console.log('transformedKey', transformedKey);
+                                        // console.log("Element found:", element);
 
-                                        var checkedPackages = $(`input[name='${dynamicName}']:checked`).map(
-                                            function() {
+                                        $(selector).prop('checked', true);
+                                        setTimeout(() => {
+                                            var checkedPackages = $(`input[name='${dynamicName}']:checked`).map(function() {
                                                 return $(this).val();
                                             }).get();
-                                           
-                                        var additionalSection = document.getElementById('additionalSection');
-                                        var divads = additionalSection.querySelectorAll('.form-group');
-                                        divads.forEach(function(div) {
-                                            console.log(additionalSection);
-                                            var mainValue = div.getAttribute('data-additional-index');
-                                            if (checkedPackages.includes(mainValue)) {
-                                                console.log(mainValue);
-                                                console.log('jsonadObject', jsonadObject)
-                                                for (var key in jsonadObject) {
-                                                    if (jsonadObject.hasOwnProperty(key)) {
-                                                        // Access the original key and value
-                                                        var originalKey =key;
-                                                        var value =jsonadObject[ key][0]; // Assuming the value is always an array and we need the first element
-                                                        var transformedKey =originalKey.charAt(0).toUpperCase() +
-                                                            originalKey
-                                                            .slice(
-                                                                1);
-
-                                                        var dynamicadName =
-                                                            'additional_' +
-                                                            transformedKey
-                                                            .toLowerCase()
-                                                            .replace(
-                                                                /\s+/g,
-                                                                '_'
-                                                            ) +
-                                                            '[]';
-                                                        // var dynamicName = 'package_' + transformedKey.toLowerCase()
-                                                        //     .replace(/\s+/g, '') + '[]';
-                                                        var adselector =
-                                                            `input[name='${dynamicadName}'][value = '${value}'] `;
-                                                        console.log(
-                                                            adselector
-                                                        );
-
-                                                        // if (transformedKey == mainValue ) {
-
-                                                        $(adselector)
-                                                            .prop(
-                                                                'checked',
-                                                                true
-                                                            );
-                                                        // }
+                                            // console.log('checkedPackages',checkedPackages)
+                                            var additionalSection = document.getElementById('additionalSection');
+                                            var divads = additionalSection.querySelectorAll('.form-group');
+                                            divads.forEach(function(div) {
+                                                var mainValue = div.getAttribute('data-additional-index');
+                                                if (checkedPackages.includes(mainValue)) {
+                                                        // console.log(mainValue);
+                                                        // console.log('jsonadObject', jsonadObject)
+                                                        for (var key in jsonadObject) {
+                                                            if (jsonadObject.hasOwnProperty(key)) {
+                                                                    // Access the original key and value
+                                                                    var originalKey =key;
+                                                                    var valuesArray = jsonadObject[key];
+                                                                valuesArray.forEach(function(value) {
+                                                                    var transformedKey = originalKey.charAt(0).toUpperCase() + originalKey.slice(1);
+                                                                    var dynamicadName = 'additional_' + transformedKey.toLowerCase().replace(/\s+/g, '_') + '[]';
+                                                                    var adselector = `input[name='${dynamicadName}'][value='${value}']`;
+                                                                    // console.log('adselector', adselector);
+                                                                    $(adselector).prop('checked', true);
+                                                                });
+                                                                  
+                                                            }
+                                                        
+                                                        }
+                                                        div.style.display ='block';
+                                                    } else {
+                                                        div.style.display ='none';
                                                     }
-                                                }
-                                                div.style.display =
-                                                    'block';
-                                            } else {
-                                                div.style.display =
-                                                    'none';
-                                            }
-                                        });
-                                    }, 600);
+                                            
 
-
-                                }
-
-
-
-
+                                            });
+                                        }, 600);
+                                });
                             }
                         }
                         div.style.display = 'block';
@@ -1373,6 +1281,8 @@ $(document).ready(function() {
                         div.style.display = 'none';
                     }
                 });
+               
+                
             }
         });
     });
@@ -1406,6 +1316,10 @@ $(document).ready(function() {
         });
     });
     jQuery(function() {
+        var value = $('input[type=radio][name = baropt]:checked').val();
+            if (value == 'Package Choice') {
+                $('div#barpacakgeoptions').show();
+            }
         $('input[type=radio][name = baropt]').change(function() {
             $('div#barpacakgeoptions').hide();
             var value = $(this).val();
