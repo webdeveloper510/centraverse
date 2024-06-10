@@ -216,14 +216,33 @@ $converted_to_event = App\Models\Meeting::where('attendees_lead',$lead->id)->exi
                                                 <dt class="col-md-4 need_half"><span class="h6  mb-3"><?php echo e(__('Set-up')); ?></span>
                                                 </dt>
                                                 <dd class="col-md-8 need_half"><span class="">
-                                                        <?php if($eventdetails->setup_plans != ''): ?>
-                                                        <img src="<?php echo e(Storage::url('app/public/'.$eventdetails->setup_plans)); ?>"
-                                                            style="    width: 70%;" alt="">
 
+                                                        <?php if($eventdetails->setup_plans != ''): ?>
+                                                        <?php  $setupname = explode('/',$eventdetails->setup_plans) ?>
+                                                                <?php if(pathinfo($setupname[1], PATHINFO_EXTENSION) == 'png'|| pathinfo($setupname[1], PATHINFO_EXTENSION) == 'jpg'): ?>
+
+                                                                    <img src="<?php echo e(Storage::url('app/public/'.$eventdetails->setup_plans)); ?>"
+                                                                    style="    width: 70%;" alt="">
+                                                                    <?php else: ?>
+                                                                    <ul style="list-style:none;display:flex">
+                                                                        <li> 
+                                                                        <?php if(pathinfo($setupname[1], PATHINFO_EXTENSION) == 'pdf'): ?>
+                                                                            <a href="<?php echo e(Storage::url('app/public/'.$eventdetails->setup_plans)); ?>" download>
+                                                                                <img src="<?php echo e(asset('extension_img/pdf.png')); ?>" alt="" style="    width: 10%;">
+                                                                            </a>
+                                                                        <?php elseif(pathinfo($setupname[1], PATHINFO_EXTENSION) == 'doc'|| pathinfo($setupname[1], PATHINFO_EXTENSION) == 'docs'): ?>
+                                                                        <a href="<?php echo e(Storage::url('app/public/'.$eventdetails->setup_plans)); ?>" download>
+                                                                                <img src="<?php echo e(asset('extension_img/doc.png')); ?>" alt="" style="    width: 10%;">
+                                                                            </a>
+                                                                        <?php endif; ?>
+                                                                        </li>
+                                                                    </ul>
+                                                                <?php endif; ?>
                                                         <?php else: ?>
                                                         --
                                                         <?php endif; ?>
                                                     </span>
+                                                   
                                                 </dd>
                                             </dl>
                                         </div>
@@ -542,6 +561,8 @@ $converted_to_event = App\Models\Meeting::where('attendees_lead',$lead->id)->exi
                                 <th>Action</th>
                             </thead>
                             <tbody>
+                                 <!-- -------- check the xtension and if image use img tag otherwise
+                                                         shoe the preview of doc uploaded-->
                                 <?php $__currentLoopData = $docs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $doc): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <?php if(Storage::disk('public')->exists($doc->filepath)): ?>
                                 <tr>

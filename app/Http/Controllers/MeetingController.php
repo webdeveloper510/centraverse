@@ -359,11 +359,11 @@ class MeetingController extends Controller
             }        
             // Close connection
             curl_close($ch);
-            // if (\Auth::user()) {
-            //     return redirect()->back()->with('success', __('Event created!') . ((isset($msg) ? '<br> <span class="text-danger">' . $msg . '</span>' : '')));
-            // } else {
-            //     return redirect()->back()->with('error', __('Webhook call failed.') . ((isset($msg) ? '<br> <span class="text-danger">' . $msg . '</span>' : '')));
-            // }
+            if (\Auth::user()) {
+                return redirect()->back()->with('success', __('Event created!') . ((isset($msg) ? '<br> <span class="text-danger">' . $msg . '</span>' : '')));
+            } else {
+                return redirect()->back()->with('error', __('Webhook call failed.') . ((isset($msg) ? '<br> <span class="text-danger">' . $msg . '</span>' : '')));
+            }
             if (\Auth::user()->type == 'owner') {
                 $meetings = Meeting::with('assign_user')->orderby('id','desc')->get();
              

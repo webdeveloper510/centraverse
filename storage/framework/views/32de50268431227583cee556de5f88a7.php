@@ -465,9 +465,31 @@ $eventdoc = App\Models\EventDoc::where('event_id',$meeting->id)->get();
                                         <div class="col-12 mt-4">
     <div class="form-group">
         <label><b>Upload Setup</b></label>
-        <input accept="image/*" type='file' id="imgInp" class="form-control" name="setupplans"/>
+        <input type='file' id="imgInp" class="form-control" name="setupplans"/>
     </div>
 </div>
+<?php  $setupname = explode('/',$meeting->setup_plans) ?>
+                                                                <?php if(pathinfo($setupname[1], PATHINFO_EXTENSION) == 'png'|| pathinfo($setupname[1], PATHINFO_EXTENSION) == 'jpg'): ?>
+
+                                                                    <img src="<?php echo e(Storage::url('app/public/'.$meeting->setup_plans)); ?>"
+                                                                    style="    width: 70%;" alt="">
+                                                                    <?php else: ?>
+                                                                    <ul style="list-style:none;display:flex">
+                                                                        <li> 
+                                                                        <?php if(pathinfo($setupname[1], PATHINFO_EXTENSION) == 'pdf'): ?>
+                                                                            <a href="<?php echo e(Storage::url('app/public/'.$meeting->setup_plans)); ?>" download>
+                                                                                <img src="<?php echo e(asset('extension_img/pdf.png')); ?>" alt="" style="    width: 10%;">
+                                                                            </a>
+                                                                        <?php elseif(pathinfo($setupname[1], PATHINFO_EXTENSION) == 'doc'|| pathinfo($setupname[1], PATHINFO_EXTENSION) == 'docs'): ?>
+                                                                        <a href="<?php echo e(Storage::url('app/public/'.$event->meeting)); ?>" download>
+                                                                                <img src="<?php echo e(asset('extension_img/doc.png')); ?>" alt="" style="    width: 10%;">
+                                                                            </a>
+                                                                        <?php endif; ?>
+                                                                        </li>
+                                                                    </ul>
+                                                                <?php endif; ?>
+ <!-- -------- check the xtension and if image use img tag otherwise
+                                                         shoe the preview of doc uploaded-->
 <div class="col-12" id="previewDiv" >
     <div class="form-group position-relative">
         <img id="blah" src="<?php echo e(Storage::url('app/public/'.$meeting->setup_plans)); ?>" alt="Preview" class="form-control" />
@@ -670,8 +692,20 @@ document.getElementById('imgInp').onchange = function(evt) {
     const blah = document.getElementById('blah');
 
     if (file) {
-        blah.src = URL.createObjectURL(file);
-        previewDiv.style.display = 'block';
+        const fileName = file.name.toLowerCase();
+        const fileExtension = fileName.split('.').pop();
+        // if (fileExtension === 'png' || fileExtension === 'pdf') {
+            if (fileExtension === 'png' || fileExtension === 'jpg'  ) {
+                blah.src = URL.createObjectURL(file);
+                previewDiv.style.display = 'block';
+            } else {
+                // Handle PDF file case here if needed
+                console.log('The file is a PDF.');
+                blah.src = '#'; // or some placeholder for PDF
+                previewDiv.style.display = 'none';
+            }
+        // blah.src = URL.createObjectURL(file);
+        // previewDiv.style.display = 'block';
     } else {
         blah.src = '#';
         previewDiv.style.display = 'none';

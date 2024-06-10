@@ -166,8 +166,30 @@ $files = Storage::files('app/public/Event/'.$event->id);
                                                 </dt>
                                                 <dd class="col-md-8 need_half"><span class="">
                                                         @if($event->setup_plans != '')
-                                                        <img src="{{ Storage::url('app/public/'.$event->setup_plans) }}"
-                                                            style="    width: 70%;" alt="">
+                                                            <?php  $setupname = explode('/',$event->setup_plans) ?>
+                                                                @if(pathinfo($setupname[1], PATHINFO_EXTENSION) == 'png'|| pathinfo($setupname[1], PATHINFO_EXTENSION) == 'jpg')
+
+                                                                    <img src="{{ Storage::url('app/public/'.$event->setup_plans) }}"
+                                                                    style=" width: 70%;" alt="">
+                                                                    @else
+                                                                    <ul style="list-style:none;display:flex">
+                                                                        <li> 
+                                                                        @if(pathinfo($setupname[1], PATHINFO_EXTENSION) == 'pdf')
+                                                                            <a href="{{Storage::url('app/public/'.$event->setup_plans)}}" download>
+                                                                                <img src="{{asset('extension_img/pdf.png')}}" alt="" style="    width: 10%;">
+                                                                            </a>
+                                                                        @elseif(pathinfo($setupname[1], PATHINFO_EXTENSION) == 'doc'|| pathinfo($setupname[1], PATHINFO_EXTENSION) == 'docs')
+                                                                        <a href="{{Storage::url('app/public/'.$event->setup_plans)}}" download>
+                                                                                <img src="{{asset('extension_img/doc.png')}}" alt="" style="    width: 10%;">
+                                                                            </a>
+                                                                        @endif
+                                                                        </li>
+                                                                    </ul>
+                                                                @endif
+                                                        <!-- -------- check the xtension and if image use img tag otherwise
+                                                         shoe the preview of doc uploaded-->
+                                                            <!-- <img src="{{ Storage::url('app/public/'.$event->setup_plans) }}"
+                                                                style=" width: 70%;" alt=""> -->
 
                                                         @else
                                                         --
@@ -409,7 +431,7 @@ $files = Storage::files('app/public/Event/'.$event->id);
                                                                 {{($beforedeposit->deposits != 0)? '$'.$beforedeposit->deposits : '--'}}
                                                             </td>
                                                         </tr>
-                                                        <tr style="    background: darkgray;">
+                                                        <tr style="background: darkgray;">
                                                             <td></td>
                                                             <!-- <td></td>
                                                                     <td></td><td></td><td></td> -->

@@ -476,7 +476,7 @@ $(document).ready(function() {
 @endsection
 @section('content')
 <div class="container-field">
-    <div id="wrapper1">
+<div id="wrapper1">
         <div id="page-content-wrapper" class="p0">
             <div class="container-fluid xyz p0">
                 <div class="row">

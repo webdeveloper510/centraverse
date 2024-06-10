@@ -1,4 +1,4 @@
-@include('partials.admin.head')
+<?php echo $__env->make('partials.admin.head', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <style>
     .container.mt-5 {
     max-width: 1111px;
@@ -102,13 +102,13 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
     <div class="container mt-5">
         <div class="row card p-4">
             <div class="col-md-12">
-                <form method="POST" action="{{ route('lead.proposalresponse', urlencode(encrypt($lead->id))) }}" id='formdata'>
-                    @csrf
-                    <input type="hidden" name="proposal" value="{{ $_GET['prop'] ?? '' }}">
+                <form method="POST" action="<?php echo e(route('lead.proposalresponse', urlencode(encrypt($lead->id)))); ?>" id='formdata'>
+                    <?php echo csrf_field(); ?>
+                    <input type="hidden" name="proposal" value="<?php echo e($_GET['prop'] ?? ''); ?>">
                     <div class="row">
                         <div class="col-md-4 mt-4">
                             <div class="img-section">
-                                 <img class="logo-img" src="{{ Storage::url('uploads/logo/logo-light.png') }}" alt="Logo">
+                                 <img class="logo-img" src="<?php echo e(Storage::url('uploads/logo/logo-light.png')); ?>" alt="Logo">
                             </div>
                             <span style="font-size: \small; color: #aab0b6;">Supported by The Sector Eight</span>
     </div>
@@ -120,17 +120,17 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                     <div class="row mt-3">
                         <div class="col-md-12 text-right">
                             <dl>
-                                <span><b>{{ __('Name') }}</b>: {{ $lead->name }}</span><br>
-                                <span><b>{{ __('Phone & Email') }}</b>: {{ $lead->phone }} , {{ $lead->email }}</span><br>
-                                <span><b>{{ __('Address') }}</b>: {{ $lead->lead_address }}</span><br>
-                                <span><b>{{ __('Event Date') }}</b>: {{ \Carbon\Carbon::parse($lead->start_date)->format('d M, Y') }}</span>
+                                <span><b><?php echo e(__('Name')); ?></b>: <?php echo e($lead->name); ?></span><br>
+                                <span><b><?php echo e(__('Phone & Email')); ?></b>: <?php echo e($lead->phone); ?> , <?php echo e($lead->email); ?></span><br>
+                                <span><b><?php echo e(__('Address')); ?></b>: <?php echo e($lead->lead_address); ?></span><br>
+                                <span><b><?php echo e(__('Event Date')); ?></b>: <?php echo e(\Carbon\Carbon::parse($lead->start_date)->format('d M, Y')); ?></span>
                             </dl>
                         </div>
                         <!-- <div class="col-md-6 text-right">
                             <dl>
-                                <span>{{ __('Primary Contact') }}: {{ $lead->name }}</span><br>
-                                <span>{{ __('Phone') }}: {{ $lead->phone }}</span><br>
-                                <span>{{ __('Email') }}: {{ $lead->email }}</span><br>
+                                <span><?php echo e(__('Primary Contact')); ?>: <?php echo e($lead->name); ?></span><br>
+                                <span><?php echo e(__('Phone')); ?>: <?php echo e($lead->phone); ?></span><br>
+                                <span><?php echo e(__('Email')); ?>: <?php echo e($lead->email); ?></span><br>
                             </dl>
                         </div> -->
                     </div>
@@ -151,19 +151,20 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>{{ \Carbon\Carbon::parse($lead->start_date)->format('d M, Y') }}</td>
+                                        <td><?php echo e(\Carbon\Carbon::parse($lead->start_date)->format('d M, Y')); ?></td>
                                         <td>
-                                            @if($lead->start_time == $lead->end_time)
+                                            <?php if($lead->start_time == $lead->end_time): ?>
                                                 --
-                                            @else
-                                                {{ date('h:i A', strtotime($lead->start_time)) }} - {{ date('h:i A', strtotime($lead->end_time)) }}
-                                            @endif
+                                            <?php else: ?>
+                                                <?php echo e(date('h:i A', strtotime($lead->start_time))); ?> - <?php echo e(date('h:i A', strtotime($lead->end_time))); ?>
+
+                                            <?php endif; ?>
                                         </td>
-                                        <td>{{ $lead->venue_selection }}</td>
-                                        <td>{{ $lead->type }}</td>
-                                        <td>{{ $lead->function }}</td>
-                                        <td>{{ $lead->guest_count }}</td>
-                                        <td>{{ $lead->rooms }}</td>
+                                        <td><?php echo e($lead->venue_selection); ?></td>
+                                        <td><?php echo e($lead->type); ?></td>
+                                        <td><?php echo e($lead->function); ?></td>
+                                        <td><?php echo e($lead->guest_count); ?></td>
+                                        <td><?php echo e($lead->rooms); ?></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -176,10 +177,10 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>Name : {{ ucfirst($lead->name) }}</th>
+                                        <th>Name : <?php echo e(ucfirst($lead->name)); ?></th>
                                         <th colspan="2"></th>
-                                        <th colspan="3">Date: {{ date("d/m/Y") }}</th>
-                                        <th>Event: {{ ucfirst($lead->type) }}</th>
+                                        <th colspan="3">Date: <?php echo e(date("d/m/Y")); ?></th>
+                                        <th>Event: <?php echo e(ucfirst($lead->type)); ?></th>
                                     </tr>
                                     <tr style="background-color:#063806;">
                                         <th>Description</th>
@@ -194,61 +195,61 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                     <tr>
                                         <td>Venue Rental</td>
                                         <td colspan="2"></td>
-                                        <td>${{ $billing['venue_rental']['cost'] ?? 0 }}</td>
-                                        <td>{{ $billing['venue_rental']['quantity'] ?? 1 }}</td>
-                                        <td>${{ $total[] = ($billing['venue_rental']['cost'] ?? 0) * ($billing['venue_rental']['quantity'] ?? 1) }}</td>
-                                        <td>{{$billing['venue_rental']['notes']}}</td>
+                                        <td>$<?php echo e($billing['venue_rental']['cost'] ?? 0); ?></td>
+                                        <td><?php echo e($billing['venue_rental']['quantity'] ?? 1); ?></td>
+                                        <td>$<?php echo e($total[] = ($billing['venue_rental']['cost'] ?? 0) * ($billing['venue_rental']['quantity'] ?? 1)); ?></td>
+                                        <td><?php echo e($billing['venue_rental']['notes']); ?></td>
                                     </tr>
                                     <tr>
                                         <td>Brunch / Lunch / Dinner Package</td>
                                         <td colspan="2"></td>
-                                        <td>${{ $billing['food_package']['cost'] ?? 0 }}</td>
-                                        <td>{{ $billing['food_package']['quantity'] ?? 1 }}</td>
-                                        <td>${{ $total[] = ($billing['food_package']['cost'] ?? 0) * ($billing['food_package']['quantity'] ?? 1) }}</td>
-                                        <td>{{$billing['food_package']['notes']}}</td>
+                                        <td>$<?php echo e($billing['food_package']['cost'] ?? 0); ?></td>
+                                        <td><?php echo e($billing['food_package']['quantity'] ?? 1); ?></td>
+                                        <td>$<?php echo e($total[] = ($billing['food_package']['cost'] ?? 0) * ($billing['food_package']['quantity'] ?? 1)); ?></td>
+                                        <td><?php echo e($billing['food_package']['notes']); ?></td>
                                     </tr>
                                     <tr>
                                         <td>Hotel Rooms</td>
                                         <td colspan="2"></td>
-                                        <td>${{ $billing['hotel_rooms']['cost'] ?? 0 }}</td>
-                                        <td>{{ $billing['hotel_rooms']['quantity'] ?? 1 }}</td>
-                                        <td>${{ $total[] = ($billing['hotel_rooms']['cost'] ?? 0) * ($billing['hotel_rooms']['quantity'] ?? 1) }}</td>
-                                        <td>{{$billing['hotel_rooms']['notes']}}</td>
+                                        <td>$<?php echo e($billing['hotel_rooms']['cost'] ?? 0); ?></td>
+                                        <td><?php echo e($billing['hotel_rooms']['quantity'] ?? 1); ?></td>
+                                        <td>$<?php echo e($total[] = ($billing['hotel_rooms']['cost'] ?? 0) * ($billing['hotel_rooms']['quantity'] ?? 1)); ?></td>
+                                        <td><?php echo e($billing['hotel_rooms']['notes']); ?></td>
                                     </tr>
                                     <tr>
                                         <td>Bar Package</td>
                                         <td colspan="2"></td>
-                                        <td>${{ $billing['bar_package']['cost'] ?? 0 }}</td>
-                                        <td>{{ $billing['bar_package']['quantity'] ?? 1 }}</td>
-                                        <td>${{ $total[] = ($billing['bar_package']['cost'] ?? 0) * ($billing['bar_package']['quantity'] ?? 1) }}</td>
-                                        <td>{{$billing['bar_package']['notes']}}</td>
+                                        <td>$<?php echo e($billing['bar_package']['cost'] ?? 0); ?></td>
+                                        <td><?php echo e($billing['bar_package']['quantity'] ?? 1); ?></td>
+                                        <td>$<?php echo e($total[] = ($billing['bar_package']['cost'] ?? 0) * ($billing['bar_package']['quantity'] ?? 1)); ?></td>
+                                        <td><?php echo e($billing['bar_package']['notes']); ?></td>
                                     </tr>
                                     <tr>
                                         <td>Total</td>
                                         <td colspan="2"></td>
                                         <td colspan="2"></td>
-                                        <td>${{ array_sum($total) }}</td>
+                                        <td>$<?php echo e(array_sum($total)); ?></td>
                                         <td></td>
                                     </tr>
                                     <tr>
                                         <td>Sales, Occupancy Tax (7%)</td>
                                         <td colspan="2"></td>
                                         <td colspan="2"></td>
-                                        <td>${{ 7 * array_sum($total) / 100 }}</td>
+                                        <td>$<?php echo e(7 * array_sum($total) / 100); ?></td>
                                         <td></td>
                                     </tr>
                                     <tr>
                                         <td>Service Charges & Gratuity (20%)</td>
                                         <td colspan="2"></td>
                                         <td colspan="2"></td>
-                                        <td>${{ 20 * array_sum($total) / 100 }}</td>
+                                        <td>$<?php echo e(20 * array_sum($total) / 100); ?></td>
                                         <td></td>
                                     </tr>
                                     <tr>
                                         <td style="background-color:#ffff00;">Grand Total / Estimated Total</td>
                                         <td colspan="2"></td>
                                         <td colspan="2"></td>
-                                        <td>${{ $grandtotal = array_sum($total) + 20 * array_sum($total) / 100 + 7 * array_sum($total) / 100 }}</td>
+                                        <td>$<?php echo e($grandtotal = array_sum($total) + 20 * array_sum($total) / 100 + 7 * array_sum($total) / 100); ?></td>
                                         <td></td>
                                     </tr>
                                 </tbody>
@@ -297,7 +298,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
             </div>
         </div>
     </div>
-    <script src="{{ asset('libs/bootstrap-notify/bootstrap-notify.min.js') }}"></script>
+    <script src="<?php echo e(asset('libs/bootstrap-notify/bootstrap-notify.min.js')); ?>"></script>
 
     <script>
         function clearSignature() {
@@ -336,4 +337,4 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
     </script>
 </body>
 </html>
-@include('partials.admin.footer')
+<?php echo $__env->make('partials.admin.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/lead/proposal.blade.php ENDPATH**/ ?>

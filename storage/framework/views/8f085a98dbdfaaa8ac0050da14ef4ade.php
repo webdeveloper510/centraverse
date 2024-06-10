@@ -33,20 +33,21 @@ $labels =
         }
         $foodpckge = implode(',',$food);
     }
-   
+    if(isset($addpcks) && !empty($addpcks)){
     foreach($addpcks as $key => $adpck){
         foreach($adpck as $ad){
         $add[] = $ad;
         }
     }
     $addpckge = implode(',',$add);
+}
     $meetingData = [
         'venue_rental' => $event->venue_selection,
         'hotel_rooms'=>$event->room,
         'equipment' =>$event->spcl_request,
         'bar_package' => (isset($event->bar_package) && !empty($event->bar_package)) ? $barpckge : '',
         'food_package' => (isset($foodpckge) && !empty($foodpckge)) ? $foodpckge: '',
-        'additional_items' => (isset($event->ad_opts) && !empty($event->ad_opts)) ? $addpckge :'',
+        'additional_items' => (isset($addpcks) && !empty($addpcks)) ? $addpckge :'',
         'setup' =>''
     ];
     $totalFoodPackageCost = 0;

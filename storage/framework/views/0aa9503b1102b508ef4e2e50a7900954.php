@@ -575,15 +575,19 @@ unset($__errorArgs, $__bag); ?>
                                             <div class="col-12 mt-4">
                                                 <div class="form-group">
                                                     <label><b>Upload Setup</b></label>
-                                                    <input accept="image/*" type='file' id="imgInp" class="form-control" name="setupplans"/>
+                                                    <input  type='file' id="imgInp" class="form-control" name="setupplans"/>
                                                 </div>
                                             </div>
+                                             <!-- -------- check the xtension and if image use img tag otherwise
+                                                         shoe the preview of doc uploaded-->
+                                                         
                                             <div class="col-12" id="previewDiv" style="display: none;">
                                                 <div class="form-group position-relative">
                                                     <img id="blah" src="#" alt="Preview" class="form-control" />
                                                     <button type="button" id="removeImg" class="btn btn-danger position-absolute" >&times;</button>
                                                 </div>
                                             </div>
+                                          
                                         </div>
                                     </div>
                                 </div>
@@ -736,12 +740,26 @@ document.getElementById('imgInp').onchange = function(evt) {
     const blah = document.getElementById('blah');
 
     if (file) {
-        blah.src = URL.createObjectURL(file);
-        previewDiv.style.display = 'block';
+        if (file) {
+        const fileName = file.name.toLowerCase();
+        const fileExtension = fileName.split('.').pop();
+        // if (fileExtension === 'png' || fileExtension === 'pdf') {
+            if (fileExtension === 'png' || fileExtension === 'jpg'  ) {
+                blah.src = URL.createObjectURL(file);
+                previewDiv.style.display = 'block';
+            } else {
+                // Handle PDF file case here if needed
+                console.log('The file is a PDF.');
+                blah.src = '#'; // or some placeholder for PDF
+                previewDiv.style.display = 'none';
+            }
+        // blah.src = URL.createObjectURL(file);
+        // previewDiv.style.display = 'block';
     } else {
         blah.src = '#';
         previewDiv.style.display = 'none';
     }
+};
 };
 
 document.getElementById('removeImg').onclick = function() {
