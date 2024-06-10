@@ -16,10 +16,12 @@ $labels =
     ];
     $bar = [];
     $barpcks = json_decode($event->bar_package,true);
+    if(isset($barpcks) && !empty($barpcks)){
     foreach($barpcks as $key => $barpck){
         $bar[]= $barpck;
     }
     $barpckge = implode(',',$bar);
+}
     $foodpcks = json_decode($event->func_package,true);
     $addpcks = json_decode($event->ad_opts,true);
 
@@ -45,7 +47,7 @@ $labels =
         'venue_rental' => $event->venue_selection,
         'hotel_rooms'=>$event->room,
         'equipment' =>$event->spcl_request,
-        'bar_package' => (isset($event->bar_package) && !empty($event->bar_package)) ? $barpckge : '',
+        'bar_package' => (isset($barpckge) && !empty($barpckge)) ? $barpckge : '',
         'food_package' => (isset($foodpckge) && !empty($foodpckge)) ? $foodpckge: '',
         'additional_items' => (isset($addpcks) && !empty($addpcks)) ? $addpckge :'',
         'setup' =>''

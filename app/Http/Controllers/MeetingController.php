@@ -37,6 +37,7 @@ use DB;
 use App\Mail\SendEventMail;
 use App\Mail\TestingMail;
 use Str;
+use App\Models\Setuplans;
 
 class MeetingController extends Controller
 {
@@ -232,7 +233,11 @@ class MeetingController extends Controller
             if($request->hasFile('setupplans')) {
                 $file = $request->file('setupplans');
                 $filePath = $file->store('setup_plans', 'public');
-                $meeting['setup_plans']  = $filePath;
+                $newsetup = new Setuplans();
+                $newsetup->event_id = $meeting->id;
+                $newsetup->setup_docs = $filePath;
+                $newsetup->save();
+                // $meeting['setup_plans']  = $filePath;
             }
             
             $meeting->save();
@@ -431,6 +436,7 @@ class MeetingController extends Controller
 
     public function update(Request $request, Meeting $meeting)
     {
+
         if (\Auth::user()->can('Edit Meeting')) {
             $validator = \Validator::make(
                 $request->all(),
@@ -575,11 +581,25 @@ class MeetingController extends Controller
             $meeting['food_description']          = $request->food_package_description;
             $meeting['bar_description']          = $request->bar_package_description;
             $meeting['created_by']        = \Auth::user()->creatorId();
-            if ($request->hasFile('setupplans')) {
-                $file = $request->file('setupplans');
+            // if ($request->hasFile('setupplans')) {
+            //     $file = $request->file('setupplans');
+            //     $filePath = $file->store('setup_plans', 'public');
+
+            //     $meeting['setup_plans']         = $filePath;
+
+            // }
+
+            if($request->hasFile('setupplans')) {
+                $file = $request->file('setupplans')[0];
+                // echo "<pre>";print_r($file);die;
+
                 $filePath = $file->store('setup_plans', 'public');
-                $meeting['setup_plans']         = $filePath;
- 
+
+                $newsetup = new Setuplans();
+                $newsetup->event_id = $meeting->id;
+                $newsetup->setup_docs = $filePath;
+                $newsetup->save();
+                // $meeting['setup_plans']  = $filePath;
             }
           
             $meeting->update();
@@ -638,7 +658,19 @@ class MeetingController extends Controller
             return redirect()->back()->with('error', 'Permission Denied');
         }
     }
+    public function removesetupattachment(Request $request)
+{
+    $setupId = $request->input('setup_id');
+    $setupPlan = Setuplans::find($setupId);
 
+    if ($setupPlan) {
+        Storage::delete('public/' . $setupPlan->setup_docs);
+        $setupPlan->delete();
+        return response()->json(['success' => true]);
+    }
+
+    return response()->json(['success' => false]);
+}
     /**
      * Remove the specified resource from storage.
      *
@@ -1098,6 +1130,15 @@ class MeetingController extends Controller
     {
         $meeting = Meeting::find($id);
         $settings = Utility::settings();
+        $validator = \Validator::make($request->all(), [
+            'status' => 'required|in:Approve,Resend,Withdraw',
+        ],[
+            'status.in' => 'The status field is required',
+        ]);
+        if ($validator->fails()) {
+            $messages = $validator->getMessageBag();
+            return redirect()->back()->with('error', $messages->first());
+        }
         if ($request->status == 'Approve') {
             $status = 3;
         } elseif ($request->status == 'Resend') {
@@ -1188,13 +1229,21 @@ class MeetingController extends Controller
         $meeting['bar_description']          = $request->bar_package_description;
         
        
-        if ($request->hasFile('setupplans')) {
+        // if ($request->hasFile('setupplans')) {
+        //     $file = $request->file('setupplans');
+        //     $filePath = $file->store('setup_plans', 'public');
+        //     $meeting['setup_plans']   = $filePath;
+
+        // }
+        if($request->hasFile('setupplans')) {
             $file = $request->file('setupplans');
             $filePath = $file->store('setup_plans', 'public');
-            $meeting['setup_plans']   = $filePath;
-
+            $newsetup = new Setuplans();
+            $newsetup->event_id = $meeting->id;
+            $newsetup->setup_docs = $filePath;
+            $newsetup->save();
+            // $meeting['setup_plans']  = $filePath;
         }
-        
         $meeting->update();
 
         if($meeting->attendees_lead != 0){

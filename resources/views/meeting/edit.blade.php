@@ -75,10 +75,24 @@ $eventdoc = App\Models\EventDoc::where('event_id',$meeting->id)->get();
     position: relative;
     width: 60%;
 }
-#removeImg {
+
+.remove-setup {
     position: absolute;
-   top:0px;
-   right: 0px;
+    top: 5px;
+    right: 0px;
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2em;
+    line-height: 1em;
+    padding: 0.2em 0.4em;
+}
+#remove-preview {
+    position: absolute;
+    top: 5px;
+    right: 0px;
     background: red;
     color: white;
     border: none;
@@ -402,15 +416,16 @@ $eventdoc = App\Models\EventDoc::where('event_id',$meeting->id)->get();
                                                     <?php $isCheckedif = false; ?>
                                                     @if(isset($fun_ad_opts) && !empty($fun_ad_opts ))
                                                     @foreach($fun_ad_opts as $keys=>$valss)
-                                                        @foreach($valss as $val)
-                                                            @if($pac_key == $val)
-                                                            <?php $isCheckedif = true;?>
-                                                            @endif
-                                                        @endforeach
+                                                    @foreach($valss as $val)
+                                                    @if($pac_key == $val)
+                                                    <?php $isCheckedif = true;?>
+                                                    @endif
                                                     @endforeach
-                                                @endif
+                                                    @endforeach
+                                                    @endif
                                                     {!! Form::checkbox('additional_'.str_replace(' ', '_',
-                                                    strtolower($fun_key)).'[]',$pac_key, $isCheckedif, ['data-function' =>
+                                                    strtolower($fun_key)).'[]',$pac_key, $isCheckedif, ['data-function'
+                                                    =>
                                                     $fun_key, 'class' => 'form-check-input']) !!}
                                                     {{ Form::label($pac_key, $pac_key, ['class' => 'form-check-label']) }}
                                                 </div>
@@ -421,13 +436,14 @@ $eventdoc = App\Models\EventDoc::where('event_id',$meeting->id)->get();
                                             @endif
 
                                         </div>
-                                        <div class ="col-12">
+                                        <div class="col-12">
                                             <div class="form-group">
 
-                                              <label><b>Food Description</b></label>
-                                                <textarea name="food_package_description" rows="4"class="form-control">{{ $meeting->food_description ?? ''}}</textarea>
-                                                        </div>
-                                            </div>      
+                                                <label><b>Food Description</b></label>
+                                                <textarea name="food_package_description" rows="4"
+                                                    class="form-control">{{ $meeting->food_description ?? ''}}</textarea>
+                                            </div>
+                                        </div>
                                         <div class="col-12">
                                             <div class="row">
                                                 <label><b>Setup</b></label>
@@ -447,202 +463,271 @@ $eventdoc = App\Models\EventDoc::where('event_id',$meeting->id)->get();
                                                 @endforeach
                                             </div>
                                         </div>
-                                        <!-- <div class="row">
-                                                    <label><b>Upload Setup plan</b></label>
-                                                    <div class="col-12">
-                                                        <input accept="image/*" type='file' id="imgInp"
-                                                            class="form-control" name = "setupplans"/>
-                                                    </div>
-                                                    <div class="col-12 mt-5">
-                                                        <img id="blah" src="{{ Storage::url('app/public/'.$meeting->setup_plans) }}" alt=" Preview" class="form-control" value= ""/>
-                                                    </div>
-                                                </div> -->
-                                                <div class="col-12 mt-4">
-    <div class="form-group">
-        <label><b>Upload Setup</b></label>
-        <input type='file' id="imgInp" class="form-control" name="setupplans"/>
-    </div>
-</div>
+                                        
+                                        <div class="col-12 mt-4">
+                                            <div class="form-group">
+                                                <label><b>Upload Setup</b></label>
+                                                <input type='file' id="imgInp" class="form-control" name="setupplans[]"
+                                                    multiple />
+                                            </div>
+                                        </div>
+                                        <?php $setups = App\Models\Setuplans::where('event_id',$meeting->id)->exists(); ?>
 
-<div class="col-12" id="previewDiv" >
-    <div class="form-group position-relative">
-        <img id="blah" src="{{ Storage::url('app/public/'.$meeting->setup_plans) }}" alt="Preview" class="form-control" />
-        <button type="button" id="removeImg" class="btn btn-danger position-absolute" >&times;</button>
-    </div>
-</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="special_req" class="card">
-                            <div class="col-md-12">
-                                <div class="card-header">
-                                    <div class="row">
-                                        <div class="col-lg-8 col-md-8 col-sm-8">
-                                            <h5>{{ __('Any Special Requirements') }}</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="form-group">
-                                            {{Form::label('rooms',__('Room'),['class'=>'form-label']) }}
-                                            <input type="number" name="rooms" min=0 class="form-control"
-                                                value="{{$meeting->room}}">
-                                        </div>
-                                        <div class="col-6 need_full">
-                                            <div class="form-group">
-                                                {!! Form::label('meal', 'Meal Preference') !!}
-                                               
-                                                @foreach($meal as $key => $label)
-                                                <div>
-                                                    {{ Form::radio('meal', $label , false, ['id' => $label]) }}
-                                                    {{ Form::label('meal' . ($key + 1), $label) }}
-                                                </div>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                        <div class="col-6 need_full">
-                                            <div class="form-group">
-                                                {!! Form::label('baropt', 'Bar') !!}
-                                                @foreach($baropt as $key => $label)
-                                                <div>
-                                                    {{ Form::radio('baropt', $label,isset($meeting->bar) && $meeting->bar == $label ? true :false, ['id' => $label]) }}
-                                                    {{ Form::label('baropt' . ($key + 1), $label) }}
-                                                </div>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                        <div class="col-6 need_full" id="barpacakgeoptions" style="display: none;">
-                                            @if(isset($bar_package) && !empty($bar_package))
-                                            @foreach($bar_package as $key =>$value)
-                                            <div class="form-group" data-main-index="{{$key}}"
-                                                data-main-value="{{$value['bar']}}">
-                                                {{ Form::label('bar', __($value['bar']), ['class' => 'form-label']) }}
-                                                @foreach($value['barpackage'] as $k => $bar)
-                                                <?php $checkedif = false; ?>
-                                                <div class="form-check" data-main-index="{{$k}}"
-                                                    data-main-package="{{$bar}}">
-                                                    @if($selectedPackages)    
-                                                    @if(isset($selectedPackages[$value['bar']]) && $selectedPackages[$value['bar']] == $bar)
-                                                        <?php $checkedif = true; ?>
-                                                    @endif
+                                        <div class="col-12" id="previewDiv">
+                                            @if($setups)
+                                            @foreach($setupplanss as $setup_plan)
+                                            <?php $setupname = explode('/', $setup_plan->setup_docs); ?>
+                                            <div class="form-group position-relative setup-item"
+                                                style="border: 1px solid; padding: 40px; margin-bottom: 20px;">
+                                                @if(in_array(pathinfo($setupname[1], PATHINFO_EXTENSION), ['png',
+                                                'jpg']))
+                                                <img src="{{ Storage::url('app/public/'.$setup_plan->setup_docs) }}"
+                                                    style="width: 70%;" alt="">
+                                                @elseif(pathinfo($setupname[1], PATHINFO_EXTENSION) == 'pdf')
+                                                <a href="{{ Storage::url('app/public/'.$setup_plan->setup_docs) }}"
+                                                    download>
+                                                    <img src="{{ asset('extension_img/pdf.png') }}" alt=""
+                                                        style="width: 10%;">
+                                                </a>
+                                                @elseif(in_array(pathinfo($setupname[1], PATHINFO_EXTENSION), ['doc',
+                                                'docs']))
+                                                <a href="{{ Storage::url('app/public/'.$setup_plan->setup_docs) }}"
+                                                    download>
+                                                    <img src="{{ asset('extension_img/doc.png') }}" alt=""
+                                                        style="width: 10%;">
+                                                </a>
                                                 @endif
-                                                    {!! Form::radio('bar'.'_'.str_replace(' ', '',
-                                                    strtolower($value['bar'])), $bar, $checkedif, ['id' => 'bar_' . $key.$k,
-                                                    'data-function' => $value['bar'], 'class' => 'form-check-input'])
-                                                    !!}
-                                                    {{ Form::label($bar, $bar, ['class' => 'form-check-label']) }}
-                                                </div>
-                                                @endforeach
+                                                <button type="button" class="btn btn-danger remove-setup"
+                                                    data-setup-id="{{ $setup_plan->id }}">&times;</button>
                                             </div>
                                             @endforeach
                                             @endif
                                         </div>
-                                        <div class ="col-12">
-                                           <div class="form-group"> 
-                                              <label><b>Bar Description</b></label>
-                                                <textarea name="bar_package_description" rows="4"class="form-control">{{$meeting->bar_description ?? ''}}</textarea>
-                                            </div>
-                                            </div>
-
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                {{Form::label('spcl_request',__('Special Requests / Considerations'),['class'=>'form-label']) }}
-                                                {{Form::text('spcl_request',null,array('class'=>'form-control'))}}
-                                            </div>
-                                        </div>
+                                    <div  class="col-12">
+                                        <img id="blah" src="#" alt="Preview" class="form-control"
+                                            style="display:none;width:30%" />
+                                        <button type="button" id="remove-preview"
+                                            class="btn btn-danger position-absolute "
+                                            style="display:none;">&times;</button>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div id="other_info" class="card">
-                            <div class="col-md-12">
-                                <div class="card-header">
-                                    <div class="row">
-                                        <div class="col-lg-8 col-md-8 col-sm-8">
-                                            <h5>{{ __('Other Information') }}</h5>
+                            <div id="special_req" class="card">
+                                <div class="col-md-12">
+                                    <div class="card-header">
+                                        <div class="row">
+                                            <div class="col-lg-8 col-md-8 col-sm-8">
+                                                <h5>{{ __('Any Special Requirements') }}</h5>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-12">
+                                    <div class="card-body">
+                                        <div class="row">
                                             <div class="form-group">
-                                                {{Form::label('allergies',__('Allergies'),['class'=>'form-label']) }}
-                                                {{Form::text('allergies',null,array('class'=>'form-control','placeholder'=>__('Enter Allergies(if any)')))}}
+                                                {{Form::label('rooms',__('Room'),['class'=>'form-label']) }}
+                                                <input type="number" name="rooms" min=0 class="form-control"
+                                                    value="{{$meeting->room}}">
                                             </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                {{Form::label('atttachment',__('Attachments (If Any)'),['class'=>'form-label']) }}
-                                                <input type="file" name="atttachment" id="atttachment"
-                                                    class="form-control">
+                                            <div class="col-6 need_full">
+                                                <div class="form-group">
+                                                    {!! Form::label('meal', 'Meal Preference') !!}
 
-                                            </div>
-                                        </div>
-                                        @if(isset($eventdoc) && !empty($eventdoc))
-                                        <div class="col-lg-12">
-                                            <div class="card" id="useradd-1">
-                                                <div class="card-body table-border-style">
-                                                
-                                                    <h3>Attachments</h3>
-                                                    <hr>
-                                                    <div class="col-md-12" style="display:flex;">
-                                                        <table class="table table-bordered">
-                                                            <thead>
-                                                                <th>Attachment</th>
-                                                                <th>Action</th>
-                                                            </thead>
-                                                            <tbody>
-                                                                @foreach ($eventdoc as $file)
-                                                                <?php $fname = 'app/public/Event/'.$meeting->id.'/'.$file->filename ;?>
-                                                                <tr>
-                                                                    <td>{{ ucfirst($file->filename) }}</td>
-                                                                    <td>
-                                                                        <a href="{{ Storage::url($fname) }}" download
-                                                                            style=" position: absolute;color: #1551c9 !important">
-                                                                            View Document</a>
-                                                                    </td>
-                                                                    <td>        
-                                                                        <button type="button" id="removedoc" data-main-value="{{$file->filename}}" class="btn btn-danger" title="Delete" ><i class="fa fa-trash"></i></button>
-                                                                    </td>
-                                                                </tr>
-                                                                @endforeach
-                                                            </tbody>
-                                                        </table>
+                                                    @foreach($meal as $key => $label)
+                                                    <div>
+                                                        {{ Form::radio('meal', $label , false, ['id' => $label]) }}
+                                                        {{ Form::label('meal' . ($key + 1), $label) }}
                                                     </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+
+                                            <div class="col-6 need_full">
+                                                <div class="form-group">
+                                                    {!! Form::label('baropt', 'Bar') !!}
+                                                    @foreach($baropt as $key => $label)
+                                                    <div>
+                                                        {{ Form::radio('baropt', $label, isset($meeting->bar) && $meeting->bar == $label ? true : false, ['id' => $label, 'class' => 'baropt-radio']) }}
+                                                        {{ Form::label('baropt' . ($key + 1), $label) }}
+                                                    </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                            <div class="col-6 need_full" id="barpacakgeoptions" style="display: none;">
+                                                @if(isset($bar_package) && !empty($bar_package))
+                                                @foreach($bar_package as $key =>$value)
+                                                <div class="form-group" data-main-index="{{$key}}"
+                                                    data-main-value="{{$value['bar']}}">
+                                                    {{ Form::label('bar', __($value['bar']), ['class' => 'form-label']) }}
+                                                    @foreach($value['barpackage'] as $k => $bar)
+                                                    <?php $checkedif = false; ?>
+                                                    <div class="form-check" data-main-index="{{$k}}"
+                                                        data-main-package="{{$bar}}">
+                                                        @if($selectedPackages)
+                                                        @if(isset($selectedPackages[$value['bar']]) &&
+                                                        $selectedPackages[$value['bar']] == $bar)
+                                                        <?php $checkedif = true; ?>
+                                                        @endif
+                                                        @endif
+                                                        {!! Form::checkbox('bar'.'_'.str_replace(' ', '',
+                                                        strtolower($value['bar'])), $bar, $checkedif, ['id' => 'bar_' .
+                                                        $key.$k, 'data-function' => $value['bar'], 'class' =>
+                                                        'form-check-input single-select']) !!}
+                                                        {{ Form::label($bar, $bar, ['class' => 'form-check-label']) }}
+                                                    </div>
+                                                    @endforeach
+                                                </div>
+                                                @endforeach
+                                                @endif
+                                            </div>
+
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label><b>Bar Description</b></label>
+                                                    <textarea name="bar_package_description" rows="4"
+                                                        class="form-control">{{$meeting->bar_description ?? ''}}</textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    {{Form::label('spcl_request',__('Special Requests / Considerations'),['class'=>'form-label']) }}
+                                                    {{Form::text('spcl_request',null,array('class'=>'form-control'))}}
                                                 </div>
                                             </div>
                                         </div>
-                                        @endif
                                     </div>
                                 </div>
-                                <div class="card-footer text-end">
-                                    {{ Form::submit(__('Save Changes'), ['class' => 'btn  btn-primary ']) }}
+                            </div>
+                            <div id="other_info" class="card">
+                                <div class="col-md-12">
+                                    <div class="card-header">
+                                        <div class="row">
+                                            <div class="col-lg-8 col-md-8 col-sm-8">
+                                                <h5>{{ __('Other Information') }}</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    {{Form::label('allergies',__('Allergies'),['class'=>'form-label']) }}
+                                                    {{Form::text('allergies',null,array('class'=>'form-control','placeholder'=>__('Enter Allergies(if any)')))}}
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    {{Form::label('atttachment',__('Attachments (If Any)'),['class'=>'form-label']) }}
+                                                    <input type="file" name="atttachment" id="atttachment"
+                                                        class="form-control">
+
+                                                </div>
+                                            </div>
+                                            @if(isset($eventdoc) && !empty($eventdoc))
+                                            <div class="col-lg-12">
+                                                <div class="card" id="useradd-1">
+                                                    <div class="card-body table-border-style">
+
+                                                        <h3>Attachments</h3>
+                                                        <hr>
+                                                        <div class="col-md-12" style="display:flex;">
+                                                            <table class="table table-bordered">
+                                                                <thead>
+                                                                    <th>Attachment</th>
+                                                                    <th>Action</th>
+                                                                </thead>
+                                                                <tbody>
+                                                                    @foreach ($eventdoc as $file)
+                                                                    <?php $fname = 'app/public/Event/'.$meeting->id.'/'.$file->filename ;?>
+                                                                    <tr>
+                                                                        <td>{{ ucfirst($file->filename) }}</td>
+                                                                        <td>
+                                                                            <a href="{{ Storage::url($fname) }}"
+                                                                                download
+                                                                                style=" position: absolute;color: #1551c9 !important">
+                                                                                View Document</a>
+                                                                        </td>
+                                                                        <td>
+                                                                            <button type="button" id="removedoc"
+                                                                                data-main-value="{{$file->filename}}"
+                                                                                class="btn btn-danger" title="Delete"><i
+                                                                                    class="fa fa-trash"></i></button>
+                                                                        </td>
+                                                                    </tr>
+                                                                    @endforeach
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="card-footer text-end">
+                                        {{ Form::submit(__('Save Changes'), ['class' => 'btn  btn-primary ']) }}
+                                    </div>
                                 </div>
                             </div>
+                            {{ Form::close() }}
                         </div>
-                        {{ Form::close() }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-@endsection
-@push('script-page')
-<style>
-.iti.iti--allow-dropdown.iti--separate-dial-code {
-    width: 100%;
-}
-</style>
-<script>
-      $('#removedoc').click(function(event) {
-        
-        var filename=  $(this).data('main-value');
-      
+    @endsection
+    @push('script-page')
+    <style>
+    .iti.iti--allow-dropdown.iti--separate-dial-code {
+        width: 100%;
+    }
+    </style>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const checkboxes = document.querySelectorAll('.single-select');
+        const baroptRadios = document.querySelectorAll('.baropt-radio');
+
+        // Function to uncheck all checkboxes
+        function uncheckAllCheckboxes() {
+            checkboxes.forEach(function(checkbox) {
+                checkbox.checked = false;
+            });
+        }
+
+        // Add event listener to baropt radio buttons
+        baroptRadios.forEach(function(radio) {
+            radio.addEventListener('change', function() {
+                if (this.value !==
+                    'package choice'
+                ) { // Replace 'package choice' with the actual value to check
+                    uncheckAllCheckboxes();
+                }
+            });
+        });
+
+        // Add event listener to checkboxes for single selection behavior
+        checkboxes.forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                const group = this.getAttribute('data-function');
+                const groupCheckboxes = document.querySelectorAll(
+                    `input[data-function='${group}']`);
+
+                groupCheckboxes.forEach(function(cb) {
+                    if (cb !== checkbox) {
+                        cb.checked = false;
+                    }
+                });
+            });
+        });
+    });
+
+    $('#removedoc').click(function(event) {
+
+        var filename = $(this).data('main-value');
+
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: 'btn btn-success',
@@ -665,15 +750,15 @@ $eventdoc = App\Models\EventDoc::where('event_id',$meeting->id)->get();
                     url: "{{ route('meeting.removeattachment',$meeting->id) }}",
                     data: {
                         "filename": filename,
-                "_token": "{{ csrf_token() }}",
+                        "_token": "{{ csrf_token() }}",
                     },
-                    success: function (result) {
+                    success: function(result) {
                         // console.log(result);
                         if (result == true) {
                             swal.fire("Done!", result.message, "success");
-                            setTimeout(function(){
+                            setTimeout(function() {
                                 location.reload();
-                            },1000);
+                            }, 1000);
                         } else {
                             swal.fire("Error!", result.message, "error");
                         }
@@ -682,55 +767,101 @@ $eventdoc = App\Models\EventDoc::where('event_id',$meeting->id)->get();
             }
         })
     });
-    // $('#removedoc').click(function(){
-    //    var filename=  $(this).data('main-value');
-    //    $.ajax({
-    //         url: "{{ route('meeting.removeattachment',$meeting->id) }}",
-    //         type: 'POST',
-    //         data: {
-    //             "filename": filename,
-    //             "_token": "{{ csrf_token() }}",
-    //         },
-    //         success: function(data) {
-    //           console.log(data);
-    //         }
-    //     });
-    // })
-document.getElementById('imgInp').onchange = function(evt) {
-    const [file] = this.files;
-    const previewDiv = document.getElementById('previewDiv');
-    const blah = document.getElementById('blah');
 
-    if (file) {
-        const fileName = file.name.toLowerCase();
-        const fileExtension = fileName.split('.').pop();
-        // if (fileExtension === 'png' || fileExtension === 'pdf') {
-            if (fileExtension === 'png' || fileExtension === 'jpg'  ) {
-                blah.src = URL.createObjectURL(file);
-                previewDiv.style.display = 'block';
-            } else {
-                // Handle PDF file case here if needed
-                console.log('The file is a PDF.');
-                blah.src = '#'; // or some placeholder for PDF
-                previewDiv.style.display = 'none';
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        const imgInp = document.getElementById('imgInp');
+        const previewDiv = document.getElementById('previewDiv');
+        const blah = document.getElementById('blah');
+        const removePreviewButton = document.getElementById('remove-preview');
+
+        imgInp.addEventListener('change', function() {
+            const [file] = imgInp.files;
+            if (file) {
+                const fileName = file.name.toLowerCase();
+                const fileExtension = fileName.split('.').pop();
+                // if (fileExtension === 'png' || fileExtension === 'pdf') {
+                if (fileExtension == 'png' || fileExtension == 'jpg') {
+                    blah.src = URL.createObjectURL(file);
+                    previewDiv.style.display = 'block';
+                } else {
+                    // Handle PDF file case here if needed
+                    console.log('The file is a PDF.');
+                    blah.src = '#'; // or some placeholder for PDF
+                    previewDiv.style.display = 'none';
+                }
             }
-    } else {
-        blah.src = '#';
-        previewDiv.style.display = 'none';
-    }
-};
+        });
 
-document.getElementById('removeImg').onclick = function() {
-    const imgInp = document.getElementById('imgInp');
-    const previewDiv = document.getElementById('previewDiv');
-    const blah = document.getElementById('blah');
+        removePreviewButton.addEventListener('click', function() {
+            blah.src = '#';
+            blah.style.display = 'none';
+            removePreviewButton.style.display = 'none';
+            imgInp.value = ''; // Clear the file input
+        });
 
-    imgInp.value = ''; // Clear the file input
-    blah.src = '#'; // Reset the image source
-    previewDiv.style.display = 'none'; // Hide the preview div
-};
-</script>
-<!-- <script>
+        previewDiv.addEventListener('click', function(event) {
+            if (event.target.classList.contains('remove-setup')) {
+                const setupId = event.target.getAttribute('data-setup-id');
+                removeSetup(setupId, event.target);
+            }
+        });
+
+        function removeSetup(setupId, button) {
+            const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success',
+                cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
+        })
+        swalWithBootstrapButtons.fire({
+            title: 'Are you sure?',
+            text: "This action can not be undone. Do you want to continue?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+            fetch('{{route("meeting.removesetup",$meeting->id)}}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                            'content')
+                    },
+                    body: JSON.stringify({
+                        setup_id: setupId
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const setupDiv = button.closest('.setup-item');
+                        setupDiv.remove();
+                            swal.fire("Done!", data.message, "success");
+                            setTimeout(function() {
+                                location.reload();
+                            }, 1000);
+                        } else {
+                            swal.fire("Error!", data.message, "error");
+                        }
+                    // if (data.success) {
+                    //     const setupDiv = button.closest('.setup-item');
+                    //     setupDiv.remove();
+                    // } else {
+                    //     alert('Failed to remove setup. Please try again.');
+                    // }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        })
+        }
+    });
+    </script>
+    <!-- <script>
 imgInp.onchange = evt => {
     const [file] = imgInp.files
     if (file) {
@@ -738,230 +869,201 @@ imgInp.onchange = evt => {
     }
 }
 </script> -->
-<script>
 
-function validateCheckboxGroup(groupName) {
-    var checkboxes = $("input[name='" + groupName + "']");
-    var isChecked = checkboxes.is(":checked");
-    var errorMessage = '';
-    if (!isChecked) {
+    <script>
+    function validateCheckboxGroup(groupName) {
+        var checkboxes = $("input[name='" + groupName + "']");
+        var isChecked = checkboxes.is(":checked");
+        var errorMessage = '';
+        if (!isChecked) {
             if (checkboxes.attr('type') === 'checkbox') {
                 errorMessage = 'At least one ' + groupName.replace('[]', '') + ' must be selected.';
             } else if (checkboxes.attr('type') === 'radio') {
                 errorMessage = 'Please select one ' + groupName.replace('[]', '') + '.';
             }
         }
-    // if (!isChecked) {
-    //     errorMessage = 'At least one ' + groupName.replace('[]', '') + ' must be selected.';
-    // }
+        // if (!isChecked) {
+        //     errorMessage = 'At least one ' + groupName.replace('[]', '') + ' must be selected.';
+        // }
 
-    // Remove any existing error message
-    checkboxes.closest('.form-group').find('.validation-error').remove();
+        // Remove any existing error message
+        checkboxes.closest('.form-group').find('.validation-error').remove();
 
-    // Append the error message if it exists
-    if (errorMessage != '') {
-        checkboxes.closest('.form-group').append(
-            '<div class="validation-error text-danger" style="padding:2px;">' +
-            errorMessage + '</div>');
+        // Append the error message if it exists
+        if (errorMessage != '') {
+            checkboxes.closest('.form-group').append(
+                '<div class="validation-error text-danger" style="padding:2px;">' +
+                errorMessage + '</div>');
+        }
     }
-}
-$(document).ready(function() {
-    // Attach a keyup event listener to input fields
-    $('input').on('keyup', function() {
-        // Get the input value
-        var value = $(this).val();
-        // Check if the input value contains spaces
-        if (value.indexOf(' ') !== -1) {
-            // Display validation message
-            $('#validationMessage').text('Spaces are not allowed in this field').show();
-        } else {
-            // Hide validation message if no spaces are found
-            $('#validationMessage').hide();
+    $(document).ready(function() {
+        // Attach a keyup event listener to input fields
+        $('input').on('keyup', function() {
+            // Get the input value
+            var value = $(this).val();
+            // Check if the input value contains spaces
+            if (value.indexOf(' ') !== -1) {
+                // Display validation message
+                $('#validationMessage').text('Spaces are not allowed in this field').show();
+            } else {
+                // Hide validation message if no spaces are found
+                $('#validationMessage').hide();
+            }
+        });
+    });
+    $('#formdata').on('submit', function(event) {
+        let isValid = true;
+
+        // Remove previous error messages
+        $('.error-message').remove();
+
+        // Function to display error messages
+        function displayError(inputId, message) {
+            $(`<span class="error-message">${message}</span>`).insertAfter(`#${inputId}`);
+        }
+
+
+        // Name validation
+        let name = $('#name').val().trim();
+        if (name === '') {
+            displayError('name', 'Name is required and must not contain only spaces.');
+            isValid = false;
+        }
+        let startTime = $('#start_time').val();
+        let endTime = $('#end_time').val();
+        if (startTime != '' && endTime <= startTime) {
+            displayError('end_time', 'End time must be after start time.');
+            isValid = false;
+        }
+
+        // Prevent form submission if any validation fails
+        if (!isValid) {
+            event.preventDefault();
         }
     });
-});
-$('#formdata').on('submit', function(event) {
-    let isValid = true;
+    $(document).ready(function() {
+        $("input[type='text'][name='lead_name'],input[type='text'][name='name'],input[type='text'][name='email'], select[name='type'],input[type='tel'][name='phone'],input[name='guest_count'],input[name='start_date'],input[name='start_time'],input[name='end_time'],input[type='checkbox']")
+            .focusout(function() {
 
-    // Remove previous error messages
-    $('.error-message').remove();
-
-    // Function to display error messages
-    function displayError(inputId, message) {
-        $(`<span class="error-message">${message}</span>`).insertAfter(`#${inputId}`);
-    }
-
-
-    // Name validation
-    let name = $('#name').val().trim();
-    if (name === '') {
-        displayError('name', 'Name is required and must not contain only spaces.');
-        isValid = false;
-    }
-    let startTime = $('#start_time').val();
-    let endTime = $('#end_time').val();
-    if (startTime != '' && endTime <= startTime) {
-        displayError('end_time', 'End time must be after start time.');
-        isValid = false;
-    }
-
-    // Prevent form submission if any validation fails
-    if (!isValid) {
-        event.preventDefault();
-    }
-});
-$(document).ready(function() {
-    $("input[type='text'][name='lead_name'],input[type='text'][name='name'],input[type='text'][name='email'], select[name='type'],input[type='tel'][name='phone'],input[name='guest_count'],input[name='start_date'],input[name='start_time'],input[name='end_time'],input[type='checkbox']")
-        .focusout(function() {
-
-            var input = $(this);
-            var errorMessage = '';
-            if (input.attr('name') === 'email' && input.val() !== '') {
-                var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!emailPattern.test(input.val())) {
-                    errorMessage = 'Invalid email address.';
+                var input = $(this);
+                var errorMessage = '';
+                if (input.attr('name') === 'email' && input.val() !== '') {
+                    var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailPattern.test(input.val())) {
+                        errorMessage = 'Invalid email address.';
+                    }
+                } else if (input.val() == '') {
+                    errorMessage = 'This field is required.';
                 }
-            } else if (input.val() == '') {
-                errorMessage = 'This field is required.';
-            }
 
-            if (errorMessage != '') {
-                input.css('border', 'solid 2px red');
-            } else {
-                // If it is not blank. 
-                input.css('border', 'solid 2px black');
-            }
+                if (errorMessage != '') {
+                    input.css('border', 'solid 2px red');
+                } else {
+                    // If it is not blank. 
+                    input.css('border', 'solid 2px black');
+                }
 
-            // Remove any existing error message
-            input.next('.validation-error').remove();
+                // Remove any existing error message
+                input.next('.validation-error').remove();
 
-            // Append the error message if it exists
-            if (errorMessage != '') {
-                input.after('<div class="validation-error text-danger" style="padding:2px;">' +
-                    errorMessage + '</div>');
-            }
-            $("input[name='user[]']").change(validateCheckboxGroup('user[]'));
-            $("input[name='user[]']").focusout(validateCheckboxGroup('user[]'));
-            $("input[name='venue[]']").change(validateCheckboxGroup('venue[]'));
-            $("input[name='venue[]']").focusout(validateCheckboxGroup('venue[]'));
-            $("input[name='function[]']").change(validateCheckboxGroup('function[]'));
-            $("input[name='function[]']").focusout(validateCheckboxGroup('function[]'));
-            $("input[type='radio'][name='meal']").focusout(validateInputGroup('meal'));
-            $("input[type='radio'][name='meal']").change(validateInputGroup('meal'));
-});
-});
-</script>
-<script>
-$(document).ready(function() {
-    var phoneNumber = "<?php echo $meeting->phone;?>";
-    var num = phoneNumber.trim();
-    // if (phoneNumber.trim().length < 10) {
-    //     alert('Please enter a valid phone number with at least 10 digits.');
-    //     return;
-    // }
-    var lastTenDigits = phoneNumber.substr(-10);
-    var formattedPhoneNumber = '(' + lastTenDigits.substr(0, 3) + ') ' + lastTenDigits.substr(3, 3) + '-' +
-        lastTenDigits.substr(6);
-    $('#phone-input').val(formattedPhoneNumber);
-})
-</script>
-<script>
-$(document).ready(function() {
-    var input = document.querySelector("#phone-input");
-    var iti = window.intlTelInput(input, {
-        separateDialCode: true,
+                // Append the error message if it exists
+                if (errorMessage != '') {
+                    input.after('<div class="validation-error text-danger" style="padding:2px;">' +
+                        errorMessage + '</div>');
+                }
+                $("input[name='user[]']").change(validateCheckboxGroup('user[]'));
+                $("input[name='user[]']").focusout(validateCheckboxGroup('user[]'));
+                $("input[name='venue[]']").change(validateCheckboxGroup('venue[]'));
+                $("input[name='venue[]']").focusout(validateCheckboxGroup('venue[]'));
+                $("input[name='function[]']").change(validateCheckboxGroup('function[]'));
+                $("input[name='function[]']").focusout(validateCheckboxGroup('function[]'));
+                $("input[type='radio'][name='meal']").focusout(validateInputGroup('meal'));
+                $("input[type='radio'][name='meal']").change(validateInputGroup('meal'));
+            });
     });
-
-    var indiaCountryCode = iti.getSelectedCountryData().iso2;
-    var countryCode = iti.getSelectedCountryData().dialCode;
-    $('#country-code').val(countryCode);
-    if (indiaCountryCode !== 'us') {
-        iti.setCountry('us');
-    }
-});
-
-</script>
-<script>
-const isNumericInput = (event) => {
-    const key = event.keyCode;
-    return ((key >= 48 && key <= 57) || // Allow number line
-        (key >= 96 && key <= 105) // Allow number pad
-    );
-};
-const isModifierKey = (event) => {
-    const key = event.keyCode;
-    return (event.shiftKey === true || key === 35 || key === 36) || // Allow Shift, Home, End
-        (key === 8 || key === 9 || key === 13 || key === 46) || // Allow Backspace, Tab, Enter, Delete
-        (key > 36 && key < 41) || // Allow left, up, right, down
-        (
-            // Allow Ctrl/Command + A,C,V,X,Z
-            (event.ctrlKey === true || event.metaKey === true) &&
-            (key === 65 || key === 67 || key === 86 || key === 88 || key === 90)
-        )
-};
-const enforceFormat = (event) => {
-    // Input must be of a valid number format or a modifier key, and not longer than ten digits
-    if (!isNumericInput(event) && !isModifierKey(event)) {
-        event.preventDefault();
-    }
-};
-const formatToPhone = (event) => {
-    if (isModifierKey(event)) {
-        return;
-    }
-    // I am lazy and don't like to type things more than once
-    const target = event.target;
-    const input = event.target.value.replace(/\D/g, '').substring(0, 10); // First ten digits of input only
-    const zip = input.substring(0, 3);
-    const middle = input.substring(3, 6);
-    const last = input.substring(6, 10);
-
-    if (input.length > 6) {
-        target.value = `(${zip}) ${middle} - ${last}`;
-    } else if (input.length > 3) {
-        target.value = `(${zip}) ${middle}`;
-    } else if (input.length > 0) {
-        target.value = `(${zip}`;
-    }
-};
-const inputElement = document.getElementById('phone-input');
-inputElement.addEventListener('keydown', enforceFormat);
-inputElement.addEventListener('keyup', formatToPhone);
-</script>
-<script>
-var scrollSpy = new bootstrap.ScrollSpy(document.body, {
-    target: '#useradd-sidenav',
-    offset: 300
-})
-$(document).ready(function() {
-    $('div#mailFunctionSection > div').hide();
-    $('input[name="function[]"]:checked').each(function() {
-        var funVal = $(this).val();
-        $('div#mailFunctionSection > div').each(function() {
-            var attr_value = $(this).data('main-value');
-            if (attr_value == funVal) {
-                $(this).show();
-            }
+    </script>
+    <script>
+    $(document).ready(function() {
+        var phoneNumber = "<?php echo $meeting->phone;?>";
+        var num = phoneNumber.trim();
+        // if (phoneNumber.trim().length < 10) {
+        //     alert('Please enter a valid phone number with at least 10 digits.');
+        //     return;
+        // }
+        var lastTenDigits = phoneNumber.substr(-10);
+        var formattedPhoneNumber = '(' + lastTenDigits.substr(0, 3) + ') ' + lastTenDigits.substr(3, 3) + '-' +
+            lastTenDigits.substr(6);
+        $('#phone-input').val(formattedPhoneNumber);
+    })
+    </script>
+    <script>
+    $(document).ready(function() {
+        var input = document.querySelector("#phone-input");
+        var iti = window.intlTelInput(input, {
+            separateDialCode: true,
         });
-    });
-    $('div#additionalSection > div').hide();
-    $('div#mailFunctionSection input[type=checkbox]:checked').each(function() {
-        var funcValue = $(this).val();
-        $('div#additionalSection > div').each(function() {
-            var ad_val = $(this).data('additional-index');
-            if (funcValue == ad_val) {
-                $(this).show();
-            }
-        });
-    });
-    var selectedValue = $('input[name="bar"]:checked').val();
-    if (selectedValue == 'Package Choice') {
-        $('#package').show();
-    }
-});
 
-jQuery(function() {
-    $('input[name="function[]"]').change(function() {
+        var indiaCountryCode = iti.getSelectedCountryData().iso2;
+        var countryCode = iti.getSelectedCountryData().dialCode;
+        $('#country-code').val(countryCode);
+        if (indiaCountryCode !== 'us') {
+            iti.setCountry('us');
+        }
+    });
+    </script>
+    <script>
+    const isNumericInput = (event) => {
+        const key = event.keyCode;
+        return ((key >= 48 && key <= 57) || // Allow number line
+            (key >= 96 && key <= 105) // Allow number pad
+        );
+    };
+    const isModifierKey = (event) => {
+        const key = event.keyCode;
+        return (event.shiftKey === true || key === 35 || key === 36) || // Allow Shift, Home, End
+            (key === 8 || key === 9 || key === 13 || key === 46) || // Allow Backspace, Tab, Enter, Delete
+            (key > 36 && key < 41) || // Allow left, up, right, down
+            (
+                // Allow Ctrl/Command + A,C,V,X,Z
+                (event.ctrlKey === true || event.metaKey === true) &&
+                (key === 65 || key === 67 || key === 86 || key === 88 || key === 90)
+            )
+    };
+    const enforceFormat = (event) => {
+        // Input must be of a valid number format or a modifier key, and not longer than ten digits
+        if (!isNumericInput(event) && !isModifierKey(event)) {
+            event.preventDefault();
+        }
+    };
+    const formatToPhone = (event) => {
+        if (isModifierKey(event)) {
+            return;
+        }
+        // I am lazy and don't like to type things more than once
+        const target = event.target;
+        const input = event.target.value.replace(/\D/g, '').substring(0, 10); // First ten digits of input only
+        const zip = input.substring(0, 3);
+        const middle = input.substring(3, 6);
+        const last = input.substring(6, 10);
+
+        if (input.length > 6) {
+            target.value = `(${zip}) ${middle} - ${last}`;
+        } else if (input.length > 3) {
+            target.value = `(${zip}) ${middle}`;
+        } else if (input.length > 0) {
+            target.value = `(${zip}`;
+        }
+    };
+    const inputElement = document.getElementById('phone-input');
+    inputElement.addEventListener('keydown', enforceFormat);
+    inputElement.addEventListener('keyup', formatToPhone);
+    </script>
+    <script>
+    var scrollSpy = new bootstrap.ScrollSpy(document.body, {
+        target: '#useradd-sidenav',
+        offset: 300
+    })
+    $(document).ready(function() {
         $('div#mailFunctionSection > div').hide();
         $('input[name="function[]"]:checked').each(function() {
             var funVal = $(this).val();
@@ -972,10 +1074,6 @@ jQuery(function() {
                 }
             });
         });
-    });
-});
-jQuery(function() {
-    $('div#mailFunctionSection input[type=checkbox]').change(function() {
         $('div#additionalSection > div').hide();
         $('div#mailFunctionSection input[type=checkbox]:checked').each(function() {
             var funcValue = $(this).val();
@@ -986,63 +1084,95 @@ jQuery(function() {
                 }
             });
         });
+        var selectedValue = $('input[name="bar"]:checked').val();
+        if (selectedValue == 'Package Choice') {
+            $('#package').show();
+        }
     });
-});
-jQuery(function() {
-    var selectedValue = $("input[name='baropt']:checked").val();
+
+    jQuery(function() {
+        $('input[name="function[]"]').change(function() {
+            $('div#mailFunctionSection > div').hide();
+            $('input[name="function[]"]:checked').each(function() {
+                var funVal = $(this).val();
+                $('div#mailFunctionSection > div').each(function() {
+                    var attr_value = $(this).data('main-value');
+                    if (attr_value == funVal) {
+                        $(this).show();
+                    }
+                });
+            });
+        });
+    });
+    jQuery(function() {
+        $('div#mailFunctionSection input[type=checkbox]').change(function() {
+            $('div#additionalSection > div').hide();
+            $('div#mailFunctionSection input[type=checkbox]:checked').each(function() {
+                var funcValue = $(this).val();
+                $('div#additionalSection > div').each(function() {
+                    var ad_val = $(this).data('additional-index');
+                    if (funcValue == ad_val) {
+                        $(this).show();
+                    }
+                });
+            });
+        });
+    });
+    jQuery(function() {
+        var selectedValue = $("input[name='baropt']:checked").val();
         if (selectedValue == 'Package Choice') {
             $('div#barpacakgeoptions').show();
         }
-    $('input[type=radio][name = baropt]').change(function() {
-        $('div#barpacakgeoptions').hide();
-        var value = $(this).val();
-        if (value == 'Package Choice') {
-            $('div#barpacakgeoptions').show();
-        }
+        $('input[type=radio][name = baropt]').change(function() {
+            $('div#barpacakgeoptions').hide();
+            var value = $(this).val();
+            if (value == 'Package Choice') {
+                $('div#barpacakgeoptions').show();
+            }
+        });
     });
-});
-</script>
+    </script>
 
-<script>
-document.getElementById('opencontact').addEventListener('click', function(event) {
-    var x = document.getElementById("contact-info");
-    if (x.style.display === "none") {
-        x.style.display = "block";
-    } else {
-        x.style.display = "none";
+    <script>
+    document.getElementById('opencontact').addEventListener('click', function(event) {
+        var x = document.getElementById("contact-info");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+        event.stopPropagation();
+        event.preventDefault();
+    });
+
+    function toggleDiv(value) {
+        var divId = value.toLowerCase();
+        var div = document.getElementById(divId);
+
+        if (div) {
+            div.style.display = document.getElementById(value).checked ? 'block' : 'none';
+        }
     }
-    event.stopPropagation();
-    event.preventDefault();
-});
-
-function toggleDiv(value) {
-    var divId = value.toLowerCase();
-    var div = document.getElementById(divId);
-
-    if (div) {
-        div.style.display = document.getElementById(value).checked ? 'block' : 'none';
-    }
-}
-$(document).ready(function() {
-    $('input[name="uploadedImage"]').each(function() {
-        if ($(this).prop('checked')) {
-            var imageId = $(this).attr('id');
-            $('label[for="' + imageId + '"] img').addClass('selected-image');
-        }
+    $(document).ready(function() {
+        $('input[name="uploadedImage"]').each(function() {
+            if ($(this).prop('checked')) {
+                var imageId = $(this).attr('id');
+                $('label[for="' + imageId + '"] img').addClass('selected-image');
+            }
+        });
     });
-});
-</script>
-<script>
-$(document).ready(function() {
-    $('input[name="uploadedImage"]').change(function() {
-        $('.floorimages').removeClass('selected-image');
+    </script>
+    <script>
+    $(document).ready(function() {
+        $('input[name="uploadedImage"]').change(function() {
+            $('.floorimages').removeClass('selected-image');
 
-        if ($(this).is(':checked')) {
-            var imageId = $(this).attr('id');
-            $('label[for="' + imageId + '"] img').addClass('selected-image');
-        }
+            if ($(this).is(':checked')) {
+                var imageId = $(this).attr('id');
+                $('label[for="' + imageId + '"] img').addClass('selected-image');
+            }
+        });
     });
-});
-</script>
+    </script>
 
-@endpush
+    @endpush

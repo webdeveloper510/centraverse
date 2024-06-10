@@ -24,6 +24,7 @@ $bar_package = json_decode($setting['barpackage'],true);
 if(isset($setting['additional_items']) && !empty($setting['additional_items'])){
 $additional_items = json_decode($setting['additional_items'],true);
 }
+$selectedPackages = json_decode($meeting->bar_package,true);
 $eventdoc = App\Models\EventDoc::where('event_id',$meeting->id)->get();
 
 ?>
@@ -462,12 +463,13 @@ $eventdoc = App\Models\EventDoc::where('event_id',$meeting->id)->get();
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </div>
                                         </div>
-                                        <div class="col-12 mt-4">
-    <div class="form-group">
+                                        <!-- <div class="col-12 mt-4"> -->
+    <!-- <div class="form-group">
         <label><b>Upload Setup</b></label>
         <input type='file' id="imgInp" class="form-control" name="setupplans"/>
-    </div>
-</div>
+    </div> -->
+<!-- </div> -->
+<!-- <?php if($meeting->setup_plans != ''): ?>
 <?php  $setupname = explode('/',$meeting->setup_plans) ?>
                                                                 <?php if(pathinfo($setupname[1], PATHINFO_EXTENSION) == 'png'|| pathinfo($setupname[1], PATHINFO_EXTENSION) == 'jpg'): ?>
 
@@ -481,25 +483,73 @@ $eventdoc = App\Models\EventDoc::where('event_id',$meeting->id)->get();
                                                                                 <img src="<?php echo e(asset('extension_img/pdf.png')); ?>" alt="" style="    width: 10%;">
                                                                             </a>
                                                                         <?php elseif(pathinfo($setupname[1], PATHINFO_EXTENSION) == 'doc'|| pathinfo($setupname[1], PATHINFO_EXTENSION) == 'docs'): ?>
-                                                                        <a href="<?php echo e(Storage::url('app/public/'.$event->meeting)); ?>" download>
+                                                                        <a href="<?php echo e(Storage::url('app/public/'.$meeting->setup_plans)); ?>" download>
                                                                                 <img src="<?php echo e(asset('extension_img/doc.png')); ?>" alt="" style="    width: 10%;">
                                                                             </a>
                                                                         <?php endif; ?>
                                                                         </li>
                                                                     </ul>
                                                                 <?php endif; ?>
+                                                                <?php endif; ?> -->
  <!-- -------- check the xtension and if image use img tag otherwise
                                                          shoe the preview of doc uploaded-->
-<div class="col-12" id="previewDiv" >
+<!-- <div class="col-12" id="previewDiv" >
     <div class="form-group position-relative">
         <img id="blah" src="<?php echo e(Storage::url('app/public/'.$meeting->setup_plans)); ?>" alt="Preview" class="form-control" />
         <button type="button" id="removeImg" class="btn btn-danger position-absolute" >&times;</button>
     </div>
-</div>
-                                    </div>
+</div> -->
+
+                                    <!-- </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
+                        <div class="col-12 mt-4">
+                                            <div class="form-group">
+                                                <label><b>Upload Setup</b></label>
+                                                <input type='file' id="imgInp" class="form-control" name="setupplans[]"
+                                                    multiple />
+                                            </div>
+                                        </div>
+                                        <?php $setups = App\Models\Setuplans::where('event_id',$meeting->id)->exists(); ?>
+
+                                        <div class="col-12" id="previewDiv">
+                                            <?php if($setups): ?>
+                                            <?php $__currentLoopData = $setupplanss; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $setup_plan): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php $setupname = explode('/', $setup_plan->setup_docs); ?>
+                                            <div class="form-group position-relative setup-item"
+                                                style="border: 1px solid; padding: 40px; margin-bottom: 20px;">
+                                                <?php if(in_array(pathinfo($setupname[1], PATHINFO_EXTENSION), ['png',
+                                                'jpg'])): ?>
+                                                <img src="<?php echo e(Storage::url('app/public/'.$setup_plan->setup_docs)); ?>"
+                                                    style="width: 70%;" alt="">
+                                                <?php elseif(pathinfo($setupname[1], PATHINFO_EXTENSION) == 'pdf'): ?>
+                                                <a href="<?php echo e(Storage::url('app/public/'.$setup_plan->setup_docs)); ?>"
+                                                    download>
+                                                    <img src="<?php echo e(asset('extension_img/pdf.png')); ?>" alt=""
+                                                        style="width: 10%;">
+                                                </a>
+                                                <?php elseif(in_array(pathinfo($setupname[1], PATHINFO_EXTENSION), ['doc',
+                                                'docs'])): ?>
+                                                <a href="<?php echo e(Storage::url('app/public/'.$setup_plan->setup_docs)); ?>"
+                                                    download>
+                                                    <img src="<?php echo e(asset('extension_img/doc.png')); ?>" alt=""
+                                                        style="width: 10%;">
+                                                </a>
+                                                <?php endif; ?>
+                                                <button type="button" class="btn btn-danger remove-setup"
+                                                    data-setup-id="<?php echo e($setup_plan->id); ?>">&times;</button>
+                                            </div>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                            <?php endif; ?>
+                                        </div>
+                                    <div  class="col-12">
+                                        <img id="blah" src="#" alt="Preview" class="form-control"
+                                            style="display:none;width:30%" />
+                                        <button type="button" id="remove-preview"
+                                            class="btn btn-danger position-absolute "
+                                            style="display:none;">&times;</button>
+                                    </div>
                         <div id="special_req" class="card">
                             <div class="col-md-12">
                                 <div class="card-header">
@@ -534,7 +584,7 @@ $eventdoc = App\Models\EventDoc::where('event_id',$meeting->id)->get();
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </div>
                                         </div>
-                                        <div class="col-6 need_full">
+                                        <!-- <div class="col-6 need_full">
                                             <div class="form-group">
                                                 <?php echo Form::label('baropt', 'Bar'); ?>
 
@@ -557,6 +607,50 @@ $eventdoc = App\Models\EventDoc::where('event_id',$meeting->id)->get();
                                                 <?php $__currentLoopData = $value['barpackage']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $k => $bar): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <div class="form-check" data-main-index="<?php echo e($k); ?>" data-main-package="<?php echo e($bar); ?>">
                                                     <?php echo Form::radio('bar'.'_'.str_replace(' ', '', strtolower($value['bar'])), $bar, false, ['id' => 'bar_' . $key.$k, 'data-function' => $value['bar'], 'class' => 'form-check-input']); ?>
+
+                                                    <?php echo e(Form::label($bar, $bar, ['class' => 'form-check-label'])); ?>
+
+                                                </div>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                            </div>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                            <?php endif; ?>
+                                        </div> -->
+                                        <div class="col-6 need_full">
+                                            <div class="form-group">
+                                                <?php echo Form::label('baropt', 'Bar'); ?>
+
+                                                <?php $__currentLoopData = $baropt; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $label): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <div>
+                                                    <?php echo e(Form::radio('baropt', $label, isset($meeting->bar) && $meeting->bar == $label ? true : false, ['id' => $label, 'class' => 'baropt-radio'])); ?>
+
+                                                    <?php echo e(Form::label('baropt' . ($key + 1), $label)); ?>
+
+                                                </div>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 need_full" id="barpacakgeoptions" style="display: none;">
+                                            <?php if(isset($bar_package) && !empty($bar_package)): ?>
+                                            <?php $__currentLoopData = $bar_package; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key =>$value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <div class="form-group" data-main-index="<?php echo e($key); ?>"
+                                                data-main-value="<?php echo e($value['bar']); ?>">
+                                                <?php echo e(Form::label('bar', __($value['bar']), ['class' => 'form-label'])); ?>
+
+                                                <?php $__currentLoopData = $value['barpackage']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $k => $bar): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <?php $checkedif = false; ?>
+                                                <div class="form-check" data-main-index="<?php echo e($k); ?>"
+                                                    data-main-package="<?php echo e($bar); ?>">
+                                                    <?php if($selectedPackages): ?>
+                                                    <?php if(isset($selectedPackages[$value['bar']]) &&
+                                                    $selectedPackages[$value['bar']] == $bar): ?>
+                                                    <?php $checkedif = true; ?>
+                                                    <?php endif; ?>
+                                                    <?php endif; ?>
+                                                    <?php echo Form::checkbox('bar'.'_'.str_replace(' ', '',
+                                                    strtolower($value['bar'])), $bar, $checkedif, ['id' => 'bar_' .
+                                                    $key.$k, 'data-function' => $value['bar'], 'class' =>
+                                                    'form-check-input single-select']); ?>
 
                                                     <?php echo e(Form::label($bar, $bar, ['class' => 'form-check-label'])); ?>
 
@@ -686,6 +780,134 @@ $eventdoc = App\Models\EventDoc::where('event_id',$meeting->id)->get();
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script-page'); ?>
 <script>
+         
+    document.addEventListener('DOMContentLoaded', function() {
+        const imgInp = document.getElementById('imgInp');
+        const previewDiv = document.getElementById('previewDiv');
+        const blah = document.getElementById('blah');
+        const removePreviewButton = document.getElementById('remove-preview');
+
+        imgInp.addEventListener('change', function() {
+            const [file] = imgInp.files;
+            if (file) {
+                const fileName = file.name.toLowerCase();
+                const fileExtension = fileName.split('.').pop();
+                // if (fileExtension === 'png' || fileExtension === 'pdf') {
+                if (fileExtension == 'png' || fileExtension == 'jpg') {
+                    blah.src = URL.createObjectURL(file);
+                    previewDiv.style.display = 'block';
+                } else {
+                    // Handle PDF file case here if needed
+                    console.log('The file is a PDF.');
+                    blah.src = '#'; // or some placeholder for PDF
+                    previewDiv.style.display = 'none';
+                }
+            }
+        });
+
+        removePreviewButton.addEventListener('click', function() {
+            blah.src = '#';
+            blah.style.display = 'none';
+            removePreviewButton.style.display = 'none';
+            imgInp.value = ''; // Clear the file input
+        });
+
+        previewDiv.addEventListener('click', function(event) {
+            if (event.target.classList.contains('remove-setup')) {
+                const setupId = event.target.getAttribute('data-setup-id');
+                removeSetup(setupId, event.target);
+            }
+        });
+
+        function removeSetup(setupId, button) {
+            const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success',
+                cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
+        })
+        swalWithBootstrapButtons.fire({
+            title: 'Are you sure?',
+            text: "This action can not be undone. Do you want to continue?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+            fetch('<?php echo e(route("meeting.removesetup",$meeting->id)); ?>', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                            'content')
+                    },
+                    body: JSON.stringify({
+                        setup_id: setupId
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const setupDiv = button.closest('.setup-item');
+                        setupDiv.remove();
+                            swal.fire("Done!", data.message, "success");
+                            setTimeout(function() {
+                                location.reload();
+                            }, 1000);
+                        } else {
+                            swal.fire("Error!", data.message, "error");
+                        }
+                    // if (data.success) {
+                    //     const setupDiv = button.closest('.setup-item');
+                    //     setupDiv.remove();
+                    // } else {
+                    //     alert('Failed to remove setup. Please try again.');
+                    // }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        })
+        }
+    });
+document.addEventListener('DOMContentLoaded', function() {
+    const checkboxes = document.querySelectorAll('.single-select');
+    const baroptRadios = document.querySelectorAll('.baropt-radio');
+
+    // Function to uncheck all checkboxes
+    function uncheckAllCheckboxes() {
+        checkboxes.forEach(function(checkbox) {
+            checkbox.checked = false;
+        });
+    }
+
+    // Add event listener to baropt radio buttons
+    baroptRadios.forEach(function(radio) {
+        radio.addEventListener('change', function() {
+            if (this.value !==
+                'package choice') { // Replace 'package choice' with the actual value to check
+                uncheckAllCheckboxes();
+            }
+        });
+    });
+
+    // Add event listener to checkboxes for single selection behavior
+    checkboxes.forEach(function(checkbox) {
+        checkbox.addEventListener('change', function() {
+            const group = this.getAttribute('data-function');
+            const groupCheckboxes = document.querySelectorAll(
+            `input[data-function='${group}']`);
+
+            groupCheckboxes.forEach(function(cb) {
+                if (cb !== checkbox) {
+                    cb.checked = false;
+                }
+            });
+        });
+    });
+});
 document.getElementById('imgInp').onchange = function(evt) {
     const [file] = this.files;
     const previewDiv = document.getElementById('previewDiv');
@@ -942,10 +1164,7 @@ inputElement.addEventListener('keyup', formatToPhone);
                 }
             });
         });
-        var selectedValue = $('input[name="bar"]:checked').val();
-        if (selectedValue == 'Package Choice') {
-            $('#package').show();
-        }
+      
     });
     jQuery(function() {
         $('input[name="function[]"]').change(function() {
@@ -976,6 +1195,11 @@ inputElement.addEventListener('keyup', formatToPhone);
         });
     });
     jQuery(function() {
+        var selectedValue = $("input[name='baropt']:checked").val();
+            if (selectedValue == 'Package Choice') {
+                $('div#barpacakgeoptions').show();
+            }
+    
         $('input[type=radio][name = baropt]').change(function() {
             $('div#barpacakgeoptions').hide();
             var value = $(this).val();

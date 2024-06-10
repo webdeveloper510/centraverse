@@ -555,6 +555,8 @@ Route::group(['middleware' => ['verified']], function () {
             })->name('get.encoded.id');
             Route::post('delete-attachment/{id}',[MeetingController::class,'removeattachment'])->name('meeting.removeattachment');
 
+            Route::post('delete-setup-attachment/{id}',[MeetingController::class,'removesetupattachment'])->name('meeting.removesetup');
+            // web.php
         }
     );
   
