@@ -460,45 +460,40 @@ $eventdoc = App\Models\EventDoc::where('event_id',$meeting->id)->get();
                                                     multiple />
                                             </div>
                                         </div>
-                                        <?php $setups = App\Models\Setuplans::where('event_id',$meeting->id)->exists(); ?>
+                         
+                                    <div class="col-md-12" style="display:flex;">
+                                                            <table class="table table-bordered">
+                                                                <thead>
+                                                                    <th>Setups</th>
+                                                                    <th>Action</th>
+                                                                </thead>
+                                                                <tbody>
+                                                                <?php $setups = App\Models\Setuplans::where('event_id',$meeting->id)->exists(); ?>
 
-                                        <div class="col-12" id="previewDiv">
-                                            @if($setups)
-                                            @foreach($setupplanss as $setup_plan)
-                                            <?php $setupname = explode('/', $setup_plan->setup_docs); ?>
-                                            <div class="form-group position-relative setup-item"
-                                                style="border: 1px solid; padding: 40px; margin-bottom: 20px;">
-                                                @if(in_array(pathinfo($setupname[1], PATHINFO_EXTENSION), ['png',
-                                                'jpg']))
-                                                <img src="{{ Storage::url('app/public/'.$setup_plan->setup_docs) }}"
-                                                    style="width: 70%;" alt="">
-                                                @elseif(pathinfo($setupname[1], PATHINFO_EXTENSION) == 'pdf')
-                                                <a href="{{ Storage::url('app/public/'.$setup_plan->setup_docs) }}"
-                                                    download>
-                                                    <img src="{{ asset('extension_img/pdf.png') }}" alt=""
-                                                        style="width: 10%;">
-                                                </a>
-                                                @elseif(in_array(pathinfo($setupname[1], PATHINFO_EXTENSION), ['doc',
-                                                'docs']))
-                                                <a href="{{ Storage::url('app/public/'.$setup_plan->setup_docs) }}"
-                                                    download>
-                                                    <img src="{{ asset('extension_img/doc.png') }}" alt=""
-                                                        style="width: 10%;">
-                                                </a>
-                                                @endif
-                                                <button type="button" class="btn btn-danger remove-setup"
-                                                    data-setup-id="{{ $setup_plan->id }}">&times;</button>
-                                            </div>
-                                            @endforeach
-                                            @endif
-                                        </div>
-                                    <div  class="col-12">
-                                        <img id="blah" src="#" alt="Preview" class="form-control"
-                                            style="display:none;width:30%" />
-                                        <button type="button" id="remove-preview"
-                                            class="btn btn-danger position-absolute "
-                                            style="display:none;">&times;</button>
-                                    </div>
+                                                                @if($setups)
+                                                                <?php $setupplanss = App\Models\Setuplans::where('event_id',$meeting->id)->get(); ?>
+
+                                                                @foreach($setupplanss as $key=> $setup_plan)
+                                                                    <?php $setupname = explode('/', $setup_plan->setup_docs); ?>
+                                                                    <tr>
+                                                                        <td>Setup Plan {{$key + 1}}</td>
+                                                                        <td>
+                                                                            <a href="{{ Storage::url('app/public/'.$setup_plan->setup_docs) }}"
+                                                                                download
+                                                                                style=" position: absolute;color: #1551c9 !important">
+                                                                                View Document</a>
+                                                                        </td>
+                                                                        <td>
+                                                                        <!-- <button type="button" class="btn btn-danger remove-setup"
+                                                                        data-setup-id="{{ $setup_plan->id }}">&times;</button> -->
+                                                                          
+                                                                        </td>
+                                                                    </tr>
+                                                                @endforeach
+                                                                @endif
+                                                                </tbody>
+                                                    </table>
+                                                    </div>
                         <div id="special_req" class="card">
                             <div class="col-md-12">
                                 <div class="card-header">

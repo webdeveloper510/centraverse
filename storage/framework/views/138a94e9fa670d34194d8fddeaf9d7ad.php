@@ -91,19 +91,7 @@ $eventdoc = App\Models\EventDoc::where('event_id',$meeting->id)->get();
     line-height: 1em;
     padding: 0.2em 0.4em;
 }
-#remove-preview {
-    position: absolute;
-    top: 5px;
-    right: 0px;
-    background: red;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 1.2em;
-    line-height: 1em;
-    padding: 0.2em 0.4em;
-}
+
 </style>
 <div class="container-field">
     <div id="wrapper">
@@ -514,91 +502,7 @@ $eventdoc = App\Models\EventDoc::where('event_id',$meeting->id)->get();
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </div>
                                         </div>
-                                        <!-- <div class="row">
-                                                    <label><b>Upload Setup plan</b></label>
-                                                    <div class="col-12">
-                                                        <input accept="image/*" type='file' id="imgInp"
-                                                            class="form-control" name = "setupplans"/>
-                                                    </div>
-                                                    <div class="col-12 mt-5">
-                                                        <img id="blah" src="<?php echo e(Storage::url('app/public/'.$meeting->setup_plans)); ?>" alt=" Preview" class="form-control" value= ""/>
-                                                    </div>
-                                                </div> -->
-                                        <!-- <div class="col-12 mt-4">
-                                            <div class="form-group">
-                                                <label><b>Upload Setup</b></label>
-                                                <input type='file' id="imgInp" class="form-control" name="setupplans" />
-                                            </div>
-                                        </div> -->
-                                        <!-- -------------- -->
-                                        <!-- <div class="col-12" id="previewDiv">
-                                            <?php $setups = App\Models\Setuplans::where('event_id',$meeting->id)->exists(); ?>
-                                            <?php if($setups): ?>
-                                            <?php $setupplanss = App\Models\Setuplans::where('event_id',$meeting->id)->get(); ?>
-
-                                                <?php $__currentLoopData = $setupplanss; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $setup_plan): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                    <?php $setupname = explode('/', $setup_plan->setup_docs); ?>
-                                                    <div class="form-group position-relative">
-                                                        <?php if(pathinfo($setupname[1], PATHINFO_EXTENSION) == 'png' || pathinfo($setupname[1], PATHINFO_EXTENSION) == 'jpg'): ?>
-                                                            <img src="<?php echo e(Storage::url('app/public/'.$setup_plan)); ?>" style="width: 70%;" alt="">
-                                                        <?php elseif(pathinfo($setupname[1], PATHINFO_EXTENSION) == 'pdf'): ?>
-                                                            <a href="<?php echo e(Storage::url('app/public/'.$setup_plan)); ?>" download>
-                                                                <img src="<?php echo e(asset('extension_img/pdf.png')); ?>" alt="" style="width: 10%;">
-                                                            </a>
-                                                        <?php elseif(pathinfo($setupname[1], PATHINFO_EXTENSION) == 'doc' || pathinfo($setupname[1], PATHINFO_EXTENSION) == 'docs'): ?>
-                                                            <a href="<?php echo e(Storage::url('app/public/'.$setup_plan)); ?>" download>
-                                                                <img src="<?php echo e(asset('extension_img/doc.png')); ?>" alt="" style="width: 10%;">
-                                                            </a>
-                                                        <?php endif; ?>
-                                                        <button type="button" class="btn btn-danger remove-setup" data-setup="<?php echo e($setup_plan); ?>">&times;</button>
-                                                    </div>
-                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                            <?php endif; ?>
-                                        </div> -->
-                                        <!-- ----------------------------- -->
-                                        <!-- <div class="col-12" id="previewDiv"> -->
-                                        <!-- <div class="form-group position-relative"
-                                                style="    border: 1px solid;padding: 40px;">
-                                                <?php if($meeting->setup_plans != ''): ?>
-                                                <?php  $setupname = explode('/',$meeting->setup_plans); ?>
-                                                <?php if(pathinfo($setupname[1], PATHINFO_EXTENSION) == 'png'||
-                                                pathinfo($setupname[1], PATHINFO_EXTENSION) == 'jpg'): ?>
-                                                <img src="<?php echo e(Storage::url('app/public/'.$meeting->setup_plans)); ?>"
-                                                    style="    width: 70%;" alt="">
-                                                <button type="button" id="removeImg"
-                                                    class="btn btn-danger ">&times;</button>
-                                                <?php else: ?>
-                                                <ul style="list-style:none;display:flex">
-                                                    <li>
-                                                        <?php if(pathinfo($setupname[1], PATHINFO_EXTENSION) == 'pdf'): ?>
-                                                        <a href="<?php echo e(Storage::url('app/public/'.$meeting->setup_plans)); ?>"
-                                                            download>
-                                                            <img src="<?php echo e(asset('extension_img/pdf.png')); ?>" alt=""
-                                                                style="    width: 10%;">
-                                                        </a>
-                                                        <?php elseif(pathinfo($setupname[1], PATHINFO_EXTENSION) == 'doc'||
-                                                        pathinfo($setupname[1], PATHINFO_EXTENSION) == 'docs'): ?>
-                                                        <a href="<?php echo e(Storage::url('app/public/'.$meeting->setup_plans)); ?>"
-                                                            download>
-                                                            <img src="<?php echo e(asset('extension_img/doc.png')); ?>" alt=""
-                                                                style="    width: 10%;">
-                                                        </a>
-                                                        <?php endif; ?>
-                                                    </li>
-                                                </ul>
-                                                <?php endif; ?>
-                                                <?php endif; ?>
-                                            </div> -->
-                                        <!-- <div> -->
-                                        <!-- <img id="blah"
-                                                    src="#"
-                                                    alt="Preview" class="form-control" />
-                                                <button type="button" id="removeImg"
-                                                    class="btn btn-danger position-absolute">&times;</button>
-                                            
-                                                </div> -->
-                                        <!-- </div> -->
-                                        <!-- </div> -->
+                                        
                                         <div class="col-12 mt-4">
                                             <div class="form-group">
                                                 <label><b>Upload Setup</b></label>
@@ -606,44 +510,47 @@ $eventdoc = App\Models\EventDoc::where('event_id',$meeting->id)->get();
                                                     multiple />
                                             </div>
                                         </div>
+                                       
+                                        <div class="col-md-12" style="display:flex;">
+                                                            <table class="table table-bordered">
+                                                                <thead>
+                                                                    <th>Setups</th>
+                                                                    <th>Action</th>
+                                                                </thead>
+                                                                <tbody>
+                                                                <?php $setups = App\Models\Setuplans::where('event_id',$meeting->id)->exists(); ?>
 
-                                        <div class="col-12" id="previewDiv">
-                                            <?php if($setups): ?>
-                                            <?php $__currentLoopData = $setupplanss; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $setup_plan): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <?php $setupname = explode('/', $setup_plan->setup_docs); ?>
-                                            <div class="form-group position-relative setup-item"
-                                                style="border: 1px solid; padding: 40px; margin-bottom: 20px;">
-                                                <?php if(in_array(pathinfo($setupname[1], PATHINFO_EXTENSION), ['png',
-                                                'jpg'])): ?>
-                                                <img src="<?php echo e(Storage::url('app/public/'.$setup_plan->setup_docs)); ?>"
-                                                    style="width: 70%;" alt="">
-                                                <?php elseif(pathinfo($setupname[1], PATHINFO_EXTENSION) == 'pdf'): ?>
-                                                <a href="<?php echo e(Storage::url('app/public/'.$setup_plan->setup_docs)); ?>"
-                                                    download>
-                                                    <img src="<?php echo e(asset('extension_img/pdf.png')); ?>" alt=""
-                                                        style="width: 10%;">
-                                                </a>
-                                                <?php elseif(in_array(pathinfo($setupname[1], PATHINFO_EXTENSION), ['doc',
-                                                'docs'])): ?>
-                                                <a href="<?php echo e(Storage::url('app/public/'.$setup_plan->setup_docs)); ?>"
-                                                    download>
-                                                    <img src="<?php echo e(asset('extension_img/doc.png')); ?>" alt=""
-                                                        style="width: 10%;">
-                                                </a>
-                                                <?php endif; ?>
-                                                <button type="button" class="btn btn-danger remove-setup"
-                                                    data-setup-id="<?php echo e($setup_plan->id); ?>">&times;</button>
-                                            </div>
-                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                            <?php endif; ?>
-                                        </div>
-                                    <div  class="col-12">
+                                                                <?php if($setups): ?>
+                                                                <?php $setupplanss = App\Models\Setuplans::where('event_id',$meeting->id)->get(); ?>
+
+                                                                <?php $__currentLoopData = $setupplanss; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $setup_plan): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                    <?php $setupname = explode('/', $setup_plan->setup_docs); ?>
+                                                                    <tr>
+                                                                        <td>Setup Plan <?php echo e($key + 1); ?></td>
+                                                                        <td>
+                                                                            <a href="<?php echo e(Storage::url('app/public/'.$setup_plan->setup_docs)); ?>"
+                                                                                download
+                                                                                style=" position: absolute;color: #1551c9 !important">
+                                                                                View Document</a>
+                                                                        </td>
+                                                                        <td>
+                                                                        <!-- <button type="button" class="btn btn-danger remove-setup"
+                                                                        data-setup-id="<?php echo e($setup_plan->id); ?>">&times;</button> -->
+                                                                          
+                                                                        </td>
+                                                                    </tr>
+                                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                                <?php endif; ?>
+                                                                </tbody>
+                                                    </table>
+                                                    </div>
+                                    <!-- <div  class="col-12">
                                         <img id="blah" src="#" alt="Preview" class="form-control"
                                             style="display:none;width:30%" />
                                         <button type="button" id="remove-preview"
                                             class="btn btn-danger position-absolute "
                                             style="display:none;">&times;</button>
-                                    </div>
+                                    </div> -->
                                     </div>
                                 </div>
                             </div>
