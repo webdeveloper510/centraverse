@@ -221,9 +221,13 @@
                         <td colspan="2" class="text-right"><b>Late Fee(If any)</b></td>
                         <td><b><?php echo e(($paymentinfo->latefee == 0)? '--' : '$'.$paymentinfo->latefee); ?></b></td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                         <td colspan="2" class="text-right"><b>Paid Amount</b></td>
                         <td> <b>$<?php echo e($totalpaid + $deposit); ?> </b></td>
+                    </tr> -->
+                    <tr>
+                        <td colspan="2" class="text-right"><b>Amount Collected</b></td>
+                        <td> <b>$<?php echo e($paymentlog->amount); ?> </b></td>
                     </tr>
                     <tr>
                         <td colspan="2" class="text-right"><b>Balance Due</b></td>

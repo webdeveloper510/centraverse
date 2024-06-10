@@ -106,10 +106,10 @@ $category= explode(',',$settings['campaign_type']);
                             style="    width: 22px;"></span>
                     <span class="dash-mtext"><?php echo e(__('Authorised Signature')); ?></span>
                 </a>
-              <a href="#agreement-settings" class="list-group-item list-group-item-action border-0"  onclick="showAccordion('collapse25')">
+              <!-- <a href="#agreement-settings" class="list-group-item list-group-item-action border-0"  onclick="showAccordion('collapse25')">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-file-contract"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Agreements')); ?></span>
-                </a>
+                </a> -->
                 <?php endif; ?>
                 <?php endif; ?>
                 <?php if(\Request::route()->getName() == 'billing.index'): ?>
