@@ -170,35 +170,42 @@ $files = Storage::files('app/public/Event/'.$event->id);
                                                 <dt class="col-md-4 need_half"><span class="h6  mb-3"><?php echo e(__('Set-up')); ?></span>
                                                 </dt>
                                                 <dd class="col-md-8 need_half"><span class="">
-                                                        <?php if($event->setup_plans != ''): ?>
-                                                            <?php  $setupname = explode('/',$event->setup_plans) ?>
-                                                                <?php if(pathinfo($setupname[1], PATHINFO_EXTENSION) == 'png'|| pathinfo($setupname[1], PATHINFO_EXTENSION) == 'jpg'): ?>
+                                                <?php $setups = App\Models\Setuplans::where('event_id',$event->id)->exists(); ?>
 
-                                                                    <img src="<?php echo e(Storage::url('app/public/'.$event->setup_plans)); ?>"
-                                                                    style=" width: 70%;" alt="">
-                                                                    <?php else: ?>
-                                                                    <ul style="list-style:none;display:flex">
-                                                                        <li> 
-                                                                        <?php if(pathinfo($setupname[1], PATHINFO_EXTENSION) == 'pdf'): ?>
-                                                                            <a href="<?php echo e(Storage::url('app/public/'.$event->setup_plans)); ?>" download>
-                                                                                <img src="<?php echo e(asset('extension_img/pdf.png')); ?>" alt="" style="    width: 10%;">
-                                                                            </a>
-                                                                        <?php elseif(pathinfo($setupname[1], PATHINFO_EXTENSION) == 'doc'|| pathinfo($setupname[1], PATHINFO_EXTENSION) == 'docs'): ?>
-                                                                        <a href="<?php echo e(Storage::url('app/public/'.$event->setup_plans)); ?>" download>
-                                                                                <img src="<?php echo e(asset('extension_img/doc.png')); ?>" alt="" style="    width: 10%;">
-                                                                            </a>
-                                                                        <?php endif; ?>
-                                                                        </li>
-                                                                    </ul>
-                                                                <?php endif; ?>
-                                                        <!-- -------- check the xtension and if image use img tag otherwise
-                                                         shoe the preview of doc uploaded-->
-                                                            <!-- <img src="<?php echo e(Storage::url('app/public/'.$event->setup_plans)); ?>"
-                                                                style=" width: 70%;" alt=""> -->
+<?php if($setups): ?>
+<?php $setupplanss = App\Models\Setuplans::where('event_id',$event->id)->get(); ?>
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                    <th>Setups</th>
+                                                    <th>Action</th>
+                                                    </thead>
+                                                    <tbody>
+                                                      
 
-                                                        <?php else: ?>
-                                                        --
-                                                        <?php endif; ?>
+                                                        <?php $__currentLoopData = $setupplanss; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $setup_plan): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <?php $setupname = explode('/', $setup_plan->setup_docs); ?>
+                                                        <tr>
+                                                            <td>Setup Plan <?php echo e($key + 1); ?></td>
+                                                            <td>
+                                                                <a href="<?php echo e(Storage::url('app/public/'.$setup_plan->setup_docs)); ?>"
+                                                                    download
+                                                                    style=" position: absolute;color: #1551c9 !important">
+                                                                    View Document</a>
+                                                            </td>
+                                                            <td>
+                                                                <!-- <button type="button" class="btn btn-danger remove-setup"
+data-setup-id="<?php echo e($setup_plan->id); ?>">&times;</button> -->
+
+                                                            </td>
+                                                        </tr>
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                      
+                                                    </tbody>
+                                                </table>
+                                                <?php else: ?>
+                                                --
+                                                <?php endif; ?>
+
                                                     </span>
                                                 </dd>
                                             </dl>

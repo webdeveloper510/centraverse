@@ -658,33 +658,33 @@ $leadId = decrypt(urldecode(request()->query('lead')));
 @push('script-page')
 
 <script>
-document.getElementById('imgInp').onchange = function(evt) {
-    const [file] = this.files;
-    const previewDiv = document.getElementById('previewDiv');
-    const blah = document.getElementById('blah');
+// document.getElementById('imgInp').onchange = function(evt) {
+//     const [file] = this.files;
+//     const previewDiv = document.getElementById('previewDiv');
+//     const blah = document.getElementById('blah');
 
-    if (file) {
-        if (file) {
-        const fileName = file.name.toLowerCase();
-        const fileExtension = fileName.split('.').pop();
-        // if (fileExtension === 'png' || fileExtension === 'pdf') {
-            if (fileExtension === 'png' || fileExtension === 'jpg'  ) {
-                blah.src = URL.createObjectURL(file);
-                previewDiv.style.display = 'block';
-            } else {
-                // Handle PDF file case here if needed
-                console.log('The file is a PDF.');
-                blah.src = '#'; // or some placeholder for PDF
-                previewDiv.style.display = 'none';
-            }
-        // blah.src = URL.createObjectURL(file);
-        // previewDiv.style.display = 'block';
-    } else {
-        blah.src = '#';
-        previewDiv.style.display = 'none';
-    }
-};
-};
+//     if (file) {
+//         if (file) {
+//         const fileName = file.name.toLowerCase();
+//         const fileExtension = fileName.split('.').pop();
+//         // if (fileExtension === 'png' || fileExtension === 'pdf') {
+//             // if (fileExtension === 'png' || fileExtension === 'jpg'  ) {
+//             //     blah.src = URL.createObjectURL(file);
+//             //     previewDiv.style.display = 'block';
+//             // } else {
+//             //     // Handle PDF file case here if needed
+//             //     console.log('The file is a PDF.');
+//             //     blah.src = '#'; // or some placeholder for PDF
+//             //     previewDiv.style.display = 'none';
+//             // }
+//         // blah.src = URL.createObjectURL(file);
+//         // previewDiv.style.display = 'block';
+//     } else {
+//         blah.src = '#';
+//         previewDiv.style.display = 'none';
+//     }
+// };
+// };
 
 document.getElementById('removeImg').onclick = function() {
     const imgInp = document.getElementById('imgInp');
@@ -757,7 +757,19 @@ $('#formdata').on('submit', function(event) {
         displayError('end_time', 'End time must be after start time.');
         isValid = false;
     }
+    let fileInput = $('#imgInp')[0];
+    if (fileInput && fileInput.files.length > 0) {
+        let filePath = fileInput.value;
+        let allowedExtensions = /(\.pdf|\.doc|\.docx|\.jpg|\.jpeg|\.png|\.gif)$/i;
 
+        if (!allowedExtensions.exec(filePath)) {
+            displayError('imgInp', 'Invalid file type. Only PDF, DOC, DOCX, and images are allowed.');
+            isValid = false;
+        }
+    } else {
+        displayError('imgInp', 'File is required.');
+        isValid = false;
+    }
     // Prevent form submission if any validation fails
     if (!isValid) {
         event.preventDefault();

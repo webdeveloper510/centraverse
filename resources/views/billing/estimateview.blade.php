@@ -113,7 +113,7 @@ td {
 
 .table-container {
     margin-top: 30px;
-    page-break-inside: avoid;
+    /* page-break-inside: avoid; */
 }
 
 </style>

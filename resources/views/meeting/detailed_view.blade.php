@@ -165,35 +165,42 @@ $files = Storage::files('app/public/Event/'.$event->id);
                                                 <dt class="col-md-4 need_half"><span class="h6  mb-3">{{__('Set-up')}}</span>
                                                 </dt>
                                                 <dd class="col-md-8 need_half"><span class="">
-                                                        @if($event->setup_plans != '')
-                                                            <?php  $setupname = explode('/',$event->setup_plans) ?>
-                                                                @if(pathinfo($setupname[1], PATHINFO_EXTENSION) == 'png'|| pathinfo($setupname[1], PATHINFO_EXTENSION) == 'jpg')
+                                                <?php $setups = App\Models\Setuplans::where('event_id',$event->id)->exists(); ?>
 
-                                                                    <img src="{{ Storage::url('app/public/'.$event->setup_plans) }}"
-                                                                    style=" width: 70%;" alt="">
-                                                                    @else
-                                                                    <ul style="list-style:none;display:flex">
-                                                                        <li> 
-                                                                        @if(pathinfo($setupname[1], PATHINFO_EXTENSION) == 'pdf')
-                                                                            <a href="{{Storage::url('app/public/'.$event->setup_plans)}}" download>
-                                                                                <img src="{{asset('extension_img/pdf.png')}}" alt="" style="    width: 10%;">
-                                                                            </a>
-                                                                        @elseif(pathinfo($setupname[1], PATHINFO_EXTENSION) == 'doc'|| pathinfo($setupname[1], PATHINFO_EXTENSION) == 'docs')
-                                                                        <a href="{{Storage::url('app/public/'.$event->setup_plans)}}" download>
-                                                                                <img src="{{asset('extension_img/doc.png')}}" alt="" style="    width: 10%;">
-                                                                            </a>
-                                                                        @endif
-                                                                        </li>
-                                                                    </ul>
-                                                                @endif
-                                                        <!-- -------- check the xtension and if image use img tag otherwise
-                                                         shoe the preview of doc uploaded-->
-                                                            <!-- <img src="{{ Storage::url('app/public/'.$event->setup_plans) }}"
-                                                                style=" width: 70%;" alt=""> -->
+@if($setups)
+<?php $setupplanss = App\Models\Setuplans::where('event_id',$event->id)->get(); ?>
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                    <th>Setups</th>
+                                                    <th>Action</th>
+                                                    </thead>
+                                                    <tbody>
+                                                      
 
-                                                        @else
-                                                        --
-                                                        @endif
+                                                        @foreach($setupplanss as $key=> $setup_plan)
+                                                        <?php $setupname = explode('/', $setup_plan->setup_docs); ?>
+                                                        <tr>
+                                                            <td>Setup Plan {{$key + 1}}</td>
+                                                            <td>
+                                                                <a href="{{ Storage::url('app/public/'.$setup_plan->setup_docs) }}"
+                                                                    download
+                                                                    style=" position: absolute;color: #1551c9 !important">
+                                                                    View Document</a>
+                                                            </td>
+                                                            <td>
+                                                                <!-- <button type="button" class="btn btn-danger remove-setup"
+data-setup-id="{{ $setup_plan->id }}">&times;</button> -->
+
+                                                            </td>
+                                                        </tr>
+                                                        @endforeach
+                                                      
+                                                    </tbody>
+                                                </table>
+                                                @else
+                                                --
+                                                @endif
+
                                                     </span>
                                                 </dd>
                                             </dl>
