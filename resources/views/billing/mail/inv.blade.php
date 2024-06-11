@@ -126,7 +126,7 @@
     </div>
     <hr>
    
-    <table class="table">
+    <table class="table" style="    table-layout: fixed;">
         <thead>
             <tr>
                 <th colspan="4">Event Description</th>
@@ -160,7 +160,7 @@
     <div class="header">
         <h5>Billing Details</h5>
     </div>
-    <table class="table-bordered">
+    <table class="table-bordered" style="    table-layout: fixed;">
     <thead>
             <tr>
                 <th colspan="2"> Description</th>

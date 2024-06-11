@@ -201,7 +201,7 @@ ul {
 
     <!-- <hr> -->
 
-    <table class="table">
+    <table class="table" style="    table-layout: fixed;">
         <thead>
             <tr>
                 <th>Event Date</th>
@@ -273,7 +273,7 @@ ul {
         <h5>Billing Summary</h5>
         </div>
         <hr>
-        <table class="billing">
+        <table class="billing" style="    table-layout: fixed;">
             <thead>
                 <tr>
                     <th colspan="2">Name: {{$meeting['name']}}</th>

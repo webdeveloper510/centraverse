@@ -174,7 +174,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                         <hr>
                         <div class="row mb-4">
                             <div class="col-md-12">
-                                <table class="table table-bordered">
+                                <table class="table table-bordered" style="    table-layout: fixed;">
                                     <thead>
                                         <tr>
                                             <th>Event Date</th>
@@ -210,7 +210,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                         <div class="row mt-5">
                             <div class="col-md-12">
                                 <h5><b>Billing Summary - ESTIMATE</b></h5>
-                                <table class="table table-bordered">
+                                <table class="table table-bordered" style="    table-layout: fixed;">
                                     <thead>
                                         <tr>
                                             <th>Name : {{ ucfirst($lead->name) }}</th>

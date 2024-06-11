@@ -97,6 +97,7 @@ table {
     margin-top: 20px;
     border-collapse: collapse;
     margin-bottom: 20px;
+    table-layout: fixed;
 }
 
 thead {

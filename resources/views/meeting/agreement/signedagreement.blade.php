@@ -164,7 +164,7 @@
                     </div>
                     <div class="row mb-4">
                         <div class="col-md-12">
-                            <table class="table table-bordered" style="width:100%">
+                            <table class="table table-bordered" style="width:100%;    table-layout: fixed;">
                                 <thead>
                                     <tr>
                                         <th>Event Date</th>
@@ -244,7 +244,7 @@
                                 1786 will be provided for each.
                             </p>
                             <h6><b>Billing Summary</b></h6>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" style="    table-layout: fixed;">
                                 <thead>
                                     <tr>
                                         <th>

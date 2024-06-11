@@ -52,7 +52,11 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
         width: 100px;
     }
 
-    
+    td{
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
     .table thead th {
         background: linear-gradient(141.55deg, #48494B 3.46%, #48494B 99.86%), #48494B !important;
@@ -63,6 +67,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
 
     .table tbody td {
         text-align: center;
+        
     }
 
     .table tfoot td {
@@ -147,14 +152,12 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                         <div class="img-section">
                             <img src="<?php echo e(Storage::url('uploads/logo/logo-light.png')); ?>" alt="Logo">
                         </div>
-                        <!-- <hr> -->
 
                         <div class="header">
                             <h5><b>The Bond 1786 - Proposal</b></h5>
                             <span>Venue Rental & Banquet Event Order</span>
                         </div>
                         <hr>
-                        
                         <div class="row mt-3">
                             <div class="col-md-12 ">
                                 <dl>
@@ -171,7 +174,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                         <hr>
                         <div class="row mb-4">
                             <div class="col-md-12">
-                                <table class="table table-bordered">
+                                <table class="table table-bordered" style="    table-layout: fixed;">
                                     <thead>
                                         <tr>
                                             <th>Event Date</th>
@@ -205,11 +208,10 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                 </table>
                             </div>
                         </div>
-
                         <div class="row mt-5">
                             <div class="col-md-12">
                                 <h5><b>Billing Summary - ESTIMATE</b></h5>
-                                <table class="table table-bordered">
+                                <table class="table table-bordered" style="    table-layout: fixed;">
                                     <thead>
                                         <tr>
                                             <th>Name : <?php echo e(ucfirst($lead->name)); ?></th>
@@ -261,9 +263,9 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                             </td>
                                             <td><?php echo e($billing['bar_package']['notes']); ?></td>
                                         </tr>
-                                        </tbody>
+                                    </tbody>
 
-                                        <tfoot>
+                                    <tfoot>
                                         <tr>
                                             <td>Total</td>
                                             <td colspan="2"></td>
@@ -283,20 +285,17 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td >Grand Total / Estimated Total</td>
+                                            <td>Grand Total / Estimated Total</td>
                                             <td colspan="2"></td>
                                             <td>$<?php echo e($grandtotal = array_sum($total) + 20 * array_sum($total) / 100 + 7 * array_sum($total) / 100); ?>
 
                                             </td>
                                             <td></td>
                                         </tr>
-</tfoot>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>
-
-                      
-
                         <div class="row mt-5 mb-3">
                             <div class="col-md-12 text-center">
                                 <h5>Authorization & Signature</h5><br>
