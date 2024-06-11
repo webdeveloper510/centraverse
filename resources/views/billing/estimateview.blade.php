@@ -77,6 +77,10 @@ td {
     border: 1px solid #ccc;
     padding: 8px;
     font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
 }
 
 .billing thead {

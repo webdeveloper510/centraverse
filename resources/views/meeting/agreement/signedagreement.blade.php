@@ -80,7 +80,11 @@
     .table tbody td {
         text-align: center;
     }
-
+    td{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
     .table tfoot td {
         font-weight: bold;
         background-color: #f0f0f0;

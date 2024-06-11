@@ -153,7 +153,11 @@ td {
     width: 45%;
     text-align: center;
 }
-
+th,td{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 
 
