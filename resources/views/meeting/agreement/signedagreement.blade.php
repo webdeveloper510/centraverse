@@ -81,7 +81,7 @@
         text-align: center;
     }
     td{
-    white-space: nowrap;
+    white-space: normal;
     overflow: hidden;
     text-overflow: ellipsis;
 }

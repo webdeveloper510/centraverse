@@ -110,9 +110,10 @@ td {
     border: 1px solid #ccc;
     padding: 8px;
     font-size: 13px;
-    white-space: nowrap;
+    white-space: normal;
     overflow: hidden;
     text-overflow: ellipsis;
+
 }
 
 .billing thead {
@@ -121,6 +122,7 @@ td {
 
 .billing thead th {
     color: #fff;
+   
 }
 
 .billing tfoot tr {

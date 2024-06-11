@@ -57,10 +57,10 @@
         padding: 2rem;
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 1111px;
+
     }
-    .container.mt-5 {
-    max-width: 1111px;
-}
+   
     /* .logo-img {
         width: 100px;
     } */
@@ -80,7 +80,11 @@
     .table tbody td {
         text-align: center;
     }
-
+    td{
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
     .table tfoot td {
         font-weight: bold;
         background-color: #f0f0f0;

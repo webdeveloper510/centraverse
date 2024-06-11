@@ -52,8 +52,8 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
         width: 100px;
     }
 
-td{
-    white-space: nowrap;
+    td{
+    white-space: normal;
     overflow: hidden;
     text-overflow: ellipsis;
 }

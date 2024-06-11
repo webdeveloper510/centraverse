@@ -110,6 +110,9 @@ td {
     border: 1px solid #ccc;
     padding: 8px;
     font-size: 13px;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .billing thead {
@@ -152,11 +155,6 @@ td {
 .signature {
     width: 45%;
     text-align: center;
-}
-th,td{
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 
