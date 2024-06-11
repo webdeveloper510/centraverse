@@ -30,7 +30,7 @@ body {
 }
 
 .img-section {
-    width: 50%;
+    width: 60%;
     margin: 0 auto;
     /* display: flex; */
     /* flex-direction: column; */
@@ -80,7 +80,7 @@ body {
         margin-top: 20px;
     } */
 .details p {
-    font-size: 12px;
+    font-size: 15px;
     text-align: justify;
 }
 
@@ -100,7 +100,8 @@ table {
 }
 
 thead {
-    background-color: #d3ead3;
+    background: linear-gradient(141.55deg, #48494B 3.46%, #48494B 99.86%), #48494B !important;
+    color:white;
     text-align: center;
 }
 
@@ -120,7 +121,7 @@ td {
 }
 
 .billing tfoot tr {
-    background-color: #dcdaeb;
+    background-color: #dbdbdb;;
 }
 
 .billing tfoot td {
@@ -136,13 +137,13 @@ td {
     font-weight: bold;
 }
 
-p,
+.detailsss p,
 ul {
-    font-size: xx-small;
+    font-size: 6px;
 }
 
 .table-container {
-    margin-top: 20px;
+    margin-top: 30px;
     page-break-inside: avoid;
 }
 .main-div {
@@ -176,15 +177,13 @@ ul {
     <div class="img-section">
         <img src="<?php echo e(Storage::url('uploads/logo/logo-light.png')); ?>" alt="Logo">
     </div>
-    <div class="img-section">
-        <span>Supported by The Sector Eight</span>
-    </div>
-    <hr>
+    <!-- <hr> -->
 
     <div class="header">
         <h5>The Bond 1786 - Agreement</h5>
-        <span>Venue Rental & Banquet Event</span>
+        <span>Venue Rental & Banquet Event Order</span>
     </div>
+    <hr>
 
     <div class="details">
         <dl>
@@ -195,7 +194,7 @@ ul {
         </dl>
     </div>
 
-    <hr>
+    <!-- <hr> -->
 
     <table class="table">
         <thead>
@@ -265,8 +264,11 @@ ul {
         </p>
     </div>
     
-    <div class="table-container">
-        <h3>Billing Summary</h3>
+    <div class="table-container ">
+        <div class="header">
+        <h5>Billing Summary</h5>
+        </div>
+        <hr>
         <table class="billing">
             <thead>
                 <tr>
@@ -400,10 +402,18 @@ ul {
             </tfoot>
         </table>
     </div>
-    <b>Customer Comments/Notes: </b><?php echo e(isset($agreement)?$agreement->notes :'--'); ?>
-
+    <hr>
+    <div class="header">
+        <h5>Customer Comments/Notes</h5>
+    </div>
+    <div class="details">
+        <p><?php echo e(isset($agreement)?$agreement->notes :''); ?></p>
+    </div>
     <div class="detailsss">
-        <h4 style="text-align:center">TERMS AND CONDITIONS</h4>
+    <div class="header">
+        <h5>TERMS AND CONDITIONS</h5>
+        </div>
+        <!-- <h4 style="text-align:center"></h4> -->
         <p><b> FOOD AND ALCOHOLIC BEVERAGES and 3RD PARTY / ON-SITE VENDORS</b>
             The Client and their guests agree to not bring in any unauthorized food or beverage into The Bond 1786.
             The Establishment does not allow outside alcoholic beverages, unless agreed with the Terms. Catering
@@ -734,12 +744,13 @@ ul {
         <div class="row">
             <div class="col-md-6" style="float:left;width:50%;">
                 <strong>Authorized Signature:</strong> <br>
-                <img src="<?php echo e($base64Image); ?>" style="width:40%; margin-top:5px;border-bottom:1px solid black;">
+                <img src="<?php echo e($base64Image); ?>" style="width:50%; margin-top:5px;border-bottom:1px solid black;">
             </div>
         </div>
         <div class="col-md-6" style="float:right;width:50%">
-            <strong>Signature:</strong><br>
-            <img src="<?php echo e(@$sign); ?>" style="width:40%; border-bottom:1px solid black;margin-top:5px">
+            <strong>Customer's Signature:</strong><br>
+            <img src="<?php echo e(@$sign); ?>" style="width:50%; border-bottom:1px solid black;margin-top:5px"><br>
+            <p style="float:right"> <b><?php echo e(isset($sign)?__('Signed By:') . $meeting['name'] : ''); ?></b></p>
         </div>
 
     </div>

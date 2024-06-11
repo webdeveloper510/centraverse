@@ -275,13 +275,13 @@ $converted_to_event = App\Models\Meeting::where('attendees_lead',$lead->id)->exi
                                                                 <th colspan="3">Bill created on: <?php echo date("d/m/Y"); ?></th>
                                                                 <th>Event: {{$eventdetails['type']}}</th>
                                                             </tr>
-                                                            <tr style="background-color:#063806;">
-                                                                <th style="color:#ffffff; text-align:left;">Description</th>
-                                                                <th colspan="2" style="color:#ffffff;">&nbsp;</th>
-                                                                <th style="color:#ffffff; text-align:right;">Cost</th>
-                                                                <th style="color:#ffffff; text-align:right;">Quantity</th>
-                                                                <th style="color:#ffffff; text-align:right;">Total Price</th>
-                                                                <th style="color:#ffffff;">Notes</th>
+                                                            <tr>
+                                                                <th>Description</th>
+                                                                <th colspan="2">&nbsp;</th>
+                                                                <th>Cost</th>
+                                                                <th>Quantity</th>
+                                                                <th >Total Price</th>
+                                                                <th >Notes</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>

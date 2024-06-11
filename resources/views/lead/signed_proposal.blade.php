@@ -12,7 +12,6 @@ if(isset($proposal) && ($proposal['image'] != null)){
     $sign = 'data:image/' . pathinfo($proposal['image'], PATHINFO_EXTENSION) . ';base64,' . $signed;
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,258 +21,329 @@ if(isset($proposal) && ($proposal['image'] != null)){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Proposal</title>
 </head>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    color: #333;
+    margin: 20px;
+}
+
+.img-section {
+    width: 60%;
+    margin: 0 auto;
+    /* display: flex; */
+    /* flex-direction: column; */
+    /* align-items: center; */
+    text-align: center;
+}
+
+.img-section img {
+    width: 30%;
+    max-width: 150px;
+}
+
+.img-section span {
+    font-size: small;
+    color: #aab0b6;
+}
+
+.header,
+.footer {
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+.header h5,
+.footer h5 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.header span,
+.footer span {
+    font-size: 14px;
+}
+
+.details dl {
+    margin: 0;
+}
+
+.details span {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+/* .details {
+        margin-top: 20px;
+    } */
+.details p {
+    font-size: 15px;
+    text-align: justify;
+}
+
+.details b {
+    color: #333;
+}
+
+.table-container {
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+thead {
+    background: linear-gradient(141.55deg, #48494B 3.46%, #48494B 99.86%), #48494B !important;
+    color: white;
+    text-align: center;
+}
+
+th,
+td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    font-size: 13px;
+}
+
+.billing thead {
+    background-color: #1c232f;
+}
+
+.billing thead th {
+    color: #fff;
+}
+
+.billing tfoot tr {
+    background-color: #dbdbdb;
+    ;
+}
+
+.billing tfoot td {
+    font-weight: bold;
+}
+
+.total-row {
+    background-color: #dcdaeb;
+}
+
+.balance-due {
+    background-color: #dcdaeb;
+    font-weight: bold;
+}
+
+
+.table-container {
+    margin-top: 30px;
+    page-break-inside: avoid;
+}
+
+.main-div {
+    margin-top: 20px;
+    page-break-inside: avoid;
+}
+
+.signature {
+    width: 45%;
+    text-align: center;
+}
+
+
+
+
+@media print {
+    .table-container {
+        page-break-inside: avoid;
+    }
+
+    .main-div {
+        page-break-inside: avoid;
+    }
+}
+</style>
 
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 ">
-                <div class="img-section" style="width:30%; margin: 0 auto;display:flex;text-align: center;">
-                    <img class="logo-img" src="{{ Storage::url('uploads/logo/logo-light.png') }}"
-                        style="width:40%;">
-                </div>
-                 <div class="img-section" style="width:30%; margin: 0 auto;display:flex;text-align: center;">
-                                   <span style="font-size:x-small;color: #aab0b6;">Supported by The Sector Eight</span>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12" style="text-align: center; margin-top:10px">
-                <span>The Bond 1786</span><br>
-                <span>Venue Rental Proposal & Banquet Event Order</span>
-            </div>
-        </div>
-        <div class="row ">
-            <div class="col-md-6">
-                <dl>
-                    <span>{{__('Name')}}: {{ $lead->name }}</span><br>
-                    <span>{{__('Phone & Email')}}: {{ $lead->phone }} , {{ $lead->email }}</span><br>
-                    <span>{{__('Address')}}: {{ $lead->lead_address }}</span><br>
-                    <span>{{__('Event Date')}}:{{ \Carbon\Carbon::parse($lead->start_date)->format('d M, Y') }}</span>
-                </dl>
-            </div>
 
+    <div class="img-section">
+        <img src="{{ Storage::url('uploads/logo/logo-light.png') }}" alt="Logo">
+    </div>
+    <!-- <hr> -->
+
+    <div class="header">
+        <h5>The Bond 1786 - Proposal</h5>
+        <span>Venue Rental & Banquet Event Order</span>
+    </div>
+    <hr>
+    <div class="details">
+        <dl>
+            <span><b>{{__('Name')}}:</b> {{ $lead->name }}</span>
+            <span><b>{{__('Phone & Email')}}:</b> {{ $lead->phone }} , {{ $lead->email }}</span>
+            <span><b>{{__('Address')}}:</b> {{ $lead->lead_address }}</span>
+            <span><b>{{__('Event Date')}}:</b>{{ \Carbon\Carbon::parse($lead->start_date)->format('d M, Y') }}</span>
+        </dl>
+    </div>
+
+    <!-- <hr> -->
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Event Date</th>
+                <th>Time</th>
+                <th>Venue</th>
+                <th>Event</th>
+                <th>Function</th>
+                <th>Guest Count</th>
+                <th>Room</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr style="text-align:center">
+
+                <td>
+                    {{ \Carbon\Carbon::parse($lead->start_date)->format('d M, Y')}}
+                </td>
+
+                <td>
+                    @if($lead->start_time == $lead->end_time)
+                    --
+                    @else
+                    {{date('h:i A', strtotime($lead->start_time))}} -
+                    {{date('h:i A', strtotime($lead->end_time))}}
+                    @endif</td>
+                <td>{{$lead->venue_selection}}</td>
+                <td>{{$lead->type}}</td>
+                <td>{{$lead->function}}</td>
+                <td>{{$lead->guest_count}}</td>
+                <td>{{$lead->rooms}}</td>
+
+            </tr>
+        </tbody>
+    </table>
+    <div class="table-container ">
+        <div class="header">
+            <h5>Billing Summary</h5>
         </div>
         <hr>
-        <div class="row mb-4">
-            <div class="col-md-12">
-                <table class="table table-bordered" style="width:100%">
-                    <thead>
-                        <tr style="background-color:#d3ead3; text-align:center">
-                            <th>Event Date</th>
-                            <th>Time</th>
-                            <th>Venue</th>
-                            <th>Event</th>
-                            <th>Function</th>
-                            <th>Guest Count</th>
-                            <th>Room</th>
+        <table class="billing">
+            <thead>
+                <tr>
+                    <th colspan="2">Name: {{ucfirst($lead->name)}}</th>
+                    <th colspan="2">Date: <?php echo date("d/m/Y"); ?></th>
+                    <th>Event: {{ucfirst($lead->type)}}</th>
+                </tr>
+                <tr>
+                    <th>Description</th>
+                    <th>Cost</th>
+                    <th>Quantity</th>
+                    <th>Total Price</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Venue Rental</td>
 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="text-align:center">
+                    <td>${{$billing['venue_rental']['cost']}}</td>
+                    <td>{{$billing['venue_rental']['quantity']}}</td>
+                    <td>${{$total[] = $billing['venue_rental']['cost'] * $billing['venue_rental']['quantity']}}
+                    </td>
+                    <td>{{$billing['venue_rental']['notes']}}</td>
+                </tr>
+                <tr>
+                    <td>Brunch / Lunch / Dinner Package</td>
 
-                            <td>
-                                {{ \Carbon\Carbon::parse($lead->start_date)->format('d M, Y')}}
-                            </td>
+                    <td>${{$billing['food_package']['cost']}}</td>
+                    <td>{{$billing['food_package']['quantity']}}</td>
+                    <td>${{$total[] = $billing['food_package']['cost'] * $billing['food_package']['quantity']}}
+                    </td>
+                    <td>{{$billing['food_package']['notes']}}</td>
+                </tr>
+                <tr>
+                    <td>Bar Package</td>
 
-                            <td>
-                                @if($lead->start_time == $lead->end_time)
-                                --
-                                @else
-                                {{date('h:i A', strtotime($lead->start_time))}} -
-                                {{date('h:i A', strtotime($lead->end_time))}}
-                                @endif</td>
-                            <td>{{$lead->venue_selection}}</td>
-                            <td>{{$lead->type}}</td>
-                            <td>{{$lead->function}}</td>
-                            <td>{{$lead->guest_count}}</td>
-                            <td>{{$lead->rooms}}</td>
+                    <td>${{$billing['bar_package']['cost']}}</td>
+                    <td>{{$billing['bar_package']['quantity']}}</td>
+                    <td>${{$total[] = $billing['bar_package']['cost']* $billing['bar_package']['quantity']}}
+                    </td>
+                    <td>{{$billing['bar_package']['notes']}}</td>
+                </tr>
+                <tr>
+                    <td>Hotel Rooms</td>
 
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="row mt-5">
-            <div class="col-md-12">
-                <h5 class="headings"><b>Billing Summary - ESTIMATE</b></h5>
-                <table class="table table-bordered" style="width:100%;">
-                    <thead>
-                        <tr>
-                            <th
-                                style="text-align:left; font-size:13px;text-align:left; padding:5px 5px; margin-left:5px;">
-                                Name : {{ucfirst($lead->name)}}</th>
-                            <th colspan="2" style="padding:5px 0px;margin-left: 5px;font-size:13px"></th>
-                            <th colspan="3" style="text-align:left;text-align:left; padding:5px 5px; margin-left:5px;font-size:13px">
-                                Date:<?php echo date("d/m/Y"); ?> </th>
-                            <th style="text-align:left; font-size:13px;padding:5px 5px; margin-left:5px;">
-                                Event: {{ucfirst($lead->type)}}</th>
-                        </tr>
-                        <tr style="background-color:#d3ead3; text-align:center">
-                            <th>Description</th>
-                            <th colspan="2"> Additional</th>
-                            <th>Cost</th>
-                            <th>Quantity</th>
-                            <th>Total Price</th>
-                            <th>Notes</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                    <td>${{$billing['hotel_rooms']['cost']}}</td>
+                    <td>{{$billing['hotel_rooms']['quantity']}}</td>
+                    <td>${{$total[] = $billing['hotel_rooms']['cost'] * $billing['hotel_rooms']['quantity']}}
+                    </td>
+                    <td>{{$billing['hotel_rooms']['notes']}}</td>
+                </tr>
 
-                        <tr>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Venue Rental</td>
-                            <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="4">Total</td>
+                    <td colspan="2">${{array_sum($total)}}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td colspan="4">Sales, Occupancy Tax</td>
+                    <td colspan="2">${{ 7 * array_sum($total) / 100 }}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td colspan="4">Service Charges & Gratuity</td>
+                    <td colspan="2">${{ 20 * array_sum($total) / 100 }}</td>
+                    <td></td>
+                </tr>
+                <tr class="total-row">
+                    <td colspan="4">Grand Total / Estimated Total</td>
+                    <td colspan="2">
+                        ${{ $grandtotal = array_sum($total) + 20 * array_sum($total) / 100 + 7 * array_sum($total) / 100 }}
+                    </td>
+                    <td></td>
+                </tr>
+                <tr class="total-row">
+                    <td colspan="4">Deposits on file</td>
+                    <td colspan="2">{{__('No Deposits yet')}}</td>
+                    <td></td>
+                </tr>
+                <tr class="balance-due">
+                    <td colspan="4">Balance Due</td>
+                    <td colspan="2">${{ $grandtotal }}</td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <hr>
+    <br>
 
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                ${{$billing['venue_rental']['cost'] ?? 0 }}
-                            </td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                {{$billing['venue_rental']['quantity'] ?? 1}}
-                            </td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                ${{$total[] = ($billing['venue_rental']['cost']?? 0)  * ($billing['venue_rental']['quantity'] ?? 1)}}
-                            </td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                {{$lead->venue_selection}}</td>
-                        </tr>
+    <div class="header" style="page-break-before: always;">
+        <h5>Customer Comments/Notes</h5>
+    </div>
+    <hr>
+    <div class="details">
+        <p> {{ isset($proposal) ? $proposal->notes : '' }}
+        </p>
+    </div>
 
-                        <tr>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Brunch / Lunch /
-                                Dinner Package</td>
-                            <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                ${{$billing['food_package']['cost'] ?? 0}}</td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                {{$billing['food_package']['quantity'] ?? 1}}
-                            </td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                ${{$total[] =($billing['food_package']['cost'] ?? 0) * ($billing['food_package']['quantity'] ?? 1)}}
-                            </td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                {{$lead->function}}</td>
-
-                        </tr>
-
-                        <tr>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Hotel Rooms</td>
-                            <td colspan="2" style="padding:5px 5px; margin-left:5px;"></td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                ${{$billing['hotel_rooms']['cost'] ?? 0}}
-                            </td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                {{$billing['hotel_rooms']['quantity'] ?? 1}}
-                            </td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                ${{$total[] = ($billing['hotel_rooms']['cost'] ?? 0) *  ($billing['hotel_rooms']['quantity'] ?? 1)}}
-                            </td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                        </tr>
-                        <tr>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Bar Package</td>
-                            <td colspan="2"  style="padding:5px 5px; margin-left:5px;"></td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">${{ $billing['bar_package']['cost'] ?? 0 }}</td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{ $billing['bar_package']['quantity'] ?? 1 }}</td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                            ${{ $total[] = ($billing['bar_package']['cost'] ?? 0) * ($billing['bar_package']['quantity'] ?? 1) }}</td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">{{ $lead->bar }}</td>
-                        </tr>
-
-                        <tr>
-                            <td>-</td>
-                            <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                            <td colspan="3" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                        </tr>
-                        <tr>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Total</td>
-                            <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                            <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">${{array_sum($total)}}
-                            </td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                        </tr>
-                        <tr>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">Sales, Occupancy
-                                Tax</td>
-                            <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                            <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"> </td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                ${{ 7* array_sum($total)/100 }}
-                            </td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td
-                                style="text-align:left;text-align:left; padding:5px 5px; margin-left:5px;font-size:13px;">
-                                Service Charges & Gratuity</td>
-                            <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                            <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                ${{ 20 * array_sum($total)/100 }}
-                            </td>
-
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>-</td>
-                            <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                            <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;"> </td>
-
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td style="background-color:#ffff00; padding:5px 5px; margin-left:5px;font-size:13px;">
-                                Grand Total / Estimated Total</td>
-                            <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                            <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                            <td style="padding:5px 5px; margin-left:5px;font-size:13px;">
-                                ${{$grandtotal= array_sum($total) + 20* array_sum($total)/100 + 7* array_sum($total)/100}}
-                            </td>
-
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td style="background-color:#d7e7d7; padding:5px 5px; margin-left:5px;font-size:13px;">
-                                Deposits on file</td>
-                            <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                            <td colspan="3"
-                                style="background-color:#d7e7d7;padding:5px 5px; margin-left:5px;font-size:13px;">No
-                                Deposits yet
-                            </td>
-                            <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                        </tr>
-                        <tr>
-                            <td
-                                style="background-color:#ffff00;text-align:left; padding:5px 5px; margin-left:5px;font-size:13px;">
-                                balance due</td>
-                            <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                            <td colspan="3"
-                                style="padding:5px 5px; margin-left:5px;font-size:13px;background-color:#9fdb9f;">
-                                ${{$grandtotal= array_sum($total) + 20* array_sum($total)/100 + 7* array_sum($total)/100}}
-
-                            </td>
-                            <td colspan="2" style="padding:5px 5px; margin-left:5px;font-size:13px;"></td>
-                        </tr>
-                    </tbody>
-                </table>
-
-              <p><b>Customer Comments/Notes: {{$proposal->notes}}</b></p>
-            </div>
-        </div>
-        <div  style="display:flex;">
-            <div style="float:left;width:60%;">
+    <div class="main-div">
+        <div class="row">
+            <div class="col-md-6" style="float:left;width:50%;">
                 <strong>Authorized Signature:</strong> <br>
-                <img src="{{$base64Image}}" >
+                <img src="{{$base64Image}}" style="width:50%; margin-top:5px;border-bottom:1px solid black;">
             </div>
-            <!-- <div > -->
-                <strong style="margin-top:10px;">Signature:</strong><br>
-                <img src="{{@$sign}}" >
-            <!-- </div> -->
+        </div>
+        <div class="col-md-6" style="float:right;width:50%">
+            <strong>Customer's Signature:</strong><br>
+            <img src="{{@$sign}}" style="width:50%; border-bottom:1px solid black;margin-top:5px"><br>
+           <p style="float:right"> <b>{{isset($sign)?__('Signed By:') . $lead['name'] : ''}}</b></p>
         </div>
     </div>
 </body>
-
-
-

@@ -302,6 +302,14 @@ $additional_items = json_decode($settings['additional_items'],true);
 }
 </style>
 <script>
+    $(document).ready(function () {
+    $("#formdata").submit(function () {
+        $(".submitBtn").attr("disabled", true);
+        return true;
+    });
+});
+</script>
+<script>
 $(document).ready(function() {
     $('#formdata').on('submit', function(event) {
         let isValid = true;
@@ -333,7 +341,20 @@ $(document).ready(function() {
             displayError('end_time', 'End time must be after start time.');
             isValid = false;
         }
-
+        let phone = $('#phone-input').val().trim();
+        if (phone === '') {
+            displayError('phone-input', 'Phone number is required.');
+            isValid = false;
+        }
+        let email = $('#email').val().trim();
+        var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                // if (!emailPattern.test(input.val())) {
+                //     errorMessage = 'Invalid email address.';
+                // }
+        if (email === '' || !emailPattern.test(input.val())) {
+            displayError('email', 'Valid Email address is required.');
+            isValid = false;
+        }
         // Prevent form submission if any validation fails
         if (!isValid) {
             event.preventDefault();

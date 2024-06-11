@@ -421,7 +421,7 @@ $selectedPackages = json_decode($lead->bar_package,true);
                                     <hr>
                                     <div class="text-end">
                                         <button type="button" class="btn  btn-light cancel">Cancel</button>
-                                        <?php echo e(Form::submit(__('Update'), ['class' => 'btn-submit btn btn-primary'])); ?>
+                                        <?php echo e(Form::submit(__('Update'), ['class' => 'btn-submit btn btn-primary submitBtn'])); ?>
 
                                     </div>
                                 </div>
@@ -435,13 +435,22 @@ $selectedPackages = json_decode($lead->bar_package,true);
         </div>
     </div>
 </div>
-<style>
+
+                   <style>
 .iti.iti--allow-dropdown.iti--separate-dial-code {
     width: 100%;
 }
 </style>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script-page'); ?>
+<script>
+    $(document).ready(function () {
+    $("#formdata").submit(function () {
+        $(".submitBtn").attr("disabled", true);
+        return true;
+    });
+});
+</script>
 <script>
      $(document).ready(function() {  
         $("input[type='text'][name='lead_name'],input[type='text'][name='name'], input[type='text'][name='email'], select[name='type'],input[type='tel'][name='phone'],input[type='date'][name='start_date']").focusout(function() {  
