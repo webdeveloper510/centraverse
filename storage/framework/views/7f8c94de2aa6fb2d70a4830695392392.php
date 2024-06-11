@@ -167,7 +167,6 @@ td {
     }
 }
 </style>
-
 <body>
 
     <div class="img-section">

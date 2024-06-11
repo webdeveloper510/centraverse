@@ -121,7 +121,7 @@ td {
 }
 
 .billing tfoot tr {
-    background-color: #dbdbdb;;
+    background-color: #dbdbdb;
 }
 
 .billing tfoot td {

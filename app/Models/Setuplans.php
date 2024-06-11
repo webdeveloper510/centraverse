@@ -10,6 +10,6 @@ class Setuplans extends Model
     use HasFactory;
     protected $table = 'setuplans';
     protected $fillable = [
-        'setp_docs',
+        'setp_docs','event_id'
     ];
 }

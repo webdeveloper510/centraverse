@@ -186,22 +186,21 @@
                                                             </a>
                                                         </div>
 
-                                                        @endif
-                                                        @if(($amountpaid + $deposit->deposits + $adjustments - $latefee) != $event->total )
-                                                        @can('Edit Payment')
-
-                                                    <div class="action-btn bg-info ms-2">
-                                                        <a href="#" data-size="md"
-                                                            data-url="{{ route('billing.update',urlencode(encrypt($event->id))) }}"
-                                                            data-bs-toggle="tooltip" title="{{__('Edit')}}"
-                                                            data-ajax-popup="true"
-                                                            data-title="{{__('Edit Invoice ')}}"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class="ti ti-edit"></i>
-                                                        </a>
-                                                    </div>
-                                                    @endcan
                                                     @endif
+                                                        @if(!$paymentLog)
+                                                            @can('Edit Payment')
+                                                                <div class="action-btn bg-info ms-2">
+                                                                    <a href="#" data-size="md"
+                                                                        data-url="{{ route('billing.update',urlencode(encrypt($event->id))) }}"
+                                                                        data-bs-toggle="tooltip" title="{{__('Edit')}}"
+                                                                        data-ajax-popup="true"
+                                                                        data-title="{{__('Edit Invoice ')}}"
+                                                                        class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                                        <i class="ti ti-edit"></i>
+                                                                    </a>
+                                                                </div>
+                                                            @endcan
+                                                        @endif
                                                         <div class="action-btn bg-info ms-2">
                                                             <a href="#" data-size="md"
                                                                 data-url="{{ route('billing.paymentinfo',urlencode(encrypt($event->id))) }}"

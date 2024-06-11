@@ -175,7 +175,9 @@ class MeetingController extends Controller
                 })->count();
 
             if ($overlapping_event > 0) {
-                return redirect()->back()->with('error', 'Event exists for correspomding time or venue!');
+                return redirect()
+                ->back()->with('error', 'Event exists for correspomding time or venue!')
+                ->withInput();
             }
 
             $overlapping_event = Blockdate::where('start_date', '<=', $end_date)
@@ -193,7 +195,10 @@ class MeetingController extends Controller
                 })->count();
 
             if ($overlapping_event > 0) {
-                return redirect()->back()->with('error', 'Date is Blocked for corrosponding time and venue');
+                return redirect()
+                ->back()->with('error', 'Date is Blocked for corrosponding time and venue!')
+                ->withInput();
+                // return redirect()->back()->with('error', 'Date is Blocked for corrosponding time and venue');
             }
             $phone= preg_replace('/\D/', '', $request->input('phone'));
             $meeting                      = new Meeting();
@@ -230,6 +235,10 @@ class MeetingController extends Controller
             $meeting['food_description']          = $request->food_package_description;
             $meeting['bar_description']          = $request->bar_package_description;
             $meeting['created_by']          = \Auth::user()->creatorId();
+           
+            
+            $meeting->save();
+
             if($request->hasFile('setupplans')) {
                 $file = $request->file('setupplans');
                 $filePath = $file->store('setup_plans', 'public');
@@ -239,9 +248,6 @@ class MeetingController extends Controller
                 $newsetup->save();
                 // $meeting['setup_plans']  = $filePath;
             }
-            
-            $meeting->save();
-         
             if($meeting->attendees_lead != 0){
                 Lead::find($request->lead)
                 ->update([
@@ -591,7 +597,6 @@ class MeetingController extends Controller
 
             if($request->hasFile('setupplans')) {
                 $file = $request->file('setupplans')[0];
-                // echo "<pre>";print_r($file);die;
 
                 $filePath = $file->store('setup_plans', 'public');
 

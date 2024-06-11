@@ -42,7 +42,6 @@
         text-align: center;
         margin-bottom: 20px;
         margin-top: 10px;
-        padding:10px;
         background-color: #dbdbdb;
     }
 
@@ -106,7 +105,7 @@
 
 <body>
     <div class="img-section">
-        <img src="{{ Storage::url('uploads/logo/logo-light.png') }}" alt="Logo">
+        <img src="<?php echo e(Storage::url('uploads/logo/logo-light.png')); ?>" alt="Logo">
     </div>
     <!-- <hr> -->
 
@@ -118,10 +117,10 @@
 
     <div class="details">
         <dl>
-            <span><b>Transaction Id:</b> {{$paymentlog->transaction_id}}</span>
-            <span><b>Name:</b> {{ $event->name }}</span>
-            <span><b>Date:</b> {{ \Carbon\Carbon::parse($paymentlog->created_at)->format('M d, Y') }}</span>
-            <span><b>Email Address:</b>{{$event->email  ?? '--' }}</span>
+            <span><b>Transaction Id:</b> <?php echo e($paymentlog->transaction_id); ?></span>
+            <span><b>Name:</b> <?php echo e($event->name); ?></span>
+            <span><b>Date:</b> <?php echo e(\Carbon\Carbon::parse($paymentlog->created_at)->format('M d, Y')); ?></span>
+            <span><b>Email Address:</b><?php echo e($event->email  ?? '--'); ?></span>
         </dl>
     </div>
     <hr>
@@ -135,23 +134,23 @@
         <tbody>
             <tr>
                 <td colspan="2">Event Type</td>
-                <td colspan="2">{{$event->type}}</td>
+                <td colspan="2"><?php echo e($event->type); ?></td>
             </tr>
             <tr>
                 <td colspan="2">Date of Event</td>
-                <td colspan="2">{{ \Carbon\Carbon::parse($event->start_date)->format('M d, Y') }}</td>
+                <td colspan="2"><?php echo e(\Carbon\Carbon::parse($event->start_date)->format('M d, Y')); ?></td>
             </tr>
             <tr>
                 <td colspan="2">No. of guests</td>
-                <td colspan="2">{{$event->guest_count}}</td>
+                <td colspan="2"><?php echo e($event->guest_count); ?></td>
             </tr>
             <tr>
                 <td colspan="2">Venue</td>
-                <td colspan="2">{{$event->venue_selection}}</td>
+                <td colspan="2"><?php echo e($event->venue_selection); ?></td>
             </tr>
             <tr>
                 <td colspan="2">Function</td>
-                <td colspan="2">{{$event->function}}</td>
+                <td colspan="2"><?php echo e($event->function); ?></td>
             </tr>
 
         </tbody>
@@ -171,29 +170,29 @@
 
             <tr>
                 <td colspan="2" class="text-right"><b>Total Amount</b></td>
-                <td> <b>${{$event['total']}}</b></td>
+                <td> <b>$<?php echo e($event['total']); ?></b></td>
             </tr>
             <tr>
                 <td colspan="2" class="text-right"><b>Adjustments</b></td>
-                <td> <b>{{($paymentinfo->adjustments == 0)? '--' :'$'.$paymentinfo->adjustments }} </b></td>
+                <td> <b><?php echo e(($paymentinfo->adjustments == 0)? '--' :'$'.$paymentinfo->adjustments); ?> </b></td>
             </tr>
             <tr>
                 <td colspan="2" class="text-right"><b>Late Fee(If any)</b></td>
-                <td><b>{{ ($paymentinfo->latefee == 0)? '--' : '$'.$paymentinfo->latefee}}</b></td>
+                <td><b><?php echo e(($paymentinfo->latefee == 0)? '--' : '$'.$paymentinfo->latefee); ?></b></td>
             </tr>
 
             <tr>
                 <td colspan="2" class="text-right"><b>Amount Collected</b></td>
-                <td> <b>${{$paymentlog->amount}} </b></td>
+                <td> <b>$<?php echo e($paymentlog->amount); ?> </b></td>
             </tr>
             <tr>
                 <td colspan="2" class="text-right"><b>Balance Due</b></td>
-                <td> <b>${{$event->total - $totalpaid - $deposit - $adjustments + $latefee}} </b></td>
+                <td> <b>$<?php echo e($event->total - $totalpaid - $deposit - $adjustments + $latefee); ?> </b></td>
             </tr>
         </tbody>
     </table>
     <br>
-    <h4 class="heading">Payment Mode: {{ucfirst($paymentinfo->modeofpayment)}}</h4>
+    <h4 class="heading">Payment Mode: <?php echo e(ucfirst($paymentinfo->modeofpayment)); ?></h4>
     
     <div class="footer">
         <p>&copy; The Bond 1786. All rights reserved.
@@ -204,4 +203,4 @@
 
 </body>
 
-</html>
+</html><?php /**PATH C:\xampp\htdocs\centraverse\resources\views/billing/mail/inv.blade.php ENDPATH**/ ?>

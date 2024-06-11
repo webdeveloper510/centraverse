@@ -190,22 +190,21 @@
                                                             </a>
                                                         </div>
 
+                                                    <?php endif; ?>
+                                                        <?php if(!$paymentLog): ?>
+                                                            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Edit Payment')): ?>
+                                                                <div class="action-btn bg-info ms-2">
+                                                                    <a href="#" data-size="md"
+                                                                        data-url="<?php echo e(route('billing.update',urlencode(encrypt($event->id)))); ?>"
+                                                                        data-bs-toggle="tooltip" title="<?php echo e(__('Edit')); ?>"
+                                                                        data-ajax-popup="true"
+                                                                        data-title="<?php echo e(__('Edit Invoice ')); ?>"
+                                                                        class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                                        <i class="ti ti-edit"></i>
+                                                                    </a>
+                                                                </div>
+                                                            <?php endif; ?>
                                                         <?php endif; ?>
-                                                        <?php if(($amountpaid + $deposit->deposits + $adjustments - $latefee) != $event->total ): ?>
-                                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Edit Payment')): ?>
-
-                                                    <div class="action-btn bg-info ms-2">
-                                                        <a href="#" data-size="md"
-                                                            data-url="<?php echo e(route('billing.update',urlencode(encrypt($event->id)))); ?>"
-                                                            data-bs-toggle="tooltip" title="<?php echo e(__('Edit')); ?>"
-                                                            data-ajax-popup="true"
-                                                            data-title="<?php echo e(__('Edit Invoice ')); ?>"
-                                                            class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class="ti ti-edit"></i>
-                                                        </a>
-                                                    </div>
-                                                    <?php endif; ?>
-                                                    <?php endif; ?>
                                                         <div class="action-btn bg-info ms-2">
                                                             <a href="#" data-size="md"
                                                                 data-url="<?php echo e(route('billing.paymentinfo',urlencode(encrypt($event->id)))); ?>"
