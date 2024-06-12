@@ -82,8 +82,9 @@
     }
     td{
     white-space: normal;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    word-wrap: break-word;
+    /* overflow: hidden;
+    text-overflow: ellipsis; */
 }
     .table tfoot td {
         font-weight: bold;

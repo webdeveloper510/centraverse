@@ -487,7 +487,7 @@ data-setup-id="<?php echo e($setup_plan->id); ?>">&times;</button> -->
                                         <!-- <td></td> -->
                                         <td>$<?php echo e($eventdetails->total); ?></td>
                                         <td>$<?php echo e($payment->amount); ?></td>
-                                        <td><?php echo e(($eventdetails->total - ($payinfos[0]->deposits + $collect_amount))<= 0 ? '--':'$'.$eventdetails->total - ($payinfos[0]->deposits - $latefee + $adj + $collect_amount)); ?>
+                                        <td><?php echo e('$'. ($payinfos[0]->deposits - $latefee + $adj + $collect_amount)); ?>
 
                                         </td>
                                     </tr>

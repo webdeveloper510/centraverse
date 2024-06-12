@@ -111,9 +111,10 @@ td {
     border: 1px solid #ccc;
     padding: 8px;
     font-size: 13px;
+    word-wrap: break-word;
     white-space: normal;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    /* overflow: hidden; */
+    /* text-overflow: ellipsis; */
 }
 
 .billing thead {
@@ -145,7 +146,7 @@ td {
 
 .table-container {
     margin-top: 30px;
-    page-break-inside: avoid;
+    /* page-break-inside: avoid; */
 }
 
 .main-div {
@@ -162,7 +163,7 @@ td {
 
 @media print {
     .table-container {
-        page-break-inside: avoid;
+        /* page-break-inside: avoid; */
     }
 
     .main-div {
@@ -228,7 +229,7 @@ td {
             </tr>
         </tbody>
     </table>
-    <div class="table-container ">
+    <div class="table-container " style="  table-layout: fixed;">
         <div class="header">
             <h5>Billing Summary</h5>
         </div>
@@ -291,42 +292,35 @@ td {
                 <tr class="total-row">
                     <td colspan="3">Total</td>
                     <td colspan="2">${{array_sum($total)}}</td>
-                    <td></td>
                 </tr>
                 <tr>
                     <td colspan="3">Sales, Occupancy Tax</td>
                     <td colspan="2">${{ 7 * array_sum($total) / 100 }}</td>
-                    <td></td>
                 </tr>
                 <tr>
                     <td colspan="3">Service Charges & Gratuity</td>
                     <td colspan="2">${{ 20 * array_sum($total) / 100 }}</td>
-                    <td></td>
                 </tr>
                 <tr class="total-row">
                     <td colspan="3">Grand Total / Estimated Total</td>
                     <td colspan="2">
                         ${{ $grandtotal = array_sum($total) + 20 * array_sum($total) / 100 + 7 * array_sum($total) / 100 }}
                     </td>
-                    <td></td>
                 </tr>
                 <tr class="total-row">
                     <td colspan="3">Deposits on file</td>
                     <td colspan="2">{{__('No Deposits yet')}}</td>
-                    <td></td>
                 </tr>
                 <tr class="balance-due">
                     <td colspan="3">Balance Due</td>
                     <td colspan="2">${{ $grandtotal }}</td>
-                    <td></td>
                 </tr>
             </tfoot>
         </table>
     </div>
-    <hr>
     <br>
 
-    <div class="header" style="page-break-before: always;">
+    <div class="header">
         <h5>Customer Comments/Notes</h5>
     </div>
     <hr>

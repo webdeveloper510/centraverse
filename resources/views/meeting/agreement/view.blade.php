@@ -110,9 +110,9 @@ td {
     border: 1px solid #ccc;
     padding: 8px;
     font-size: 13px;
+    /* white-space: normal; */
+    word-wrap: break-word;
     white-space: normal;
-    overflow: hidden;
-    text-overflow: ellipsis;
 
 }
 

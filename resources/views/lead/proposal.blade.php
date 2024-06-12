@@ -51,12 +51,12 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
     .logo-img {
         width: 100px;
     }
-
+/* 
     td{
     white-space: normal;
     overflow: hidden;
     text-overflow: ellipsis;
-}
+} */
 
     .table thead th {
         background: linear-gradient(141.55deg, #48494B 3.46%, #48494B 99.86%), #48494B !important;

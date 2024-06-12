@@ -79,8 +79,9 @@ td {
     padding: 8px;
     font-size: 13px;
     white-space: normal;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    word-wrap: break-word;
+    /* overflow: hidden;
+    text-overflow: ellipsis; */
 
 }
 

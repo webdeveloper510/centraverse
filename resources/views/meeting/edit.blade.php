@@ -964,13 +964,17 @@ imgInp.onchange = evt => {
         // Name validation
         let name = $('#name').val().trim();
         if (name === '') {
-            displayError('name', 'Name is required and must not contain only spaces.');
+            show_toastr('Primary', 'Name is required and must not contain only spaces.', 'danger');
+
+            // displayError('name', 'Name is required and must not contain only spaces.');
             isValid = false;
         }
         let startTime = $('#start_time').val();
         let endTime = $('#end_time').val();
         if (startTime != '' && endTime <= startTime) {
-            displayError('end_time', 'End time must be after start time.');
+            show_toastr('Primary', 'End time must be after start time.', 'danger');
+
+            // displayError('end_time', 'End time must be after start time.');
             isValid = false;
         }
 
@@ -1006,8 +1010,10 @@ imgInp.onchange = evt => {
 
                 // Append the error message if it exists
                 if (errorMessage != '') {
-                    input.after('<div class="validation-error text-danger" style="padding:2px;">' +
-                        errorMessage + '</div>');
+                    show_toastr('Primary', errorMessage, 'danger');
+
+                    // input.after('<div class="validation-error text-danger" style="padding:2px;">' +
+                    //     errorMessage + '</div>');
                 }
                 $("input[name='user[]']").change(validateCheckboxGroup('user[]'));
                 $("input[name='user[]']").focusout(validateCheckboxGroup('user[]'));
