@@ -81,7 +81,7 @@
         text-align: center;
     }
     td{
-    white-space: normal;
+    white-space: normal !important;
     word-wrap: break-word;
     /* overflow: hidden;
     text-overflow: ellipsis; */

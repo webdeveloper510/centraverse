@@ -30,7 +30,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Agreement</title>
+    <title> Proposal</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
     body {
@@ -51,12 +51,13 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
     .logo-img {
         width: 100px;
     }
-/* 
+
     td{
-    white-space: normal;
-    overflow: hidden;
-    text-overflow: ellipsis;
-} */
+    white-space: normal !important;
+    word-wrap: break-word;
+    /* overflow: hidden;
+    text-overflow: ellipsis; */
+}
 
     .table thead th {
         background: linear-gradient(141.55deg, #48494B 3.46%, #48494B 99.86%), #48494B !important;
