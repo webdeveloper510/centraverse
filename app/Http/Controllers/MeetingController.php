@@ -110,13 +110,13 @@ class MeetingController extends Controller
                     'user'=>'required'
                 ]
             );
-        if ($validator->fails()) {
-            $messages = $validator->getMessageBag();
-            return redirect()
-                ->back()->with('error', $messages->first())
-                ->withErrors($validator)
-                ->withInput();
-        }
+            if ($validator->fails()) {
+                $messages = $validator->getMessageBag();
+                return redirect()
+                    ->back()->with('error', $messages->first())
+                    ->withErrors($validator)
+                    ->withInput();
+            }
             $uploadedImage = $request->input('uploadedImage');
             // Handle file upload
             $data = $request->all();
@@ -336,10 +336,10 @@ class MeetingController extends Controller
             $url = 'https://fcm.googleapis.com/fcm/send';
             // $FcmToken = 'e0MpDEnykMLte1nJ0k3SU7:APA91bGpbv-KQEzEQhR1ApEgGFmn9H5tEkdpvG2FHuyiWP3JZsP_8CKJMi5tKyTn5DYgOmeDvAWFwdiDLeG_qTXZ6lUIWL2yqrFYJkUg-KUwTsQYupk0qYsi3OCZ8MZQNbCIDa6pbJ4j';
            
-            $FcmToken = User::where('type','owner')->orwhere('type','admin')->pluck('device_key')->first();
+            $FcmToken = User::where('type','owner')->orwhere('type','admin')->pluck('device_key')->toArray();
             $serverKey = 'AAAAn2kzNnQ:APA91bE68d4g8vqGKVWcmlM1bDvfvwOIvBl-S-KUNB5n_p4XEAcxUqtXsSg8TkexMR8fcJHCZxucADqim2QTxK2s_P0j5yuy6OBRHVFs_BfUE0B4xqgRCkVi86b8SwBYT953dE3X0wdY'; // ADD SERVER KEY HERE PROVIDED BY FCM
             $data = [
-                "to" =>$FcmToken,
+                "registration_ids" =>$FcmToken,
                 "notification" => [
                     "title" => 'Event created.',
                     "body" => 'New Event is Created',  
@@ -667,9 +667,9 @@ class MeetingController extends Controller
 {
     $setupId = $request->input('setup_id');
     $setupPlan = Setuplans::find($setupId);
-
+    $filePath= 'public/' . $setupPlan->setup_docs;
     if ($setupPlan) {
-        Storage::delete('public/' . $setupPlan->setup_docs);
+        Storage::disk('public')->delete($setupPlan->setup_docs);
         $setupPlan->delete();
         return response()->json(['success' => true]);
     }

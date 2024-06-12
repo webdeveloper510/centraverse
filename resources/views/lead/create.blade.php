@@ -40,7 +40,7 @@ $additional_items = json_decode($settings['additional_items'],true);
     </div>
     <div class="col-6 need_full">
         <div class="form-group">
-           {{Form::label('company_name',__('Event Name'),['class'=>'form-label']) }}
+            {{Form::label('company_name',__('Event Name'),['class'=>'form-label']) }}
             {{Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Event Name')))}}
         </div>
     </div>
@@ -178,29 +178,27 @@ $additional_items = json_decode($settings['additional_items'],true);
     </div>
 
     <div class="col-6 need_full" id="additionalSection">
-                                                @if(isset($additional_items) && !empty($additional_items))
-                                                {{ Form::label('additional', __('Additional items'), ['class' => 'form-label']) }}
-                                                @foreach($additional_items as $ad_key =>$ad_value)
-                                                @foreach($ad_value as $fun_key =>$packageVal)
-                                                <div class="form-group" data-additional-index="{{$fun_key}}"
-                                                    data-additional-value="{{key($packageVal)}}" id="ad_package"
-                                                    style="display: none;">
-                                                    {{ Form::label('additional', __($fun_key), ['class' => 'form-label']) }}
-                                                    @foreach($packageVal as $pac_key =>$item)
-                                                    <div class="form-check" data-additional-index="{{$pac_key}}"
-                                                        data-additional-package="{{$pac_key}}">
-                                                        {!! Form::checkbox('additional_'.str_replace(' ', '_',
-                                                        strtolower($fun_key)).'[]',$pac_key, null, ['data-function' =>
-                                                        $fun_key, 'class' => 'form-check-input']) !!}
-                                                        {{ Form::label($pac_key, $pac_key, ['class' => 'form-check-label']) }}
-                                                    </div>
-                                                    @endforeach
-                                                </div>
-                                                @endforeach
-                                                @endforeach
-                                                @endif
+        @if(isset($additional_items) && !empty($additional_items))
+        {{ Form::label('additional', __('Additional items'), ['class' => 'form-label']) }}
+        @foreach($additional_items as $ad_key =>$ad_value)
+        @foreach($ad_value as $fun_key =>$packageVal)
+        <div class="form-group" data-additional-index="{{$fun_key}}" data-additional-value="{{key($packageVal)}}"
+            id="ad_package" style="display: none;">
+            {{ Form::label('additional', __($fun_key), ['class' => 'form-label']) }}
+            @foreach($packageVal as $pac_key =>$item)
+            <div class="form-check" data-additional-index="{{$pac_key}}" data-additional-package="{{$pac_key}}">
+                {!! Form::checkbox('additional_'.str_replace(' ', '_',
+                strtolower($fun_key)).'[]',$pac_key, null, ['data-function' =>
+                $fun_key, 'class' => 'form-check-input']) !!}
+                {{ Form::label($pac_key, $pac_key, ['class' => 'form-check-label']) }}
+            </div>
+            @endforeach
+        </div>
+        @endforeach
+        @endforeach
+        @endif
 
-                                            </div>
+    </div>
     @endif
     <div class="col-6 need_full">
         <div class="form-group">
@@ -302,8 +300,8 @@ $additional_items = json_decode($settings['additional_items'],true);
 }
 </style>
 <script>
-    $(document).ready(function () {
-    $("#formdata").submit(function () {
+$(document).ready(function() {
+    $("#formdata").submit(function() {
         $(".submitBtn").attr("disabled", true);
         return true;
     });
@@ -325,34 +323,48 @@ $(document).ready(function() {
         // Lead Name validation
         let leadName = $('#lead_name').val().trim();
         if (leadName === '') {
-            displayError('lead_name', 'Lead name is required and must not contain only spaces.');
+            show_toastr('Primary', 'Name is required and must not contain only spaces.', 'danger');
+            // displayError('lead_name', 'Lead name is required and must not contain only spaces.');
             isValid = false;
         }
 
         // Name validation
         let name = $('#name').val().trim();
         if (name === '') {
-            displayError('name', 'Name is required and must not contain only spaces.');
+            show_toastr('Primary', 'Name is required and must not contain only spaces.', 'danger');
+
+            // displayError('name', 'Name is required and must not contain only spaces.');
             isValid = false;
         }
         let startTime = $('#start_time').val();
         let endTime = $('#end_time').val();
-        if (startTime != '' && endTime <= startTime) {
-            displayError('end_time', 'End time must be after start time.');
-            isValid = false;
+        if (startTime !== '' && endTime !== '') {
+            if (endTime <= startTime) {
+                show_toastr('Primary', 'End time must be after start time.', 'danger');
+
+                // displayError('end_time', 'End time must be after start time.');
+                event.preventDefault();
+                // isValid = false;
+            }
         }
+        // if (startTime != '' && endTime <= startTime) {
+        //     displayError('end_time', 'End time must be after start time.');
+        //     isValid = false;
+        // }
         let phone = $('#phone-input').val().trim();
         if (phone === '') {
-            displayError('phone-input', 'Phone number is required.');
+            show_toastr('Primary', 'Phone number is required', 'danger');
+            // displayError('phone-input', 'Phone number is required.');
             isValid = false;
         }
         let email = $('#email').val().trim();
         var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                // if (!emailPattern.test(input.val())) {
-                //     errorMessage = 'Invalid email address.';
-                // }
+        // if (!emailPattern.test(input.val())) {
+        //     errorMessage = 'Invalid email address.';
+        // }
         if (email === '' || !emailPattern.test(input.val())) {
-            displayError('email', 'Valid Email address is required.');
+            show_toastr('Primary', 'Valid Email address is required.', 'danger');
+            // displayError('email', 'Valid Email address is required.');
             isValid = false;
         }
         // Prevent form submission if any validation fails
@@ -390,8 +402,9 @@ $(document).ready(function() {
 
             // Append the error message if it exists
             if (errorMessage != '') {
-                input.after('<div class="validation-error text-danger" style="padding:2px;">' +
-                    errorMessage + '</div>');
+                show_toastr('Primary', errorMessage, 'danger');
+                // input.after('<div class="validation-error text-danger" style="padding:2px;">' +
+                //     errorMessage + '</div>');
             }
         });
 });
@@ -492,20 +505,20 @@ jQuery(function() {
     });
 });
 jQuery(function() {
-        $('div#mailFunctionSection input[type=checkbox]').change(function() {
-            $('div#additionalSection > div').hide();
-            $('div#mailFunctionSection input[type=checkbox]:checked').each(function() {
-                var funcValue = $(this).val();
-                $('div#additionalSection > div').each(function() {
-                    var ad_val = $(this).data('additional-index');
-                    console.log(ad_val)
-                    if (funcValue == ad_val) {
-                        $(this).show();
-                    }
-                });
+    $('div#mailFunctionSection input[type=checkbox]').change(function() {
+        $('div#additionalSection > div').hide();
+        $('div#mailFunctionSection input[type=checkbox]:checked').each(function() {
+            var funcValue = $(this).val();
+            $('div#additionalSection > div').each(function() {
+                var ad_val = $(this).data('additional-index');
+                console.log(ad_val)
+                if (funcValue == ad_val) {
+                    $(this).show();
+                }
             });
         });
     });
+});
 // jQuery(function() {
 //     $('div#mailFunctionSection input[type=checkbox]').change(function() {
 //         $('div#additionalSection > div').hide();

@@ -748,14 +748,20 @@ $('#formdata').on('submit', function(event) {
     // Name validation
     let name = $('#name').val().trim();
     if (name === '') {
-        displayError('name', 'Name is required and must not contain only spaces.');
+        show_toastr('Primary', 'Name is required and must not contain only spaces.', 'danger');
+
+        // displayError('name', 'Name is required and must not contain only spaces.');
         isValid = false;
     }
     let startTime = $('#start_time').val();
     let endTime = $('#end_time').val();
     if (startTime != '' && endTime <= startTime) {
-        displayError('end_time', 'End time must be after start time.');
-        isValid = false;
+        show_toastr('Primary', 'End time must be after start time.', 'danger');
+
+        // displayError('end_time', 'End time must be after start time.');
+        event.preventDefault();
+
+        // isValid = false;
     }
     let fileInput = $('#imgInp')[0];
     if (fileInput && fileInput.files.length > 0) {
@@ -763,12 +769,10 @@ $('#formdata').on('submit', function(event) {
         let allowedExtensions = /(\.pdf|\.doc|\.docx|\.jpg|\.jpeg|\.png|\.gif)$/i;
 
         if (!allowedExtensions.exec(filePath)) {
-            displayError('imgInp', 'Invalid file type. Only PDF, DOC, DOCX, and images are allowed.');
+            show_toastr('Primary', 'Invalid file type. Only PDF, DOC, DOCX, and images are allowed.', 'danger');
+            // displayError('imgInp', 'Invalid file type. Only PDF, DOC, DOCX, and images are allowed.');
             isValid = false;
         }
-    } else {
-        displayError('imgInp', 'File is required.');
-        isValid = false;
     }
     // Prevent form submission if any validation fails
     if (!isValid) {

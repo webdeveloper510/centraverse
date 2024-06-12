@@ -393,12 +393,39 @@ $selectedPackages = json_decode($lead->bar_package,true);
 @endsection
 @push('script-page')
 <script>
-    $(document).ready(function () {
-    $("#formdata").submit(function () {
-        $(".submitBtn").attr("disabled", true);
-        return true;
+//     $(document).ready(function () {
+//     $("#formdata").submit(function () {
+//         $(".submitBtn").attr("disabled", true);
+//         return true;
+//     });
+// });
+$('#formdata').on('submit', function(event) {
+        let isValid = true;
+
+        // Remove previous error messages
+        $('.error-message').remove();
+
+        // Function to display error messages
+        function displayError(inputId, message) {
+            $(`<span class="error-message">${message}</span>`).insertAfter(`#${inputId}`);
+        }
+
+        // Lead Name validation
+     
+        let startTime = $('#start_time').val();
+        let endTime = $('#end_time').val();
+        if (startTime !== '' && endTime !== '') {
+            if (endTime <= startTime) {
+                displayError('end_time', 'End time must be after start time.');
+                event.preventDefault();
+                // isValid = false;
+            }
+        } else{
+            $(".submitBtn").attr("disabled", true);
+            return true;    
+        }
+         
     });
-});
 </script>
 <script>
      $(document).ready(function() {  

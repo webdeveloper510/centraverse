@@ -351,54 +351,39 @@
                                 <tfoot>
                                     <tr>
                                         <td>Total</td>
-                                        <td colspan="2"></td>
-                                        <td>
+                                        <td colspan="4">
                                             ${{array_sum($total)}}</td>
-                                        <td></td>
                                     </tr>
                                     <tr>
                                         <td>Sales, Occupancy Tax</td>
-                                        <td colspan="2"> </td>
-                                        <td>
+                                        <td colspan="4">
                                             ${{ 7* array_sum($total)/100 }}</td>
-                                        <td></td>
                                     </tr>
                                     <tr>
                                         <td>Service Charges & Gratuity</td>
-                                        <td colspan="2"></td>
-                                        <td>
+                                        <td colspan="4">
                                             ${{ 20 * array_sum($total)/100 }}</td>
-
-                                        <td></td>
                                     </tr>
                                     <tr>
-                                        <td>-</td>
-                                        <td colspan="2"></td>
-                                        <td></td>
-
-                                        <td></td>
+                                        <td colspan="5"></td>
                                     </tr>
                                     <tr>
                                         <td style="background-color:#ffff00;">
                                             Grand Total / Estimated Total</td>
-                                        <td colspan="2"></td>
-                                        <td>
+                                        <td colspan="4">
                                             ${{$grandtotal= array_sum($total) + 20* array_sum($total)/100 + 7* array_sum($total)/100}}
                                         </td>
 
-                                        <td></td>
                                     </tr>
                                     <tr>
                                         <td>Deposits on file</td>
-                                        <td colspan="3">
+                                        <td colspan="4">
                                             ${{$deposit= $billing->deposits}}</td>
-                                        <td></td>
                                     </tr>
                                     <tr>
                                         <td>Balance due</td>
-                                        <td colspan="3">
+                                        <td colspan="4">
                                             ${{$grandtotal - $deposit}}</td>
-                                        <td colspan="2"></td>
                                     </tr>
 </tfoot>
                             </table>

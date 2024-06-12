@@ -483,10 +483,16 @@ $eventdoc = App\Models\EventDoc::where('event_id',$meeting->id)->get();
                                                                                 View Document</a>
                                                                         </td>
                                                                         <td>
+                                                                       
+                                                                            <button type="button" id=""
+                                                                               data-setup-id="{{ $setup_plan->id }}"
+                                                                                class="btn btn-danger removesetup" title="Delete"><i
+                                                                                    class="fa fa-trash"></i></button>
+                                                                        </td>
                                                                         <!-- <button type="button" class="btn btn-danger remove-setup"
                                                                         data-setup-id="{{ $setup_plan->id }}">&times;</button> -->
                                                                           
-                                                                        </td>
+                                                                        
                                                                     </tr>
                                                                 @endforeach
                                                                 @endif
@@ -639,9 +645,9 @@ $eventdoc = App\Models\EventDoc::where('event_id',$meeting->id)->get();
                                                                                 View Document</a>
                                                                         </td>
                                                                         <td>
-                                                                            <button type="button" id="removedoc"
+                                                                            <button type="button" id=""
                                                                                 data-main-value="{{$file->filename}}"
-                                                                                class="btn btn-danger" title="Delete"><i
+                                                                                class="btn btn-danger removedoc" title="Delete"><i
                                                                                     class="fa fa-trash"></i></button>
                                                                         </td>
                                                                     </tr>
@@ -714,7 +720,7 @@ $eventdoc = App\Models\EventDoc::where('event_id',$meeting->id)->get();
         });
     });
 
-    $('#removedoc').click(function(event) {
+    $('.removedoc').click(function(event) {
 
         var filename = $(this).data('main-value');
 
@@ -758,7 +764,49 @@ $eventdoc = App\Models\EventDoc::where('event_id',$meeting->id)->get();
         })
     });
 
-    
+    $('.removesetup').click(function(event) {
+
+var setup_id = $(this).data('setup-id');
+
+const swalWithBootstrapButtons = Swal.mixin({
+    customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+    },
+    buttonsStyling: false
+})
+swalWithBootstrapButtons.fire({
+    title: 'Are you sure?',
+    text: "This action can not be undone. Do you want to continue?",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes',
+    cancelButtonText: 'No',
+    reverseButtons: true
+}).then((result) => {
+    if (result.isConfirmed) {
+        $.ajax({
+            type: 'POST',
+            url: "{{route('meeting.removesetup',$meeting->id)}}",
+            data: {
+                "setup_id": setup_id,
+                "_token": "{{ csrf_token() }}",
+            },
+            success: function(result) {
+                console.log(result);
+                if (result.success == true) {
+                    swal.fire("Done!", result.message, "success");
+                    setTimeout(function() {
+                        location.reload();
+                    }, 1000);
+                } else {
+                    swal.fire("Error!", result.message, "error");
+                }
+            }
+        });
+    }
+})
+});
     document.addEventListener('DOMContentLoaded', function() {
         const imgInp = document.getElementById('imgInp');
         const previewDiv = document.getElementById('previewDiv');
@@ -967,8 +1015,8 @@ imgInp.onchange = evt => {
                 $("input[name='venue[]']").focusout(validateCheckboxGroup('venue[]'));
                 $("input[name='function[]']").change(validateCheckboxGroup('function[]'));
                 $("input[name='function[]']").focusout(validateCheckboxGroup('function[]'));
-                $("input[type='radio'][name='meal']").focusout(validateInputGroup('meal'));
-                $("input[type='radio'][name='meal']").change(validateInputGroup('meal'));
+                $("input[type='radio'][name='meal']").focusout(validateCheckboxGroup('meal'));
+                $("input[type='radio'][name='meal']").change(validateCheckboxGroup('meal'));
             });
     });
     </script>

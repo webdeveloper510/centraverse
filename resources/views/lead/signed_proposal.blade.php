@@ -289,34 +289,34 @@ td {
             </tbody>
             <tfoot>
                 <tr class="total-row">
-                    <td colspan="4">Total</td>
+                    <td colspan="3">Total</td>
                     <td colspan="2">${{array_sum($total)}}</td>
                     <td></td>
                 </tr>
                 <tr>
-                    <td colspan="4">Sales, Occupancy Tax</td>
+                    <td colspan="3">Sales, Occupancy Tax</td>
                     <td colspan="2">${{ 7 * array_sum($total) / 100 }}</td>
                     <td></td>
                 </tr>
                 <tr>
-                    <td colspan="4">Service Charges & Gratuity</td>
+                    <td colspan="3">Service Charges & Gratuity</td>
                     <td colspan="2">${{ 20 * array_sum($total) / 100 }}</td>
                     <td></td>
                 </tr>
                 <tr class="total-row">
-                    <td colspan="4">Grand Total / Estimated Total</td>
+                    <td colspan="3">Grand Total / Estimated Total</td>
                     <td colspan="2">
                         ${{ $grandtotal = array_sum($total) + 20 * array_sum($total) / 100 + 7 * array_sum($total) / 100 }}
                     </td>
                     <td></td>
                 </tr>
                 <tr class="total-row">
-                    <td colspan="4">Deposits on file</td>
+                    <td colspan="3">Deposits on file</td>
                     <td colspan="2">{{__('No Deposits yet')}}</td>
                     <td></td>
                 </tr>
                 <tr class="balance-due">
-                    <td colspan="4">Balance Due</td>
+                    <td colspan="3">Balance Due</td>
                     <td colspan="2">${{ $grandtotal }}</td>
                     <td></td>
                 </tr>
