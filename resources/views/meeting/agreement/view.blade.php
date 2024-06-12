@@ -170,7 +170,7 @@ ul {
 }
 @media print {
     .table-container {
-        page-break-inside: avoid;
+        /* page-break-inside: avoid; */
     }
     .main-div {
         page-break-inside: avoid;
