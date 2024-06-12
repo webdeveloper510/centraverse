@@ -149,7 +149,7 @@ ul {
 
 .table-container {
     margin-top: 30px;
-    page-break-inside: avoid;
+    /* page-break-inside: avoid; */
 }
 .main-div {
             margin-top: 20px;
@@ -166,7 +166,7 @@ ul {
     margin-top: 5px;
 }
 .detailsss{
-    page-break-inside: avoid;
+    /* page-break-inside: avoid; */
 }
 @media print {
     .table-container {

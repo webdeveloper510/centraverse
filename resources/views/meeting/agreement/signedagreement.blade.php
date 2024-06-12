@@ -127,7 +127,7 @@
     }
 
     .detailsss {
-        page-break-inside: avoid;
+        /* page-break-inside: avoid; */
     }
     </style>
 </head>
