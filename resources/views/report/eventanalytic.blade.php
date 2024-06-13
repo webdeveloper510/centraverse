@@ -141,7 +141,7 @@
                                 <th scope="col" class="sort" data-sort="name">{{ __('Function') }}</th>
                                 <th scope="col" class="sort" data-sort="name">{{ __('Comments') }}</th>
                                 <th scope="col" class="sort" data-sort="name">{{ __('Invoice Created') }}</th>
-                                <th scope="col" class="sort" data-sort="budget">{{ __('Payment Status') }}</th>
+                                <!-- <th scope="col" class="sort" data-sort="budget">{{ __('Payment Status') }}</th> -->
                                 <th scope="col" class="sort" data-sort="budget">{{ __('Total Amount') }}</th>
                                 <th scope="col" class="sort" data-sort="budget">{{ __('Adjustments') }}</th>
                                 <th scope="col" class="sort" data-sort="budget">{{ __('Late Fee') }}</th>
@@ -153,6 +153,9 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <?php   $latefee = 0;
+                                        $adj = 0;
+                                        $collect_amount = 0;?>
                             @foreach ($events as $result)
                             <?php $invoice = App\Models\Billing::where('event_id',$result['id'])->exists(); ?>
                             <tr>
@@ -180,7 +183,7 @@
                                 <td>
                                     @if($invoice) Yes @else No @endif
                                 </td>
-                                <td>
+                               
                                 <?php 
                                     $existingbill = App\Models\Billing::where('event_id',$result['id'])->exists();         
                                     if($existingbill){
@@ -191,29 +194,21 @@
                                             $payinfos = App\Models\PaymentInfo::where('event_id',$result['id'])->get();
                                         }
                                         $beforedeposit = App\Models\Billing::where('event_id',$result['id'])->first();
-                                        $latefee = 0;
-                                        $adj = 0;
-                                        $collect_amount = 0;
+                                       
                                         foreach($payinfos as $k=>$val){
                                             $latefee += $val->latefee;
                                             $adj += $val->adjustments;
-                                            $collect_amount += $val->collect_amount;
+                                           
+                                        }
+                                        foreach ($payments as  $value) {
+                                            $collect_amount += $value->amount;
                                         }
                                     }
 
                                     $paymentLog = App\Models\PaymentLogs::where('event_id', $result['id'])->orderBy('id', 'desc')->first();
                                     $paymentInfo = App\Models\PaymentInfo::where('event_id', $result['id'])->orderBy('id', 'desc')->first();
                                 ?>
-                                    @if($paymentLog && $paymentInfo)
-                                    @if($paymentLog->amount < $paymentInfo->amounttobepaid && $paymentLog->amount != 0)
-                                        Partially Paid
-                                        @else
-                                        Completed
-                                        @endif
-                                        @else
-                                        No Payment
-                                        @endif
-                                </td>
+                                  
                                 <td>
 
                                     @if($result['total'] != 0)

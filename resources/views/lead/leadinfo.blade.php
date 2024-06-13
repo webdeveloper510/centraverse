@@ -268,6 +268,17 @@ data-setup-id="{{ $setup_plan->id }}">&times;</button> -->
                                             $payinfos = App\Models\PaymentInfo::where('event_id',$eventdetails->id)->get();
                                         }
                                         $beforedeposit = App\Models\Billing::where('event_id',$eventdetails->id)->first();
+                                        $latefee = 0;
+                                        $adj = 0;
+                                        $collect_amount = 0;
+
+                                        foreach($payinfos as $k=>$val){
+                                            $latefee += $val->latefee;
+                                            $adj += $val->adjustments;
+                                        }
+                                        foreach ($payments as  $value) {
+                                            $collect_amount +=$value->amount;
+                                        }
                                     ?>
             <div class="container-fluid mt-3">
                 <div class="row">
@@ -412,17 +423,7 @@ data-setup-id="{{ $setup_plan->id }}">&times;</button> -->
                 </div>
             </div>
             @if(isset($payments) && !empty($payments))
-            <?php 
-                                            $latefee = 0;
-                                            $adj = 0;
-                                            $collect_amount = 0;
-                                            foreach($payinfos as $k=>$val){
-                                                $latefee += $val->latefee;
-                                                $adj += $val->adjustments;
-                                                $collect_amount += $val->collect_amount;
-                                            }
-
-                                ?>
+          
             <div class="col-lg-12">
                 <div class="card" id="useradd-1">
                     <div class="card-body table-border-style">
@@ -497,7 +498,7 @@ data-setup-id="{{ $setup_plan->id }}">&times;</button> -->
                                                                     <td></td><td></td><td></td> -->
                                         <td colspan='3'><b>Total Amount Recieved:</b></td>
                                         <td colspan='3'>
-                                            {{((isset($beforedeposit->deposits)? $beforedeposit->deposits : 0) + $collect_amount<=0) ?'--': '$'.((isset($beforedeposit->deposits)? $beforedeposit->deposits : 0)+ $collect_amount)}}
+                                            {{((isset($beforedeposit->deposits)? $beforedeposit->deposits : 0) + $collect_amount<=0) ?'--': '$'.((isset($beforedeposit->deposits)? $beforedeposit->deposits : 0) + $collect_amount)}}
                                         </td>
                                     </tr>
 

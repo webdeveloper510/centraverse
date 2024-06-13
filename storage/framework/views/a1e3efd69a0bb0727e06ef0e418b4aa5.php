@@ -146,7 +146,7 @@
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Function')); ?></th>
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Comments')); ?></th>
                                 <th scope="col" class="sort" data-sort="name"><?php echo e(__('Invoice Created')); ?></th>
-                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Payment Status')); ?></th>
+                                <!-- <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Payment Status')); ?></th> -->
                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Total Amount')); ?></th>
                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Adjustments')); ?></th>
                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Late Fee')); ?></th>
@@ -158,6 +158,9 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <?php   $latefee = 0;
+                                        $adj = 0;
+                                        $collect_amount = 0;?>
                             <?php $__currentLoopData = $events; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $result): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <?php $invoice = App\Models\Billing::where('event_id',$result['id'])->exists(); ?>
                             <tr>
@@ -189,7 +192,7 @@
                                 <td>
                                     <?php if($invoice): ?> Yes <?php else: ?> No <?php endif; ?>
                                 </td>
-                                <td>
+                               
                                 <?php 
                                     $existingbill = App\Models\Billing::where('event_id',$result['id'])->exists();         
                                     if($existingbill){
@@ -200,29 +203,21 @@
                                             $payinfos = App\Models\PaymentInfo::where('event_id',$result['id'])->get();
                                         }
                                         $beforedeposit = App\Models\Billing::where('event_id',$result['id'])->first();
-                                        $latefee = 0;
-                                        $adj = 0;
-                                        $collect_amount = 0;
+                                       
                                         foreach($payinfos as $k=>$val){
                                             $latefee += $val->latefee;
                                             $adj += $val->adjustments;
-                                            $collect_amount += $val->collect_amount;
+                                           
+                                        }
+                                        foreach ($payments as  $value) {
+                                            $collect_amount += $value->amount;
                                         }
                                     }
 
                                     $paymentLog = App\Models\PaymentLogs::where('event_id', $result['id'])->orderBy('id', 'desc')->first();
                                     $paymentInfo = App\Models\PaymentInfo::where('event_id', $result['id'])->orderBy('id', 'desc')->first();
                                 ?>
-                                    <?php if($paymentLog && $paymentInfo): ?>
-                                    <?php if($paymentLog->amount < $paymentInfo->amounttobepaid && $paymentLog->amount != 0): ?>
-                                        Partially Paid
-                                        <?php else: ?>
-                                        Completed
-                                        <?php endif; ?>
-                                        <?php else: ?>
-                                        No Payment
-                                        <?php endif; ?>
-                                </td>
+                                  
                                 <td>
 
                                     <?php if($result['total'] != 0): ?>

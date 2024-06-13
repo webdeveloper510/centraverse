@@ -70,8 +70,8 @@ class DashboardController extends Controller
                     $events_revenue += $value->total;
                 }
                 $paymentlogs = PaymentLogs::all();
-                $billingdep = Billing::all();
-                $depositss = 0;
+                // $billingdep = Billing::all();
+                // $depositss = 0;
                 $payinfo = PaymentInfo::all();
                 $totallatefee = 0;
                 $totaladjustments = 0;
@@ -84,10 +84,10 @@ class DashboardController extends Controller
                     $events_revenue_generated += $value->amount;  
                     # code...
                 }
-                foreach ($billingdep as $key => $value) {
-                    $depositss += $value->deposits;  
-                    # code...
-                }
+                // foreach ($billingdep as $key => $value) {
+                //     $depositss += $value->deposits;  
+                //     # code...
+                // }
                 $lostLeads = Lead::where('created_by', \Auth::user()->creatorId())->where('proposal_status', '==',3)->take(4)->get(); 
                 $activeEvent = Meeting::where('created_by', \Auth::user()->creatorId())->where('start_date', '>=', $date)->get();
                 $pastEvents = Meeting::where('created_by', \Auth::user()->creatorId())->where('start_date', '<', $date)->take(4)->get();
@@ -132,8 +132,13 @@ class DashboardController extends Controller
                     $quotes[]                = $quotedata;
                 }
                 $data['quote'] = $quotes;
+                $totaldeposit= 0;
 
-
+                $depositinfo= Billing::get()->pluck('deposits');
+                foreach ($depositinfo as  $value) {
+                    $totaldeposit += $value;
+                }
+                
                 $statuss     = SalesOrder::$status;
                 $salesOrders = [];
                 foreach ($statuss as $id => $status) {
@@ -167,7 +172,7 @@ class DashboardController extends Controller
                 // } else {
                 //     $storage_limit = 0;
                 // }
-                return view('home', compact('venue_dropdown','blockeddate','events_revenue','totallatefee','totaladjustments','events','depositss','events_revenue_generated','data','users','plan','upcoming','completed','totalevent','activeLeads', 'lostLeads', 'activeEvent', 'pastEvents'));
+                return view('home', compact('venue_dropdown','blockeddate','totaldeposit','events_revenue','totallatefee','totaladjustments','events','events_revenue_generated','data','users','plan','upcoming','completed','totalevent','activeLeads', 'lostLeads', 'activeEvent', 'pastEvents'));
             }
         } else {
 

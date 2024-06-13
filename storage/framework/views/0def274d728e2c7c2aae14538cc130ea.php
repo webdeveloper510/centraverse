@@ -71,7 +71,7 @@ h6 {
                                         <div class="mt10">
                                             <h6 class="mb-0"><?php echo e(__('Amount Recieved(E)')); ?></h6>
                                             <h3 class="mb-0">
-                                                <?php echo e($events_revenue_generated != 0 ? '$'.number_format($events_revenue_generated +$depositss ) : '--'); ?>
+                                                <?php echo e($events_revenue_generated != 0 ? '$'.number_format($events_revenue_generated +$totaldeposit ) : '--'); ?>
 
                                             </h3>
 
@@ -188,17 +188,20 @@ h6 {
                                             $pay = App\Models\PaymentLogs::where('event_id',$event['id'])->exists();
                                             $deposit = App\Models\Billing::where('event_id',$event['id'])->first();
                                             $info = App\Models\PaymentInfo::where('event_id',$event->id)->get();
-
+                                            $payinfo = App\Models\PaymentLogs::where('event_id',$event->id)->get();
                                             $latefee = 0;
                                             $adjustments = 0;
+                                            // $collectedamount = 0;
                                             foreach($info as $inf){
                                             $latefee += $inf->latefee;
                                             $adjustments += $inf->adjustments;
                                             }
+                                            // foreach ($payinfo as $value) {
+                                            //     $collectedamount += $inf->amount;
+                                            // }
                                             $total = 0;
                                             if($pay){
                                                 $paym = App\Models\PaymentLogs::where('event_id',$event['id'])->get(); 
-
                                                 foreach($paym as $p){
                                                     $total += $p->amount; 
                                                 }
@@ -213,7 +216,9 @@ h6 {
 
                                                 <div style="color: #a99595;">
                                                     Billing Amount: $<?php echo e(number_format($event['total'])); ?><br>
-                                                    Amount Due: <?php echo e(($event['total'] - $total - $deposit->deposits -$adjustments +$latefee == 0) ? '--' : '$'. number_format($event['total'] - $total - $deposit->deposits -$adjustments + $latefee)); ?>
+                                                    Amount Due: <?php echo e(($event['total'] - $total - $deposit->deposits -$adjustments +$latefee == 0) ? '--' : '$'. number_format($event['total'] - $total - $deposit->deposits -$adjustments + $latefee)); ?><br>
+                                                    Deposits: <?php echo e(($deposit->deposits != 0)?'$'.$deposit->deposits :'--'); ?><br>
+                                                    Amount Collected : <?php echo e(($total != 0)?'$'.$total :'--'); ?>
 
                                                 </div>
                                                 <div class="date-y">

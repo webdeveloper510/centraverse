@@ -443,7 +443,7 @@ class UserController extends Controller
             $request,
             [
                 'name' => 'required|max:120',
-                'email' => 'required|email|unique:users,email,' . $userDetail['id'],
+                'email' => 'required|email',
                 'profile' => 'image',
             ]
         );
