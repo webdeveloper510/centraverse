@@ -216,6 +216,7 @@ $additional_items = json_decode($settings['additional_items'],true);
             id="ad_package" style="display: none;">
             <?php echo e(Form::label('additional', __($fun_key), ['class' => 'form-label'])); ?>
 
+          
             <?php $__currentLoopData = $packageVal; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $pac_key =>$item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <div class="form-check" data-additional-index="<?php echo e($pac_key); ?>" data-additional-package="<?php echo e($pac_key); ?>">
                 <?php echo Form::checkbox('additional_'.str_replace(' ', '_',

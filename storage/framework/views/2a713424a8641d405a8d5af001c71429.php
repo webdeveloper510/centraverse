@@ -16,7 +16,7 @@ $bar_pck = json_decode($event['bar_package'], true);
     font-family: Arial, sans-serif;
     font-size: 12px;
     color: #333;
-    margin: 20px;
+    /* margin: 20px; */
 }
 
 .img-section {
@@ -64,6 +64,7 @@ table {
     margin-top: 20px;
     border-collapse: collapse;
     margin-bottom: 20px;
+    table-layout: fixed;
 }
 
 thead {
@@ -77,6 +78,11 @@ td {
     border: 1px solid #ccc;
     padding: 8px;
     font-size: 13px;
+    white-space: normal;
+    word-wrap: break-word;
+    /* overflow: hidden;
+    text-overflow: ellipsis; */
+
 }
 
 .billing thead {
@@ -107,8 +113,8 @@ td {
 
 
 .table-container {
-    margin-top: 30px;
-    page-break-inside: avoid;
+    margin-top: 10px;
+    /* page-break-inside: avoid; */
 }
 
 </style>
@@ -226,37 +232,31 @@ td {
         </tbody>
         <tfoot>
             <tr class="total-row">
-                <td colspan="4">Total</td>
+                <td colspan="3">Total</td>
                 <td colspan="2">$<?php echo e(array_sum($total)); ?></td>
-                <td></td>
             </tr>
             <tr>
-                <td colspan="4">Sales, Occupancy Tax</td>
+                <td colspan="3">Sales, Occupancy Tax</td>
                 <td colspan="2">$<?php echo e(7 * array_sum($total) / 100); ?></td>
-                <td></td>
             </tr>
             <tr>
-                <td colspan="4">Service Charges & Gratuity</td>
+                <td colspan="3">Service Charges & Gratuity</td>
                 <td colspan="2">$<?php echo e(20 * array_sum($total) / 100); ?></td>
-                <td></td>
             </tr>
             <tr class="total-row">
-                <td colspan="4">Grand Total / Estimated Total</td>
+                <td colspan="3">Grand Total / Estimated Total</td>
                 <td colspan="2">
                     $<?php echo e($grandtotal = array_sum($total) + 20 * array_sum($total) / 100 + 7 * array_sum($total) / 100); ?>
 
                 </td>
-                <td></td>
             </tr>
             <tr class="total-row">
-                <td colspan="4">Deposits on file</td>
+                <td colspan="3">Deposits on file</td>
                 <td colspan="2">$<?php echo e($deposit = $billing->deposits); ?></td>
-                <td></td>
             </tr>
             <tr class="balance-due">
-                <td colspan="4">Balance Due</td>
+                <td colspan="3">Balance Due</td>
                 <td colspan="2">$<?php echo e($grandtotal - $deposit); ?></td>
-                <td></td>
             </tr>
         </tfoot>
     </table>

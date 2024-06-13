@@ -8,9 +8,11 @@ $category= explode(',',$settings['campaign_type']);
         <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
             <div class="navbar-brand-box">
                 <a href="#" class="navbar-brand">
-                    <img src="{{$logo.'3_logo-light.png'}}" alt="{{ config('app.name', 'The Sector Eight') }}"
-                        class="logo logo-lg nav-sidebar-logo" height="50" />
+                    <img src="{{$logo.'logo-light.png'}}" alt="{{ config('app.name', 'The Sector Eight') }}"
+                        class="logo logo-lg nav-sidebar-logo" height="50" /><br>
                 </a>
+                <span class="span-title">Powered by The Sector Eight</span>
+
             </div>
             <div class="scrollbar">
                 @if(\Request::route()->getName() == 'lead.review')

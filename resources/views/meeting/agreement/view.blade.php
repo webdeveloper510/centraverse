@@ -149,7 +149,7 @@ ul {
 
 .table-container {
     margin-top: 30px;
-    /* page-break-inside: avoid; */
+    page-break-inside: avoid;
 }
 .main-div {
             margin-top: 20px;
@@ -170,7 +170,7 @@ ul {
 }
 @media print {
     .table-container {
-        /* page-break-inside: avoid; */
+        page-break-inside: avoid;
     }
     .main-div {
         page-break-inside: avoid;
@@ -268,7 +268,7 @@ ul {
         </p>
     </div>
     
-    <div class="table-container ">
+    <div class="table-container" style="">
         <div class="header">
         <h5>Billing Summary</h5>
         </div>

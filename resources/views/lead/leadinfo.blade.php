@@ -214,8 +214,8 @@ $converted_to_event = App\Models\Meeting::where('attendees_lead',$lead->id)->exi
                                         <dd class="col-md-8 need_half"><span class="">
                                                 <table class="table table-bordered">
                                                     <thead>
-                                                    <th>Setups</th>
-                                                    <th>Action</th>
+                                                        <th>Setups</th>
+                                                        <th>Action</th>
                                                     </thead>
                                                     <tbody>
                                                         <?php $setups = App\Models\Setuplans::where('event_id',$eventdetails->id)->exists(); ?>
@@ -281,13 +281,11 @@ data-setup-id="{{ $setup_plan->id }}">&times;</button> -->
                                         <thead class="thead-dark">
                                             <tr>
                                                 <th>Name: {{$eventdetails['name']}}</th>
-                                                <th colspan="2"></th>
                                                 <th colspan="3">Bill created on: <?php echo date("d/m/Y"); ?></th>
                                                 <th>Event: {{$eventdetails['type']}}</th>
                                             </tr>
                                             <tr>
                                                 <th>Description</th>
-                                                <th colspan="2">&nbsp;</th>
                                                 <th>Cost</th>
                                                 <th>Quantity</th>
                                                 <th>Total Price</th>
@@ -297,7 +295,6 @@ data-setup-id="{{ $setup_plan->id }}">&times;</button> -->
                                         <tbody>
                                             <tr>
                                                 <td>Venue Rental</td>
-                                                <td colspan="2"></td>
                                                 <td>${{$billing_data['venue_rental']['cost']}}</td>
                                                 <td>{{$billing_data['venue_rental']['quantity']}}</td>
                                                 <td>${{$total[] = $billing_data['venue_rental']['cost'] * $billing_data['venue_rental']['quantity']}}
@@ -306,7 +303,6 @@ data-setup-id="{{ $setup_plan->id }}">&times;</button> -->
                                             </tr>
                                             <tr>
                                                 <td>Brunch / Lunch / Dinner Package</td>
-                                                <td colspan="2"></td>
                                                 <td>${{$billing_data['food_package']['cost']}}</td>
                                                 <td>{{$billing_data['food_package']['quantity']}}</td>
                                                 <td>${{$total[] = $billing_data['food_package']['cost'] * $billing_data['food_package']['quantity']}}
@@ -315,7 +311,6 @@ data-setup-id="{{ $setup_plan->id }}">&times;</button> -->
                                             </tr>
                                             <tr>
                                                 <td>Bar Package</td>
-                                                <td colspan="2"></td>
                                                 <td>${{$billing_data['bar_package']['cost']}}</td>
                                                 <td>{{$billing_data['bar_package']['quantity']}}</td>
                                                 <td>${{$total[] = $billing_data['bar_package']['cost'] * $billing_data['bar_package']['quantity']}}
@@ -324,7 +319,6 @@ data-setup-id="{{ $setup_plan->id }}">&times;</button> -->
                                             </tr>
                                             <tr>
                                                 <td>Hotel Rooms</td>
-                                                <td colspan="2"></td>
                                                 <td>${{$billing_data['hotel_rooms']['cost']}}</td>
                                                 <td>{{$billing_data['hotel_rooms']['quantity']}}</td>
                                                 <td>${{$total[] = $billing_data['hotel_rooms']['cost'] * $billing_data['hotel_rooms']['quantity']}}
@@ -333,7 +327,6 @@ data-setup-id="{{ $setup_plan->id }}">&times;</button> -->
                                             </tr>
                                             <tr>
                                                 <td>Tent, Tables, Chairs, AV Equipment</td>
-                                                <td colspan="2"></td>
                                                 <td>${{$billing_data['equipment']['cost']}}</td>
                                                 <td>{{$billing_data['equipment']['quantity']}}</td>
                                                 <td>${{$total[] = $billing_data['equipment']['cost'] * $billing_data['equipment']['quantity']}}
@@ -343,7 +336,6 @@ data-setup-id="{{ $setup_plan->id }}">&times;</button> -->
                                             @if(!$billing_data['setup']['cost'] == '')
                                             <tr>
                                                 <td>Welcome / Rehearsal / Special Setup</td>
-                                                <td colspan="2"></td>
                                                 <td>${{$billing_data['setup']['cost']}}</td>
                                                 <td>{{$billing_data['setup']['quantity']}}</td>
                                                 <td>${{$total[] = $billing_data['setup']['cost'] * $billing_data['setup']['quantity']}}
@@ -353,7 +345,6 @@ data-setup-id="{{ $setup_plan->id }}">&times;</button> -->
                                             @endif
                                             <tr>
                                                 <td>Special Requests / Others</td>
-                                                <td colspan="2"></td>
                                                 <td>${{$billing_data['special_req']['cost']}}</td>
                                                 <td>{{$billing_data['special_req']['quantity']}}</td>
                                                 <td>${{$total[] = $billing_data['special_req']['cost'] * $billing_data['special_req']['quantity']}}
@@ -362,7 +353,6 @@ data-setup-id="{{ $setup_plan->id }}">&times;</button> -->
                                             </tr>
                                             <tr>
                                                 <td>Additional Items</td>
-                                                <td colspan="2"></td>
                                                 <td>${{$billing_data['additional_items']['cost']}}</td>
                                                 <td>{{$billing_data['additional_items']['quantity']}}</td>
                                                 <td>${{$total[] = $billing_data['additional_items']['cost'] * $billing_data['additional_items']['quantity']}}
@@ -371,13 +361,11 @@ data-setup-id="{{ $setup_plan->id }}">&times;</button> -->
                                             </tr>
                                             <tr>
                                                 <td>-</td>
-                                                <td colspan="2"></td>
                                                 <td colspan="3"></td>
                                                 <td></td>
                                             </tr>
                                             <tr class="table-primary">
                                                 <td>Total</td>
-                                                <td colspan="2"></td>
                                                 <td colspan="2"></td>
                                                 <td>${{array_sum($total)}}</td>
                                                 <td></td>
@@ -385,31 +373,34 @@ data-setup-id="{{ $setup_plan->id }}">&times;</button> -->
                                             <tr>
                                                 <td>Sales, Occupancy Tax</td>
                                                 <td colspan="2"></td>
-                                                <td colspan="2"></td>
                                                 <td>${{ 7 * array_sum($total) / 100 }}</td>
                                                 <td></td>
                                             </tr>
                                             <tr>
                                                 <td>Service Charges & Gratuity</td>
                                                 <td colspan="2"></td>
-                                                <td colspan="2"></td>
                                                 <td>${{ 20 * array_sum($total) / 100 }}</td>
                                                 <td></td>
                                             </tr>
                                             <tr>
-                                                <td>-</td>
+                                                <td>First Deposit</td>
                                                 <td colspan="2"></td>
-                                                <td colspan="2"></td>
-                                                <td></td>
+                                                <td>{{($beforedeposit->deposits != 0)? '$'.$beforedeposit->deposits : '--'}}
+                                                </td>
                                                 <td></td>
                                             </tr>
                                             <tr class="table-success">
                                                 <td>Grand Total / Estimated Total</td>
                                                 <td colspan="2"></td>
-                                                <td colspan="2"></td>
                                                 <td>${{$grandtotal = array_sum($total) + 20 * array_sum($total) / 100 + 7 * array_sum($total) / 100}}
                                                 </td>
                                                 <td></td>
+                                            </tr>
+                                            <tr>
+                                            <tr class="balance-due">
+                                                <td colspan="3">Balance Due( After First Deposit )</td>
+                                                <td colspan="2">${{ $grandtotal - $beforedeposit->deposits }}</td>
+                                            </tr>
                                             </tr>
 
                                         </tbody>
@@ -470,10 +461,9 @@ data-setup-id="{{ $setup_plan->id }}">&times;</button> -->
                                         <!-- <td></td> -->
                                         <td>${{$eventdetails->total}}</td>
                                         <td>${{$payment->amount}}</td>
-                                        <td>{{($eventdetails->total - ($payinfos[0]->deposits + $collect_amount))<= 0 ? '--':'$'.$eventdetails->total - ($payinfos[0]->deposits - $latefee + $adj + $collect_amount) }}
+                                        <td>{{($eventdetails->total - ( $payinfos[0]->deposits + $collect_amount))<= 0 ? '--':'$'.$eventdetails->total - ($payinfos[0]->deposits - $latefee + $adj + $collect_amount) }}
                                         </td>
                                     </tr>
-
                                     @endforeach
                                     <hr>
                                     <tr style="    background: aliceblue;">

@@ -713,51 +713,41 @@ function validateCheckboxGroup(groupName) {
 
     // Append the error message if it exists
     if (errorMessage != '') {
-        checkboxes.closest('.form-group').append(
-            '<div class="validation-error text-danger" style="padding:2px;">' +
-            errorMessage + '</div>');
+        show_toastr('Success',errorMessage, 'danger');
+
+        // checkboxes.closest('.form-group').append(
+        //     '<div class="validation-error text-danger" style="padding:2px;">' +
+        //     errorMessage + '</div>');
     }
 }
 $(document).ready(function() {
     // Attach a keyup event listener to input fields
     $('input').on('keyup', function() {
-        // Get the input value
         var value = $(this).val();
-        // Check if the input value contains spaces
         if (value.indexOf(' ') !== -1) {
-            // Display validation message
-            $('#validationMessage').text('Spaces are not allowed in this field').show();
-        } else {
-            // Hide validation message if no spaces are found
-            $('#validationMessage').hide();
-        }
+            show_toastr('Success', 'Spaces are not allowed in this field', 'danger');
+        } 
+       
     });
 });
 $('#formdata').on('submit', function(event) {
     let isValid = true;
-
     // Remove previous error messages
     $('.error-message').remove();
-
     // Function to display error messages
     function displayError(inputId, message) {
         $(`<span class="error-message">${message}</span>`).insertAfter(`#${inputId}`);
     }
-
-
     // Name validation
     let name = $('#name').val().trim();
     if (name === '') {
         show_toastr('Primary', 'Name is required and must not contain only spaces.', 'danger');
-
-        // displayError('name', 'Name is required and must not contain only spaces.');
         isValid = false;
     }
     let startTime = $('#start_time').val();
     let endTime = $('#end_time').val();
     if (startTime != '' && endTime <= startTime) {
         show_toastr('Primary', 'End time must be after start time.', 'danger');
-
         // displayError('end_time', 'End time must be after start time.');
         event.preventDefault();
 
@@ -806,8 +796,10 @@ $(document).ready(function() {
 
             // Append the error message if it exists
             if (errorMessage != '') {
-                input.after('<div class="validation-error text-danger" style="padding:2px;">' +
-                    errorMessage + '</div>');
+                show_toastr('Success',errorMessage, 'danger');
+
+                // input.after('<div class="validation-error text-danger" style="padding:2px;">' +
+                //     errorMessage + '</div>');
             }
             $("input[name='user[]']").change(validateCheckboxGroup('user[]'));
             $("input[name='user[]']").focusout(validateCheckboxGroup('user[]'));
@@ -1058,8 +1050,10 @@ $(document).ready(function() {
         });
         // If validation failed, prevent form submission
         if (!isValid) {
+
             event.preventDefault();
             show_toastr('Success', 'Select Food Package for selected Function', 'danger');
+
             return false;
         }
     });
@@ -1266,6 +1260,7 @@ $(document).ready(function() {
                 var funcValue = $(this).val();
                 $('div#additionalSection > div').each(function() {
                     var ad_val = $(this).data('additional-index');
+                    console.log(ad_val,'------',funcValue);
                     if (funcValue == ad_val) {
                         $(this).show();
                     }

@@ -31,32 +31,35 @@
                         </div>
 
                         <div class="col-auto" style="margin-left: -29px;">
-                        <select name="status" id="status" class="form-control" style="margin-left: 29px;">
+                            <select name="status" id="status" class="form-control" style="margin-left: 29px;">
                                 <option value="">Select Status</option>
                                 @foreach($eventstatus as $stat)
-                                <option value="{{$stat->status}}"  {{ isset($_GET['status']) && $stat->status == $_GET['status'] ? 'selected' : '' }}>{{App\Models\Meeting::$status[$stat->status]}}</option>
+                                <option value="{{$stat->status}}"
+                                    {{ isset($_GET['status']) && $stat->status == $_GET['status'] ? 'selected' : '' }}>
+                                    {{App\Models\Meeting::$status[$stat->status]}}</option>
                                 @endforeach
                             </select>
                             <!-- {{ Form::select('status', ['' => 'Select Status'] + $status, isset($_GET['status']) ? $_GET['status'] : '', ['class' => 'form-control', 'style' => 'margin-left: 29px;']) }} -->
                         </div>
                         <div class=" new-ac">
-                        <div class="action-btn bg-primary ">
-                            
-                            <div class="new-btn ">
-                                <button type="submit" class="btn btn-sm align-items-center text-white"
-                                    data-bs-toggle="tooltip" title="{{ __('Apply') }}" data-title="{{ __('Apply') }}"><i
-                                        class="ti ti-search"></i></button>
+                            <div class="action-btn bg-primary ">
+
+                                <div class="new-btn ">
+                                    <button type="submit" class="btn btn-sm align-items-center text-white"
+                                        data-bs-toggle="tooltip" title="{{ __('Apply') }}"
+                                        data-title="{{ __('Apply') }}"><i class="ti ti-search"></i></button>
+                                </div>
+                            </div>
+                            {{ Form::close() }}
+                            <div class="action-btn bg-danger ">
+                                <div class="new-btn">
+                                    <a href="{{ route('report.leadsanalytic') }}" data-bs-toggle="tooltip"
+                                        title="{{ __('Reset') }}" data-title="{{ __('Reset') }}"
+                                        class=" btn btn-sm align-items-center text-white"><i class="ti ti-refresh"
+                                            style="    margin-right: 0px;" aria-hidden="true"></i></a>
+                                </div>
                             </div>
                         </div>
-                        {{ Form::close() }}
-                        <div class="action-btn bg-danger ">
-                            <div class="new-btn">
-                                <a href="{{ route('report.leadsanalytic') }}" data-bs-toggle="tooltip"
-                                    title="{{ __('Reset') }}" data-title="{{ __('Reset') }}"
-                                    class=" btn btn-sm align-items-center text-white"><i class="ti ti-refresh" style="    margin-right: 0px;" aria-hidden="true"></i></a>
-                            </div>
-                        </div>
-</div>
                         <!-- <div class="action-btn bg-primary ms-2">
                             <div class="col-auto">
                                 <a href="#" onclick="saveAsPDF();" class="mx-3 btn btn-sm align-items-center text-white"
@@ -126,7 +129,7 @@
                     <table class="table" id="pc-dt-export">
                         <thead>
                             <tr>
-                            <th scope="col" class="sort" data-sort="budget">{{ __(' Status') }}</th>
+                                <th scope="col" class="sort" data-sort="budget">{{ __(' Status') }}</th>
                                 <th scope="col" class="sort" data-sort="name">{{ __('Name') }}</th>
                                 <th scope="col" class="sort" data-sort="budget">{{ __('Created By') }}</th>
                                 <th scope="col" class="sort" data-sort="name">{{ __('Type') }}</th>
@@ -145,7 +148,7 @@
                                 <th scope="col" class="sort" data-sort="budget">{{ __('Amount Paid') }}</th>
                                 <th scope="col" class="sort" data-sort="budget">{{ __('Due Amount') }}</th>
                                 <th scope="col" class="sort" data-sort="budget">{{ __('Created At') }}</th>
-                                <th scope="col" class="sort" data-sort="budget">{{ __('Invoice view') }}</th>
+                                <!-- <th scope="col" class="sort" data-sort="budget">{{ __('Invoice view') }}</th> -->
 
                             </tr>
                         </thead>
@@ -153,7 +156,7 @@
                             @foreach ($events as $result)
                             <?php $invoice = App\Models\Billing::where('event_id',$result['id'])->exists(); ?>
                             <tr>
-                            <td> {{ __(\App\Models\Meeting::$status[$result['status']]) }}</td>
+                                <td> {{ __(\App\Models\Meeting::$status[$result['status']]) }}</td>
 
                                 <td>{{ ucfirst($result['name'])  }}</td>
                                 <td>{{ucfirst(App\Models\User::where('id',$result['created_by'])->first()->name)}}</td>
@@ -175,10 +178,29 @@
                                     {{App\Models\Agreement::where('event_id',$result['id'])->orderby('id','desc')->first()->notes}}
                                     @else -- @endif</td>
                                 <td>
-                                @if($invoice) Yes @else No @endif
-                            </td>
+                                    @if($invoice) Yes @else No @endif
+                                </td>
                                 <td>
-                                    <?php 
+                                <?php 
+                                    $existingbill = App\Models\Billing::where('event_id',$result['id'])->exists();         
+                                    if($existingbill){
+                                        $billdetails=  App\Models\Billing::where('event_id',$result['id'])->first();
+                                        $total = [];
+                                        if(App\Models\PaymentLogs::where('event_id',$result['id'])->exists()){
+                                            $payments = App\Models\PaymentLogs::where('event_id',$result['id'])->orderBy('id','desc')->get();
+                                            $payinfos = App\Models\PaymentInfo::where('event_id',$result['id'])->get();
+                                        }
+                                        $beforedeposit = App\Models\Billing::where('event_id',$result['id'])->first();
+                                        $latefee = 0;
+                                        $adj = 0;
+                                        $collect_amount = 0;
+                                        foreach($payinfos as $k=>$val){
+                                            $latefee += $val->latefee;
+                                            $adj += $val->adjustments;
+                                            $collect_amount += $val->collect_amount;
+                                        }
+                                    }
+
                                     $paymentLog = App\Models\PaymentLogs::where('event_id', $result['id'])->orderBy('id', 'desc')->first();
                                     $paymentInfo = App\Models\PaymentInfo::where('event_id', $result['id'])->orderBy('id', 'desc')->first();
                                 ?>
@@ -192,46 +214,36 @@
                                         No Payment
                                         @endif
                                 </td>
-                                <td>@if($result['total'] != 0) 
-                                    ${{$result['total']}} 
+                                <td>
+
+                                    @if($result['total'] != 0)
+                                    ${{$result['total']}}
                                     @else {{ __('Invoice Not Created') }}
                                     @endif
                                 </td>
-                               
-                                
-                                <td>
-                                    @if($paymentInfo)
-                                        ${{$paymentInfo->adjustments}}
-                                    @else
-                                    --
-                                    @endif
-                                </td>
-                                <td>
-                                    @if($paymentInfo )
-                                    ${{$paymentInfo->latefee}}
-                                    @else
-                                    --
-                                    @endif
-                                </td>
-                                <td>
-                                    @if($paymentLog)
-                                    ${{$paymentLog->amount}}
 
-                                    @else
-                                    --
-                                    @endif
-                                </td>
-                                <td> @if($paymentLog && $paymentInfo)
-                                    ${{ $paymentInfo->amounttobepaid - $paymentLog->amount}}
-                                    @else
-                                    --
-                                    @endif </td>
-                                <td>{{ __(\Auth::user()->dateFormat($result['created_at'])) }}
 
+                                <td>{{isset($adj)?$adj:'-'}}</td>
+                                <td>{{isset($latefee)?$latefee:'--'}}
                                 </td>
-                                <td>  @if($invoice) <a href="{{ route('billing.estimateview',urlencode(encrypt($result['id'])))}}"style="color: #1551c9 !important;"> 
+                                <td>
+                                {{((isset($beforedeposit->deposits)? $beforedeposit->deposits : 0) + $collect_amount<=0) ?'--': '$'.((isset($beforedeposit->deposits)? $beforedeposit->deposits : 0)+ $collect_amount)}} 
+                                    </td>
+                              
+
+                                <td>
+                                {{($result['total'] - ( $payinfos[0]->deposits + $collect_amount))<= 0 ? '--':'$'.$result['total'] - ($payinfos[0]->deposits - $latefee + $adj + $collect_amount) }}
+
+                                     <!-- @if($paymentLog && $paymentInfo)
+                                        ${{ $paymentInfo->amounttobepaid - $paymentLog->amount}}
+                                    @else
+                                        --
+                                    @endif  -->
+                                </td>
+                                <td>{{ __(\Auth::user()->dateFormat($result['created_at'])) }}</td>
+                                <!-- <td>  @if($invoice) <a href="{{ route('billing.estimateview',urlencode(encrypt($result['id'])))}}"style="color: #1551c9 !important;"> 
                {{ __('View Invoice') }}
-            @else  No Invoice @endif</td>
+            @else  No Invoice @endif</td> -->
 
                             </tr>
                             @endforeach
@@ -243,191 +255,191 @@
     </div>
 </div>
 @endsection
-    @push('script-page')
+@push('script-page')
 
-    <script type="text/javascript" src="{{ asset('js/html2pdf.bundle.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/dataTables.buttons.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/jszip.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/pdfmake.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/vfs_fonts.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('assets/js/plugins/simple-datatables.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/html2pdf.bundle.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/dataTables.buttons.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/jszip.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/pdfmake.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/vfs_fonts.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/buttons.html5.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins/simple-datatables.js') }}"></script>
 
-    <script>
-    $(document).ready(function() {
+<script>
+$(document).ready(function() {
+    $('#pc-dt-export').DataTable({
+        dom: 'Bfrtip',
+        buttons: [{
+            extend: 'excelHtml5',
+            customize: function(xlsx) {
+                var sheet = xlsx.xl.worksheets['sheet1.xml'];
+
+                $('row c[r^="C"]', sheet).attr('s', '2');
+            }
+        }]
+    });
+});
+</script>
+
+<script>
+const table = new simpleDatatables.DataTable("#pc-dt-export");
+document.querySelector("button.csv").addEventListener("click", () => {
+    table.export({
+        type: "csv",
+        download: true,
+        lineDelimiter: "\n\n",
+        columnDelimiter: ";"
+    })
+})
+document.querySelector("button.txt").addEventListener("click", () => {
+    table.export({
+        type: "txt",
+        download: true,
+    })
+})
+document.querySelector("button.sql").addEventListener("click", () => {
+    table.export({
+        type: "sql",
+        download: true,
+        tableName: "export_table"
+    })
+})
+
+document.querySelector("button.json").addEventListener("click", () => {
+    table.export({
+        type: "json",
+        download: true,
+        escapeHTML: true,
+        space: 3
+    })
+})
+document.querySelector("button.excel").addEventListener("click", () => {
+    table.export({
+        type: "excel",
+        download: true,
+
+    })
+})
+document.querySelector("button.pdf").addEventListener("click", () => {
+    table.export({
+        type: "pdf",
+        download: true,
+    })
+})
+</script>
+
+
+<script>
+$(document).ready(function() {
+    var filename = $('#filename').val();
+    setTimeout(function() {
         $('#pc-dt-export').DataTable({
             dom: 'Bfrtip',
             buttons: [{
                 extend: 'excelHtml5',
-                customize: function(xlsx) {
-                    var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                title: filename
+            }, {
+                extend: 'csvHtml5',
+                title: filename
+            }, {
+                extend: 'pdfHtml5',
+                title: filename
+            }, ],
 
-                    $('row c[r^="C"]', sheet).attr('s', '2');
-                }
-            }]
         });
-    });
-    </script>
+    }, 500);
 
-    <script>
-    const table = new simpleDatatables.DataTable("#pc-dt-export");
-    document.querySelector("button.csv").addEventListener("click", () => {
-        table.export({
-            type: "csv",
-            download: true,
-            lineDelimiter: "\n\n",
-            columnDelimiter: ";"
-        })
-    })
-    document.querySelector("button.txt").addEventListener("click", () => {
-        table.export({
-            type: "txt",
-            download: true,
-        })
-    })
-    document.querySelector("button.sql").addEventListener("click", () => {
-        table.export({
-            type: "sql",
-            download: true,
-            tableName: "export_table"
-        })
-    })
+});
+</script>
 
-    document.querySelector("button.json").addEventListener("click", () => {
-        table.export({
-            type: "json",
-            download: true,
-            escapeHTML: true,
-            space: 3
-        })
-    })
-    document.querySelector("button.excel").addEventListener("click", () => {
-        table.export({
-            type: "excel",
-            download: true,
+<script>
+var filename = $('#filesname').val();
 
-        })
-    })
-    document.querySelector("button.pdf").addEventListener("click", () => {
-        table.export({
-            type: "pdf",
-            download: true,
-        })
-    })
-    </script>
-
-
-    <script>
-    $(document).ready(function() {
-        var filename = $('#filename').val();
-        setTimeout(function() {
-            $('#pc-dt-export').DataTable({
-                dom: 'Bfrtip',
-                buttons: [{
-                    extend: 'excelHtml5',
-                    title: filename
-                }, {
-                    extend: 'csvHtml5',
-                    title: filename
-                }, {
-                    extend: 'pdfHtml5',
-                    title: filename
-                }, ],
-
-            });
-        }, 500);
-
-    });
-    </script>
-
-    <script>
-    var filename = $('#filesname').val();
-
-    function saveAsPDF() {
-        var element = document.getElementById('printableArea');
-        var opt = {
-            margin: 0.3,
-            filename: filename,
-            image: {
-                type: 'jpeg',
-                quality: 1
-            },
-            html2canvas: {
-                scale: 4,
-                dpi: 72,
-                letterRendering: true
-            },
-            jsPDF: {
-                unit: 'in',
-                format: 'A2'
-            }
-        };
-        html2pdf().set(opt).from(element).save();
-    }
-    </script>
-
-
-    <script src="{{ asset('assets/js/plugins/apexcharts.min.js') }}"></script>
-
-    <script>
-    var WorkedHoursChart = (function() {
-        var $chart = $('#report-chart');
-
-        (function() {
-            var options = {
-                chart: {
-                    height: 180,
-                    type: 'area',
-                    toolbar: {
-                        show: false,
-                    },
-                },
-                dataLabels: {
-                    enabled: false
-                },
-                stroke: {
-                    width: 2,
-                    curve: 'smooth'
-                },
-                series: [{
-                    name: 'Lead',
-                    data: {
-                        !!json_encode($data) !!
-                    },
-                }],
-                xaxis: {
-                    categories: {
-                        !!json_encode($labels) !!
-                    },
-                    title: {
-                        text: '{{ __('
-                        Lead ') }}'
-                    },
-                },
-                colors: ['#3ec9d6', '#FF3A6E'],
-
-                grid: {
-                    strokeDashArray: 4,
-                },
-                legend: {
-                    show: true,
-                    position: 'top',
-                    horizontalAlign: 'right',
-                },
-
-            };
-            var chart = new ApexCharts(document.querySelector("#report-chart"), options);
-            chart.render();
-        })();
-
-
-
-        // Events
-        if ($chart.length) {
-            $chart.each(function() {
-                init($(this));
-            });
+function saveAsPDF() {
+    var element = document.getElementById('printableArea');
+    var opt = {
+        margin: 0.3,
+        filename: filename,
+        image: {
+            type: 'jpeg',
+            quality: 1
+        },
+        html2canvas: {
+            scale: 4,
+            dpi: 72,
+            letterRendering: true
+        },
+        jsPDF: {
+            unit: 'in',
+            format: 'A2'
         }
+    };
+    html2pdf().set(opt).from(element).save();
+}
+</script>
+
+
+<script src="{{ asset('assets/js/plugins/apexcharts.min.js') }}"></script>
+
+<script>
+var WorkedHoursChart = (function() {
+    var $chart = $('#report-chart');
+
+    (function() {
+        var options = {
+            chart: {
+                height: 180,
+                type: 'area',
+                toolbar: {
+                    show: false,
+                },
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                width: 2,
+                curve: 'smooth'
+            },
+            series: [{
+                name: 'Lead',
+                data: {
+                    !!json_encode($data) !!
+                },
+            }],
+            xaxis: {
+                categories: {
+                    !!json_encode($labels) !!
+                },
+                title: {
+                    text: '{{ __('
+                    Lead ') }}'
+                },
+            },
+            colors: ['#3ec9d6', '#FF3A6E'],
+
+            grid: {
+                strokeDashArray: 4,
+            },
+            legend: {
+                show: true,
+                position: 'top',
+                horizontalAlign: 'right',
+            },
+
+        };
+        var chart = new ApexCharts(document.querySelector("#report-chart"), options);
+        chart.render();
     })();
-    </script>
-    @endpush
+
+
+
+    // Events
+    if ($chart.length) {
+        $chart.each(function() {
+            init($(this));
+        });
+    }
+})();
+</script>
+@endpush

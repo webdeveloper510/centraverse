@@ -26,7 +26,7 @@ body {
     font-family: Arial, sans-serif;
     font-size: 12px;
     color: #333;
-    margin: 20px;
+    /* margin: 20px; */
 }
 
 .img-section {

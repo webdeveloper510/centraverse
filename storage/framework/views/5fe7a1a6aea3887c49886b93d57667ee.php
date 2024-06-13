@@ -218,8 +218,8 @@ $converted_to_event = App\Models\Meeting::where('attendees_lead',$lead->id)->exi
                                         <dd class="col-md-8 need_half"><span class="">
                                                 <table class="table table-bordered">
                                                     <thead>
-                                                    <th>Setups</th>
-                                                    <th>Action</th>
+                                                        <th>Setups</th>
+                                                        <th>Action</th>
                                                     </thead>
                                                     <tbody>
                                                         <?php $setups = App\Models\Setuplans::where('event_id',$eventdetails->id)->exists(); ?>
@@ -285,13 +285,11 @@ data-setup-id="<?php echo e($setup_plan->id); ?>">&times;</button> -->
                                         <thead class="thead-dark">
                                             <tr>
                                                 <th>Name: <?php echo e($eventdetails['name']); ?></th>
-                                                <th colspan="2"></th>
                                                 <th colspan="3">Bill created on: <?php echo date("d/m/Y"); ?></th>
                                                 <th>Event: <?php echo e($eventdetails['type']); ?></th>
                                             </tr>
                                             <tr>
                                                 <th>Description</th>
-                                                <th colspan="2">&nbsp;</th>
                                                 <th>Cost</th>
                                                 <th>Quantity</th>
                                                 <th>Total Price</th>
@@ -301,7 +299,6 @@ data-setup-id="<?php echo e($setup_plan->id); ?>">&times;</button> -->
                                         <tbody>
                                             <tr>
                                                 <td>Venue Rental</td>
-                                                <td colspan="2"></td>
                                                 <td>$<?php echo e($billing_data['venue_rental']['cost']); ?></td>
                                                 <td><?php echo e($billing_data['venue_rental']['quantity']); ?></td>
                                                 <td>$<?php echo e($total[] = $billing_data['venue_rental']['cost'] * $billing_data['venue_rental']['quantity']); ?>
@@ -311,7 +308,6 @@ data-setup-id="<?php echo e($setup_plan->id); ?>">&times;</button> -->
                                             </tr>
                                             <tr>
                                                 <td>Brunch / Lunch / Dinner Package</td>
-                                                <td colspan="2"></td>
                                                 <td>$<?php echo e($billing_data['food_package']['cost']); ?></td>
                                                 <td><?php echo e($billing_data['food_package']['quantity']); ?></td>
                                                 <td>$<?php echo e($total[] = $billing_data['food_package']['cost'] * $billing_data['food_package']['quantity']); ?>
@@ -321,7 +317,6 @@ data-setup-id="<?php echo e($setup_plan->id); ?>">&times;</button> -->
                                             </tr>
                                             <tr>
                                                 <td>Bar Package</td>
-                                                <td colspan="2"></td>
                                                 <td>$<?php echo e($billing_data['bar_package']['cost']); ?></td>
                                                 <td><?php echo e($billing_data['bar_package']['quantity']); ?></td>
                                                 <td>$<?php echo e($total[] = $billing_data['bar_package']['cost'] * $billing_data['bar_package']['quantity']); ?>
@@ -331,7 +326,6 @@ data-setup-id="<?php echo e($setup_plan->id); ?>">&times;</button> -->
                                             </tr>
                                             <tr>
                                                 <td>Hotel Rooms</td>
-                                                <td colspan="2"></td>
                                                 <td>$<?php echo e($billing_data['hotel_rooms']['cost']); ?></td>
                                                 <td><?php echo e($billing_data['hotel_rooms']['quantity']); ?></td>
                                                 <td>$<?php echo e($total[] = $billing_data['hotel_rooms']['cost'] * $billing_data['hotel_rooms']['quantity']); ?>
@@ -341,7 +335,6 @@ data-setup-id="<?php echo e($setup_plan->id); ?>">&times;</button> -->
                                             </tr>
                                             <tr>
                                                 <td>Tent, Tables, Chairs, AV Equipment</td>
-                                                <td colspan="2"></td>
                                                 <td>$<?php echo e($billing_data['equipment']['cost']); ?></td>
                                                 <td><?php echo e($billing_data['equipment']['quantity']); ?></td>
                                                 <td>$<?php echo e($total[] = $billing_data['equipment']['cost'] * $billing_data['equipment']['quantity']); ?>
@@ -352,7 +345,6 @@ data-setup-id="<?php echo e($setup_plan->id); ?>">&times;</button> -->
                                             <?php if(!$billing_data['setup']['cost'] == ''): ?>
                                             <tr>
                                                 <td>Welcome / Rehearsal / Special Setup</td>
-                                                <td colspan="2"></td>
                                                 <td>$<?php echo e($billing_data['setup']['cost']); ?></td>
                                                 <td><?php echo e($billing_data['setup']['quantity']); ?></td>
                                                 <td>$<?php echo e($total[] = $billing_data['setup']['cost'] * $billing_data['setup']['quantity']); ?>
@@ -363,7 +355,6 @@ data-setup-id="<?php echo e($setup_plan->id); ?>">&times;</button> -->
                                             <?php endif; ?>
                                             <tr>
                                                 <td>Special Requests / Others</td>
-                                                <td colspan="2"></td>
                                                 <td>$<?php echo e($billing_data['special_req']['cost']); ?></td>
                                                 <td><?php echo e($billing_data['special_req']['quantity']); ?></td>
                                                 <td>$<?php echo e($total[] = $billing_data['special_req']['cost'] * $billing_data['special_req']['quantity']); ?>
@@ -373,7 +364,6 @@ data-setup-id="<?php echo e($setup_plan->id); ?>">&times;</button> -->
                                             </tr>
                                             <tr>
                                                 <td>Additional Items</td>
-                                                <td colspan="2"></td>
                                                 <td>$<?php echo e($billing_data['additional_items']['cost']); ?></td>
                                                 <td><?php echo e($billing_data['additional_items']['quantity']); ?></td>
                                                 <td>$<?php echo e($total[] = $billing_data['additional_items']['cost'] * $billing_data['additional_items']['quantity']); ?>
@@ -383,13 +373,11 @@ data-setup-id="<?php echo e($setup_plan->id); ?>">&times;</button> -->
                                             </tr>
                                             <tr>
                                                 <td>-</td>
-                                                <td colspan="2"></td>
                                                 <td colspan="3"></td>
                                                 <td></td>
                                             </tr>
                                             <tr class="table-primary">
                                                 <td>Total</td>
-                                                <td colspan="2"></td>
                                                 <td colspan="2"></td>
                                                 <td>$<?php echo e(array_sum($total)); ?></td>
                                                 <td></td>
@@ -397,32 +385,36 @@ data-setup-id="<?php echo e($setup_plan->id); ?>">&times;</button> -->
                                             <tr>
                                                 <td>Sales, Occupancy Tax</td>
                                                 <td colspan="2"></td>
-                                                <td colspan="2"></td>
                                                 <td>$<?php echo e(7 * array_sum($total) / 100); ?></td>
                                                 <td></td>
                                             </tr>
                                             <tr>
                                                 <td>Service Charges & Gratuity</td>
                                                 <td colspan="2"></td>
-                                                <td colspan="2"></td>
                                                 <td>$<?php echo e(20 * array_sum($total) / 100); ?></td>
                                                 <td></td>
                                             </tr>
                                             <tr>
-                                                <td>-</td>
+                                                <td>First Deposit</td>
                                                 <td colspan="2"></td>
-                                                <td colspan="2"></td>
-                                                <td></td>
+                                                <td><?php echo e(($beforedeposit->deposits != 0)? '$'.$beforedeposit->deposits : '--'); ?>
+
+                                                </td>
                                                 <td></td>
                                             </tr>
                                             <tr class="table-success">
                                                 <td>Grand Total / Estimated Total</td>
                                                 <td colspan="2"></td>
-                                                <td colspan="2"></td>
                                                 <td>$<?php echo e($grandtotal = array_sum($total) + 20 * array_sum($total) / 100 + 7 * array_sum($total) / 100); ?>
 
                                                 </td>
                                                 <td></td>
+                                            </tr>
+                                            <tr>
+                                            <tr class="balance-due">
+                                                <td colspan="3">Balance Due( After First Deposit )</td>
+                                                <td colspan="2">$<?php echo e($grandtotal - $beforedeposit->deposits); ?></td>
+                                            </tr>
                                             </tr>
 
                                         </tbody>
@@ -487,11 +479,10 @@ data-setup-id="<?php echo e($setup_plan->id); ?>">&times;</button> -->
                                         <!-- <td></td> -->
                                         <td>$<?php echo e($eventdetails->total); ?></td>
                                         <td>$<?php echo e($payment->amount); ?></td>
-                                        <td><?php echo e('$'. ($payinfos[0]->deposits - $latefee + $adj + $collect_amount)); ?>
+                                        <td><?php echo e(($eventdetails->total - ( $payinfos[0]->deposits + $collect_amount))<= 0 ? '--':'$'.$eventdetails->total - ($payinfos[0]->deposits - $latefee + $adj + $collect_amount)); ?>
 
                                         </td>
                                     </tr>
-
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     <hr>
                                     <tr style="    background: aliceblue;">

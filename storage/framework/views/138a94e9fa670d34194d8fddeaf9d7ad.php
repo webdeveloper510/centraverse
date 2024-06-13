@@ -1189,8 +1189,10 @@ imgInp.onchange = evt => {
         $('div#additionalSection > div').hide();
         $('div#mailFunctionSection input[type=checkbox]:checked').each(function() {
             var funcValue = $(this).val();
+          
             $('div#additionalSection > div').each(function() {
                 var ad_val = $(this).data('additional-index');
+                
                 if (funcValue == ad_val) {
                     $(this).show();
                 }

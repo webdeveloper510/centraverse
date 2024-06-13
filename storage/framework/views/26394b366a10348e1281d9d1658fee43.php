@@ -166,7 +166,7 @@ ul {
     margin-top: 5px;
 }
 .detailsss{
-    page-break-inside: avoid;
+    /* page-break-inside: avoid; */
 }
 @media print {
     .table-container {
@@ -269,7 +269,7 @@ ul {
         </p>
     </div>
     
-    <div class="table-container ">
+    <div class="table-container" style="">
         <div class="header">
         <h5>Billing Summary</h5>
         </div>

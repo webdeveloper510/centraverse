@@ -81,7 +81,7 @@
         text-align: center;
     }
     td{
-    white-space: normal;
+    white-space: normal !important;
     word-wrap: break-word;
     /* overflow: hidden;
     text-overflow: ellipsis; */
@@ -127,7 +127,7 @@
     }
 
     .detailsss {
-        page-break-inside: avoid;
+        /* page-break-inside: avoid; */
     }
     </style>
 </head>
@@ -173,6 +173,7 @@
                                         <th>Venue</th>
                                         <th>Event</th>
                                         <th>Function</th>
+                                        <th>Guest Count</th>
                                         <th>Room</th>
                                     </tr>
                                 </thead>
@@ -193,6 +194,7 @@
                                         </td>
                                         <td>
                                             <?php echo e($meeting->function); ?></td>
+                                            <td><?php echo e($meeting->guest_count); ?></td>
                                         <td><?php echo e($meeting->room); ?>
 
                                         </td>
@@ -364,26 +366,30 @@
                                 <tfoot>
                                     <tr>
                                         <td>Total</td>
-                                        <td colspan="4">
+                                        <td  colspan="2"></td>
+                                        <td colspan="2">
                                             $<?php echo e(array_sum($total)); ?></td>
                                     </tr>
                                     <tr>
                                         <td>Sales, Occupancy Tax</td>
-                                        <td colspan="4">
+                                        <td  colspan="2"></td>
+                                        <td colspan="2">
                                             $<?php echo e(7* array_sum($total)/100); ?></td>
                                     </tr>
                                     <tr>
                                         <td>Service Charges & Gratuity</td>
-                                        <td colspan="4">
+                                        <td  colspan="2"></td>
+                                        <td colspan="2">
                                             $<?php echo e(20 * array_sum($total)/100); ?></td>
                                     </tr>
                                     <tr>
                                         <td colspan="5"></td>
                                     </tr>
                                     <tr>
-                                        <td style="background-color:#ffff00;">
+                                        <td>
                                             Grand Total / Estimated Total</td>
-                                        <td colspan="4">
+                                            <td  colspan="2"></td>
+                                        <td colspan="2">
                                             $<?php echo e($grandtotal= array_sum($total) + 20* array_sum($total)/100 + 7* array_sum($total)/100); ?>
 
                                         </td>
@@ -391,12 +397,14 @@
                                     </tr>
                                     <tr>
                                         <td>Deposits on file</td>
-                                        <td colspan="4">
+                                        <td  colspan="2"></td>
+                                        <td colspan="2">
                                             $<?php echo e($deposit= $billing->deposits); ?></td>
                                     </tr>
                                     <tr>
                                         <td>Balance due</td>
-                                        <td colspan="4">
+                                        <td  colspan="2"></td>
+                                        <td colspan="2">
                                             $<?php echo e($grandtotal - $deposit); ?></td>
                                     </tr>
 </tfoot>

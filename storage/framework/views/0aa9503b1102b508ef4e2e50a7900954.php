@@ -1342,6 +1342,7 @@ $(document).ready(function() {
                 var funcValue = $(this).val();
                 $('div#additionalSection > div').each(function() {
                     var ad_val = $(this).data('additional-index');
+                    console.log(ad_val,'------',funcValue);
                     if (funcValue == ad_val) {
                         $(this).show();
                     }

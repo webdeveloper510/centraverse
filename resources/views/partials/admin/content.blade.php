@@ -301,11 +301,13 @@
     }
     .navbar-brand-box {
     text-align: center;
-    border-bottom:1px solid #e3e1e1;
+    /* border-bottom:1px solid #e3e1e1; */
 }
-
+.span-title{
+    font-size:x-small;
+}
 .navbar-brand-box a img {
-    width: 74px;
+    width: 70%;
     height: auto;
 }
     #wrapper.toggled #sidebar-wrapper {

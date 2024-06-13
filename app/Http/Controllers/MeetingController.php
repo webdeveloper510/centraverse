@@ -722,7 +722,10 @@ class MeetingController extends Controller
     {
         if (\Auth::user()->can('Delete Meeting')) {
             if($meeting->attendees_lead != 0){
-                Lead::find($meeting->attendees_lead)->delete();
+                $lead= Lead::find($meeting->attendees_lead)->exists();
+                if($lead){
+                    $lead->delete();
+                }
             }
             $meeting->delete();
             Billing::where('event_id',$meeting->id)->delete();

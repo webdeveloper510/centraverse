@@ -511,6 +511,37 @@ $selectedPackages = json_decode($lead->bar_package,true);
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script-page'); ?>
 <script>
+$('#formdata').on('submit', function(event) {
+        let isValid = true;
+
+        // Remove previous error messages
+        $('.error-message').remove();
+
+        // Function to display error messages
+        function displayError(inputId, message) {
+            $(`<span class="error-message">${message}</span>`).insertAfter(`#${inputId}`);
+        }
+
+        // Lead Name validation
+     
+        let startTime = $('#start_time').val();
+        let endTime = $('#end_time').val();
+        if (startTime !== '' && endTime !== '') {
+            if (endTime <= startTime) {
+                show_toastr('Primary', 'End time must be after start time.', 'danger');
+
+                // displayError('end_time', 'End time must be after start time.');
+                event.preventDefault();
+                // isValid = false;
+            }
+        } else{
+            $(".submitBtn").attr("disabled", true);
+            return true;    
+        }
+         
+    });
+</script>
+<script>
        function validateCheckboxGroup(groupName) {
         var checkboxes = $("input[name='" + groupName + "']");
         var isChecked = checkboxes.is(":checked");
@@ -525,9 +556,10 @@ $selectedPackages = json_decode($lead->bar_package,true);
 
         // Append the error message if it exists
         if (errorMessage != '') {
-            checkboxes.closest('.form-group').append(
-                '<div class="validation-error text-danger" style="padding:2px;">' +
-                errorMessage + '</div>');
+            show_toastr('Primary',errorMessage, 'danger');
+            // checkboxes.closest('.form-group').append(
+            //     '<div class="validation-error text-danger" style="padding:2px;">' +
+            //     errorMessage + '</div>');
         }
     }
 $(document).ready(function() {
@@ -557,9 +589,10 @@ $(document).ready(function() {
 
             // Append the error message if it exists
             if (errorMessage != '') {
-                input.after(
-                    '<div class="validation-error text-danger" style="padding:2px;">' +
-                    errorMessage + '</div>');
+                show_toastr('Primary',errorMessage, 'danger');
+                // input.after(
+                //     '<div class="validation-error text-danger" style="padding:2px;">' +
+                //     errorMessage + '</div>');
             }
             $("input[name='venue[]']").focusout(validateCheckboxGroup('venue[]'));
 
