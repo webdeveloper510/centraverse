@@ -56,7 +56,7 @@ $labels =
     $totalbarPackageCost = 0;
     foreach ($bar as $barItem) {
         foreach ($billings['barpackage'] as $category => $categoryItems) {
-            if (isset($categoryItems[$barItem])) {
+            if(isset($categoryItems[$barItem])) {
             $totalbarPackageCost += $categoryItems[$barItem];
             break;
             }
