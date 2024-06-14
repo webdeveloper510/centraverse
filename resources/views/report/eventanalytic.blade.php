@@ -192,17 +192,18 @@
                                         if(App\Models\PaymentLogs::where('event_id',$result['id'])->exists()){
                                             $payments = App\Models\PaymentLogs::where('event_id',$result['id'])->orderBy('id','desc')->get();
                                             $payinfos = App\Models\PaymentInfo::where('event_id',$result['id'])->get();
+                                            foreach($payinfos as $k=>$val){
+                                                $latefee += $val->latefee;
+                                                $adj += $val->adjustments;
+                                               
+                                            }
+                                            foreach ($payments as  $value) {
+                                                $collect_amount += $value->amount;
+                                            }
                                         }
                                         $beforedeposit = App\Models\Billing::where('event_id',$result['id'])->first();
                                        
-                                        foreach($payinfos as $k=>$val){
-                                            $latefee += $val->latefee;
-                                            $adj += $val->adjustments;
-                                           
-                                        }
-                                        foreach ($payments as  $value) {
-                                            $collect_amount += $value->amount;
-                                        }
+                                        
                                     }
 
                                     $paymentLog = App\Models\PaymentLogs::where('event_id', $result['id'])->orderBy('id', 'desc')->first();
@@ -227,13 +228,9 @@
                               
 
                                 <td>
-                                {{($result['total'] - ( $payinfos[0]->deposits + $collect_amount))<= 0 ? '--':'$'.$result['total'] - ($payinfos[0]->deposits - $latefee + $adj + $collect_amount) }}
+                                {{($result['total'] - ( (isset($beforedeposit->deposits)? $beforedeposit->deposits : 0) + $collect_amount))<= 0 ? '--':'$'.$result['total'] - ((isset($beforedeposit->deposits)? $beforedeposit->deposits : 0) - $latefee + $adj + $collect_amount) }}
 
-                                     <!-- @if($paymentLog && $paymentInfo)
-                                        ${{ $paymentInfo->amounttobepaid - $paymentLog->amount}}
-                                    @else
-                                        --
-                                    @endif  -->
+                                  
                                 </td>
                                 <td>{{ __(\Auth::user()->dateFormat($result['created_at'])) }}</td>
                                 <!-- <td>  @if($invoice) <a href="{{ route('billing.estimateview',urlencode(encrypt($result['id'])))}}"style="color: #1551c9 !important;"> 
