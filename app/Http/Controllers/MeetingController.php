@@ -699,18 +699,18 @@ class MeetingController extends Controller
         }
     }
     public function removesetupattachment(Request $request)
-{
-    $setupId = $request->input('setup_id');
-    $setupPlan = Setuplans::find($setupId);
-    $filePath= 'public/' . $setupPlan->setup_docs;
-    if ($setupPlan) {
-        Storage::disk('public')->delete($setupPlan->setup_docs);
-        $setupPlan->delete();
-        return response()->json(['success' => true]);
-    }
+    {
+        $setupId = $request->input('setup_id');
+        $setupPlan = Setuplans::find($setupId);
+        $filePath= 'public/' . $setupPlan->setup_docs;
+        if ($setupPlan) {
+            Storage::disk('public')->delete($setupPlan->setup_docs);
+            $setupPlan->delete();
+            return response()->json(['success' => true]);
+        }
 
-    return response()->json(['success' => false]);
-}
+        return response()->json(['success' => false]);
+    }
     /**
      * Remove the specified resource from storage.
      *

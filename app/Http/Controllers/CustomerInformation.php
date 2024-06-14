@@ -118,7 +118,7 @@ class CustomerInformation extends Controller
                         $mail->attach($attachmentPath);
                     }
                     // Mail::to($customer)->send($mail);
-                    Mail::to('sonali@codenomad.net')->send(new SendCampaignMail($campaignlist, $attachmentPath));
+                    Mail::to($customer)->send(new SendCampaignMail($campaignlist, $attachmentPath));
                 } elseif (($request->format) && $request->format == 'text') {
                     Mail::to($customer)->send(new CampaigntextMail($content));
                 }

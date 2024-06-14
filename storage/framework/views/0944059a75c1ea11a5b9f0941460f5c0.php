@@ -395,7 +395,9 @@ data-setup-id="<?php echo e($setup_plan->id); ?>">&times;</button> -->
                                             foreach($payinfos as $k=>$val){
                                                 $latefee += $val->latefee;
                                                 $adj += $val->adjustments;
-                                                $collect_amount += $val->collect_amount;
+                                            }
+                                            foreach ($payments as  $value) {
+                                                $collect_amount += $value->amount;
                                             }
 
                                 ?>
