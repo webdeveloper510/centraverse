@@ -460,7 +460,20 @@ $eventdoc = App\Models\EventDoc::where('event_id',$meeting->id)->get();
                                                     multiple />
                                             </div>
                                         </div>
-                         
+                                        <div class="col-12" id="previewDiv" style="display: none;">
+                                                <div class="form-group position-relative">
+                                                    <img id="blah" src="#" alt="Preview" class="form-control" />
+                                                    <button type="button" id="removeImg" class="btn btn-danger position-absolute" >&times;</button>
+                                                </div>
+                                            </div>
+
+                                            <div class ="col-12">
+                                            <div class="form-group">
+
+                                              <label><b>Setup Description</b></label>
+                                                <textarea name="setup_description" rows="4"class="form-control">{{ $meeting->setup_description ?? ''}}</textarea>
+                                                        </div>
+                                            </div>   
                                     <div class="col-md-12" style="display:flex;">
                                                             <table class="table table-bordered">
                                                                 <thead>
@@ -839,12 +852,7 @@ document.getElementById('imgInp').onchange = function(evt) {
             if (fileExtension === 'png' || fileExtension === 'jpg'  ) {
                 blah.src = URL.createObjectURL(file);
                 previewDiv.style.display = 'block';
-            } else {
-                // Handle PDF file case here if needed
-                console.log('The file is a PDF.');
-                blah.src = '#'; // or some placeholder for PDF
-                previewDiv.style.display = 'none';
-            }
+            } 
         // blah.src = URL.createObjectURL(file);
         // previewDiv.style.display = 'block';
     } else {

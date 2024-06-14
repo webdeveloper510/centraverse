@@ -46,6 +46,8 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            
+                                            @foreach ($events as $event)
                                             <?php   
                                                 $latefee = 0;
                                                 $adjustments = 0;
@@ -53,8 +55,6 @@
                                                 $amountpaid = 0;
 
                                             ?>
-                                            @foreach ($events as $event)
-
                                             @if(\App\Models\PaymentInfo::where('event_id',$event->id)->exists())
                                             <?php  
                                                 $info = App\Models\PaymentInfo::where('event_id',$event->id)->get();
@@ -131,7 +131,7 @@
                                                 <td>{{($event->total != 0)? '$'. number_format($event->total):'--'}}
                                                 </td>
                                                 <td>{{isset($adjustments)?'$'.$adjustments :'--'}} </td>
-                                                <td>{{isset($latefee)?'$'.$latefee :'--'}} </td>
+                                                <td>{{isset($latefee)?'$'. $latefee :'--'}} </td>
                                                 <td> {{ ((isset($deposit) ? $deposit->deposits : 0) + ($total != 0 ? $total : 0) == 0) 
                                                         ? '--' 
                                                         : '$' . ((isset($deposit) ? $deposit->deposits : 0) + ($total != 0 ? $total : 0)) 

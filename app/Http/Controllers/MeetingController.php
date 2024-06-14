@@ -234,6 +234,7 @@ class MeetingController extends Controller
             $meeting['allergies']          = $request->allergies;
             $meeting['food_description']          = $request->food_package_description;
             $meeting['bar_description']          = $request->bar_package_description;
+            $meeting['setup_description']          = $request->setup_description;
             $meeting['created_by']          = \Auth::user()->creatorId();
            
             
@@ -586,6 +587,7 @@ class MeetingController extends Controller
             $meeting['allergies']          = $request->allergies;
             $meeting['food_description']          = $request->food_package_description;
             $meeting['bar_description']          = $request->bar_package_description;
+            $meeting['setup_description']          = $request->setup_description;
             $meeting['created_by']        = \Auth::user()->creatorId();
             // if ($request->hasFile('setupplans')) {
             //     $file = $request->file('setupplans');
@@ -1271,7 +1273,7 @@ class MeetingController extends Controller
         $meeting['created_by']        = \Auth::user()->creatorId();
         $meeting['food_description']          = $request->food_package_description;
         $meeting['bar_description']          = $request->bar_package_description;
-        
+        $meeting['setup_description']          = $request->setup_description;
        
         // if ($request->hasFile('setupplans')) {
         //     $file = $request->file('setupplans');

@@ -467,7 +467,9 @@ $('#formdata').on('submit', function(event) {
         let endTime = $('#end_time').val();
         if (startTime !== '' && endTime !== '') {
             if (endTime <= startTime) {
-                displayError('end_time', 'End time must be after start time.');
+                show_toastr('Primary', 'End time must be after start time.', 'danger');
+
+                // displayError('end_time', 'End time must be after start time.');
                 event.preventDefault();
                 // isValid = false;
             }
@@ -506,7 +508,9 @@ $('#formdata').on('submit', function(event) {
             
             // Append the error message if it exists
             if(errorMessage != '') {
-                input.after('<div class="validation-error text-danger" style="padding:2px;">' + errorMessage + '</div>');
+                show_toastr('Primary', errorMessage, 'danger');
+
+                // input.after('<div class="validation-error text-danger" style="padding:2px;">' + errorMessage + '</div>');
             }
         }); 
     });

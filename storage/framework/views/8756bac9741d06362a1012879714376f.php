@@ -136,7 +136,7 @@
 
                                                 </td>
                                                 <td><?php echo e(isset($adjustments)?'$'.$adjustments :'--'); ?> </td>
-                                                <td><?php echo e(isset($latefee)?'$'.$latefee :'--'); ?> </td>
+                                                <td><?php echo e(isset($latefee)?'$'. $latefee :'--'); ?> </td>
                                                 <td> <?php echo e(((isset($deposit) ? $deposit->deposits : 0) + ($total != 0 ? $total : 0) == 0) 
                                                         ? '--' 
                                                         : '$' . ((isset($deposit) ? $deposit->deposits : 0) + ($total != 0 ? $total : 0))); ?>

@@ -208,28 +208,28 @@ $additional_items = json_decode($settings['additional_items'],true);
 
     <div class="col-6 need_full" id="additionalSection">
         <?php if(isset($additional_items) && !empty($additional_items)): ?>
-        <?php echo e(Form::label('additional', __('Additional items'), ['class' => 'form-label'])); ?>
+            <?php echo e(Form::label('additional', __('Additional items'), ['class' => 'form-label'])); ?>
 
-        <?php $__currentLoopData = $additional_items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ad_key =>$ad_value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-        <?php $__currentLoopData = $ad_value; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $fun_key =>$packageVal): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-        <div class="form-group" data-additional-index="<?php echo e($fun_key); ?>" data-additional-value="<?php echo e(key($packageVal)); ?>"
-            id="ad_package" style="display: none;">
-            <?php echo e(Form::label('additional', __($fun_key), ['class' => 'form-label'])); ?>
+            <?php $__currentLoopData = $additional_items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ad_key =>$ad_value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php $__currentLoopData = $ad_value; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $fun_key =>$packageVal): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <div class="form-group" data-additional-index="<?php echo e($fun_key); ?>" data-additional-value="<?php echo e(key($packageVal)); ?>"
+                    id="ad_package" style="display: none;">
+                    <?php echo e(Form::label('additional', __($fun_key), ['class' => 'form-label'])); ?>
 
-          
-            <?php $__currentLoopData = $packageVal; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $pac_key =>$item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            <div class="form-check" data-additional-index="<?php echo e($pac_key); ?>" data-additional-package="<?php echo e($pac_key); ?>">
-                <?php echo Form::checkbox('additional_'.str_replace(' ', '_',
-                strtolower($fun_key)).'[]',$pac_key, null, ['data-function' =>
-                $fun_key, 'class' => 'form-check-input']); ?>
+                
+                    <?php $__currentLoopData = $packageVal; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $pac_key =>$item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <div class="form-check" data-additional-index="<?php echo e($pac_key); ?>" data-additional-package="<?php echo e($pac_key); ?>">
+                        <?php echo Form::checkbox('additional_'.str_replace(' ', '_',
+                        strtolower($fun_key)).'[]',$pac_key, null, ['data-function' =>
+                        $fun_key, 'class' => 'form-check-input']); ?>
 
-                <?php echo e(Form::label($pac_key, $pac_key, ['class' => 'form-check-label'])); ?>
+                        <?php echo e(Form::label($pac_key, $pac_key, ['class' => 'form-check-label'])); ?>
 
-            </div>
+                    </div>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                </div>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-        </div>
-        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         <?php endif; ?>
 
     </div>

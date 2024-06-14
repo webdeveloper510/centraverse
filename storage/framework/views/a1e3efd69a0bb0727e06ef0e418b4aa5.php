@@ -158,10 +158,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php   $latefee = 0;
-                                        $adj = 0;
-                                        $collect_amount = 0;?>
+                          
                             <?php $__currentLoopData = $events; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $result): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <?php   
+                            $latefee = 0;
+                            $adj = 0;
+                            $collect_amount = 0;
+                            ?>
                             <?php $invoice = App\Models\Billing::where('event_id',$result['id'])->exists(); ?>
                             <tr>
                                 <td> <?php echo e(__(\App\Models\Meeting::$status[$result['status']])); ?></td>
@@ -192,7 +195,7 @@
                                 <td>
                                     <?php if($invoice): ?> Yes <?php else: ?> No <?php endif; ?>
                                 </td>
-                               
+
                                 <?php 
                                     $existingbill = App\Models\Billing::where('event_id',$result['id'])->exists();         
                                     if($existingbill){
@@ -201,25 +204,19 @@
                                         if(App\Models\PaymentLogs::where('event_id',$result['id'])->exists()){
                                             $payments = App\Models\PaymentLogs::where('event_id',$result['id'])->orderBy('id','desc')->get();
                                             $payinfos = App\Models\PaymentInfo::where('event_id',$result['id'])->get();
+                                            foreach($payinfos as $val){
+                                                $latefee += $val->latefee;
+                                                $adj += $val->adjustments;
+                                               
+                                            }
+                                            foreach ($payments as  $value) {
+                                                $collect_amount += $value->amount;
+                                            }
                                         }
                                         $beforedeposit = App\Models\Billing::where('event_id',$result['id'])->first();
-                                       
-                                        foreach($payinfos as $k=>$val){
-                                            $latefee += $val->latefee;
-                                            $adj += $val->adjustments;
-                                           
-                                        }
-                                        foreach ($payments as  $value) {
-                                            $collect_amount += $value->amount;
-                                        }
                                     }
-
-                                    $paymentLog = App\Models\PaymentLogs::where('event_id', $result['id'])->orderBy('id', 'desc')->first();
-                                    $paymentInfo = App\Models\PaymentInfo::where('event_id', $result['id'])->orderBy('id', 'desc')->first();
                                 ?>
-                                  
                                 <td>
-
                                     <?php if($result['total'] != 0): ?>
                                     $<?php echo e($result['total']); ?>
 
@@ -234,20 +231,16 @@
 
                                 </td>
                                 <td>
-                                <?php echo e(((isset($beforedeposit->deposits)? $beforedeposit->deposits : 0) + $collect_amount<=0) ?'--': '$'.((isset($beforedeposit->deposits)? $beforedeposit->deposits : 0)+ $collect_amount)); ?> 
-                                    </td>
-                              
+                                    <?php echo e(((isset($beforedeposit->deposits)? $beforedeposit->deposits : 0) + $collect_amount<=0) ?'--': '$'.((isset($beforedeposit->deposits)? $beforedeposit->deposits : 0)+ $collect_amount)); ?>
+
+                                </td>
+
 
                                 <td>
-                                <?php echo e(($result['total'] - ( $payinfos[0]->deposits + $collect_amount))<= 0 ? '--':'$'.$result['total'] - ($payinfos[0]->deposits - $latefee + $adj + $collect_amount)); ?>
+                                    <?php echo e(($result['total'] - ( (isset($beforedeposit->deposits)? $beforedeposit->deposits : 0) + $collect_amount))<= 0 ? '--':'$'.$result['total'] - ((isset($beforedeposit->deposits)? $beforedeposit->deposits : 0) - $latefee + $adj + $collect_amount)); ?>
 
 
-                                     <!-- <?php if($paymentLog && $paymentInfo): ?>
-                                        $<?php echo e($paymentInfo->amounttobepaid - $paymentLog->amount); ?>
 
-                                    <?php else: ?>
-                                        --
-                                    <?php endif; ?>  -->
                                 </td>
                                 <td><?php echo e(__(\Auth::user()->dateFormat($result['created_at']))); ?></td>
                                 <!-- <td>  <?php if($invoice): ?> <a href="<?php echo e(route('billing.estimateview',urlencode(encrypt($result['id'])))); ?>"style="color: #1551c9 !important;"> 

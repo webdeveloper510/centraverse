@@ -153,10 +153,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php   $latefee = 0;
-                                        $adj = 0;
-                                        $collect_amount = 0;?>
+                          
                             @foreach ($events as $result)
+                            <?php   
+                            $latefee = 0;
+                            $adj = 0;
+                            $collect_amount = 0;
+                            ?>
                             <?php $invoice = App\Models\Billing::where('event_id',$result['id'])->exists(); ?>
                             <tr>
                                 <td> {{ __(\App\Models\Meeting::$status[$result['status']]) }}</td>
@@ -183,7 +186,7 @@
                                 <td>
                                     @if($invoice) Yes @else No @endif
                                 </td>
-                               
+
                                 <?php 
                                     $existingbill = App\Models\Billing::where('event_id',$result['id'])->exists();         
                                     if($existingbill){
@@ -192,7 +195,7 @@
                                         if(App\Models\PaymentLogs::where('event_id',$result['id'])->exists()){
                                             $payments = App\Models\PaymentLogs::where('event_id',$result['id'])->orderBy('id','desc')->get();
                                             $payinfos = App\Models\PaymentInfo::where('event_id',$result['id'])->get();
-                                            foreach($payinfos as $k=>$val){
+                                            foreach($payinfos as $val){
                                                 $latefee += $val->latefee;
                                                 $adj += $val->adjustments;
                                                
@@ -202,16 +205,9 @@
                                             }
                                         }
                                         $beforedeposit = App\Models\Billing::where('event_id',$result['id'])->first();
-                                       
-                                        
                                     }
-
-                                    $paymentLog = App\Models\PaymentLogs::where('event_id', $result['id'])->orderBy('id', 'desc')->first();
-                                    $paymentInfo = App\Models\PaymentInfo::where('event_id', $result['id'])->orderBy('id', 'desc')->first();
                                 ?>
-                                  
                                 <td>
-
                                     @if($result['total'] != 0)
                                     ${{$result['total']}}
                                     @else {{ __('Invoice Not Created') }}
@@ -223,14 +219,14 @@
                                 <td>{{isset($latefee)?$latefee:'--'}}
                                 </td>
                                 <td>
-                                {{((isset($beforedeposit->deposits)? $beforedeposit->deposits : 0) + $collect_amount<=0) ?'--': '$'.((isset($beforedeposit->deposits)? $beforedeposit->deposits : 0)+ $collect_amount)}} 
-                                    </td>
-                              
+                                    {{((isset($beforedeposit->deposits)? $beforedeposit->deposits : 0) + $collect_amount<=0) ?'--': '$'.((isset($beforedeposit->deposits)? $beforedeposit->deposits : 0)+ $collect_amount)}}
+                                </td>
+
 
                                 <td>
-                                {{($result['total'] - ( (isset($beforedeposit->deposits)? $beforedeposit->deposits : 0) + $collect_amount))<= 0 ? '--':'$'.$result['total'] - ((isset($beforedeposit->deposits)? $beforedeposit->deposits : 0) - $latefee + $adj + $collect_amount) }}
+                                    {{($result['total'] - ( (isset($beforedeposit->deposits)? $beforedeposit->deposits : 0) + $collect_amount))<= 0 ? '--':'$'.$result['total'] - ((isset($beforedeposit->deposits)? $beforedeposit->deposits : 0) - $latefee + $adj + $collect_amount) }}
 
-                                  
+
                                 </td>
                                 <td>{{ __(\Auth::user()->dateFormat($result['created_at'])) }}</td>
                                 <!-- <td>  @if($invoice) <a href="{{ route('billing.estimateview',urlencode(encrypt($result['id'])))}}"style="color: #1551c9 !important;"> 

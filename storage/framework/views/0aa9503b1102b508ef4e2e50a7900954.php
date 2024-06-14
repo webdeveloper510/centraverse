@@ -587,6 +587,14 @@ unset($__errorArgs, $__bag); ?>
                                                     <button type="button" id="removeImg" class="btn btn-danger position-absolute" >&times;</button>
                                                 </div>
                                             </div>
+
+                                            <div class ="col-12">
+                                            <div class="form-group">
+
+                                              <label><b>Setup Description</b></label>
+                                                <textarea name="setup_description" rows="4"class="form-control"></textarea>
+                                                        </div>
+                                            </div>   
                                           
                                         </div>
                                     </div>
@@ -732,36 +740,49 @@ unset($__errorArgs, $__bag); ?>
 </div>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script-page'); ?>
-
 <script>
-// document.getElementById('imgInp').onchange = function(evt) {
-//     const [file] = this.files;
-//     const previewDiv = document.getElementById('previewDiv');
-//     const blah = document.getElementById('blah');
+     document.addEventListener('DOMContentLoaded', function() {
+        const imgInp = document.getElementById('imgInp');
+        const previewDiv = document.getElementById('previewDiv');
+        const blah = document.getElementById('blah');
+        const removePreviewButton = document.getElementById('remove-preview');
 
-//     if (file) {
-//         if (file) {
-//         const fileName = file.name.toLowerCase();
-//         const fileExtension = fileName.split('.').pop();
-//         // if (fileExtension === 'png' || fileExtension === 'pdf') {
-//             // if (fileExtension === 'png' || fileExtension === 'jpg'  ) {
-//             //     blah.src = URL.createObjectURL(file);
-//             //     previewDiv.style.display = 'block';
-//             // } else {
-//             //     // Handle PDF file case here if needed
-//             //     console.log('The file is a PDF.');
-//             //     blah.src = '#'; // or some placeholder for PDF
-//             //     previewDiv.style.display = 'none';
-//             // }
-//         // blah.src = URL.createObjectURL(file);
-//         // previewDiv.style.display = 'block';
-//     } else {
-//         blah.src = '#';
-//         previewDiv.style.display = 'none';
-//     }
-// };
-// };
+        imgInp.addEventListener('change', function() {
+            const [file] = imgInp.files;
+            if (file) {
+                const fileName = file.name.toLowerCase();
+                const fileExtension = fileName.split('.').pop();
+                // if (fileExtension === 'png' || fileExtension === 'pdf') {
+                if (fileExtension == 'png' || fileExtension == 'jpg') {
+                    blah.src = URL.createObjectURL(file);
+                    previewDiv.style.display = 'block';
+                } 
+                // else {
+                //     // Handle PDF file case here if needed
+                //     console.log('The file is a PDF.');
+                //     blah.src = '#'; // or some placeholder for PDF
+                //     previewDiv.style.display = 'none';
+                // }
+            }
+        });
 
+        removePreviewButton.addEventListener('click', function() {
+            blah.src = '#';
+            blah.style.display = 'none';
+            removePreviewButton.style.display = 'none';
+            imgInp.value = ''; // Clear the file input
+        });
+
+        previewDiv.addEventListener('click', function(event) {
+            if (event.target.classList.contains('remove-setup')) {
+                const setupId = event.target.getAttribute('data-setup-id');
+                removeSetup(setupId, event.target);
+            }
+        });
+
+    });
+</script>
+<script>
 document.getElementById('removeImg').onclick = function() {
     const imgInp = document.getElementById('imgInp');
     const previewDiv = document.getElementById('previewDiv');
@@ -772,7 +793,6 @@ document.getElementById('removeImg').onclick = function() {
     previewDiv.style.display = 'none'; // Hide the preview div
 };
 </script>
-
 
 <script>
 function validateCheckboxGroup(groupName) {
@@ -908,8 +928,10 @@ $(document).ready(function() {
                 console.log(data);
                 var jsonObject = JSON.parse(data.func_package);
                 var jsonadObject = JSON.parse(data.ad_opts);
+                var jsonBarObject = JSON.parse(data.bar_package);
 
-                console.log(jsonadObject);
+
+                // console.log(jsonadObject);
                 // func_pack = json_decode(data.func_package);
                 venue_str = data.venue_selection;
                 venue_arr = venue_str.split(",");
@@ -937,7 +959,33 @@ $(document).ready(function() {
                     $("input[name='venue[]'][value='" + val + "']").prop('checked',
                         true);
                 });
+                var barrrrrrr = $('input[type=radio][name = baropt]:checked').val();
+                if (barrrrrrr == 'Package Choice') {
+                    $('div#barpacakgeoptions').show();
+                }
+                var barPackage = document.getElementById('barpacakgeoptions');
+                var bardivs = barPackage.querySelectorAll('.form-group');
+                bardivs.forEach(function(div) {
+                    var barmainValue = div.getAttribute('data-main-value');
+                    console.log('barmainValue', barmainValue);
+                    console.log('jsonBarObject', jsonBarObject);
+                    // Check if the key exists in jsonBarObject
+                    if (jsonBarObject.hasOwnProperty(barmainValue)) {
+                        var value = jsonBarObject[barmainValue];
 
+                        // Construct the selector for the radio button
+                        var dynamicName = 'bar_' + barmainValue.toLowerCase().replace(/\s+/g, '') ;
+                        var selector = `input[name='${dynamicName}'][value='${value}'] `;
+                        console.log('selector', selector);
+
+                        // Check the radio button
+                        $(selector).prop('checked', true);
+                    } else {
+                        // Skip this iteration if the key doesn't exist
+                        console.log("Key does not exist in jsonBarObject:", barmainValue);
+                        return; // Skip to the next iteration
+                    }
+                });
                 $.each(func_arr, function(i, val) {
                     $("input[name='function[]'][value='" + val + "']").prop(
                         'checked', true);
@@ -947,45 +995,45 @@ $(document).ready(function() {
                     function() {
                         return $(this).val();
                     }).get();
-                    console.log('checkedFunctions',checkedFunctions);
+                    // console.log('checkedFunctions',checkedFunctions);
 
                 var mailFunctionSection = document.getElementById('mailFunctionSection');
                 var divs = mailFunctionSection.querySelectorAll('.form-group');
                 divs.forEach(function(div) {
                     var mainValue = div.getAttribute('data-main-value');
-                    console.log('mainval',mainValue);
+                    // console.log('mainval',mainValue);
                     if (checkedFunctions.includes(mainValue)) {
                         for (var key in jsonObject) {
                             if (jsonObject.hasOwnProperty(key)) {
                                 var originalKey = key;
                                 var values = jsonObject[key]; // Get all values for the key
                                 values.forEach(function(value) { // Loop through each value
-                                    console.log('value', value);
+                                    // console.log('value', value);
                                 
                                     var transformedKey = originalKey.charAt(0).toUpperCase() + originalKey.slice(1);
                                     console.log('transformedKey', transformedKey);
                                     var dynamicName = 'package_' + transformedKey.toLowerCase().replace(/\s+/g, '') + '[]';
                                     var selector = `input[name='${dynamicName}'][value='${value}'] `;
-                                    console.log('selector', selector);
+                                    // console.log('selector', selector);
                                     var element = $(selector);
-                                    console.log('mainValue', mainValue);
+                                    // console.log('mainValue', mainValue);
 
-                                        console.log('transformedKey', transformedKey);
-                                        console.log("Element found:", element);
+                                        // console.log('transformedKey', transformedKey);
+                                        // console.log("Element found:", element);
 
                                         $(selector).prop('checked', true);
                                         setTimeout(() => {
                                             var checkedPackages = $(`input[name='${dynamicName}']:checked`).map(function() {
                                                 return $(this).val();
                                             }).get();
-                                            console.log('checkedPackages',checkedPackages)
+                                            // console.log('checkedPackages',checkedPackages)
                                             var additionalSection = document.getElementById('additionalSection');
                                             var divads = additionalSection.querySelectorAll('.form-group');
                                             divads.forEach(function(div) {
                                                 var mainValue = div.getAttribute('data-additional-index');
                                                 if (checkedPackages.includes(mainValue)) {
-                                                        console.log(mainValue);
-                                                        console.log('jsonadObject', jsonadObject)
+                                                        // console.log(mainValue);
+                                                        // console.log('jsonadObject', jsonadObject)
                                                         for (var key in jsonadObject) {
                                                             if (jsonadObject.hasOwnProperty(key)) {
                                                                     // Access the original key and value
@@ -995,18 +1043,10 @@ $(document).ready(function() {
                                                                     var transformedKey = originalKey.charAt(0).toUpperCase() + originalKey.slice(1);
                                                                     var dynamicadName = 'additional_' + transformedKey.toLowerCase().replace(/\s+/g, '_') + '[]';
                                                                     var adselector = `input[name='${dynamicadName}'][value='${value}']`;
-                                                                    console.log('adselector', adselector);
+                                                                    // console.log('adselector', adselector);
                                                                     $(adselector).prop('checked', true);
                                                                 });
-                                                                    // var value =jsonadObject[key][0]; // Assuming the value is always an array and we need the first element
-                                                                    // var transformedKey =originalKeycharAt(0).toUpperCase() +originalKey.slice(1);
-                                                                    // var dynamicadName ='additional_' +transformedKey.toLowerCase().replace(/\s+/g,'_') + '[]';
-                                                                    // // var dynamicName = 'package_' + transformedKey.toLowerCase()
-                                                                    // //     .replace(/\s+/g, '') + '[]';
-                                                                    // var adselector = `input[name='${dynamicadName}'][value = '${value}'] `;
-                                                                    // console.log('adselector',adselector);
-                                                                    // $(adselector).prop('checked',true);
-                                                                    // }
+                                                                
                                                             }
                                                         
                                                         }
@@ -1216,7 +1256,7 @@ $(document).ready(function() {
                         var value = jsonBarObject[barmainValue];
 
                         // Construct the selector for the radio button
-                        var dynamicName = 'bar_' + barmainValue.toLowerCase().replace(/\s+/g, '') + '[]';
+                        var dynamicName = 'bar_' + barmainValue.toLowerCase().replace(/\s+/g, '');
                         var selector = `input[name='${dynamicName}'][value='${value}'] `;
                         console.log('selector', selector);
 

@@ -73,15 +73,15 @@ $eventdoc = App\Models\EventDoc::where('event_id',$meeting->id)->get();
     transform: scale(1.2);
 }
 
+
 #previewDiv .position-relative {
     position: relative;
     width: 60%;
 }
-
-.remove-setup {
+#removeImg {
     position: absolute;
-    top: 5px;
-    right: 0px;
+   top:0px;
+   right: 0px;
     background: red;
     color: white;
     border: none;
@@ -510,7 +510,19 @@ $eventdoc = App\Models\EventDoc::where('event_id',$meeting->id)->get();
                                                     multiple />
                                             </div>
                                         </div>
-                                       
+                                        <div class="col-12" id="previewDiv" style="display: none;">
+                                                <div class="form-group position-relative">
+                                                    <img id="blah" src="#" alt="Preview" class="form-control" />
+                                                    <button type="button" id="removeImg" class="btn btn-danger position-absolute" >&times;</button>
+                                                </div>
+                                            </div>
+                                            <div class ="col-12">
+                                            <div class="form-group">
+
+                                              <label><b>Setup Description</b></label>
+                                                <textarea name="setup_description" rows="4"class="form-control"><?php echo e($meeting->setup_description ?? ''); ?></textarea>
+                                                        </div>
+                                            </div>   
                                         <div class="col-md-12" style="display:flex;">
                                                             <table class="table table-bordered">
                                                                 <thead>
@@ -750,6 +762,19 @@ $eventdoc = App\Models\EventDoc::where('event_id',$meeting->id)->get();
     }
     </style>
     <script>
+    document.getElementById('removeImg').onclick = function() {
+        const imgInp = document.getElementById('imgInp');
+        const previewDiv = document.getElementById('previewDiv');
+        const blah = document.getElementById('blah');
+
+        imgInp.value = ''; // Clear the file input
+        blah.src = '#'; // Reset the image source
+        previewDiv.style.display = 'none'; // Hide the preview div
+    };
+    </script>
+
+    <script>
+        
     document.addEventListener('DOMContentLoaded', function() {
         const checkboxes = document.querySelectorAll('.single-select');
         const baroptRadios = document.querySelectorAll('.baropt-radio');
