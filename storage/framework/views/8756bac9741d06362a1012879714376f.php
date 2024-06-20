@@ -48,6 +48,8 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            
+                                            <?php $__currentLoopData = $events; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $event): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <?php   
                                                 $latefee = 0;
                                                 $adjustments = 0;
@@ -55,8 +57,6 @@
                                                 $amountpaid = 0;
 
                                             ?>
-                                            <?php $__currentLoopData = $events; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $event): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-
                                             <?php if(\App\Models\PaymentInfo::where('event_id',$event->id)->exists()): ?>
                                             <?php  
                                                 $info = App\Models\PaymentInfo::where('event_id',$event->id)->get();

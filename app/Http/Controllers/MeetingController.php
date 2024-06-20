@@ -95,7 +95,7 @@ class MeetingController extends Controller
     // WORKING  17-01-2024
     public function store(Request $request)
     {
-
+       
         if (\Auth::user()->can('Create Meeting')) {
             $validator = \Validator::make(
                 $request->all(),
@@ -123,6 +123,7 @@ class MeetingController extends Controller
             $package = [];
             $additional = [];
             $bar_pack = [];
+            
             foreach ($data as $key => $values) {
                 if (strpos($key, 'package_') === 0) {
                     $newKey = strtolower(str_replace('package_', '', $key));
@@ -159,7 +160,7 @@ class MeetingController extends Controller
             $start_time = $request->input('start_time');
             $end_time = $request->input('end_time');
             $venue_selected = $request->input('venue');
-
+            
             $overlapping_event = Meeting::where('start_date', '<=', $end_date)
                 ->where('end_date', '>=', $start_date)
                 ->where(function ($query) use ($start_date, $end_date,$start_time,$end_time, $venue_selected) {
@@ -200,6 +201,12 @@ class MeetingController extends Controller
                 ->withInput();
                 // return redirect()->back()->with('error', 'Date is Blocked for corrosponding time and venue');
             }
+
+            // Upload file
+            
+
+
+
             $phone= preg_replace('/\D/', '', $request->input('phone'));
             $meeting                      = new Meeting();
             $meeting['user_id']           = isset($request->user)?implode(',', $request->user):'';
@@ -230,13 +237,12 @@ class MeetingController extends Controller
             $meeting['start_time']          = $request->start_time;
             $meeting['end_time']            = $request->end_time;
             $meeting['ad_opts']             = $additional;
-            $meeting['floor_plan']          = $uploadedImage;
+            $meeting['floor_plan']          = $request->uploaded_file_name;
             $meeting['allergies']          = $request->allergies;
             $meeting['food_description']          = $request->food_package_description;
             $meeting['bar_description']          = $request->bar_package_description;
             $meeting['setup_description']          = $request->setup_description;
             $meeting['created_by']          = \Auth::user()->creatorId();
-           
             
             $meeting->save();
 
@@ -387,6 +393,8 @@ class MeetingController extends Controller
 
         }
     }
+
+
     /**
      * Display the specified resource.
      *
@@ -417,6 +425,8 @@ class MeetingController extends Controller
      */
     public function edit(Meeting $meeting)
     {
+        
+
         if (\Auth::user()->can('Edit Meeting')) {
             $status            = Meeting::$status;
             $attendees_lead    = Lead::where('id', $meeting->attendees_lead)->where('lead_status',1)->get()->pluck('leadname')->first();
@@ -426,6 +436,9 @@ class MeetingController extends Controller
             $food_package =  json_decode($meeting->func_package, true);
             $user_id = explode(',', $meeting->user_id);
             $setup = Setup::all();
+
+            // echo "<pre>"; print_r($meeting);die;
+
             return view('meeting.edit', compact('user_id', 'users', 'setup', 'food_package', 'function_p', 'venue_function', 'meeting', 'status', 'attendees_lead'))->with('start_date', $meeting->start_date)->with('end_date', $meeting->start_date);
         } else {
             return redirect()->back()->with('error', 'permission Denied');
@@ -441,9 +454,18 @@ class MeetingController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+     public function uploadDoc (Request $request) {
+        
+        $image = $request->file('upload_doc');
+        $uploadedImage = uniqid()."_".time() . '.' . $image->getClientOriginalExtension();
+        $is_moved = $image->move(public_path('floor_images'), $uploadedImage);
+        $response = (object)[ "code" => 200 , 'name'    => $is_moved ? $uploadedImage : ''];
+        echo json_encode($response);
+        
+     }
     public function update(Request $request, Meeting $meeting)
     {
-
+        
         if (\Auth::user()->can('Edit Meeting')) {
             $validator = \Validator::make(
                 $request->all(),
@@ -583,7 +605,7 @@ class MeetingController extends Controller
             $meeting['start_time']          = $request->start_time;
             $meeting['end_time']            = $request->end_time;
             $meeting['ad_opts']             = isset($additional) ? $additional : '';
-            $meeting['floor_plan']          = $uploadedImage;
+            $meeting['floor_plan']          = $request->uploaded_file_name;
             $meeting['allergies']          = $request->allergies;
             $meeting['food_description']          = $request->food_package_description;
             $meeting['bar_description']          = $request->bar_package_description;
@@ -597,17 +619,17 @@ class MeetingController extends Controller
 
             // }
 
-            if($request->hasFile('setupplans')) {
-                $file = $request->file('setupplans')[0];
+            // if($request->hasFile('setupplans')) {
+            //     $file = $request->file('setupplans')[0];
 
-                $filePath = $file->store('setup_plans', 'public');
+            //     $filePath = $file->store('setup_plans', 'public');
 
-                $newsetup = new Setuplans();
-                $newsetup->event_id = $meeting->id;
-                $newsetup->setup_docs = $filePath;
-                $newsetup->save();
-                // $meeting['setup_plans']  = $filePath;
-            }
+            //     $newsetup = new Setuplans();
+            //     $newsetup->event_id = $meeting->id;
+            //     $newsetup->setup_docs = $filePath;
+            //     $newsetup->save();
+            //     // $meeting['setup_plans']  = $filePath;
+            // }
           
             $meeting->update();
             if (!empty($request->file('atttachment'))) {

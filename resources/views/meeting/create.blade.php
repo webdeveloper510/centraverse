@@ -29,7 +29,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
 @section('content')
 <style>
 .floorimages {
-    height: 400px;
+    height: 250px;
     width: 100%;
     margin: 0px !important;
 }
@@ -494,8 +494,9 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                             <div class="col-12">
                                                 <div class="row">
                                                     <label><b>Select Setup</b></label>
+                                                    
                                                     @foreach($setup as $s)
-                                                    <div class="col-6 need_full mt-4">
+                                                    <div class="col-xm-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 need_full mt-4">
                                                         <input type="radio" id="image_{{ $loop->index }}"
                                                             name="uploadedImage" class="form-check-input "
                                                             value="{{ $s->image }}"
@@ -503,11 +504,18 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                         <label for="image_{{ $loop->index }}" class="form-check-label">
                                                             <img src="{{asset('floor_images/'.$s->image)}}"
                                                                 alt="Uploaded Image"
-                                                                class="img-thumbnail floorimages zoom"
+                                                                class="Setup-img img-thumbnail floorimages zoom"
                                                                 data-bs-toggle="tooltip" title="{{$s->Description}}">
                                                         </label>
                                                     </div>
                                                     @endforeach
+
+                                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 need_full mt-4" id="previewDiv" style="display: none;">
+                                                        <div class="form-group position-relative">
+                                                            <img id="blah" src="#" alt="Preview" class="form-control Setup-img img-thumbnai floorimages zoom" url=""/>
+                                                            <button type="button" id="removeImg" class="btn btn-danger position-absolute" >&times;</button>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 @error('uploadedImage')
                                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
@@ -516,18 +524,14 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                             <div class="col-12 mt-4">
                                                 <div class="form-group">
                                                     <label><b>Upload Setup</b></label>
-                                                    <input  type='file' id="imgInp" class="form-control" name="setupplans"/>
+                                                    <input  type='file' id="imgInp" class="form-control upload_setup" name="setupplans"/>
+                                                    <input type="hidden" name="uploaded_file_name" id='uploaded_file_name'>
                                                 </div>
                                             </div>
                                              <!-- -------- check the xtension and if image use img tag otherwise
                                                          shoe the preview of doc uploaded-->
                                                          
-                                            <div class="col-12" id="previewDiv" style="display: none;">
-                                                <div class="form-group position-relative">
-                                                    <img id="blah" src="#" alt="Preview" class="form-control" />
-                                                    <button type="button" id="removeImg" class="btn btn-danger position-absolute" >&times;</button>
-                                                </div>
-                                            </div>
+                                            
 
                                             <div class ="col-12">
                                             <div class="form-group">
@@ -664,6 +668,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
 </div>
 @endsection
 @push('script-page')
+
 <script>
      document.addEventListener('DOMContentLoaded', function() {
         const imgInp = document.getElementById('imgInp');
@@ -671,30 +676,153 @@ $leadId = decrypt(urldecode(request()->query('lead')));
         const blah = document.getElementById('blah');
         const removePreviewButton = document.getElementById('remove-preview');
 
-        imgInp.addEventListener('change', function() {
-            const [file] = imgInp.files;
-            if (file) {
-                const fileName = file.name.toLowerCase();
-                const fileExtension = fileName.split('.').pop();
-                // if (fileExtension === 'png' || fileExtension === 'pdf') {
-                if (fileExtension == 'png' || fileExtension == 'jpg') {
-                    blah.src = URL.createObjectURL(file);
-                    previewDiv.style.display = 'block';
-                } 
-                // else {
-                //     // Handle PDF file case here if needed
-                //     console.log('The file is a PDF.');
-                //     blah.src = '#'; // or some placeholder for PDF
-                //     previewDiv.style.display = 'none';
-                // }
+        $('.Setup-img').click(function () {
+            let img_url = $(this).attr('url');
+            let img_src = $(this).attr('src');
+
+            if (img_url === undefined ) {
+                window.open(img_src, '_blank')
+            } else {
+                window.open(img_url, '_blank')
+            }
+           
+            console.log('url--' , url)
+        });
+
+        $("#removeImg").click(function () {
+
+            $("#uploaded_file_name").val('');
+        });
+
+        // imgInp.addEventListener('change', function() {
+        //     const [file] = imgInp.files;
+        //     if (file) {
+        //         const fileName = file.name.toLowerCase();
+        //         const fileExtension = fileName.split('.').pop();
+
+        //         console.log('fileExtension--', fileExtension)
+        //         // if (fileExtension === 'png' || fileExtension === 'pdf') {
+        //         if (fileExtension == 'png' || fileExtension == 'jpg' || fileExtension == 'jpeg') {
+        //             blah.src = URL.createObjectURL(file);
+        //             previewDiv.style.display = 'block';
+        //         } 
+
+                
+        //         // else {
+        //         //     // Handle PDF file case here if needed
+        //         //     console.log('The file is a PDF.');
+        //         //     blah.src = '#'; // or some placeholder for PDF
+        //         //     previewDiv.style.display = 'none';
+        //         // }
+        //     }
+        // });
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': "<?= csrf_token()?>"
             }
         });
+
+        $('.upload_setup').on('change', function () {
+                var formData = new FormData();
+                formData.append('upload_doc' , $('.upload_setup')[0].files[0]);
+                console.log('cheking');
+                $.ajax({
+                    url: "<?= url('upload-docs')?>",
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        console.log('get data-- rsponse', response);
+                        let result = JSON.parse(response);
+                        console.log('get data-- result', result);
+                        let file_type_src = '';
+                        let file_type_url = '';
+                        if (result.code == 200) {
+                            let file_type = getFileType(result.name);
+                            if (file_type == 'image') {
+                                file_type_src = "<?= url('/public/floor_images')?>"+"/"+result.name;
+                                file_type_url = file_type_src;
+                                $("#uploaded_file_name").val(result.name)
+
+                                $("#blah").attr('src' ,file_type_src);
+                                $("#blah").attr('url' ,file_type_url);
+                                previewDiv.style.display = 'block';
+                            }
+
+                            if (file_type == 'pdf') {
+                                file_type_src = "<?= url('/public/floor_images')?>"+"/pdf-sample.png";
+                                file_type_url = "<?= url('/public/floor_images')?>"+"/"+result.name;
+                                $("#uploaded_file_name").val(result.name)
+
+                                $("#blah").attr('src' ,file_type_src);
+                                $("#blah").attr('url' ,file_type_url);
+                                previewDiv.style.display = 'block';
+                            }
+
+                            if (file_type == 'document') {
+                                file_type_src = "<?= url('/public/floor_images')?>"+"/doc-sample.png";
+                                file_type_url = "<?= url('/public/floor_images')?>"+"/"+result.name;
+                                $("#uploaded_file_name").val(result.name)
+
+                                $("#blah").attr('src' ,file_type_src);
+                                $("#blah").attr('url' ,file_type_url);
+                                previewDiv.style.display = 'block';
+                            }
+
+                            if (file_type == 'excel') {
+                                file_type_src = "<?= url('/public/floor_images')?>"+"/excel-sheet.png";
+                                file_type_url = "<?= url('/public/floor_images')?>"+"/"+result.name;
+                                $("#uploaded_file_name").val(result.name)
+
+                                $("#blah").attr('src' ,file_type_src);
+                                $("#blah").attr('url' ,file_type_url);
+                                previewDiv.style.display = 'block';
+                            }
+                           
+                        } else {
+                            alert('Error occured on server side. please try again later');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        $('#message').html('An error occurred: ' + error);
+                    }
+                });
+        });
+
+    function getFileType(fileName) {
+        // Get the file extension
+        var extension = fileName.split('.').pop().toLowerCase();
+
+        // Define regular expressions for different file types
+        var imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp'];
+        var pdfExtensions = ['pdf'];
+        var documentExtensions = ['doc', 'docx', 'txt'];
+        var excelExtensions = ['xls', 'xlsx'];
+
+        // Check which category the file belongs to based on its extension
+        if (imageExtensions.includes(extension)) {
+            return 'image';
+        } else if (pdfExtensions.includes(extension)) {
+            return 'pdf';
+        } else if (documentExtensions.includes(extension)) {
+            return 'document';
+        } else if (excelExtensions.includes(extension)) {
+            return 'excel';
+        } else {
+            return 'unknown';
+        }
+    }
+
+    
 
         removePreviewButton.addEventListener('click', function() {
             blah.src = '#';
             blah.style.display = 'none';
             removePreviewButton.style.display = 'none';
             imgInp.value = ''; // Clear the file input
+            $("#uploaded_file_name").val('')
         });
 
         previewDiv.addEventListener('click', function(event) {

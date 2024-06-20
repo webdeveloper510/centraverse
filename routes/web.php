@@ -133,6 +133,7 @@ Route::group(
 
 });
 
+Route::any('/upload-docs' , [MeetingController::class, 'uploadDoc']);
 Route::any('/cookie-consent', [SettingController::class, 'CookieConsent'])->name('cookie-consent');
 
 Route::any('/all-data', [DashboardController::class, 'get_data'])->middleware(
@@ -1427,7 +1428,7 @@ Route::group(
         Route::get('contracts/create-new-template',[ContractsController::class,'newtemplate'])->name('contracts.newtemplate');
     });
 
-  
+
 Route::get('/meeting-download/{meeting}', [MeetingController::class, 'download_meeting']);
 Route::get('event/agreement/{id}', [MeetingController::class, 'agreement'])->name('meeting.agreement');
 Route::get('/push-notificaiton', [WebNotificationController::class, 'index'])->name('push-notificaiton');
