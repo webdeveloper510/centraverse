@@ -53,8 +53,13 @@ $payinfo = App\Models\PaymentInfo::where('event_id',$event->id)->orderBy('id', '
                                 </div>
                                 <div class="col-md-6">
                                     <label>Amount</label>
-                                    <input type="number" name="amount" class="form-control"
-                                        value="{{isset($collectpayment) ? $collectpayment->collect_amount : $balance}}" readonly>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">$</span>
+                                        </div>
+                                        <input type="number" name="amount" class="form-control" value="{{isset($collectpayment) ? $collectpayment->collect_amount : $balance}}" readonly>
+                                    </div>
+                                    
                                     <!-- <input type="number" name="amount" class="form-control"
                                         value="{{ isset($payinfo) ? $payinfo->amounttobepaid : ($event->total - $total) }}"
                                         > -->

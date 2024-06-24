@@ -744,7 +744,7 @@ unset($__errorArgs, $__bag); ?>
 </div>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script-page'); ?>
-<script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
+
 <script>
      document.addEventListener('DOMContentLoaded', function() {
         const imgInp = document.getElementById('imgInp');
@@ -865,7 +865,7 @@ unset($__errorArgs, $__bag); ?>
                         $('#message').html('An error occurred: ' + error);
                     }
                 });
-    });
+        });
 
     function getFileType(fileName) {
         // Get the file extension

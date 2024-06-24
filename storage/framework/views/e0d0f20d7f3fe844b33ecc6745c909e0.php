@@ -59,8 +59,14 @@ $adjustments += $inf->adjustments;
         <div class="form-group">
             <?php echo e(Form::label('amount',__('Contract Amount'),['class'=>'form-label'])); ?>
 
-            <?php echo e(Form::number('amount',$event->total,array('class'=>'form-control','placeholder'=>__('Enter Amount'),'required'=>'required','readonly'))); ?>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">$</span>
+                </div>
+                <?php echo e(Form::number('amount',$event->total,array('class'=>'form-control currency_point','placeholder'=>__('Enter Amount'),'required'=>'required','readonly'))); ?>
 
+            </div>
+            
         </div>
     </div>
     <div class="col-6 need_full">
@@ -75,32 +81,57 @@ $adjustments += $inf->adjustments;
         <div class="form-group">
             <?php echo e(Form::label('deposits',__('Deposits on Account'),['class'=>'form-label'])); ?>
 
-            <?php echo e(Form::number('deposits', $bill->deposits ,array('class'=>'form-control','placeholder'=>__('Enter Deposits'),'readonly'))); ?>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">$</span>
+                </div>
+                <?php echo e(Form::number('deposits', $bill->deposits ,array('class'=>'form-control currency_point','placeholder'=>__('Enter Deposits'),'readonly'))); ?>
 
+            </div>
+            
         </div>
     </div>
     <div class="col-6 need_full">
         <div class="form-group">
             <?php echo e(Form::label('latefee',__('Late Fee'),['class'=>'form-label'])); ?>
 
-            <?php echo e(Form::number('latefee',0, array('class'=>'form-control','placeholder'=>__('Enter Late Fee')))); ?>
 
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">$</span>
+                </div>
+                <?php echo e(Form::number('latefee',0, array('class'=>'form-control currency_point','placeholder'=>__('Enter Late Fee')))); ?>
+
+            </div>
+            
         </div>
     </div>
     <div class="col-6 need_full">
         <div class="form-group">
             <?php echo e(Form::label('adjustments',__('Adjustments'),['class'=>'form-label'])); ?>
 
-            <?php echo e(Form::number('adjustments',0,array('class'=>'form-control','placeholder'=>__('Enter Adjustments')))); ?>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">$</span>
+                </div>
+                <?php echo e(Form::number('adjustments',0,array('class'=>'form-control currency_point','placeholder'=>__('Enter Adjustments')))); ?>
 
+            </div>
+            
         </div>
     </div>
     <div class="col-6">
         <div class="form-group">
             <?php echo e(Form::label('amountpaid',__('Total Paid'),['class'=>'form-label'])); ?>
 
-            <?php echo e(Form::number('amountpaid',$totalpaid +$bill->deposits ,array('class'=>'form-control','placeholder'=>__('Enter Amount Paid'),'readonly'))); ?>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">$</span>
+                </div>
+                <?php echo e(Form::number('amountpaid',$totalpaid +$bill->deposits ,array('class'=>'form-control currency_point','placeholder'=>__('Enter Amount Paid'),'readonly'))); ?>
 
+            </div>
+            
         </div>
     </div>
 
@@ -108,16 +139,28 @@ $adjustments += $inf->adjustments;
         <div class="form-group">
             <?php echo e(Form::label('balance',__('Balance Due'),['class'=>'form-label'])); ?>
 
-            <?php echo e(Form::number('balance',null ,array('class'=>'form-control','placeholder'=>__('Enter Balance Due'),'readonly'))); ?>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">$</span>
+                </div>
+                <?php echo e(Form::number('balance',null ,array('class'=>'form-control currency_point','placeholder'=>__('Enter Balance Due'),'readonly'))); ?>
 
+            </div>
+            
         </div>
     </div>
     <div class="col-6 nee.d_full">
         <div class="form-group">
             <?php echo e(Form::label('amountcollect',__('Collect Amount'),['class'=>'form-label'])); ?>
 
-            <?php echo e(Form::number('amountcollect',null,array('class'=>'form-control','required'))); ?>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">$</span>
+                </div>
+                <?php echo e(Form::number('amountcollect',null,array('class'=>'form-control currency_point','required'))); ?>
 
+            </div>
+            
         </div>
     </div>
     <div class="col-6 need_full">

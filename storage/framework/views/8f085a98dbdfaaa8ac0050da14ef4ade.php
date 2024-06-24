@@ -56,7 +56,7 @@ $labels =
     $totalbarPackageCost = 0;
     foreach ($bar as $barItem) {
         foreach ($billings['barpackage'] as $category => $categoryItems) {
-            if(isset($categoryItems[$barItem])) {
+            if(isset($categoryItems[$barItem]) && $categoryItems[$barItem] != '') {
             $totalbarPackageCost += $categoryItems[$barItem];
             break;
             }
@@ -94,13 +94,13 @@ $labels =
     foreach ($subcategories as $subcategory) {
     $venueRentalCost += $billings['venue'][$subcategory] ?? 0;
     }
-    $meetingData['venue_rental_cost'] = $venueRentalCost;
-    $meetingData['hotel_rooms_cost'] = $billings['hotel_rooms'] ?? '';
-    $meetingData['equipment_cost'] = $billings['equipment'] ?? '';
-    $meetingData['bar_package_cost'] = $totalbarPackageCost;
-    $meetingData['food_package_cost'] = $totalFoodPackageCost;
-    $meetingData['additional_items_cost'] = $additionalItemsCost ?? '';
-    $meetingData['special_req_cost'] = $billings['special_req'] ?? '';
+    $meetingData['venue_rental_cost'] = number_format($venueRentalCost);
+    $meetingData['hotel_rooms_cost'] = number_format($billings['hotel_rooms']) ?? '';
+    $meetingData['equipment_cost'] = number_format($billings['equipment']) ?? '';
+    $meetingData['bar_package_cost'] = number_format($totalbarPackageCost);
+    $meetingData['food_package_cost'] = number_format($totalFoodPackageCost);
+    $meetingData['additional_items_cost'] = number_format($additionalItemsCost) ?? '';
+    $meetingData['special_req_cost'] = number_format($billings['special_req']) ?? '';
     $meetingData['setup_cost'] = '';
 ?>
 <?php echo e(Form::open(array('route' => ['billing.addbilling', $id],'method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))); ?>
@@ -126,9 +126,17 @@ $labels =
                 <tr>
                     <td><?php echo e(ucfirst($label)); ?></td>
                     <td>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">$</span>
+                        </div>
                         <input type="text" name="billing[<?php echo e($key); ?>][cost]"
                             value="<?php echo e(isset($meetingData[$key.'_cost']) ? $meetingData[$key.'_cost'] : ''); ?>"
-                            class="form-control dlr">
+                            class="form-control dlr currency_point">
+                    </div>
+                        <!-- <input type="text" name="billing[<?php echo e($key); ?>][cost]"
+                            value="<?php echo e(isset($meetingData[$key.'_cost']) ? $meetingData[$key.'_cost'] : ''); ?>"
+                            class="form-control dlr"> -->
                     </td>
                     <td>
                         <input type="number" name="billing[<?php echo e($key); ?>][quantity]" min='0' class="form-control"
@@ -157,6 +165,25 @@ $labels =
 
 <?php echo e(Form::close()); ?>
 
+
+<script>
+    $('.currency_point').on('input', function() {
+                let inputVal = $(this).val();
+                inputVal = inputVal.replace(/[^0-9.]/g, ''); // Remove non-numeric characters except for decimal point
+                
+                let parts = inputVal.split('.');
+                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); // Add commas to the integer part
+                
+                let formattedValue = parts.join('.');
+                $(this).val(formattedValue);
+            });
+
+            $('.currency_point').on('blur', function() {
+                if ($(this).val() === '') {
+                    // $(this).val('0.00');
+                }
+            });
+</script>
 <style>
 .modal-dialog.modal-md {
     max-width: max-content;

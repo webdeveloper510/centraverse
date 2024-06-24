@@ -181,6 +181,10 @@ ul {
 
     <div class="img-section">
         <img src="<?php echo e(Storage::url('uploads/logo/logo-light.png')); ?>" alt="Logo">
+        
+    </div>
+    <div style="text-align:center">
+        <span class="span-title">Powered by The Sector Eight</span>
     </div>
     <!-- <hr> -->
 

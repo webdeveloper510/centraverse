@@ -48,31 +48,68 @@ $adjustments += $inf->adjustments;
             <div class="row form-group">
                 <div class="col-md-6">
                     <label for="amount" class="form-label">Contract Amount</label>
-                    <input type="number" name="amount" class="form-control" value="<?php echo e($event->total); ?>" readonly>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">$</span>
+                        </div>
+                        <input type="number" name="amount" class="form-control" value="<?php echo e($event->total); ?>" readonly>
+                    </div>
+                    
                 </div>
                 <div class="col-md-6">
                     <label for="deposit" class="form-label">Deposits</label>
-                    <input type="number" name="deposit" value="<?php echo e($bill->deposits); ?>" class="form-control">
+
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">$</span>
+                        </div>
+                        <input type="number" name="deposit" value="<?php echo e($bill->deposits); ?>" class="form-control">
+                    </div>
+                    
                 </div>
             </div>
             <div class="row form-group">
                 <div class="col-md-6">
                     <label for="adjustment" class="form-label">Adjustments</label>
-                    <input type="number" name="adjustment" class="form-control" min="0" value="0">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">$</span>
+                        </div>
+                        <input type="number" name="adjustment" class="form-control" min="0" value="0">
+                    </div>
+                    
                 </div>
                 <div class="col-md-6">
                     <label for="latefee" class="form-label">Late fee(if Any)</label>
-                    <input type="number" name="latefee" class="form-control" min="0" value="0">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">$</span>
+                        </div>
+                        <input type="number" name="latefee" class="form-control" min="0" value="0">
+                    </div>
+                    
                 </div>
             </div>
             <div class="row form-group">
                 <div class="col-md-6">
                     <label for="paidamount" class="form-label">Total Paid</label>
-                    <input type="number" name="paidamount" class="form-control" value="<?php echo e($totalpaid +$bill->deposits); ?>" readonly>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">$</span>
+                        </div>
+                        <input type="number" name="paidamount" class="form-control" value="<?php echo e($totalpaid +$bill->deposits); ?>" readonly>
+                    </div>
+                    
                 </div>
                 <div class="col-md-6">
                     <label for="balance" class="form-label">Balance</label>
-                    <input type="number" name="balance" class="form-control">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">$</span>
+                        </div>
+                        <input type="number" name="balance" class="form-control">
+                    </div>
+                    
                 </div>
             </div>
            
@@ -81,8 +118,14 @@ $adjustments += $inf->adjustments;
                     <div class="form-group">
                         <?php echo e(Form::label('amountcollect',__('Collect Amount'),['class'=>'form-label'])); ?>
 
-                        <?php echo e(Form::number('amountcollect',null,array('class'=>'form-control','required'))); ?>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                            </div>
+                            <?php echo e(Form::number('amountcollect',null,array('class'=>'form-control','required'))); ?>
 
+                        </div>
+                        
                         <span id="amountcollect-error" class="error-message" style="display: none; color: red;"></span>
 
                     </div>

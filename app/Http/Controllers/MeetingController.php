@@ -1053,6 +1053,24 @@ class MeetingController extends Controller
             $billing = Billing::where('event_id',$id)->first();
             $billing_data = unserialize($billing->data);
             $venue = explode(',', $settings['venue']);
+
+            // echo "<pre>"; 
+            // echo "agreement ";
+            // print_r($agreement);
+
+            // echo "meeting ";
+            // print_r($meeting);
+
+            // echo "settings ";
+            // print_r($settings);
+
+            // echo "billing_data ";
+            // print_r($billing_data);
+
+            // echo "venue ";
+            // print_r($venue);
+            // die;
+
             return view('meeting.agreement.signedagreement', compact('meeting', 'venue', 'billing', 'settings','billing_data'));
         // }
     }

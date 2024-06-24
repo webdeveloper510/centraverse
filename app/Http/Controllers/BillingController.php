@@ -27,8 +27,12 @@ class BillingController extends Controller
     */
     public function index()
     {
+
+        
         $status = Billing::$status;
         if (\Auth::user()->type == 'owner') {
+
+            
             $billing = Billing::all();
             $events = Meeting::where('status','!=',5)->orderby('id','desc')->get();
             return view('billing.index', compact('billing','events'));
@@ -52,14 +56,17 @@ class BillingController extends Controller
     }
     public function store(Request $request ,$id)
     {
+
         $items = $request->billing;
         $totalCost = 0;
+       
         foreach ($items as $item) {
-         
+            
+            $item['cost'] = (int)str_replace(",", "", $item['cost']);
             $totalCost += ($item['cost'] * $item['quantity']);
-           
-
         } 
+
+        
         $totalCost = $totalCost + ( 7 * ($totalCost)/100 ) + (20 * ($totalCost)/100);
         $billing = new Billing();
         $billing['event_id'] = $id;
