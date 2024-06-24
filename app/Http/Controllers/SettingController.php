@@ -26,6 +26,9 @@ class SettingController extends Controller
     public function index()
     {
         // if (\Auth::user()->type == 'owner' || \Auth::user()->type == 'super admin') {
+
+        
+
         $settings = Utility::settings();
         $permissions = Permission::all()->pluck('name', 'id')->toArray();
         $payment = Utility::set_payment_settings();
@@ -385,7 +388,11 @@ class SettingController extends Controller
 
     public function saveEmailSettings(Request $request)
     {
+        
+
         if (\Auth::user()->type == 'super admin') {
+
+
             $rules = [
                 'mail_driver' => 'required|string|max:50',
                 'mail_host' => 'required|string|max:50',
@@ -406,6 +413,7 @@ class SettingController extends Controller
             }
             $post = $request->all();
             unset($post['_token']);
+            
 
             foreach ($post as $key => $data) {
                 \DB::insert(
@@ -417,9 +425,22 @@ class SettingController extends Controller
                     ]
                 );
             }
+            $response = (object)[
+                "code"  => 200,
+                "data"  =>  'Email Setting updated'
+            ];
 
-            return redirect()->back()->with('success', __('Email Setting  updated.'));
+            if ($request->ajax()) {
+                echo  json_encode($response);
+            } else {
+                return redirect()->back()->with('success', __('Email Setting updated '));
+            }
+
+            // return redirect()->back()->with('success', __('Email Setting  updated.'));
         } elseif (\Auth::user()->type == 'owner') {
+
+            
+
             $rules = [
                 'mail_driver' => 'required|string|max:50',
                 'mail_host' => 'required|string|max:50',
@@ -439,7 +460,7 @@ class SettingController extends Controller
                 return redirect()->back()->with('error', $messages->first());
             }
             $post = $request->all();
-            unset($post['_token']);
+            
 
             foreach ($post as $key => $data) {
                 \DB::insert(
@@ -451,7 +472,18 @@ class SettingController extends Controller
                     ]
                 );
             }
-            return redirect()->back()->with('success', __('Email Setting updated '));
+
+            $response = (object)[
+                "code"  => 200,
+                "data"  =>  'Email Setting updated'
+            ];
+
+            if ($request->ajax()) {
+                echo  json_encode($response);
+            } else {
+                return redirect()->back()->with('success', __('Email Setting updated '));
+            }
+            
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -1177,6 +1209,8 @@ class SettingController extends Controller
 
         $post['twilio_task_create'] = $request->has('twilio_task_create') ? $request->input('twilio_task_create') : 0;
 
+        
+
         if (isset($post) && !empty($post) && count($post) > 0) {
             $created_at = $updated_at = date('Y-m-d H:i:s');
 
@@ -1193,7 +1227,18 @@ class SettingController extends Controller
                 );
             }
         }
-        return redirect()->back()->with('success', __('Twillio Settings updated .'));
+
+        $response = (object)[
+            "code"  => 200,
+            "data"  =>  'Twillio Setting updated'
+        ];
+
+        if ($request->ajax()) {
+            echo  json_encode($response);
+        } else {
+            return redirect()->back()->with('success', __('Twillio Settings updated .'));
+        }
+        
     }
 
     public function recaptchaSettingStore(Request $request)
@@ -1566,7 +1611,18 @@ class SettingController extends Controller
                 ]
             );
         }
-        return redirect()->back()->with('success', __('Event Type Added.'));
+
+        $response = (object)[
+            "code"  => 200,
+            "data"  =>  'Event Type Added'
+        ];
+
+        if ($request->ajax()) {
+            echo  json_encode($response);
+        } else {
+            return redirect()->back()->with('success', __('Event Type Added.'));
+        }
+        
     }
 
     public function delete_event_type(Request $request)
@@ -1586,7 +1642,18 @@ class SettingController extends Controller
                 'created_at' => $created_at,
                 'updated_at' => $updated_at
             ]);
-        return true;
+
+        $response = (object)[
+            "code"  => 200,
+            "data"  =>  'Event type deleted successfully'
+        ];
+
+        if ($request->ajax()) {
+            echo  json_encode($response);
+        } else {
+            return true;
+        }
+        
     }
     public function venue_select(Request $request)
     {
@@ -1617,7 +1684,18 @@ class SettingController extends Controller
                 ]
             );
         }
-        return redirect()->back()->with('success', __('Venue Added.'));
+
+        $response = (object)[
+            "code"  => 200,
+            "data"  =>  'Venue Added'
+        ];
+
+        if ($request->ajax()) {
+            echo  json_encode($response);
+        } else {
+            return redirect()->back()->with('success', __('Venue Added '));
+        }
+        // return redirect()->back()->with('success', __('Venue Added.'));
     }
     public function delete_venue(Request $request)
     {
@@ -1636,7 +1714,18 @@ class SettingController extends Controller
                 'created_at' => $created_at,
                 'updated_at' => $updated_at
             ]);
-        return true;
+
+        $response = (object)[
+            "code"  => 200,
+            "data"  =>  'Venue deleted'
+        ];
+
+        if ($request->ajax()) {
+            echo  json_encode($response);
+        } else {
+            return true;
+        }
+        
     }
 
     public function storeImage(Request $request)
@@ -1772,6 +1861,7 @@ class SettingController extends Controller
         $settings = Utility::settings();
         $data['function'] = $request->function;
         $data['package'] = $request->package;
+
         $user = \Auth::user();
         $settings = Utility::settings();
         $created_at = $updated_at = date('Y-m-d H:i:s');
@@ -1818,7 +1908,18 @@ class SettingController extends Controller
                 ]
             );
         }
-        return redirect()->back()->with('success', __('Function Added .'));
+
+        $response = (object)[
+            "code"  => 200,
+            "data"  =>  'Function Added'
+        ];
+
+        if ($request->ajax()) {
+            echo  json_encode($response);
+        } else {
+            return redirect()->back()->with('success', __('Function Added .'));
+        }
+        
     }
     public function addbars(Request $request)
     {

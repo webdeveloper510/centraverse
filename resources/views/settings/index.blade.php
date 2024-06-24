@@ -497,7 +497,7 @@ $(document).ready(function() {
                                         <div id="collapse16" class="accordion-collapse collapse"
                                             aria-labelledby="heading-2-15" data-bs-parent="#accordionExample">
                                             <div class="accordion-body1">
-                                                {{ Form::open(['route' => 'email.setting', 'method' => 'post']) }}
+                                                {{ Form::open(['route' => 'email.setting', 'method' => 'post', 'id' => 'emailSettingForm']) }}
                                                 <div class="card-body">
                                                     <div class="row mt-4">
                                                         <div class="col-md-6">
@@ -654,21 +654,21 @@ $(document).ready(function() {
                                         <div id="collapse15" class="accordion-collapse collapse"
                                             aria-labelledby="heading-2-15" data-bs-parent="#accordionExample">
                                             <div class="accordion-body1">
-                                                {{ Form::model($settings, ['route' => 'twilio.setting', 'method' => 'post']) }}
+                                                {{ Form::model($settings, ['route' => 'twilio.setting', 'method' => 'post' ,'id' => 'twilioSettingForm']) }}
                                                 @csrf
                                                 <div class="row mt-3">
                                                     <div class="form-group col-md-4">
                                                         {{ Form::label('SID', __('SID'), ['class' => 'form-label']) }}
-                                                        {{ Form::text('twilio_sid', isset($settings['twilio_sid']) ? $settings['twilio_sid'] : '', ['class' => 'form-control ', 'placeholder' => __('Enter Twilio Sid'), 'required' => 'required']) }}
+                                                        {{ Form::text('twilio_sid', isset($settings['twilio_sid']) ? $settings['twilio_sid'] : '', ['class' => 'form-control ', 'placeholder' => __('Enter Twilio Sid'), 'required' => 'required' , 'id' => 'twilio_sid' ]) }}
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                         {{ Form::label('Token', __('Token'), ['class' => 'form-label']) }}
-                                                        {{ Form::text('twilio_token', isset($settings['twilio_token']) ? $settings['twilio_token'] : '', ['class' => 'form-control ', 'placeholder' => __('Enter Twilio Token'), 'required' => 'required']) }}
+                                                        {{ Form::text('twilio_token', isset($settings['twilio_token']) ? $settings['twilio_token'] : '', ['class' => 'form-control ', 'placeholder' => __('Enter Twilio Token'), 'required' => 'required' ,'id' => 'twilio_token']) }}
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                         {{ Form::label('From', __('From'), ['class' => 'form-label']) }}
 
-                                                        {{ Form::text('twilio_from', isset($settings['twilio_from']) ? $settings['twilio_from'] : '', ['class' => 'form-control ', 'placeholder' => __('Enter Twilio From'), 'required' => 'required']) }}
+                                                        {{ Form::text('twilio_from', isset($settings['twilio_from']) ? $settings['twilio_from'] : '', ['class' => 'form-control ', 'placeholder' => __('Enter Twilio From'), 'required' => 'required' , 'id' => 'twilio_from']) }}
                                                     </div>
                                                     <div class="col-md-12 mt-4 mb-2">
                                                         <h4 class="small-title">{{ __('Module Settings') }}</h4>
@@ -1042,11 +1042,11 @@ $(document).ready(function() {
                                                         </div>
                                                         <div class="card-body">
                                                             <div class="row mt-3">
-                                                                {{ Form::open(['route' => 'event_type.setting', 'method' => 'post']) }}
+                                                                {{ Form::open(['route' => 'event_type.setting', 'method' => 'post' , 'id'   =>  'eventTypeSettingForm']) }}
                                                                 @csrf
                                                                 <div class="form-group col-md-12">
                                                                     {{ Form::label('event_type', __('Event Type'), ['class' => 'form-label']) }}
-                                                                    {{ Form::text('event_type',null,['class' => 'form-control ', 'placeholder' => __('Enter Event Type'), 'required' => 'required']) }}
+                                                                    {{ Form::text('event_type',null,['class' => 'form-control ', 'placeholder' => __('Enter Event Type'), 'required' => 'required' , 'id'   => 'event_type']) }}
                                                                 </div>
                                                                 <div class="text-end">
                                                                     {{ Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary']) }}
@@ -1057,17 +1057,18 @@ $(document).ready(function() {
                                                             <div class="row mt-3">
                                                                 <div class="form-group col-md-12">
                                                                     <label class="form-label">Events List</label>
-                                                                    <div class="badges">
+                                                                    <div class="badges all_bedges">
                                                                         @foreach ($eventtypes as $types)
                                                                         <span
                                                                             class="badge rounded p-2 m-1 px-3 bg-primary"
-                                                                            style="cursor:pointer">
+                                                                            style="cursor:pointer"
+                                                                            onclick="deleteEventType('{{ $types }}', this)">
                                                                             {{ $types }}
                                                                             @if(Gate::check('Delete Role'))
                                                                             @can('Delete Role')
-                                                                            <div class="action-btn  ms-2">
+                                                                            <div class="action-btn  ms-2" >
                                                                                 <a href="#!"
-                                                                                    class="mx-3 btn btn-sm  align-items-center text-white event_show_confirm"
+                                                                                    class="mx-3 btn btn-sm  align-items-center text-white event_show_confirms"
                                                                                     data-bs-toggle="tooltip"
                                                                                     title='Delete'
                                                                                     data-url="{{ route('eventedit.setting') }}"
@@ -1097,7 +1098,7 @@ $(document).ready(function() {
                                                         </div>
                                                         <div class="card-body">
                                                             <div class="row mt-3">
-                                                                {{ Form::open(['route' => 'venue.setting', 'method' => 'post']) }}
+                                                                {{ Form::open(['route' => 'venue.setting', 'method' => 'post' ,'id'   =>  'venueSettingForm']) }}
                                                                 @csrf
                                                                 <div class="form-group col-md-12">
                                                                     {{ Form::label('venue', __('Venue'), ['class' => 'form-label']) }}
@@ -1112,11 +1113,12 @@ $(document).ready(function() {
                                                             <div class="row mt-3">
                                                                 <div class="form-group col-md-12">
                                                                     <label class="form-label">Venue</label>
-                                                                    <div class="badges">
+                                                                    <div class="badges all_venues">
                                                                         @foreach ($venue as $value)
                                                                         <span
                                                                             class="badge rounded p-2 m-1 px-3 bg-primary"
-                                                                            style="cursor:pointer">
+                                                                            style="cursor:pointer"
+                                                                            onclick="deleteVenueType('{{ $value }}', this)">
                                                                             {{ $value }}
                                                                             @if(Gate::check('Delete Role'))
                                                                             @can('Delete Role')
@@ -1152,11 +1154,11 @@ $(document).ready(function() {
                                                         </div>
                                                         <div class="card-body">
                                                             <div class="row mt-3">
-                                                                {{ Form::open(['route' => 'function.setting', 'method' => 'post']) }}
+                                                                {{ Form::open(['route' => 'function.setting', 'method' => 'post' , 'id' => 'functionSettingForm']) }}
                                                                 @csrf
                                                                 <div class="form-group col-md-12">
                                                                     {{ Form::label('function', __('Function'), ['class' => 'form-label']) }}
-                                                                    {{ Form::text('function',null,['class' => 'form-control ', 'placeholder' => __('Enter Function'), 'required' => 'required']) }}
+                                                                    {{ Form::text('function',null,['class' => 'form-control ', 'placeholder' => __('Enter Function'), 'required' => 'required' , 'id'   => 'function']) }}
                                                                 </div>
                                                                 <div class="form-group col-md-12">
                                                                     {{ Form::label('package', __('Package'), ['class' => 'form-label']) }}
@@ -1192,7 +1194,7 @@ $(document).ready(function() {
                                                                 <div class="form-group col-md-12">
                                                                     <label class="form-label">Function</label>
                                                                     <div class="badges">
-                                                                        <ul class="nav nav-tabs tabActive"
+                                                                        <ul class="nav nav-tabs tabActive all_functions"
                                                                             style="border-bottom:none;">
                                                                             @foreach ($function as $key=> $value)
                                                                             <li
@@ -1200,12 +1202,14 @@ $(document).ready(function() {
                                                                                 <a style="color: white;"
                                                                                     data-toggle="tab"
                                                                                     href="#menu{{$key}}"
-                                                                                    class="<?= $key == 0 ? 'active' : ''; ?> fxnnames">{{$value->function}}
+                                                                                    class="<?= $key == 0 ? 'active' : ''; ?> fxnnames"
+                                                                                    data-count="{{$key}}"
+                                                                                    >{{$value->function}}
                                                                                 </a>
 
                                                                                 <div class="action-btn  ms-2">
                                                                                     <a href="javascript:void(0);"
-                                                                                        class="mx-3 btn btn-sm  align-items-center text-white function_show_confirm"
+                                                                                        class="mx-3 btn btn-sm  align-items-center text-white function_show_confirms"
                                                                                         data-bs-toggle="tooltip"
                                                                                         data-id="{{$key}}"
                                                                                         title='Delete'
@@ -5133,7 +5137,363 @@ $(document).ready(function() {
                     package + '"> ' + package + '</label><br>');
             });
         })
-    });
+
+        $('#emailSettingForm').submit(function(event) {
+                event.preventDefault(); // Prevent the form from submitting normally
+            
+            let mail_driver = $("#mail_driver").val();
+            let mail_host = $("#mail_host").val();
+            let mail_port = $("#mail_port").val();
+            let mail_username = $("#mail_username").val();
+            let mail_password = $("#mail_password").val();
+            let mail_encryption = $("#mail_encryption").val();
+            let mail_from_address = $("#mail_from_address").val();
+            let mail_from_name = $("#mail_from_name").val();
+
+            if (mail_driver == '' || mail_host == '' || mail_port == '' || mail_username == '' || mail_password == '' || mail_encryption == '' || mail_from_address == '' || mail_from_name == '' ) {
+                // alert("All fields are required")
+                swal.fire("error!", 'All fields are required', "error");
+                return false;
+            }
+
+                
+                $.ajax({
+                    type: 'POST',
+                    url: "<?= url('email-setting')?>",
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        mail_driver: mail_driver,
+                        mail_host: mail_host,
+                        mail_port: mail_port,
+                        mail_username: mail_username,
+                        mail_password: mail_password,
+                        mail_encryption: mail_encryption,
+                        mail_from_address: mail_from_address,
+                        mail_from_name: mail_from_name,
+
+                    },
+                    success: function(response) {
+                       // Handle success - display response message, update UI, etc.
+                       console.log('response--' , response)
+
+                       let result = JSON.parse(response);
+                       swal.fire("success", result.data, "success");
+                       // alert(result.data);
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle error - display error message, etc.
+                        var err = JSON.parse(xhr.responseText);
+                        $('#responseMessage').html('<div class="alert alert-danger">' + err.message + '</div>');
+                    }
+                });
+
+        })
+
+        $('#twilioSettingForm').submit(function(event) {
+                event.preventDefault(); // Prevent the form from submitting normally
+            
+            let twilio_sid = $("#twilio_sid").val();
+            let twilio_token = $("#twilio_token").val();
+            let twilio_from = $("#twilio_from").val();
+            let twilio_user_create = $("#twilio_user_create").is(':checked') ? 1 : 0;
+            let twilio_lead_create = $("#twilio_lead_create").is(':checked') ? 1 : 0;
+            let twilio_meeting_create = $("#twilio_meeting_create").is(':checked') ? 1 : 0;
+
+           
+            $.ajax({
+                type: 'POST',
+                url: "<?= url('setting/twilio')?>",
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    twilio_sid: twilio_sid,
+                    twilio_token: twilio_token,
+                    twilio_from: twilio_from,
+                    twilio_user_create: twilio_user_create,
+                    twilio_lead_create: twilio_lead_create,
+                    twilio_meeting_create: twilio_meeting_create,
+
+                },
+                success: function(response) {
+                    // Handle success - display response message, update UI, etc.
+                    console.log('response--' , response)
+
+                    let result = JSON.parse(response);
+                    swal.fire("success", result.data, "success");
+                },
+                error: function(xhr, status, error) {
+                    // Handle error - display error message, etc.
+                    var err = JSON.parse(xhr.responseText);
+                    $('#responseMessage').html('<div class="alert alert-danger">' + err.message + '</div>');
+                }
+            });
+
+        })
+
+        $('#eventTypeSettingForm').submit(function(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+            
+            let event_type = $("#event_type").val();
+
+           
+            $.ajax({
+                type: 'POST',
+                url: "<?= url('setting/event-type')?>",
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    event_type: event_type,
+
+                },
+                success: function(response) {
+                    // Handle success - display response message, update UI, etc.
+                    console.log('response--' , response)
+
+                    let result = JSON.parse(response);
+                    swal.fire("success", result.data, "success");
+                    $("#event_type").val('');
+                    let content =   `
+                                        <span
+                                            class="badge rounded p-2 m-1 px-3 bg-primary"
+                                            style="cursor:pointer"
+                                            onclick="deleteEventType('${event_type}', this)">
+                                            ${event_type}
+                                        
+                                            <div class="action-btn  ms-2" >
+                                                <a href="#!"
+                                                    class="mx-3 btn btn-sm  align-items-center text-white event_show_confirms"
+                                                    data-bs-toggle="tooltip"
+                                                    title='Delete'
+                                                    data-url="">
+                                                    <i class="ti ti-trash"></i>
+                                                </a>
+                                            </div>
+                                            
+                                        </span>
+                                    `;
+
+                    $('.all_bedges').append(content);
+                },
+                error: function(xhr, status, error) {
+                    // Handle error - display error message, etc.
+                    var err = JSON.parse(xhr.responseText);
+                    $('#responseMessage').html('<div class="alert alert-danger">' + err.message + '</div>');
+                }
+            });
+
+        })
+
+        $('#functionSettingForm').submit(function(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+            
+            let function_name = $("#function").val();
+            let package = $('input[name="package[]"]').map(function() {
+                    return $(this).val();
+                }).get();
+
+           
+            $.ajax({
+                type: 'POST',
+                url: "<?= url('setting/function')?>",
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    function: function_name,
+                    package:package,
+
+                },
+                success: function(response) {
+                    // Handle success - display response message, update UI, etc.
+                    console.log('response--' , response)
+
+                    let result = JSON.parse(response);
+                    swal.fire("success", result.data, "success");
+                
+                    $("#event_type").val('');
+                    let content =   `
+                                        <li
+                                            class="badge rounded p-2 m-1 px-3 bg-primary ">
+                                            <a style="color: white;"
+                                                data-toggle="tab"
+                                                href="#menu"
+                                                class=" fxnnames"
+                                                data-count=""
+                                                >${function_name}
+                                            </a>
+
+                                            <div class="action-btn  ms-2">
+                                                <a href="javascript:void(0);"
+                                                    class="mx-3 btn btn-sm  align-items-center text-white function_show_confirms"
+                                                    data-bs-toggle="tooltip"
+                                                    data-id="{{$key}}"
+                                                    title='Delete'
+                                                    data-url=""
+                                                    data-token="{{ csrf_token() }}">
+                                                    <i class="ti ti-trash"></i>
+                                                </a>
+                                            </div>
+
+                                        </li>
+                                    `;
+
+                    $('.all_functions').append(content);
+                },
+                error: function(xhr, status, error) {
+                    // Handle error - display error message, etc.
+                    var err = JSON.parse(xhr.responseText);
+                    $('#responseMessage').html('<div class="alert alert-danger">' + err.message + '</div>');
+                }
+            });
+
+        })
+
+        $('#venueSettingForm').submit(function(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+            
+            let venue = $("#venue").val();
+           
+            $.ajax({
+                type: 'POST',
+                url: "<?= url('setting/venue')?>",
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    venue: venue,
+
+                },
+                success: function(response) {
+                    // Handle success - display response message, update UI, etc.
+                    console.log('response--' , response)
+
+                    let result = JSON.parse(response);
+                    swal.fire("success", result.data, "success");
+                    $("#venue").val('');
+                    let content =   `
+                                        <span
+                                            class="badge rounded p-2 m-1 px-3 bg-primary"
+                                            style="cursor:pointer"
+                                            onclick="deleteVenueType('${venue}', this)">
+                                            ${venue}
+                                        
+                                            <div class="action-btn  ms-2" >
+                                                <a href="#!"
+                                                    class="mx-3 btn btn-sm  align-items-center text-white event_show_confirms"
+                                                    data-bs-toggle="tooltip"
+                                                    title='Delete'
+                                                    data-url="">
+                                                    <i class="ti ti-trash"></i>
+                                                </a>
+                                            </div>
+                                            
+                                        </span>
+                                    `;
+
+                    $('.all_venues').append(content);
+                },
+                error: function(xhr, status, error) {
+                    // Handle error - display error message, etc.
+                    var err = JSON.parse(xhr.responseText);
+                    $('#responseMessage').html('<div class="alert alert-danger">' + err.message + '</div>');
+                }
+            });
+
+        })
+
+        
+
+});
+
+    function deleteEventType (badge, current) {
+        
+        const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure?',
+                text: "This action can not be undone. Do you want to continue?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                    type: 'POST',
+                    url: "<?= url('setting/delete-eventtype')?>",
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        badge: badge,
+
+                    },
+                    success: function(response) {
+                        // Handle success - display response message, update UI, etc.
+                        console.log('response--' , response)
+
+                        let result = JSON.parse(response);
+                        $(current).remove();
+                        swal.fire("success", result.data, "success");
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle error - display error message, etc.
+                        var err = JSON.parse(xhr.responseText);
+                        $('#responseMessage').html('<div class="alert alert-danger">' + err.message + '</div>');
+                    }
+                });
+                }
+
+            });
+        
+    }
+
+    function deleteVenueType (badge, current) {
+        
+        const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure?',
+                text: "This action can not be undone. Do you want to continue?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: 'POST',
+                        url: "<?= url('setting/delete-venue')?>",
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            badge: badge,
+
+                        },
+                        success: function(response) {
+                            // Handle success - display response message, update UI, etc.
+                            console.log('response--' , response)
+
+                            let result = JSON.parse(response);
+                            $(current).remove();
+                            swal.fire("success", result.data, "success");
+                        },
+                        error: function(xhr, status, error) {
+                            // Handle error - display error message, etc.
+                            var err = JSON.parse(xhr.responseText);
+                            $('#responseMessage').html('<div class="alert alert-danger">' + err.message + '</div>');
+                        }
+                    });
+                }
+
+            });
+        
+    }
+
+        
     </script>
     <script>
     var additionalItemCount = 2;
