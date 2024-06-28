@@ -1267,7 +1267,9 @@ $(document).ready(function() {
                                                                                         data-id="<?php echo e($key); ?>"
                                                                                         title='Delete'
                                                                                         data-url="<?php echo e(route('functionpackage.setting')); ?>"
-                                                                                        data-token="<?php echo e(csrf_token()); ?>">
+                                                                                        data-token="<?php echo e(csrf_token()); ?>"
+                                                                                        onclick="deleteFunction('<?php echo e($value->function); ?>' , <?php echo e($key); ?>)"
+                                                                                        >
                                                                                         <i class="ti ti-trash"></i>
                                                                                     </a>
                                                                                 </div>
@@ -1275,7 +1277,7 @@ $(document).ready(function() {
                                                                             </li>
                                                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                                         </ul>
-                                                                        <div class="tab-content">
+                                                                        <div class="tab-content all_package">
                                                                             <label
                                                                                 class="form-label mt-3"><b>Package</b></label><br>
                                                                             <?php $__currentLoopData = $function; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -1289,12 +1291,14 @@ $(document).ready(function() {
 
                                                                                     <div class="action-btn ms-2">
                                                                                         <a href="javascript:void(0);"
-                                                                                            class="mx-3 btn btn-sm  align-items-center text-white function_package_show_confirm"
+                                                                                            class="mx-3 btn btn-sm  align-items-center text-white function_package_show_confirms"
                                                                                             data-bs-toggle="tooltip"
                                                                                             title='Delete'
                                                                                             data-url="<?php echo e(route('functionedit.setting')); ?>"
                                                                                             data-id="<?php echo e($key); ?>"
-                                                                                            data-token="<?php echo e(csrf_token()); ?>">
+                                                                                            data-token="<?php echo e(csrf_token()); ?>"
+                                                                                            
+                                                                                            onclick="deletePackageFunction('<?php echo e($package); ?>' , <?php echo e($key); ?>)">
                                                                                             <i class="ti ti-trash"></i>
                                                                                         </a>
                                                                                     </div>
@@ -1321,13 +1325,13 @@ $(document).ready(function() {
                                                         </div>
                                                         <div class="card-body">
                                                             <div class="row mt-3">
-                                                                <?php echo e(Form::open(['route' => 'bar.setting', 'method' => 'post'])); ?>
+                                                                <?php echo e(Form::open(['route' => 'bar.setting', 'method' => 'post' , 'id' => 'barSettingForm'])); ?>
 
                                                                 <?php echo csrf_field(); ?>
                                                                 <div class="form-group col-md-12">
                                                                     <?php echo e(Form::label('bar', __('Bar'), ['class' => 'form-label'])); ?>
 
-                                                                    <?php echo e(Form::text('bar',null,['class' => 'form-control ', 'placeholder' => __('Enter Bar'), 'required' => 'required'])); ?>
+                                                                    <?php echo e(Form::text('bar',null,['class' => 'form-control ', 'placeholder' => __('Enter Bar'), 'required' => 'required' , 'id' => 'bar'])); ?>
 
                                                                 </div>
                                                                 <div class="form-group col-md-12">
@@ -1368,7 +1372,7 @@ $(document).ready(function() {
                                                                 <div class="form-group col-md-12">
                                                                     <label class="form-label">Bar</label>
                                                                     <div class="badges">
-                                                                        <ul class="nav nav-tabs tabActive"
+                                                                        <ul class="nav nav-tabs tabActive all_bars"
                                                                             style="border-bottom:none;">
                                                                             <?php $__currentLoopData = $bar; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                             <li
@@ -1382,12 +1386,14 @@ $(document).ready(function() {
 
                                                                                 <div class="action-btn  ms-2">
                                                                                     <a href="javascript:void(0);"
-                                                                                        class="mx-3 btn btn-sm  align-items-center text-white bar_show_confirm"
+                                                                                        class="mx-3 btn btn-sm  align-items-center text-white bar_show_confirms"
                                                                                         data-bs-toggle="tooltip"
                                                                                         data-id="<?php echo e($key); ?>"
                                                                                         title='Delete'
                                                                                         data-url="<?php echo e(route('barpackage.setting')); ?>"
-                                                                                        data-token="<?php echo e(csrf_token()); ?>">
+                                                                                        data-token="<?php echo e(csrf_token()); ?>"
+                                                                                        onclick="deleteBar('<?php echo e($value->bar); ?>' , <?php echo e($key); ?>)"
+                                                                                        >
                                                                                         <i class="ti ti-trash"></i>
                                                                                     </a>
                                                                                 </div>
@@ -1395,7 +1401,7 @@ $(document).ready(function() {
                                                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                                         </ul>
 
-                                                                        <div class="tab-content">
+                                                                        <div class="tab-content all_bars_package">
                                                                             <label
                                                                                 class="form-label mt-3"><b>Package</b></label><br>
                                                                             <?php $__currentLoopData = $bar; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -1410,12 +1416,14 @@ $(document).ready(function() {
 
                                                                                     <div class="action-btn ms-2">
                                                                                         <a href="javascript:void(0);"
-                                                                                            class="mx-3 btn btn-sm  align-items-center text-white bar_package_show_confirm"
+                                                                                            class="mx-3 btn btn-sm  align-items-center text-white bar_package_show_confirms"
                                                                                             data-bs-toggle="tooltip"
                                                                                             title='Delete'
                                                                                             data-url="<?php echo e(route('baredit.setting')); ?>"
                                                                                             data-id="<?php echo e($key); ?>"
-                                                                                            data-token="<?php echo e(csrf_token()); ?>">
+                                                                                            data-token="<?php echo e(csrf_token()); ?>"
+                                                                                            
+                                                                                            onclick="deletePackageBar('<?php echo e($package); ?>' ,<?php echo e($key); ?> )">
                                                                                             <i class="ti ti-trash"></i>
                                                                                         </a>
                                                                                     </div>
@@ -1445,7 +1453,7 @@ $(document).ready(function() {
                                                         <div class="card-body">
                                                             <div class="row mt-3">
                                                                 <form method="POST" action="<?php echo e(url('/floor-images')); ?>"
-                                                                    enctype="multipart/form-data">
+                                                                    enctype="multipart/form-data" id="uploadSetupSettingForm">
                                                                     <?php echo csrf_field(); ?>
                                                                     <div class="row">
                                                                         <div class="form-group col-md-6">
@@ -1477,7 +1485,7 @@ $(document).ready(function() {
                                                             </div>
                                                         </div>
                                                         <div class="col-12">
-                                                            <div class="row">
+                                                            <div class="row all-setup">
                                                                 <?php $__currentLoopData = $setup; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $s): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                 <div class="col-6">
                                                                     <input type="radio" id="image_<?php echo e($loop->index); ?>"
@@ -1521,7 +1529,7 @@ $(document).ready(function() {
 
                                                                             <?php echo Form::text('campaign_type',null,
                                                                             ['class' => 'form-control',
-                                                                            'required' => 'required']); ?>
+                                                                            'required' => 'required' , 'id' => 'campaign_type']); ?>
 
                                                                         </div>
                                                                     </div>
@@ -1537,7 +1545,7 @@ $(document).ready(function() {
                                                     <div class="row mt-3">
                                                         <div class="form-group col-md-12">
                                                             <label class="form-label">Campaign</label>
-                                                            <div class="badges">
+                                                            <div class="badges all_campaign">
                                                                 <?php $__currentLoopData = $campaign; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                 <span class="badge rounded p-2 m-1 px-3 bg-primary"
                                                                     style="cursor:pointer">
@@ -1545,10 +1553,11 @@ $(document).ready(function() {
 
                                                                     <div class="action-btn  ms-2">
                                                                         <a href="#!"
-                                                                            class="mx-3 btn btn-sm  align-items-center text-white campaign_show_confirm"
+                                                                            class="mx-3 btn btn-sm  align-items-center text-white campaign_show_confirms"
                                                                             data-bs-toggle="tooltip" title='Delete'
                                                                             data-url="<?php echo e(route('settings.delete.campaign-type')); ?>"
-                                                                            data-token="<?php echo e(csrf_token()); ?>">
+                                                                            data-token="<?php echo e(csrf_token()); ?>"
+                                                                            onclick="deleteCampaign('<?php echo e($value); ?>' , this)">
                                                                             <i class="ti ti-trash"></i>
                                                                         </a>
                                                                     </div>
@@ -1570,7 +1579,7 @@ $(document).ready(function() {
                                                         </div>
                                                         <div class="card-body">
                                                             <div class="row mt-3">
-                                                                <?php echo e(Form::open(['route' => 'additional.setting', 'method' => 'post'])); ?>
+                                                                <?php echo e(Form::open(['route' => 'additional.setting', 'method' => 'post' , 'id'   =>  'additionalSettingForm'])); ?>
 
                                                                 <?php echo csrf_field(); ?>
                                                                 <div id="additional-items-container">
@@ -1640,7 +1649,7 @@ $(document).ready(function() {
                                                                                 <th scope="col">Action</th>
                                                                             </tr>
                                                                         </thead>
-                                                                        <tbody>
+                                                                        <tbody class="all_aditional_items">
                                                                             <tr>
                                                                                 <?php $__currentLoopData = $additional_items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $functionName => $packages): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                                 <?php $__currentLoopData = $packages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $packageName => $items): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -1668,14 +1677,16 @@ $(document).ready(function() {
                                                                                         <i
                                                                                             class="ti ti-edit"></i></button>
                                                                                     <a href="#!"
-                                                                                        class="mx-3 btn btn-sm  align-items-center bg-info text-white additional_show_confirm"
+                                                                                        class="mx-3 btn btn-sm  align-items-center bg-info text-white additional_show_confirms"
                                                                                         data-bs-toggle="tooltip"
                                                                                         title='Delete'
                                                                                         data-function="<?php echo e($functionName); ?>"
                                                                                         data-package="<?php echo e($packageName); ?>"
                                                                                         data-item="<?php echo e($itemName); ?>"
                                                                                         data-url="<?php echo e(route('additionaldelete.setting')); ?>"
-                                                                                        data-token="<?php echo e(csrf_token()); ?>">
+                                                                                        data-token="<?php echo e(csrf_token()); ?>"
+                                                                                        onclick='deleteAditionalItem("<?php echo e($functionName); ?>" , "<?php echo e($packageName); ?>" , "<?php echo e($itemName); ?>")'
+                                                                                        >
                                                                                         <i class="ti ti-trash"></i>
                                                                                     </a>
                                                                                 </td>
@@ -1689,6 +1700,8 @@ $(document).ready(function() {
                                                                             </tr>
                                                                         </tbody>
                                                                     </table>
+
+                                                                   
 
                                                                             </div>
                                                                 </div>
@@ -1713,7 +1726,7 @@ $(document).ready(function() {
                                         <div id="collapse20" class="accordion-collapse collapse"
                                             aria-labelledby="heading-2-15" data-bs-parent="#accordionExample">
                                             <div class="accordion-body1">
-                                                <?php echo e(Form::open(['route' => 'billing.setting', 'method' => 'post'])); ?>
+                                                <?php echo e(Form::open(['route' => 'billing.setting', 'method' => 'post' ,'id' => 'billingSettingForm'])); ?>
 
                                                 <?php echo csrf_field(); ?>
                                                 <div class="row cst-border">
@@ -1870,7 +1883,7 @@ $(document).ready(function() {
                                             aria-labelledby="heading-2-15" data-bs-parent="#accordionExample">
                                             <div class="accordion-body1">
                                                 <div class="row">
-                                                <?php echo e(Form::open(['route' => 'buffer.setting', 'method' => 'post'])); ?>
+                                                <?php echo e(Form::open(['route' => 'buffer.setting', 'method' => 'post' , 'id' => 'bufferSettingForm'])); ?>
 
                                                 <?php echo csrf_field(); ?>
                                                 <div class="col-12">
@@ -1920,7 +1933,7 @@ $(document).ready(function() {
                                                     <div class="row mt-3">
                                                         <div class="col-6 need_full">
                                                             <strong>Existing Signature:</strong> <br>
-                                                            <img src="<?php echo e($base64Image); ?>"
+                                                            <img src="<?php echo e($base64Image); ?>" id="sign_image"
                                                                 style=" width: 55%;padding-right: 39px;border-bottom: 1px solid black;">
                                                         </div>
                                                         <div class="col-6 need_full">
@@ -5453,6 +5466,167 @@ unset($__errorArgs, $__bag); ?>
             });
         })
 
+        
+
+        $("#bufferSettingForm").submit(function(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+            var formData = new FormData(this);
+
+            $.ajax({
+                    type: 'POST',
+                    url: "<?= url('setting/buffer')?>",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                       // Handle success - display response message, update UI, etc.
+                       console.log('response--' , response)
+
+                       let result = JSON.parse(response);
+                       swal.fire("success", result.data, "success");
+                       
+                       // alert(result.data);
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle error - display error message, etc.
+                        var err = JSON.parse(xhr.responseText);
+                        $('#responseMessage').html('<div class="alert alert-danger">' + err.message + '</div>');
+                    }
+                });
+
+        });
+
+        
+        $("#billingSettingForm").submit(function(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+            var formData = new FormData(this);
+
+            $.ajax({
+                    type: 'POST',
+                    url: "<?= url('setting/billing')?>",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                       // Handle success - display response message, update UI, etc.
+                       console.log('response--' , response)
+
+                       let result = JSON.parse(response);
+                       swal.fire("success", result.data, "success");
+                       
+                       // alert(result.data);
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle error - display error message, etc.
+                        var err = JSON.parse(xhr.responseText);
+                        $('#responseMessage').html('<div class="alert alert-danger">' + err.message + '</div>');
+                    }
+                });
+
+        });
+
+        $("#additionalSettingForm").submit(function(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+            var formData = new FormData(this);
+
+            $.ajax({
+                    type: 'POST',
+                    url: "<?= url('setting/additional-items')?>",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                       // Handle success - display response message, update UI, etc.
+                       console.log('response--' , response)
+
+                       let result = JSON.parse(response);
+                       swal.fire("success", result.data, "success");
+                       $("#additionalSettingForm")[0].reset();
+                       $('#additional_packages_checkboxes').empty();
+                       
+                       getAllAditionalItem();
+                       
+                       // alert(result.data);
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle error - display error message, etc.
+                        var err = JSON.parse(xhr.responseText);
+                        $('#responseMessage').html('<div class="alert alert-danger">' + err.message + '</div>');
+                    }
+                });
+
+        });
+
+        $("#uploadSetupSettingForm").submit(function(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+            var formData = new FormData(this);
+
+            $.ajax({
+                    type: 'POST',
+                    url: "<?= url('floor-images')?>",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                       // Handle success - display response message, update UI, etc.
+                       console.log('response--' , response)
+
+                       let result = JSON.parse(response);
+                       swal.fire("success", result.data, "success");
+                       getAllSetup()
+                       // alert(result.data);
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle error - display error message, etc.
+                        var err = JSON.parse(xhr.responseText);
+                        $('#responseMessage').html('<div class="alert alert-danger">' + err.message + '</div>');
+                    }
+                });
+
+        });
+
+        $("#campaign").submit(function(event) {
+
+            event.preventDefault(); // Prevent the form from submitting normally
+            let campaign_type = $("#campaign_type").val();
+
+            $.ajax({
+                    type: 'POST',
+                    url: "<?= url('setting/campaign-type')?>",
+                    data: {
+                        _token: '<?php echo e(csrf_token()); ?>',
+                        campaign_type: campaign_type,
+
+                    },
+                    success: function(response) {
+
+                        console.log('response--' , response)
+
+                        let result = JSON.parse(response);
+                        swal.fire("success", result.data, "success");
+
+                        let campaign_content = `
+                                                    <span class="badge rounded p-2 m-1 px-3 bg-primary"
+                                                                    style="cursor:pointer">
+                                                        ${campaign_type}
+                                                        <div class="action-btn  ms-2">
+                                                            <a href="#!"
+                                                                class="mx-3 btn btn-sm  align-items-center text-white campaign_show_confirms"
+                                                                data-bs-toggle="tooltip" title='Delete'
+                                                                data-url="<?php echo e(route('settings.delete.campaign-type')); ?>"
+                                                                
+                                                                onclick="deleteCampaign('${campaign_type}' , this)"
+                                                                >
+                                                                <i class="ti ti-trash"></i>
+                                                            </a>
+                                                        </div>
+                                                    </span>
+                                                `;
+                        $(".all_campaign").append(campaign_content);
+                    }
+                });
+        });
+
         $('#emailSettingForm').submit(function(event) {
                 event.preventDefault(); // Prevent the form from submitting normally
             
@@ -5622,33 +5796,46 @@ unset($__errorArgs, $__bag); ?>
                     swal.fire("success", result.data, "success");
                 
                     $("#event_type").val('');
-                    let content =   `
-                                        <li
-                                            class="badge rounded p-2 m-1 px-3 bg-primary ">
-                                            <a style="color: white;"
-                                                data-toggle="tab"
-                                                href="#menu"
-                                                class=" fxnnames"
-                                                data-count=""
-                                                >${function_name}
-                                            </a>
+                    getAllFunctions();
+                  
+                    
+                },
+                error: function(xhr, status, error) {
+                    // Handle error - display error message, etc.
+                    var err = JSON.parse(xhr.responseText);
+                    $('#responseMessage').html('<div class="alert alert-danger">' + err.message + '</div>');
+                }
+            });
 
-                                            <div class="action-btn  ms-2">
-                                                <a href="javascript:void(0);"
-                                                    class="mx-3 btn btn-sm  align-items-center text-white function_show_confirms"
-                                                    data-bs-toggle="tooltip"
-                                                    data-id="<?php echo e($key); ?>"
-                                                    title='Delete'
-                                                    data-url=""
-                                                    data-token="<?php echo e(csrf_token()); ?>">
-                                                    <i class="ti ti-trash"></i>
-                                                </a>
-                                            </div>
+        })
 
-                                        </li>
-                                    `;
+        $('#barSettingForm').submit(function(event) {
+            
+            event.preventDefault(); // Prevent the form from submitting normally
+            
+            let bar_name = $("#bar").val();
+            let bar_package = $('input[name="barpackage[]"]').map(function() {
+                    return $(this).val();
+                }).get();
 
-                    $('.all_functions').append(content);
+            console.log('bar_name---', bar_name , bar_package);    
+               
+            $.ajax({
+                type: 'POST',
+                url: "<?= url('setting/bar')?>",
+                data: {
+                    _token: '<?php echo e(csrf_token()); ?>',
+                    bar: bar_name,
+                    barpackage:bar_package
+
+                },
+                success: function(response) {
+                    // Handle success - display response message, update UI, etc.
+                    console.log('response--' , response)
+
+                    let result = JSON.parse(response);
+                    swal.fire("success", result.data, "success");
+                    getAllbars();
                 },
                 error: function(xhr, status, error) {
                     // Handle error - display error message, etc.
@@ -5709,10 +5896,578 @@ unset($__errorArgs, $__bag); ?>
             });
 
         })
+});
+
+    function getAllSetup () {
+        
+        $(".all-setup").html('');
+
+        $.ajax({
+            type: 'GET',
+            url: "<?= url('all-setup')?>",
+            
+            success: function(response) {
+
+                let result = JSON.parse(response);
+                console.log('result--' , result)
+
+                if (result.data.length > 0) {
+
+                    let setup_content = ``;
+                  
+
+                    for (let index in result.data) {
+
+                        setup_content += `
+                                            <div class="col-6">
+                                                <input type="radio" id="image_${index}"
+                                                    name="uploadedImage" class="form-check-input"
+                                                    value="<?php echo e(asset('floor_images/')); ?>/${result.data[index].image}">
+                                                <label for="image_${index}"
+                                                    class="form-check-label">
+                                                    <img src="<?php echo e(asset('floor_images/')); ?>/${result.data[index].image}"
+                                                        alt="Uploaded Image"
+                                                        class="img-thumbnail floorimages zoom">
+                                                    <span
+                                                        class=" rounded p-2 m-1 px-3 bg-danger text-white"
+                                                        style="float: inline-end;"><i
+                                                            class="ti ti-trash "
+                                                            data-image="${result.data[index].image}"
+                                                            onclick="deleteImage(this)"></i></span>
+                                                </label>
+                                            </div>
+                                        `;
+                    }
+
+                    $(".all-setup").html(setup_content);
+                }
+            }
+
+        });
+    }
+
+    function getAllFunctions () {
+
+        $('.all_functions').html('');
+        $(".all_package").html('');
+
+        $.ajax({
+            type: 'GET',
+            url: "<?= url('setting/getFunction')?>",
+            
+            success: function(response) {
+
+                let result = JSON.parse(response);
+                console.log('result--' , result)
+
+                if (result.data.length > 0) {
+
+                    let function_content = ``;
+                    let pkg_content = ``;
+
+                    for (let index in result.data) {
+
+                        function_content += `
+                                                    <li
+                                                        class="badge rounded p-2 m-1 px-3 bg-primary ">
+                                                        <a style="color: white;"
+                                                            data-toggle="tab"
+                                                            href="#menu${index}"
+                                                            class="${ index == 0 ? 'active' : ''} fxnnames"
+                                                            data-count="${index}"
+                                                            >${result.data[index].function}
+                                                        </a>
+
+                                                        <div class="action-btn  ms-2">
+                                                            <a href="javascript:void(0);"
+                                                                class="mx-3 btn btn-sm  align-items-center text-white function_show_confirms"
+                                                                data-bs-toggle="tooltip"
+                                                                data-id="${index}"
+                                                                title='Delete'
+                                                                data-url=""
+                                                                data-token="<?php echo e(csrf_token()); ?>"
+                                                                onclick="deleteFunction('${result.data[index].function}', ${index})">
+                                                                <i class="ti ti-trash"></i>
+                                                            </a>
+                                                        </div>
+
+                                                    </li>
+                                                `;
+
+                        pkg_content += `<div id="menu${index}" class="tab-pane fade ${ index == 0 ? 'in active show' : ''}">`;
+
+                        for (let index_number in result.data[index].package) {
+
+                            pkg_content +=  `
+                                                <span
+                                                    class="badge rounded p-2 m-1 px-3 bg-info"
+                                                    style="cursor:pointer">
+                                                    ${result.data[index].package[index_number]}
+                                                    <div class="action-btn ms-2">
+                                                        <a href="javascript:void(0);"
+                                                            class="mx-3 btn btn-sm  align-items-center text-white function_package_show_confirm"
+                                                            data-bs-toggle="tooltip"
+                                                            title='Delete'
+                                                            data-url=""
+                                                            data-id="${index}"
+                                                            data-token=""
+                                                            onclick="deletePackageFunction('${result.data[index].package[index_number]}' , ${index})"
+                                                            >
+                                                            <i class="ti ti-trash"></i>
+                                                        </a>
+                                                    </div>
+                                                </span>
+                                            `;
+                        }
+
+                        pkg_content += `</div>`;
+                    }
+
+                    $('.all_functions').html(function_content);
+                    $(".all_package").append(pkg_content);
+                }
+            }
+
+        });
+    }
+
+    function getAllbars () {
+
+        console.log('cheecking --all bars');
+        $('.all_bars').html('');
+        $(".all_bars_package").html('');
+
+        $.ajax({
+            type: 'GET',
+            url: "<?= url('setting/get-bar')?>",
+            
+            success: function(response) {
+
+                let result = JSON.parse(response);
+                console.log('result--' , result);
+                
+
+                if (result.data.length > 0) {
+
+                    let content = ``;
+                    let pkg_content = ``;
+
+                    for (let index in result.data) {
+
+                        content += `
+                                    <li
+                                        class="badge rounded p-2 m-1 px-3 bg-primary ">
+                                        <a style="color: white;"
+                                            data-toggle="tab"
+                                            href="#barmenu${index}"
+                                            class="${ index == 0 ? 'active' : ''} barnmes"
+                                            data-count="${index}"
+                                            >${result.data[index].bar}
+                                        </a>
+
+                                        <div class="action-btn  ms-2">
+                                            <a href="javascript:void(0);"
+                                                class="mx-3 btn btn-sm  align-items-center text-white function_show_confirms"
+                                                data-bs-toggle="tooltip"
+                                                data-id="${index}"
+                                                title='Delete'
+                                                data-url=""
+                                                data-token="<?php echo e(csrf_token()); ?>"
+                                                onclick="deleteBar('${result.data[index].bar}', ${index})">
+                                                <i class="ti ti-trash"></i>
+                                            </a>
+                                        </div>
+
+                                    </li>
+                                `;
+
+                        pkg_content += `<div id="barmenu${index}" class="tab-pane fade ${ index == 0 ? 'in active show' : ''}">`;
+
+                        for (let index_number in result.data[index].barpackage) {
+
+                            pkg_content +=  `
+                                                <span
+                                                    class="badge rounded p-2 m-1 px-3 bg-info"
+                                                    style="cursor:pointer">
+                                                    ${result.data[index].barpackage[index_number]}
+                                                    <div class="action-btn ms-2">
+                                                        <a href="javascript:void(0);"
+                                                            class="mx-3 btn btn-sm  align-items-center text-white function_package_show_confirm"
+                                                            data-bs-toggle="tooltip"
+                                                            title='Delete'
+                                                            data-url=""
+                                                            data-id="${index}"
+                                                            data-token=""
+                                                            onclick="deletePackageBar('${result.data[index].barpackage[index_number]}' , ${index})"
+                                                            >
+                                                            <i class="ti ti-trash"></i>
+                                                        </a>
+                                                    </div>
+                                                </span>
+                                            `;
+                        }
+
+                        pkg_content += `</div>`;
+                    }
+
+                    $('.all_bars').html(content);
+                    $(".all_bars_package").append(pkg_content);
+                }
+            }
+
+        });
+    }
+
+    
+
+    function deleteAditionalItem (functionval , packageval , itemval) {
+
+        console.log('delet item' , functionval , packageval,itemval);
+
+        const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure?',
+                text: "This action can not be undone. Do you want to continue?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    $.ajax({
+                            type: 'POST',
+                            url: "<?= url('setting/delete-additional-items')?>",
+                            data: {
+                                _token: '<?php echo e(csrf_token()); ?>',
+                                functionval: functionval,
+                                packageval:packageval,
+                                itemval: itemval
+
+                            },
+                            success: function(response) {
+
+                                console.log('response--' , response)
+
+                                let result = JSON.parse(response);
+                                swal.fire("success", result.data, "success");
+                                
+                                getAllAditionalItem();
+                            }
+                    });
+                }
+            
+            });
+    }
+
+    function getAllAditionalItem() {
+        //all_aditional_items
+        
+        $.ajax({
+                type: 'GET',
+                url: "<?= url('setting/get-additional-items')?>",
+                
+                success: function(response) {
+
+                    // console.log('response--' , response)
+                    console.clear();
+                    let result = JSON.parse(response);
+                    console.log('result all items--' , result.data)
+                    
+                    
+                    let all_items_content = ``;
+                    const $tbody = $('.all_aditional_items');
+                    $tbody.empty(); // Clear existing content
+
+                    let data = result.data
+
+                    for (const functionName in data) {
+                        if (data.hasOwnProperty(functionName)) {
+                            const packages = data[functionName];
+
+                            for (const packageName in packages) {
+                                if (packages.hasOwnProperty(packageName)) {
+                                    const items = packages[packageName];
+                                    let firstItem = true;
+                                    const itemCount = Object.keys(items).length;
+
+                                    for (const itemName in items) {
+                                        if (items.hasOwnProperty(itemName)) {
+                                            const cost = items[itemName];
+
+                                            let $tr = $('<tr></tr>');
+
+                                            if (firstItem) {
+                                                $tr.append(`<td data-td-data="${functionName}" rowspan="${itemCount}" class="functionname">${functionName}</td>`);
+                                                $tr.append(`<td data-td-data="${packageName}" rowspan="${itemCount}" class="package">${packageName}</td>`);
+                                            }
+
+                                            $tr.append(`<td class="item">${itemName}</td>`);
+                                            $tr.append(`<td class="cost">${cost ? cost : ''}</td>`);
+                                            
+                                            let $actionsTd = $(`<td data-function="${functionName}" data-package="${packageName}"></td>`);
+                                            let $editBtn = $('<button class="btn btn-sm edit-cost-btn bg-info"><i class="ti ti-edit"></i></button>');
+                                            let $deleteLink = $(`<a href="#!" class="mx-3 btn btn-sm align-items-center bg-info text-white additional_show_confirms" data-bs-toggle="tooltip" title="Delete" onclick='deleteAditionalItem("${functionName}" ,"${packageName}" , "${itemName}" )' data-function="${functionName}" data-package="${packageName}" data-item="${itemName}" data-url="<?php echo e(route('additionaldelete.setting')); ?>" data-token="<?php echo e(csrf_token()); ?>"><i class="ti ti-trash"></i></a>`);
+                                            
+                                            $actionsTd.append($editBtn);
+                                            $actionsTd.append($deleteLink);
+                                            
+                                            $tr.append($actionsTd);
+                                            $tbody.append($tr);
+
+                                            firstItem = false;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+        });
+    }
+
+   function deleteCampaign(badge , current) {
+
+    const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure?',
+                text: "This action can not be undone. Do you want to continue?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    $.ajax({
+                            type: 'POST',
+                            url: "<?= url('setting/delete-campaign-type')?>",
+                            data: {
+                                _token: '<?php echo e(csrf_token()); ?>',
+                                badge: badge,
+
+                            },
+                            success: function(response) {
+
+                                console.log('response--' , response)
+
+                                let result = JSON.parse(response);
+                                swal.fire("success", result.data, "success");
+                                
+                                $(current).parent().parent().remove();
+                            }
+                    });
+                }
+            
+            });
 
         
+   
+   }
 
-});
+    function deleteFunction(badge , index) {
+
+        console.log('badge--', badge , index);
+
+        const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure?',
+                text: "This action can not be undone. Do you want to continue?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    $.ajax({
+                            type: 'POST',
+                            url: "<?= url('setting/delete-function')?>",
+                            data: {
+                                _token: '<?php echo e(csrf_token()); ?>',
+                                badge: badge,
+                                value: index,
+
+                            },
+                            success: function(response) {
+
+                                console.log('response--' , response)
+
+                                let result = JSON.parse(response);
+                                swal.fire("success", result.data, "success");
+                                
+                                getAllFunctions();
+                            }
+                    });
+                }
+            
+            });
+
+        
+    }
+
+    function deletePackageFunction(badge , index) {
+
+        const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure?',
+                text: "This action can not be undone. Do you want to continue?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    $.ajax({
+                            type: 'POST',
+                            url: "<?= url('setting/delete-package-function')?>",
+                            data: {
+                                _token: '<?php echo e(csrf_token()); ?>',
+                                badge: badge,
+                                value: index,
+
+                            },
+                            success: function(response) {
+
+                                console.log('response--' , response)
+
+                                let result = JSON.parse(response);
+                                swal.fire("success", result.data, "success");
+                                
+                                getAllFunctions();
+                            }
+                    });
+                }
+            });
+    }
+
+    function deleteBar (badge , index) {
+        const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure?',
+                text: "This action can not be undone. Do you want to continue?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: 'POST',
+                        url: "<?= url('setting/delete-bars')?>",
+                        data: {
+                            _token: '<?php echo e(csrf_token()); ?>',
+                            badge: badge,
+                            value: index,
+
+                        },
+                        success: function(response) {
+                            // Handle success - display response message, update UI, etc.
+                            console.log('response--' , response)
+
+                            let result = JSON.parse(response);
+                            swal.fire("success", result.data, "success");
+                            getAllbars();
+                        },
+                        error: function(xhr, status, error) {
+                            // Handle error - display error message, etc.
+                            var err = JSON.parse(xhr.responseText);
+                            $('#responseMessage').html('<div class="alert alert-danger">' + err.message + '</div>');
+                        }
+                    });
+                } else {
+                    console.log('no selected')
+                }
+
+            });
+        
+    
+    }
+
+    function deletePackageBar (badge , index) {
+        const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure?',
+                text: "This action can not be undone. Do you want to continue?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                    type: 'POST',
+                    url: "<?= url('setting/delete-bar-function')?>",
+                    data: {
+                        _token: '<?php echo e(csrf_token()); ?>',
+                        badge: badge,
+                        value: index,
+
+                    },
+                    success: function(response) {
+                        // Handle success - display response message, update UI, etc.
+                        console.log('response--' , response)
+
+                        let result = JSON.parse(response);
+                        swal.fire("success", result.data, "success");
+                        getAllbars();
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle error - display error message, etc.
+                        var err = JSON.parse(xhr.responseText);
+                        $('#responseMessage').html('<div class="alert alert-danger">' + err.message + '</div>');
+                    }
+                });
+                }
+
+            });
+        
+    
+    }
 
     function deleteEventType (badge, current) {
         
@@ -5968,9 +6723,12 @@ unset($__errorArgs, $__bag); ?>
                     success: function(result) {
                         if (result.success == true) {
                             swal.fire("Done!", result.message, "success");
-                            setTimeout(function() {
-                                location.reload();
-                            }, 1000);
+                            $(icon).parent().parent().parent().remove();
+                            // setTimeout(function() {
+                            //     location.reload();
+                            // }, 1000);
+
+                            // getAllSetup();
                         } else {
                             swal.fire("Error!", result.message, "error");
                         }
@@ -6008,7 +6766,13 @@ unset($__errorArgs, $__bag); ?>
                         "_token": "<?php echo e(csrf_token()); ?>",
                     },
                     success: function(data) {
-                        location.reload();
+
+                        //#sign_image
+                        // location.reload();
+                        console.log('url--' , "<?= url('public/upload/signature/autorised_signature.png') ?>")
+                        clearCanvas();
+                        
+                        $("#sign_image").attr('src' , signatureData)
                     }
                 });
             }

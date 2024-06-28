@@ -1312,18 +1312,22 @@ Route::group(['middleware' => ['verified']], function () {
     Route::post('setting/delete-additional-items',[SettingController::class,'delete_additional_items'])->name('additionaldelete.setting');
      //=======================================Function==========================================//
      Route::post('setting/function', [SettingController::class, 'addfunction'])->name('function.setting');
+     Route::get('setting/getFunction', [SettingController::class, 'getFunction']);
      Route::post('setting/bar', [SettingController::class, 'addbars'])->name('bar.setting');
+     Route::get('setting/get-bar', [SettingController::class, 'getBar']);
 
      Route::post('setting/delete-package-function',[SettingController::class,'delete_function_package'])->name('functionedit.setting');
      Route::post('setting/delete-function',[SettingController::class,'delete_function'])->name('functionpackage.setting');
      Route::post('setting/delete-bars',[SettingController::class,'delete_bar'])->name('barpackage.setting');
      Route::post('setting/delete-bar-function',[SettingController::class,'delete_bar_package'])->name('baredit.setting');
      Route::post('setting/additional-items',[SettingController::class,'additional_items'])->name('additional.setting');
+     Route::get('setting/get-additional-items',[SettingController::class,'getAditionalItems']);
 
     
      
     //=======================================Floor Plans=======================//
     Route::post('/floor-images',[SettingController::class,'storeImage']);
+    Route::get('/all-setup',[SettingController::class,'allSetup']);
     Route::post('/delete-image', [SettingController::class, 'deleteImage']);
     //=======================================Floor Plans=======================//
     Route::post('/setting/billing',[SettingController::class,'billing_cost'])->name('billing.setting');

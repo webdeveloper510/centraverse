@@ -30,6 +30,8 @@ class SettingController extends Controller
         
 
         $settings = Utility::settings();
+
+        // echo "<pre>"; print_r(json_decode($settings['function'])); die;
         $permissions = Permission::all()->pluck('name', 'id')->toArray();
         $payment = Utility::set_payment_settings();
         $webhooks = Webhook::where('created_by', \Auth::user()->id)->get();
@@ -40,6 +42,17 @@ class SettingController extends Controller
         // } else {
         // return redirect()->back()->with('error', __('Permission denied.'));
         // }
+    }
+
+    
+    public function allSetup () {
+
+        $settings = $setup = Setup::all();
+        $response = (object)[
+            "code"  => 200,
+            "data"  =>  $settings
+        ];
+        echo  json_encode($response);
     }
 
     public function saveBusinessSettings(Request $request)
@@ -1741,7 +1754,18 @@ class SettingController extends Controller
         $setup['image'] = $imageName;
         $setup['description'] = $request->description;
         $setup->save();
-        return redirect()->back()->with('success', __('Setup  Uploaded'));
+
+        $response = (object)[
+            "code"  =>  200,
+            "data"  =>  'Setup  Uploaded'
+        ];
+
+        if ($request->ajax()) {
+            echo  json_encode($response);
+        } else {
+            return redirect()->back()->with('success', __('Setup  Uploaded'));
+        }
+        
     }
 
     public function deleteImage(Request $request)
@@ -1762,6 +1786,12 @@ class SettingController extends Controller
         $user = \Auth::user();
         $inputValue =  $request->input('buffer_time');
         $bufferday =  $request->input('buffer_day');
+
+        // echo "<pre>";
+        // print_r($request->input('buffer_time'));
+        // echo "<br>";
+        // print_r($request->input('buffer_day'));
+        // die;
         $settings = Utility::settings();
         $created_at = $updated_at = date('Y-m-d H:i:s');
         if (isset($settings['buffer_time']) && !empty($settings['buffer_time'])) {
@@ -1806,11 +1836,24 @@ class SettingController extends Controller
                 ]
             );
         }
-        return redirect()->back()->with('success', __('Buffer  Added .'));
+
+        $response = (object)[
+            "code"  => 200,
+            "data"  =>  'Buffer  Added .'
+        ];
+
+        if ($request->ajax()) {
+            echo  json_encode($response);
+        } else {
+            return redirect()->back()->with('success', __('Buffer  Added .'));
+        }
+
+        
     }
     public function billing_cost(Request $request)
     {
         unset($_REQUEST['_token']);
+
         $jsonString = json_encode($_REQUEST);
         $settings = Utility::settings();
         $user = \Auth::user();
@@ -1836,7 +1879,18 @@ class SettingController extends Controller
                 ]
             );
         }
-        return redirect()->back()->with('success', __('Billing Cost Saved'));;
+
+        $response = (object)[
+            "code"  => 200,
+            "data"  =>  'Billing Cost Saved'
+        ];
+
+        if ($request->ajax()) {
+            echo  json_encode($response);
+        } else {
+            return redirect()->back()->with('success', __('Billing Cost Saved'));
+        }
+        
     }
     public function signature(Request $request)
     {
@@ -1845,6 +1899,7 @@ class SettingController extends Controller
         }
         $this->uploadSignature($request->signature);
     }
+    
     public function uploadSignature($signed)
     {
         $folderPath = public_path('upload/signature/');
@@ -1921,6 +1976,26 @@ class SettingController extends Controller
         }
         
     }
+
+    public function getFunction () {
+
+        $settings = Utility::settings();
+        $response = (object)[
+            "code"  => 200,
+            "data"  =>  json_decode($settings['function'])
+        ];
+        echo  json_encode($response);
+    }
+
+    public function getBar () {
+
+        $settings = Utility::settings();
+        $response = (object)[
+            "code"  => 200,
+            "data"  =>  json_decode($settings['barpackage'])
+        ];
+        echo  json_encode($response);
+    }
     public function addbars(Request $request)
     {
         $settings = Utility::settings();
@@ -1971,7 +2046,18 @@ class SettingController extends Controller
                 ]
             );
         }
-        return redirect()->back()->with('success', __('Bar Package Added .'));
+
+        $response = (object)[
+            "code"  => 200,
+            "data"  =>  'Bar Package Added .'
+        ];
+
+        if ($request->ajax()) {
+            echo  json_encode($response);
+        } else {
+            return redirect()->back()->with('success', __('Bar Package Added .'));
+        }
+        
     }
     public function delete_function_package(Request $request)
     {
@@ -1995,7 +2081,18 @@ class SettingController extends Controller
                 'created_at' => $created_at,
                 'updated_at' => $updated_at
             ]);
-        return true;
+
+        $response = (object)[
+            "code"  => 200,
+            "data"  =>  'Package deleted'
+        ];
+
+        if ($request->ajax()) {
+            echo  json_encode($response);
+        } else {
+            return true;
+        }
+        
     }
     public function delete_function(Request $request)
     {
@@ -2015,7 +2112,18 @@ class SettingController extends Controller
                 'created_at' => $created_at,
                 'updated_at' => $updated_at
             ]);
-        return true;
+
+        $response = (object)[
+            "code"  => 200,
+            "data"  =>  'Function deleted'
+        ];
+
+        if ($request->ajax()) {
+            echo  json_encode($response);
+        } else {
+            return true;
+        }
+        
     }
     public function delete_bar(Request $request)
     {
@@ -2035,7 +2143,19 @@ class SettingController extends Controller
                 'created_at' => $created_at,
                 'updated_at' => $updated_at
             ]);
-        return true;
+
+
+        $response = (object)[
+            "code"  => 200,
+            "data"  =>  'Bar deleted'
+        ];
+
+        if ($request->ajax()) {
+            echo  json_encode($response);
+        } else {
+            return true;
+        }
+       
     }
     public function delete_bar_package(Request $request)
     {
@@ -2059,7 +2179,17 @@ class SettingController extends Controller
                 'created_at' => $created_at,
                 'updated_at' => $updated_at
             ]);
-        return true;
+
+        $response = (object)[
+            "code"  => 200,
+            "data"  =>  'Bar Package deleted'
+        ];
+
+        if ($request->ajax()) {
+            echo  json_encode($response);
+        } else {
+            return true;
+        }
     }
 
     public function addcampaigntype(Request $request)
@@ -2091,7 +2221,18 @@ class SettingController extends Controller
                 ]
             );
         }
-        return redirect()->back()->with('success', __('Campaign Added.'));
+
+        $response = (object)[
+            "code"  => 200,
+            "data"  =>  'Campaign Added.'
+        ];
+
+        if ($request->ajax()) {
+            echo  json_encode($response);
+        } else {
+            return redirect()->back()->with('success', __('Campaign Added.'));
+        }
+       
     }
     public function deletecampaigntype(Request $request)
     {
@@ -2110,8 +2251,33 @@ class SettingController extends Controller
                 'created_at' => $created_at,
                 'updated_at' => $updated_at
             ]);
-        return true;
+
+        $response = (object)[
+            "code"  => 200,
+            "data"  =>  'Campaign deleted.'
+        ];
+
+        if ($request->ajax()) {
+            echo  json_encode($response);
+        } else {
+            return true;
+        }
+        
     }
+
+    public function getAditionalItems() {
+
+        $settings = Utility::settings();
+        $all_aditional_item = json_decode($settings['additional_items']);
+        
+        $response = (object)[
+                "code"  => 200,
+                "data"  =>  $all_aditional_item
+            ];
+
+        echo  json_encode($response);
+    }
+
     public function delete_additional_items(Request $request){
       
         $user = \Auth::user();
@@ -2129,8 +2295,20 @@ class SettingController extends Controller
                 'created_at' => $created_at,
                 'updated_at' => $updated_at
             ]);
-        return true;
+
+        $response = (object)[
+            "code"  => 200,
+            "data"  =>  'Item deleted successfully'
+        ];
+
+        if ($request->ajax()) {
+            echo  json_encode($response);
+        } else {
+            return true;
+        }
+        
     }
+
     public function additional_items(Request $request)
     {
         $user = \Auth::user();
@@ -2179,7 +2357,18 @@ class SettingController extends Controller
                 ]
             );
         }
-        return redirect()->back()->with('success', __('Additional Items Added.'));
+
+        $response = (object)[
+            "code"  => 200,
+            "data"  =>  'Additional Items Added'
+        ];
+
+        if ($request->ajax()) {
+            echo  json_encode($response);
+        } else {
+            return redirect()->back()->with('success', __('Additional Items Added.'));
+        }
+        
     }
     public function editadditionalcost(Request $request)
     {
