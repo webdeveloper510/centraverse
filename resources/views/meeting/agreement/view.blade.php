@@ -736,10 +736,12 @@ ul {
 
         </p> -->
 
-        <div style="font-size: 2px !important;">
+        <div style="font-size: 10px !important;">
             {!! $terms_condition !!}
         </div>
     </div>
+
+    
     <div class="main-div">
         <div class="row">
             <div class="col-md-6" style="float:left;width:50%;">

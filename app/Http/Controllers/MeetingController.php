@@ -1045,6 +1045,7 @@ class MeetingController extends Controller
             'terms_condition'   => $terms_condition,
         ];
         $pdf = Pdf::loadView('meeting.agreement.view', $data);
+        
         return $pdf->stream('agreement.pdf');
     }
     public function signedagreementview($id)
