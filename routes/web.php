@@ -925,6 +925,8 @@ Route::group(['middleware' => ['verified']], function () {
             Route::post('business-setting', [SettingController::class, 'saveBusinessSettings'])->name('business.setting');
             Route::post('company-setting', [SettingController::class, 'saveCompanySettings'])->name('company.setting');
             Route::post('email-setting', [SettingController::class, 'saveEmailSettings'])->name('email.setting');
+            Route::post('template-setting', [SettingController::class, 'saveTemplateSettings'])->name('template.setting');
+            Route::post('terms-condition-setting', [SettingController::class, 'saveTermsConditionSettings'])->name('terms_condition.setting');
             Route::post('system-setting', [SettingController::class, 'saveSystemSettings'])->name('system.setting');
             Route::post('pusher-setting', [SettingController::class, 'savePusherSettings'])->name('pusher.setting');
             Route::post('test', [SettingController::class, 'testMail'])->name('test.mail');

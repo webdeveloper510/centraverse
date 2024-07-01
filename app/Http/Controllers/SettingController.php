@@ -31,7 +31,7 @@ class SettingController extends Controller
 
         $settings = Utility::settings();
 
-        // echo "<pre>"; print_r(json_decode($settings['function'])); die;
+        // echo "<pre>"; print_r($settings['template_editor']); die;    
         $permissions = Permission::all()->pluck('name', 'id')->toArray();
         $payment = Utility::set_payment_settings();
         $webhooks = Webhook::where('created_by', \Auth::user()->id)->get();
@@ -1975,6 +1975,94 @@ class SettingController extends Controller
             return redirect()->back()->with('success', __('Function Added .'));
         }
         
+    }
+
+    public function saveTemplateSettings (Request $request) {
+    
+        $user = \Auth::user();
+        $settings = Utility::settings();
+        $created_at = $updated_at = date('Y-m-d H:i:s');
+        $content = $request->description;
+        // print_r(isset($settings['template_editor']));
+
+        if (isset($settings['template_editor'])) {
+
+            DB::table('settings')
+                ->where('name', 'template_editor')
+                ->update([
+                    'value' =>  $content,
+                    'created_by' => $user->id,
+                    'created_at' => $created_at,
+                    'updated_at' => $updated_at
+                ]);
+        } else {
+            \DB::insert(
+                'INSERT INTO settings (`value`, `name`,`created_by`,`created_at`,`updated_at`) values (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`), `updated_at` = VALUES(`updated_at`) ',
+                [
+                    $content,
+                    'template_editor',
+                    $user->id,
+                    $created_at,
+                    $updated_at,
+                ]
+            );
+        }
+
+        $response = (object)[
+            "code"  => 200,
+            "data"  =>  'Template data updated'
+        ];
+
+        if ($request->ajax()) {
+            echo  json_encode($response);
+        } else {
+            return true;
+        }
+       
+    }
+
+    public function saveTermsConditionSettings (Request $request) {
+    
+        $user = \Auth::user();
+        $settings = Utility::settings();
+        $created_at = $updated_at = date('Y-m-d H:i:s');
+        $content = $request->description;
+        // print_r(isset($settings['template_editor']));
+
+        if (isset($settings['terms_condition'])) {
+
+            DB::table('settings')
+                ->where('name', 'terms_condition')
+                ->update([
+                    'value' =>  $content,
+                    'created_by' => $user->id,
+                    'created_at' => $created_at,
+                    'updated_at' => $updated_at
+                ]);
+        } else {
+            \DB::insert(
+                'INSERT INTO settings (`value`, `name`,`created_by`,`created_at`,`updated_at`) values (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`), `updated_at` = VALUES(`updated_at`) ',
+                [
+                    $content,
+                    'terms_condition',
+                    $user->id,
+                    $created_at,
+                    $updated_at,
+                ]
+            );
+        }
+
+        $response = (object)[
+            "code"  => 200,
+            "data"  =>  'Terms & condition data updated'
+        ];
+
+        if ($request->ajax()) {
+            echo  json_encode($response);
+        } else {
+            return true;
+        }
+       
     }
 
     public function getFunction () {

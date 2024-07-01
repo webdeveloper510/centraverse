@@ -35,6 +35,13 @@ $category= explode(',',$settings['campaign_type']);
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-envelope"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Email')); ?></span>
                 </a>
+                
+
+                <a href="#add-template-setting" class="list-group-item list-group-item-action border-0"  onclick="showAccordion('collapse22')">
+                    <span class="fa-stack fa-lg pull-left"><img src="<?php echo e(asset('icons/signature.png')); ?>" alt=""
+                            style="    width: 22px;"></span>
+                    <span class="dash-mtext">Template settings</span>
+                </a>
 
                 <!-- <a href="javascript:void(0);" class="list-group-item list-group-item-action" data-id="collapse16"
                     onclick="toggleCollapse(this.getAttribute('data-id'))">
@@ -98,6 +105,13 @@ $category= explode(',',$settings['campaign_type']);
                 </a>
                 <?php endif; ?>
                 <?php if(\Auth::user()->type == 'owner'): ?>
+
+                <a href="#add-template-setting" class="list-group-item list-group-item-action border-0"  onclick="showAccordion('collapse22')">
+                    <span class="fa-stack fa-lg pull-left"><img src="<?php echo e(asset('icons/signature.png')); ?>" alt=""
+                            style="    width: 22px;"></span>
+                    <span class="dash-mtext">Template settings</span>
+                </a>
+
                 <a href="#buffer-settings" class="list-group-item list-group-item-action border-0" onclick="showAccordion('collapse21')">
                     <span class="fa-stack fa-lg pull-left"><img src="<?php echo e(asset('icons/loading.png')); ?>" alt=""
                             style="width: 22px;"></span>
@@ -108,6 +122,8 @@ $category= explode(',',$settings['campaign_type']);
                             style="    width: 22px;"></span>
                     <span class="dash-mtext"><?php echo e(__('Authorised Signature')); ?></span>
                 </a>
+
+                
               <!-- <a href="#agreement-settings" class="list-group-item list-group-item-action border-0"  onclick="showAccordion('collapse25')">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-file-contract"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Agreements')); ?></span>

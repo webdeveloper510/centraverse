@@ -292,6 +292,8 @@ canvas#signatureCanvas {
 @endpush
 @push('script-page')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
+<link href='{{ url("public/css/editor-style.css")}}' rel="stylesheet">
+<script src='{{ url("public/js/editor-script.js")}}'></script>
 <script>
 function myFunction() {
     var popup = document.getElementById("myPopup");
@@ -636,6 +638,61 @@ $(document).ready(function() {
                                                             <input type="submit" value="{{ __('Save Changes') }}"
                                                                 class="btn btn-print-invoice  btn-primary m-r-10 mb-2">
                                                         </div>
+                                                    </div>
+                                                </div>
+                                                {{ Form::close() }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="add-template-setting" class="accordion-item card">
+                                        <h2 class="accordion-header" id="heading-2-15">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                data-bs-target="#collapse50" aria-expanded="false"
+                                                aria-controls="collapse50">
+                                                <h5>Template Settings</h5>
+                                                <small class="text-muted">Edit your Template settings details</small>
+                                            </button>
+                                        </h2>
+                                        <div id="collapse50" class="accordion-collapse collapse"
+                                            aria-labelledby="heading-2-15" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body1">
+                                                {{ Form::open(['route' => 'template.setting', 'method' => 'post', 'id' => 'templateSettingForm']) }}
+                                                <div class="card-body">
+                                                    <div class="row mt-4">
+                                                        <div class="col-md-12">
+                                                            <label for="mail_driver"
+                                                            class="col-form-label text-dark"><b>Content</b></label>
+                                                            <div id="description-box">
+                                                                <iframe id="description-js" class="writer-js"></iframe>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    
+                                                    <div class="text-end">
+                                                        {{ Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary']) }}
+                                                    </div>
+                                                </div>
+                                                {{ Form::close() }}
+                                            </div>
+
+                                            <div class="accordion-body1">
+                                                {{ Form::open(['route' => 'terms_condition.setting', 'method' => 'post', 'id' => 'termsConditionSettingForm']) }}
+                                                <div class="card-body">
+                                                    <div class="row mt-4">
+                                                        <div class="col-md-12">
+                                                            <label for="mail_driver"
+                                                            class="col-form-label text-dark"><b>Terms & Condition</b></label>
+                                                            <div id="terms-box">
+                                                                <iframe id="terms-js" class="writer-js"></iframe>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    
+                                                    <div class="text-end">
+                                                        {{ Form::submit(__('Save Changes'), ['class' => 'btn-submit btn btn-primary']) }}
                                                     </div>
                                                 </div>
                                                 {{ Form::close() }}
@@ -5091,6 +5148,10 @@ $(document).ready(function() {
     @endsection
     @push('script-page')
     <script>
+
+    let description_writerJs = new writer('en', 'description-js', 'description-box', `<?= !@$settings['template_editor'] ? html_entity_decode($settings['template_editor'], ENT_QUOTES | ENT_HTML5) : html_entity_decode($settings['template_editor'], ENT_QUOTES | ENT_HTML5)?>`, '*{font-family: vazir;}');
+
+    let terms_writerJs = new writer('en', 'terms-js', 'terms-box', `<?= !@$settings['terms_condition'] ? html_entity_decode(@$settings['terms_condition'], ENT_QUOTES | ENT_HTML5) : html_entity_decode(@$settings['terms_condition'], ENT_QUOTES | ENT_HTML5)?>`, '*{font-family: vazir;}');
         
     $('.fxnnames').click(function() {
         var value = $(this).text();
@@ -5311,6 +5372,73 @@ $(document).ready(function() {
                     }
                 });
         });
+
+       
+        //termsConditionSettingForm
+
+        $('#termsConditionSettingForm').submit(function(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+            
+            let terms_content = terms_writerJs.getOutput();
+           console.log('description---' , description)
+            
+                
+                $.ajax({
+                    type: 'POST',
+                    url: "<?= url('terms-condition-setting')?>",
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        description: terms_content,
+
+                    },
+                    success: function(response) {
+                       // Handle success - display response message, update UI, etc.
+                       console.log('response--' , response)
+
+                       let result = JSON.parse(response);
+                       swal.fire("success", result.data, "success");
+                       // alert(result.data);
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle error - display error message, etc.
+                        var err = JSON.parse(xhr.responseText);
+                        $('#responseMessage').html('<div class="alert alert-danger">' + err.message + '</div>');
+                    }
+                });
+
+        })
+
+        $('#templateSettingForm').submit(function(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+            
+            let description = description_writerJs.getOutput();
+           console.log('description---' , description)
+            
+                
+                $.ajax({
+                    type: 'POST',
+                    url: "<?= url('template-setting')?>",
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        description: description,
+
+                    },
+                    success: function(response) {
+                       // Handle success - display response message, update UI, etc.
+                       console.log('response--' , response)
+
+                       let result = JSON.parse(response);
+                       swal.fire("success", result.data, "success");
+                       // alert(result.data);
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle error - display error message, etc.
+                        var err = JSON.parse(xhr.responseText);
+                        $('#responseMessage').html('<div class="alert alert-danger">' + err.message + '</div>');
+                    }
+                });
+
+        })
 
         $('#emailSettingForm').submit(function(event) {
                 event.preventDefault(); // Prevent the form from submitting normally

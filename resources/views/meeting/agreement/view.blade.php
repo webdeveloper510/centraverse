@@ -233,7 +233,12 @@ ul {
         </tbody>
     </table>
 
-    <div class="details">
+    
+    {!! $content !!}
+    
+
+    
+    <!-- <div class="details">
         <p>
             This contract defines the terms and conditions under which Lotus Estate, LLC dba The Bond 1786,
             (hereinafter referred to as The Bond or The Bond 1786), and <b>{{$meeting['name']}}</b>
@@ -266,7 +271,7 @@ ul {
             receipt from The Bond
             1786 will be provided for each.
         </p>
-    </div>
+    </div> -->
     
     <div class="table-container" style="">
         <div class="header">
@@ -405,7 +410,7 @@ ul {
         <h5>TERMS AND CONDITIONS</h5>
         </div>
         <!-- <h4 style="text-align:center"></h4> -->
-        <p><b> FOOD AND ALCOHOLIC BEVERAGES and 3RD PARTY / ON-SITE VENDORS</b>
+        <!-- <p><b> FOOD AND ALCOHOLIC BEVERAGES and 3RD PARTY / ON-SITE VENDORS</b>
             The Client and their guests agree to not bring in any unauthorized food or beverage into The Bond 1786.
             The Establishment does not allow outside alcoholic beverages, unless agreed with the Terms. Catering
             service is available at a cost; please see your
@@ -729,7 +734,11 @@ ul {
             No Personal Checks are accepted for final payment.
             The Rules and Conditions for Usage are incorporated herein and are made a part hereof.
 
-        </p>
+        </p> -->
+
+        <div style="font-size: 2px !important;">
+            {!! $terms_condition !!}
+        </div>
     </div>
     <div class="main-div">
         <div class="row">

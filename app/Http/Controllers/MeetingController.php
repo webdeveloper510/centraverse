@@ -1028,6 +1028,10 @@ class MeetingController extends Controller
     }
     public function agreement($id)
     {
+
+        $settings = Utility::settings();
+        $content = @$settings['template_editor'] ?? $settings['template_editor'];
+        $terms_condition = @$settings['terms_condition'] ?? $settings['terms_condition'];
         $decryptedId = decrypt(urldecode($id));
         $meeting = Meeting::find($decryptedId);
         $fixed_cost = Billing::where('event_id',$decryptedId)->first();
@@ -1037,6 +1041,8 @@ class MeetingController extends Controller
             'meeting' => $meeting,
             'billing' => $fixed_cost,
             'billing_data' => unserialize($fixed_cost->data),
+            'content'   => $content,
+            'terms_condition'   => $terms_condition,
         ];
         $pdf = Pdf::loadView('meeting.agreement.view', $data);
         return $pdf->stream('agreement.pdf');
