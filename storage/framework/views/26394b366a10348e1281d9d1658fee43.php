@@ -146,6 +146,9 @@ td {
 ul {
     font-size: 6px;
 }
+.detailsss div , font {
+    font-size: 8.2px !important;
+}
 
 .table-container {
     margin-top: 30px;
@@ -168,6 +171,11 @@ ul {
 .detailsss{
     /* page-break-inside: avoid; */
 }
+
+.page-break {
+    page-break-before: always;
+}
+
 @media print {
     .table-container {
         page-break-inside: avoid;
@@ -415,11 +423,11 @@ ul {
         <p><?php echo e(isset($agreement)?$agreement->notes :''); ?></p>
     </div>
     <div class="detailsss">
-    <div class="header">
+    <div class="header page-break">
         <h5>TERMS AND CONDITIONS</h5>
         </div>
-        <!-- <h4 style="text-align:center"></h4> -->
-        <!-- <p><b> FOOD AND ALCOHOLIC BEVERAGES and 3RD PARTY / ON-SITE VENDORS</b>
+        <!-- <h4 style="text-align:center"></h4>
+        <p><b> FOOD AND ALCOHOLIC BEVERAGES and 3RD PARTY / ON-SITE VENDORS</b>
             The Client and their guests agree to not bring in any unauthorized food or beverage into The Bond 1786.
             The Establishment does not allow outside alcoholic beverages, unless agreed with the Terms. Catering
             service is available at a cost; please see your
@@ -745,10 +753,10 @@ ul {
 
         </p> -->
 
-        <div style="font-size: 10px !important;">
+        <p >
             <?php echo $terms_condition; ?>
 
-        </div>
+        </p>
     </div>
 
     
