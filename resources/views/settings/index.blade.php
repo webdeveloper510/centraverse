@@ -54,6 +54,10 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
 
 @push('css-page')
 @if ($color == 'theme-1')
+
+<?php 
+echo "vijay here index"; die;
+?>
 <style>
 /* ul>li>a.active {
         border: 4px solid #fff;

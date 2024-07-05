@@ -40,7 +40,7 @@ class SettingController extends Controller
         $users = User::where('created_by', '=', \Auth::user()->creatorId())->get();
         $setup = Setup::all();
 
-        echo "vijay here"; die;
+        
         return view('settings.index', compact('settings', 'setup', 'payment', 'webhooks', 'permissions', 'roles', 'users'));
         // } else {
         // return redirect()->back()->with('error', __('Permission denied.'));
