@@ -28,7 +28,8 @@ class SettingController extends Controller
         // if (\Auth::user()->type == 'owner' || \Auth::user()->type == 'super admin') {
 
         
-
+        echo "vijay"; die;
+        
         $settings = Utility::settings();
 
         // echo "<pre>"; print_r($settings['template_editor']); die;    
