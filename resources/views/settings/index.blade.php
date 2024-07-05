@@ -55,9 +55,9 @@ $meta_image = \App\Models\Utility::get_file('uploads/metaevent/');
 $imagePath = public_path('upload/signature/autorised_signature.png');
 $imageData = base64_encode(file_get_contents($imagePath));
 $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base64,' . $imageData;
-echo "vijay here  meta_image"; die;
-@endphp
 
+@endphp
+echo "vijay here  meta_image"; die;
 @push('css-page')
 @if ($color == 'theme-1')
 
