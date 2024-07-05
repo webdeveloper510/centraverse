@@ -1,7 +1,7 @@
 @extends('layouts.admin')
-<?php 
-echo "vijay here index"; die;
-?>
+
+
+
 @php
 $settings = App\Models\Utility::settings();
 // $logo = asset(Storage::url('uploads/logo/'));
@@ -14,6 +14,8 @@ $dark_logo = Utility::getValByName('company_logo_dark');
 $light_logo = Utility::getValByName('company_logo_light');
 $company_logo = \App\Models\Utility::GetLogo();
 $lang = \App\Models\Utility::getValByName('default_language');
+
+echo "vijay here index"; die;
 $EmailTemplates = App\Models\EmailTemplate::all();
 $venue = explode(',',$settings['venue']);
 $venue = array_combine($venue,$venue);
