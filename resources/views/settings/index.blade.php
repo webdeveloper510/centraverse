@@ -15,7 +15,7 @@ $light_logo = Utility::getValByName('company_logo_light');
 $company_logo = \App\Models\Utility::GetLogo();
 $lang = \App\Models\Utility::getValByName('default_language');
 
-echo "vijay here  medium"; die;
+
 $EmailTemplates = App\Models\EmailTemplate::all();
 $venue = explode(',',$settings['venue']);
 $venue = array_combine($venue,$venue);
@@ -42,7 +42,7 @@ $s3_storage_validations = explode(',', $s3_storage_validation);
 
 $wasabi_storage_validation = $settings['wasabi_storage_validation'];
 $wasabi_storage_validations = explode(',', $wasabi_storage_validation);
-
+echo "vijay here  SITE_RTL"; die;
 $SITE_RTL = env('SITE_RTL');
 if ($SITE_RTL == '') {
 $SITE_RTL == 'off';
