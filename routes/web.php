@@ -1438,6 +1438,7 @@ Route::group(
 Route::get('/meeting-download/{meeting}', [MeetingController::class, 'download_meeting']);
 Route::get('event/agreement/{id}', [MeetingController::class, 'agreement'])->name('meeting.agreement');
 Route::get('/push-notificaiton', [WebNotificationController::class, 'index'])->name('push-notificaiton');
+Route::get('/test', [LeadController::class, 'test']);
 
 Route::group(['middleware' => 'auth'],function(){
     Route::post('/store-token', [WebNotificationController::class, 'updateDeviceToken'])->name('store.token');

@@ -96,6 +96,7 @@ class MeetingController extends Controller
     public function store(Request $request)
     {
        
+       
         if (\Auth::user()->can('Create Meeting')) {
             $validator = \Validator::make(
                 $request->all(),
@@ -348,8 +349,8 @@ class MeetingController extends Controller
             $data = [
                 "registration_ids" =>$FcmToken,
                 "notification" => [
-                    "title" => 'Event created.',
-                    "body" => 'New Event is Created',  
+                    "title" => $request->lead == '0' ?'Event created.' : 'Lead converted to Event',
+                    "body" => $request->lead == '0' ?  'New Event is Created' : 'A lead converted to an Event',  
                 ]
             ];
             $encodedData = json_encode($data);
