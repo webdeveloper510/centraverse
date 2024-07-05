@@ -5157,7 +5157,7 @@ $(document).ready(function() {
     @push('script-page')
     <script>
 
-    let description_writerJs = new writer('en', 'description-js', 'description-box', `<?= !@$settings['template_editor'] ? html_entity_decode($settings['template_editor'], ENT_QUOTES | ENT_HTML5) : html_entity_decode($settings['template_editor'], ENT_QUOTES | ENT_HTML5)?>`, '*{font-family: vazir;}');
+    let description_writerJs = new writer('en', 'description-js', 'description-box', `<?= !@$settings['template_editor'] ? html_entity_decode(@$settings['template_editor'], ENT_QUOTES | ENT_HTML5) : html_entity_decode(@$settings['template_editor'], ENT_QUOTES | ENT_HTML5)?>`, '*{font-family: vazir;}');
 
     let terms_writerJs = new writer('en', 'terms-js', 'terms-box', `<?= !@$settings['terms_condition'] ? html_entity_decode(@$settings['terms_condition'], ENT_QUOTES | ENT_HTML5) : html_entity_decode(@$settings['terms_condition'], ENT_QUOTES | ENT_HTML5)?>`, '*{font-family: vazir;}');
         

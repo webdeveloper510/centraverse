@@ -57,7 +57,7 @@ $imageData = base64_encode(file_get_contents($imagePath));
 $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base64,' . $imageData;
 
 ?>
-echo "vijay here  meta_image"; die;
+
 <?php $__env->startPush('css-page'); ?>
 <?php if($color == 'theme-1'): ?>
 
@@ -5478,7 +5478,7 @@ unset($__errorArgs, $__bag); ?>
     <?php $__env->startPush('script-page'); ?>
     <script>
 
-    let description_writerJs = new writer('en', 'description-js', 'description-box', `<?= !@$settings['template_editor'] ? html_entity_decode($settings['template_editor'], ENT_QUOTES | ENT_HTML5) : html_entity_decode($settings['template_editor'], ENT_QUOTES | ENT_HTML5)?>`, '*{font-family: vazir;}');
+    let description_writerJs = new writer('en', 'description-js', 'description-box', `<?= !@$settings['template_editor'] ? html_entity_decode(@$settings['template_editor'], ENT_QUOTES | ENT_HTML5) : html_entity_decode(@$settings['template_editor'], ENT_QUOTES | ENT_HTML5)?>`, '*{font-family: vazir;}');
 
     let terms_writerJs = new writer('en', 'terms-js', 'terms-box', `<?= !@$settings['terms_condition'] ? html_entity_decode(@$settings['terms_condition'], ENT_QUOTES | ENT_HTML5) : html_entity_decode(@$settings['terms_condition'], ENT_QUOTES | ENT_HTML5)?>`, '*{font-family: vazir;}');
         
