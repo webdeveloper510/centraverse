@@ -16,3 +16,5 @@ node_modules
 /volo
 /extra
 /rinserevolution
+/storage/framework/cache/data/
+/storage/framework/sessions/
