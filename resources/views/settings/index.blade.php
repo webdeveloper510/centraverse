@@ -15,7 +15,7 @@ $light_logo = Utility::getValByName('company_logo_light');
 $company_logo = \App\Models\Utility::GetLogo();
 $lang = \App\Models\Utility::getValByName('default_language');
 
-echo "vijay here index"; die;
+echo "vijay here  medium"; die;
 $EmailTemplates = App\Models\EmailTemplate::all();
 $venue = explode(',',$settings['venue']);
 $venue = array_combine($venue,$venue);
