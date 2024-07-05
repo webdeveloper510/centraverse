@@ -42,7 +42,7 @@ $s3_storage_validations = explode(',', $s3_storage_validation);
 
 $wasabi_storage_validation = $settings['wasabi_storage_validation'];
 $wasabi_storage_validations = explode(',', $wasabi_storage_validation);
-echo "vijay here  SITE_RTL"; die;
+
 $SITE_RTL = env('SITE_RTL');
 if ($SITE_RTL == '') {
 $SITE_RTL == 'off';
@@ -50,7 +50,7 @@ $SITE_RTL == 'off';
 if(isset($settings['event_type']) && !empty($settings['event_type'])){
 $eventtypes = explode(',',$settings['event_type']);
 }
-
+echo "vijay here  meta_image"; die;
 $meta_image = \App\Models\Utility::get_file('uploads/metaevent/');
 $imagePath = public_path('upload/signature/autorised_signature.png');
 $imageData = base64_encode(file_get_contents($imagePath));
