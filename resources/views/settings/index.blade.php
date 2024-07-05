@@ -57,7 +57,7 @@ $imageData = base64_encode(file_get_contents($imagePath));
 $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base64,' . $imageData;
 
 @endphp
-echo "vijay here  meta_image"; die;
+
 @push('css-page')
 @if ($color == 'theme-1')
 

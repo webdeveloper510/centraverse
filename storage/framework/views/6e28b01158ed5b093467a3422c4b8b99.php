@@ -1,4 +1,7 @@
 
+
+
+
 <?php
 $settings = App\Models\Utility::settings();
 // $logo = asset(Storage::url('uploads/logo/'));
@@ -11,6 +14,8 @@ $dark_logo = Utility::getValByName('company_logo_dark');
 $light_logo = Utility::getValByName('company_logo_light');
 $company_logo = \App\Models\Utility::GetLogo();
 $lang = \App\Models\Utility::getValByName('default_language');
+
+
 $EmailTemplates = App\Models\EmailTemplate::all();
 $venue = explode(',',$settings['venue']);
 $venue = array_combine($venue,$venue);
@@ -50,10 +55,13 @@ $meta_image = \App\Models\Utility::get_file('uploads/metaevent/');
 $imagePath = public_path('upload/signature/autorised_signature.png');
 $imageData = base64_encode(file_get_contents($imagePath));
 $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base64,' . $imageData;
-?>
 
+?>
+echo "vijay here  meta_image"; die;
 <?php $__env->startPush('css-page'); ?>
 <?php if($color == 'theme-1'): ?>
+
+
 <style>
 /* ul>li>a.active {
         border: 4px solid #fff;
