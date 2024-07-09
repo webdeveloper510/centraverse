@@ -23,6 +23,7 @@ class ContractController extends Controller
      */
     public function index()
     {
+        
         if (\Auth::user()->type == 'owner') {
             $contracts   = Contract::with('contract_type')->where('created_by', '=', \Auth::user()->creatorId())->get();
             $curr_month  = Contract::where('created_by', '=', \Auth::user()->creatorId())->whereMonth('start_date', '=', date('m'))->get();

@@ -100,7 +100,7 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                         class="dash-item <?php echo e(\Request::route()->getName() == 'meeting.index' || \Request::route()->getName() == 'meeting.show' || \Request::route()->getName() == 'meeting.edit' ? ' active' : ''); ?>">
                                         <a href="<?php echo e(array_key_exists('meeting',$defaultView) ? route($defaultView['meeting']) : route('meeting.index')); ?>"
                                             class="dash-link">
-                                            <span class="dash-mtext"><?php echo e(__('Events')); ?></span>
+                                            <span class="dash-mtext"><?php echo e(__('Events')); ?> </span>
                                         </a>
                                     </li>
                                     <?php endif; ?>
@@ -132,11 +132,13 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                         <a href="<?php echo e(route('email.index')); ?>" class="dash-link">
                                             <span class="dash-mtext"><?php echo e(__('Emails')); ?></span></a>
                                     </li>
+                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Contract')): ?>
                                     <li
                                         class="dash-item  <?php echo e((Request::route()->getName() == 'contracts.index' || Request::route()->getName() == 'contract.show') ? 'active' : ''); ?>">
                                         <a href="<?php echo e(route('contracts.index')); ?>" class="dash-link"><span
                                                 class="dash-mtext"><?php echo e(__('Contracts')); ?></span></a>
                                     </li>
+                                    <?php endif; ?>
                                     <li
                                         class="dash-item  <?php echo e(Request::route()->getName() == 'settings' ? 'active' : ''); ?>">
                                         <a href="<?php echo e(route('settings')); ?>" class="dash-link">

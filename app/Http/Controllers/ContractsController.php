@@ -27,6 +27,7 @@ class ContractsController extends Controller
      */
     public function index()
     {
+        
         if (\Auth::user()->type == 'owner') {
             $contracts = Contracts::all();
             // $contracts   = Contract::with('contract_type')->where('created_by', '=', \Auth::user()->creatorId())->get();

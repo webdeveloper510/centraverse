@@ -297,6 +297,8 @@ class UserController extends Controller
 
     public function edit($id)
     {
+
+        
         if (\Auth::user()->can('Edit User')) {
             $user = User::find($id);
             $gender = User::$gender;
@@ -321,7 +323,7 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
-
+       
         if (\Auth::user()->can('Edit User')) {
             $user      = User::find($id);
             $phone= $request->countrycode.preg_replace('/\D/', '', $request->input('phone'));
@@ -341,6 +343,8 @@ class UserController extends Controller
             }
 
             $role_r             = Role::findById($request->user_roles);
+            
+            
             $user['username']   = $request->email;
             $user['name']       = $request->name;
             $user['title']      = $request->title;
@@ -354,16 +358,17 @@ class UserController extends Controller
             // }
             $user->update();
             if (!empty($request->file('details'))){
-            $file =  $request->file('details');
-            $filename = Str::random(7) . '.' . $file->getClientOriginalExtension();
-            $folder = 'UserInfo/' . $id; // Example: uploads/1
-            try {
-                $path = $file->storeAs($folder, $filename, 'public');
-            } catch (\Exception $e) {
-                Log::error('File upload failed: ' . $e->getMessage());
-                return redirect()->back()->with('error', 'File upload failed');
+                $file =  $request->file('details');
+                $filename = Str::random(7) . '.' . $file->getClientOriginalExtension();
+                $folder = 'UserInfo/' . $id; // Example: uploads/1
+                try {
+                    $path = $file->storeAs($folder, $filename, 'public');
+                } catch (\Exception $e) {
+                    Log::error('File upload failed: ' . $e->getMessage());
+                    return redirect()->back()->with('error', 'File upload failed');
+                }
             }
-        }
+            $user->syncRoles([]);
             $user->assignRole($role_r);
             Stream::create(
                 [

@@ -48,6 +48,7 @@ class MeetingController extends Controller
      */
     public function index()
     {
+        
         if (\Auth::user()->can('Manage Meeting')) {
             if (\Auth::user()->type == 'owner') {
                 $meetings = Meeting::with('assign_user')->orderby('id','desc')->get();

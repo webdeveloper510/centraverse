@@ -28,6 +28,8 @@ class ContactController extends Controller
      */
     public function index()
     {
+
+        
         if(\Auth::user()->can('Manage Contact'))
         {
             if(Auth::user()->type == 'owner'){

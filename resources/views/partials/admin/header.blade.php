@@ -100,7 +100,7 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                         class="dash-item {{ \Request::route()->getName() == 'meeting.index' || \Request::route()->getName() == 'meeting.show' || \Request::route()->getName() == 'meeting.edit' ? ' active' : '' }}">
                                         <a href="{{ array_key_exists('meeting',$defaultView) ? route($defaultView['meeting']) : route('meeting.index') }}"
                                             class="dash-link">
-                                            <span class="dash-mtext">{{ __('Events') }}</span>
+                                            <span class="dash-mtext">{{ __('Events') }} </span>
                                         </a>
                                     </li>
                                     @endcan
@@ -132,11 +132,13 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                         <a href="{{ route('email.index') }}" class="dash-link">
                                             <span class="dash-mtext">{{ __('Emails') }}</span></a>
                                     </li>
+                                    @can('Manage Contract')
                                     <li
                                         class="dash-item  {{ (Request::route()->getName() == 'contracts.index' || Request::route()->getName() == 'contract.show') ? 'active' : '' }}">
                                         <a href="{{route('contracts.index')}}" class="dash-link"><span
                                                 class="dash-mtext">{{__('Contracts')}}</span></a>
                                     </li>
+                                    @endcan
                                     <li
                                         class="dash-item  {{ Request::route()->getName() == 'settings' ? 'active' : '' }}">
                                         <a href="{{ route('settings') }}" class="dash-link">
