@@ -292,7 +292,7 @@ $selectedPackages = json_decode($lead->bar_package,true);
                                             
                                             <?php 
                                                 $functionName = $value['function'];
-                                                $loop_array = @$lead->function_serving_style == null ? json_decode($lead->function_serving_style) : [];
+                                                $loop_array = @$lead->function_serving_style != null ? json_decode($lead->function_serving_style) : [];
                                                 $filteredArray = array_values(array_filter($loop_array, function ($item) use ($functionName) {
                                                     return $item->function === $functionName;
                                                 }));
