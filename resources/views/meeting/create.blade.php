@@ -456,6 +456,17 @@ $leadId = decrypt(urldecode(request()->query('lead')));
 
                                                     </div>
                                                     @endforeach
+                                                    
+                                                    <div class="mt-2">
+                                                        <label>Serving Style Option For <?=$value['function']?></label>
+                                                        <select class="form-control" name="serving_style_option_<?=$value['function']?>[]" multiple>
+                                                        
+                                                            <option value="Buffet" >Buffet</option>
+                                                            <option value="Plated" >Plated</option>
+                                                        
+                                                        </select>
+                                                    </div>
+                                                   
                                                 </div>
                                                 @endforeach
                                                 @endif

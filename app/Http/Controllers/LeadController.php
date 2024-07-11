@@ -891,6 +891,8 @@ class LeadController extends Controller
     }
     public function review_proposal_data(Request $request, $id){
         // echo "<pre>";print_r($request->all());die;
+
+        
         $settings = Utility::settings();
         $validator = \Validator::make($request->all(), [
             'status' => 'required|in:Approve,Resend,Withdraw',
@@ -954,6 +956,19 @@ class LeadController extends Controller
                 // $status = 3;
                 // $lead->proposal_status = 3;
             }
+
+            $function_data = $request->function;
+            $serving_style_data = [];
+
+            foreach ($function_data as $key => $value) {
+                
+
+                $serving_style_data[] = [
+                                            "function"  =>  $value,
+                                            "serving_style" => @$_POST["serving_style_option_$value"] ? @$_POST["serving_style_option_$value"] : []
+                                        ];
+            }
+
             $lead['user_id']            = $request->user;
             $lead['name']               = $request->name;
             $lead['email']              = $request->email;
@@ -974,6 +989,7 @@ class LeadController extends Controller
             $lead['allergies']          = $request->allergies;
             $lead['start_time']         = $request->start_time;
             $lead['end_time']           = $request->end_time;
+            $lead['function_serving_style']  = json_encode($serving_style_data);
             $lead['func_package']       = isset($package) && (!empty($package)) ? $package : '';
             $lead['bar_package']        = isset($bar_pack) && !empty($bar_pack) ? $bar_pack : '';
             $lead['ad_opts']            = isset($additional) && !empty($additional) ? $additional : '';

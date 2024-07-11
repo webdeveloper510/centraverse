@@ -99,6 +99,9 @@ class MeetingController extends Controller
        
        
         if (\Auth::user()->can('Create Meeting')) {
+
+            
+
             $validator = \Validator::make(
                 $request->all(),
                 [
@@ -279,7 +282,7 @@ class MeetingController extends Controller
                     'spcl_req'            => $request->spcl_request,
                     'phone'               => $phone,
                     'allergies'           => $request->allergies,
-                    'ad_opts'=>$additional,
+                    'ad_opts'             => $additional,
                    'start_time'          => $request->start_time,
                    'end_time'            => $request->end_time
 
