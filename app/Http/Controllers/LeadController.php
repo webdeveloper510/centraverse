@@ -144,7 +144,9 @@ class LeadController extends Controller
         
         if (\Auth::user()->can('Create Lead')) {
             // echo"<pre>";
-            // print_r($request->all());die;
+            // print_r($request->all());
+            // die;
+
 
             $validator = \Validator::make(
                 $request->all(),
@@ -207,6 +209,22 @@ class LeadController extends Controller
                     $bar_pack[$newKey] = $values;
                 }
             }
+
+            // print_r($package);
+            // die;
+
+            $function_data = $request->function;
+            $serving_style_data = [];
+
+            foreach ($function_data as $key => $value) {
+                
+
+                $serving_style_data[] = [
+                                            "function"  =>  $value,
+                                            "serving_style" => @$_POST["serving_style_option_$value"] ?$_POST["serving_style_option_$value"] : []
+                                        ];
+            }
+
             
             $package = json_encode($package);
             $additional = json_encode($additional);
@@ -228,6 +246,7 @@ class LeadController extends Controller
             $lead['venue_selection']    = isset($request->venue)?implode(',',$request->venue) :'';
             $lead['function']           = isset($request->function)? implode(',',$request->function) :'';
             $lead['func_package']       = isset($package) && (!empty($package)) ? $package : '';
+            $lead['function_serving_style']  = json_encode($serving_style_data);
             $lead['guest_count']        = $request->guest_count ?? 0;
             $lead['description']        = $request->description;
             $lead['spcl_req']           = $request->spcl_req;
@@ -382,6 +401,7 @@ class LeadController extends Controller
      
         if (\Auth::user()->can('Edit Lead')) {
            
+
             $validator = \Validator::make(
                 $request->all(),
                 [
@@ -431,6 +451,20 @@ class LeadController extends Controller
                     $bar_pack[$newKey] = $values;
                 }
             }
+
+
+            $function_data = $request->function;
+            $serving_style_data = [];
+
+
+            foreach ($function_data as $key => $value) {
+                
+                
+                $serving_style_data[] = [
+                                            "function"  =>  $value,
+                                            "serving_style" => @$_POST["serving_style_option_$value"] ?$_POST["serving_style_option_$value"] : []
+                                        ];
+            }
            
             $package = json_encode($package);
             $additional = json_encode($additional);
@@ -450,6 +484,7 @@ class LeadController extends Controller
             $lead['type']               = $request->type;
             $lead['venue_selection']    = isset($venue_function) && (!empty($venue_function)) ? $venue_function : '';
             $lead['function']           = $function;
+            $lead['function_serving_style']  = json_encode($serving_style_data);
             $lead['guest_count']        = $request->guest_count ?? 0;
             $lead['description']        = $request->description;
             $lead['spcl_req']           = $request->spcl_req;

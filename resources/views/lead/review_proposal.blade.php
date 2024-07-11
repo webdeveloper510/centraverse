@@ -3,6 +3,7 @@
 {{ __('Review Lead') }}
 @endsection
 @php
+
 $plansettings = App\Models\Utility::plansettings();
 $setting = App\Models\Utility::settings();
 $type_arr= explode(',',$setting['event_type']);
@@ -288,6 +289,26 @@ $selectedPackages = json_decode($lead->bar_package,true);
                                                 {{ Form::label($package, $package, ['class' => 'form-check-label']) }}
                                             </div>
                                             @endforeach
+                                            
+                                            <?php 
+                                                $functionName = $value['function'];
+                                                $filteredArray = array_values(array_filter(json_decode($lead->function_serving_style), function ($item) use ($functionName) {
+                                                    return $item->function === $functionName;
+                                                }));
+
+                                                $matched_array  = count($filteredArray) > 0 ? $filteredArray[0]->serving_style : [];
+                                                // print_r($matched_array);
+                                            ?>
+
+                                            <div class="mt-2">
+                                                <label>Serving Style Option For <?=$value['function']?></label>
+                                                <select class="form-control" name="serving_style_option_<?=$value['function']?>[]" multiple>
+                                                  
+                                                    <option value="Buffet" <?= in_array("Buffet", $matched_array) ? 'selected' : '' ?>>Buffet</option>
+                                                    <option value="Plated" <?= in_array("Plated", $matched_array) ? 'selected' : '' ?>>Plated</option>
+                                                   
+                                                </select>
+                                            </div>
                                         </div>
                                         @endforeach
                                         @endif

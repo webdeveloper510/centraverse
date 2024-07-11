@@ -14,6 +14,8 @@ $baropt = ['Open Bar', 'Cash Bar', 'Package Choice'];
 if(isset($settings['barpackage']) && !empty($settings['barpackage'])){
 $bar_package = json_decode($settings['barpackage'],true);
 }
+
+
 if(isset($settings['additional_items']) && !empty($settings['additional_items'])){
 $additional_items = json_decode($settings['additional_items'],true);
 }
@@ -181,6 +183,7 @@ $additional_items = json_decode($settings['additional_items'],true);
 
                 </div>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                
             </div>
         </div>
     </div>
@@ -200,7 +203,17 @@ $additional_items = json_decode($settings['additional_items'],true);
                 <?php echo e(Form::label($package, $package, ['class' => 'form-check-label'])); ?>
 
             </div>
+            
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            <div class="mt-2">
+                <label>Serving Style Option For <?=$value['function']?></label>
+                <select class="form-control" name="serving_style_option_<?=$value['function']?>[]" multiple>
+                    
+                    <option value="Buffet">Buffet</option>
+                    <option value="Plated">Plated</option>
+                </select>
+            </div>
+            
         </div>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         <?php endif; ?>
@@ -208,11 +221,12 @@ $additional_items = json_decode($settings['additional_items'],true);
 
     <div class="col-6 need_full" id="additionalSection">
         <?php if(isset($additional_items) && !empty($additional_items)): ?>
-            <?php echo e(Form::label('additional', __('Additional items'), ['class' => 'form-label'])); ?>
-
+            <?php echo e(Form::label('additional', __('Additional items'), ['class' => 'form-label'])); ?> 
             <?php $__currentLoopData = $additional_items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ad_key =>$ad_value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <?php $__currentLoopData = $ad_value; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $fun_key =>$packageVal): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <div class="form-group" data-additional-index="<?php echo e($fun_key); ?>" data-additional-value="<?php echo e(key($packageVal)); ?>"
+
+                
+                <div class="form-group addi_data" data-cat="<?=$fun_key?>" data-additional-index="<?php echo e($fun_key); ?>" data-additional-value="<?php echo e(key($packageVal)); ?>"
                     id="ad_package" style="display: none;">
                     <?php echo e(Form::label('additional', __($fun_key), ['class' => 'form-label'])); ?>
 
@@ -546,6 +560,8 @@ jQuery(function() {
 });
 jQuery(function() {
     $('input[name="function[]"]').change(function() {
+
+        
         $('div#mailFunctionSection > div').hide();
         $('input[name="function[]"]:checked').each(function() {
             var funVal = $(this).val();
@@ -560,9 +576,14 @@ jQuery(function() {
 });
 jQuery(function() {
     $('div#mailFunctionSection input[type=checkbox]').change(function() {
+
+        
         $('div#additionalSection > div').hide();
         $('div#mailFunctionSection input[type=checkbox]:checked').each(function() {
             var funcValue = $(this).val();
+
+           
+            
             $('div#additionalSection > div').each(function() {
                 var ad_val = $(this).data('additional-index');
                 console.log(ad_val)

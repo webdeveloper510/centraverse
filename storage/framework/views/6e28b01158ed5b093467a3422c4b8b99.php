@@ -671,7 +671,7 @@ $(document).ready(function() {
                                                 data-bs-target="#collapse50" aria-expanded="false"
                                                 aria-controls="collapse50">
                                                 <h5>Template Settings</h5>
-                                                <small class="text-muted">Edit your Template settings details </small>
+                                                <small class="text-muted">Edit your Template settings details</small>
                                             </button>
                                         </h2>
                                         <div id="collapse50" class="accordion-collapse collapse"

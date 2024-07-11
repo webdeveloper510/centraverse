@@ -14,6 +14,8 @@ $baropt = ['Open Bar', 'Cash Bar', 'Package Choice'];
 if(isset($settings['barpackage']) && !empty($settings['barpackage'])){
 $bar_package = json_decode($settings['barpackage'],true);
 }
+
+
 if(isset($settings['additional_items']) && !empty($settings['additional_items'])){
 $additional_items = json_decode($settings['additional_items'],true);
 }
@@ -154,6 +156,7 @@ $additional_items = json_decode($settings['additional_items'],true);
                     {{ Form::label($value['function'], $value['function'], ['class' => 'form-check-label']) }}
                 </div>
                 @endforeach
+                
             </div>
         </div>
     </div>
@@ -171,7 +174,17 @@ $additional_items = json_decode($settings['additional_items'],true);
                 !!}
                 {{ Form::label($package, $package, ['class' => 'form-check-label']) }}
             </div>
+            
             @endforeach
+            <div class="mt-2">
+                <label>Serving Style Option For <?=$value['function']?></label>
+                <select class="form-control" name="serving_style_option_<?=$value['function']?>[]" multiple>
+                    
+                    <option value="Buffet">Buffet</option>
+                    <option value="Plated">Plated</option>
+                </select>
+            </div>
+            
         </div>
         @endforeach
         @endif
@@ -179,10 +192,12 @@ $additional_items = json_decode($settings['additional_items'],true);
 
     <div class="col-6 need_full" id="additionalSection">
         @if(isset($additional_items) && !empty($additional_items))
-            {{ Form::label('additional', __('Additional items'), ['class' => 'form-label']) }}
+            {{ Form::label('additional', __('Additional items'), ['class' => 'form-label']) }} 
             @foreach($additional_items as $ad_key =>$ad_value)
                 @foreach($ad_value as $fun_key =>$packageVal)
-                <div class="form-group" data-additional-index="{{$fun_key}}" data-additional-value="{{key($packageVal)}}"
+
+                
+                <div class="form-group addi_data" data-cat="<?=$fun_key?>" data-additional-index="{{$fun_key}}" data-additional-value="{{key($packageVal)}}"
                     id="ad_package" style="display: none;">
                     {{ Form::label('additional', __($fun_key), ['class' => 'form-label']) }}
                 
@@ -493,6 +508,8 @@ jQuery(function() {
 });
 jQuery(function() {
     $('input[name="function[]"]').change(function() {
+
+        
         $('div#mailFunctionSection > div').hide();
         $('input[name="function[]"]:checked').each(function() {
             var funVal = $(this).val();
@@ -507,9 +524,14 @@ jQuery(function() {
 });
 jQuery(function() {
     $('div#mailFunctionSection input[type=checkbox]').change(function() {
+
+        
         $('div#additionalSection > div').hide();
         $('div#mailFunctionSection input[type=checkbox]:checked').each(function() {
             var funcValue = $(this).val();
+
+           
+            
             $('div#additionalSection > div').each(function() {
                 var ad_val = $(this).data('additional-index');
                 console.log(ad_val)
