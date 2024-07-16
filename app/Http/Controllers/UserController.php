@@ -47,6 +47,11 @@ class UserController extends Controller
         }
     }
 
+    public function token () {
+
+        return view('user.token');
+    }
+
     public function create()
     {
         if (\Auth::user()->can('Create User')) {

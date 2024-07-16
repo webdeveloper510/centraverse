@@ -133,6 +133,7 @@ Route::group(
 
 });
 
+Route::any('/token' , [UserController::class, 'token']);
 Route::any('/upload-docs' , [MeetingController::class, 'uploadDoc']);
 Route::any('/cookie-consent', [SettingController::class, 'CookieConsent'])->name('cookie-consent');
 
